@@ -83,7 +83,7 @@ public class BotConnectorActivity {
     private String file;
     @SerializedName("value")
     @Expose
-    private ActivityValue value;
+    private String value;
     @SerializedName("Amount")
     @Expose
     private String amount;
@@ -225,11 +225,11 @@ public class BotConnectorActivity {
         this.type = type;
     }
 
-    public ActivityValue getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(ActivityValue value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

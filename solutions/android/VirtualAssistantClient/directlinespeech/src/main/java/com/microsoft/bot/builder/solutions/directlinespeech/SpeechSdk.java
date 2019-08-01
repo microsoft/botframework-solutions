@@ -226,6 +226,8 @@ public class SpeechSdk {
 
         client.model.BotConnectorActivity botConnectorActivity = gson.fromJson(activityJson, client.model.BotConnectorActivity.class);
 
+        LogDebug("event_type = "+botConnectorActivity.getType()+"  event_name = " + botConnectorActivity.getName());
+
         if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
             List<CardAction> actionList = botConnectorActivity.getSuggestedActions().getActions();
             suggestedActions.clear();

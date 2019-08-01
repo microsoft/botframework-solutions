@@ -414,9 +414,11 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with PlayLocalFile");
                     playMediaStream(botConnectorActivity.getFile());
                     break;
-                case "OpenDefaultApp":
-                    Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
-                    openDefaultApp(botConnectorActivity);
+                case "event":
+                    if (botConnectorActivity.getName().equals("OpenDefaultApp")) {
+                        Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
+                        openDefaultApp(botConnectorActivity);
+                    }
                     break;
                 default:
                     broadcastWidgetUpdate(botConnectorActivity);
@@ -446,11 +448,14 @@ public class SpeechService extends Service {
     }
 
     private void openDefaultApp(BotConnectorActivity botConnectorActivity){
-        String intentStr = botConnectorActivity.getText();
+        String intentStr = botConnectorActivity.getValue();
         if (intentStr.startsWith("geo")){
-            Uri intentUri = Uri.parse(intentStr);
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, intentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
+            final String gpscoords = intentStr.replace("geo:", "");
+
+            Uri gmmIntentUri = Uri.parse("google.navigation:q="+gpscoords);//NOTE: by default mode = driving
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
+            mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (mapIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(mapIntent);
             }
