@@ -1,8 +1,7 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-[import](EmailContentPreview.lg)
-[import](EmailWithOutButtonCard.lg)
+[import](./../Shared/Shared.lg)
 
 # NoSubject
 - What is the email subject?
@@ -33,17 +32,3 @@ Would you like to change the Participants, Subject or the Content?
 
 # PlayBackMessage(emailContent)
 - I will repeat the message for you to confirm: || I will repeat the message for you to confirm: {emailContent}
-
-> Shared
-# CancellingMessage
-- Sure, we can do this later.
-- Sure, we can start this later.
-- No problem. You can try again at another time.
-- Alright, let me know when you need my help.
-- Sure, I'm here if you need me.
-
-# RecipientConfirmed(userName)
-- Alright, I will send this to {userName}.
-
-# SentSuccessfully(subject)
-- I have sent the email with subject {subject}.

@@ -1,7 +1,7 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-[import](EmailDetailCard.lg)
+[import](./../Shared/Shared.lg)
 
 # ReadOut(messageList)
 - IF: {count(messageList) == 1}
@@ -16,19 +16,3 @@
 - ```
 The email is @{emailDetails}. || The email is @{emailDetailsWithContent}.
 ```
-
-> shared
-# DidntUnderstandMessage
-- Sorry, I didn't get what you mean.
-- I don't understand. Try in a different way.
-
-# EmailNotFound
-- It seems you have no new emails. Just let me know if you want to set up a new email.
-- I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email.
-
-# CancellingMessage
-- Sure, we can do this later.
-- Sure, we can start this later.
-- No problem. You can try again at another time.
-- Alright, let me know when you need my help.
-- Sure, I'm here if you need me.
