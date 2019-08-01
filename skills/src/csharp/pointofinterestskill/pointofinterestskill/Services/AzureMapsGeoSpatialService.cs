@@ -265,9 +265,16 @@ namespace PointOfInterestSkill.Services
         /// <returns>RouteDirections.</returns>
         private async Task<RouteDirections> GetRouteDirectionsAsync(string url)
         {
-            var response = await httpClient.GetStringAsync(url);
+            var response = await httpClient.GetAsync(url);
 
-            var apiResponse = JsonConvert.DeserializeObject<RouteDirections>(response);
+            var apiResponse = new RouteDirections();
+
+            // TODO when it returns 400 for uncovered areas, we return no route instead. For other unsuccessful codes, exception is thrown as usual
+            if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            {
+                response = response.EnsureSuccessStatusCode();
+                apiResponse = JsonConvert.DeserializeObject<RouteDirections>(await response.Content.ReadAsStringAsync());
+            }
 
             apiResponse.Provider = PointOfInterestModel.AzureMaps;
 
