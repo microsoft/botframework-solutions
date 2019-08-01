@@ -34,7 +34,7 @@ export class ChildProcessUtils {
             child_process.exec(
                 `${command} ${args.join(' ')}`,
                 (err: child_process.ExecException | null, stdout: string, stderr: string) => {
-                    if (stderr) {
+                    if (stderr && !stderr.includes('Update available')) {
                         pReject(stderr);
                     }
                     pResolve(stdout);
