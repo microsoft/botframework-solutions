@@ -69,15 +69,12 @@ namespace Microsoft.Bot.Builder.Skills
                 return;
             }
 
-            if (_skillSettings != null && _skillSettings.SkillConfig != null && _skillSettings.SkillConfig.IsMsJWTAuthenticationEnabled)
-            {
-                var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
+            var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
 
-                if (!authenticated)
-                {
-                    httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return;
-                }
+            if (!authenticated)
+            {
+                httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return;
             }
 
             await CreateWebSocketConnectionAsync(httpRequest.HttpContext, bot).ConfigureAwait(false);
