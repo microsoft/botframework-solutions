@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using VirtualAssistantSample.Models;
@@ -16,6 +19,7 @@ namespace VirtualAssistantSample.Dialogs
         private static OnboardingResponses _responder = new OnboardingResponses();
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
+        private BotServices _services;
 
         public OnboardingDialog(
             BotServices botServices,
@@ -25,6 +29,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
+            _services = botServices;
 
             var onboarding = new WaterfallStep[]
             {
@@ -58,8 +63,38 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var cognitiveModels = _services.CognitiveModelSets[locale];
+            cognitiveModels.LuisServices.TryGetValue("Namereco", out var luisService);
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
+            if (luisService == null)
+            {
+                throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
+            }
+            else
+            {
+                var luisResult = await luisService.RecognizeAsync<NameRecoLuis>(sc.Context, cancellationToken);
+                var intent = luisResult.TopIntent().intent;
+                if (luisResult.TopIntent().score > 0.5 && luisResult.Entities.personName.Length > 0)
+                {
+                    // switch on general intents
+                    switch (intent)
+                    {
+                        case NameRecoLuis.Intent.NameReco:
+                            {
+                                name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
+                                break;
+                            }
+
+                        case NameRecoLuis.Intent.None:
+                            {
+                                break;
+                            }
+                    }
+                }
+            }
+
             await _accessor.SetAsync(sc.Context, _state, cancellationToken);
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });

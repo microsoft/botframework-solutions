@@ -1,0 +1,153 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "NameReco",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "NameReco"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "personName",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "call me huanx.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "huanx",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i am lily.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "i am mike",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "i'm luis",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "i'm tom.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "it is kobe bryant.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "it's paul",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "it's tom.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "jack",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "lisi",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "little ice",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "liu dehua",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "michael jordan",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "my name is jack.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "my name is james",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "this is jack",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "this is liu.",
+      "intent": "NameReco",
+      "entities": []
+    },
+    {
+      "text": "wang wu",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "wangwu",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "xiao bing",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "zhang san",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "zhangsan",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "zhaoliu",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
