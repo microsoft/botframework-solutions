@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -57,17 +57,9 @@ import events.SynthesizerStopped;
  * and always ready to process data immediately.
  * Running this service as a ForegroundService best suits this requirement.
  *
- * NOTE: the service assumes that it has permission to RECORD_AUDIO
+ * NOTE: the service assumes that it has/will have permission to RECORD_AUDIO
  */
 public class SpeechService extends Service {
-
-
-//    static {
-//        // Load here just to ensure that the JNI_ONLOAD method is called for this SO.
-//        // speech sdk otherwise loads this through dlopen.
-//        // this SO needs the java context via JNI_ONLOAD to access the usb device.
-//        System.loadLibrary("pma");
-//    }
 
     // CONSTANTS
     private static final String TAG_FOREGROUND_SERVICE = "SpeechService";
@@ -87,7 +79,7 @@ public class SpeechService extends Service {
     public SpeechService() {
         binder = new ISpeechService.Stub() {
             @Override
-            public boolean isSpeechSdkRunning() throws RemoteException {
+            public boolean isSpeechSdkRunning() {
                 return speechSdk != null;
             }
 
@@ -318,9 +310,6 @@ public class SpeechService extends Service {
         // Set notification priority
         builder.setPriority(NotificationManager.IMPORTANCE_LOW);
 
-        // Make head-up notification
-        builder.setFullScreenIntent(pendingIntent, true);
-
         // Add LISTEN button intent in notification
         Intent listenIntent = new Intent(this, SpeechService.class);
         listenIntent.setAction(ACTION_START_LISTENING);
@@ -452,17 +441,31 @@ public class SpeechService extends Service {
         if (intentStr.startsWith("geo")){
             final String gpscoords = intentStr.replace("geo:", "");
 
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+gpscoords);//NOTE: by default mode = driving
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
-            mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
+            try {
+                // Launch Waze
+                Uri wazeIntentUri = Uri.parse("waze://?ll="+gpscoords+"&navigate=yes");
+                Intent wazeIntent = new Intent(Intent.ACTION_VIEW, wazeIntentUri);
+                wazeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(wazeIntent);
+            } catch ( ActivityNotFoundException ex) {
+                // launch Google Maps
+                Uri gmmIntentUri = Uri.parse("google.navigation:q="+gpscoords);//NOTE: by default mode = driving
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
+                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                } else {
+                    // since Waze and Google maps aren't available, show error to user
+                    Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
+                }
             }
+
         }
         if (intentStr.startsWith("tel")){
             Uri intentUri = Uri.parse(intentStr);
             Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
+            dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (dialerIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(dialerIntent);
             }

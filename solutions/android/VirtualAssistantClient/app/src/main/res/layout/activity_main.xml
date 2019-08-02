@@ -122,12 +122,14 @@
             android:layout_marginLeft="14dp"
             android:orientation="vertical">
 
+            <!-- hidden for now since it is blocked from making progress -->
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_enable_kws"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@string/nav_menu_enable_kws"/>
+                android:text="@string/nav_menu_enable_kws"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_show_full_conversation"
