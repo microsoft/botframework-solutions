@@ -1,0 +1,77 @@
+{
+  "id": "hospitalitySkill",
+  "name": "Hospitality Skill",
+  "description": "The Hospitality skill provides capabilities that may be needed in a hotel room.",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "HospitalitySkill_checkOut",
+      "definition": {
+        "description": "Check out of room",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#CheckOut"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "HospitalitySkill_extendStay",
+      "definition": {
+        "description": "Extend reseravation for current room.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#ExtendStay"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "HospitalitySkill_getReservation",
+      "definition": {
+        "description": "Get current reservation details.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#GetReservation"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "HospitalitySkill_lateCheckOut",
+      "definition": {
+        "description": "Change to late check out",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#LateCheckOut"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
