@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
@@ -17,6 +19,7 @@ using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -79,6 +82,12 @@ namespace CalendarSkillTest.Flow
                 new UpdateEventResponses(),
                 new UpcomingEventResponses());
             Services.AddSingleton(ResponseManager);
+
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\calendarskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(resourceExplorer);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton(ServiceManager);

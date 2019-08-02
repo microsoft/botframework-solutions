@@ -96,6 +96,7 @@ namespace CalendarSkill.Models
             {
                 case EventSource.Microsoft:
                     msftEventData = new Microsoft.Graph.Event();
+                    msftEventData.Body = new ItemBody();
                     break;
                 case EventSource.Google:
                     gmailEventData = new Google.Apis.Calendar.v3.Data.Event();
