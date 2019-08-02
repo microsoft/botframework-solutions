@@ -97,6 +97,15 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to switch to {0}?.
+        /// </summary>
+        public static string ConfirmSkillSwitch {
+            get {
+                return ResourceManager.GetString("ConfirmSkillSwitch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} all day.
         /// </summary>
         public static string DateWithAllDay {
