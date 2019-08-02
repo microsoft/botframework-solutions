@@ -15,7 +15,7 @@
             {
               "locale": "en",
               "source": [
-                "settings_dispatch#VEHICLE_SETTINGS_CHANGE"
+                "SettingsDispatch#VEHICLE_SETTINGS_CHANGE"
               ]
             }
           ]

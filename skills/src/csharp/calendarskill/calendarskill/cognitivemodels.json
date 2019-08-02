@@ -3,19 +3,21 @@
     "en": {
       "languageModels": [
         {
-          "id": "general",
+          "id": "General",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""
         },
         {
-          "id": "calendar",
+          "id": "Calendar",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""

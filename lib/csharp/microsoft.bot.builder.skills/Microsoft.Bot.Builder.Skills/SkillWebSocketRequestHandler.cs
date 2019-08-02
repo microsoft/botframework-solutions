@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Diagnostics = System.Diagnostics;
@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Skills
 
         public IActivityHandler SkillWebSocketBotAdapter { get; set; }
 
-        public async override Task<Response> ProcessRequestAsync(ReceiveRequest request, object context = null, ILogger<RequestHandler> logger = null)
+        public async override Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger = null, object context = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Bot == null)
             {
@@ -40,9 +40,9 @@ namespace Microsoft.Bot.Builder.Skills
                 throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
             }
 
-            var response = new Response();
+            var response = new StreamingResponse();
 
-            var body = await request.ReadBodyAsString().ConfigureAwait(false);
+            var body = request.ReadBodyAsString();
 
             if (string.IsNullOrEmpty(body) || request.Streams?.Count == 0)
             {
@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Skills
                 return response;
             }
 
-            if (request.Streams.Where(x => x.Type != "application/json; charset=utf-8").Any())
+            if (request.Streams.Where(x => x.ContentType != "application/json; charset=utf-8").Any())
             {
                 response.StatusCode = (int)HttpStatusCode.NotAcceptable;
                 return response;

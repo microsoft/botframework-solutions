@@ -15,6 +15,7 @@ export namespace ActivityExtensions {
             from: source.recipient,
             label: source.label,
             locale: local,
+            callerId: source.callerId,
             recipient: source.from,
             replyToId: source.id,
             serviceUrl: source.serviceUrl,
@@ -57,11 +58,13 @@ export namespace ActivityExtensions {
             case 'directline':
             case 'emulator':
             case 'webchat':
-            case 'msteams': {
+            case 'msteams':
+            case 'directlinespeech':
+            case 'test': {
                 if (activity.type === ActivityTypes.ConversationUpdate) {
+                    // When bot is added to the conversation (triggers start only once per conversation)
                     if (activity.membersAdded !== undefined &&
                         activity.membersAdded.some((m: ChannelAccount): boolean => m.id === activity.recipient.id)) {
-                        // When bot is added to the conversation (triggers start only once per conversation)
                         return true;
                     }
                 }

@@ -24,10 +24,10 @@ namespace EmailSkill.Services.GoogleAPI
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            settings.Properties.TryGetValue("googleAppName", out var appName);
-            settings.Properties.TryGetValue("googleClientId", out var clientId);
-            settings.Properties.TryGetValue("googleClientSecret", out var clientSecret);
-            settings.Properties.TryGetValue("googleScopes", out var scopes);
+            var appName = settings.GoogleAppName;
+            var clientId = settings.GoogleClientId;
+            var clientSecret = settings.GoogleClientSecret;
+            var scopes = settings.GoogleScopes;
 
             var googleClient = new GoogleClient
             {

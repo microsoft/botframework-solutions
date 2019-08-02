@@ -171,24 +171,25 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             var assembly = Assembly.GetCallingAssembly();
             var json = LoadCardJson(card.Name, locale, assembly);
 
-            var emailOverviewCard = BuildCard(json, card.Data);
+            var mainCard = BuildCard(json, card.Data);
             if (!string.IsNullOrEmpty(containerName))
             {
-                var itemsContainer = emailOverviewCard.Body.Find(item => item.Id == containerName);
-                if ((itemsContainer != null) && itemsContainer is AdaptiveContainer)
+                var itemsContainer = mainCard.Body.Find(item => item.Id == containerName);
+                if (itemsContainer is AdaptiveContainer itemsAdaptiveContainer)
                 {
                     foreach (var cardItem in containerItems)
                     {
                         var itemJson = LoadCardJson(cardItem.Name, locale, assembly);
                         var itemCard = BuildCard(itemJson, cardItem.Data);
-                        var itemContainer = itemCard.Body[0] as AdaptiveContainer;
-
-                        (itemsContainer as AdaptiveContainer).Items.Add(itemContainer);
+                        foreach (var body in itemCard.Body)
+                        {
+                            itemsAdaptiveContainer.Items.Add(body);
+                        }
                     }
                 }
             }
 
-            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(emailOverviewCard));
+            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(mainCard));
             var attachment = new Attachment(AdaptiveCard.ContentType, content: cardObj);
 
             if (templateId != null)

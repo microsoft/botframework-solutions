@@ -5,11 +5,10 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
 {
     public class DefaultTestAdapter : TestAdapter
     {
-        public DefaultTestAdapter(BotStateSet botStateSet)
+        public DefaultTestAdapter()
             : base(sendTraceActivity: false)
         {
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

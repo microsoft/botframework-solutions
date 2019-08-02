@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockVehicleSettingsIntent : settingsLuis
+    public class MockVehicleSettingsIntent : SettingsLuis
     {
         private Intent intent;
         private double score;
@@ -100,7 +100,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     return (Intent.None, 0.0);
             }
 
-            // Default is setting change apart from declarative used ocassionally above
+            // Default is setting change apart from declarative used occasionally above
             if (Intents.Count == 0)
             {
                 Intents.Add(Intent.VEHICLE_SETTINGS_CHANGE, intentScore);

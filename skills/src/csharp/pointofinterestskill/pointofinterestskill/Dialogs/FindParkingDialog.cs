@@ -116,20 +116,20 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude);
-                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }
                     else
                     {
                         // Find parking lot near address
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }
                 }
                 else
                 {
                     // No entities identified, find nearby parking lots
                     pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                    cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                 }
 
                 if (cards.Count == 0)
@@ -140,6 +140,8 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
+                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
+
                     var options = new PromptOptions
                     {
                         Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)

@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class ReservationLuis : IRecognizerConvert
+    public partial class ReservationLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -28,7 +28,7 @@ namespace Luis
 
             // Built-in entities
             public DateTimeSpec[] datetime;
-            public string[] geographyV2_City;
+            public GeographyV2[] geographyV2;
             public double[] number;
 
             // Lists
@@ -54,7 +54,7 @@ namespace Luis
             {
                 public InstanceData[] people;
                 public InstanceData[] datetime;
-                public InstanceData[] geography;
+                public InstanceData[] geographyV2;
                 public InstanceData[] number;
                 public InstanceData[] cuisine;
                 public InstanceData[] attendees;
@@ -65,11 +65,11 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<ReservationLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<ReservationLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

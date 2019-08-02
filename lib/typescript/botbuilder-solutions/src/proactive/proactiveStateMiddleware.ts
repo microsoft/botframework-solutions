@@ -17,9 +17,9 @@ export class ProactiveStateMiddleware implements Middleware {
     private readonly proactiveState: ProactiveState;
     private readonly proactiveStateAccessor: StatePropertyAccessor<ProactiveModel>;
 
-    public constructor(proactiveState: ProactiveState) {
+    public constructor(proactiveState: ProactiveState, proactiveStateAccessor: StatePropertyAccessor<ProactiveModel>) {
         this.proactiveState = proactiveState;
-        this.proactiveStateAccessor = this.proactiveState.createProperty<ProactiveModel>(ProactiveModel.name);
+        this.proactiveStateAccessor = proactiveStateAccessor;
     }
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {

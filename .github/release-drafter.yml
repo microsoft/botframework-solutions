@@ -1,8 +1,34 @@
-name-template: v$NEXT_PATCH_VERSION
-tag-template: v$NEXT_PATCH_VERSION
+name-template: 'v$NEXT_MINOR_VERSION-preview'
+change-template: '* $TITLE (#$NUMBER)'
+exclude-labels:	
+  - 'Changelog: Skip'
 branches:
   - master
+  - next
+categories:
+- title: 'Templates'
+  labels:
+    - 'Changelog: Templates'
+- title: 'Skills'
+  labels:
+    - 'Changelog: Skills'
+- title: 'Libraries'
+  labels:
+    - 'Changelog: Libraries'
+- title: 'Solutions'
+  labels:
+    - 'Changelog: Solutions'
+- title: 'Virtual Assistant Chat Client (Android)'
+  labels:
+    - 'Changelog: Android'
+- title: 'Botskills CLI'
+  labels:
+    - 'Changelog: CLI'
+
 template: |
   ## What’s Changed
 
   $CHANGES
+  
+  ## Thanks to our contributors
+  $CONTRIBUTORS

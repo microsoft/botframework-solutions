@@ -23,12 +23,12 @@ namespace Luis
         {
 
             // Built-in entities
-            public string[] geographyV2_city;
+            public GeographyV2[] geographyV2;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] geographyV2_city;
+                public InstanceData[] geographyV2;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

@@ -3,13 +3,20 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, BotTelemetryClient, StatePropertyAccessor, TurnContext } from 'botbuilder';
-import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult,
+import {
+    Activity,
+    ActivityTypes,
+    BotTelemetryClient,
+    Entity,
+    SemanticActionStateTypes,
+    StatePropertyAccessor,
+    TurnContext } from 'botbuilder';
+import { ComponentDialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
-import { MicrosoftAppCredentials } from 'botframework-connector';
+import { IServiceClientCredentials } from './auth';
 import { SkillHttpTransport } from './http';
-import { IAction, ISkillManifest, ISlot, SkillEvents } from './models';
+import { IAction, ISkillManifest, ISlot } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
 
@@ -19,16 +26,17 @@ import { ISkillTransport, TokenRequestHandler } from './skillTransport';
  */
 export class SkillDialog extends ComponentDialog {
     private readonly authDialog?: MultiProviderAuthDialog;
-    private readonly appCredentials: MicrosoftAppCredentials;
+    private readonly serviceClientCredentials: IServiceClientCredentials;
     private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
+
     private readonly skillManifest: ISkillManifest;
     private readonly skillTransport: ISkillTransport;
 
-    private readonly queuedResponses: Activity[];
+    private readonly queuedResponses: Partial<Activity>[];
 
     public constructor(
         skillManifest: ISkillManifest,
-        appCredentials: MicrosoftAppCredentials,
+        serviceClientCredentials: IServiceClientCredentials,
         telemetryClient: BotTelemetryClient,
         skillContextAccessor: StatePropertyAccessor<SkillContext>,
         authDialog?: MultiProviderAuthDialog,
@@ -38,16 +46,16 @@ export class SkillDialog extends ComponentDialog {
         if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
-        if (appCredentials === undefined) { throw new Error('appCredentials has no value'); }
-        this.appCredentials = appCredentials;
+        if (serviceClientCredentials === undefined) { throw new Error('serviceClientCredentials has no value'); }
+        this.serviceClientCredentials = serviceClientCredentials;
 
         if (telemetryClient === undefined) { throw new Error('telemetryClient has no value'); }
         this.telemetryClient = telemetryClient;
 
+        this.skillTransport = skillTransport || new SkillHttpTransport(skillManifest, this.serviceClientCredentials);
+
         this.queuedResponses = [];
         this.skillContextAccessor = skillContextAccessor;
-        this.skillTransport = skillTransport || new SkillHttpTransport(skillManifest, appCredentials);
-        //new SkillWebSocketTransport(this.skillManifest, this.appCredentials);
 
         if (authDialog !== undefined) {
             this.authDialog = authDialog;
@@ -84,9 +92,9 @@ export class SkillDialog extends ComponentDialog {
         // In instances where the caller is able to identify/specify the action we process the Action specific slots
         // In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
         // enabling the Skill to perform it's own action identification.
-
-        const actionName: string = <string>(options || '');
-        if (actionName) {
+        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+        const actionName: string|undefined = <any> options;
+        if (actionName !== undefined) {
             // Find the specified within the selected Skill for slot filling evaluation
             const action: IAction|undefined = this.skillManifest.actions.find((item: IAction): boolean => item.id === actionName);
             if (action !== undefined) {
@@ -134,18 +142,26 @@ export class SkillDialog extends ComponentDialog {
 
         const activity: Activity = innerDC.context.activity;
 
-        const skillBeginEvent: Partial<Activity> = {
-            type: ActivityTypes.Event,
-            channelId: activity.channelId,
-            from: activity.from,
-            recipient: activity.recipient,
-            conversation: activity.conversation,
-            name: SkillEvents.skillBeginEventName,
-            value: slots
+        const entities: { [key: string]: Entity } = {};
+
+        // PENDING: Review Entity values
+        // PENDING: Entity class does not have the prop 'Properties'
+        slots.forEachObj((value: Object, key: string): void => {
+            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+            entities[key] = <any> {
+                type: '',
+                properties: value
+            };
+        });
+
+        activity.semanticAction = {
+            id: '',
+            state: SemanticActionStateTypes.Continue,
+            entities: entities
         };
 
         // Send event to Skill/Bot
-        return this.forwardToSkill(innerDC, skillBeginEvent);
+        return this.forwardToSkill(innerDC, activity);
     }
 
     /**
@@ -157,10 +173,9 @@ export class SkillDialog extends ComponentDialog {
         const activity: Activity = innerDC.context.activity;
         if (this.authDialog && innerDC.activeDialog && innerDC.activeDialog.id === this.authDialog.id) {
             // Handle magic code auth
-            const result: DialogTurnResult = await innerDC.continueDialog();
+            const result: DialogTurnResult<Object> = await innerDC.continueDialog();
 
             // forward the token response to the skill
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
                 activity.type = ActivityTypes.Event;
                 activity.name = TokenEvents.tokenResponseEventName;
@@ -171,15 +186,6 @@ export class SkillDialog extends ComponentDialog {
         }
 
         const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
-        // if there's any response we need to send to the skill queued
-        // forward to skill and start a new turn
-        while (this.queuedResponses.length > 0) {
-            const response: Activity|undefined = this.queuedResponses.pop();
-            if (response) {
-                await this.forwardToSkill(innerDC, response);
-            }
-        }
-
         this.skillTransport.disconnect();
 
         return dialogResult;
@@ -192,11 +198,14 @@ export class SkillDialog extends ComponentDialog {
             actionSlots.forEach(async (slot: ISlot): Promise<void> => {
                 // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
                 const value: Object|undefined = skillContext.getObj(slot.name);
-                if (value) {
+                if (skillContext !== undefined && value !== undefined) {
                     slots.setObj(slot.name, value);
 
                     // Send trace to emulator
-                    const traceMessage: string = `-->Matched the ${slot.name} slot within SkillContext and passing to the Skill.`;
+                    const traceMessage: string = `-->Matched the ${
+                        slot.name
+                    } slot within SkillContext and passing to the Skill.`;
+
                     await innerDc.context.sendActivity({
                         type: ActivityTypes.Trace,
                         text: traceMessage
@@ -226,6 +235,7 @@ export class SkillDialog extends ComponentDialog {
                 const traceMessage: string = `<--Ending the skill conversation with the ${
                     this.skillManifest.name
                 } Skill and handing off to Parent Bot.`;
+
                 await innerDc.context.sendActivity({
                     type: ActivityTypes.Trace,
                     text: traceMessage
@@ -233,7 +243,24 @@ export class SkillDialog extends ComponentDialog {
 
                 return await innerDc.endDialog();
             } else {
-                return Dialog.EndOfTurn;
+
+                let dialogResult: DialogTurnResult = {
+                    status: DialogTurnStatus.waiting
+                };
+
+                // if there's any response we need to send to the skill queued
+                // forward to skill and start a new turn
+                while (this.queuedResponses.length > 0 &&
+                     dialogResult.status !== DialogTurnStatus.complete &&
+                     dialogResult.status !== DialogTurnStatus.cancelled) {
+
+                    const lastActivity: Partial<Activity> | undefined = this.queuedResponses.pop();
+                    if (lastActivity !== undefined) {
+                        dialogResult = await this.forwardToSkill(innerDc, lastActivity);
+                    }
+                }
+
+                return dialogResult;
             }
         } catch (error) {
             // something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
@@ -252,8 +279,7 @@ export class SkillDialog extends ComponentDialog {
             });
 
             if (this.authDialog) {
-                const authResult: DialogTurnResult = await dialogContext.beginDialog(this.authDialog.id);
-                // eslint-disable-next-line @typescript-eslint/tslint/config
+                const authResult: DialogTurnResult<Object> = await dialogContext.beginDialog(this.authDialog.id);
                 if (isProviderTokenResponse(authResult.result)) {
                     const tokenEvent: Activity = ActivityExtensions.createReply(activity);
                     tokenEvent.type = ActivityTypes.Event;

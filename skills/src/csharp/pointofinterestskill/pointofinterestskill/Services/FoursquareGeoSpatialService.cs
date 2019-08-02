@@ -78,6 +78,11 @@ namespace PointOfInterestSkill.Services
             throw new NotSupportedException();
         }
 
+        public Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
+        {
+            throw new NotSupportedException();
+        }
+
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
         /// </summary>

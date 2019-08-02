@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.assist.AssistContent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -37,13 +40,12 @@ import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfiguration.BotConfigurationActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.AppConfigurationActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,11 +64,13 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
+import client.model.InputHints;
 import events.ActivityReceived;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+import events.SynthesizerStopped;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
@@ -81,8 +85,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
+    @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
-    @BindView(R.id.agent_image) ImageView agentImage;
+    @BindView(R.id.mic_image) ImageView micImage;
+    @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
@@ -97,6 +103,8 @@ public class MainActivity extends BaseActivity
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
+    private ConfigurationManager configurationManager;
+    private boolean willListenAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +114,7 @@ public class MainActivity extends BaseActivity
 
         handler = new Handler(Looper.getMainLooper());
         gson = new Gson();
+        configurationManager = new ConfigurationManager(this);
 
         setupChatRecyclerView();
         setupSuggestedActionsRecyclerView();
@@ -115,6 +124,7 @@ public class MainActivity extends BaseActivity
         switchShowTextInput.setChecked(alwaysShowTextInput);
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
+        switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -139,12 +149,15 @@ public class MainActivity extends BaseActivity
         if (intent != null) {
             String originator = intent.getStringExtra(VoiceInteractionActivity.KEY_ORIGINATOR);
             if (originator != null && originator.equals(VoiceInteractionActivity.KEY_VALUE)) {
-                launchedAsAssistant = true;//this flag can now be used, i.e. to automtically start microphone recording
+                launchedAsAssistant = true;//this flag can now be used, i.e. to automatically start microphone recording
             }
         }
 
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
+
+        // assign animation
+        animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
     }
 
     // Register for EventBus messages and SpeechService
@@ -160,15 +173,15 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        final ConfigurationManager configurationManager = new ConfigurationManager(this);
         final Configuration configuration = configurationManager.getConfiguration();
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
+        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
+        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
     }
 
     // Unregister EventBus messages and SpeechService
     @Override
     public void onStop() {
-        Log.v("BaseActivity","onStop() finished");
         EventBus.getDefault().unregister(this);
         if (speechServiceBinder != null) {
             unbindService(myConnection);
@@ -207,7 +220,7 @@ public class MainActivity extends BaseActivity
             try {
                 speechServiceBinder.initializeSpeechSdk(false);
                 speechServiceBinder.connectAsync();
-                agentImage.setVisibility(View.GONE);//hide the assistant since voice is deactivated
+                micImage.setVisibility(View.GONE);//hide the mic since voice is deactivated
                 textInputLayout.setVisibility(View.VISIBLE);// show the text-input prompt
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());
@@ -237,9 +250,17 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void serviceConnected() {
-        // this code is triggered when a user launches the app a second+ time and the app has permission
+        // At this point, speechServiceBinder should not be null.
+        // this code is triggered after the service is bound.
+        // Binding is started in onStart(), so expect this callback to trigger after onStart()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             initializeAndConnect();
+        }
+
+        try {
+            speechServiceBinder.startLocationUpdates();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -251,27 +272,11 @@ public class MainActivity extends BaseActivity
 
             switch (id) {
                 case R.id.nav_menu_configuration:
-                    startActivity(BotConfigurationActivity.getNewIntent(this));
-                    break;
-                case R.id.nav_menu_app_configuration:
-                    startActivity(AppConfigurationActivity.getNewIntent(this));
+                    startActivity(SettingsActivity.getNewIntent(this));
                     break;
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
-                    break;
-                case R.id.nav_menu_location:
-                    String json = speechServiceBinder.getConfiguration();
-                    Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
-                    speechServiceBinder.sendLocationEvent(configuration.geolat, configuration.geolon);
-                    break;
-                case R.id.nav_menu_welcome_req:
-                    speechServiceBinder.requestWelcomeCard();
-                    break;
-                case R.id.nav_menu_emulate_activity_msg:
-                    // {"attachmentLayout": "carousel","attachments": [{"content": {XXXX PASTE ADAPTIVE CARD HERE XXXX},"contentType": "application/vnd.microsoft.card.adaptive"}],"channelData": {"conversationalAiData": {"requestInfo": {"interactionId": "b9ad8f12-e459-4a73-a542-919224e83b0a","requestType": 0,"version": "0.2"}}},"channelId": "directlinespeech","conversation": {"id": "490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce","isGroup": false},"entities": [],"from": {"id": "vakonadj"},"id": "a27c2f8da5a845a3942f6a880562114f","inputHint": "expectingInput","recipient": {"id": "490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce|0000"},"replyToId": "c3174265-3b0a-49a1-bdb1-e55c477b8c36","serviceUrl": "PersistentConnection","speak": "Injected Test Message","text": "Injected Test Message","timestamp": "2019-04-25T18:17:12.3964213+00:00","type": "message"}
-                    final String testJson =
-                            "{\"attachmentLayout\": \"carousel\",\"attachments\": [{\"content\": {\"body\": [{\"items\": [{\"columns\": [{\"items\": [{\"color\": \"accent\",\"id\": \"Name\",\"separation\": \"none\",\"size\": \"large\",\"spacing\": \"none\",\"text\": \"City Center Plaza\",\"type\": \"TextBlock\",\"weight\": \"bolder\"}, {\"id\": \"AvailableDetails\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"Parking Garage\",\"type\": \"TextBlock\"}, {\"color\": \"dark\",\"id\": \"Address\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"474 108th Avenue Northeast, Bellevue, West Bellevue\",\"type\": \"TextBlock\",\"wrap\": true}, {\"color\": \"dark\",\"id\": \"Hours\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"\",\"type\": \"TextBlock\",\"wrap\": true}],\"type\": \"Column\",\"verticalContentAlignment\": \"Center\",\"width\": \"90\"}],\"type\": \"ColumnSet\"}],\"type\": \"Container\"}, {\"items\": [{\"id\": \"Image\",\"type\": \"Image\",\"url\": \"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.19475,47.61426&width=512&height=512&subscription-key=X0_-LfxI-A-iXxsBGb62ZZJfdfr5mbw9LiG8-cL6quM\"}],\"separator\": true,\"type\": \"Container\"}],\"id\": \"PointOfInterestViewCard\",\"speak\": \"City Center Plaza at 474 108th Avenue Northeast\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\"},\"contentType\": \"application/vnd.microsoft.card.adaptive\"}, {\"content\": {\"body\": [{\"type\": \"TextBlock\",\"size\": \"Medium\",\"weight\": \"Bolder\",\"text\": \"Publish Adaptive Card schema\"},{\"type\": \"ColumnSet\",\"columns\": [{\"type\": \"Column\",\"items\": [{\"type\": \"Image\",\"style\": \"Person\",\"url\": \"https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg\",\"size\": \"Small\"}],\"width\": \"auto\"},{\"type\": \"Column\",\"items\": [{\"type\": \"TextBlock\",\"weight\": \"Bolder\",\"text\": \"Matt Hidinger\",\"wrap\": true},{\"type\": \"TextBlock\",\"spacing\": \"None\",\"text\": \"Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}\",\"isSubtle\": true,\"wrap\": true}],\"width\": \"stretch\"}]},{\"type\": \"TextBlock\",\"text\": \"Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.\",\"wrap\": true},{\"type\": \"FactSet\",\"facts\": [{\"title\": \"Board:\",\"value\": \"Adaptive Card\"},{\"title\": \"List:\",\"value\": \"Backlog\"},{\"title\": \"Assigned to:\",\"value\": \"Matt Hidinger\"},{\"title\": \"Due date:\",\"value\": \"Not set\"}]}],\"actions\": [{\"type\": \"Action.ShowCard\",\"title\": \"Set due date\",\"card\": {\"type\": \"AdaptiveCard\",\"body\": [{\"type\": \"Input.Date\",\"id\": \"dueDate\"}],\"actions\": [{\"type\": \"Action.Submit\",\"title\": \"OK\"}]}},{\"type\": \"Action.ShowCard\",\"title\": \"Comment\",\"card\": {\"type\": \"AdaptiveCard\",\"body\": [{\"type\": \"Input.Text\",\"id\": \"comment\",\"placeholder\": \"Enter your comment\",\"isMultiline\": true}],\"actions\": [{\"type\": \"Action.Submit\",\"title\": \"OK\"}]}}],\"id\": \"PointOfInterestViewCard\",\"speak\": \"Plaza Center at 10901 NE 9th St\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\"},\"contentType\": \"application/vnd.microsoft.card.adaptive\"}],\"channelData\": {\"conversationalAiData\": {\"requestInfo\": {\"interactionId\": \"b9ad8f12-e459-4a73-a542-919224e83b0a\",\"requestType\": 0,\"version\": \"0.2\"}}},\"channelId\": \"directlinespeech\",\"conversation\": {\"id\": \"490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce\",\"isGroup\": false},\"entities\": [],\"from\": {\"id\": \"vakonadj\"},\"id\": \"a27c2f8da5a845a3942f6a880562114f\",\"inputHint\": \"expectingInput\",\"recipient\": {\"id\": \"490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce|0000\"},\"replyToId\": \"c3174265-3b0a-49a1-bdb1-e55c477b8c36\",\"serviceUrl\": \"PersistentConnection\",\"speak\": \"What do you think of these?,1 - City Center Plaza at 474 108th Avenue Northeast.,2 - Plaza Center at 10901 NE 9th St.\",\"text\": \"What do you think of these?\",\"timestamp\": \"2019-04-25T18:17:12.3964213+00:00\",\"type\": \"message\"}";
-                    speechServiceBinder.injectReceivedActivity(testJson);
+                    chatAdapter.resetChat();
                     break;
                 case R.id.nav_menu_show_assistant_settings:
                     startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
@@ -287,11 +292,21 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @OnClick(R.id.agent_image)
-    public void onAssistantClick() {
+    private void showListeningAnimation(){
+        animatedAssistant.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) animatedAssistant.getBackground()).start();
+        sfxManager.playEarconListening();
+    }
+
+    private void hideListeningAnimation(){
+        animatedAssistant.setVisibility(View.GONE);
+        sfxManager.playEarconDoneListening();
+    }
+
+    @OnClick(R.id.mic_image)
+    public void onClickAssistant() {
         try {
-            showSnackbar(uiContainer, getString(R.string.msg_listening));
-            sfxManager.playEarconListening();
+            showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -313,6 +328,13 @@ public class MainActivity extends BaseActivity
         showFullConversation = checked;
         putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
         chatAdapter.setShowFullConversation(showFullConversation);
+    }
+
+    @OnCheckedChanged(R.id.switch_night_mode)
+    public void OnEnableNightMode(CompoundButton button, boolean checked){
+        putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
+        AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
+        getDelegate().applyDayNight();
     }
 
     @OnEditorAction(R.id.textinput)
@@ -371,6 +393,20 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    // EventBus: the synthesizer has stopped playing
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+
+        // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
+        // visual, the app also needs to subscribe to this event and act on it.
+        if(willListenAgain){
+            willListenAgain = false;
+            Log.i(LOGTAG, "Listening again");
+            showListeningAnimation();
+        }
+
+    }
+
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
@@ -380,8 +416,9 @@ public class MainActivity extends BaseActivity
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
-        sfxManager.playEarconDoneListening();
+        hideListeningAnimation();
         detectedSpeechToText.setText(event.recognized_speech);
+
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
     }
@@ -420,6 +457,14 @@ public class MainActivity extends BaseActivity
                     break;
                 default:
                     break;
+            }
+
+            // the service looks for the same expectingInput event. The app needs it to trigger visuals
+            if(botConnectorActivity.getInputHint() != null){
+                Log.i(LOGTAG, "InputHint: "+botConnectorActivity.getInputHint());
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
+                    willListenAgain = true;
+                }
             }
         }
     }

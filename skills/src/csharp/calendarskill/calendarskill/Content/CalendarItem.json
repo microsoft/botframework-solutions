@@ -1,5 +1,6 @@
 {
   "type": "AdaptiveCard",
+  "version": "1.0",
   "body": [
     {
       "type": "Container",

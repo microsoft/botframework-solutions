@@ -20,7 +20,7 @@
             {
               "locale": "en",
               "source": [
-                "pointofinterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
+                "PointOfInterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
               ]
             }
           ]
@@ -42,7 +42,7 @@
             {
               "locale": "en",
               "source": [
-                "pointofinterest#NAVIGATION_CANCEL_ROUTE"
+                "PointOfInterest#NAVIGATION_CANCEL_ROUTE"
               ]
             }
           ]
@@ -64,7 +64,7 @@
             {
               "locale": "en",
               "source": [
-                "pointofinterest#NAVIGATION_FIND_POINTOFINTEREST"
+                "PointOfInterest#NAVIGATION_FIND_POINTOFINTEREST"
               ]
             }
           ]
@@ -86,7 +86,7 @@
             {
               "locale": "en",
               "source": [
-                "pointofinterest#NAVIGATION_FIND_PARKING"
+                "PointOfInterest#NAVIGATION_FIND_PARKING"
               ]
             }
           ]

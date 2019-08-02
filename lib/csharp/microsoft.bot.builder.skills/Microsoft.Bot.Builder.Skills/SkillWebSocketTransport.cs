@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Protocol;
-using Microsoft.Bot.Protocol.Transport;
-using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.StreamingExtensions;
+using Microsoft.Bot.StreamingExtensions.Transport;
+using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -18,30 +18,24 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillWebSocketTransport : ISkillTransport
     {
         private IStreamingTransportClient _streamingTransportClient;
-        private readonly SkillManifest _skillManifest;
-        private readonly IServiceClientCredentials _serviceClientCredentials;
         private readonly IBotTelemetryClient _botTelemetryClient;
         private bool endOfConversation = false;
 
         public SkillWebSocketTransport(
-            SkillManifest skillManifest,
-            IServiceClientCredentials serviceCLientCredentials,
             IBotTelemetryClient botTelemetryClient,
             IStreamingTransportClient streamingTransportClient = null)
         {
-            _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
-            _serviceClientCredentials = serviceCLientCredentials ?? throw new ArgumentNullException(nameof(serviceCLientCredentials));
             _botTelemetryClient = botTelemetryClient;
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
         {
             if (_streamingTransportClient == null)
             {
                 // acquire AAD token
-                MicrosoftAppCredentials.TrustServiceUrl(_skillManifest.Endpoint.AbsoluteUri);
-                var token = await _serviceClientCredentials.GetTokenAsync();
+                MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
+                var token = await serviceClientCredentials.GetTokenAsync();
 
                 // put AAD token in the header
                 var headers = new Dictionary<string, string>();
@@ -49,24 +43,25 @@ namespace Microsoft.Bot.Builder.Skills
 
                 // establish websocket connection
                 _streamingTransportClient = new WebSocketClient(
-                    EnsureWebSocketUrl(_skillManifest.Endpoint.ToString()),
+                    EnsureWebSocketUrl(skillManifest.Endpoint.ToString()),
                     new SkillCallingRequestHandler(
                         turnContext,
                         _botTelemetryClient,
                         GetTokenCallback(turnContext, tokenRequestHandler),
+                        GetFallbackCallback(turnContext, fallbackHandler),
                         GetHandoffActivityCallback()),
                     headers);
-
-                await _streamingTransportClient.ConnectAsync();
             }
+
+            await _streamingTransportClient.ConnectAsync();
 
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
-            activity.Recipient.Id = _skillManifest.MSAappId;
+            activity.Recipient.Id = skillManifest.MSAappId;
 
             // Serialize the activity and POST to the Skill endpoint
             var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
-            var request = Request.CreatePost(string.Empty, body);
+            var request = StreamingRequest.CreatePost(string.Empty, body);
 
             // set back recipient id to make things consistent
             activity.Recipient.Id = recipientId;
@@ -76,14 +71,14 @@ namespace Microsoft.Bot.Builder.Skills
             return endOfConversation;
         }
 
-        public async Task CancelRemoteDialogsAsync(ITurnContext turnContext)
+        public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext)
         {
             var cancelRemoteDialogEvent = turnContext.Activity.CreateReply();
 
             cancelRemoteDialogEvent.Type = ActivityTypes.Event;
             cancelRemoteDialogEvent.Name = SkillEvents.CancelAllSkillDialogsEventName;
 
-            await ForwardToSkillAsync(turnContext, cancelRemoteDialogEvent);
+            await ForwardToSkillAsync(skillManifest, appCredentials, turnContext, cancelRemoteDialogEvent);
         }
 
         public void Disconnect()
@@ -99,6 +94,14 @@ namespace Microsoft.Bot.Builder.Skills
             return (activity) =>
             {
                 tokenRequestHandler?.Invoke(activity);
+            };
+        }
+
+        private Action<Activity> GetFallbackCallback(ITurnContext turnContext, Action<Activity> fallbackEventHandler)
+        {
+            return (activity) =>
+            {
+                fallbackEventHandler?.Invoke(activity);
             };
         }
 

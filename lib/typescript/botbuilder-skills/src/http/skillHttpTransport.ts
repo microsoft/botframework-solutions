@@ -8,18 +8,23 @@ import { TurnContext } from 'botbuilder';
 import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
+import { IServiceClientCredentials } from '../auth';
 import { ISkillManifest, SkillEvents } from '../models';
 import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
 
 export class SkillHttpTransport implements ISkillTransport {
     private readonly httpClient: HttpClient;
     private readonly skillManifest: ISkillManifest;
-    private readonly appCredentials: MicrosoftAppCredentials;
+    private readonly appCredentials: IServiceClientCredentials;
 
     /**
      * Http SkillTransport implementation
      */
-    public constructor(skillManifest: ISkillManifest, appCredentials: MicrosoftAppCredentials, httpClient?: HttpClient) {
+    public constructor(
+        skillManifest: ISkillManifest,
+        appCredentials: IServiceClientCredentials,
+        httpClient?: HttpClient
+    ) {
         if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
@@ -47,10 +52,10 @@ export class SkillHttpTransport implements ISkillTransport {
         // - We have to cast "request as any" to avoid a build break relating to different versions
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
-        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-        await this.appCredentials.signRequest(<any>request);
+        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-any
+        const signedRequest: WebResource = await this.appCredentials.signRequest(<any>request);
 
-        const response: HttpOperationResponse = await this.httpClient.sendRequest(request);
+        const response: HttpOperationResponse = await this.httpClient.sendRequest(signedRequest);
 
         if (response.status < 200 || response.status >= 300) {
             const result: string = `HTTP error when forwarding activity to the skill: Status Code:${

@@ -5,10 +5,11 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $luisAuthoringKey,
 	[string] $luisAccountName,
+    [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
-	[switch] $useDispatch,
+	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -66,7 +67,7 @@ if (-not $luisAccountName) {
 if (-not $resourceGroup) {
 	$resourceGroup = $name
 
-	$rgExists = az group exists -n $resourceGroup
+	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
 	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
@@ -74,7 +75,7 @@ if (-not $resourceGroup) {
 }
 
 if (-not $luisSubscriptionKey) {
-	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup --output json | ConvertFrom-Json
 
 	if ($keys) {
 		$luisSubscriptionKey = $keys.key1
@@ -86,6 +87,10 @@ if (-not $luisSubscriptionKey) {
 	}
 }
 
+if (-not $luisAccountRegion) {
+	$luisAccountRegion = Read-Host "? LUIS Service Location"
+}
+
 if (-not $qnaSubscriptionKey) {	
 	$useQna = $false
 }
@@ -93,8 +98,8 @@ else {
 	$useQna = $true
 }
 
-$azAccount = az account show | ConvertFrom-Json
-$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
+$azAccount = az account show --output json | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
@@ -178,10 +183,10 @@ foreach ($language in $languageArr)
 					name = $luisApp.name
 					appid = $luisApp.id
 					authoringkey = $luisAuthoringKey
+                    authoringRegion = $luisAuthoringRegion
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
-					region = $luisAuthoringRegion
-					culture = $language
+					region = $luisAccountRegion
 				}
 			}
 			else {
@@ -280,9 +285,9 @@ foreach ($language in $languageArr)
 				name = $dispatchApp.name
 				appid = $dispatchApp.appId
 				authoringkey = $luisauthoringkey
+                authoringRegion = $luisAuthoringRegion
 				subscriptionkey = $luisSubscriptionKey
-				region = $luisAuthoringRegion
-				culture = $language
+				region = $luisAccountRegion
 			}
 		}
 	}

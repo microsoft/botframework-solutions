@@ -5,6 +5,16 @@ namespace EmailSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string GoogleAppName { get; set; }
+
+        public string GoogleClientId { get; set; }
+
+        public string GoogleClientSecret { get; set; }
+
+        public string GoogleScopes { get; set; }
+
+        public int DisplaySize { get; set; }
+
         public DefaultValueConfiguration DefaultValue { get; set; }
 
         public class DefaultValueConfiguration

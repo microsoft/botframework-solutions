@@ -43,9 +43,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string WhenNextMeetingMeeting { get; } = "When is my next meeting";
 
-        private calendarLuis GetBaseFindMeetingIntent(
+        private CalendarLuis GetBaseFindMeetingIntent(
             string userInput,
-            calendarLuis.Intent intents = calendarLuis.Intent.FindCalendarEntry,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.FindCalendarEntry,
             string[] fromDate = null,
             string[] toDate = null,
             string[] fromTime = null,

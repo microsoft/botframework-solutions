@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockVehicleSettingsNameIntent : settings_nameLuis
+    public class MockVehicleSettingsNameIntent : SettingsNameLuis
     {
         private string userInput;
         private Intent intent;
@@ -18,7 +18,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 throw new ArgumentNullException(nameof(userInput));
             }
 
-            this.Entities = new settings_nameLuis._Entities();
+            this.Entities = new SettingsNameLuis._Entities();
             this.Intents = new Dictionary<Intent, IntentScore>();
 
             this.userInput = userInput;
@@ -27,7 +27,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
             intentScore.Score = 0.9909704;
             intentScore.Properties = new Dictionary<string, object>();
 
-            this.Intents.Add(settings_nameLuis.Intent.SETTING_NAME_SELECTION, intentScore);
+            this.Intents.Add(SettingsNameLuis.Intent.SETTING_NAME_SELECTION, intentScore);
 
             switch (userInput.ToLower())
             {

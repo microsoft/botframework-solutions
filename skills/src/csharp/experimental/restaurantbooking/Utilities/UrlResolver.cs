@@ -5,10 +5,11 @@
     using System.Globalization;
     using System.Linq;
     using Microsoft.AspNetCore.Http;
+    using RestaurantBooking.Services;
 
     public class UrlResolver : IUrlResolver
     {
-        public UrlResolver(IHttpContextAccessor httpContextAccessor, Dictionary<string, string> properties)
+        public UrlResolver(IHttpContextAccessor httpContextAccessor, BotSettings settings)
         {
             if (httpContextAccessor != null)
             {
@@ -18,9 +19,7 @@
             else
             {
                 // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                properties.TryGetValue("ImageAssetLocation", out var imageUri);
-
-                var imageUriStr = imageUri;
+                var imageUriStr = settings.ImageAssetLocation;
                 if (string.IsNullOrWhiteSpace(imageUriStr))
                 {
                     throw new Exception("ImageAssetLocation Uri not configured on the skill.");

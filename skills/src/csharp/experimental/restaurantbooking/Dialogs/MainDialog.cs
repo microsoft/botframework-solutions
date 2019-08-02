@@ -69,7 +69,7 @@ namespace RestaurantBooking.Dialogs
             var localeConfig = _services.CognitiveModelSets[locale];
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("restaurant", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Reservation", out var luisService);
 
             if (luisService == null)
             {
@@ -165,7 +165,7 @@ namespace RestaurantBooking.Dialogs
                     var localeConfig = _services.CognitiveModelSets[locale];
 
                     // check general luis intent
-                    localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                    localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                     if (luisService == null)
                     {
