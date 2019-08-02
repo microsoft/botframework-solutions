@@ -1,0 +1,34 @@
+﻿# EmptyFocusedMeeting
+- Please select a meeting in detail to define a focused meeting before accepting any. 
+
+# EmptyCalendar
+- You cannot accept any meetings because your calendar is empty
+
+# ConfirmPrompt
+- Are you sure you want to accept this event?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# AcceptReadBack
+- Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
+
+# CannotAcceptOrganizer
+- Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# HelpAcceptMeeting
+- [HelpPrefix], you can use this bot to accept the meeting.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelAcceptMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```
