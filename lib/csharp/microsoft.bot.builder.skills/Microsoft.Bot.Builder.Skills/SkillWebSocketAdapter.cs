@@ -27,7 +27,6 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
         private readonly MicrosoftAppCredentials _microsoftAppCredentials;
         private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly SkillSettings _skillSettings;
 		private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
