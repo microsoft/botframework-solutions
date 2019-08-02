@@ -1,5 +1,1 @@
-# UpcomingEventMessage(minutes, attendees, title, location)
-- IF: @{location == null || location == ''}
-	- You have a meeting coming up in {minutes} minutes with {attendees}: {title}
-- ELSE:
-	- You have a meeting coming up in {minutes} minutes with {attendees} at {location}: {title}
+[import](UpcomingEventDialog.lg)
