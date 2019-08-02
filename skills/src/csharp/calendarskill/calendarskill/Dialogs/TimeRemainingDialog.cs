@@ -8,6 +8,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -92,11 +93,7 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var showNoMeetingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNoMeetingMessage]", null);
-                    var showNoMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showNoMeetingLGResult, null);
-
-                    var prompt = (Activity)showNoMeetingPrompt;
-                    await sc.Context.SendActivityAsync(prompt);
+                    await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ShowNoMeetingMessage]", null));
                     return await sc.EndDialogAsync();
                 }
                 else
@@ -160,10 +157,7 @@ namespace CalendarSkill.Dialogs
                     tokens["remainingTime"] = remainingTime;
                     if (state.OrderReference == "next")
                     {
-                        var showTimeRemainingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNextMeetingTimeRemainingMessage]", tokens);
-                        var showTimeRemainingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showTimeRemainingLGResult, null);
-
-                        await sc.Context.SendActivityAsync(showTimeRemainingPrompt);
+                        await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ShowNextMeetingTimeRemainingMessage]", tokens));
                         return await sc.EndDialogAsync();
                     }
                     else
@@ -198,10 +192,7 @@ namespace CalendarSkill.Dialogs
                             tokens["title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
                         }
 
-                        var showTimeRemainingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowTimeRemainingMessage]", tokens);
-                        var showTimeRemainingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showTimeRemainingLGResult, null);
-
-                        await sc.Context.SendActivityAsync(showTimeRemainingPrompt);
+                        await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ShowTimeRemainingMessage]", tokens));
                         return await sc.EndDialogAsync();
                     }
                 }

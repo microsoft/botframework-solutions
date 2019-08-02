@@ -85,9 +85,10 @@ namespace CalendarSkill.Dialogs
             // send a greeting if we're in local mode
             //await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
 
-            var result = await _lgMultiLangEngine.Generate(dc.Context, "[CalendarWelcomeMessage]", null);
+            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[CalendarWelcomeMessage]", null);
             //var result = await _lgMultiLangEngine.Generate(dc.Context, "[Test]", null);
-            var activity = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, result, null);
+            //var activity = await new TextMessageActivityGenerator().CreateActivityFromText(result, null, dc.Context, null);
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CalendarWelcomeMessage]", null);
             //var now = DateTime.UtcNow;
             //var now1 = now.AddMinutes(90);
             //var result = await _lgMultiLangEngine.Generate(dc.Context, "[FormatDateTimeDuration]",

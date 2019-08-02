@@ -150,14 +150,12 @@ namespace CalendarSkill.Dialogs
                 // ask for attendee
                 if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoAttendees]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoAttendees]", null);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)prompt }, cancellationToken);
                 }
                 else
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AddMoreAttendees]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AddMoreAttendees]", null);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)prompt }, cancellationToken);
                 }
             }
@@ -207,8 +205,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.AttendeesNameList.Count > 1)
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[BeforeSendingMessage]", new { attendeesNameList = state.AttendeesNameList });
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeSendingMessage]", null);
                         await sc.Context.SendActivityAsync(prompt);
                     }
 
@@ -324,8 +321,7 @@ namespace CalendarSkill.Dialogs
             if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[PromptOneNameOneAddress]", new { confirmedPerson = confirmedPerson });
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PromptOneNameOneAddress]", new { confirmedPerson });
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = (Activity)prompt });
             }
             else
@@ -386,8 +382,7 @@ namespace CalendarSkill.Dialogs
                 // if it is confirm no, thenask user to give a new attendee
                 if (options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoAttendees]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoAttendees]", null);
                     return await sc.PromptAsync(
                         Actions.Prompt,
                         new PromptOptions
@@ -403,8 +398,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.FirstRetryInFindContact)
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFound]", new { userName = currentRecipientName });
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFound]", new { userName = currentRecipientName });
                         state.FirstRetryInFindContact = false;
                         return await sc.PromptAsync(
                             Actions.Prompt,
@@ -415,8 +409,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = currentRecipientName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFoundAgain]", new { userName = currentRecipientName, source = state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
                         await sc.Context.SendActivityAsync(prompt);
                         state.FirstRetryInFindContact = true;
                         state.CurrentAttendeeName = string.Empty;
@@ -444,8 +437,7 @@ namespace CalendarSkill.Dialogs
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = state.CurrentAttendeeName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFoundAgain]", new { userName = state.CurrentAttendeeName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
                     await sc.Context.SendActivityAsync(prompt);
 
                     return await sc.EndDialogAsync();
@@ -622,7 +614,7 @@ namespace CalendarSkill.Dialogs
                         else
                         {
                             var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AlreadyFirstPage]", null);
-                            var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                            var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyFirstPage]", null);
                             await sc.Context.SendActivityAsync(prompt);
                         }
                     }
@@ -707,8 +699,7 @@ namespace CalendarSkill.Dialogs
                         }
                         else
                         {
-                            var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AlreadyFirstPage]", null);
-                            var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                            var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyFirstPage]", null);
                             await sc.Context.SendActivityAsync(prompt);
                         }
                     }
@@ -747,8 +738,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AddMoreUserPrompt]", new { users = state.Attendees });
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AddMoreUserPrompt]", new { users = state.Attendees });
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = (Activity)prompt,
@@ -801,30 +791,22 @@ namespace CalendarSkill.Dialogs
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AlreadyLastPage]", null);
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyLastPage]", null);
                 await sc.Context.SendActivityAsync(prompt);
             }
-
-            var confirmSingleLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmMultipleContactEmailSinglePage]", new { userName = confirmedPerson.DisplayName });
-            var confirmSinglePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, confirmSingleLGResult, null);
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = (Activity)confirmSinglePrompt
+                Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactEmailSinglePage]", new { userName = confirmedPerson.DisplayName })
             };
 
             if (!isSinglePage)
             {
-                var confirmMultiLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmMultipleContactEmailMultiPage]", new { userName = confirmedPerson.DisplayName });
-                var confirmMultiPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, confirmMultiLGResult, null);
-
-                options.Prompt = (Activity)confirmMultiPrompt;
+                options.Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactEmailMultiPage]", new { userName = confirmedPerson.DisplayName });
             }
-
-            var didntUnderstandLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[DidntUnderstandMessage]", null);
-            var didntUnderstandPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, didntUnderstandLGResult, null);
+            
+            var didntUnderstandPrompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
 
             for (var i = 0; i < emailList.Count; i++)
             {
@@ -899,32 +881,21 @@ namespace CalendarSkill.Dialogs
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-
-                var alreadyLastPageLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[AlreadyLastPage]", null);
-                var alreadyLastPagePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, alreadyLastPageLGResult, null);
-
-                await sc.Context.SendActivityAsync(alreadyLastPagePrompt);
+                await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyLastPage]", null));
             }
-
-            var confirmSingleLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmMultipleContactNameSinglePage]", new { userName = currentRecipientName });
-            var confirmSinglePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, confirmSingleLGResult, null);
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = (Activity)confirmSinglePrompt
+                Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactNameSinglePage]", new { userName = currentRecipientName })
             };
-
-            var confirmMultiLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmMultipleContactNameMultiPage]", new { userName = currentRecipientName });
-            var confirmMultiPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, confirmMultiLGResult, null);
 
             if (!isSinglePage)
             {
-                options.Prompt = (Activity)confirmMultiPrompt;
+                options.Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactNameMultiPage]", new { userName = currentRecipientName });
             }
-
-            var didntUnderstandLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[DidntUnderstandMessage]", null);
-            var didntUnderstandPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, didntUnderstandLGResult, null);
+            
+            var didntUnderstandPrompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
 
             for (var i = 0; i < unionList.Count; i++)
             {

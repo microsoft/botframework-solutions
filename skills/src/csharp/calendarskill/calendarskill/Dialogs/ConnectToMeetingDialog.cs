@@ -144,8 +144,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.SummaryEvents.Count == 0)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[MeetingNotFound]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[MeetingNotFound]", null);
 
                     await sc.Context.SendActivityAsync(prompt);
                     state.Clear();
@@ -208,8 +207,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoMoreEvent]", null);
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CalendarNoMoreEvent]", null);
 
                         await sc.Context.SendActivityAsync(prompt);
                     }
@@ -224,8 +222,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoPreviousEvent]", null);
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CalendarNoPreviousEvent]", null);
 
                         await sc.Context.SendActivityAsync(prompt);
                     }
@@ -403,8 +400,7 @@ namespace CalendarSkill.Dialogs
                 phoneNumber,
             };
 
-            var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmPhoneNumber]", responseParams);
-            var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+            var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmPhoneNumber]", responseParams);
 
             return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = (Activity)prompt });
         }
@@ -418,8 +414,7 @@ namespace CalendarSkill.Dialogs
                 {
                     var selectedEvent = state.ConfirmedMeeting.First();
 
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[JoinMeeting]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[JoinMeeting]", null);
 
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
                     var replyEvent = sc.Context.Activity.CreateReply();
@@ -430,9 +425,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NotJoinMeeting]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NotJoinMeeting]", null);
+                    
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
                 }
             }
