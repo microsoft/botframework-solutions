@@ -67,7 +67,7 @@ namespace ToDoSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            path = Path.Combine(path + @"\..\..\..\..\todoskill\Resources\Card.lg");
+            path = Path.Combine(path + @"\..\..\..\..\todoskill\Responses\Shared\Card.lg");
             LGEngine.AddFile(path);
 
             LGMultiLangEngine = new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg");
