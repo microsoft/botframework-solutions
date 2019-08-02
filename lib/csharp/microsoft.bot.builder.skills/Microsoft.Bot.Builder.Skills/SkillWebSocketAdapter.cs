@@ -33,13 +33,11 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
             MicrosoftAppCredentials microsoftAppCredentials,
-            SkillSettings skillSettings,
             IAuthenticationProvider authenticationProvider = null,
             IBotTelemetryClient botTelemetryClient = null)
         {
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
             _microsoftAppCredentials = microsoftAppCredentials ?? throw new ArgumentNullException(nameof(microsoftAppCredentials));
-            _skillSettings = skillSettings;
             _authenticationProvider = authenticationProvider ?? new MsJWTAuthenticationProvider(_microsoftAppCredentials.MicrosoftAppId);
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
 			_stopWatch = new Stopwatch();
