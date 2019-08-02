@@ -16,7 +16,8 @@ const templateName = "sample-skill";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
-
+let containsSpecialCharacter = false;
+let finalSkillName = "";
 const languagesChoice = [
   {
     name: "Chinese",
@@ -256,6 +257,11 @@ module.exports = class extends Generator {
         skillName
       );
     }
+    
+    if (this.props.skillName != skillName) {
+      finalSkillName = skillName;
+      containsSpecialCharacter = true;
+    }
 
     const skillNameCamelCase = _camelCase(this.props.skillName).replace(
       /([^a-z0-9-]+)/gi,
@@ -320,6 +326,9 @@ module.exports = class extends Generator {
         );
       } else {
         this.spawnCommandSync("npm run build", []);
+        if (containsSpecialCharacter) {
+          this.log(chalk.yellow(`\nYour skill name (${this.props.skillName}) had special characters, it was changed to '${finalSkillName}'`));
+        }
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new skill is ready!  `));
         this.log(chalk.green(`------------------------ `));
