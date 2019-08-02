@@ -305,7 +305,7 @@ namespace CalendarSkill.Dialogs
                 if (topIntent == null)
                 {
                     state.Clear();
-                    return await sc.CancelAllDialogsAsync();
+                    return await sc.EndDialogAsync(true, cancellationToken);
                 }
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -315,7 +315,7 @@ namespace CalendarSkill.Dialogs
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.Clear();
-                    return await sc.CancelAllDialogsAsync();
+                    return await sc.EndDialogAsync(true, cancellationToken);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
@@ -678,22 +678,13 @@ namespace CalendarSkill.Dialogs
                         // if user asked for specific details
                         if (askParameter.NeedDetail)
                         {
-                            var tokens = new StringDictionary()
-                            {
-                                { "EventName", nextEventList[0].Title },
-                                { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventDuration", nextEventList[0].ToSpeechDurationString() },
-                                { "EventLocation", nextEventList[0].Location },
-                            };
-
                             var data = new
                             {
                                 meeting = nextEventList[0],
                                 timezone = state.GetUserTimeZone().Id
                             };
 
-                            await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeShowEventDetails]", null));
+                            await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeShowEventDetails]", data));
 
                             if (askParameter.NeedTime)
                             {

@@ -36,10 +36,10 @@
 - Here is the details of your event @{meeting.Title}:
 
 # ReadTime(meeting, timezone)
-- It starts at [FormatTime(meeting.StartTime, timezone)], and ends at [FormatTime(meeting.EndTime, timezone)]}.
+- It starts at [FormatTime(meeting.StartTime, timezone)], and ends at [FormatTime(meeting.EndTime, timezone)].
 
 # ReadDuration(meeting)
-- It lasts for [FormatDateTimeDuration(meeting.StartTime, meeting.EndTime)].
+- It lasts for [FormatDateTimeDurationLong(meeting.StartTime, meeting.EndTime)].
 
 # ReadLocation(meeting)
 - IF: {meeting.Location == null || meeting.Location == ''}
@@ -49,9 +49,9 @@
 
 # ShowNextMeetingMessage(meeting, timezone)
 - IF: {meeting.Location == null || meeting.Location == ''}
-	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(event, timezone)] with @{count(meeting.Attendees)} people.
+	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(meeting, timezone)] with @{count(meeting.Attendees)} people.
 - ELSE:
-	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(event, timezone)] with @{count(meeting.Attendees)} people at @{meeting.Location}.
+	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(meeting, timezone)] with @{count(meeting.Attendees)} people at @{meeting.Location}.
 
 # AskForShowOverview(startDateString)
 - Would you like to see your calendar overview again of [GetStartDateString(startDateString)]?

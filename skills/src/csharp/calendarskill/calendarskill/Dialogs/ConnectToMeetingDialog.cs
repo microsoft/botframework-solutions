@@ -40,7 +40,7 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("SummaryDialog.lg");
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("JoinEventDialog.lg");
 
             TelemetryClient = telemetryClient;
 

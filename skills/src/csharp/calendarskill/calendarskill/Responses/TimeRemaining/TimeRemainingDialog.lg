@@ -2,7 +2,7 @@
 - You have @{remainingTime} remaining until next event.
 
 # ShowTimeRemainingMessage(remainingTime, title, time, timeSpeak)
-- You have @{RemainingTime} remaining until your event @{title} @{time}. || You have @{RemainingTime} remaining until your event @{title} @{timeSpeak}.
+- You have @{remainingTime} remaining until your event @{title} @{time}. || You have @{remainingTime} remaining until your event @{title} @{timeSpeak}.
 
 # ShowNoMeetingMessage
 - You don't have any events.

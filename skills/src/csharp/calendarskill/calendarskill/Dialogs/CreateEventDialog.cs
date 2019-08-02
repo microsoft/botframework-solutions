@@ -470,10 +470,9 @@ namespace CalendarSkill.Dialogs
                         {
                             subject = newEvent.Title
                         };
-                        var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, newEvent, "EventCreated", replyParams);
-
                         newEvent.ContentPreview = state.Content;
 
+                        var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, newEvent, "EventCreated", replyParams);
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else

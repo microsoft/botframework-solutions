@@ -10,7 +10,7 @@
 - Okay, I understand you want to send the event to @{join(attendeesNameList, ', ', ' and ')}.
 
 # PromptOneNameOneAddress(confirmedPerson)
-- Okay, I will add @{confirmedPerson.DisplayName}: [GetEmailAddressFromCustomizedPerson(confirmedPerson)]. Is the one @{confirmedPerson.DisplayName} you were looking for?
+- Okay, I will add @{confirmedPerson.DisplayName}: [GetEmailAddressFromCustomizedPerson(confirmedPerson)]. Is @{confirmedPerson.DisplayName} the one you were looking for?
 
 # GetEmailAddressFromCustomizedPerson(person)
 - IF: @{person.Emails[0] != null && person.Emails[0] != ''}

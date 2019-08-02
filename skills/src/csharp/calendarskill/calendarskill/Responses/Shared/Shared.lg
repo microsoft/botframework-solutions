@@ -24,6 +24,9 @@
 # FormatDateTimeDuration(startTime, endTime)
 - [FormatDuration((ticks(formatDateTime(endTime)) - ticks(formatDateTime(startTime))) / 10000000)]
 
+# FormatDateTimeDurationLong(startTime, endTime)
+- [FormatDurationLong((ticks(formatDateTime(endTime)) - ticks(formatDateTime(startTime))) / 10000000)]
+
 # FormatDateShort(date, timezone)
 - @{convertFromUTC(formatDateTime(date), timezone, 'dddd M/d')}
 
@@ -34,6 +37,26 @@
 	- @{concat(string(seconds/3600), 'h', string(seconds%3600/60), 'm'))}
 - ELSE:
 	- @{seconds / 3600}h
+
+# FormatDurationLong(seconds)
+- IF: @{seconds < 3600}
+	- @{seconds / 60} @{FormatDurationLongMinutesUnit(seconds / 60)}
+- ELSEIF: {seconds % 3600 / 60 != 0}
+	- @{seconds / 3600} @{FormatDurationLongHoursUnit(seconds / 3600)} and @{seconds % 3600 / 60} @{FormatDurationLongMinutesUnit(seconds % 3600 / 60)}
+- ELSE:
+	- @{seconds / 3600} @{FormatDurationLongHoursUnit(seconds / 3600)}
+
+# FormatDurationLongMinutesUnit(minute)
+- IF: @{minute == 1}
+	- minute
+- ELSE:
+	- minutes
+
+# FormatDurationLongHoursUnit(hour)
+- IF: @{hour == 1}
+	- hour
+- ELSE:
+	- hours
 
 # ShowAttendees(attendees, maxCount)
 - IF: @{count(attendees) == 0}
@@ -610,4 +633,7 @@
 	- @{startDateString}
 
 # EscapeString(textString)
-- @{replace(replace(textString, '\\', '\\\\'), '"', '\\"')}
+- IF: {textString != null}
+	- @{replace(replace(textString, '\\', '\\\\'), '"', '\\"')}
+- ELSE:
+	- 

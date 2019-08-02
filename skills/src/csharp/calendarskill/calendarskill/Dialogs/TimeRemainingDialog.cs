@@ -105,7 +105,7 @@ namespace CalendarSkill.Dialogs
                     var timeDiffHours = (int)timeDiff.TotalMinutes / 60;
                     var timeDiffDays = timeDiff.Days;
 
-                    var tokens = new StringDictionary()
+                    var tokens = new Dictionary<string, object>()
                     {
                         { "remainingTime", string.Empty },
                         { "title", string.Empty },
