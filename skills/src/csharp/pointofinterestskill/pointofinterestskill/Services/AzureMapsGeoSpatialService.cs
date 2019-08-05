@@ -278,7 +278,8 @@ namespace PointOfInterestSkill.Services
             if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
             {
                 response = response.EnsureSuccessStatusCode();
-                apiResponse = JsonConvert.DeserializeObject<RouteDirections>(await response.Content.ReadAsStringAsync());
+                var content = await response.Content.ReadAsStringAsync();
+                apiResponse = JsonConvert.DeserializeObject<RouteDirections>(content);
             }
 
             apiResponse.Provider = PointOfInterestModel.AzureMaps;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Luis;
 using Microsoft.Bot.Builder;
+using PointOfInterestSkillTests.Flow.Strings;
 using static Luis.PointOfInterestLuis;
 
 namespace PointOfInterestSkillTests.Flow.Utterances
@@ -10,6 +11,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
     public class BaseTestUtterances : Dictionary<string, PointOfInterestLuis>
     {
         public static double TopIntentScore { get; } = 0.9;
+
+        public static string ActiveLocationEvent { get; } = $"/event:{{ \"Name\": \"ActiveLocation\", \"Value\": \"{ContextStrings.MicrosoftWay}\",\"Text\":\"{RouteFromXToYUtterances.FindRoute}\" }}";
 
         public static string LocationEvent { get; } = "/event:{ \"Name\": \"Location\", \"Value\": \"47.639620,-122.130610\" }";
 
@@ -46,7 +49,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
         protected PointOfInterestLuis CreateIntent(
             string userInput,
             Intent intent,
-            string[] keyword = null)
+            string[] keyword = null,
+            string[][] poiType = null)
         {
             var poiIntent = new PointOfInterestLuis
             {
@@ -57,7 +61,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
 
             poiIntent.Entities = new _Entities
             {
-                KEYWORD = keyword
+                KEYWORD = keyword,
+                POI_TYPE = poiType
             };
 
             return poiIntent;

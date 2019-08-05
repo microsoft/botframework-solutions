@@ -208,6 +208,8 @@ namespace PointOfInterestSkill.Dialogs
                         // Activity should have text to trigger next intent, update Type & Route again
                         if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                         {
+                            // since route is on highest level, cancel all before calling it
+                            await dc.CancelAllDialogsAsync();
                             dc.Context.Activity.Type = ActivityTypes.Message;
                             await RouteAsync(dc);
                         }
