@@ -38,8 +38,9 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
         /// <param name="query">The location query.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query);
+        Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query, string poiType = null);
 
         /// <summary>
         /// Gets the point of interest by address.
@@ -47,24 +48,27 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The address query.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address);
+        Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address, string poiType = null);
 
         /// <summary>
         /// Gets the point of interest by coordinates.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude);
+        Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude, string poiType = null);
 
         /// <summary>
         /// Gets the point of interest by parking category.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude);
+        Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude, string poiType = null);
 
         /// <summary>
         /// Gets point of interest details.
@@ -78,8 +82,9 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude);
+        Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude, string poiType = null);
 
         /// <summary>
         /// Init task service.
