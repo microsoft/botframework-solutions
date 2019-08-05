@@ -22,7 +22,6 @@ namespace EmailSkill.Adapters
             UserState userState,
             ConversationState conversationState,
             BotStateSet botStateSet,
-            ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("Shared.lg");

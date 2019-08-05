@@ -19,7 +19,7 @@
     {
       "type": "Container",
       "id": "items",
-      "items": @{lgTemplate('EmailDetailRecipientWithoutButton', emailDetails)}
+      "items": @{EmailDetailRecipientWithoutButton(emailDetails)}
     },
     {
       "type": "Container",
