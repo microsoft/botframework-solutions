@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <Content Remove="Content\ReservationDetails.json" />
+    <Content Remove="Data\AvailableItems.json" />
     <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
-    <Content Remove="Responses\GetReservation\ExtendStayResponses.json" />
     <Content Remove="Responses\ExtendStay\ExtendStayResponses.json" />
     <Content Remove="Responses\GetReservation\GetReservationResponses.json" />
     <Content Remove="Responses\LateCheckOut\LateCheckOutResponses.json" />
@@ -19,6 +19,7 @@
     <Content Remove="Responses\Main\MainResponses.it.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
+    <Content Remove="Responses\RequestItem\RequestItemResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -29,6 +30,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Content\ReservationDetails.json" />
+    <EmbeddedResource Include="Data\AvailableItems.json" />
+    <EmbeddedResource Include="Responses\RequestItem\RequestItemResponses.json" />
     <EmbeddedResource Include="Responses\GetReservation\GetReservationResponses.json" />
     <EmbeddedResource Include="Responses\ExtendStay\ExtendStayResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
@@ -83,6 +86,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\RequestItem\RequestItemResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RequestItemResponses.cs</LastGenOutput>
+    </None>
     <None Update="Responses\GetReservation\GetReservationResponses.tt">
       <LastGenOutput>GetReservationResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -168,6 +175,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>readme.md</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\RequestItem\RequestItemResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RequestItemResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\GetReservation\GetReservationResponses.cs">
       <DesignTime>True</DesignTime>
