@@ -385,6 +385,8 @@ public class SpeechSdk {
         });
     }
 
+    public Synthesizer getSynthesizer() { return synthesizer; }
+
     public ArrayList<CardAction> getSuggestedActions() {
         return suggestedActions;
     }

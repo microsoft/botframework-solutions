@@ -100,7 +100,7 @@ public class SpeechService extends Service {
 
             @Override
             public void connectAsync(){
-                speechSdk.connectAsync();
+                if (speechSdk != null) speechSdk.connectAsync();
             }
 
             @Override
@@ -110,8 +110,10 @@ public class SpeechService extends Service {
 
             @Override
             public void resetBot(){
-                shouldListenAgain = false;
-                speechSdk.resetBot(configurationManager.getConfiguration());
+                if (speechSdk != null) {
+                    shouldListenAgain = false;
+                    speechSdk.resetBot(configurationManager.getConfiguration());
+                }
             }
 
             @Override
@@ -121,59 +123,72 @@ public class SpeechService extends Service {
 
             @Override
             public void sendLocationEvent(String lat, String lon){
-                speechSdk.sendLocationEvent(lat, lon);
+                if (speechSdk != null) speechSdk.sendLocationEvent(lat, lon);
             }
 
             @Override
             public void requestWelcomeCard(){
-                speechSdk.requestWelcomeCard();
+                if (speechSdk != null) speechSdk.requestWelcomeCard();
             }
 
             @Override
             public void injectReceivedActivity(String json){
-                speechSdk.activityReceived(json);
+                if (speechSdk != null) speechSdk.activityReceived(json);
             }
 
             @Override
             public void listenOnceAsync(){
-                speechSdk.listenOnceAsync();
+                if (speechSdk != null) speechSdk.listenOnceAsync();
             }
 
             @Override
             public void sendActivityMessageAsync(String msg){
-                speechSdk.sendActivityMessageAsync(msg);
+                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
             }
 
             @Override
             public String getSuggestedActions(){
-                return gson.toJson(speechSdk.getSuggestedActions());
+                String suggestedActions = null;
+                if (speechSdk != null) {
+                    suggestedActions = gson.toJson(speechSdk.getSuggestedActions());
+                }
+                return suggestedActions;
             }
 
             @Override
             public void clearSuggestedActions(){
-                speechSdk.clearSuggestedActions();
+                if (speechSdk != null) speechSdk.clearSuggestedActions();
             }
 
             @Override
             public void startKeywordListeningAsync(String keyword) {
-                AssetManager am = getAssets();
-                try {
-                    InputStream is = am.open("keywords/" + keyword + "/kws.table");
-                    speechSdk.startKeywordListeningAsync(is, keyword);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (speechSdk != null) {
+                    AssetManager am = getAssets();
+                    try {
+                        InputStream is = am.open("keywords/" + keyword + "/kws.table");
+                        speechSdk.startKeywordListeningAsync(is, keyword);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void stopKeywordListening() {
-                speechSdk.stopKeywordListening();
+                if (speechSdk != null) speechSdk.stopKeywordListening();
             }
 
             @Override
             public void setConfiguration(String json) {
                 Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
                 configurationManager.setConfiguration(configuration);
+            }
+
+            @Override
+            public void stopAnyTTS(){
+                if(speechSdk != null && speechSdk.getSynthesizer().isPlaying()){
+                    speechSdk.getSynthesizer().stopSound();
+                }
             }
         };
     }

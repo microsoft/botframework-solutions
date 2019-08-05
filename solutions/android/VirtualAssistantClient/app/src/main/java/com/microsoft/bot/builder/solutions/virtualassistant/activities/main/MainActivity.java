@@ -61,6 +61,8 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
+import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
 import client.model.InputHints;
@@ -310,6 +312,7 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.mic_image)
     public void onClickAssistant() {
         try {
+            speechServiceBinder.stopAnyTTS();
             showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
@@ -370,6 +373,26 @@ public class MainActivity extends BaseActivity
         }
         return handled;
     }
+
+    @OnTextChanged(R.id.textinput)
+    protected void onTextChanged(CharSequence text) {
+        try {
+            speechServiceBinder.stopAnyTTS();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    @OnFocusChange(R.id.textinput)
+//    void onFocusChanged(boolean focused) {
+//        if (focused) {
+//            try {
+//                speechServiceBinder.stopAnyTTS();
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     // send text message
     private void sendTextMessage(String msg){

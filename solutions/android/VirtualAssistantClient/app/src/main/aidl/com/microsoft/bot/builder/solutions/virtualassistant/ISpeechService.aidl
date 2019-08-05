@@ -19,4 +19,5 @@ interface ISpeechService {
     void clearSuggestedActions();
     void startKeywordListeningAsync(String keyword);
     void stopKeywordListening();
+    void stopAnyTTS();
 }
