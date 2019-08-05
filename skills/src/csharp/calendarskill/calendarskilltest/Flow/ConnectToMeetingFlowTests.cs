@@ -36,19 +36,9 @@ namespace CalendarSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send(ConnectToMeetingUtterances.BaseConnectToMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ShowNoMeetings())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private string[] ShowNoMeetings()

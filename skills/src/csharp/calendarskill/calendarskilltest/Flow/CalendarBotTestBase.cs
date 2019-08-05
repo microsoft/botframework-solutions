@@ -34,6 +34,8 @@ namespace CalendarSkillTest.Flow
 {
     public class CalendarBotTestBase : BotTestBase
     {
+        private const string OauthConnection = "Azure Active Directory";
+
         public IServiceCollection Services { get; set; }
 
         public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
@@ -51,7 +53,7 @@ namespace CalendarSkillTest.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = OauthConnection, Provider = OauthConnection }
                 }
             });
 
@@ -103,6 +105,11 @@ namespace CalendarSkillTest.Flow
 			Services.AddTransient<UpdateEventDialog>();
 			Services.AddTransient<FindContactDialog>();
 			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
+                return new DefaultTestAdapter(adapter, OauthConnection, OauthConnection);
+            });
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
