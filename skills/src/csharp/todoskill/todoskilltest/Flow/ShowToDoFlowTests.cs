@@ -22,8 +22,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoCard())
@@ -39,8 +37,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowGroceryList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowGroceryCard())
@@ -56,8 +52,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowShoppingList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowShoppingCard())
@@ -73,8 +67,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowCustomizedListTypeList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowCustomizedListTypeCard())
@@ -90,8 +82,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoCard())
@@ -110,8 +100,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ClearAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.NoTasksPrompt())

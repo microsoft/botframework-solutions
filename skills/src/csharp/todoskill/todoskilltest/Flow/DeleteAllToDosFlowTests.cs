@@ -22,8 +22,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
@@ -40,8 +38,6 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
