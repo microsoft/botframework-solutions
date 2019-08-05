@@ -19,7 +19,7 @@
     {
       "type": "Container",
       "id": "items",
-      "items": @{lgTemplate('EmailDetailRecipient', emailDetails)}
+      "items": @{EmailDetailRecipient(emailDetails)}
     },
     {
       "type": "Container",

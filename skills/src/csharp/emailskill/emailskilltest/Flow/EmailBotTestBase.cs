@@ -19,6 +19,7 @@ using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
@@ -31,11 +32,14 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkillTest.Flow
 {
     public class EmailBotTestBase : BotTestBase
     {
+        private const string oauthConnection = "Azure Active Directory";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -52,7 +56,7 @@ namespace EmailSkillTest.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = oauthConnection, Provider = oauthConnection }
                 }
             });
 
@@ -113,7 +117,12 @@ namespace EmailSkillTest.Flow
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
+                return new DefaultTestAdapter(adapter, oauthConnection, oauthConnection);
+            });
+
             Services.AddTransient<MainDialog>();
             Services.AddTransient<DeleteEmailDialog>();
             Services.AddTransient<FindContactDialog>();
@@ -143,6 +152,7 @@ namespace EmailSkillTest.Flow
             var adapter = sp.GetService<TestAdapter>();
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
+            var dialogState = conversationState.CreateProperty<DialogState>("dialogState");
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
