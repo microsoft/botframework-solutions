@@ -8,6 +8,7 @@ using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -126,19 +127,17 @@ namespace CalendarSkill.Dialogs
                             await calendarService.DeclineEventById(deleteEvent.Id);
                         }
 
-                        var eventDeletedLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventDeleted]", null);
-                        var eventDeletedPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventDeletedLGResult, null);
+                        var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EventDeleted]", null);
 
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventDeleted));
+                        await sc.Context.SendActivityAsync(activity);
                     }
                     else
                     {
                         await calendarService.AcceptEventById(deleteEvent.Id);
 
-                        var eventAcceptedLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventAccepted]", null);
-                        var eventAcceptedPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventAcceptedLGResult, null);
+                        var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EventAccepted]", null);
 
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventAccepted));
+                        await sc.Context.SendActivityAsync(activity);
                     }
                 }
 
@@ -244,30 +243,18 @@ namespace CalendarSkill.Dialogs
 
                 if (state.NewEventStatus == EventStatus.Cancelled)
                 {
-                    var eventDeletedLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventDeleted]", null);
-                    var eventDeletedPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventDeletedLGResult, null);
-
-                    var eventWithStartTimeNotFoundLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventWithStartTimeNotFound]", null);
-                    var eventWithStartTimeNotFoundPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventWithStartTimeNotFoundLGResult, null);
-
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = (Activity)eventDeletedPrompt,
-                        RetryPrompt = (Activity)eventWithStartTimeNotFoundPrompt
+                        Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoDeleteStartTime]", null),
+                        RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EventWithStartTimeNotFound]", null)
                     }, cancellationToken);
                 }
                 else
                 {
-                    var noAcceptStartTimeLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoAcceptStartTime]", null);
-                    var noAcceptStartTimePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, noAcceptStartTimeLGResult, null);
-
-                    var eventWithStartTimeNotFoundLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventWithStartTimeNotFound]", null);
-                    var eventWithStartTimeNotFoundPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventWithStartTimeNotFoundLGResult, null);
-
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = (Activity)noAcceptStartTimePrompt,
-                        RetryPrompt = (Activity)eventWithStartTimeNotFoundPrompt
+                        Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoAcceptStartTime]", null),
+                        RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EventWithStartTimeNotFound]", null)
                     }, cancellationToken);
                 }
             }
@@ -314,7 +301,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, "MultipleEventsStartAtSameTime", null);
 
                     options.Prompt = prompt;
 

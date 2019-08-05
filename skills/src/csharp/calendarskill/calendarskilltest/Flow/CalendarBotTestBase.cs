@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
@@ -17,6 +19,7 @@ using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -31,6 +34,8 @@ namespace CalendarSkillTest.Flow
 {
     public class CalendarBotTestBase : BotTestBase
     {
+        private const string OauthConnection = "Azure Active Directory";
+
         public IServiceCollection Services { get; set; }
 
         public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
@@ -48,7 +53,7 @@ namespace CalendarSkillTest.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = OauthConnection, Provider = OauthConnection }
                 }
             });
 
@@ -80,6 +85,12 @@ namespace CalendarSkillTest.Flow
                 new UpcomingEventResponses());
             Services.AddSingleton(ResponseManager);
 
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\calendarskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(resourceExplorer);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
+
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
@@ -94,6 +105,11 @@ namespace CalendarSkillTest.Flow
 			Services.AddTransient<UpdateEventDialog>();
 			Services.AddTransient<FindContactDialog>();
 			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
+                return new DefaultTestAdapter(adapter, OauthConnection, OauthConnection);
+            });
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));

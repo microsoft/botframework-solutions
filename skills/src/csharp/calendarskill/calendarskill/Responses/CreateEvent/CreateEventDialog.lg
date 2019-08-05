@@ -1,0 +1,78 @@
+[import](./../Shared/Shared.en-us.lg)
+
+# NoTitle(participants)
+- OK, I will send an invite to @{join(foreach(participants, x, UserInfoDetail(x)), ', ', 'and')}, what is the subject of the meeting?
+
+# NoTitleShort
+- What is the subject of the meeting?
+
+# NoContent
+- What is the description of the meeting?
+- Can you provide a description for the meeting?
+
+# NoLocation
+- Where will the event take place?
+
+# ConfirmCreate(startDateTime, endDateTime, timezone, attendees, subject, location, content)
+- I'm ready to create the event. The event is on @{FormatDate(startDateTime, timezone)}, from @{FormatTime(startDateTime, timezone)} until @{FormatTime(endDateTime, timezone)}, with @{ShowAttendees(attendees, 5)}. The subject of the event is @{ConfirmStringItem(subject)}. The event will take place at @{ConfirmStringItem(location)}. The message is @{ConfirmStringItem(content)}. Can you confirm this event?
+
+# ConfirmStringItem(item)
+- IF: @{item != null && item != ''}
+    - @{item}
+- ELSE:
+    - empty
+
+# ConfirmCreatePrompt
+- Can you confirm this event?
+
+# ShowRestParticipantsPrompt
+- Do you want to go through the rest of the participants?
+
+# ConfirmCreateFailed
+- I'm ready to create the event. Please confirm the following:
+
+# EventCreated(subject)
+- OK, I have added the event to your calendar, named @{ConfirmStringItem(subject)}.
+
+# EventCreationFailed
+- Event creation failed.
+- Something went wrong, try again please.
+- It seems the event couldn't be created, please try again later.
+- Creation of the event failed, please try again.
+- An error occurred while creating the event.
+
+# NoStartDate
+- What date?
+
+# NoStartDateRetry
+- I did not understand the date you provided, can you try again?
+- I don't understand the date you provided, can you try in a different way? You can say tomorrow, Monday, or a specific date such as January 1st.
+
+# NoStartTime
+- What time does it start? Providing AM or PM will help me out.
+
+# NoStartTimeRetry
+- I didn't understand the time you provided, can you try again?
+- I didn't understand that time. Can you try again?
+
+# NoStartTimeNoSkip
+- You can't skip the Start Time. Please try again.
+
+# NoDuration
+- For how long?
+
+# NoDurationRetry
+- I don't understand the duration you provided, can you try again?
+
+# GetRecreateInfo
+- What would you like to adjust?
+
+# GetRecreateInfoRetry
+- I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel
+
+# ConfirmRecipient
+- Who do you want to invite?
+- What contact do you want to select?
+
+# InvaildDuration
+- The end time of the event cannot be earlier than or the same as the start time. Please try again.

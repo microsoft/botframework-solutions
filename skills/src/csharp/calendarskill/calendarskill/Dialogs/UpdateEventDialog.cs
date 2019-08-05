@@ -87,10 +87,7 @@ namespace CalendarSkill.Dialogs
                 var origin = state.Events[0];
                 if (!origin.IsOrganizer)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NotEventOrganizer]", null);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-
-                    await sc.Context.SendActivityAsync(prompt);
+                    await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NotEventOrganizer]", null));
                     state.Clear();
                     return await sc.EndDialogAsync(true);
                 }
@@ -123,13 +120,10 @@ namespace CalendarSkill.Dialogs
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, origin, "ConfirmUpdate");
 
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmUpdateFailed]", null);
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = (Activity)prompt,
+                    RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmUpdateFailed]", null),
                 });
             }
             catch (Exception ex)
@@ -202,15 +196,10 @@ namespace CalendarSkill.Dialogs
                     return await sc.ContinueDialogAsync();
                 }
 
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoNewTime]", null);
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-                var retryLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoNewTimeRetry]", null);
-                var retryPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, retryLGResult, null);
-
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
                 {
-                    Prompt = (Activity)prompt,
-                    RetryPrompt = (Activity)retryPrompt
+                    Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoNewTime]", null),
+                    RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoNewTimeRetry]", null)
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -420,15 +409,10 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoUpdateStartTime]", null);
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-                var retryLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventWithStartTimeNotFound]", null);
-                var retryPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, retryLGResult, null);
-
                 return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                 {
-                    Prompt = (Activity)prompt,
-                    RetryPrompt = (Activity)retryPrompt
+                    Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoUpdateStartTime]", null),
+                    RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EventWithStartTimeNotFound]", null)
                 }, cancellationToken);
             }
             catch (Exception ex)

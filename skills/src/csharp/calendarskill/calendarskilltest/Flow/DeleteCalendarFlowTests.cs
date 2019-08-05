@@ -97,8 +97,6 @@ namespace CalendarSkillTest.Flow
             });
             await this.GetTestFlow()
                 .Send(DeleteMeetingTestUtterances.DeleteMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
@@ -111,8 +109,6 @@ namespace CalendarSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send(DeleteMeetingTestUtterances.DeleteMeetingWithTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
@@ -128,14 +124,6 @@ namespace CalendarSkillTest.Flow
         private string[] DeleteEventPrompt()
         {
             return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

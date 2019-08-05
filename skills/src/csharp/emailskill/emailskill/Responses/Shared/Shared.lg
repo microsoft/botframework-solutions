@@ -1,9 +1,10 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-[import](EmailContentPreview.lg)
-[import](EmailOverviewCard.lg)
-[import](EmailWithOutButtonCard.lg)
+[import](./../Cards/EmailContentPreview.lg)
+[import](./../Cards/EmailOverviewCard.lg)
+[import](./../Cards/EmailWithOutButtonCard.lg)
+[import](./../Cards/EmailDetailCard.lg)
 
 # Cancel
 - Sure, we can do this later.
@@ -143,3 +144,5 @@
 - Alright, let me know when you need my help.
 - Sure, I'm here if you need me.
 
+# SentSuccessfully(subject)
+- I have sent the email with subject {subject}.

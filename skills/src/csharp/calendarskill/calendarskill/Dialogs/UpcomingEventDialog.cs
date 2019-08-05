@@ -6,6 +6,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Proactive;
 using CalendarSkill.Responses.UpcomingEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -118,9 +119,8 @@ namespace CalendarSkill.Dialogs
                     title = eventModel.Title,
                     location = eventModel.Location
                 };
-
-                var upcomingEventMessageLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[UpcomingEventMessage]", null);
-                var response = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, upcomingEventMessageLGResult, null);
+                
+                var response = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UpcomingEventMessage]", null);
 
                 var activity = turnContext.Activity.CreateReply();
                 activity.Text = response.Text;

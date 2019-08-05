@@ -285,16 +285,14 @@ namespace CalendarSkill.Dialogs
 
             if (templateId == null)
             {
-                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
-
-                return (Activity)showMeetingPrompt;
+                var activity = await LGHelper.GenerateMessageAsync(lgEngine, dc.Context, "[MeetingListCard]", overviewCardParams);
+                return (Activity)activity;
             }
             else
             {
                 var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
                 var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(lgResult + cardResult, null, dc.Context, null);
 
                 return (Activity)showMeetingPrompt;
             }
@@ -338,16 +336,14 @@ namespace CalendarSkill.Dialogs
 
             if (templateId == null)
             {
-                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
-
-                return (Activity)showMeetingPrompt;
+                var activity = await LGHelper.GenerateMessageAsync(lgEngine, dc.Context, "[MeetingListCard]", overviewCardParams);
+                return (Activity)activity;
             }
             else
             {
                 var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
                 var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(lgResult + cardResult, null, dc.Context, null);
 
                 return (Activity)showMeetingPrompt;
             }
@@ -378,22 +374,20 @@ namespace CalendarSkill.Dialogs
                 attendeePhotoList,
                 subject = eventItem.Title,
                 location = eventItem.Location,
-                content = eventItem.Content,
+                content = eventItem.ContentPreview ?? eventItem.Content,
                 meetingLink = eventItem.OnlineMeetingUrl
             };
 
             if (templateId == null)
             {
-                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
-
-                return (Activity)showMeetingPrompt;
+                var activity = await LGHelper.GenerateMessageAsync(lgEngine, dc.Context, "[MeetingDetailCard]", data);
+                return (Activity)activity;
             }
             else
             {
                 var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
                 var cardResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
-                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(lgResult + cardResult, null, dc.Context, null);
 
                 return (Activity)showMeetingPrompt;
             }

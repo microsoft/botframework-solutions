@@ -1,15 +1,4 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-[import](EmailWithOutButtonCard.lg)
-
-> Shared
-# CancellingMessage
-- Sure, we can do this later.
-- Sure, we can start this later.
-- No problem. You can try again at another time.
-- Alright, let me know when you need my help.
-- Sure, I'm here if you need me.
-
-# SentSuccessfully(subject)
-- I have sent the email with subject {subject}.
+[import](./../Shared/Shared.lg)
