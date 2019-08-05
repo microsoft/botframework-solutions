@@ -36,6 +36,7 @@ namespace Luis
 
             // Lists
             public string[][] ROUTE_TYPE;
+            public string[][] POI_TYPE;
 
             // Instance
             public class _Instance
@@ -45,6 +46,7 @@ namespace Luis
                 public InstanceData[] number;
                 public InstanceData[] geographyV2;
                 public InstanceData[] ROUTE_TYPE;
+                public InstanceData[] POI_TYPE;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
