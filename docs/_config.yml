@@ -1,1 +1,44 @@
-theme: jekyll-theme-minimal
+title: Bot Framework Solutions Documentation
+description: >- # this means to ignore newlines until "baseurl:"
+  Documentation for Bot Framework Solutions projects including 
+  Virtual Assistant and Skills.
+baseurl: "/lamills-demo" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_repo: https://github.com/microsoft/botframework-solutions
+
+# custom properties
+show_full_navigation: true
+
+collections:
+  docs:
+    title: Documentation
+    permalink: /:path/
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: "_docs/tutorials"
+    values:
+      layout: tutorial
+
+# Build settings
+markdown: kramdown
+
+sass:
+  style: :compressed
+  sass_dir: _sass
+  load_paths:
+    - node_modules
+    - node_modules/**/*/node_modules
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-mentions
+  - jekyll-octicons
+  - jekyll-sitemap
+  - jemoji  
