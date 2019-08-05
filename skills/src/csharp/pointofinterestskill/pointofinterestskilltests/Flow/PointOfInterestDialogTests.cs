@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Responses.CancelRoute;
@@ -22,10 +23,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task WhatsNearbyTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -41,10 +42,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task RouteToPointOfInterestByEventTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -60,10 +61,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task RouteToPointOfInterestByIndexTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -79,10 +80,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task RouteToPointOfInterestByNameTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -98,14 +99,14 @@ namespace PointOfInterestSkillTests.Flow
         public async Task CancelRouteSuccessTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
-                .Send(PointOfInterestDialogUtterances.CancelRoute)
+                .Send(CancelRouteUtterances.CancelRoute)
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
@@ -118,10 +119,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task ParkingNearbyTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.FindParkingNearby)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindParkingUtterances.FindParkingNearby)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -137,10 +138,10 @@ namespace PointOfInterestSkillTests.Flow
         public async Task ParkingNearAddressTest()
         {
             await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.FindParkingNearAddress)
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindParkingUtterances.FindParkingNearAddress)
                 .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
