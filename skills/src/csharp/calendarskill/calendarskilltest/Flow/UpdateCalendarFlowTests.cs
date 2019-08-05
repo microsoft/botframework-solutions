@@ -101,8 +101,6 @@ namespace CalendarSkillTest.Flow
             });
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
@@ -117,8 +115,6 @@ namespace CalendarSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
@@ -136,14 +132,6 @@ namespace CalendarSkillTest.Flow
         private string[] AskForNewTimePrompt()
         {
             return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

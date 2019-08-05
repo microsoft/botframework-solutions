@@ -39,8 +39,6 @@ namespace CalendarSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
@@ -54,8 +52,6 @@ namespace CalendarSkillTest.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NoEventResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -68,8 +64,6 @@ namespace CalendarSkillTest.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
@@ -130,8 +124,6 @@ namespace CalendarSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
@@ -144,8 +136,6 @@ namespace CalendarSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
@@ -271,14 +261,6 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
             };
         }
 
