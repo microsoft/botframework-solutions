@@ -186,7 +186,7 @@
       "type": "Container",
       "id": "items",
       "items": [
-      @{lgTemplate('EmailOverviewList', emailOverview.EmailList)}
+      @{EmailOverviewList(emailOverview.EmailList)}
       ]
     },
     {

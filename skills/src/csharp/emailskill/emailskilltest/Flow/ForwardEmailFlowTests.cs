@@ -27,8 +27,6 @@ namespace EmailSkillTest.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -58,8 +56,6 @@ namespace EmailSkillTest.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -89,8 +85,6 @@ namespace EmailSkillTest.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -118,8 +112,6 @@ namespace EmailSkillTest.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -143,8 +135,6 @@ namespace EmailSkillTest.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(EmailNotFoundPrompt())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -247,16 +237,6 @@ namespace EmailSkillTest.Flow
         private string[] CollectEmailContentMessage()
         {
             return ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
     }
 }
