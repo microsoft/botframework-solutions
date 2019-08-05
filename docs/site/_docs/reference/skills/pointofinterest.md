@@ -6,17 +6,18 @@ title: Point Of Interest Skill
 order: 11
 ---
 
-# Point of Interest Skill
+# {{ page.title }}
+{:.no_toc}
 
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
+
+## Overview
 The Point of Interest Skill provides point of interest and navigation related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
-
-## Table of Contents
-
-- [Supported Scenarios](#supported-scenarios)
-- [Language Model](#language-model)
-- [Event Responses](#event-responses)
-- [Configuration](#configuration)
 
 ## Supported Scenarios
 
@@ -126,7 +127,7 @@ The following Parameters are accepted by the Skill and enable additional persona
 - To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
   - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
 
-Read [Handling Events With Your Virtual Assistant](../../virtual-assistant/csharp/events.md) to learn how to manage events within a Skill.
+Read [Handling Events With Your Virtual Assistant]({{site.baseurl}}/reference/virtual-assistant/events) to learn how to manage events within a Skill.
 
 ### Configuration File Information
 
@@ -170,56 +171,25 @@ The following Configuration entries are required to be passed to the Skill and a
 
 ### Image Assets
 
-In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property.
+In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot/images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property.
 If you skip this step, Adaptive Cards will not render with images correctly.
 
-### Deploying the Skill in local-mode
+### Deploying the Skill
 
-The Point of Interest skill is added by default when deploying the Virtual Assistant, however if you want to install as a standalone bot for development/testing following the steps below.
+1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your project.
+2. Run the following command:
 
-Run this PowerShell script from the Point of Interest skill directory to deploy shared resources and LUIS models.
+    ```shell
+    ./Deployment/Scripts/deploy.ps1
+    ```
 
-```
-  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
-```
+    ### What do these parameters mean?
 
-You will be prompted to provide the following parameters:
+    Parameter | Description | Required
+    --------- | ----------- | --------
+    `name` | **Unique** name for your bot. By default this name will be used as the base name for all your Azure Resources and must be unique across Azure so ensure you prefix with something unique and **not** *MyAssistant* | **Yes**
+    `location` | The region for your Azure Resources. By default, this will be the location for all your Azure Resources | **Yes**
+    `appPassword` | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
+    `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
 
-- Name - A name for your bot and resource group. This must be **unique**.
-- Location - The Azure region for your services (e.g. westus)
-- LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
-
-The MSBot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
-
-> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
-
-- Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
-- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
-
-```
-msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
-```
-
-```json
-  {
-    "botFilePath": ".\\YOURBOTFILE.bot",
-    "botFileSecret": "YOUR_BOT_SECRET",
-    "ApplicationInsights": {
-      "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
-    }
-  }
-```
-
-- Finally, add the .bot file paths for each of your language configurations
-
-```json
-"defaultLocale": "en-us",
-  "languageModels": {
-    "en": {
-      "botFilePath": ".\\LocaleConfigurations\\YOUR_EN_BOT_PATH.bot",
-      "botFileSecret": ""
-    }
-    }
-```
-
-Once you have followed the deployment instructions above, open the provided .bot file with the Bot Framework Emulator.
+You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts) page.

@@ -6,13 +6,14 @@ title: Best Practices
 order: 2
 ---
 
-# Skill Best Practices
+# {{ page.title }}
+{:.no_toc}
 
 ## In this reference
+{:.no_toc}
 
-- [Language understanding](#language-understanding)
-- [Conversational design](#conversational-design)
-- [Developing a dialog](#devloping-a-dialog)
+* 
+{:toc}
 
 ## Language understanding
 
@@ -64,7 +65,7 @@ Consider the multiple layers of communication a user may have with a Skill on th
 
 #### Speech & Text
 
-Speech & Text responses are stored in [`Responses.json`](https://github.com/Microsoft/AI/blob/master/templates/Skill-Template/SkillTemplate/Skills/Skill%20Template/Dialogs/Sample/Resources/SampleResponses.json) files, they offer the ability to provide a variety of responses and set the input hint on each Activity.
+Speech & Text responses are stored in .json files, and offer the ability to provide a variety of responses and set the input hint on each Activity.
 
 ```json
 {
@@ -399,12 +400,12 @@ If you need a more complex prmopt you can implement it by inheriting `Microsoft.
 
 ### Enable long running tasks
 
-[Proactive scenarios](../../virtual-assistant/csharp/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
+[Proactive scenarios]({{site.baseurl}}/howto/virtual-assistant/proactivemessaging) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
 This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
 ### Handle and log errors
 
-Use the `HandleDialogExceptions` method in [`SkillDialogBase.cs`](https://github.com/Microsoft/AI/blob/master/templates/Skill-Template/SkillTemplate/Skills/Skill%20Template/Dialogs/Shared/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
+Use the `HandleDialogExceptions` method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
 ```csharp
 protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)

@@ -2,11 +2,11 @@
 category: How To
 subcategory: Skills
 language: csharp javascript
-title: Manually configure OAuth connections
+title: Manually configure OAuth for Productivity Skills
 order: 3
 ---
 
-# Manual Authentication Configuration steps for Productivity Skills in local-mode only
+# {{ page.title }}
 
 If you wish to make use of the Calendar, Email and Task Skills standalone to the Virtual Assistant (local mode) you need to configure an Authentication Connection enabling use of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
@@ -34,7 +34,7 @@ Next you need to create the Authentication Connection for your Bot. Within the A
     - Set Tenant Id to common
     - Set scopes to match the ones provided in the earlier step.
 
-![Manual Auth Connection](\assets\images\manualauthconnection.png)
+![Manual Auth Connection]({{site.baseurl}}/assets/images/manualauthconnection.png)
 
 Finally, open the  `appSettings.config` file for your Skill and update the connection name to match the one provided in the previous step.
 

@@ -6,11 +6,11 @@ title: Skill Authentication
 order: 4
 ---
 
-# Skill Authentication
+# {{ page.title }}
 
 A skill needs to be able to validate the request coming from another bot (Virtual Assistant). It needs to verify that the request comes from a properly registered bot service, and that the request was intended for the skill. To achieve this, we use AAD token mechanism
 
-![Skill Authentication Flow](\assets\images\virtualassistant-skillauthentication.png)
+![Skill Authentication Flow]({{site.baseurl}}/assets/images/virtualassistant-skillauthentication.png)
 
 Between Virtual Assistant and skill bot, we'll use AAD as the authority to generate and validate token. The token will be a JWT token. Virtual Assistant will use these information to request a JWT token:
 	1. Microsoft app id - this will become the source appid claim in the token

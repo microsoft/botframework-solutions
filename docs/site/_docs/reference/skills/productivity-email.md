@@ -6,16 +6,17 @@ title: Email Skill
 order: 9
 ---
 
-# Email Skill (Productivity)
+# {{ page.title }}
+{:.no_toc}
 
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
+## Overview
 The Email Skill provides Email related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
-
-## Table of Contents
-
-- [Supported Scenarios](#supported-scenarios)
-- [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
@@ -68,7 +69,7 @@ The Email Skill require the following dependencies for end to end operation whic
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.
 
 ### Authentication Connection Settings
 
@@ -81,7 +82,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Language Model
 

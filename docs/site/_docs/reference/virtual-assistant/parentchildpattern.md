@@ -6,8 +6,14 @@ title: Virtual Assistant and Skills Pattern
 order: 7
 ---
 
-# Parent-Child pattern of Virtual Assistants and Skills
+# {{ page.title }}
+{:.no_toc}
 
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
 ## Overview
 
 As you develop your Virtual Assistant, you will find that the ability to manage individual domains of a conversation (Skills) and aggregate them into a singular *parent* Assistant becomes attractive for a number of reasons:
@@ -30,7 +36,7 @@ Adopting a Parent-Child pattern enables you to address the above issues and prov
 
 In the Enterprise Assistant example shown below, an enterprise customer establishes their global Assistant's brand and personality that  all end users interact with across a broad range of [Bot Framework Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
 
-![Enterprise Assistant Example](/docs/media/parentchildpattern-enterpriseassistant.png)
+![Enterprise Assistant Example]({{site.baseurl}}/assets/images/parentchildpattern-enterpriseassistant.png)
 
 The Enterprise Assistant itself provides basic conversational capabilities and QnA and surfaces capabilities from separate HR and IT Bots align with integrating a Calendar Skill capability. Due to the nature of handing over control to skills it's important to ensure that the user can interrupt conversation with a Skill to *escape*. For example saying `cancel` would enable the user to stop an interaction with a Skill and go back to interacting with the parent-level assistant. A user may also wish to seek help or escalate to a human.
 
@@ -62,7 +68,7 @@ Bot Framework Skills are a new capability enabling Parent-Child / Assistant type
 
 The main change, is to add a different invocation approach enabling an Assistant to invoke a Skill directly (via WebSockets) and not have to go via the usual Bot Framework channel infrastructure. We provide a [Dispatcher](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=cs) capability which is wired up as part of the Virtual Assistant which takes in training data from LUIS models and QnAMaker to enable effective routing, other dispatching sources can be added through flat-file import.
 
-The [Skill Architecture](/docs/reference/skills/architecture.md) documentation covers the role of the Dispatcher and SkillDialog in more detail.
+The [Skill Architecture]({{site.baseurl}}/reference/skills/architecture) documentation covers the role of the Dispatcher and SkillDialog in more detail.
 
 A Skill Template is provided to enable developers to quickly create Skills and existing V4 BF SDK bots can be easily updated to enable them to be called as Skills.
 

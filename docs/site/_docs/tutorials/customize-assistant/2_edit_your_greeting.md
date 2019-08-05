@@ -6,6 +6,7 @@ title: Edit your greeting
 order: 2
 ---
 
+# Tutorial: Customize a Virtual Assistant
 
 ## Edit your greeting
 
@@ -84,7 +85,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
 3. Press **F5** to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
 
 <p align="center">
-<img src="\assets\images\quickstart-virtualassistant-customizedgreeting.png" width="600">
+<img src="{{site.baseurl}}/assets/images/quickstart-virtualassistant-customizedgreeting.png" width="600">
 </p>
 
 To further customize the card, paste the card into the [Adaptive Cards Designer](https://adaptivecards.io/designer/) to better match your content.

@@ -1,12 +1,19 @@
-﻿---
+---
 category: Reference
 subcategory: Analytics
 language: csharp javascript
 title: Telemetry Logging
-order: 1
+order: 3
 ---
 
-# Telemetry Logging
+# {{ page.title }}
+{:.no_toc}
+
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
 
 ## Telemetry Client
 
@@ -71,7 +78,7 @@ const appInsightsClient = new ApplicationInsightsTelemetryClient(botConfig);
 
 If you want to customize your Application Insights client, or you want to log into a completely separate service, you have to configure the system differently.
 
-#### *Modify Application Insights Configuration
+#### Modify Application Insights Configuration
 
 > ASP.Net Core
 

@@ -5,8 +5,7 @@ title: Skills
 order: 2
 ---
 
-# Bot Framework Skills
-
+# {{ page.title }}
 Bot Framework Skills are re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customize and extend as required. At this time we provide Calendar, Email, ToDo, Point of Interest skills and a number of other experimental skills.
 
 A Skill is like a standard conversational bot but with the ability to be plugged in to a broader solution. This can be a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple bots within an organization.
@@ -19,9 +18,9 @@ Apart from some minor differences that enable this special invocation pattern, a
 
 The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
 
-- [Productivity - Calendar](\reference\skills\productivity-calendar)
-- [Productivity - Email](\reference\skills\productivity-email)
-- [Productivity - To Do](\reference\skills\productivity-todo)
-- [Point of Interest](\reference\skills\pointofinterest)
-- [Automotive](\reference\skills\automotive)
-- [Experimental Skills](\reference\skills\experimental)
+- [Productivity - Calendar]({{site.baseurl}}/reference/skills/productivity-calendar)
+- [Productivity - Email]({{site.baseurl}}/reference/skills/productivity-email)
+- [Productivity - To Do]({{site.baseurl}}/reference/skills/productivity-todo)
+- [Point of Interest]({{site.baseurl}}/reference/skills/pointofinterest)
+- [Automotive]({{site.baseurl}}/reference/skills/automotive)
+- [Experimental Skills]({{site.baseurl}}/reference/skills/experimental)

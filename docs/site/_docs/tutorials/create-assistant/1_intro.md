@@ -7,7 +7,8 @@ title: Intro
 order: 1
 ---
 
-## Tutorial: Create a Virtual Assistant
+# Tutorial: Create a Virtual Assistant
+## Intro
 
 ### Purpose
 Install Bot Framework development prerequisites and create your first Virtual Assistant.

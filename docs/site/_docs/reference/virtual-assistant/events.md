@@ -6,14 +6,14 @@ title: Events
 order: 6
 ---
 
-# Handle client events with a Virtual Assistant
+# {{ page.title }}
+{:.no_toc}
 
 ## In this reference
-- [Intro](#intro)
-- [Inbound Events](#inbound-events)
-- [Outbound Events](#outbound-events)
-- [Event Debug Middleware](#event-debug-middleware)
-- [Event Prompt](#event-prompt)
+{:.no_toc}
+
+* 
+{:toc}
 
 ## Intro
 

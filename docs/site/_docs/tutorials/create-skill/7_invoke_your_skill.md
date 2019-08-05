@@ -6,6 +6,8 @@ title: Invoke your skill
 order: 7
 ---
 
+# Tutorial: Create a Skill
+
 ## Testing your Skill
 
 Test your skill works in your Bot through the emulator by typing "sample dialog"

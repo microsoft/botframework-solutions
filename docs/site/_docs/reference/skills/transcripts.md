@@ -6,19 +6,19 @@ title: Transcripts
 order: 13
 ---
 
-# Transcripts
+# {{ page.title }}
 Review a sample conversational flow of each skill by downloading a transcript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 
-#### Automotive Skill: [Download](\assets\transcripts\skills-automotive.transcript)
+#### Automotive Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-automotive.transcript)
 
-#### Calendar Skill: [Download](\assets\transcripts\skills-calendar.transcript)
+#### Calendar Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-calendar.transcript)
 
-#### Email Skill: [Download](\assets\transcripts\skills-email.transcript)
+#### Email Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-email.transcript)
 
-#### To Do Skill: [Download](\assets\transcripts\skills-todo.transcript)
+#### To Do Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-todo.transcript)
 
-#### Point of Interest Skill: [Download](\assets\transcripts\skills-pointofinterest.transcript)
+#### Point of Interest Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-pointofinterest.transcript)
 
-#### News Skill: [Download](\assets\transcripts\skills-news.transcript)
+#### News Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-news.transcript)
 
-#### Reservation Skill: [Download](\assets\transcripts\skills-restaurantbooking.transcript)
+#### Reservation Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript)

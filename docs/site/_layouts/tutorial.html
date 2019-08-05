@@ -3,33 +3,33 @@ layout: default
 ---
 
 <div>
-        {{ content }}
+    {{ content }}
 
-        {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory  %}
-        {% for doc in docs %}
+    {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory  %}
+    {% for doc in docs %}
         {% assign nextOrder = page.order | plus: 1 %}
         {% if doc.order == nextOrder %}
-        {% assign next = doc %}
+            {% assign next = doc %}
         {% endif %}
         
         {% assign prevOrder = page.order | minus: 1 %}
         {% if doc.order == prevOrder %}
-        {% assign previous = doc %}
+            {% assign previous = doc %}
         {% endif %}
-        {% endfor %}
-        
-        <div class="d-flex border-bottom border-gray-light mt-6 mb-3 py-3 text-gray-light">
-            <div class="col-6">
-                {% if previous %}
-                {% octicon chevron-left class:"v-align-text-bottom" %}
-                <a href="{{ previous.url }}">{{ previous.title }}</a>
-                {% endif %}
-            </div>
-            <div class="col-6 text-right">
-                {% if next %}
-                <a href="{{ next.url }}">{{ next.title }}</a>
-                {% octicon chevron-right class:"v-align-text-bottom" %}
-                {% endif %}
-            </div>
+    {% endfor %}
+    
+    <div class="d-flex border-bottom border-gray-light mt-6 mb-3 py-3 text-gray-light">
+        <div class="col-6">
+            {% if previous %}
+            {% octicon chevron-left class:"v-align-text-bottom" %}
+            <a href="{{ site.baseurl }}{{ previous.url }}">{{ previous.title }}</a>
+            {% endif %}
         </div>
+        <div class="col-6 text-right">
+            {% if next %}
+            <a href="{{ site.baseurl }}{{ next.url }}">{{ next.title }}</a>
+            {% octicon chevron-right class:"v-align-text-bottom" %}
+            {% endif %}
+        </div>
+    </div>
 </div>

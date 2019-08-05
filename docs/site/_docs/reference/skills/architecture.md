@@ -6,14 +6,14 @@ title: Architecture
 order: 1
 ---
 
-# Skill Architecture
+# {{ page.title }}
+{:.no_toc}
 
 ## In this reference
-- [Intro](#intro)
-- [Invocation flow](#invcation-flow)
-- [SkillDialog](#skilldialog)
-- [Skill Middleware](#skill-middleware)
-- [Interrupting active Skills](#interrupting-active-skills)
+{:.no_toc}
+
+* 
+{:toc}
 
 ## Intro
 
@@ -27,13 +27,14 @@ A key design goal for Skills was to maintain the consistent Activity protocol an
 
 ## Invocation Flow
 
-![Skill Invocation Flow](\assets\images\virtualassistant-SkillFlow.png)
+![Skill Invocation Flow]({{site.baseurl}}/assets/images/virtualassistant-SkillFlow.png)
 
 ### Dispatcher
+{:.no_toc}
 
-The [Dispatcher](/docs/reference/assistant/dispatcher.md) plays a central role to enabling a Bot to understand how to best process a given utterance. The Dispatch through use of the [Skill CLI](/docs/reference/assistant/skillcli.md) is updated with triggering utterances for a given Skill and a new Dispatch intent is created for a given Skill. An example of a Dispatch model with a point of interest skill having been added is shown below.
+The Dispatcher plays a central role to enabling a Bot to understand how to best process a given utterance. The Dispatch through use of the [Skill CLI]({{site.baseurl}}/reference/botskills) is updated with triggering utterances for a given Skill and a new Dispatch intent is created for a given Skill. An example of a Dispatch model with a point of interest skill having been added is shown below.
 
-![Dispatch with Skill Example](\assets\images\skillarchitecturedispatchexample.png)
+![Dispatch with Skill Example]({{site.baseurl}}/assets/images/skillarchitecturedispatchexample.png)
 
 When the user of a Virtual Assistant asks a question, the Dispatcher will process the utterance and as appropriate identify a skill intent as being the most appropriate way to process the utterance.
 
@@ -80,7 +81,7 @@ This dialog remains active on the Virtual Assistant's `DialogStack`, ensuring th
 
 When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the Virtual Assistant.
 
-See the [SkillAuthentication](/docs/reference/assistant/skillauthentication.md) section for information on how Bot->Skill invocation is secured.
+See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthentication) section for information on how Bot->Skill invocation is secured.
 
 ## Skill Middleware
 

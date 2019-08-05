@@ -1,14 +1,22 @@
-﻿---
+---
 category: Reference
 subcategory: Analytics
 language: csharp javascript
 title: Power BI
-order: 1
+order: 3
 ---
 
-# Power BI
+# {{ page.title }}
+{:.no_toc}
 
-The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) provides a PowerBI template that can be used to understand how your bot is performing.
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
+
+## Intro
+The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) provides a Power BI template that can be used to understand how your bot is performing.
 
 ## Sample Overview
 
@@ -37,7 +45,7 @@ You will need to replace `<app-insights-application-id>` with your Application I
 3. Select **API Access**.
 4. Copy the Application ID.
 
-![AppInsightsApplicationID](\assets\images\appinsightsapplicationid.png)
+![AppInsightsApplicationID]({{site.baseurl}}/assets/images/appinsightsapplicationid.png)
 
 ```
 let AnalyticsQuery =
@@ -100,44 +108,44 @@ in
 
 ### Overall Usage
 
-![Example Report](\assets\images\powerbi-conversationanalytics-overall.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-overall.png)
 
 ### All Dialogs Overview
 
-![Example Report](\assets\images\powerbi-conversationanalytics-alldialogsoverview.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-alldialogsoverview.png)
 
 ### Dialog Overview
 
-![Example Report](\assets\images\powerbi-conversationanalytics-dialogoverview.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-dialogoverview.png)
 
 ### LUIS Intents
 
-![Example Report](\assets\images\powerbi-conversationanalytics-luisintents.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-luisintents.png)
 
 ### All Conversations Metrics
 
-![Example Report](\assets\images\powerbi-conversationanalytics-allconversationsmetrics.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-allconversationsmetrics.png)
 
 ### Conversations Drill Down
 
-![Example Report](\assets\images\powerbi-conversationanalytics-conversationsdrilldown.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-conversationsdrilldown.png)
 
 ### Transcript
 
-![Example Report](\assets\images\powerbi-conversationanalytics-transcript.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-transcript.png)
 
 ### Demographics
 
-![Example Report](\assets\images\powerbi-conversationanalytics-demographics.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-demographics.png)
 
 ### Word Cloud
 
-![Example Report](\assets\images\powerbi-conversationanalytics-wordcloud.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-wordcloud.png)
 
 ### Sentiment
 
-![Example Report](\assets\images\powerbi-conversationanalytics-sentimentanalysis.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-sentimentanalysis.png)
 
 ### QnA Maker Insights
 
-![Example Report](\assets\images\powerbi-conversationanalytics-qnamakerinsights.png)
+![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-qnamakerinsights.png)

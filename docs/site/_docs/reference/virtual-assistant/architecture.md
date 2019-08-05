@@ -6,22 +6,19 @@ title: Architecture
 order: 1
 ---
 
-# Virtual Assistant architecture
+# {{ page.title }}
+{:.no_toc}
 
 ## In this reference
-- [Intro](#intro)
-- [Client Integration](#client-integration)
-- [Assistant Middleware](#assistant-middleware)
-- [Advanced Conversational Analytics](#advanced-conversational-analytics)
-- [Dialogs](#dialogs)
-- [Authentication](#authentication)
-- [Linked Accounts](#linked-accounts)
-- [Edge Enablement](#edge-enablement)
+{:.no_toc}
+
+* 
+{:toc}
 
 ## Intro
 An architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
 
-![Virtual Assistant Architecture](\assets\images\virtualassistant-architecture.jpg)
+![Virtual Assistant Architecture]({{site.baseurl}}/assets/images/virtualassistant-architecture.jpg)
 
 ## Client Integration
 
@@ -60,7 +57,7 @@ The Assistant and associated Skills often need access to end-user authentication
 
 Authentication connections are created on the Azure Bot Service and the Assistant makes use of these to initiate an authentication request (generating an OAuth signin card) or retrieve a token from the Azure Bot Service provided secure token store.
 
-Skills can request Authentication tokens for a given user when they are activated, this request is passed as an event to the Assistant which then uses the specific Authentication connection to surface an authentication request to the user if a token isn't found in the secure store. More detail on this is available [here](/docs/reference/skills/skilltokenflow.md)
+Skills can request Authentication tokens for a given user when they are activated, this request is passed as an event to the Assistant which then uses the specific Authentication connection to surface an authentication request to the user if a token isn't found in the secure store. More detail on this is available [here]({{site.baseurl}}/reference/skills/skilltokenflow)
 
 ## Linked Accounts
 

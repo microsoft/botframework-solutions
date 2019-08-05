@@ -6,6 +6,8 @@ title: Create a Microsoft Speech instance
 order: 2
 ---
 
+# Tutorial: Enable Speech for your Assistant
+
 ## Create a Microsoft Speech nstance
 
 The first step is to create a Microsoft Speech instance to perform the Speech-To-Text and Text-To-Speech capabilities for your assistant.

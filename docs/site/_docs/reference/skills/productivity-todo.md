@@ -6,8 +6,16 @@ title: To Do Skill
 order: 10
 ---
 
-# To Do Skill (Productivity)
+# {{ page.title }}
+{:.no_toc}
 
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
+
+## Overview
 The ToDo Skill provides ToDo related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
@@ -48,7 +56,7 @@ The ToDo Skill require the following dependencies for end to end operation which
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.
 
 ### Authentication Connection Settings
 
@@ -59,7 +67,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Language Model
 
@@ -111,14 +119,14 @@ If you want to add your customized list types, for example, your homework list o
   ]
 ```
 
-2.Add your list type name and its synonym in `Responses\Shared\ToDoString.resx`
+2.Add your list type name and its synonym in `Responses/Shared/ToDoString.resx`
 
 Name | Value |
 ---- | ----- |
 Homework | Homework |
 HomeworkSynonym | homework, home work |
 
-3.Modify your LUIS file. Modify `Deployment\Resources\LU\en\todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
+3.Modify your LUIS file. Modify `Deployment/Resources/LU/en/todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
 
 ```diff
 ## AddToDo
@@ -126,14 +134,14 @@ HomeworkSynonym | homework, home work |
 + - add {TaskContent=Math} to my {ListType=homework}
 ```
 
-(Optional) If you want to surport multi languages, please modify corresponding `.resx` files and `.lu` files, such as `Deployment\Resources\LU\zh\todo.lu`.
+(Optional) If you want to surport multi languages, please modify corresponding `.resx` files and `.lu` files, such as `Deployment/Resources/LU/zh/todo.lu`.
 
 ```diff
 ## AddToDo
 + - 在{ListType=作业}列表里加上{TaskContent=数学}
 ```
 
-(Optional) After you add new list type, you can modify prompts as needed to make your conversation more friendly. For example, you can modify `Responses\Main\ToDoMainResponses.json`:
+(Optional) After you add new list type, you can modify prompts as needed to make your conversation more friendly. For example, you can modify `Responses/Main/ToDoMainResponses.json`:
 
 ```diff
 "ToDoWelcomeMessage": {

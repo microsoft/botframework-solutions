@@ -6,6 +6,8 @@ title: Add your skill to a Virtual Assistant
 order: 6
 ---
 
+# Tutorial: Create a Skill
+
 ## Validate the Skill manifest endpoint
 
 - To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`
@@ -17,7 +19,7 @@ To add your new Skill to your assistant/Bot we provide a `botskills` command lin
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU\en\" --cs
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>/Deployment/Resources/LU/en/" --cs
 ```
 
-See the [Adding Skills](/docs/howto/skills/addingskills.md) for more detail on how to add skills.
+See the [Adding Skills]({{site.baseurl}}/howto/skills/addingskills) for more detail on how to add skills.

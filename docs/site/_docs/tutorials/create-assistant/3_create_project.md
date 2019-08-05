@@ -6,6 +6,8 @@ title: Create your assistant
 order: 3
 ---
 
+# Tutorial: Create a Virtual Assistant
+
 ## Create your Virtual Assistant project
 
 1. In Visual Studio, replace **File > New Project**.

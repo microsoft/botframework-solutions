@@ -6,7 +6,9 @@ title: Intro
 order: 1
 ---
 
-## Tutorial: Customize a Virtual Assistant
+# Tutorial: Customize a Virtual Assistant
+
+## Intro
 
 ### Purpose
 
@@ -14,7 +16,7 @@ Learn how to navigate your assistant's project and make common customizations.
 
 ### Prerequisites
 
-[Create a Virtual Assistant](./virtualassistant.md) to setup your environment.
+[Create a Virtual Assistant]({{site.baseurl}}/tutorials/create-assistant/1_intro) to setup your environment.
 
 ### Time to Complete
 

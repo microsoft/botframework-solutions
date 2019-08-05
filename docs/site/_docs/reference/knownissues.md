@@ -5,7 +5,14 @@ title: Known Issues
 order: 2
 ---
 
-# Known Issues
+# {{ page.title }}
+{:.no_toc}
+
+## Contents
+{:.no_toc}
+
+* 
+{:toc}
 
 ## The Teams channel doesn't render OAuth cards.
 
@@ -42,9 +49,9 @@ var result = await dc.BeginDialogAsync(identifiedSkill.Id);
 ```
 Ensure you have also updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages .
 
-## QnAMaker can't be entirely deployed in a region other than westus.
+## QnA Maker can't be entirely deployed in a region other than westus.
 
-QnAMaker has a central Cognitive Service resource that must be deployed in `westus`, the dependent Web App, Azure Search and AppInsights resources can be installed in a broader range of regions. We have therefore fixed this QnAMaker resource to be `westus` in the ARM template (template.json) which can be found in the `deployment\resources` folder of your Virtual Assistant. When deploying in a region such as westeurope all dependent resources will be created in the requested region. This script will be updated as new regions are available.
+QnAMaker has a central Cognitive Service resource that must be deployed in `westus`, the dependent Web App, Azure Search and AppInsights resources can be installed in a broader range of regions. We have therefore fixed this QnAMaker resource to be `westus` in the ARM template (template.json) which can be found in the `deployment/resources` folder of your Virtual Assistant. When deploying in a region such as westeurope all dependent resources will be created in the requested region. This script will be updated as new regions are available.
 
 ## Telemetry Gaps / FlowAggregate errors in the PowerBI Template
 
@@ -58,9 +65,9 @@ If you try to use the PowerBI analytics dashboard with your Virtual Assistant / 
   }
 ```
 
-2. Update your `BotServices.cs` file with the changes [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
+2. Update your `BotServices.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
 
-3. Update your `Startup.cs` file with the changes [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
+3. Update your `Startup.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
 
 4. Existing data in your Application Insights may cause the error to persist. You can either drop and re-create your Application insights resource updating the appSettings.config file with the new Instrumentation key or follow these [purge instructions](https://docs.microsoft.com/en-us/rest/api/application-insights/components/purge).
 
@@ -71,11 +78,11 @@ Due to a limitation with the LUIS authoring APIs the original deployment scripts
 
 This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-This has now been resolved in the latest deployment scripts which you can update to following [these instructions](https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/updatedeploymentscripts.md). If you have an existing deployment you'll have to manually perform the following steps:
+This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
 
 1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 
-![Assign Resource](/docs/media/luis-assignresource.png)
+![Assign Resource]({{site.baseurl}}/assets/images/luis-assignresource.png)
 
 2. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
 
@@ -124,7 +131,7 @@ There is a known issue in the `Botskills` CLI tool during the command's executio
 
 Example of the `connect` command with a trailing backslash in the `luisFolder` argument:
 ``` bash
-botskills connect --botName "<YOUR_VA_NAME>" --localManifest "<YOUR_LOCAL_MANIFEST_FILE>" --luisFolder "<YOUR_LUIS_FOLDER_PATH>\" --ts
+botskills connect --botName "<YOUR_VA_NAME>" --localManifest "<YOUR_LOCAL_MANIFEST_FILE>" --luisFolder "<YOUR_LUIS_FOLDER_PATH>/" --ts
 ```
 
 So, to avoid this, it's highly recommended to use `PowerShell 6` to execute the CLI tool commands. Also, you can remove the trailing backslash of the argument.

@@ -6,12 +6,13 @@ title: Edit your cognitive models
 order: 4
 ---
 
+# Tutorial: Customize a Virtual Assistant
 
 ## Add an additional knowledgebase
 
 You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledge base to your assistant, this can be performed through the following steps.
 
-1. Create your new knowledge base using the QnAMaker portal. You can alternatively create this from a new `.lu` file by adding that file to the corresponding resource folder. For example, if you are using an English resource, you should place it in the `deployment\resources\QnA\en` folder. To understand how to create a knowledge base from a `.lu` file using the `ludown` and `qnamaker` CLI tools please refer to [this blog post](https://blog.botframework.com/2018/06/20/qnamaker-with-the-new-botbuilder-tools-for-local-development/) for more information.
+1. Create your new knowledge base using the QnAMaker portal. You can alternatively create this from a new `.lu` file by adding that file to the corresponding resource folder. For example, if you are using an English resource, you should place it in the `deployment/resources/QnA/en` folder. To understand how to create a knowledge base from a `.lu` file using the `ludown` and `qnamaker` CLI tools please refer to [this blog post](https://blog.botframework.com/2018/06/20/qnamaker-with-the-new-botbuilder-tools-for-local-development/) for more information.
 
 3. Update the `cognitiveModels.json` file in the root of your project with a new entry for your newly created QnAMaker knowledgebase, an example is shown below:
 
@@ -33,10 +34,10 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
     Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
 
     ```shell
-        .\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal
+        ./Deployment/Scripts/update_cognitive_models.ps1 -RemoteToLocal
     ```
 
-5. Update the `Dialogs\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided.
+5. Update the `Dialogs/MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided.
 
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
@@ -47,5 +48,5 @@ As you build out your assistant you will likely update the LUIS models and QnAMa
 Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
 
     ```shell
-        .\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal
+        ./Deployment/Scripts/update_cognitive_models.ps1 -RemoteToLocal
     ```

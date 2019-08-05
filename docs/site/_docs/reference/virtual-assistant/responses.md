@@ -6,15 +6,14 @@ title: Responses
 order: 5
 ---
 
-# Virtual Assistant Responses
+# {{ page.title }}
+{:.no_toc}
 
 ## In this reference
-- [Intro](#intro)
-- [Activity schema](#activity-schema)
-- [Messages and Events](#messages-and-events)
-- [Adaptive Cards](#adaptive-cards)
-- [Input Hints](#input-hints)
+{:.no_toc}
 
+* 
+{:toc}
 ## Intro
 
 Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas. Through use of the Bot Framework Activity schema, both `Text` and `Speak` variations of a response are returned enabling the device to make the most appropriate choice.
@@ -23,11 +22,11 @@ The same Activity schema supports the attachment of User Experience elements thr
 
 ## Activity schema
 
-The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](../README.md#virtual-assistant-bot).
+The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events]({{site.baseurl}}/reference/virtual-assistant/events).
 
 ## Messages and Events
 
-Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events](../README.md) section.
+Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events]({{site.baseurl}}/reference/virtual-assistant/events) section.
 
 ## Adaptive Cards
 
@@ -35,7 +34,7 @@ Messages are a specific Type of Activity set through the `ActivityType` property
 
 ## Input Hints
 
-Speech scenarios require indication from the Virtual Assistant whether further input is required so the client or device can automatically open the microphone. The `inputHint` field on the [Activity](https://github.com/Microsoft/BotBuilder/blob/hub/specs/botframework-activity/botframework-activity.md) provides the mechanism to enable this.
+Speech scenarios require indication from the Virtual Assistant whether further input is required so the client or device can automatically open the microphone. The `inputHint` field on the [Activity](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) provides the mechanism to enable this.
 
 There are three types of Input Hint to consider within your client application.
 

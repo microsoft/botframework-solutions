@@ -2,25 +2,22 @@
 category: How To
 subcategory: Skills
 language: csharp javascript
-title: Convert an existing bot to a skill
+title: Convert an existing v4 bot to a skill
 order: 3
 ---
 
-# Migrate an existing v4 bot to a Bot Framework Skill (C#)
-
-**APPLIES TO:** ✅ SDK v4
+# {{ page.title }}
+{:.no_toc}
 
 ## In this how-to
+{:.no_toc}
 
-- [Intro](#intro)
-- [Update your bot to use Bot Framework Solutions libraries](#update-your-bot-to-use-bot-framework-solutions-libraries)
-- [Add a Skill manifest](#add-a-skill-manifest)
+* 
+{:toc}
 
-## Intro
+## Overview
 
-### Overview
-
-Creating a [Bot Framework Skill](../../../overview/skills.md) through the [Skill template](/docs/tutorials/csharp/skill.md#create-your-skill) is the easiest way to get started with creating a new Skill. If you have an existing v4 based Bot, we  recommended you take the resulting project from this template and copy over across your custom dialogs to get started quickly.
+Creating a [Bot Framework Skill]({{site.baseurl}}/overview/skills) through the [Skill template]({{site.baseurl}}/tutorials/create-skill/1_intro) is the easiest way to get started with creating a new Skill. If you have an existing v4 based Bot, we  recommended you take the resulting project from this template and copy over across your custom dialogs to get started quickly.
 
 If you want to manually update your existing bot into a Bot Framework Skill, you can continue below.
 

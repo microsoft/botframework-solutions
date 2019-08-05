@@ -6,11 +6,14 @@ title: Skill Manifest
 order: 3
 ---
 
-# Skill Manifest
+# {{ page.title }}
+{:.no_toc}
 
-In this reference
-- [Intro](#intro)
-- [Manifest structure](#manifest-structure)
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
 
 ## Intro
 
@@ -85,8 +88,8 @@ The `actions` section describes the discrete actions (features) that a given Ski
 Parameter  | Description | Required
  ---------  | ----------- | --------
  id                     | Identifier for the action. No spaces or special characters | **Yes**
- definition\description | Description of what the action provides | **Yes**
- definition\slots       | A name/types collection of each slot | **Yes**
+ definition/description | Description of what the action provides | **Yes**
+ definition/slots       | A name/types collection of each slot | **Yes**
 
 ```json
 "actions": [

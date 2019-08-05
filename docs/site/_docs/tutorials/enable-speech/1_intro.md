@@ -6,17 +6,7 @@ title: Intro
 order: 1
 ---
 
-# Speech enabling your Assistant
-
-**APPLIES TO:** ✅ SDK v4
-
-## In this tutorial
-- [Intro](#intro)
-- [Create a Microsoft Speech instance](#Create-a-Microsoft-Speech-instance)
-- [Add the Speech Channel to your Assistant](#Add-the-Speech-Channel-to-your-Assistantl)
-- [Integrating with the Speech Channel](#Integrating-with-the-Speech-Channel)
-- [Testing Speech Interactions](#Testing-Speech-Interactions)
-- [Next Steps](#Next-Steps)
+# Tutorial: Enable Speech for your Assistant
 
 ## Intro
 
@@ -28,11 +18,11 @@ This tutorial covers the steps required to connect the [Direct Line Speech chann
 
 ### Prerequisites
 
-- [Create a Virtual Assistant](/docs/tutorials/csharp/virtualassistant.md) to setup your environment.
+- [Create a Virtual Assistant]({{site.baseurl}}/tutorials/create-assistant/1_intro) to setup your environment.
 
 - Make sure the `Universal Windows Platform development` workload is available on your machine. Choose **Tools > Get Tools** and Features from the Visual Studio menu bar to open the Visual Studio installer. If this workload is already enabled, close the dialog box.
 
-    ![UWP Enablement](/docs/media/vs-enable-uwp-workload.png)
+    ![UWP Enablement]({{site.baseurl}}/assets/images/vs-enable-uwp-workload.png)
 
     Otherwise, select the box next to .NET cross-platform development, and select Modify at the lower right corner of the dialog box. Installation of the new feature takes a moment.
 

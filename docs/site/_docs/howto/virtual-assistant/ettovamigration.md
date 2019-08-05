@@ -6,16 +6,14 @@ title: Convert from Enterprise Template to Virtual Assistant Template
 order: 6
 ---
 
-# Migrate an Enterprise Template based bot to the Virtual Assistant Template
-
-**APPLIES TO:** ✅ SDK v4
+# {{ page.title }}
+{:.no_toc}
 
 ## In this how-to
+{:.no_toc}
 
-- [What happened to the Enterprise Template?](#what-happened)
-- [Key changes to the template](#key-changes)
-- [How to migrate to the Virtual Assistant Template](#how-to-migrate)
-- [Extend your assistant with Skills](#extend-your-assistant)
+* 
+{:toc}
 
 ## What happened to the Enterprise Template?
 
@@ -23,7 +21,7 @@ The Enterprise Template, released last year, brought together the required capab
 
 Thanks to strong feedback from our customers, we are bringing the two approaches together. These complex, assistant-like conversational experiences are proving critical to digital transformation and customer/employee engagement.
 
-The Enterprise Template is now the [Virtual Assistant Template](https://aka.ms/convaivatemplate) and introduces the following capabilities:
+The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}/overview/virtualassistant) and introduces the following capabilities:
 
 - C# template simplified and aligned to ASP.NET MVC pattern with dependency injection
 - Typescript generator
@@ -86,11 +84,11 @@ With these limitations addressed we have now moved to a ARM template based appro
 
 ### Create a new project
 
-[Create a new project](../../../tutorials/csharp/virtualassistant.md) using the Virtual Assistant Template.
+[Create a new project]({{site.baseurl}}/tutorials/create-assistant/3_create_project) using the Virtual Assistant Template.
 
 ### Deployment
 
-It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach](../../../tutorials/assistantandskilldeploymentsteps.md) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
+It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
 
 Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new `appSettings.json` and `cognitiveModels.json` files.
 
@@ -155,4 +153,4 @@ Copy any LuisGen-generated classes into the `Services` directory.
 
 ## Extend your assistant with Skills
 
-If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills](./oldvatovamigration.md). 
+If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills]({{site.baseurl}}/howto/skills/addingskills). 

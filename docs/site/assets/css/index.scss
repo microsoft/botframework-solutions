@@ -76,9 +76,6 @@ body {
   padding-bottom: 20px;
 }
 
-.card {
-  height: 100px;
-  padding: 20px 10px 10px 10px;
-  width: 150px;
-  text-align: center;
+.card-group .card {
+  max-width: calc(25%);
 }

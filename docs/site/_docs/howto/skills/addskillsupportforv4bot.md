@@ -2,25 +2,20 @@
 category: How To
 subcategory: Skills
 language: csharp javascript
-title: Add skills to an existing bot
+title: Enable skills on an existing v4 bot
 order: 2
 ---
 
-# Enable Bot Framework Skills on an existing v4 bot (C#)
-
-**APPLIES TO:** ✅ SDK v4
+# {{ page.title }}
+{:.no_toc}
 
 ## In this how-to
+{:.no_toc}
 
-- [Intro](#intro)
-- [Update your bot to use Bot Framework Solutions libraries](#update-your-bot-to-use-bot-framework-solutions-libraries)
-- [Skill configuration](#skill-configuration)
-- [Skill Dialog registration](#skill-dialog-registration)
-- [Route utterances to Skills](#route-utterances-to-skills)
+* 
+{:toc}
 
-## Intro
-
-### Overview
+## Overview
 
 Creating a Bot Framework Bot through the Virtual Assistant template is the easiest way to get started with using Skills. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
 
