@@ -7,9 +7,10 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card_user_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/holo_blue_bright"
+        app:cardBackgroundColor="@color/color_chat_background_user"
         android:layout_alignParentRight="true">
 
         <LinearLayout
@@ -19,24 +20,17 @@
             android:padding="8dp"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <!-- Message -->
+            <TextView
+                style="@style/ChatUserStyle"
+                android:id="@+id/tv_chat"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:padding="8dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:background="@drawable/shape_rect_round_corners_light_gray">
-
-                <!-- Message -->
-                <TextView
-                    style="@style/ChatBotStyle"
-                    android:id="@+id/tv_chat"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    tools:text="placeholder text ..."/>
-
-            </FrameLayout>
+                tools:text="placeholder text ..."/>
 
         </LinearLayout>
 

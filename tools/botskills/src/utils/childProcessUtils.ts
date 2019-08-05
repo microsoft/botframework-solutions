@@ -5,6 +5,7 @@
 
 import * as child_process from 'child_process';
 import { join } from 'path';
+import { isAzPreviewMessage } from './';
 
 export class ChildProcessUtils {
 
@@ -14,20 +15,6 @@ export class ChildProcessUtils {
         // tslint:disable-next-line: typedef
         return new Promise((pResolve, pReject) => {
             child_process.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
-                .on('close', (code: number) => {
-                    pResolve('');
-                })
-                .on('error', (err: Error) => {
-                    pReject(err);
-                });
-        });
-    }
-
-    public async spawn(command: string, args: string[]): Promise<string> {
-
-        // tslint:disable-next-line: typedef
-        return new Promise((pResolve, pReject) => {
-            child_process.spawn(command, args, { stdio: 'inherit', env: process.env, argv0: command, cwd: join(__dirname, '..') })
                 .on('close', (code: number) => {
                     pResolve('');
                 })
@@ -62,14 +49,13 @@ export class ChildProcessUtils {
                 child_process.exec(
                     `${command.join(' ')}`,
                     (err: child_process.ExecException | null, stdout: string, stderr: string) => {
-                        if (stderr) {
+                        if (stderr && !isAzPreviewMessage(stderr)) {
                             pReject(stderr);
                         }
                         pResolve(stdout);
                 });
             } catch (err) {
-
-                return err;
+                pReject(err);
             }
         });
     }

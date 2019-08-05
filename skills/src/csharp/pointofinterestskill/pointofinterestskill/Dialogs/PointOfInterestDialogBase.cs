@@ -87,6 +87,15 @@ namespace PointOfInterestSkill.Dialogs
 
         protected ResponseManager ResponseManager { get; set; }
 
+        public static Activity CreateOpenDefaultAppReply(Activity activity, PointOfInterestModel destination)
+        {
+            var replyEvent = activity.CreateReply();
+            replyEvent.Type = ActivityTypes.Event;
+            replyEvent.Name = "OpenDefaultApp";
+            replyEvent.Value = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}";
+            return replyEvent;
+        }
+
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
@@ -626,7 +635,7 @@ namespace PointOfInterestSkill.Dialogs
 
             if (routes != null)
             {
-                state.FoundRoutes = routes.ToList();
+                state.FoundRoutes = routes.Select(route => route.Summary).ToList();
 
                 var destination = state.Destination;
 

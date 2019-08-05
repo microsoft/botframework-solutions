@@ -7,28 +7,36 @@ const { strictEqual } = require("assert");
 const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const testLogger = require("./helpers/testLogger");
+const { normalizeContent } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
+const filledSkills = normalizeContent(JSON.stringify(
+    {
+        "skills": [
+            {
+                "id": "testSkill"
+            },
+            {
+                "id": "testDispatch"
+            }
+        ]
+    },
+    null, 4));
+
+function undoChangesInTemporalFiles() {
+    writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
+}
 
 describe("The list command", function () {
 
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
-        JSON.stringify(
-            {
-                    "skills": [
-                        {
-                            "id": "testSkill"
-                        },
-                        {
-                            "id": "testDispatch"
-                        }
-                    ]
-                }
-                , null, 4));
-        
+        undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
         this.lister = new botskills.ListSkill(this.logger);
-    })
+    });
+
+    after(function() {
+        undoChangesInTemporalFiles();
+    });
 
 	describe("should show an error", function () {		
         it("when there is no skills File", async function () {

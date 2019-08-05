@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -190,9 +191,12 @@ public class SpeechService extends Service {
             configuration.userName = DefaultConfiguration.USER_NAME;
             configuration.userId = DefaultConfiguration.USER_FROM_ID;
             configuration.locale = DefaultConfiguration.LOCALE;
-            configuration.geolat = DefaultConfiguration.GEOLOCATION_LAT;
-            configuration.geolon = DefaultConfiguration.GEOLOCATION_LON;
             configuration.historyLinecount = Integer.MAX_VALUE - 1;
+            configuration.colorBubbleBot = ContextCompat.getColor(this, R.color.color_chat_background_bot);
+            configuration.colorBubbleUser = ContextCompat.getColor(this, R.color.color_chat_background_user);
+            configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
+            configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
+
             configurationManager.setConfiguration(configuration);
         }
 
@@ -300,8 +304,6 @@ public class SpeechService extends Service {
         // Start foreground service
         startForeground(STOP_FOREGROUND_REMOVE, notification);
 
-        startLocationUpdates();
-
         Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() complete");
     }
 
@@ -338,6 +340,7 @@ public class SpeechService extends Service {
 
         if(shouldListenAgain){
             shouldListenAgain = false;
+            Log.i(TAG_FOREGROUND_SERVICE, "Listening again");
             speechSdk.listenOnceAsync();
         }
 
@@ -392,7 +395,8 @@ public class SpeechService extends Service {
 
             // make the bot automatically listen again
             if(botConnectorActivity.getInputHint() != null){
-                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT)){
+                Log.i(TAG_FOREGROUND_SERVICE, "InputHint: "+botConnectorActivity.getInputHint());
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
                     shouldListenAgain = true;
                 }
             }

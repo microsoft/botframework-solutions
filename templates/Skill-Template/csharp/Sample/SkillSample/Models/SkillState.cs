@@ -7,9 +7,9 @@ namespace SkillSample.Models
 {
     public class SkillState
     {
-        public string Token { get; internal set; }
+        public string Token { get; set; }
 
-        public SkillLuis LuisResult { get; internal set; }
+        public SkillLuis LuisResult { get; set; }
 
         public void Clear()
         {
