@@ -9,7 +9,7 @@ namespace HospitalitySkill.Services
     public interface IHotelService
     {
         // get reservation details
-        Task<ReservationData> GetReservationDetailsAsync();
+        Task<ReservationData> GetReservationDetails();
 
         // update reservation
         void UpdateReservationDetails(ReservationData reservation);

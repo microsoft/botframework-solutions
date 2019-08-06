@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Luis;
+using System;
 
 namespace HospitalitySkill.Models
 {
@@ -11,6 +11,12 @@ namespace HospitalitySkill.Models
         {
             CheckedOut = false;
             LateCheckOut = false;
+            UserReservation = new ReservationData
+            {
+                CheckInDate = DateTime.Now.ToString("MMMM d, yyyy"),
+                CheckOutDate = DateTime.Now.AddDays(4).ToString("MMMM d, yyyy"),
+                CheckOutTime = "12:00 pm"
+            };
         }
 
         public bool CheckedOut { get; set; }

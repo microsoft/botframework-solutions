@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using HospitalitySkill.Models;
 using static Luis.HospitalityLuis._Entities;
@@ -10,17 +9,8 @@ namespace HospitalitySkill.Services
     // Should replace with real apis
     public class HotelService : IHotelService
     {
-        private ReservationData _reservationData;
-
         public HotelService()
         {
-            // mock data for hotel reservation
-            _reservationData = new ReservationData
-            {
-                CheckInDate = DateTime.Now.ToString("MMMM d, yyyy"),
-                CheckOutDate = DateTime.Now.AddDays(4).ToString("MMMM d, yyyy"),
-                CheckOutTime = "12:00 pm"
-            };
         }
 
         public async Task<string> GetLateCheckOutAsync()
@@ -31,16 +21,15 @@ namespace HospitalitySkill.Services
             return await Task.FromResult(lateTime);
         }
 
-        public async Task<ReservationData> GetReservationDetailsAsync()
+        public Task<ReservationData> GetReservationDetails()
         {
             // make request for reservation details
-            return await Task.FromResult(_reservationData);
+            return Task.FromResult(new ReservationData());
         }
 
         public void UpdateReservationDetails(ReservationData reservation)
         {
             // make request to update user's reservation details
-            _reservationData = reservation;
         }
 
         public async Task<bool> RequestItems(List<ItemRequestClass> items)
