@@ -266,10 +266,6 @@ namespace HospitalitySkill.Dialogs
                 var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card("ReservationDetails", cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
-            else
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.ExtendStayError));
-            }
 
             return await sc.EndDialogAsync();
         }

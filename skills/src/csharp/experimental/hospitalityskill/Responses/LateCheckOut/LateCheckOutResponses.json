@@ -35,15 +35,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "MoveCheckOutError": {
-    "replies": [
-      {
-        "text": "Ok. Let me know if there is anything else I can help you with!",
-        "speak": "Ok. Let me know if there is anything else I can help you with!"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "HasLateCheckOut": {
     "replies": [
       {

@@ -52,15 +52,6 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "CheckOutError": {
-    "replies": [
-      {
-        "text": "It seems like you don't want to check out. Is there something else I can help you with?",
-        "speak": "It seems like you don't want to check out. Is there something else I can help you with?"
-      }
-    ],
-    "inputHint": "acceptingInput"
   }
 }
 

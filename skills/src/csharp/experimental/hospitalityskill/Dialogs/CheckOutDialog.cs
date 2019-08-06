@@ -118,11 +118,6 @@ namespace HospitalitySkill.Dialogs
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.SendEmailMessage, tokens));
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.CheckOutSuccess));
             }
-            else
-            {
-                // didn't check out, help with something else
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.CheckOutError));
-            }
 
             return await sc.EndDialogAsync();
         }
