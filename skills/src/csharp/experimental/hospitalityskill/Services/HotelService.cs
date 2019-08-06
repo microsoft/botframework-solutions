@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using HospitalitySkill.Models;
+using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Services
 {
@@ -39,6 +41,12 @@ namespace HospitalitySkill.Services
         {
             // make request to update user's reservation details
             _reservationData = reservation;
+        }
+
+        public async Task<bool> RequestItems(List<ItemRequestClass> items)
+        {
+            // send request for this list of items to be brought
+            return await Task.FromResult(true);
         }
     }
 }

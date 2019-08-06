@@ -53,11 +53,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             _services = new ServiceCollection();
 
+            _services.AddSingleton(_botSettings);
             _services.AddSingleton<SkillWebSocketAdapter, MockSkillWebSocketAdapter>();
 			_services.AddSingleton<SkillWebSocketBotAdapter>();
             _services.AddSingleton<IBotFrameworkHttpAdapter, MockBotFrameworkHttpAdapter>();
             _services.AddSingleton<IBot, MockBot>();
-            _services.AddSingleton(_botSettings);
         }
 
         [TestMethod]

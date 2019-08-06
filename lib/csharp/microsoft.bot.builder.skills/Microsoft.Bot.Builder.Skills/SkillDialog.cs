@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
@@ -13,7 +12,6 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
-using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -397,6 +395,7 @@ namespace Microsoft.Bot.Builder.Skills
                     tokenEvent.Type = ActivityTypes.Event;
                     tokenEvent.Name = TokenEvents.TokenResponseEventName;
                     tokenEvent.Value = authResult.Result as ProviderTokenResponse;
+                    tokenEvent.SemanticAction = activity.SemanticAction;
 
                     lock (_lockObject)
                     {

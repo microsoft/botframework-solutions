@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.StreamingExtensions.Transport;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
@@ -23,16 +24,19 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
+        private readonly BotSettingsBase _botSettingsBase;
         private readonly IAuthenticationProvider _authenticationProvider;
 		private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
+            BotSettingsBase botSettingsBase,
             IAuthenticationProvider authenticationProvider = null,
             IBotTelemetryClient botTelemetryClient = null)
         {
-            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
-            _authenticationProvider = authenticationProvider;
+            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
+            _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
+            _authenticationProvider = authenticationProvider ?? new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
 			_stopWatch = new Stopwatch();
         }
@@ -61,15 +65,12 @@ namespace Microsoft.Bot.Builder.Skills
                 return;
             }
 
-            if (_authenticationProvider != null)
-            {
-                var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
+            var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
 
-                if (!authenticated)
-                {
-                    httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return;
-                }
+            if (!authenticated)
+            {
+                httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return;
             }
 
             await CreateWebSocketConnectionAsync(httpRequest.HttpContext, bot).ConfigureAwait(false);

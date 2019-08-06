@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using HospitalitySkill.Models;
+using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Services
 {
@@ -14,5 +16,8 @@ namespace HospitalitySkill.Services
 
         // check late check out availability
         Task<string> GetLateCheckOutAsync();
+
+        // request items to be brought
+        Task<bool> RequestItems(List<ItemRequestClass> items);
     }
 }
