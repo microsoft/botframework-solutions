@@ -544,7 +544,7 @@ namespace AutomotiveSkill.Dialogs
             actionEvent.Type = ActivityTypes.Event;
 
             // The name of the event is the intent (changing vs checking, the latter of which is not yet supported).
-            actionEvent.Name = "AutomotiveSkill.SettingChange";
+            actionEvent.Name = $"AutomotiveSkill.{change.SettingName}";
             actionEvent.Value = change;
 
             await sc.Context.SendActivityAsync(actionEvent);
