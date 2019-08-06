@@ -1,0 +1,11 @@
+{
+  "TicketCreated": {
+    "replies": [
+      {
+        "text": "Your ticket has been created. Let me know when you need my help.",
+        "speak": "Your ticket has been created. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

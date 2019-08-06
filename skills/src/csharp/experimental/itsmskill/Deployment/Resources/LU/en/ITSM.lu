@@ -1,0 +1,20 @@
+﻿[Ticket Create](./Ticket/Create.lu)
+
+# None
+> from chitchat
+- Good morning
+- Hi
+- Hello
+- Heya
+- Hi there!
+- Hey
+- Bye
+- See you later
+- Till we meet again
+- Later
+- Later alligator
+- Goodbye
+
+> # Entity definitions
+
+$TicketDescription:simple

@@ -1,0 +1,20 @@
+﻿# TicketCreate
+
+- add a ticket
+- add a ticket about {TicketDescription=unable to connect}
+- add a ticket for {TicketDescription=not detecting the device}
+- add an incident
+- open a ticket
+- open a ticket about {TicketDescription=need oracle installed}
+- open a ticket for {TicketDescription=need phone set up}
+- open an incident about {TicketDescription=customer didn't receive fax}
+- create a ticket
+- create a ticket about {TicketDescription=missing my directory}
+- create a ticket for {TicketDescription=new employee hire}
+- create an incident for {TicketDescription=disk is still having issues}
+- raise a ticket
+- raise an incident
+- raise a issue
+- i would like to add a ticket
+- i would like to open a ticket about {TicketDescription=lost connection}
+- i would like to create a ticket for {TicketDescription=server down again}

@@ -1,0 +1,81 @@
+﻿{
+  "type": "AdaptiveCard",
+  "id": "TicketCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "size": "Medium",
+                  "color": "Default",
+                  "text": "{Description}",
+                  "wrap": true
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "color": "Default",
+                  "text": "{UrgencyLevel}",
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "color": "Default",
+                  "text": "{State}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "size": "Small",
+          "color": "Default",
+          "text": "{OpenedTime}"
+        },
+        {
+          "type": "TextBlock",
+          "size": "Small",
+          "color": "Default",
+          "text": "ID: {Id}"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{ResolvedReason}",
+      "maxLines": 5
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}
