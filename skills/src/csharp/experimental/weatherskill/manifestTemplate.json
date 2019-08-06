@@ -15,7 +15,7 @@
             {
               "locale": "en",
               "source": [
-                "WeatherSkill#Sample"
+                "WeatherSkill#GetForecast"
               ]
             }
           ]
