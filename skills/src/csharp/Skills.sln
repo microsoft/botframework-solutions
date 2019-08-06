@@ -37,10 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimenta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{B25E0652-3BCE-4EEE-86CB-F38660CC9736}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -161,22 +157,6 @@ Global
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B25E0652-3BCE-4EEE-86CB-F38660CC9736}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BBFC7CC-34F2-4D05-9DDE-99380E2E592E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

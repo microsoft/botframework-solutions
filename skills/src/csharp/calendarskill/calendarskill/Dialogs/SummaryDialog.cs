@@ -602,55 +602,54 @@ namespace CalendarSkill.Dialogs
                 if (state.FocusEvents.Count <= 0)
                 {
                     var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
-                    if (state.UserSelectIndex < currentList.Count)
+                    if (state.UserSelectIndex >= 0 && state.UserSelectIndex < currentList.Count)
                     {
                         state.FocusEvents.Add(currentList[state.UserSelectIndex]);
                     }
-                    else
-                    {
-                        return await sc.EndDialogAsync();
-                    }
                 }
 
-                var focusEvent = state.FocusEvents.First();
-                if (focusEvent.IsOrganizer)
+                if (state.FocusEvents != null && state.FocusEvents.Count > 0)
                 {
-                    if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+                    var focusEvent = state.FocusEvents.First();
+                    if (focusEvent != null)
                     {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
-                    }
+                        if (focusEvent.IsOrganizer)
+                        {
+                            if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+                            {
+                                state.Events.Add(focusEvent);
+                                state.IsActionFromSummary = true;
+                                return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
+                            }
 
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
-                    }
-                }
-                else if (focusEvent.IsAccepted)
-                {
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
-                    }
-                }
-                else
-                {
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
-                    }
-                }
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                            {
+                                state.Events.Add(focusEvent);
+                                state.IsActionFromSummary = true;
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
+                            }
+                        }
+                        else if (focusEvent.IsAccepted)
+                        {
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                            {
+                                state.Events.Add(focusEvent);
+                                state.IsActionFromSummary = true;
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
+                            }
+                        }
+                        else
+                        {
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                            {
+                                state.Events.Add(focusEvent);
+                                state.IsActionFromSummary = true;
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
+                            }
+                        }
 
-                if (state.FocusEvents != null)
-                {
-                    return await sc.BeginDialogAsync(Actions.Read, sc.Options);
+                        return await sc.BeginDialogAsync(Actions.Read, sc.Options);
+                    }
                 }
 
                 return await sc.ReplaceDialogAsync(Actions.RetryUnknown, sc.Options);
