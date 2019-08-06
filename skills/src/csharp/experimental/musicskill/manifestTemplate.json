@@ -1,0 +1,26 @@
+{
+  "id": "MusicSkill",
+  "name": "MusicSkill",
+  "description": "",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "MusicSkill_Sample",
+      "definition": {
+        "description": "Sample Skill action with no slots",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "MusicSkill#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
