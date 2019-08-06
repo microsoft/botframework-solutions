@@ -47,6 +47,9 @@
     <string name="configuration_bot_text_color">Bot Text Color</string>
     <string name="configuration_user_text_color">User Text Color</string>
     <string name="configuration_keyword">Keyword</string>
+    <string name="configuration_location_event">GPS Sent On</string>
+    <string name="configuration_location_send">Send GPS Location</string>
+    <string name="configuration_location_unsent">Not Sent</string>
 
     <!-- WIDGETS -->
     <string name="widget_push_to_talk">Talk</string>

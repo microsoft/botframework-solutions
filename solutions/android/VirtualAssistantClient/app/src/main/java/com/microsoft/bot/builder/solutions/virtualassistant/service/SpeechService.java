@@ -14,6 +14,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -46,6 +47,7 @@ import java.io.InputStream;
 import client.model.BotConnectorActivity;
 import client.model.InputHints;
 import events.ActivityReceived;
+import events.GpsLocationSent;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
@@ -185,9 +187,29 @@ public class SpeechService extends Service {
             }
 
             @Override
-            public void stopAnyTTS(){
+            public void stopAnyTTS() {
                 if(speechSdk != null && speechSdk.getSynthesizer().isPlaying()){
                     speechSdk.getSynthesizer().stopSound();
+                }
+            }
+
+            @Override
+            public String getDateSentLocationEvent() {
+                if(speechSdk != null) return speechSdk.getDateSentLocationEvent();
+                return "Error";
+            }
+
+            @Override
+            public void sendLocationUpdate() {
+                Location location = locationProvider.getLastKnownLocation();
+                if (location != null) {
+                    final String locLat = String.valueOf(location.getLatitude());
+                    final String locLon = String.valueOf(location.getLongitude());
+                    if (speechSdk != null) {
+                        speechSdk.sendLocationEvent(locLat, locLon);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Location is unknown", Toast.LENGTH_LONG).show();
                 }
             }
         };

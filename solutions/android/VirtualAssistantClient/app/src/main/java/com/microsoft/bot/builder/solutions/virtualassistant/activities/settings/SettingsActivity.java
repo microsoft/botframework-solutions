@@ -26,6 +26,10 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActiv
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
 import java.util.TimeZone;
 
@@ -34,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
+import events.GpsLocationSent;
 
 /**
  * Bot Configuration Activity - settings to change the connection to the Bot
@@ -57,6 +62,7 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.edit_color_picked_user) EditText colorPickedUserEditText;
     @BindView(R.id.edit_color_picked_bot_text) EditText colorPickedBotTextEditText;
     @BindView(R.id.edit_color_picked_user_text) EditText colorPickedUserTextEditText;
+    @BindView(R.id.edit_time_text) EditText gpsSentTimeEditText;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_settings;
@@ -77,6 +83,7 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(CONTENT_VIEW);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         gson = new Gson();
         initTimezoneAdapter();
 
@@ -104,6 +111,12 @@ public class SettingsActivity extends BaseActivity {
             speechServiceBinder = null;
         }
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -221,6 +234,15 @@ public class SettingsActivity extends BaseActivity {
         builder.show();
     }
 
+    @OnClick(R.id.btn_send_gps)
+    public void onClickSendGps() {
+        try {
+            speechServiceBinder.sendLocationUpdate();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @OnClick(R.id.btn_cancel)
     public void onClickCancel() {
         finish();
@@ -231,6 +253,12 @@ public class SettingsActivity extends BaseActivity {
         saveConfiguration();// must save updated config first
         initializeAndConnect();// re-init service to make it read updated config
         finish();
+    }
+
+    // EventBus: the GPS location was sent
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventGpsLocationSent(GpsLocationSent event) {
+        showGpsLocationSentDate();
     }
 
     private void initTimezoneAdapter() {
@@ -306,10 +334,26 @@ public class SettingsActivity extends BaseActivity {
                 }
             });
 
+            // gps sent time
+            showGpsLocationSentDate();
+
 
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
         }
+    }
+
+    private void showGpsLocationSentDate() {
+        String gpsTime = null;
+        try {
+            gpsTime = speechServiceBinder.getDateSentLocationEvent();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        if (gpsTime == null)
+            gpsSentTimeEditText.setText(R.string.configuration_location_unsent);
+        else
+            gpsSentTimeEditText.setText(gpsTime);
     }
 
     private void saveConfiguration(){
