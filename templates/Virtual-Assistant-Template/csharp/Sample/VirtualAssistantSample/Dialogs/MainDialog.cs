@@ -11,7 +11,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
