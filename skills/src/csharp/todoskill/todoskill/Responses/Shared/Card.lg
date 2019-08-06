@@ -1,10 +1,10 @@
 ﻿# ShowToDoTitle(UseFile, Title, TotalNumber)
 - IF: {UseFile == true}
-    - [ShowToDoTitle1.0(Title, TotalNumber)]
+    - [ShowToDoTitleV1(Title, TotalNumber)]
 - ELSE:
-    - [ShowToDoTitle2.0(Title, TotalNumber)]
+    - [ShowToDoTitleV2(Title, TotalNumber)]
 
-# ShowToDoTitle1.0(Title, TotalNumber)
+# ShowToDoTitleV1(Title, TotalNumber)
 - ```
 {
 "body": [
@@ -57,7 +57,7 @@
     "items": [
 ```
 
-# ShowToDoTitle2.0(Title, TotalNumber)
+# ShowToDoTitleV2(Title, TotalNumber)
 - ```
 {
     "body": [
@@ -234,7 +234,7 @@
 ```
 
 # ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl)
-- {join(foreach(ToDos, x , lgTemplate('ShowToDoItem', x, CheckIconUrl, UnCheckIconUrl)), ',')} 
+- {join(foreach(ToDos, x , ShowToDoItem(x, CheckIconUrl, UnCheckIconUrl)), ',')} 
 
 # ShowToDoCard
-- {join(createArray(lgTemplate('ShowToDoTitle', UseFile, Title, TotalNumber), lgTemplate('ShowToDoList', ToDos, CheckIconUrl, UnCheckIconUrl), lgTemplate('ShowToDoPageFooter')), ' ')}
+- {join(createArray(ShowToDoTitle(UseFile, Title, TotalNumber), ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl), ShowToDoPageFooter()), ' ')}
