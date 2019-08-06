@@ -18,18 +18,21 @@ namespace Luis
             l_General, 
             q_Chitchat, 
             q_Faq, 
-            hospitalitySkill, 
             q_hotel_FAQ, 
+            hospitalitySkill, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
+            // Simple entities
+            public string[] Item;
 
             // Instance
             public class _Instance
             {
+                public InstanceData[] Item;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
