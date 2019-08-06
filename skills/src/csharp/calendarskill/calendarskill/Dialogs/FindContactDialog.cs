@@ -205,7 +205,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.AttendeesNameList.Count > 1)
                     {
-                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeSendingMessage]", null);
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeSendingMessage]", new { attendeesNameList = state.AttendeesNameList });
                         await sc.Context.SendActivityAsync(prompt);
                     }
 

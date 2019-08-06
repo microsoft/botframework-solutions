@@ -13,8 +13,8 @@
 - Okay, I will add @{confirmedPerson.DisplayName}: [GetEmailAddressFromCustomizedPerson(confirmedPerson)]. Is @{confirmedPerson.DisplayName} the one you were looking for?
 
 # GetEmailAddressFromCustomizedPerson(person)
-- IF: @{person.Emails[0] != null && person.Emails[0] != ''}
-	- @{person.Emails[0]}
+- IF: @{person.Emails != null && count(person.Emails) > 0 && person.Emails[0] != null && person.Emails[0].Address != null && person.Emails[0].Address != ''}
+	- @{person.Emails[0].Address}
 - ELSE:
 	- @{person.UserPrincipalName}
 
@@ -31,7 +31,7 @@
 - This is already the last page.
 
 # AddMoreUserPrompt(users)
-- I have included @{join(foreach(users, x, UserInfoDetail(x)), ', ', 'and')}, do you want to add any other participants?
+- I have included @{join(foreach(users, x, UserInfoDetail(x)), ', ', ' and ')}, do you want to add any other participants?
 
 # ConfirmMultipleContactEmailSinglePage(userName)
 - I found multiple contact details for @{userName}. Which one would you like?
