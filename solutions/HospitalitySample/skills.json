@@ -1,92 +1,161 @@
 {
     "skills": [
+        {
+            "id": "hospitalitySkill",
+            "msaAppId": "<YOUR APPID HERE>",
+            "name": "Hospitality Skill",
+            "endpoint": "<YOUR ENDPOINT URL HERE>",
+            "description": "The Hospitality skill provides capabilities that are needed in a hotel room, such as checking out, changing your reservation, and requesting items.",
+            "authenticationConnections": [],
+            "actions": [
+                {
+                    "id": "HospitalitySkill_checkOut",
+                    "definition": {
+                        "description": "Check out of room.",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Hospitality#CheckOut"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "HospitalitySkill_extendStay",
+                    "definition": {
+                        "description": "Extend reseravation for current room.",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Hospitality#ExtendStay"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "HospitalitySkill_getReservation",
+                    "definition": {
+                        "description": "Get current reservation details.",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Hospitality#GetReservation"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "HospitalitySkill_lateCheckOut",
+                    "definition": {
+                        "description": "Change to late check out.",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Hospitality#LateCheckOut"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "HospitalitySkill_requestItem",
+                    "definition": {
+                        "description": "Request items to be brought to your room.",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Hospitality#RequestItem"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
       {
-        "id": "hospitalitySkill",
+        "id": "newsSkill",
         "msaAppId": "<YOUR APPID HERE>",
-        "name": "Hospitality Skill",
+        "name": "News Skill",
         "endpoint": "<YOUR ENDPOINT URL HERE>",
-        "description": "The Hospitality skill provides capabilities that are needed in a hotel room, such as checking out, changing your reservation, and requesting items.",
+        "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
+        "iconUrl": "",
         "authenticationConnections": [],
         "actions": [
           {
-            "id": "HospitalitySkill_checkOut",
+            "id": "newsSkill_findArticles",
             "definition": {
-              "description": "Check out of room.",
+              "description": "Find News articles",
               "slots": [],
               "triggers": {
                 "utteranceSources": [
                   {
                     "locale": "en",
                     "source": [
-                      "Hospitality#CheckOut"
+                      "news#FindArticles"
                     ]
                   }
                 ]
               }
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "restaurantBookingSkill",
+        "msaAppId": "<YOUR APPID HERE>",
+        "name": "Restaurant Booking Skill",
+        "endpoint": "<YOUR ENDPOINT URL HERE>",
+        "description": "The Restaurant Booking experimental skill provides an example of Restaurant Booking.",
+        "iconUrl": "",
+        "authenticationConnections": [],
+        "actions": [
           {
-            "id": "HospitalitySkill_extendStay",
+            "id": "restaurantBookingSkill_booking",
             "definition": {
-              "description": "Extend reseravation for current room.",
-              "slots": [],
+              "description": "Restaurant Booking",
+              "slots": [
+                {
+                  "name": "name",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "name": "location",
+                  "types": [
+                    "string"
+                  ]
+                }
+              ],
               "triggers": {
                 "utteranceSources": [
                   {
                     "locale": "en",
                     "source": [
-                      "Hospitality#ExtendStay"
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "id": "HospitalitySkill_getReservation",
-            "definition": {
-              "description": "Get current reservation details.",
-              "slots": [],
-              "triggers": {
-                "utteranceSources": [
-                  {
-                    "locale": "en",
-                    "source": [
-                      "Hospitality#GetReservation"
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "id": "HospitalitySkill_lateCheckOut",
-            "definition": {
-              "description": "Change to late check out.",
-              "slots": [],
-              "triggers": {
-                "utteranceSources": [
-                  {
-                    "locale": "en",
-                    "source": [
-                      "Hospitality#LateCheckOut"
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "id": "HospitalitySkill_requestItem",
-            "definition": {
-              "description": "Request items to be brought to your room.",
-              "slots": [],
-              "triggers": {
-                "utteranceSources": [
-                  {
-                    "locale": "en",
-                    "source": [
-                      "Hospitality#RequestItem"
+                      "restaurant#Reservation"
                     ]
                   }
                 ]
