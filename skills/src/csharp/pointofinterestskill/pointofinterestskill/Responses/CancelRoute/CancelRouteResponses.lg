@@ -1,0 +1,10 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# CancelActiveRoute
+- Got it. I'm cancelling your route now.
+- Route cancelled. I've erased it from my memory.
+
+# CannotCancelActiveRoute
+- I'm sorry, I can't cancel a route that doesn't exist.
+- I don't have a route on record to remove, sorry.

@@ -1,0 +1,33 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# PointOfInterestWelcomeMessage
+- ```
+Welcome to the Point of Interest skill! I can find points of interest, show a route to your destination, or find fun things nearby.
+[Suggestions=What's the fastest way to get to the airport?|Is there a coffee shop in town?|Get me directions to 400 Broad St|I want to visit the Space Needle|What's nearby?]
+```
+
+# HelpMessage
+- ```
+I can find points of interest, show a route to your destination, or find fun things nearby.
+[Suggestions=What's the fastest way to get to the airport?|Is there a coffee shop in town?|Get me directions to 400 Broad St|I want to visit the Space Needle|What's nearby?]
+```
+
+# GreetingMessage
+- Hi!
+- Hi there!
+- Hello!
+
+# GoodbyeMessage
+- Goodbye!
+
+# LogOut
+- Your sign out was successful.
+- You have successfully signed out.
+- You have been logged out.
+
+# FeatureNotAvailable
+- This feature is not yet available in the Point of Interest Skill. Please try asking something else.
+
+# CancelMessage
+- Ok, let's start over.

@@ -5,16 +5,16 @@ namespace PointOfInterestSkill.Models
 {
     public class RouteDirectionsModel : PointOfInterestModel
     {
-        public string TravelTime { get; set; }
+        public string TravelTime { get; set; } = string.Empty;
 
-        public string ETA { get; set; }
+        public string ETA { get; set; } = string.Empty;
 
-        public string DelayStatus { get; set; }
+        public string DelayStatus { get; set; } = string.Empty;
 
-        public string TravelTimeSpeak { get; set; }
+        public string TravelTimeSpeak { get; set; } = string.Empty;
 
-        public string TravelDelaySpeak { get; set; }
+        public string TravelDelaySpeak { get; set; } = string.Empty;
 
-        public new string AvailableDetails { get; set; }
+        public new string AvailableDetails { get; set; } = string.Empty;
     }
 }

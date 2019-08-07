@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
@@ -18,13 +19,12 @@ namespace PointOfInterestSkill.Dialogs
         public FindPointOfInterestDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
 			ConversationState conversationState,
 			RouteDialog routeDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(FindPointOfInterestDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
+            : base(nameof(FindPointOfInterestDialog), settings, services, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -66,7 +66,7 @@ namespace PointOfInterestSkill.Dialogs
                 return await sc.ReplaceDialogAsync(Actions.FindPointOfInterest);
             }
 
-            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
+            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PromptForCurrentLocation]") as Activity });
         }
 
         /// <summary>
