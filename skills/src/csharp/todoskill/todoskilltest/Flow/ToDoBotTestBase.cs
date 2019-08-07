@@ -125,6 +125,7 @@ namespace ToDoSkillTest.Flow
             path = Path.Combine(path + @"\..\..\..\..\todoskill\");
             var resourceExplorer = ResourceExplorer.LoadProject(path);
             Services.AddSingleton(resourceExplorer);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
         }
 
         public Activity GetAuthResponse()

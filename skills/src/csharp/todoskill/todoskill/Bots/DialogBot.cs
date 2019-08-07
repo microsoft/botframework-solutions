@@ -41,6 +41,11 @@ namespace ToDoSkill.Bots
                 return;
             }
 
+            if (turnContext.TurnState.Get<IStorage>() == null)
+            {
+                turnContext.TurnState.Add<IStorage>(_storage);
+            }
+
             if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
             {
                 turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
