@@ -33,14 +33,6 @@ namespace Microsoft.Bot.Builder.Skills
         {
             if (_streamingTransportClient == null)
             {
-                // acquire AAD token
-                MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
-                var token = await serviceClientCredentials.GetTokenAsync();
-
-                // put AAD token in the header
-                var headers = new Dictionary<string, string>();
-                headers.Add("Authorization", $"Bearer {token}");
-
                 // establish websocket connection
                 _streamingTransportClient = new WebSocketClient(
                     EnsureWebSocketUrl(skillManifest.Endpoint.ToString()),
@@ -49,11 +41,18 @@ namespace Microsoft.Bot.Builder.Skills
                         _botTelemetryClient,
                         GetTokenCallback(turnContext, tokenRequestHandler),
                         GetFallbackCallback(turnContext, fallbackHandler),
-                        GetHandoffActivityCallback()),
-                    headers);
+                        GetHandoffActivityCallback()));
             }
 
-            await _streamingTransportClient.ConnectAsync();
+            // acquire AAD token
+            MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
+            var token = await serviceClientCredentials.GetTokenAsync();
+
+            // put AAD token in the header
+            var headers = new Dictionary<string, string>();
+            headers.Add("Authorization", $"Bearer {token}");
+
+            await _streamingTransportClient.ConnectAsync(headers);
 
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
