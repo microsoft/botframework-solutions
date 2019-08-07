@@ -1,168 +1,302 @@
 {
-    "skills": [
+  "skills": [
+    {
+      "id": "hospitalitySkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "Hospitality Skill",
+      "endpoint": "<YOUR ENPOINT URL HERE>",
+      "description": "The Hospitality skill provides capabilities that may be needed in a hotel room.",
+      "authenticationConnections": [],
+      "actions": [
         {
-            "id": "hospitalitySkill",
-            "msaAppId": "<YOUR APPID HERE>",
-            "name": "Hospitality Skill",
-            "endpoint": "<YOUR ENDPOINT URL HERE>",
-            "description": "The Hospitality skill provides capabilities that are needed in a hotel room, such as checking out, changing your reservation, and requesting items.",
-            "authenticationConnections": [],
-            "actions": [
+          "id": "hospitalitySkill_checkOut",
+          "definition": {
+            "description": "Check out of room",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
                 {
-                    "id": "HospitalitySkill_checkOut",
-                    "definition": {
-                        "description": "Check out of room.",
-                        "slots": [],
-                        "triggers": {
-                            "utteranceSources": [
-                                {
-                                    "locale": "en",
-                                    "source": [
-                                        "Hospitality#CheckOut"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "HospitalitySkill_extendStay",
-                    "definition": {
-                        "description": "Extend reseravation for current room.",
-                        "slots": [],
-                        "triggers": {
-                            "utteranceSources": [
-                                {
-                                    "locale": "en",
-                                    "source": [
-                                        "Hospitality#ExtendStay"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "HospitalitySkill_getReservation",
-                    "definition": {
-                        "description": "Get current reservation details.",
-                        "slots": [],
-                        "triggers": {
-                            "utteranceSources": [
-                                {
-                                    "locale": "en",
-                                    "source": [
-                                        "Hospitality#GetReservation"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "HospitalitySkill_lateCheckOut",
-                    "definition": {
-                        "description": "Change to late check out.",
-                        "slots": [],
-                        "triggers": {
-                            "utteranceSources": [
-                                {
-                                    "locale": "en",
-                                    "source": [
-                                        "Hospitality#LateCheckOut"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "HospitalitySkill_requestItem",
-                    "definition": {
-                        "description": "Request items to be brought to your room.",
-                        "slots": [],
-                        "triggers": {
-                            "utteranceSources": [
-                                {
-                                    "locale": "en",
-                                    "source": [
-                                        "Hospitality#RequestItem"
-                                    ]
-                                }
-                            ]
-                        }
-                    }
+                  "locale": "en",
+                  "source": [
+                    "Hospitality#CheckOut"
+                  ]
                 }
-            ]
+              ]
+            }
+          }
         },
-      {
-        "id": "newsSkill",
-        "msaAppId": "<YOUR APPID HERE>",
-        "name": "News Skill",
-        "endpoint": "<YOUR ENDPOINT URL HERE>",
-        "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
-        "iconUrl": "",
-        "authenticationConnections": [],
-        "actions": [
-          {
-            "id": "newsSkill_findArticles",
-            "definition": {
-              "description": "Find News articles",
-              "slots": [],
-              "triggers": {
-                "utteranceSources": [
-                  {
-                    "locale": "en",
-                    "source": [
-                      "news#FindArticles"
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "restaurantBookingSkill",
-        "msaAppId": "<YOUR APPID HERE>",
-        "name": "Restaurant Booking Skill",
-        "endpoint": "<YOUR ENDPOINT URL HERE>",
-        "description": "The Restaurant Booking experimental skill provides an example of Restaurant Booking.",
-        "iconUrl": "",
-        "authenticationConnections": [],
-        "actions": [
-          {
-            "id": "restaurantBookingSkill_booking",
-            "definition": {
-              "description": "Restaurant Booking",
-              "slots": [
+        {
+          "id": "hospitalitySkill_extendStay",
+          "definition": {
+            "description": "Extend reseravation for current room.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
                 {
-                  "name": "name",
-                  "types": [
-                    "string"
-                  ]
-                },
-                {
-                  "name": "location",
-                  "types": [
-                    "string"
+                  "locale": "en",
+                  "source": [
+                    "Hospitality#ExtendStay"
                   ]
                 }
-              ],
-              "triggers": {
-                "utteranceSources": [
-                  {
-                    "locale": "en",
-                    "source": [
-                      "restaurant#Reservation"
-                    ]
-                  }
-                ]
-              }
+              ]
             }
           }
-        ]
-      }
-    ]
+        },
+        {
+          "id": "hospitalitySkill_getReservation",
+          "definition": {
+            "description": "Get current reservation details.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Hospitality#GetReservation"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "hospitalitySkill_lateCheckOut",
+          "definition": {
+            "description": "Change to late check out.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Hospitality#LateCheckOut"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "hospitalitySkill_requestItem",
+          "definition": {
+            "description": "Request items to be brought to your room.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Hospitality#RequestItem"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "restaurantBookingSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "Restaurant Booking Skill",
+      "endpoint": "<YOUR ENPOINT URL HERE>",
+      "description": "The Restaurant Booking experimental skill provides an example of Restaurant Booking.",
+      "iconUrl": "",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "restaurantBookingSkill_booking",
+          "definition": {
+            "description": "Restaurant Booking",
+            "slots": [
+              {
+                "name": "name",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "restaurant#Reservation"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "newsSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "News Skill",
+      "endpoint": "<YOUR ENPOINT URL HERE>",
+      "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
+      "iconUrl": "",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "newsSkill_findArticles",
+          "definition": {
+            "description": "Find News articles",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "news#FindArticles"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "pointOfInterestSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "Point Of Interest Skill",
+      "endpoint": "<YOUR ENPOINT URL HERE>",
+      "description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
+      "iconUrl": "",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "poiskill_routeFromXToY",
+          "definition": {
+            "description": "Find a route from X to Y",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "PointOfInterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_cancelRoute",
+          "definition": {
+            "description": "Cancel an active route.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "PointOfInterest#NAVIGATION_CANCEL_ROUTE"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_findPoI",
+          "definition": {
+            "description": "Find a point of interest.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "PointOfInterest#NAVIGATION_FIND_POINTOFINTEREST"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_findParking",
+          "definition": {
+            "description": "Find parking",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "PointOfInterest#NAVIGATION_FIND_PARKING"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WeatherSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "WeatherSkill",
+      "endpoint": "<YOUR ENPOINT URL HERE>",
+      "description": "",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "WeatherSkill_Sample",
+          "definition": {
+            "description": "Sample Skill action with no slots",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "WeatherSkill#Sample"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

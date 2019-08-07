@@ -20,8 +20,10 @@ namespace Luis
             q_Faq, 
             q_hotel_FAQ, 
             hospitalitySkill, 
-            newsSkill, 
             restaurantBookingSkill, 
+            newsSkill, 
+            pointOfInterestSkill, 
+            WeatherSkill, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -32,6 +34,8 @@ namespace Luis
             public string[] Item;
             public string[] topic;
             public string[] site;
+            public string[] KEYWORD;
+            public string[] ADDRESS;
 
             // Instance
             public class _Instance
@@ -39,6 +43,8 @@ namespace Luis
                 public InstanceData[] Item;
                 public InstanceData[] topic;
                 public InstanceData[] site;
+                public InstanceData[] KEYWORD;
+                public InstanceData[] ADDRESS;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
