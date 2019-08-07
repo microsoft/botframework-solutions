@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Analytics
-language: csharp javascript
 title: Telemetry Logging
+description: How to configure a telemetry collection for your assistant.
 order: 3
 ---
 

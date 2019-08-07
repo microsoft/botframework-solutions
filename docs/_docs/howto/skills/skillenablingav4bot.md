@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Skills
-language: csharp javascript
 title: Convert an existing v4 bot to a skill
+description: Steps required to take an existing Bot and make it available as a skill.
 order: 3
 ---
 

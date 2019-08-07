@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Architecture
+description: Under the covers of the skill implementation.
 order: 1
 ---
 

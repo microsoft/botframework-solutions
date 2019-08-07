@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Architecture
+description: Detailed documentation covering what the template provides and how it works
 order: 1
 ---
 

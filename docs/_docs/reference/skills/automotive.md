@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Automotive Skill
+description: Skill for enabling car automation scenarios.
 order: 7
 ---
 

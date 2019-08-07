@@ -1,6 +1,5 @@
 ---
 category: Overview
-language: csharp javascript
 title: Virtual Assistant
 order: 1
 ---

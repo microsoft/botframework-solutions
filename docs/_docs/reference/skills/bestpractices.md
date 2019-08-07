@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Best Practices
+description: Best practices for developing your Bot Framework Skill.
 order: 2
 ---
 

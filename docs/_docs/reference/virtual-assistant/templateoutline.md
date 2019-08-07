@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Understanding the Template
+description: An outline of what the Virtual Assistant template provides
 order: 2
 ---
 

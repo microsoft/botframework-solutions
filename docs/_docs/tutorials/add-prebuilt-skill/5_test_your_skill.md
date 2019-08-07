@@ -2,7 +2,6 @@
 layout: tutorial
 category: Tutorials
 subcategory: Connect a pre-built skill
-language: csharp javascript
 title: Test skill
 order: 5
 ---

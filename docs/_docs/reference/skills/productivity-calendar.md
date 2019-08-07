@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Calendar Skill
+description: Add calendar capabilities to your Assistant. Powered by Microsoft Graph and Google.
 order: 8
 ---
 

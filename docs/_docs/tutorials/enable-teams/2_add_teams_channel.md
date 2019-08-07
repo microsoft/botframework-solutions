@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Microsoft Teams
-language: csharp javascript
 title: Add Microsoft Teams channel
 order: 2
 ---

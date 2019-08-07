@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Microsoft Teams
-language: csharp javascript
 title: Add commands
 order: 6
 ---

@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Send proactive messages
+description: Adding proactive experiences to your Assistant
 order: 5
 ---
 

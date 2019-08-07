@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Migrate from Virtual Assistant Solution to Template
+description: Guidance on how to move from the original Virtual Assistant solution to the new Template
 order: 7
 ---
 

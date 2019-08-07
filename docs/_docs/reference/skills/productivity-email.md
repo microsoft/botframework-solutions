@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Email Skill
+description: Add email capabilities to your Assistant. Powered by Microsoft Graph and Google.
 order: 9
 ---
 

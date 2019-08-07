@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Responses
+description: Details on how responses work in skill projects.
 order: 6
 ---
 

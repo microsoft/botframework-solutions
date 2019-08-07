@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Speech
-language: csharp javascript
 title: Create a Microsoft Speech instance
 order: 2
 ---

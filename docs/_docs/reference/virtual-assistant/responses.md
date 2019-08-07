@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Responses
+description: Details on how responses work in the Virtual Assistant template.
 order: 5
 ---
 

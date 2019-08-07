@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Speech
-language: csharp javascript
 title: Add the speech channel
 order: 3
 ---

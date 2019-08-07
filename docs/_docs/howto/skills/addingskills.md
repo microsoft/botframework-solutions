@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Skills
-language: csharp javascript
 title: Add skills to a Virtual Assistant
+description: Steps for adding a skill to an assistant
 order: 1
 ---
 

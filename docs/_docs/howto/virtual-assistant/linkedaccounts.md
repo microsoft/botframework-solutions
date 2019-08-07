@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Link Accounts to a Virtual Assistant
+description: Enable users to link third party accounts (e.g. Office 365) to your Assistant.
 order: 6
 ---
 

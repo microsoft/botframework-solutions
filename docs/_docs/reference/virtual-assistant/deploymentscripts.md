@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Deployment Scripts
+description: Reference for deployment tools provided in the Virtual Assistant Template.
 order: 3
 ---
 

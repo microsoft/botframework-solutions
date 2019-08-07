@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Analytics
-language: csharp javascript
 title: Power BI
+description: Detailed information on how the provided Power BI template provides insights into your assistant usage.
 order: 3
 ---
 

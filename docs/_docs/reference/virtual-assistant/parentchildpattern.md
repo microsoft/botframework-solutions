@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Virtual Assistant and Skills Pattern
+description: How the Virtual Assistant and Skills can enable a parent-child pattern throughout your organization.
 order: 7
 ---
 

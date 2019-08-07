@@ -102,21 +102,16 @@
             }
           ],
           "actions": [
-            {
-              "type": "Action.OpenUrl",
-              "url": "https://aka.ms/customassistantdocs",
-              "title": "Documentation"
-            },
-            {
-              "type": "Action.OpenUrl",
-              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md",
-              "title": "Linked Accounts"
-            },
-            {
-              "type": "Action.OpenUrl",
-              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md",
-              "title": "Skills"
-            }
+              {
+                  "type": "Action.OpenUrl",
+                  "title": "Documentation",
+                  "url": "https://aka.ms/bfvadocs"
+              },
+              {
+                  "type": "Action.OpenUrl",
+                  "title": "Skills",
+                  "url": "https://aka.ms/bfskills"
+              }
           ]
         }
       }

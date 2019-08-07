@@ -1,6 +1,5 @@
 ---
 category: Reference
-language: csharp javascript
 title: Known Issues
 order: 2
 ---

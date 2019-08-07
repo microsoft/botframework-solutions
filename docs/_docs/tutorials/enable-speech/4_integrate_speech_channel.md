@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Speech
-language: csharp javascript
 title: Build speech sample app
 order: 4
 ---

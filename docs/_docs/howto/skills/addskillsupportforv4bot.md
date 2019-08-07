@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Skills
-language: csharp javascript
 title: Enable skills on an existing v4 bot
+description: How to add Skills to an existing v4 bot (not Virtual Assistant template)
 order: 2
 ---
 

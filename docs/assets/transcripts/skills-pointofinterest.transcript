@@ -117,19 +117,14 @@
           ],
           "actions": [
             {
-              "type": "Action.OpenUrl",
-              "url": "https://aka.ms/virtualassistantdocs",
-              "title": "Documentation"
+                "type": "Action.OpenUrl",
+                "title": "Documentation",
+                "url": "https://aka.ms/bfvadocs"
             },
             {
-              "type": "Action.OpenUrl",
-              "url": "https://aka.ms/linkedaccountsdocs",
-              "title": "Linked Accounts"
-            },
-            {
-              "type": "Action.OpenUrl",
-              "url": "https://aka.ms/ConversationalAISkills",
-              "title": "Skills"
+                "type": "Action.OpenUrl",
+                "title": "Skills",
+                "url": "https://aka.ms/bfskills"
             }
           ]
         }

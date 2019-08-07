@@ -1,6 +1,5 @@
 ---
 category: Overview
-language: csharp javascript
 title: Skills
 order: 2
 ---

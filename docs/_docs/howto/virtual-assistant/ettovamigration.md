@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Convert from Enterprise Template to Virtual Assistant Template
+description: Guidance on how to move from an Enterprise Template based Bot to the new Template
 order: 6
 ---
 

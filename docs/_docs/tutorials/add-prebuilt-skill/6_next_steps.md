@@ -2,7 +2,6 @@
 layout: tutorial
 category: Tutorials
 subcategory: Connect a pre-built skill
-language: csharp javascript
 title: Next steps
 order: 6
 ---
@@ -20,7 +19,7 @@ Now that you've connected a pre-built skill to your assitant, try out these othe
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/create-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get Started</a>
         </div>
     </div>
     <div class="card">

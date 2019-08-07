@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Skill Manifest
+description: Overview of the skill manifest and its role with skill registration and invocation.
 order: 3
 ---
 

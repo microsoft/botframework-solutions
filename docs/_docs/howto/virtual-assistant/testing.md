@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Test the Virtual Assistant
+description: How to test your assistant end-to-end.
 order: 4
 ---
 

@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Experimental Skills
+description: News, Search, Reservation, and Weather.
 order: 12
 ---
 

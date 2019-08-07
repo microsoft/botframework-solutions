@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Skill Token Flow
+description: Details on how skills authenticate users.
 order: 5
 ---
 

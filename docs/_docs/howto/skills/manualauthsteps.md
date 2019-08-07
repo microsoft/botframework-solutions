@@ -1,8 +1,8 @@
 ---
 category: How To
 subcategory: Skills
-language: csharp javascript
 title: Manually configure OAuth for Productivity Skills
+description: How to configure authentication manually for skills.
 order: 3
 ---
 

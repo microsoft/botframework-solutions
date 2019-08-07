@@ -1,7 +1,6 @@
 ---
 category: Tutorials
 subcategory: Enable Microsoft Teams
-language: csharp javascript
 title: Create application manifest
 order: 4
 ---

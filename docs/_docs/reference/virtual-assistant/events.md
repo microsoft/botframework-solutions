@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Virtual Assistant
-language: csharp javascript
 title: Events
+description: Events enable custom apps or device experiences to pass device or contextual user information to an Assistant behind the scenes.
 order: 6
 ---
 

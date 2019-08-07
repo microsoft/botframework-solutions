@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Analytics
-language: csharp javascript
 title: Application Insights
+description: Detailed information on how Application Insights is used to collect information and powers our analytics capabilities.
 order: 1
 ---
 

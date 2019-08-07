@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Skill Authentication
+description: Details on skill authentication approach and flow.
 order: 4
 ---
 

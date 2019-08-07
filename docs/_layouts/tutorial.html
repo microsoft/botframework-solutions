@@ -5,7 +5,7 @@ layout: default
 <div>
     {{ content }}
 
-    {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory  %}
+    {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory | where: 'language', page.language %}
     {% for doc in docs %}
         {% assign nextOrder = page.order | plus: 1 %}
         {% if doc.order == nextOrder %}

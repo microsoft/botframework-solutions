@@ -1,8 +1,8 @@
 ---
 category: Reference
 subcategory: Skills
-language: csharp javascript
 title: Transcripts
+description: Bot Framework emulator transcripts for pre-built skills.
 order: 13
 ---
 
