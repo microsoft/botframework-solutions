@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -25,7 +27,7 @@ namespace Microsoft.Bot.Builder.Skills.Auth
             openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
-        public bool Authenticate(string authHeader)
+        public ClaimsIdentity Authenticate(string authHeader)
         {
             try
             {
@@ -39,11 +41,11 @@ namespace Microsoft.Bot.Builder.Skills.Auth
                 var handler = new JwtSecurityTokenHandler();
                 var user = handler.ValidateToken(authHeader.Replace("Bearer ", string.Empty), validationParameters, out var validatedToken);
 
-                return true;
+                return user.Identities.OfType<ClaimsIdentity>().FirstOrDefault();
             }
             catch
             {
-                return false;
+                return null;
             }
         }
     }

@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
+using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -314,6 +315,9 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
+                // populate call id for auth purpose
+                activity.CallerId = _serviceClientCredentials.MicrosoftAppId;
+
                 var endOfConversation = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
                 if (endOfConversation)
