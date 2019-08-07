@@ -530,33 +530,21 @@ public class MainActivity extends BaseActivity
         catch(IOException e) {
             Log.e(LOGTAG, "IOexception " + e.getMessage());
         }
-
     }
 
-    // concrete implementation of ChatViewholder.OnClickListener
+    // concrete implementation of ViewholderBot.OnClickListener
     @Override
-    public void adaptiveCardClick(int position, String speak) {
-        CardAction cardAction = null;
-
-        try {
-            String json = speechServiceBinder.getSuggestedActions();
-            List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
-            if (list != null && list.size() > position){
-                cardAction = list.get(position);
+    public void adaptiveCardClick(int position, String clickData) {
+        if (clickData != null) {
+            try {
+                speechServiceBinder.stopAnyTTS();
+                willListenAgain = false;// no need to listen again since user clicked adaptive card
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-        } catch (RemoteException exception){
-            Log.e(LOGTAG, exception.getMessage());
+            sendTextMessage(clickData);
+            sfxManager.playEarconProcessing();
         }
-
-        // respond to the bot with the suggestedAction[position].Value if possible
-        if (cardAction != null && cardAction.getValue() != null) {
-            String value = (String) cardAction.getValue();
-            sendTextMessage(value);
-        } else {
-            sendTextMessage(speak);
-        }
-
-        sfxManager.playEarconProcessing();
     }
 
     // concrete implementation of ActionsViewholder.OnClickListener
