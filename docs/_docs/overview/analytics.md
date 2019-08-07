@@ -49,7 +49,7 @@ Alternatively, you can use the Power BI service. If you don't have a PowerBI ser
 
 ## Telemetry Logging
 
-[Telemetry Overview]({{site.baseurl}}/reference/analytics/telemetrylogging) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
+This [guide](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-telemetry?view=azure-bot-service-4.0) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
 
 ## Application Insights Analytics
 
