@@ -13,6 +13,21 @@ order: 2
 * 
 {:toc}
 
+
+## My Microsoft App Registration could not be automatically provisioned
+
+Some users might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, create your own Azure Active Directory App through [this](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview) part of the Azure portal.
+
+- Click `New Registration`
+- Provide a name
+- Select `Accounts in any organizational directory`
+
+Once created, retrieve the `Application (ClientId)` and create a new client secret on the `Certificates & secrets` pane
+
+Run the above deployment script again but provide two new arguments `appId` and `appPassword` passing the values you've just retrieved.
+
+> NOTE: Take special care when providing the appSecret step above as special characters (e.g. @) can cause parse issues. Ensure you wrap these parameters in single quotes.
+
 ## The Teams channel doesn't render OAuth cards.
 
 Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please:
