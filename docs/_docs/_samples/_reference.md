@@ -2,6 +2,7 @@
 category: Reference
 subcategory: [Virtual Assistant or Skills]
 title: [Title]
+description: [Description]
 order: 1
 ---
 
