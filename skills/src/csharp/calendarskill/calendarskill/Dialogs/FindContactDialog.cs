@@ -894,7 +894,7 @@ namespace CalendarSkill.Dialogs
             {
                 options.Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactNameMultiPage]", new { userName = currentRecipientName });
             }
-            
+
             var didntUnderstandPrompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
 
             for (var i = 0; i < unionList.Count; i++)

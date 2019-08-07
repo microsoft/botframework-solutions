@@ -1,5 +1,24 @@
+[import](./../Shared/Shared.en-us.lg)
+
 # CalendarWelcomeMessage
 - ```
 Welcome to the Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you. || speech test
 [Suggestions=What are my meetings today?|What is my next meeting|I want to set up a meeting|Can you update a meeting|Can you cancel my event]
 ```
+
+# FeatureNotAvailable
+- This feature is not yet available in the Calendar Skill. Please try asking something else.
+
+# CancelMessage
+- Ok, let's start over.
+
+# HelpMessage
+- ```
+I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.
+[Suggestions=What are my meetings today?|What is my next meeting|I want to set up a meeting|Can you update a meeting|Can you cancel my event]
+```
+
+# LogOut
+- Your sign out was successful.
+- You have successfully signed out.
+- You have been logged out.
