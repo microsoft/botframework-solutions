@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -51,12 +52,12 @@ namespace PointOfInterestSkill.Dialogs
         };
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
         private IHttpContextAccessor _httpContext;
+        protected ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public PointOfInterestDialogBase(
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -65,11 +66,12 @@ namespace PointOfInterestSkill.Dialogs
         {
             Settings = settings;
             Services = services;
-            ResponseManager = responseManager;
             Accessor = conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
             _httpContext = httpContext;
+
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("POISharedResponses.lg");
 
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new TextPrompt(Actions.Prompt));
@@ -84,8 +86,6 @@ namespace PointOfInterestSkill.Dialogs
         protected IStatePropertyAccessor<PointOfInterestSkillState> Accessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
 
         public static Activity CreateOpenDefaultAppReply(Activity activity, PointOfInterestModel destination)
         {
@@ -124,7 +124,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (cards.Count() == 0)
                 {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoLocationsFound]");
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else if (cards.Count == 1)
@@ -133,7 +133,7 @@ namespace PointOfInterestSkill.Dialogs
 
                     var options = new PromptOptions
                     {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.CurrentLocationSingleSelection, cards)
+                        Prompt = await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, sc.Context, "[CurrentLocationSingleSelection]", null, cards) as Activity
                     };
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
@@ -147,7 +147,7 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.CurrentLocationMultipleSelection, pointOfInterestList, cards);
+                    var options = await GetPointOfInterestPrompt("[CurrentLocationMultipleSelection]", pointOfInterestList, cards, sc.Context);
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
                     if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
@@ -181,7 +181,7 @@ namespace PointOfInterestSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var cancelMessage = ResponseManager.GetResponse(POISharedResponses.CancellingMessage);
+                var cancelMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CancellingMessage]");
 
                 if (sc.Result != null)
                 {
@@ -282,7 +282,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (cards.Count() == 0)
                 {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoLocationsFound]");
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else if (cards.Count == 1)
@@ -291,7 +291,7 @@ namespace PointOfInterestSkill.Dialogs
 
                     var options = new PromptOptions
                     {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
+                        Prompt = await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, sc.Context, "[PromptToGetRoute]", null, cards) as Activity
                     };
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
@@ -305,7 +305,7 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
+                    var options = await GetPointOfInterestPrompt("[MultipleLocationsFound]", pointOfInterestList, cards, sc.Context);
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
                     if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
@@ -339,7 +339,7 @@ namespace PointOfInterestSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var defaultReplyMessage = ResponseManager.GetResponse(POISharedResponses.GetRouteToActiveLocationLater);
+                var defaultReplyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[GetRouteToActiveLocationLater]");
 
                 if (sc.Result != null)
                 {
@@ -396,8 +396,9 @@ namespace PointOfInterestSkill.Dialogs
         /// <param name="prompt">Prompt string.</param>
         /// <param name="pointOfInterestList">List of PointOfInterestModels.</param>
         /// <param name="cards">List of Cards.</param>
+        /// <param name="turnContext">Context.</param>
         /// <returns>PromptOptions.</returns>
-        protected PromptOptions GetPointOfInterestPrompt(string prompt, List<PointOfInterestModel> pointOfInterestList, List<Card> cards = null)
+        protected async Task<PromptOptions> GetPointOfInterestPrompt(string prompt, List<PointOfInterestModel> pointOfInterestList, List<Card> cards, ITurnContext turnContext)
         {
             var options = new PromptOptions()
             {
@@ -421,13 +422,16 @@ namespace PointOfInterestSkill.Dialogs
                 // Use response resource to get formatted name if multiple have the same name
                 if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
                 {
-                    var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
-                    var promptReplacements = new StringDictionary
+                    var promptTemplate = "[PointOfInterestSuggestedActionName]";
+                    var promptReplacements = new
+                    {
+                        input = new
                         {
-                            { "Name", item },
-                            { "Address", address },
-                        };
-                    suggestedActionValue = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
+                            Name = item,
+                            Address = address
+                        }
+                    };
+                    suggestedActionValue = await _lgMultiLangEngine.Generate(turnContext, promptTemplate, promptReplacements);
                 }
 
                 var choice = new Choice()
@@ -440,7 +444,8 @@ namespace PointOfInterestSkill.Dialogs
                 pointOfInterestList[i].SubmitText = suggestedActionValue;
             }
 
-            options.Prompt = cards == null ? ResponseManager.GetResponse(prompt) : ResponseManager.GetCardResponse(prompt, cards);
+            options.Prompt = (cards == null ? await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, turnContext, prompt) : await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, turnContext, prompt, null, cards)) as Activity;
+
             options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options.Prompt, ReadPreference.Enumeration, 5));
 
             return options;
@@ -498,13 +503,16 @@ namespace PointOfInterestSkill.Dialogs
                     // Otherwise, just use the name.
                     if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
                     {
-                        var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
-                        var promptReplacements = new StringDictionary
+                        var promptTemplate = "[PointOfInterestSuggestedActionName]";
+                        var promptReplacements = new
                         {
-                            { "Name", WebUtility.HtmlEncode(pointOfInterestList[i].Name) },
-                            { "Address", $"<say-as interpret-as='address'>{WebUtility.HtmlEncode(pointOfInterestList[i].AddressForSpeak)}</say-as>" },
+                            input = new
+                            {
+                                Name = WebUtility.HtmlEncode(pointOfInterestList[i].Name),
+                                Address = $"<say-as interpret-as='address'>{WebUtility.HtmlEncode(pointOfInterestList[i].AddressForSpeak)}</say-as>"
+                            }
                         };
-                        pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Speak;
+                        pointOfInterestList[i].Speak = await _lgMultiLangEngine.Generate(sc.Context, promptTemplate, promptReplacements);
                     }
                     else
                     {
@@ -556,7 +564,7 @@ namespace PointOfInterestSkill.Dialogs
             return timeString.ToString();
         }
 
-        protected string GetFormattedTrafficDelayString(TimeSpan timeSpan)
+        protected async Task<string> GetFormattedTrafficDelayString(TimeSpan timeSpan, ITurnContext turnContext)
         {
             var timeString = new StringBuilder();
             if (timeSpan.Hours == 1)
@@ -586,22 +594,25 @@ namespace PointOfInterestSkill.Dialogs
                 timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTES}");
             }
 
-            var timeReplacements = new StringDictionary
+            var timeReplacements = new
+            {
+                input = new
                 {
-                    { "Time", timeString.ToString() }
-                };
+                    Time = timeString.ToString()
+                }
+            };
 
             if (timeString.Length != 0)
             {
-                var timeTemplate = POISharedResponses.TrafficDelay;
+                var timeTemplate = "[TrafficDelay]";
 
-                return ResponseManager.GetResponse(timeTemplate, timeReplacements).Text;
+                return await _lgMultiLangEngine.Generate(turnContext, timeTemplate, timeReplacements);
             }
             else
             {
-                var timeTemplate = POISharedResponses.NoTrafficDelay;
+                var timeTemplate = "[NoTrafficDelay]";
 
-                return ResponseManager.GetResponse(timeTemplate, timeReplacements).Text;
+                return await _lgMultiLangEngine.Generate(turnContext, timeTemplate, timeReplacements);
             }
         }
 
@@ -655,11 +666,11 @@ namespace PointOfInterestSkill.Dialogs
                         Hours = destination.Hours,
                         PointOfInterestImageUrl = await service.GetRouteImageAsync(destination, route),
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
-                        DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
+                        DelayStatus = await GetFormattedTrafficDelayString(trafficTimeSpan, sc.Context),
                         Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
-                        TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
+                        TravelDelaySpeak = await GetFormattedTrafficDelayString(trafficTimeSpan, sc.Context),
                         ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString()),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan)
                     };
@@ -688,7 +699,7 @@ namespace PointOfInterestSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
+            await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PointOfInterestErrorMessage]"));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);
@@ -711,7 +722,7 @@ namespace PointOfInterestSkill.Dialogs
         {
             if (Channel.GetChannelId(turnContext) == Channels.Msteams)
             {
-                return card + ".1.0";
+                return card + "_1_0";
             }
             else
             {

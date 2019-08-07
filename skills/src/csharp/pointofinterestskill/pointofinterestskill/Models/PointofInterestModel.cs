@@ -116,7 +116,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The id of this point of interest.
         /// </value>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the thumbnail image url of the point of interest.
@@ -125,7 +125,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The image URL of this point of interest.
         /// </value>
-        public string PointOfInterestImageUrl { get; set; }
+        public string PointOfInterestImageUrl { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the point of interest.
@@ -134,7 +134,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The name of this point of interest.
         /// </value>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the formatted address of the point of interest.
@@ -143,7 +143,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The formatted address of this point of interest.
         /// </value>
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the formatted address of the point of interest
@@ -154,7 +154,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The formatted address of this point of interest for speech.
         /// </value>
-        public string AddressForSpeak { get; set; }
+        public string AddressForSpeak { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the geolocation of the point of interest.
@@ -172,7 +172,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The ETA to this point of interest.
         /// </value>
-        public string EstimatedTimeOfArrival { get; set; }
+        public string EstimatedTimeOfArrival { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the distance to the point of interest.
@@ -180,7 +180,7 @@ namespace PointOfInterestSkill.Models
         /// </summary>
         /// <value>
         /// The distance to this point of interest.
-        public string Distance { get; set; }
+        public string Distance { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the rating of the point of interest.
@@ -189,7 +189,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The rating of this point of interest.
         /// </value>
-        public string Rating { get; set; }
+        public string Rating { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the number of ratings of the point of interest.
@@ -215,7 +215,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The open hours of this point of interest.
         /// </value>
-        public string Hours { get; set; }
+        public string Hours { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the top category of the point of interest.
@@ -224,7 +224,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The top category of this point of interest.
         /// </value>
-        public string Category { get; set; }
+        public string Category { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the provider.
@@ -242,7 +242,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The provider of this point of interest.
         /// </value>
-        public string ProviderDisplayText { get; set; }
+        public string ProviderDisplayText { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the index number of the point of interest.
@@ -258,7 +258,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The formatted speak string.
         /// </value>
-        public string Speak { get; set; }
+        public string Speak { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the text to submit.
@@ -266,7 +266,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The text to submit.
         /// </value>
-        public string SubmitText { get; set; }
+        public string SubmitText { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets the formatted string for available details.

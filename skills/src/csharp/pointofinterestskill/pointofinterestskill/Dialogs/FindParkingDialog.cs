@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -24,13 +25,12 @@ namespace PointOfInterestSkill.Dialogs
         public FindParkingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             RouteDialog routeDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(FindParkingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
+            : base(nameof(FindParkingDialog), settings, services, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -73,7 +73,7 @@ namespace PointOfInterestSkill.Dialogs
                 return await sc.ReplaceDialogAsync(Actions.FindParking);
             }
 
-            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
+            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PromptForCurrentLocation]") as Activity });
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (cards.Count == 0)
                 {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoLocationsFound]");
                     await sc.Context.SendActivityAsync(replyMessage);
                     return await sc.EndDialogAsync();
                 }
@@ -144,7 +144,7 @@ namespace PointOfInterestSkill.Dialogs
 
                     var options = new PromptOptions
                     {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
+                        Prompt = await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, sc.Context, "[PromptToGetRoute]", null, cards) as Activity
                     };
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
@@ -158,7 +158,7 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
+                    var options = await GetPointOfInterestPrompt("[MultipleLocationsFound]", pointOfInterestList, cards, sc.Context);
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
                     if (Channel.GetChannelId(sc.Context) == Channels.Msteams)

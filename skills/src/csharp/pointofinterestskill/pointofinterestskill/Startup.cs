@@ -10,8 +10,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -24,7 +26,6 @@ using PointOfInterestSkill.Bots;
 using PointOfInterestSkill.Dialogs;
 using PointOfInterestSkill.Responses.CancelRoute;
 using PointOfInterestSkill.Responses.FindPointOfInterest;
-using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -48,9 +49,13 @@ namespace PointOfInterestSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -78,6 +83,10 @@ namespace PointOfInterestSkill
                 return new BotStateSet(userState, conversationState);
             });
 
+            // Config LG
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(new LanguageGeneratorManager(resourceExplorer));
+
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
             var telemetryClient = new BotTelemetryClient(new TelemetryClient());
@@ -96,15 +105,6 @@ namespace PointOfInterestSkill
 
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new CancelRouteResponses(),
-                new FindPointOfInterestResponses(),
-                new POIMainResponses(),
-                new RouteResponses(),
-                new POISharedResponses()));
 
 			// register dialogs
 			services.AddTransient<MainDialog>();
