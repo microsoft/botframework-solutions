@@ -1,0 +1,99 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+[import](./../CancelRoute/CancelRouteResponses.lg)
+[import](./../Cards/PointOfInterestDetails.lg)
+[import](./../Cards/PointOfInterestDetails_1_0.lg)
+[import](./../Cards/PointOfInterestDetailsWithRoute.lg)
+[import](./../Cards/PointOfInterestDetailsWithRoute_1_0.lg)
+[import](./../FindPointOfInterest/FindPointOfInterestResponses.lg)
+[import](./../Main/POIMainResponses.lg)
+[import](./../Route/RouteResponses.lg)
+
+# DidntUnderstandMessage
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way?
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again? I didn't get what you mean.
+
+# CancellingMessage
+- OK, we can do this later.
+- Sure, we can start this later.
+- No problem, you can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# ActionEnded
+- Let me know if you need my help with something else.
+- I'm here if you need me.
+
+# PointOfInterestErrorMessage
+- Sorry, it looks like something went wrong!
+- I apologize, an error occurred. My team will look into this.
+- Something went wrong, sorry!
+- It seems like something went wrong.
+- Sorry I can't help right now. Please try again later.
+
+# PromptToGetRoute
+- Should I look up directions?
+- Should I get directions to this address?
+- Do you want me to get you directions?
+
+# GetRouteToActiveLocationLater
+- Ok, I can help you with this later.
+- Sure, I can help you with this later.
+
+# MultipleLocationsFound
+- I found the following.
+- Here are some options.
+- What do you think of these?
+
+# SingleLocationFound
+- I found the following.
+- Here's a match.
+
+# MultipleLocationsFoundAlongActiveRoute
+- I found the following.
+- Here are some matches.
+
+# SingleLocationFoundAlongActiveRoute
+- I found the following.
+- Here's a match.
+
+# NoLocationsFound
+- Sorry, I didn't find anything. Try something like "the mall in Bellevue" or "Chippenham in the UK."
+- Hmm...I'm not finding anything. Try something like "the mall in Bellevue" or "Chippenham in the UK."
+
+# MultipleRoutesFound
+- I found several routes to your destination.
+- There are multiple routes to your destination.
+
+# SingleRouteFound
+- I found a route. Let's begin!
+- I found a route. Let's start!
+
+# PointOfInterestSelection
+- Where would you like to go?
+- Which would you like?
+
+# CurrentLocationMultipleSelection
+- Which one?
+- One of these?
+
+# CurrentLocationSingleSelection
+- This one?
+
+# PointOfInterestSuggestedActionName(input)
+- @{input.Name} at @{input.Address}
+
+# NoTrafficDelay
+- No traffic delay
+
+# TrafficDelay(input)
+- @{input.Time} delay
+
+# PromptForCurrentLocation
+- What's your address?
+- Where are you? Try providing a city or address.
