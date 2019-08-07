@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private IStreamingTransportClient _streamingTransportClient;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private bool endOfConversation = false;
+        private Activity endOfConversationActivity;
 
         public SkillWebSocketTransport(
             IBotTelemetryClient botTelemetryClient,
@@ -29,18 +29,10 @@ namespace Microsoft.Bot.Builder.Skills
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
+        public async Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
         {
             if (_streamingTransportClient == null)
             {
-                // acquire AAD token
-                MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
-                var token = await serviceClientCredentials.GetTokenAsync();
-
-                // put AAD token in the header
-                var headers = new Dictionary<string, string>();
-                headers.Add("Authorization", $"Bearer {token}");
-
                 // establish websocket connection
                 _streamingTransportClient = new WebSocketClient(
                     EnsureWebSocketUrl(skillManifest.Endpoint.ToString()),
@@ -49,11 +41,18 @@ namespace Microsoft.Bot.Builder.Skills
                         _botTelemetryClient,
                         GetTokenCallback(turnContext, tokenRequestHandler),
                         GetFallbackCallback(turnContext, fallbackHandler),
-                        GetHandoffActivityCallback()),
-                    headers);
+                        GetHandoffActivityCallback()));
             }
 
-            await _streamingTransportClient.ConnectAsync();
+            // acquire AAD token
+            MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
+            var token = await serviceClientCredentials.GetTokenAsync();
+
+            // put AAD token in the header
+            var headers = new Dictionary<string, string>();
+            headers.Add("Authorization", $"Bearer {token}");
+
+            await _streamingTransportClient.ConnectAsync(headers);
 
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
@@ -68,7 +67,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             await _streamingTransportClient.SendAsync(request);
 
-            return endOfConversation;
+            return endOfConversationActivity;
         }
 
         public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext)
@@ -109,7 +108,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             return (activity) =>
             {
-                endOfConversation = true;
+                endOfConversationActivity = activity;
             };
         }
 

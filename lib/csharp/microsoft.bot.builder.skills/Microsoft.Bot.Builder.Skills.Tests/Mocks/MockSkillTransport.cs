@@ -19,11 +19,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
         {
         }
 
-		public Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
+		public Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
 		{
 			_activityForwarded = activity;
 
-            return Task.FromResult(true);
+            return Task.FromResult<Activity>(null);
         }
 
         public bool CheckIfSkillInvoked()

@@ -34,6 +34,7 @@ namespace Microsoft.Bot.Builder.Skills.Auth
                 var validationParameters =
                     new TokenValidationParameters
                     {
+                        ValidateIssuer = false, // do not validate issuer
                         ValidAudiences = new[] { _microsoftAppId },
                         IssuerSigningKeys = openIdConfig.SigningKeys,
                     };

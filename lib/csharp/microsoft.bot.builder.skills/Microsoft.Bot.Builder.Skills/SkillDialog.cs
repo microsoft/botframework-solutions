@@ -318,12 +318,12 @@ namespace Microsoft.Bot.Builder.Skills
                 // populate call id for auth purpose
                 activity.CallerId = _serviceClientCredentials.MicrosoftAppId;
 
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
+                var endOfConversationActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
-                if (endOfConversation)
+                if (endOfConversationActivity != null)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await innerDc.EndDialogAsync();
+                    return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction?.Entities);
                 }
                 else
                 {
