@@ -44,10 +44,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import client.model.ActivityValue;
 import client.model.BotConnectorActivity;
 import client.model.InputHints;
 import events.ActivityReceived;
-import events.GpsLocationSent;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
@@ -444,9 +444,13 @@ public class SpeechService extends Service {
                     if (botConnectorActivity.getName().equals("OpenDefaultApp")) {
                         Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
                         openDefaultApp(botConnectorActivity);
+                    } else {
+                        // all other events are broadcast for other apps
+                        broadcastWidgetUpdate(botConnectorActivity);
                     }
                     break;
                 default:
+                    // all other events are broadcast for other apps
                     broadcastWidgetUpdate(botConnectorActivity);
                     break;
             }
@@ -474,38 +478,47 @@ public class SpeechService extends Service {
     }
 
     private void openDefaultApp(BotConnectorActivity botConnectorActivity){
-        String intentStr = botConnectorActivity.getValue();
-        if (intentStr.startsWith("geo")){
-            final String gpscoords = intentStr.replace("geo:", "");
+        String intentStr = null;
+        if (botConnectorActivity.getValue() instanceof String) {
+            intentStr = (String) botConnectorActivity.getValue();
+        } else {
+            intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
+        }
+        if (intentStr != null) {
+            if (intentStr.startsWith("geo")) {
+                final String gpscoords = intentStr.replace("geo:", "");
 
-            try {
-                // Launch Waze
-                Uri wazeIntentUri = Uri.parse("waze://?ll="+gpscoords+"&navigate=yes");
-                Intent wazeIntent = new Intent(Intent.ACTION_VIEW, wazeIntentUri);
-                wazeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(wazeIntent);
-            } catch ( ActivityNotFoundException ex) {
-                // launch Google Maps
-                Uri gmmIntentUri = Uri.parse("google.navigation:q="+gpscoords);//NOTE: by default mode = driving
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
-                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                } else {
-                    // since Waze and Google maps aren't available, show error to user
-                    Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
+                try {
+                    // Launch Waze
+                    Uri wazeIntentUri = Uri.parse("waze://?ll=" + gpscoords + "&navigate=yes");
+                    Intent wazeIntent = new Intent(Intent.ACTION_VIEW, wazeIntentUri);
+                    wazeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(wazeIntent);
+                } catch (ActivityNotFoundException ex) {
+                    // launch Google Maps
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + gpscoords);//NOTE: by default mode = driving
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
+                    mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    } else {
+                        // since Waze and Google maps aren't available, show error to user
+                        Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            }
+            if (intentStr.startsWith("tel")) {
+                Uri intentUri = Uri.parse(intentStr);
+                Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
+                dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (dialerIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(dialerIntent);
                 }
             }
-
-        }
-        if (intentStr.startsWith("tel")){
-            Uri intentUri = Uri.parse(intentStr);
-            Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
-            dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (dialerIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(dialerIntent);
-            }
+        } else {
+            Toast.makeText(this, R.string.service_error_uri, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -59,5 +59,6 @@
 
     <!-- SERVICE ERRORS -->
     <string name="service_error_no_map">Unable to show directions because Waze and Google Maps are not installed</string>
+    <string name="service_error_uri">Missing URI field</string>
 
 </resources>
