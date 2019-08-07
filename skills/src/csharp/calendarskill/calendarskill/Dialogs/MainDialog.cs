@@ -83,22 +83,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             // send a greeting if we're in local mode
-            //await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
-
-            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[CalendarWelcomeMessage]", null);
-            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[Test]", null);
-            //var activity = await new TextMessageActivityGenerator().CreateActivityFromText(result, null, dc.Context, null);
             var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CalendarWelcomeMessage]", null);
-            //var now = DateTime.UtcNow;
-            //var now1 = now.AddMinutes(90);
-            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[FormatDateTimeDuration]",
-            //    new
-            //    {
-            //        startTime = now,
-            //        endTime = now1
-            //    }
-            //);
-            //var activity = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, result, null);
 
             await dc.Context.SendActivityAsync(activity);
         }
@@ -190,7 +175,7 @@ namespace CalendarSkill.Dialogs
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[DidntUnderstandMessage]", null));
                                 turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
@@ -199,7 +184,7 @@ namespace CalendarSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[FeatureNotAvailable]", null));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -332,7 +317,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CancelMessage]", null));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -340,7 +325,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[HelpMessage]", null));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -366,7 +351,7 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[LogOut]", null));
 
             return InterruptionAction.StartedDialog;
         }
