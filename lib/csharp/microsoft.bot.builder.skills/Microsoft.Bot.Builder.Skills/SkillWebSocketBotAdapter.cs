@@ -244,7 +244,7 @@ namespace Microsoft.Bot.Builder.Skills
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<T> SendRequestAsync<T>(Request request, CancellationToken cancellation = default(CancellationToken))
+        private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {

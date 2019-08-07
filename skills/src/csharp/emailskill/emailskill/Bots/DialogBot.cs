@@ -30,15 +30,20 @@ namespace EmailSkill.Bots
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
+
+            _dialogManager = new DialogManager(dialog);
+            _storage = storage;
+
+            _resourceExplorer = resourceExplorer;
         }
 
-        public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
                 _telemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.", Severity.Information, null);
-                return Task.CompletedTask;
+                return;
             }
 
             if (turnContext.TurnState.Get<IStorage>() == null)
@@ -57,7 +62,7 @@ namespace EmailSkill.Bots
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
 
-            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
+            await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }

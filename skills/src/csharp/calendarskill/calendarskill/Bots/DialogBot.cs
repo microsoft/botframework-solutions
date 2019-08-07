@@ -20,11 +20,9 @@ namespace CalendarSkill.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
-        private DialogSet _dialogs;
         private DialogManager _dialogManager;
         private IStorage _storage;
         private ResourceExplorer _resourceExplorer;
-
 
         public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
@@ -45,7 +43,7 @@ namespace CalendarSkill.Bots
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
                 _telemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.", Severity.Information, null);
-                return Task.CompletedTask;
+                return;
             }
 
             if (turnContext.TurnState.Get<IStorage>() == null)
@@ -64,7 +62,7 @@ namespace CalendarSkill.Bots
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
 
-            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
+            await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }
