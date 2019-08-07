@@ -319,7 +319,7 @@ namespace Microsoft.Bot.Builder.Skills
                 if (endOfConversationActivity != null)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction.Entities);
+                    return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction?.Entities);
                 }
                 else
                 {
