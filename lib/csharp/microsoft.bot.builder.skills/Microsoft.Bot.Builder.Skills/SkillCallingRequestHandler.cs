@@ -77,6 +77,7 @@ namespace Microsoft.Bot.Builder.Skills
                                     }
                                     else if (activity.Type == ActivityTypes.EndOfConversation)
                                     {
+                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
                                         if (_handoffActivityHandler != null)
                                         {
                                             _handoffActivityHandler(activity);
