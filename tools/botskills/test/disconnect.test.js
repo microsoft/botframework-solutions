@@ -8,58 +8,54 @@ const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
+const { normalizeContent } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
+const filledDispatch = normalizeContent(JSON.stringify(
+    {
+        "services": [
+            {
+                "name": "testDispatch",
+                "id": "1"
+            }
+        ],
+        "serviceIds": [
+            "1"
+        ]
+    },
+    null, 4));
+
+const filledSkills = normalizeContent(JSON.stringify(
+    {
+        "skills": [
+            {
+                "id": "testSkill"
+            },
+            {
+                "id": "testDispatch"
+            }
+        ]
+    },
+    null, 4));
+
+function undoChangesInTemporalFiles() {
+    writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatchNoJson.dispatch")), filledDispatch);
+    writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatch.dispatch")), filledDispatch);
+    writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
+}
 
 describe("The disconnect command", function () {
     
-    beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatch.dispatch")),
-            JSON.stringify(
-                {
-                    "services": [
-                        {
-                            "name": "testDispatch",
-                            "id": "1"
-                        }
-                    ],
-                    "serviceIds": [
-                        "1"
-                    ]
-                }
-                , null, 4));
-        writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatchNoJson.dispatch")),
-            JSON.stringify(
-                {
-                    "services": [
-                        {
-                            "name": "testDispatch",
-                            "id": "1"
-                        }
-                    ],
-                    "serviceIds": [
-                        "1"
-                    ]
-                }
-                , null, 4));
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
-            JSON.stringify(
-                {
-                    "skills": [
-                        {
-                            "id": "testSkill"
-                        },
-                        {
-                            "id": "testDispatch"
-                        }
-                    ]
-                }
-                , null, 4));
-        
+    beforeEach(function() {
+        undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
         this.disconnector = new botskills.DisconnectSkill(this.logger);
         this.refreshSkillStub = sandbox.stub(this.disconnector.refreshSkill, "refreshSkill");
         this.refreshSkillStub.returns(Promise.resolve("Mocked function successfully"));
-    })
+    });
+
+    after(function() {
+        undoChangesInTemporalFiles();
+    });
 
 	describe("should show an error", function () {
         it("when there is no skills File", async function () {

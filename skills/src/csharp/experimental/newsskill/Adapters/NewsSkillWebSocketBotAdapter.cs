@@ -16,7 +16,6 @@ namespace NewsSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient)
         {
             OnTurnError = async (context, exception) =>
@@ -31,7 +30,6 @@ namespace NewsSkill.Adapters
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(NewsSkill))));
         }
     }

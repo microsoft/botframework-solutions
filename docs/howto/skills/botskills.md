@@ -24,6 +24,7 @@ The CLI performs the following operations on your behalf:
 > Your Virtual Assistant must have been deployed using the [deployment tutorial](/docs/tutorials/assistantandskilldeploymentsteps.md) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
 ## Prerequisites
+- Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 - [Node.js](https://nodejs.org/) version 10.8 or higher
 - Install the Dispatch, LUDown and LUISGen CLI tools
 

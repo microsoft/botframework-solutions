@@ -21,7 +21,6 @@ namespace EmailSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResourceExplorer resourceExplorer)
             : base(credentialProvider)
@@ -42,7 +41,6 @@ namespace EmailSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

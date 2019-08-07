@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Protocol.WebSockets;
+using Microsoft.Bot.StreamingExtensions.Transport;
+using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -90,7 +91,7 @@ namespace Microsoft.Bot.Builder.Skills
             Task.WaitAll(startListening);
         }
 
-		private void Server_Disconnected(object sender, Bot.Protocol.Transport.DisconnectedEventArgs e)
+		private void Server_Disconnected(object sender, DisconnectedEventArgs e)
 		{
 			if (_stopWatch.IsRunning)
 			{

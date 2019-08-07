@@ -14,12 +14,12 @@ namespace VirtualAssistantSample.Tests.Utilities
     {
         private static Dictionary<string, QueryResult[]> _utterances = new Dictionary<string, QueryResult[]>
         {
-            { ChitchatUtterances.Greeting, CreateAnswer(@"Resources\chitchat_greeting.json") },
+            { ChitchatUtterances.Greeting, CreateAnswer(Path.Combine("Resources", "chitchat_greeting.json")) },
         };
 
         public static MockQnAMaker CreateRecognizer()
         {
-            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(@"Resources\chitchat_default.json"));
+            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(Path.Combine("Resources", "chitchat_default.json")));
             recognizer.RegisterAnswers(_utterances);
             return recognizer;
         }

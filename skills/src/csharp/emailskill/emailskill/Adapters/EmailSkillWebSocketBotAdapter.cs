@@ -22,6 +22,7 @@ namespace EmailSkill.Adapters
             UserState userState,
             ConversationState conversationState,
             BotStateSet botStateSet,
+            ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("Shared.lg");
@@ -39,7 +40,6 @@ namespace EmailSkill.Adapters
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(EmailSkill))));
         }
     }
