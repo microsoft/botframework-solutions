@@ -1,0 +1,10 @@
+{
+  "name": "",
+  "subscriptionKey": "",
+  "hostname": "",
+  "endpointKey": "",
+  "id": "",
+  "kbId": "",
+  "trainFileName": "TrainData/chitchat.qna",
+  "testFileName": "TestData/testsample3.qna"
+}

@@ -1,0 +1,24 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).",
+      "source": "custom editorial",
+      "questions": [
+        "What is a Virtual Assistant"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).",
+      "source": "custom editorial",
+      "questions": [
+        "What is a Skill"
+      ],
+    }
+  ],
+  "files": [],
+  "name": "faq"
+}

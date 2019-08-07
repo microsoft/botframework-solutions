@@ -1,0 +1,100 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "Glad you're pleased!",
+      "source": "custom editorial",
+      "questions": [
+        "Ha",
+        "Haha",
+        "Hahaha",
+        "LOL",
+        "I'm cracking up",
+        "ROFL"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Good evening.",
+      "source": "custom editorial",
+      "questions": [
+        "Good evening",
+        "Evening",
+        "Good evening to you"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Good morning.",
+      "source": "custom editorial",
+      "questions": [
+        "Good morning",
+        "Morning"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Good night.",
+      "source": "custom editorial",
+      "questions": [
+        "Good night",
+        "Night",
+        "Have a good night",
+        "Good night to you",
+        "Nighty night"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Thank you.",
+      "source": "custom editorial",
+      "questions": [
+        "I love you",
+        "I like you",
+        "I think you're so pretty",
+        "You're such a sweetheart",
+        "I'd like to take you out on a date",
+        "I think you're dreamy"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Thanks.",
+      "source": "custom editorial",
+      "questions": [
+        "I like you",
+        "I think you're swell",
+        "You're the best",
+        "You're so cool",
+        "You are my favorite",
+        "I'm your biggest fan"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "You're welcome.",
+      "source": "custom editorial",
+      "questions": [
+        "Thank you",
+        "Thanks",
+        "Thnx",
+        "Kthx",
+        "I appreciate it",
+        "Thank you so much",
+        "I thank you",
+        "My sincere thanks",
+        "Great, thanks"
+      ],
+      "metadata": []
+    }
+  ],
+  "files": [],
+  "name": "chitchat"
+}
