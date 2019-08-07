@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "HospitalitySkill_checkOut",
+      "id": "hospitalitySkill_checkOut",
       "definition": {
         "description": "Check out of room.",
         "slots": [],
@@ -23,7 +23,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_extendStay",
+      "id": "hospitalitySkill_extendStay",
       "definition": {
         "description": "Extend reseravation for current room.",
         "slots": [],
@@ -40,7 +40,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_getReservation",
+      "id": "hospitalitySkill_getReservation",
       "definition": {
         "description": "Get current reservation details.",
         "slots": [],
@@ -57,7 +57,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_lateCheckOut",
+      "id": "hospitalitySkill_lateCheckOut",
       "definition": {
         "description": "Change to late check out.",
         "slots": [],
@@ -74,7 +74,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_requestItem",
+      "id": "hospitalitySkill_requestItem",
       "definition": {
         "description": "Request items to be brought to your room.",
         "slots": [],
