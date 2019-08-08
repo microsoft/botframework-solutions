@@ -1,0 +1,387 @@
+> # QnA pairs
+
+> Source: Editorial
+## ? ¿Qué es un asistente virtual?
+
+```markdown
+Hemos visto una necesidad significativa de nuestros clientes y socios para ofrecer un asistente conversacional adaptado a su marca, personalizado a sus clientes y hecho disponible en una amplia gama de lienzos y dispositivos conversacionales. Continuando el enfoque de código abierto de Microsoft hacia el SDK de bot Framework, la solución de Open Source virtual Assistant proporciona un control total sobre la experiencia del usuario final construida en un conjunto de capacidades fundacionales. Además, la experiencia se puede infundir con inteligencia sobre el usuario final y cualquier información de dispositivo/ecosistema para una experiencia verdaderamente integrada e inteligente.
+Más información [aquí] (https:/github.com/Microsoft/AI/BLOB/Master/Solutions/virtual-Assistant/docs/readme.MD).
+```
+
+> Source: Editorial
+## ? ¿Qué es una habilidad
+
+```markdown
+Existe un amplio conjunto de capacidades comunes que hoy en día requieren que cada desarrollador se construya. Nuestra solución de asistente virtual incluye una nueva capacidad de habilidad que permite conectar nuevas funcionalidades a un asistente virtual a través de la configuración y proporcionar un mecanismo de autenticación para que Skills solicite tokens para actividades de flujo descendente.
+Averigüe más [aquí] (https:/github.com/Microsoft/AI/BLOB/Master/Solutions/virtual-Assistant/docs/virtualassistant-Didac.MD).
+```
+
+> Source: Editorial
+## ? ¿Qué puede hacer la habilidad calendario
+
+```markdown
+## Resumen
+La habilidad calendario proporciona funciones relacionadas con el calendario a un asistente virtual. Los escenarios más comunes se han implementado en esta primera versión con escenarios adicionales en el desarrollo.
+## Escenarios admitidos
+La habilidad admite actualmente los siguientes escenarios:
+-Mostrar Resumen de la reunión-por ejemplo ** qué hay en mi calendario **
+-Próxima reunión-por ejemplo ** cuál es mi próxima reunión **
+-Crear una reunión-por ejemplo, reservar una reunión
+-Actualizar una reunión-por ejemplo, actualizar reunión
+-Eliminar una reunión-por ejemplo, eliminar una reunión
+```
+
+> Source: Editorial
+## ? ¿Qué puede hacer la habilidad de correo electrónico
+
+```markdown
+# Descripción general
+La habilidad de correo electrónico proporciona funciones relacionadas con el correo electrónico a un asistente virtual. Los escenarios más comunes se han implementado en esta primera versión con escenarios adicionales en el desarrollo.
+## Escenarios admitidos
+La habilidad admite actualmente los siguientes escenarios:
+-Enviar un correo electrónico
+-Enviar un correo electrónico a John Smith
+-Enviar un correo electrónico
+-Buscar correo electrónico
+-Buscar correo electrónico de John Smith
+-¿Qué correo electrónico tengo
+```
+
+> Source: Editorial
+## ? ¿Qué puede hacer la habilidad de punto de interés
+
+```markdown
+## Resumen
+La habilidad punto de interés proporciona capacidades relacionadas con PDI a un asistente virtual. Los escenarios más comunes se han implementado en esta primera versión con escenarios adicionales en el desarrollo.
+## Escenarios admitidos
+La habilidad admite actualmente los siguientes escenarios:
+-NAVIGATION_ROUTE_FROM_X_TO_Y
+-¿Cuál es la manera más rápida de llegar a 221B Baker Street?
+-¿Cómo puedo llegar a la tienda de comestibles?
+-Necesito direcciones para un café
+-NAVIGATION_FIND_POINTOFINTEREST
+-¿Qué hay cerca?
+-¿Hay farmacias en la ciudad?
+-¿Puede recomendar un restaurante asequible en Seattle?
+-NAVIGATION_CANCEL_ROUTE
+-Ya no quiero ir a la tienda
+-¿Cancelaría mi ruta?
+-En segundo pensamiento, olvídate de ir al aeropuerto
+```
+
+> Source: Editorial
+## ? ¿Qué puede hacer el ToDo Skill
+
+```markdown
+## Resumen
+La habilidad tarea proporciona funciones relacionadas con tareas a un asistente virtual. Los escenarios más comunes se han implementado en esta primera versión con escenarios adicionales en el desarrollo.
+## Escenarios admitidos
+La habilidad admite actualmente los siguientes escenarios:
+-Añadir una tarea
+-Recuérdeme a recoger la leche
+-Agregar tarea
+-Buscar tareas
+-¿Qué tareas tengo
+```
+
+> Source: Editorial
+## ? Novedades
+
+```markdown
+El asistente virtual lanzó recientemente nueva localización para el asistente virtual y habilidades que permiten el uso en inglés, Francés, Italiano, alemán, español y chino simplificado.
+```
+
+> Source: Editorial
+## ? ¿Cómo puedo plantear un error
+
+```markdown
+Plantear un problema en el [repositorio de GitHub] (https://github.com/Microsoft/AI/BLOB/Master/Solutions/virtual-Assistant/docs/readme.MD)
+```
+
+> Source: Editorial
+## ? Presión de neumático recomendada
+
+```markdown
+{' text ': ' la tabla de presión de inflado de neumáticos, consulte la página 219, contiene todas las especificaciones de presión de inflado de neumáticos para los tamaños de neumático especificados a la temperatura ambiente. Los valores de presión de inflado de los neumáticos se aplican a los tamaños de neumático aprobados por el fabricante del vehículo para el tipo de vehículo. Para identificar la presión correcta de inflado de la llanta, tenga en cuenta lo siguiente:
+-Tamaños de neumáticos de su vehículo.
+-Máxima velocidad de conducción permitida.}
+```
+
+> Source: Editorial
+## ? ¿Cómo se apaga la alarma
+
+```markdown
+{' text ': '
+1. Desbloquee el vehículo con el mando a distancia o encienda el encendido.
+2. Si lleva el mando a distancia sobre su persona, sujete completamente la manija de la puerta en el conductor o la puerta del pasajero delantero '}
+```
+
+> Source: Editorial
+## ? ¿Dónde está el botón para calentar el volante
+
+```markdown
+{' text ': ' en las proximidades del volante... '}
+```
+
+> Source: Editorial
+## ? ¿Dónde está la liberación de emergencia para el tanque de combustible
+
+```markdown
+{' text ': ' p. ej., en caso de avería eléctrica. Tenga la aleta del llenador de combustible desbloqueada por un centro de servicio del distribuidor ' s u otro centro de servicio calificado o taller de reparaciones.
+```
+
+> Source: Editorial
+## ? ¿Cómo desbloqueo la puerta sin golpear el botón de desbloqueo
+
+```markdown
+{' text ': ' Sujete completamente la manija de la puerta en la puerta del conductor o del pasajero delantero. Esto se corresponde con presionar el botón en el control remoto. '}
+```
+
+> Source: Editorial
+## ? ¿Cómo utilizo mi soporte lumbar
+- hay apoyo de espalda baja
+- ¿mi coche tiene apoyo lumbar
+
+```markdown
+{' text ': ' la curvatura del respaldo del asiento puede ajustarse de forma que apoye la región lumbar de la columna vertebral. La parte inferior de la espalda y la columna vertebral son compatibles con la postura vertical.
+-Presionar la sección delantera/trasera del botón: la curvatura se incrementa/disminuye.
+-Pulse la sección superior/inferior del botón: la curvatura se desplaza hacia arriba/abajo.
+```
+
+> Source: Editorial
+## ? ¿Cómo funciona el sistema climático
+
+```markdown
+{' text ': ' la calidad del aire en el interior del vehículo se mejora mediante un interior probado en las emisiones, un microfiltro y un sistema de control del clima para regular la temperatura, el flujo de aire y el modo de aire recirculado. Además hay otras funciones que dependen del equipo del vehículo ' s, por ejemplo microfiltro/filtro de carbón activado, control de clima automático con el control automático de recirculación del aire AUC, y la ventilación estacionado-coche '}
+```
+
+> Source: Editorial
+## ? ¿Cómo cargo mi teléfono
+
+```markdown
+{' text ': ' puede cargar su teléfono de forma inalámbrica insertando en la bandeja de carga inalámbrica. '}
+```
+
+> Source: Editorial
+## ? ¿Cómo puedo configurar todas mis puertas para desbloquear
+
+```markdown
+{' text ': ' desbloqueo automático:
+1. mi vehículo
+2. ajustes del vehículo
+3. puertas/llave
+4. desbloquear al final del viaje
+
+Después de desconectar el motor pulsando el botón START/STOP, el vehículo bloqueado se desbloquea automáticamente. '}
+```
+
+> Source: Editorial
+## ? ¿Cómo se utiliza un cinturón de seguridad para asegurar un asiento de coche
+
+```markdown
+{' text ': ' bloqueo del cinturón de seguridad
+1. Extraiga completamente la correa de la correa.
+2. Asegure el sistema de sujeción del niño con el cinturón de seguridad.
+3. deje que la correa de la correa sea jalada y tire de ella firmemente contra el sistema de sujeción del niño.
+
+El cinturón de seguridad está bloqueado '}
+```
+
+> Source: Editorial
+## ? ¿Qué es esa luz amarilla del neumático en mi guión
+- ¿Qué es esa luz amarilla
+
+```markdown
+{' title ': ' monitor de presión de neumático (amarillo) ', ' subtítulo ': ' si esta lámpara indicadora se enciende en amarillo, la presión del neumático está apagada alrededor del 10% o más. ', ' text ': ' ', ' images ': [{' URL ': ' https://virtualasspc5f.blob.core.windows.net/images/TirePressureYellow.png '}]}
+```
+
+> Source: Editorial
+## ? ¿Qué es esa luz roja del neumático en mi guión
+
+```markdown
+{' title ': ' monitor de presión de neumático (rojo) ', ' subtítulo ': ' si esta advertencia se ilumina en rojo, significa que su neumático o llantas se han desinflado rápidamente ', ' text ': ' ', ' images ': [{' URL ': ' https://virtualasspc5f.blob.core.windows.net/images/TirePressureRed.png '}]}
+```
+
+> Source: Editorial
+## ? ¿Qué es esa luz de círculo rojo en mi guión
+
+```markdown
+{' title ': ' interrumpir el monitor de fluido (rojo) ', ' subtítulo ': ' si esta señal se ilumina en rojo, su nivel de fluido de frenos es demasiado bajo ', ' text ': ' ', ' images ': [{' URL ': ' https://virtualasspc5f.blob.core.windows.net/images/BreakFluidRed.png ' '}]}
+```
+
+> Source: Editorial
+## ? En la productividad del automóvil
+
+```markdown
+{' text ': ' la productividad en el coche te ayuda a hacer más mientras conduces, intenta preguntarme cosas como ** ¿Cuándo es mi próxima cita?, ¿qué puedo hacer en el coche mientras conduzco?, ¿qué hay en mi lista de hacer?, recuérdame que llame a mamá ** o ** Capture un memo. ** '}
+```
+
+> Source: Editorial
+## ? Hacer una reservación
+
+```markdown
+{' text ': ' puedo ayudarte a hacer reservaciones para la cena o el almuerzo, solo di, ** haz una reservación ** y te guiaré a través del resto. '}
+```
+
+> Source: Editorial
+## ? Viene el invierno
+
+```markdown
+{' text ': ' ¿has pensado en invertizar tu coche?
+La Winterization es una práctica originada en Nashville, Tennessee pero no muy conocida en otras partes del mundo.
+Se trata de reemplazar los fluidos de su vehículo con Jack Daniels.
+Su vehículo todavía se congelará, pero puede tomar una copa mientras espera ayuda.
+
+... Don ' t me mires así, es todo verdad! '}
+```
+
+> Source: Editorial
+## ? Información del coche
+
+```markdown
+Intenta preguntarme cosas como:
+**What is that red light on the dash?** or
+**How do I charge my phone?**
+```
+
+> Source: Editorial
+## ? ¿Cuándo debo cambiar mi aceite
+
+```markdown
+Usted debe cambiar su aceite cada 10.000 millas o cada 6 meses.
+```
+
+> Source: Editorial
+## ? Hacer una reservación
+
+```markdown
+Puedo ayudarte a hacer reservaciones para la cena o el almuerzo, solo di, ** haz una reservación ** y te guiaré a través del resto.
+```
+
+> Source: Editorial
+## ? Novedades
+- Qué pasa
+- Yo hermano
+
+```markdown
+En esta versión puedo trabajar tanto en inglés como en Chino! El equipo está trabajando duro en más características de la productividad también.
+```
+
+> Source: Editorial
+## ? ¿Cómo sincronizo mi teléfono Bluetooth
+- ¿Dónde puedo emparejar mi teléfono Bluetooth
+
+```markdown
+Lo sentimos, actualmente no tengo información sobre cómo configurar un teléfono Bluetooth. Por favor, siga comprobando como me estoy volviendo más inteligente todo el tiempo.
+```
+
+> Source: Editorial
+## ? ¿Qué son los asientos de memoria
+
+```markdown
+Los asientos de memoria permiten que dos conductores almacenen y recuperen sus posiciones de asiento únicas para conducir el vehículo.
+```
+
+> Source: Editorial
+## ? ¿Cuáles son algunas de las características de seguridad
+- ¿Puede decirme sobre las características de seguridad
+- ¿Puede decirme sobre las características de seguridad de mi coche
+- ¿Cuáles son mis características de seguridad de vehículos
+
+```markdown
+Lo sentimos, actualmente no conozco información sobre las características de seguridad de su vehículo, pero sigo revisando como me estoy volviendo más inteligente todo el tiempo.
+```
+
+> Source: Editorial
+## ? ¿Qué es el control de crucero?
+- ¿Qué es el control de crucero?
+
+```markdown
+El control de crucero le ayuda a mantener una velocidad constante.
+```
+
+> Source: Editorial
+## ? ¿Cómo utilizo Cruise control
+- ¿Cómo trabajo control de crucero
+- ¿Cómo se opera Cruse control
+- ¿Cómo se activa el control de crucero
+
+```markdown
+Cómo utilizar el control de crucero.
+Paso 1. Pulse el botón de encendido/apagado del control de crucero.
+Paso 2. Ajuste su velocidad de crucero a su velocidad actual pulsando el botón SET.
+Paso 3. Seleccione la forma en que desea seguir un vehículo delante de usted, presionando el botón GAP.
+```
+
+> Source: Editorial
+## ? ¿Tengo un neumático de repuesto
+- Tengo un neumático plano.
+- Mi neumático está plano.
+
+```markdown
+No se preocupe, su vehículo tiene una llanta de repuesto disponible en la parte trasera debajo del piso trasero.
+```
+
+> Source: Editorial
+## ? ¿Dónde está el neumático de repuesto
+- ¿Cómo encuentro el neumático de repuesto
+
+```markdown
+El neumático de repuesto se puede encontrar en la parte posterior debajo del piso posterior. Sólo Levante el piso y estará debajo del panel de plástico en la parte trasera.
+```
+
+> Source: Editorial
+## ? ¿Cuál es mi tipo de combustible
+- ¿Qué tipo de gas utiliza mi coche
+- Es mi coche un diesel
+- ¿Debo usar gas Premium
+- ¿Qué combustible recomiendas
+
+```markdown
+Regular sin plomo está bien, pero disfruto de los sabores de etanol y Premium desplomo también. Diesel no es mi favorito sin embargo hay versiones de mí que prefieren.
+```
+
+> Source: Editorial
+## ? ¿Cuál es mi capacidad de combustible
+- ¿Cuánto gas mantiene mi coche
+
+```markdown
+14,9 galones o 56,4 litros
+```
+
+> Source: Editorial
+## ? ¿Dónde está mi ubicación de llenado de combustible
+- ¿Dónde pongo gasolina en el coche
+- ¿Dónde está la tapa de gas
+- ¿qué lado del coche es la tapa de gas
+- ¿Pones gas a la derecha o a la izquierda
+
+```markdown
+Usted tendrá que tirar hacia arriba a la gasolinera con la bomba a la izquierda del vehículo. El llenador de combustible se encuentra en la parte trasera izquierda del vehículo.
+```
+
+> Source: Editorial
+## ? ¿Cuál es mi presión de neumático
+- ¿Cuál es mi nivel de neumático
+
+```markdown
+Su presión de neumático actual es 34 libras
+```
+
+> Source: Editorial
+## ? ¿Cuál es mi nivel de combustible
+- ¿Cuánto gas tengo
+
+```markdown
+Su nivel de combustible actual es 35 por ciento
+```
+
+> Source: Editorial
+## ? Ajuste la descongelación a máx.
+- Descongelación máxima
+- descongelación máxima
+- Ajuste el descongelamiento al máximo
+
+```markdown
+He fijado su descongelación al máximo
+```

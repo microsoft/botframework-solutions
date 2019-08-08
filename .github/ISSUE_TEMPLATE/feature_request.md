@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: 'Needs Triage, Type: Suggestion'
+labels: 'Needs Triage, Type: Suggestion, Bot Service'
 assignees: ''
 
 ---

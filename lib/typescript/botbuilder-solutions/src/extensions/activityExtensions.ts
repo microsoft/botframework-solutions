@@ -15,6 +15,7 @@ export namespace ActivityExtensions {
             from: source.recipient,
             label: source.label,
             locale: local,
+            callerId: source.callerId,
             recipient: source.from,
             replyToId: source.id,
             serviceUrl: source.serviceUrl,

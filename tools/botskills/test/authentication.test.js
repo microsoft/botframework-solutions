@@ -8,13 +8,14 @@ const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const { TestLogger } = require("./helpers/testLogger");
+const { normalizeContent } = require("./helpers/normalizeUtils");
 const { AuthenticationUtils } = require("../lib/utils");
 const authenticationUtils = new AuthenticationUtils();
 const emptyAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "emptyAuthSettings.json"))));
 const filledAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "filledAuthSettings.json"))));
 const appShowReplyUrl = JSON.stringify(require(resolve(__dirname, join("mocks", "appShowReplyUrl", "emptyAppShowReplyUrl.json"))));
 
-const noAuthConnectionAppsettings = JSON.stringify(
+const noAuthConnectionAppsettings = normalizeContent(JSON.stringify(
     {
         "microsoftAppId": "",
         "microsoftAppPassword": "",
@@ -36,10 +37,41 @@ const noAuthConnectionAppsettings = JSON.stringify(
             "key": ""
         }
     },
-    null, 4);
+    null, 4));
+
+const authConnectionAppsettings = normalizeContent(JSON.stringify(
+    {
+        "microsoftAppId": "",
+        "microsoftAppPassword": "",
+        "appInsights": {
+            "appId": "",
+            "instrumentationKey": ""
+        },
+        "blobStorage": {
+            "connectionString": "",
+            "container": ""
+        },
+        "cosmosDb": {
+            "authkey": "",
+            "collectionId": "",
+            "cosmosDBEndpoint": "",
+            "databaseId": ""
+        },
+        "contentModerator": {
+            "key": ""
+        },
+        "oauthConnections": [
+            {
+                "name": "Outlook",
+                "provider": "Azure Active Directory v2"
+            }
+        ]
+    },
+    null,4));
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")), noAuthConnectionAppsettings);
+    writeFileSync(resolve(__dirname, join("mocks", "appsettings", "authConnectionAppsettings.json")), authConnectionAppsettings);
 }
 
 describe("The authentication util", function() {
@@ -129,6 +161,7 @@ https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assis
                 logger: new TestLogger()
             };
 
+            sandbox.replace(authenticationUtils, "validateAzVersion", (logger) => {});
             // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
             this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
             // Mock the execution of az ad app show (azureAppShowCommand)

@@ -4,8 +4,9 @@
  */
 
 import { MicrosoftAppCredentials } from 'botframework-connector';
+import { IServiceClientCredentials } from './serviceClientCredentials';
 
-export class MicrosoftAppCredentialsEx extends MicrosoftAppCredentials {
+export class MicrosoftAppCredentialsEx extends MicrosoftAppCredentials implements IServiceClientCredentials {
     public constructor(appId: string, password: string, oauthScope?: string) {
         super(appId, password);
         if (oauthScope) {
