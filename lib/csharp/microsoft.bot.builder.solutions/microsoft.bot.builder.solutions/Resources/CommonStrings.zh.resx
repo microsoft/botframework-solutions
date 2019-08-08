@@ -231,4 +231,7 @@
   <data name="LatestItem" xml:space="preserve">
     <value>最新的是{0};</value>
   </data>
+  <data name="ConfirmSkillSwitch" xml:space="preserve">
+    <value>你确定要切换到{0}吗？</value>
+  </data>
 </root>

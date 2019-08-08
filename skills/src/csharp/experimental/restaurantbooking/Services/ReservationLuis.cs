@@ -28,7 +28,7 @@ namespace Luis
 
             // Built-in entities
             public DateTimeSpec[] datetime;
-            public string[] geographyV2_City;
+            public GeographyV2[] geographyV2;
             public double[] number;
 
             // Lists
@@ -54,7 +54,7 @@ namespace Luis
             {
                 public InstanceData[] people;
                 public InstanceData[] datetime;
-                public InstanceData[] geographyV2_City;
+                public InstanceData[] geographyV2;
                 public InstanceData[] number;
                 public InstanceData[] cuisine;
                 public InstanceData[] attendees;

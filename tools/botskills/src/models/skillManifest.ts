@@ -6,6 +6,7 @@
 export interface ISkillManifest {
     id: string;
     name: string;
+    msaAppId: string;
     endpoint: string;
     description: string;
     suggestedAction: string;

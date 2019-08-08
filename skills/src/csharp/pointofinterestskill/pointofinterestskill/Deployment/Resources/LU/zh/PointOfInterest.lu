@@ -81,3 +81,5 @@ $ROUTE_TYPE:fastest=
 
 $ROUTE_TYPE:shortest=
 
+$POI_TYPE:nearest=
+- 最近

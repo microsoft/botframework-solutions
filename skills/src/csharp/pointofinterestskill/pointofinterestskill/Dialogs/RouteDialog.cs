@@ -241,7 +241,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (cards.Count() == 0)
                 {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoRouteFound);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else if (cards.Count() == 1)
