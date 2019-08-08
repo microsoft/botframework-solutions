@@ -15,7 +15,6 @@ namespace HospitalitySkill.Responses.CheckOut
         public const string ConfirmCheckOut = "ConfirmCheckOut";
         public const string RetryConfirmCheckOut = "RetryConfirmCheckOut";
         public const string CheckOutSuccess = "CheckOutSuccess";
-        public const string CheckOutError = "CheckOutError";
         public const string EmailPrompt = "EmailPrompt";
         public const string InvalidEmailPrompt = "InvalidEmailPrompt";
         public const string SendEmailMessage = "SendEmailMessage";

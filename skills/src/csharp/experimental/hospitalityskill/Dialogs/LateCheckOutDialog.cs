@@ -115,10 +115,6 @@ namespace HospitalitySkill.Dialogs
                 var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.MoveCheckOutSuccess, new Card("ReservationDetails", cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
-            else
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(LateCheckOutResponses.MoveCheckOutError));
-            }
 
             return await sc.EndDialogAsync();
         }

@@ -16,7 +16,6 @@ namespace HospitalitySkill.Responses.LateCheckOut
         public const string MoveCheckOutPrompt = "MoveCheckOutPrompt";
         public const string RetryMoveCheckOut = "RetryMoveCheckOut";
         public const string MoveCheckOutSuccess = "MoveCheckOutSuccess";
-        public const string MoveCheckOutError = "MoveCheckOutError";
         public const string HasLateCheckOut = "HasLateCheckOut";
     }
 }

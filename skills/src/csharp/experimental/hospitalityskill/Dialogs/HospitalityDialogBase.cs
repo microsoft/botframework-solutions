@@ -20,7 +20,6 @@ using Microsoft.Bot.Schema;
 
 namespace HospitalitySkill.Dialogs
 {
-
     public class HospitalityDialogBase : ComponentDialog
     {
         private HotelService _hotelService;
@@ -64,9 +63,6 @@ namespace HospitalitySkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new HospitalityUserSkillState());
-            userState.UserReservation = await _hotelService.GetReservationDetailsAsync();
-
             await GetLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }

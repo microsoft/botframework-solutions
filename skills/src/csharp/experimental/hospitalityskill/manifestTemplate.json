@@ -1,14 +1,14 @@
 {
   "id": "hospitalitySkill",
   "name": "Hospitality Skill",
-  "description": "The Hospitality skill provides capabilities that may be needed in a hotel room.",
+  "description": "The Hospitality skill provides capabilities that are needed in a hotel room, such as checking out, changing your reservation, and requesting items.",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "HospitalitySkill_checkOut",
+      "id": "hospitalitySkill_checkOut",
       "definition": {
-        "description": "Check out of room",
+        "description": "Check out of room.",
         "slots": [],
         "triggers": {
           "utteranceSources": [
@@ -23,7 +23,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_extendStay",
+      "id": "hospitalitySkill_extendStay",
       "definition": {
         "description": "Extend reseravation for current room.",
         "slots": [],
@@ -40,7 +40,7 @@
       }
     },
     {
-      "id": "HospitalitySkill_getReservation",
+      "id": "hospitalitySkill_getReservation",
       "definition": {
         "description": "Get current reservation details.",
         "slots": [],
@@ -57,9 +57,9 @@
       }
     },
     {
-      "id": "HospitalitySkill_lateCheckOut",
+      "id": "hospitalitySkill_lateCheckOut",
       "definition": {
-        "description": "Change to late check out",
+        "description": "Change to late check out.",
         "slots": [],
         "triggers": {
           "utteranceSources": [
@@ -67,6 +67,23 @@
               "locale": "en",
               "source": [
                 "Hospitality#LateCheckOut"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_requestItem",
+      "definition": {
+        "description": "Request items to be brought to your room.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#RequestItem"
               ]
             }
           ]

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HospitalitySkill.Models;
@@ -265,10 +264,6 @@ namespace HospitalitySkill.Dialogs
                 // check out date moved confirmation
                 var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card("ReservationDetails", cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
-            }
-            else
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.ExtendStayError));
             }
 
             return await sc.EndDialogAsync();
