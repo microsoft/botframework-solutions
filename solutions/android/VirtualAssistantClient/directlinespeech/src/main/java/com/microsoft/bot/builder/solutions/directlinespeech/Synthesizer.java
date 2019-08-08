@@ -72,8 +72,7 @@ public class Synthesizer {
     private Lock streamListLock = new ReentrantLock();
 
 
-    public boolean IsPlaying()
-    {
+    public boolean isPlaying() {
         return isPlaying.get();
     }
 
