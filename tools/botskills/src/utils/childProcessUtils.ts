@@ -5,6 +5,7 @@
 
 import * as child_process from 'child_process';
 import { join } from 'path';
+import { isAzPreviewMessage } from './';
 
 export class ChildProcessUtils {
 
@@ -33,7 +34,7 @@ export class ChildProcessUtils {
             child_process.exec(
                 `${command} ${args.join(' ')}`,
                 (err: child_process.ExecException | null, stdout: string, stderr: string) => {
-                    if (stderr) {
+                    if (stderr && !stderr.includes('Update available')) {
                         pReject(stderr);
                     }
                     pResolve(stdout);
@@ -48,7 +49,7 @@ export class ChildProcessUtils {
                 child_process.exec(
                     `${command.join(' ')}`,
                     (err: child_process.ExecException | null, stdout: string, stderr: string) => {
-                        if (stderr) {
+                        if (stderr && !isAzPreviewMessage(stderr)) {
                             pReject(stderr);
                         }
                         pResolve(stdout);

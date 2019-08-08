@@ -3,7 +3,14 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, BotTelemetryClient, Entity, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import {
+    Activity,
+    ActivityTypes,
+    BotTelemetryClient,
+    Entity,
+    SemanticActionStateTypes,
+    StatePropertyAccessor,
+    TurnContext } from 'botbuilder';
 import { ComponentDialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
@@ -149,6 +156,7 @@ export class SkillDialog extends ComponentDialog {
 
         activity.semanticAction = {
             id: '',
+            state: SemanticActionStateTypes.Continue,
             entities: entities
         };
 

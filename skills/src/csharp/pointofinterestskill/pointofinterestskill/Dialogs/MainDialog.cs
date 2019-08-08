@@ -208,6 +208,8 @@ namespace PointOfInterestSkill.Dialogs
                         // Activity should have text to trigger next intent, update Type & Route again
                         if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                         {
+                            // since route is on highest level, cancel all before calling it
+                            await dc.CancelAllDialogsAsync();
                             dc.Context.Activity.Type = ActivityTypes.Message;
                             await RouteAsync(dc);
                         }
@@ -376,14 +378,9 @@ namespace PointOfInterestSkill.Dialogs
                         // ADDRESS overwrites geographyV2
                         var sb = new StringBuilder();
 
-                        if (entities.geographyV2_poi != null)
+                        if (entities.geographyV2 != null)
                         {
-                            sb.AppendJoin(" ", entities.geographyV2_poi);
-                        }
-
-                        if (entities.geographyV2_city != null)
-                        {
-                            sb.AppendJoin(" ", entities.geographyV2_city);
+                            sb.AppendJoin(" ", entities.geographyV2.Select(geography => geography.Location));
                         }
 
                         if (sb.Length > 0)
@@ -395,6 +392,11 @@ namespace PointOfInterestSkill.Dialogs
                     if (entities.ROUTE_TYPE != null)
                     {
                         state.RouteType = entities.ROUTE_TYPE[0][0];
+                    }
+
+                    if (entities.POI_TYPE != null)
+                    {
+                        state.PoiType = entities.POI_TYPE[0][0];
                     }
 
                     if (entities.number != null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
@@ -17,7 +18,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// 1. Process the incoming activity by calling into pipeline.
     /// 2. Implement BotAdapter protocol. Each method will send the activity back to calling bot using websocket.
     /// </summary>
-    public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider
+    public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider, IFallbackRequestProvider
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
 
@@ -116,6 +117,9 @@ namespace Microsoft.Bot.Builder.Skills
 
                     // No need to create a response. One will be created below.
                 }
+
+                // set SemanticAction property of the activity properly
+                EnsureActivitySemanticAction(turnContext, activity);
 
                 if (activity.Type != ActivityTypes.Trace ||
                     (activity.Type == ActivityTypes.Trace && activity.ChannelId == "emulator"))
@@ -228,8 +232,55 @@ namespace Microsoft.Bot.Builder.Skills
             response.Type = ActivityTypes.Event;
             response.Name = TokenEvents.TokenRequestEventName;
 
+            // set SemanticAction property of the activity properly
+            EnsureActivitySemanticAction(turnContext, response);
+
             // Send the tokens/request Event
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            // We trigger a Fallback Request from the Parent Bot by sending a "skill/fallbackRequest" event
+            var response = turnContext.Activity.CreateReply();
+            response.Type = ActivityTypes.Event;
+            response.Name = SkillEvents.FallbackEventName;
+
+            // set SemanticAction property of the activity properly
+            EnsureActivitySemanticAction(turnContext, response);
+
+            // Send the fallback Event
+            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
+        }
+
+        private void EnsureActivitySemanticAction(ITurnContext turnContext, Activity activity)
+        {
+            if (activity == null || turnContext == null || turnContext.Activity == null)
+            {
+                return;
+            }
+
+            // set state of semantic action based on the activity type
+            if (activity.Type != ActivityTypes.Trace
+                && turnContext.Activity.SemanticAction != null
+                && !string.IsNullOrWhiteSpace(turnContext.Activity.SemanticAction.Id))
+            {
+                // if Skill's dialog didn't set SemanticAction property
+                // simply copy over from the incoming activity
+                if (activity.SemanticAction == null)
+                {
+                    activity.SemanticAction = turnContext.Activity.SemanticAction;
+                }
+
+                if (activity.Type == ActivityTypes.EndOfConversation)
+                {
+                    activity.SemanticAction.State = SkillConstants.SkillDone;
+                }
+                else
+                {
+                    activity.SemanticAction.State = SkillConstants.SkillContinue;
+                }
+            }
         }
 
         private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
@@ -251,20 +302,6 @@ namespace Microsoft.Bot.Builder.Skills
             }
 
             return default(T);
-        }
-
-        private async Task SendRequestAsync(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
-        {
-            try
-            {
-                var serverResponse = await this.Server.SendAsync(request, cancellation).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _botTelemetryClient.TrackException(ex);
-
-                throw ex;
-            }
         }
     }
 }

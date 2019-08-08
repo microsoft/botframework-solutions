@@ -7,7 +7,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     internal class SkillDialogTest : SkillDialog
     {
         public SkillDialogTest(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, IBotTelemetryClient telemetryClient, UserState userState, ISkillTransport skillTransport = null)
-            : base(skillManifest, serviceClientCredentials, telemetryClient, userState, null, skillTransport)
+            : base(skillManifest, serviceClientCredentials, telemetryClient, userState, null, null, skillTransport)
         {
         }
     }

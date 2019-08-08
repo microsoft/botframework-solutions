@@ -1,9 +1,10 @@
-name-template: 'v$NEXT_PATCH_VERSION-preview'
+name-template: 'v$NEXT_MINOR_VERSION-preview'
 change-template: '* $TITLE (#$NUMBER)'
 exclude-labels:	
   - 'Changelog: Skip'
 branches:
   - master
+  - next
 categories:
 - title: 'Templates'
   labels:
