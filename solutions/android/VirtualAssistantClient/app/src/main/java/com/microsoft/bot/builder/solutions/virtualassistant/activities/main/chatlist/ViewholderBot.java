@@ -78,9 +78,18 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
                         String cardBodyJson = cardContent.toString();
                         LogUtils.logLongInfoMessage(LOGTAG, "Received Card: " + cardBodyJson);// this JSON can be used with https://adaptivecards.io/designer/
 
-                        // collect what the payload is when clicked
-                        final String speak = cardContent.getString("speak");
-                        final int position = x;
+                        // collect payload for the click event
+                        String selectActionData = null;
+                        JSONObject selectAction = cardContent.getJSONObject("selectAction");
+                        if (selectAction != null) {
+                            String selectActionType = selectAction.getString("type");
+                            if (selectActionType != null && selectActionType.equals("Action.Submit")) {
+                                selectActionData = selectAction.getString("data");
+                            }
+                        }
+
+                        final int clickPosition = x;
+                        final String clickData = selectActionData;
 
                         ParseResult parseResult = AdaptiveCard.DeserializeFromString(cardBodyJson, AdaptiveCardRenderer.VERSION);
                         AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
@@ -91,7 +100,7 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
                         adaptiveCardRendered.setFocusable(false);
                         adaptiveCardRendered.setFocusableInTouchMode(false);
                         adaptiveCardRendered.setOnClickListener(v -> {
-                            onClickListener.adaptiveCardClick(position, speak); // callback to activity
+                            onClickListener.adaptiveCardClick(clickPosition, clickData); // callback to activity
                         });
 
                         // add the card to its individual container to allow for resizing

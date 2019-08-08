@@ -6,17 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -40,7 +42,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
+import client.model.ActivityValue;
 import client.model.BotConnectorActivity;
 import client.model.InputHints;
 import events.ActivityReceived;
@@ -55,7 +59,7 @@ import events.SynthesizerStopped;
  * and always ready to process data immediately.
  * Running this service as a ForegroundService best suits this requirement.
  *
- * NOTE: the service assumes that it has permission to RECORD_AUDIO
+ * NOTE: the service assumes that it has/will have permission to RECORD_AUDIO
  */
 public class SpeechService extends Service {
 
@@ -77,7 +81,7 @@ public class SpeechService extends Service {
     public SpeechService() {
         binder = new ISpeechService.Stub() {
             @Override
-            public boolean isSpeechSdkRunning() throws RemoteException {
+            public boolean isSpeechSdkRunning() {
                 return speechSdk != null;
             }
 
@@ -98,7 +102,7 @@ public class SpeechService extends Service {
 
             @Override
             public void connectAsync(){
-                speechSdk.connectAsync();
+                if (speechSdk != null) speechSdk.connectAsync();
             }
 
             @Override
@@ -108,8 +112,10 @@ public class SpeechService extends Service {
 
             @Override
             public void resetBot(){
-                shouldListenAgain = false;
-                speechSdk.resetBot(configurationManager.getConfiguration());
+                if (speechSdk != null) {
+                    shouldListenAgain = false;
+                    speechSdk.resetBot(configurationManager.getConfiguration());
+                }
             }
 
             @Override
@@ -119,43 +125,92 @@ public class SpeechService extends Service {
 
             @Override
             public void sendLocationEvent(String lat, String lon){
-                speechSdk.sendLocationEvent(lat, lon);
+                if (speechSdk != null) speechSdk.sendLocationEvent(lat, lon);
             }
 
             @Override
             public void requestWelcomeCard(){
-                speechSdk.requestWelcomeCard();
+                if (speechSdk != null) speechSdk.requestWelcomeCard();
             }
 
             @Override
             public void injectReceivedActivity(String json){
-                speechSdk.activityReceived(json);
+                if (speechSdk != null) speechSdk.activityReceived(json);
             }
 
             @Override
             public void listenOnceAsync(){
-                speechSdk.listenOnceAsync();
+                if (speechSdk != null) speechSdk.listenOnceAsync();
             }
 
             @Override
             public void sendActivityMessageAsync(String msg){
-                speechSdk.sendActivityMessageAsync(msg);
+                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
             }
 
             @Override
             public String getSuggestedActions(){
-                return gson.toJson(speechSdk.getSuggestedActions());
+                String suggestedActions = null;
+                if (speechSdk != null) {
+                    suggestedActions = gson.toJson(speechSdk.getSuggestedActions());
+                }
+                return suggestedActions;
             }
 
             @Override
             public void clearSuggestedActions(){
-                speechSdk.clearSuggestedActions();
+                if (speechSdk != null) speechSdk.clearSuggestedActions();
+            }
+
+            @Override
+            public void startKeywordListeningAsync(String keyword) {
+                if (speechSdk != null) {
+                    AssetManager am = getAssets();
+                    try {
+                        InputStream is = am.open("keywords/" + keyword + "/kws.table");
+                        speechSdk.startKeywordListeningAsync(is, keyword);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void stopKeywordListening() {
+                if (speechSdk != null) speechSdk.stopKeywordListening();
             }
 
             @Override
             public void setConfiguration(String json) {
                 Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
                 configurationManager.setConfiguration(configuration);
+            }
+
+            @Override
+            public void stopAnyTTS() {
+                if(speechSdk != null && speechSdk.getSynthesizer().isPlaying()){
+                    speechSdk.getSynthesizer().stopSound();
+                }
+            }
+
+            @Override
+            public String getDateSentLocationEvent() {
+                if(speechSdk != null) return speechSdk.getDateSentLocationEvent();
+                return "Error";
+            }
+
+            @Override
+            public void sendLocationUpdate() {
+                Location location = locationProvider.getLastKnownLocation();
+                if (location != null) {
+                    final String locLat = String.valueOf(location.getLatitude());
+                    final String locLon = String.valueOf(location.getLongitude());
+                    if (speechSdk != null) {
+                        speechSdk.sendLocationEvent(locLat, locLon);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Location is unknown", Toast.LENGTH_LONG).show();
+                }
             }
         };
     }
@@ -179,6 +234,16 @@ public class SpeechService extends Service {
         EventBus.getDefault().register(this);
         gson = new Gson();
 
+        locationProvider = new LocationProvider(this, location -> {
+            final String locLat = String.valueOf(location.getLatitude());
+            final String locLon = String.valueOf(location.getLongitude());
+            if (speechSdk != null) {
+                speechSdk.sendLocationEvent(locLat, locLon);
+            }
+        });
+    }
+
+    private void setUpConfiguration(){
         // set up configuration for SpeechSdk
         configurationManager = new ConfigurationManager(this);
 
@@ -196,17 +261,9 @@ public class SpeechService extends Service {
             configuration.colorBubbleUser = ContextCompat.getColor(this, R.color.color_chat_background_user);
             configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
             configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
-
+            configuration.keyword = DefaultConfiguration.KEYWORD;
             configurationManager.setConfiguration(configuration);
         }
-
-        locationProvider = new LocationProvider(this, location -> {
-            final String locLat = String.valueOf(location.getLatitude());
-            final String locLon = String.valueOf(location.getLongitude());
-            if (speechSdk != null) {
-                speechSdk.sendLocationEvent(locLat, locLon);
-            }
-        });
     }
 
     @Override
@@ -224,6 +281,8 @@ public class SpeechService extends Service {
             switch (action) {
                 case ACTION_START_FOREGROUND_SERVICE:
                     Toast.makeText(getApplicationContext(), "Service is started", Toast.LENGTH_LONG).show();
+                    setUpConfiguration();
+                    if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
                     startForegroundService();
                     break;
                 case ACTION_STOP_FOREGROUND_SERVICE:
@@ -287,9 +346,6 @@ public class SpeechService extends Service {
 
         // Set notification priority
         builder.setPriority(NotificationManager.IMPORTANCE_LOW);
-
-        // Make head-up notification
-        builder.setFullScreenIntent(pendingIntent, true);
 
         // Add LISTEN button intent in notification
         Intent listenIntent = new Intent(this, SpeechService.class);
@@ -384,11 +440,17 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with PlayLocalFile");
                     playMediaStream(botConnectorActivity.getFile());
                     break;
-                case "OpenDefaultApp":
-                    Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
-                    openDefaultApp(botConnectorActivity);
+                case "event":
+                    if (botConnectorActivity.getName().equals("OpenDefaultApp")) {
+                        Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
+                        openDefaultApp(botConnectorActivity);
+                    } else {
+                        // all other events are broadcast for other apps
+                        broadcastWidgetUpdate(botConnectorActivity);
+                    }
                     break;
                 default:
+                    // all other events are broadcast for other apps
                     broadcastWidgetUpdate(botConnectorActivity);
                     break;
             }
@@ -416,21 +478,47 @@ public class SpeechService extends Service {
     }
 
     private void openDefaultApp(BotConnectorActivity botConnectorActivity){
-        String intentStr = botConnectorActivity.getText();
-        if (intentStr.startsWith("geo")){
-            Uri intentUri = Uri.parse(intentStr);
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, intentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
-            }
+        String intentStr = null;
+        if (botConnectorActivity.getValue() instanceof String) {
+            intentStr = (String) botConnectorActivity.getValue();
+        } else {
+            intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
         }
-        if (intentStr.startsWith("tel")){
-            Uri intentUri = Uri.parse(intentStr);
-            Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
-            if (dialerIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(dialerIntent);
+        if (intentStr != null) {
+            if (intentStr.startsWith("geo")) {
+                final String gpscoords = intentStr.replace("geo:", "");
+
+                try {
+                    // Launch Waze
+                    Uri wazeIntentUri = Uri.parse("waze://?ll=" + gpscoords + "&navigate=yes");
+                    Intent wazeIntent = new Intent(Intent.ACTION_VIEW, wazeIntentUri);
+                    wazeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(wazeIntent);
+                } catch (ActivityNotFoundException ex) {
+                    // launch Google Maps
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + gpscoords);//NOTE: by default mode = driving
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");//NOTE: this will exclusively use Google maps. TODO allow Waze too
+                    mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    } else {
+                        // since Waze and Google maps aren't available, show error to user
+                        Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
+                    }
+                }
+
             }
+            if (intentStr.startsWith("tel")) {
+                Uri intentUri = Uri.parse(intentStr);
+                Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
+                dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (dialerIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(dialerIntent);
+                }
+            }
+        } else {
+            Toast.makeText(this, R.string.service_error_uri, Toast.LENGTH_LONG).show();
         }
     }
 

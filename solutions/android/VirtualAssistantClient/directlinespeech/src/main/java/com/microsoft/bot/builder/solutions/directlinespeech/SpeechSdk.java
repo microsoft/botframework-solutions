@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
+import com.microsoft.bot.builder.solutions.directlinespeech.utils.DateUtils;
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
@@ -35,6 +36,7 @@ import client.model.ChannelAccount;
 import events.ActivityReceived;
 import events.Connected;
 import events.Disconnected;
+import events.GpsLocationSent;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
@@ -62,6 +64,7 @@ public class SpeechSdk {
     private Handler handler;
     private Runnable timeoutResponseRunnable;
     private ArrayList<CardAction> suggestedActions;
+    private String dateSentLocationEvent;
 
     private File localAppLogFile;
     private FileWriter streamWriter;
@@ -226,12 +229,18 @@ public class SpeechSdk {
 
         client.model.BotConnectorActivity botConnectorActivity = gson.fromJson(activityJson, client.model.BotConnectorActivity.class);
 
-        if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
-            List<CardAction> actionList = botConnectorActivity.getSuggestedActions().getActions();
-            suggestedActions.clear();
-            suggestedActions.addAll(actionList);
+        if (botConnectorActivity != null) {
+
+            if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
+                List<CardAction> actionList = botConnectorActivity.getSuggestedActions().getActions();
+                suggestedActions.clear();
+                suggestedActions.addAll(actionList);
+            }
+
+            EventBus.getDefault().post(new ActivityReceived(botConnectorActivity));
+        } else {
+            LogDebug("json error");
         }
-        EventBus.getDefault().post(new ActivityReceived(botConnectorActivity));
     }
 
     private MicrophoneStream createMicrophoneStream() {
@@ -326,7 +335,7 @@ public class SpeechSdk {
             final String activityJson = gson.toJson(activityTemplate);
             BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-            final Future<Void> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogInfo("sendActivityAsync done");
                 startResponseTimeoutTimer();
@@ -345,9 +354,11 @@ public class SpeechSdk {
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-        final Future<Void> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
             LogInfo("sendLocationEvent done: "+activityJson);
+            dateSentLocationEvent = DateUtils.getCurrentTime();
+            EventBus.getDefault().post(new GpsLocationSent(latitude, longitude));
         });
     }
 
@@ -360,7 +371,7 @@ public class SpeechSdk {
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-        final Future<Void> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
             LogDebug("sendActivityAsync done: "+activityJson);
         });
@@ -382,6 +393,12 @@ public class SpeechSdk {
             sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
         });
     }
+
+    public String getDateSentLocationEvent() {
+        return dateSentLocationEvent;
+    }
+
+    public Synthesizer getSynthesizer() { return synthesizer; }
 
     public ArrayList<CardAction> getSuggestedActions() {
         return suggestedActions;
@@ -407,7 +424,7 @@ public class SpeechSdk {
             final String activityJson = gson.toJson(activityTemplate);
             BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-            final Future<Void> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogDebug("requestWelcomeCard done: "+activityJson);
             });
