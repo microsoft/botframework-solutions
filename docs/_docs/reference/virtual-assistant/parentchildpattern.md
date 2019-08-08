@@ -60,7 +60,7 @@ The Orchestrator is also responsible for exchanging appropriate Context from the
 
 Conversely, a downstream component can provide information for the Assistant to store as part of it's context for use in subsequent interactions.
 
-In addition, depending on the scenario the Orchestrator also handles authentication-token needs of downstream Skills maintaining authentication at the parent-level enabling tokens to be shared across Skills if needed (e.g. Office 365 across Calendar, Email and ToDo skills).
+In addition, depending on the scenario the Orchestrator also handles authentication-token needs of downstream Skills maintaining authentication at the parent-level enabling tokens to be shared across Skills if needed (e.g. Office 365 across Calendar, Email and To Do skills).
 
 ## Bot Framework Skills and Virtual Assistant
 

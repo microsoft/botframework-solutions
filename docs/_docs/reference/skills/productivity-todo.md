@@ -16,7 +16,7 @@ order: 10
 {:toc}
 
 ## Overview
-The ToDo Skill provides ToDo related capabilities to a Virtual Assistant.
+The To Do Skill provides task related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
 ### Supported Sources
@@ -46,7 +46,7 @@ The following scenarios are currently supported by the Skill:
 
 ## Skill Deployment
 
-The ToDo Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
+The To Do Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
 - Azure Web App
 - Azure Storage Account (Transcripts)
@@ -86,10 +86,10 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 
 |Name|Description|
 |-|-|
-|AddToDo| Matches queries to add ToDo items to a list |
-|ShowToDo| Matches queries to show ToDo items or lists |
-|MarkToDo| Matches queries to toggle a ToDo item |
-|DeleteToDo| Matches queries to delete a ToDo item |
+|AddToDo| Matches queries to add To Do items to a list |
+|ShowToDo| Matches queries to show To Do items or lists |
+|MarkToDo| Matches queries to toggle a To Do item |
+|DeleteToDo| Matches queries to delete a To Do item |
 
 ### Entities
 
@@ -100,7 +100,7 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |ListType| Simple entity matching lists like "grocery", "shopping", etc. |
 |ShopContent| Pattern.any entity|
 |ShopVerb| List entity matching verbs like "buy", "purchase", etc. |
-|TaskContentML| Simple entity matching complex items on a ToDo list |
+|TaskContentML| Simple entity matching complex items on a To Do list |
 |TaskContentPattern| Pattern.any |
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
@@ -153,4 +153,4 @@ HomeworkSynonym | homework, home work |
     ]
 ```
 
-4.Redeploy your ToDo Skill.
+4.Redeploy your To Do Skill.
