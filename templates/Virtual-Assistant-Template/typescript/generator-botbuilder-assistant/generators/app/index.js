@@ -16,6 +16,8 @@ const templateName = "sample-assistant";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
+let containsSpecialCharacter = false;
+let finalAssistantName = "";
 
 const languagesChoice = [
   {
@@ -254,6 +256,11 @@ module.exports = class extends Generator {
       /([^a-z0-9-]+)/gi,
       ``
     );
+    
+    if (this.props.assistantName != assistantName) {
+      finalAssistantName = assistantName;
+      containsSpecialCharacter = true;
+    }
 
     assistantGenerationPath = path.join(assistantGenerationPath, assistantName);
     if (this.props.assistantGenerationPath !== undefined) {
@@ -328,6 +335,9 @@ module.exports = class extends Generator {
         );
       } else {
         this.spawnCommandSync("npm run build", []);
+        if (containsSpecialCharacter) {
+          this.log(chalk.yellow(`\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`));
+        }
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new assistant is ready!  `));
         this.log(chalk.green(`------------------------ `));
