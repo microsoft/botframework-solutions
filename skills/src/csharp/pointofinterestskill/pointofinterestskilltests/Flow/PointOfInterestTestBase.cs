@@ -22,6 +22,7 @@ using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkillTests.API.Fakes;
+using PointOfInterestSkillTests.Flow.Utterances;
 
 namespace PointOfInterestSkillTests.Flow
 {
@@ -50,8 +51,14 @@ namespace PointOfInterestSkillTests.Flow
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { "General", new Fakes.MockLuisRecognizer() },
-                                { "PointOfInterest", new Fakes.MockLuisRecognizer() }
+                                { "General", new Fakes.MockGeneralLuisRecognizer() },
+                                {
+                                    "PointOfInterest", new Fakes.MockPointOfInterestLuisRecognizer(
+                                    new CancelRouteUtterances(),
+                                    new FindParkingUtterances(),
+                                    new FindPointOfInterestUtterances(),
+                                    new RouteFromXToYUtterances())
+                                }
                             }
                         }
                     }

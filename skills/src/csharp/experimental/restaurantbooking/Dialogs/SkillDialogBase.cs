@@ -195,9 +195,9 @@ namespace RestaurantBooking.Dialogs
                         }
                     }
 
-                    if (entities.geographyV2_City != null)
+                    if (entities.geographyV2 != null)
                     {
-                        state.Booking.Location = entities.geographyV2_City.First<string>();
+                        state.Booking.Location = entities.geographyV2.First().Location;
                     }
 
                     // Establishing attendee count can be problematic as the number entity can be picked up for poorly qualified

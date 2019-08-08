@@ -6,6 +6,8 @@ namespace Microsoft.Bot.Builder.Skills.Auth
 {
     public interface IServiceClientCredentials
     {
+        string MicrosoftAppId { get; set; }
+
         Task<string> GetTokenAsync(bool forceRefresh = false);
 
         Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken);

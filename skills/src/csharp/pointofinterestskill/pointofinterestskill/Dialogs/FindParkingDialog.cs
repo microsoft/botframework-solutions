@@ -115,21 +115,23 @@ namespace PointOfInterestSkill.Dialogs
                     if (pointOfInterestAddressList.Any())
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
-                        pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude);
-                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+
+                        // TODO nearest here is not for current
+                        pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.PoiType);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }
                     else
                     {
                         // Find parking lot near address
-                        pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                        pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.PoiType);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }
                 }
                 else
                 {
                     // No entities identified, find nearby parking lots
-                    pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                    pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.PoiType);
+                    cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                 }
 
                 if (cards.Count == 0)

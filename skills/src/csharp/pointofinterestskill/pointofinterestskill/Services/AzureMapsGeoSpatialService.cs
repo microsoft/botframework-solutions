@@ -25,9 +25,10 @@ namespace PointOfInterestSkill.Services
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
-        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width={ImageWidth}&height={ImageHeight}";
+        private static readonly string PinStyle = "default|la15+50|al0.75|cod83b01";
+        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}||{{0}} {{1}}";
         private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
-        private static readonly string RoutePins = "default|la15+50|al0.75|cod83b01||'{0}'{1} {2}|'{3}'{4} {5}";
+        private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives=2";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives=2";
         private static string apiKey;
@@ -80,8 +81,9 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="query">The search query.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query, string poiType = null)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -91,10 +93,10 @@ namespace PointOfInterestSkill.Services
             if (double.IsNaN(latitude) || double.IsNaN(longitude))
             {
                 // If missing either coordinate, the skill needs to run a fuzzy search on the query
-                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit));
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit), poiType);
             }
 
-            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit), poiType);
         }
 
         /// <summary>
@@ -103,8 +105,9 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address, string poiType = null)
         {
             if (string.IsNullOrEmpty(address))
             {
@@ -114,10 +117,10 @@ namespace PointOfInterestSkill.Services
             if (double.IsNaN(latitude) || double.IsNaN(longitude))
             {
                 // If missing either coordinate, the skill needs to run an address search on the query
-                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressNoCoordinatesQueryUrl, Uri.EscapeDataString(address), limit));
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressNoCoordinatesQueryUrl, Uri.EscapeDataString(address), limit), poiType);
             }
 
-            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius, limit));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius, limit), poiType);
         }
 
         /// <summary>
@@ -125,11 +128,12 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude, string poiType = null)
         {
         return await GetPointsOfInterestAsync(
-            string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius, limit));
+            string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius, limit), poiType);
         }
 
         /// <summary>
@@ -137,11 +141,12 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude, string poiType = null)
         {
             return await GetPointsOfInterestAsync(
-                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius, limit));
+                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius, limit), poiType);
         }
 
         /// <summary>
@@ -149,14 +154,15 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude, string poiType = null)
         {
             // Available categories described at https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories
             var parkingCategory = "OPEN_PARKING_AREA,PARKING_GARAGE";
 
             return await GetPointsOfInterestAsync(
-                string.Format(CultureInfo.InvariantCulture, FindByCategoryUrl, latitude, longitude, parkingCategory, radius, limit));
+                string.Format(CultureInfo.InvariantCulture, FindByCategoryUrl, latitude, longitude, parkingCategory, radius, limit), poiType);
         }
 
         /// <summary>
@@ -171,8 +177,8 @@ namespace PointOfInterestSkill.Services
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
                 ImageUrlByPoint,
-                pointOfInterest?.Geolocation?.Latitude,
                 pointOfInterest?.Geolocation?.Longitude,
+                pointOfInterest?.Geolocation?.Latitude,
                 zoom) + "&subscription-key=" + apiKey;
 
             pointOfInterest.PointOfInterestImageUrl = imageUrl;
@@ -265,9 +271,17 @@ namespace PointOfInterestSkill.Services
         /// <returns>RouteDirections.</returns>
         private async Task<RouteDirections> GetRouteDirectionsAsync(string url)
         {
-            var response = await httpClient.GetStringAsync(url);
+            var response = await httpClient.GetAsync(url);
 
-            var apiResponse = JsonConvert.DeserializeObject<RouteDirections>(response);
+            var apiResponse = new RouteDirections();
+
+            // TODO when it returns 400 for uncovered areas, we return no route instead. For other unsuccessful codes, exception is thrown as usual
+            if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            {
+                response = response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync();
+                apiResponse = JsonConvert.DeserializeObject<RouteDirections>(content);
+            }
 
             apiResponse.Provider = PointOfInterestModel.AzureMaps;
 
@@ -278,7 +292,7 @@ namespace PointOfInterestSkill.Services
         /// Get search reuslts response from Azure Maps and convert to point of interest list.
         /// </summary>
         /// <returns>List of PointOfInterestModels.</returns>
-        private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url)
+        private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url, string poiType = null)
         {
             url = string.Concat(url, $"&language={userLocale}&subscription-key={apiKey}");
 
@@ -290,6 +304,19 @@ namespace PointOfInterestSkill.Services
 
             if (apiResponse?.Results != null)
             {
+                if (!string.IsNullOrEmpty(poiType))
+                {
+                    if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
+                    {
+                        var nearestResult = apiResponse.Results.Aggregate((agg, next) => agg.Distance <= next.Distance ? agg : next);
+
+                        if (nearestResult != null)
+                        {
+                            apiResponse.Results = new List<SearchResult> { nearestResult };
+                        }
+                    }
+                }
+
                 foreach (var searchResult in apiResponse.Results)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);

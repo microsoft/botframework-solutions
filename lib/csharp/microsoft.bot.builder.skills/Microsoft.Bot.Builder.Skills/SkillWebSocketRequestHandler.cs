@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
@@ -15,14 +17,16 @@ namespace Microsoft.Bot.Builder.Skills
 {
     internal class SkillWebSocketRequestHandler : RequestHandler
     {
-		private readonly Diagnostics.Stopwatch _stopWatch;
-		private readonly IBotTelemetryClient _botTelemetryClient;
+        private readonly Diagnostics.Stopwatch _stopWatch;
+        private readonly IBotTelemetryClient _botTelemetryClient;
+        private readonly ClaimsIdentity _claimsIdentity;
 
-		internal SkillWebSocketRequestHandler(IBotTelemetryClient botTelemetryClient)
-		{
-			_botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
-			_stopWatch = new Diagnostics.Stopwatch();
-		}
+        internal SkillWebSocketRequestHandler(ClaimsIdentity claimsIdentity, IBotTelemetryClient botTelemetryClient)
+        {
+            _claimsIdentity = claimsIdentity;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
+            _stopWatch = new Diagnostics.Stopwatch();
+        }
 
         public IBot Bot { get; set; }
 
@@ -69,6 +73,16 @@ namespace Microsoft.Bot.Builder.Skills
 
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 response.SetBody("Request body is not an Activity instance.");
+                return response;
+            }
+
+            var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
+
+            // verify if caller id is the same as the appid in the claims
+            var appIdClaim = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
+            if (!activity.CallerId.Equals(appIdClaim))
+            {
+                response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return response;
             }
 
