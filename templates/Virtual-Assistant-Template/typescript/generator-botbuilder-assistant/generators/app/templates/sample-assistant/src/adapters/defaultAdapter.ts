@@ -17,25 +17,21 @@ import {
     TurnContext,
     UserState
 } from 'botbuilder';
-import {
-    AzureBlobTranscriptStore,
-    CosmosDbStorage,
-    CosmosDbStorageSettings
-} from 'botbuilder-azure';
+import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import { ISkillManifest } from 'botbuilder-skills';
 import { EventDebuggerMiddleware, SetLocaleMiddleware } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import { IBotSettings } from '../services/botSettings.js';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
-    public readonly conversationState: ConversationState;
     public readonly skills: ISkillManifest[] = [];
-    public readonly userState: UserState;
 
     public constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        telemetryClient: BotTelemetryClient
+        telemetryClient: BotTelemetryClient,
+        userState: UserState,
+        conversationState: ConversationState
     ) {
         super(adapterSettings);
 
@@ -63,18 +59,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             throw new Error('There is no appInsights value in appsettings file');
         }
 
-        const cosmosDbStorageSettings: CosmosDbStorageSettings = {
-            authKey: settings.cosmosDb.authkey,
-            collectionId: settings.cosmosDb.collectionId,
-            databaseId: settings.cosmosDb.databaseId,
-            serviceEndpoint: settings.cosmosDb.cosmosDBEndpoint
-        };
-
-        const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
-        // create conversation and user state
-        this.conversationState = new ConversationState(storage);
-        this.userState = new UserState(storage);
-
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
         }
@@ -90,6 +74,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
         // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
-        this.use(new AutoSaveStateMiddleware(this.conversationState, this.userState));
+        this.use(new AutoSaveStateMiddleware(conversationState, userState));
     }
 }
