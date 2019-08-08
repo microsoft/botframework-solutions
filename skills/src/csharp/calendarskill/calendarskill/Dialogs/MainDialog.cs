@@ -215,7 +215,7 @@ namespace CalendarSkill.Dialogs
                 await dc.Context.SendActivityAsync(response);
             }
 
-            // End active dialog
+            // End active dialog.
             await dc.EndDialogAsync(result);
         }
 
