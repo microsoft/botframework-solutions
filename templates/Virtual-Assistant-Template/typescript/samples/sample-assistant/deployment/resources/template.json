@@ -332,10 +332,13 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "appInsights": {
       "type": "object",
       "value": {
-        "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
         "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
@@ -358,6 +361,7 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },
