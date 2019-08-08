@@ -1,0 +1,39 @@
+# emptyFocusedMeeting
+- Please select a meeting in detail to define a focused meeting before declining any. 
+
+# EmptyCalendar
+- You cannot accept any meetings because your calendar is empty
+
+# DeclineConfirm
+- Are you sure you want to decline this event?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# CannotDeclineOrganizer
+- Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.
+
+# DeclineReadBack
+- ```
+Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
+```
+
+# DeleteReadBack
+- Successfully delete your entry!
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# HelpDeleteMeeting
+- [HelpPrefix], you can simply use this bot to decline the meeting.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelDeleteMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

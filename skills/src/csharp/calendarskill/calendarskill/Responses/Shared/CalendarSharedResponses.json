@@ -1,90 +1,99 @@
 {
-    "DidntUnderstandMessage": {
-        "replies": [
-            {
-                "text": "Sorry, I didn't understand what you meant.",
-                "speak": "Sorry, I didn't understand what you meant."
-            },
-            {
-                "text": "I didn't understand, perhaps try again in a different way.",
-                "speak": "I didn't understand, perhaps try again in a different way."
-            },
-            {
-                "text": "Can you try to ask in a different way?",
-                "speak": "Can you try to ask in a different way?"
-            },
-            {
-                "text": "I didn't get what you mean, can you try in a different way?",
-                "speak": "I didn't get what you mean, can you try in a different way?"
-            },
-            {
-                "text": "Could you elaborate?",
-                "speak": "Could you elaborate?"
-            },
-            {
-                "text": "Please say that again in a different way.",
-                "speak": "Please say that again in a different way."
-            },
-            {
-                "text": "I didn't quite get that.",
-                "speak": "I didn't quite get that."
-            },
-            {
-                "text": "Can you say that in a different way?",
-                "speak": "Can you say that in a different way?"
-            },
-            {
-                "text": "Can you try to ask me again? I didn't get what you mean.",
-                "speak": "Can you try to ask me again? I didn't get what you mean."
-            }
-        ],
-        "inputHint": "expectingInput"
-    },
-    "ActionEnded": {
-        "replies": [
-            {
-                "text": "Let me know if you need my help with something else.",
-                "speak": "Let me know if you need my help with something else."
-            },
-            {
-                "text": "I'm here if you need me.",
-                "speak": "I'm here if you need me."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
-    "CalendarErrorMessage": {
-        "replies": [
-            {
-                "text": "Sorry, it looks like something went wrong!",
-                "speak": "Sorry, it looks like something went wrong!"
-            },
-            {
-                "text": "An error occurred, please try again later.",
-                "speak": "An error occurred, please try again later."
-            },
-            {
-                "text": "Something went wrong, sorry!",
-                "speak": "Something went wrong, sorry!"
-            },
-            {
-                "text": "It seems like something went wrong. Can you try again later?",
-                "speak": "It seems like something went wrong. Can you try again later?"
-            },
-            {
-                "text": "Sorry I can't help right now. Please try again later.",
-                "speak": "Sorry I can't help right now. Please try again later."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
-    "CalendarErrorMessageBotProblem": {
-        "replies": [
-            {
-                "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
-                "speak": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    }
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant.",
+        "speak": "Sorry, I didn't understand what you meant."
+      },
+      {
+        "text": "I didn't understand, perhaps try again in a different way.",
+        "speak": "I didn't understand, perhaps try again in a different way."
+      },
+      {
+        "text": "Can you try to ask in a different way?",
+        "speak": "Can you try to ask in a different way?"
+      },
+      {
+        "text": "I didn't get what you mean, can you try in a different way?",
+        "speak": "I didn't get what you mean, can you try in a different way?"
+      },
+      {
+        "text": "Could you elaborate?",
+        "speak": "Could you elaborate?"
+      },
+      {
+        "text": "Please say that again in a different way.",
+        "speak": "Please say that again in a different way."
+      },
+      {
+        "text": "I didn't quite get that.",
+        "speak": "I didn't quite get that."
+      },
+      {
+        "text": "Can you say that in a different way?",
+        "speak": "Can you say that in a different way?"
+      },
+      {
+        "text": "Can you try to ask me again? I didn't get what you mean.",
+        "speak": "Can you try to ask me again? I didn't get what you mean."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ActionEnded": {
+    "replies": [
+      {
+        "text": "Let me know if you need my help with something else.",
+        "speak": "Let me know if you need my help with something else."
+      },
+      {
+        "text": "I'm here if you need me.",
+        "speak": "I'm here if you need me."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CalendarErrorMessage": {
+    "replies": [
+      {
+        "text": "Sorry, it looks like something went wrong!",
+        "speak": "Sorry, it looks like something went wrong!"
+      },
+      {
+        "text": "An error occurred, please try again later.",
+        "speak": "An error occurred, please try again later."
+      },
+      {
+        "text": "Something went wrong, sorry!",
+        "speak": "Something went wrong, sorry!"
+      },
+      {
+        "text": "It seems like something went wrong. Can you try again later?",
+        "speak": "It seems like something went wrong. Can you try again later?"
+      },
+      {
+        "text": "Sorry I can't help right now. Please try again later.",
+        "speak": "Sorry I can't help right now. Please try again later."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CalendarErrorMessageBotProblem": {
+    "replies": [
+      {
+        "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
+        "speak": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "RetryInput": {
+    "replies": [
+      {
+        "text": "Sorry, I don't understand what you mean. Could you please try again?",
+        "speak": "Sorry, I don't understand what you mean. Could you please try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
 }
