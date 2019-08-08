@@ -20,6 +20,7 @@
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
     <Content Remove="Responses\RequestItem\RequestItemResponses.json" />
+    <Content Remove="Responses\RoomService\RoomServiceResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
     <EmbeddedResource Include="Responses\CheckOut\CheckOutResponses.json" />
     <EmbeddedResource Include="Responses\LateCheckOut\LateCheckOutResponses.json" />
+    <EmbeddedResource Include="Responses\RoomService\RoomServiceResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
@@ -109,6 +111,10 @@
     <None Update="Responses\CheckOut\CheckOutResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CheckOutResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\RoomService\RoomServiceResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RoomServiceResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Shared\SharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -205,6 +211,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CheckOutResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\RoomService\RoomServiceResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RoomServiceResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\ResponseIdCollection.cs">
       <DesignTime>True</DesignTime>

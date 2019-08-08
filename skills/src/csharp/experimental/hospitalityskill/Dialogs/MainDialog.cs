@@ -39,6 +39,7 @@ namespace HospitalitySkill.Dialogs
             ExtendStayDialog extendStayDialog,
             GetReservationDialog getReservationDialog,
             RequestItemDialog requestItemDialog,
+            RoomServiceDialog roomServiceDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -57,6 +58,7 @@ namespace HospitalitySkill.Dialogs
             AddDialog(extendStayDialog ?? throw new ArgumentNullException(nameof(extendStayDialog)));
             AddDialog(getReservationDialog ?? throw new ArgumentNullException(nameof(getReservationDialog)));
             AddDialog(requestItemDialog ?? throw new ArgumentNullException(nameof(requestItemDialog)));
+            AddDialog(roomServiceDialog ?? throw new ArgumentNullException(nameof(roomServiceDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -123,6 +125,11 @@ namespace HospitalitySkill.Dialogs
                         {
                             // requesting item for room
                             turnResult = await dc.BeginDialogAsync(nameof(RequestItemDialog));
+                            break;
+                        }
+
+                    case HospitalityLuis.Intent.RoomService:
+                        {
                             break;
                         }
 

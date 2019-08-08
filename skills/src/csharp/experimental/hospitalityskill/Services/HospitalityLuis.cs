@@ -20,7 +20,8 @@ namespace Luis
             GetReservationDetails, 
             LateCheckOut, 
             None, 
-            RequestItem
+            RequestItem,
+            RoomService
         };
         public Dictionary<Intent, IntentScore> Intents;
 

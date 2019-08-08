@@ -1,0 +1,11 @@
+{
+  "MenuPrompt": {
+    "replies": [
+      {
+        "text": "There are 4 menus: **Breakfast, Lunch, Dinner and 24 Hour Options**. Which menu would you like to see?",
+        "speak": "There are 4 menus: **Breakfast, Lunch, Dinner and 24 Hour Options**. Which menu would you like to see?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}
