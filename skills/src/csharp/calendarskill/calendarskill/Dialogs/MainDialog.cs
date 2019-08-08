@@ -234,6 +234,7 @@ namespace CalendarSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
+                case SkillEvents.FallbackHandledEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();

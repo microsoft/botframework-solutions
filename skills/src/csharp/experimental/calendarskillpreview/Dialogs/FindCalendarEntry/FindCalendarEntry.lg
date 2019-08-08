@@ -1,0 +1,22 @@
+# OverviewAgain
+- Do you want to see the overview again?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# HelpViewMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelViewMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]

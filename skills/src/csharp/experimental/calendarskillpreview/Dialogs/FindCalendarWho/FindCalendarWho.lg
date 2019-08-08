@@ -1,0 +1,31 @@
+﻿# ViewEmptyList
+- You do not have any entries in your calendar.
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# GetPersonName
+- ```
+Ok, give me the attendee of the entry you would like to find.
+[Suggestions=Help | Cancel]
+```
+
+# NoMatches
+- We could not find any entries, sorry
+
+# NoMeans
+- Sorry, I don't know what you mean!
+
+# HelpFindMeeting
+- [HelpPrefix], you can simply use this bot to find the contact of your meeting.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelFindMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

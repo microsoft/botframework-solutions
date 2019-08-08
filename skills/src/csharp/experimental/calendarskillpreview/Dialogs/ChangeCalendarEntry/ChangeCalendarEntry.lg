@@ -1,0 +1,40 @@
+﻿# emptyFocusedMeeting
+- Please check a meeting in detail to define a focused meeting before updating any. 
+
+# EmptyCalendar
+- You cannot change any meetings because your calendar is empty
+
+# UpdateConfirm
+- Are you sure you want to update this event?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# GetStartTime
+- What would be your new starting time?
+
+# UpdateCalendarEntryReadBack
+- ```
+@{lgTemplate("HelpPrefix")}, I have updated @{user.focusedMeeting.subject} to your calendar list. 
+@{lgTemplate("Welcome-Actions")}
+```
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# UpdateCalendarEntryFailed
+- Sorry, there could be something wrong about your input. Please check your input.
+
+# HelpUpdateMeeting
+- [HelpPrefix], you can simply use this bot to update the starting time of your meeting.
+
+# CancelUpdateMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

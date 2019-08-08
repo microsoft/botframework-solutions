@@ -16,5 +16,6 @@ namespace CalendarSkill.Responses.Shared
         public const string ActionEnded = "ActionEnded";
         public const string CalendarErrorMessage = "CalendarErrorMessage";
         public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";
+        public const string RetryInput = "RetryInput";
     }
 }
