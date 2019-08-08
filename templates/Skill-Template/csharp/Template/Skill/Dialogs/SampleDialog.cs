@@ -41,7 +41,7 @@ namespace $safeprojectname$.Dialogs
         private async Task<DialogTurnResult> PromptForName(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // NOTE: Uncomment the following lines to access LUIS result for this turn.
-            // var state = await ConversationStateAccessor.GetAsync(stepContext.Context);
+            // var state = await StateAccessor.GetAsync(stepContext.Context);
             // var intent = state.LuisResult.TopIntent().intent;
             // var entities = state.LuisResult.Entities;
             var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
