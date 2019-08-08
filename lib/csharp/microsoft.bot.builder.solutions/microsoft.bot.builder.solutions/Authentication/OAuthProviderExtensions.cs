@@ -15,6 +15,9 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     return OAuthProvider.Google;
                 case "Todoist":
                     return OAuthProvider.Todoist;
+                case "Generic Oauth 2":
+                case "Oauth 2 Generic Provider":
+                    return OAuthProvider.GenericOauth2;
                 default:
                     throw new Exception($"The given provider {providerString} could not be parsed.");
             }

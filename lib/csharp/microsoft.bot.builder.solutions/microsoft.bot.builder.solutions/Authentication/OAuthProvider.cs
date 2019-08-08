@@ -16,5 +16,10 @@
         /// Todoist authentication provider.
         /// </summary>
         Todoist,
+
+        /// <summary>
+        /// Generic Oauth 2 provider.
+        /// </summary>
+        GenericOauth2,
     }
 }
