@@ -80,3 +80,7 @@ $ROUTE_TYPE:fastest=
 - high-speed
 
 $ROUTE_TYPE:shortest=
+
+$POI_TYPE:nearest=
+- nearest
+- closest

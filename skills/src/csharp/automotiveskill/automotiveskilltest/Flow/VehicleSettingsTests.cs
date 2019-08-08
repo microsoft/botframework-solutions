@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using AutomotiveSkill.Models;
@@ -325,7 +326,7 @@ namespace AutomotiveSkillTest.Flow
             {
                 var eventReceived = activity.AsEventActivity();
                 Assert.IsNotNull(eventReceived, "Activity received is not an Event as expected");
-                Assert.AreEqual<string>("AutomotiveSkill.SettingChange", eventReceived.Name);
+                Assert.IsTrue((eventReceived.Name ?? string.Empty).Contains("AutomotiveSkill."));
                 Assert.IsInstanceOfType(eventReceived.Value, typeof(SettingChange));
                 Assert.AreEqual<SettingChange>(expectedChange, (SettingChange)eventReceived.Value);
             };

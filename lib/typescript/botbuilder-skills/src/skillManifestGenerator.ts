@@ -34,7 +34,7 @@ export class SkillManifestGenerator {
         if (!skillManifest.id) { throw new Error('Skill manifest ID property was not present in the template manifest file.'); }
         if (!skillManifest.name) { throw new Error('Skill manifest Name property was not present in the template manifest file.'); }
 
-        skillManifest.msAppId = appId;
+        skillManifest.msaAppId = appId;
         skillManifest.endpoint = `${uriBase}${this.skillRoute}`;
 
         if (skillManifest.iconUrl !== undefined) {

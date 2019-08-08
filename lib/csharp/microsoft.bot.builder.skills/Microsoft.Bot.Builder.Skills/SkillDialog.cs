@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
@@ -13,7 +12,7 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
-using Microsoft.Recognizers.Text;
+using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -61,7 +60,7 @@ namespace Microsoft.Bot.Builder.Skills
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
             _skillIntentRecognizer = skillIntentRecognizer;
 
             var intentSwitching = new WaterfallStep[]
@@ -103,7 +102,7 @@ namespace Microsoft.Bot.Builder.Skills
                 if (sc.Result is bool result && result)
                 {
                     // 1) End remote skill dialog
-                    await _skillTransport.CancelRemoteDialogsAsync(sc.Context);
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context);
 
                     // 2) Reset user input
                     sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
@@ -133,7 +132,7 @@ namespace Microsoft.Bot.Builder.Skills
                 // to cancel all dialogs on the skill side
                 if (_skillTransport != null)
                 {
-                    await _skillTransport.CancelRemoteDialogsAsync(turnContext);
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
                 }
             }
 
@@ -155,54 +154,64 @@ namespace Microsoft.Bot.Builder.Skills
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
 
-            /*  In instances where the caller is able to identify/specify the action we process the Action specific slots
-                In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
-                enabling the Skill to perform it's own action identification. */
+            var dialogOptions = options != null ? options as SkillDialogOption : null;
+            var actionName = dialogOptions?.Action;
 
-            var actionName = options != null ? options as string : null;
-            if (actionName != null)
+            var activity = innerDc.Context.Activity;
+
+            // only set SemanticAction if it's not populated
+            if (activity.SemanticAction == null)
             {
-                // Find the specified within the selected Skill for slot filling evaluation
-                var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
-                if (action != null)
+                var semanticAction = new SemanticAction
                 {
-                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                    if (action.Definition.Slots != null && skillContext.Count > 0)
+                    Id = actionName,
+                    Entities = new Dictionary<string, Entity>(),
+                };
+
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    // only set the semantic state if action is not empty
+                    semanticAction.State = SkillConstants.SkillStart;
+
+                    // Find the specified action within the selected Skill for slot filling evaluation
+                    var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
+                    if (action != null)
                     {
-                        // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+                        if (action.Definition.Slots != null && skillContext.Count > 0)
+                        {
+                            // Match Slots to Skill Context
+                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
                     }
                 }
                 else
                 {
-                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-                }
-            }
-            else
-            {
-                // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
-                // actions and slot data to pass what we have
+                    // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
+                    // actions and slot data to pass what we have
 
-                // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-                var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
-                if (skillSlots != null)
-                {
-                    // Match Slots to Skill Context
-                    slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
+                    var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
+                    if (skillSlots != null)
+                    {
+                        // Match Slots to Skill Context
+                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    }
                 }
+
+                foreach (var slot in slots)
+                {
+                    semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+                }
+
+                activity.SemanticAction = semanticAction;
             }
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
-
-            var activity = innerDc.Context.Activity;
-            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
-
-            foreach (var slot in slots)
-            {
-                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-            }
-
-            activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
@@ -306,12 +315,15 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
+                // populate call id for auth purpose
+                activity.CallerId = _serviceClientCredentials.MicrosoftAppId;
 
-                if (endOfConversation)
+                var endOfConversationActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
+
+                if (endOfConversationActivity != null)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await innerDc.EndDialogAsync();
+                    return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction?.Entities);
                 }
                 else
                 {
@@ -351,7 +363,7 @@ namespace Microsoft.Bot.Builder.Skills
                                         return await innerDc.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options);
                                     }
 
-                                    await _skillTransport.CancelRemoteDialogsAsync(innerDc.Context);
+                                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context);
                                     return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized);
                                 }
                             }
@@ -387,6 +399,7 @@ namespace Microsoft.Bot.Builder.Skills
                     tokenEvent.Type = ActivityTypes.Event;
                     tokenEvent.Name = TokenEvents.TokenResponseEventName;
                     tokenEvent.Value = authResult.Result as ProviderTokenResponse;
+                    tokenEvent.SemanticAction = activity.SemanticAction;
 
                     lock (_lockObject)
                     {
