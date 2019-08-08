@@ -9,7 +9,7 @@
  */
 export interface ISkillManifest {
     id: string;
-    msAppId: string;
+    msaAppId: string;
     name: string;
     endpoint: string;
     description: string;
