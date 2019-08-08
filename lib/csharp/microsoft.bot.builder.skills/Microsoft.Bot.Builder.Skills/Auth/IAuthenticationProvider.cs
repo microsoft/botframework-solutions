@@ -1,7 +1,9 @@
-﻿namespace Microsoft.Bot.Builder.Skills.Auth
+﻿using System.Security.Claims;
+
+namespace Microsoft.Bot.Builder.Skills.Auth
 {
     public interface IAuthenticationProvider
     {
-        bool Authenticate(string authHeader);
+        ClaimsIdentity Authenticate(string authHeader);
     }
 }

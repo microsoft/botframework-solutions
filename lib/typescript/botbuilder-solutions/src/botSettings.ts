@@ -67,7 +67,6 @@ export interface IBotSettingsBase {
 }
 
 export interface ITelemetryConfiguration {
-    appId: string;
     instrumentationKey: string;
 }
 

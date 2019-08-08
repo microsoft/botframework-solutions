@@ -118,6 +118,9 @@ namespace Microsoft.Bot.Builder.Skills
                     // No need to create a response. One will be created below.
                 }
 
+                // set SemanticAction property of the activity properly
+                EnsureActivitySemanticAction(turnContext, activity);
+
                 if (activity.Type != ActivityTypes.Trace ||
                     (activity.Type == ActivityTypes.Trace && activity.ChannelId == "emulator"))
                 {
@@ -229,6 +232,9 @@ namespace Microsoft.Bot.Builder.Skills
             response.Type = ActivityTypes.Event;
             response.Name = TokenEvents.TokenRequestEventName;
 
+            // set SemanticAction property of the activity properly
+            EnsureActivitySemanticAction(turnContext, response);
+
             // Send the tokens/request Event
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
         }
@@ -240,11 +246,44 @@ namespace Microsoft.Bot.Builder.Skills
             response.Type = ActivityTypes.Event;
             response.Name = SkillEvents.FallbackEventName;
 
+            // set SemanticAction property of the activity properly
+            EnsureActivitySemanticAction(turnContext, response);
+
             // Send the fallback Event
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<T> SendRequestAsync<T>(Request request, CancellationToken cancellation = default(CancellationToken))
+        private void EnsureActivitySemanticAction(ITurnContext turnContext, Activity activity)
+        {
+            if (activity == null || turnContext == null || turnContext.Activity == null)
+            {
+                return;
+            }
+
+            // set state of semantic action based on the activity type
+            if (activity.Type != ActivityTypes.Trace
+                && turnContext.Activity.SemanticAction != null
+                && !string.IsNullOrWhiteSpace(turnContext.Activity.SemanticAction.Id))
+            {
+                // if Skill's dialog didn't set SemanticAction property
+                // simply copy over from the incoming activity
+                if (activity.SemanticAction == null)
+                {
+                    activity.SemanticAction = turnContext.Activity.SemanticAction;
+                }
+
+                if (activity.Type == ActivityTypes.EndOfConversation)
+                {
+                    activity.SemanticAction.State = SkillConstants.SkillDone;
+                }
+                else
+                {
+                    activity.SemanticAction.State = SkillConstants.SkillContinue;
+                }
+            }
+        }
+
+        private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {
@@ -263,20 +302,6 @@ namespace Microsoft.Bot.Builder.Skills
             }
 
             return default(T);
-        }
-
-        private async Task SendRequestAsync(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
-        {
-            try
-            {
-                var serverResponse = await this.Server.SendAsync(request, cancellation).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _botTelemetryClient.TrackException(ex);
-
-                throw ex;
-            }
         }
     }
 }

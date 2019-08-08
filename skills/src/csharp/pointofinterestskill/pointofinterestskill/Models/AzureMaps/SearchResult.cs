@@ -40,5 +40,8 @@ namespace PointOfInterestSkill.Models
 
         [JsonProperty(PropertyName = "viewport")]
         public Viewport Viewport { get; set; }
+
+        [JsonProperty(PropertyName = "dist")]
+        public double Distance { get; set; }
     }
 }

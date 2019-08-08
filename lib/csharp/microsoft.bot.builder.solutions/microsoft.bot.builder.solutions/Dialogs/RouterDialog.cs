@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             {
                                 await OnEventAsync(innerDc).ConfigureAwait(false);
                             }
-                            else if (!string.IsNullOrEmpty(activity.Text))
+                            else
                             {
                                 var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
 

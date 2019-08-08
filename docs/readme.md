@@ -50,8 +50,6 @@
 | How-To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template |
 | How-to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
 | [How-To: Send activities from your assistant to users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your Assistant |
-| [How-To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
-| [How-To: Update your deployment scripts to the latest version.](/docs/howto/assistant/updatedeploymentscripts.md) | How to update the deployment scripts for Virtal Assistant and Skill projects that you have already created to ensure you have the latest updates. |
 
 
 ## Skills
@@ -75,7 +73,7 @@
 |[Architecture](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Generating bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways, depending on the scenario and the user's active device or conversation canvas|
 |[Managing backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an Assistant behind the scenes.|
-|[Deployment scripts](/docs/reference/assistant/deploymentscripts.md) | Reference for deployment scripts provided in the Virtual Assistant Template |
+|[Deployment](/docs/reference/assistant/deploymentscripts.md) | Reference for deployment provided in the Virtual Assistant Template |
 
 ## Skills
 
@@ -108,3 +106,4 @@ Check out our [Known Issues](/docs/reference/knownissues.md) for common issues a
 If you have any questions, please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help.
 
 Use the GitHub Issues page to raise [issues](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Suggestion&template=feature_request.md&title=).
+

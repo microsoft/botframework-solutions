@@ -216,6 +216,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoRouteFound": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't find any route.",
+        "speak": "Sorry, I didn't find any route."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "PointOfInterestSelection": {
     "replies": [
       {
