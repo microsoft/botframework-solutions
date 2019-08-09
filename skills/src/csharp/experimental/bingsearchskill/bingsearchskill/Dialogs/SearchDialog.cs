@@ -11,6 +11,8 @@ using BingSearchSkill.Models.Cards;
 using Microsoft.Bot.Schema;
 using System;
 using BingSearchSkill.Utilities;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -120,6 +122,11 @@ namespace BingSearchSkill.Dialogs
                         Link_View = entitiesResult[0].Url,
                         EntityTypeDisplayHint = entitiesResult[0].EntityTypeDisplayHint
                     };
+
+                    if (Channel.GetChannelId(stepContext.Context) == Channels.Msteams && !string.IsNullOrEmpty(entitiesResult[0].ThumbnailUrl))
+                    {
+                        celebrityData.IconPath = entitiesResult[0].ThumbnailUrl;
+                    }
 
                     tokens.Add("Speak", entitiesResult[0].Description);
 
