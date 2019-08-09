@@ -152,35 +152,35 @@ namespace CalendarSkill.Models
                 RecreateState = null;
             }
 
-            public void ClearLocation()
+            public void ClearLocationForRecreate()
             {
                 Location = null;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Location;
             }
 
-            public void ClearParticipants()
+            public void ClearParticipantsForRecreate()
             {
                 ContactInfor.Clear();
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Participants;
             }
 
-            public void ClearSubject()
+            public void ClearSubjectForRecreate()
             {
                 Title = null;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Subject;
             }
 
-            public void ClearContent()
+            public void ClearContentForRecreate()
             {
                 Content = null;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Content;
             }
 
-            public void ClearTimes()
+            public void ClearTimesForRecreate()
             {
                 StartDate.Clear();
                 StartDateString = null;
@@ -194,7 +194,7 @@ namespace CalendarSkill.Models
                 RecreateState = RecreateEventState.Time;
             }
 
-            public void ClearEndTimesAndDuration()
+            public void ClearEndTimesAndDurationForRecreate()
             {
                 EndDate.Clear();
                 EndTime.Clear();
@@ -202,6 +202,23 @@ namespace CalendarSkill.Models
                 Duration = 0;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Duration;
+            }
+
+            public void ClearTimes()
+            {
+                StartDate.Clear();
+                StartDateString = null;
+                StartTime.Clear();
+                StartDateTime = null;
+                EndDate.Clear();
+                EndTime.Clear();
+                EndDateTime = null;
+                Duration = 0;
+            }
+
+            public void ClearTitle()
+            {
+                Title = null;
             }
         }
 
@@ -259,6 +276,7 @@ namespace CalendarSkill.Models
 
             public List<EventModel> ShowingMeetings { get; set; } = new List<EventModel>();
 
+            // be chosen in ShowingMeetings or in update/change status flow
             public List<EventModel> FocusedEvents { get; set; } = new List<EventModel>();
 
             public void Clear()
@@ -268,6 +286,11 @@ namespace CalendarSkill.Models
                 FilterMeetingKeyWord = null;
                 ShowEventIndex = 0;
                 ShowingMeetings.Clear();
+                FocusedEvents.Clear();
+            }
+
+            public void ClearFocusedEvents()
+            {
                 FocusedEvents.Clear();
             }
         }

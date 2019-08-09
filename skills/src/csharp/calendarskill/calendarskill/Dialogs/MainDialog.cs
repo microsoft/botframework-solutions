@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
@@ -94,6 +95,11 @@ namespace CalendarSkill.Dialogs
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
+            var options = new CalendarSkillDialogOptions()
+            {
+                SubFlowMode = false
+            };
+
             if (luisService == null)
             {
                 throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
@@ -115,9 +121,14 @@ namespace CalendarSkill.Dialogs
                         }
 
                     case CalendarLuis.Intent.AcceptEventEntry:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                            break;
+                        }
+
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
                             break;
                         }
 
