@@ -1,4 +1,4 @@
-﻿namespace CalendarSkill.Models
+﻿namespace CalendarSkill.Models.DialogOptions
 {
     public class FindContactDialogOptions : CalendarSkillDialogOptions
     {

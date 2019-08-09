@@ -69,16 +69,16 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (sc.Result != null && sc.Result is FoundChoice && state.Events.Count > 1)
+                if (sc.Result != null && sc.Result is FoundChoice && state.FocusedMeetings_temp.Count > 1)
                 {
-                    var events = state.Events;
-                    state.Events = new List<EventModel>
+                    var events = state.FocusedMeetings_temp;
+                    state.FocusedMeetings_temp = new List<EventModel>
                 {
                     events[(sc.Result as FoundChoice).Index],
                 };
                 }
 
-                var origin = state.Events[0];
+                var origin = state.FocusedMeetings_temp[0];
                 if (!origin.IsOrganizer)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(UpdateEventResponses.NotEventOrganizer));
@@ -107,7 +107,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var newStartTime = (DateTime)state.NewStartDateTime;
-                var origin = state.Events[0];
+                var origin = state.FocusedMeetings_temp[0];
                 var last = origin.EndTime - origin.StartTime;
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
@@ -136,7 +136,7 @@ namespace CalendarSkill.Dialogs
                 if (confirmResult)
                 {
                     var newStartTime = (DateTime)state.NewStartDateTime;
-                    var origin = state.Events[0];
+                    var origin = state.FocusedMeetings_temp[0];
                     var updateEvent = new EventModel(origin.Source);
                     var last = origin.EndTime - origin.StartTime;
                     updateEvent.StartTime = newStartTime;
@@ -214,7 +214,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
-                    var originalEvent = state.Events[0];
+                    var originalEvent = state.FocusedMeetings_temp[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
                     var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
 
@@ -287,7 +287,7 @@ namespace CalendarSkill.Dialogs
                         }
 
                         dateTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTimeValue;
-                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.Events[0].StartTime, state.GetUserTimeZone());
+                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.FocusedMeetings_temp[0].StartTime, state.GetUserTimeZone());
                         if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Date) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
                         {
                             dateTimeValue = new DateTime(
@@ -377,7 +377,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.Events.Count > 0)
+                if (state.FocusedMeetings_temp.Count > 0)
                 {
                     return await sc.NextAsync();
                 }
@@ -386,12 +386,12 @@ namespace CalendarSkill.Dialogs
 
                 if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any())
                 {
-                    state.Events = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
+                    state.FocusedMeetings_temp = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
                     state.OriginalStartDate = new List<DateTime>();
                     state.OriginalStartTime = new List<DateTime>();
                     state.OriginalEndDate = new List<DateTime>();
                     state.OriginalEndTime = new List<DateTime>();
-                    if (state.Events.Count > 0)
+                    if (state.FocusedMeetings_temp.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
@@ -399,9 +399,9 @@ namespace CalendarSkill.Dialogs
 
                 if (state.Title != null)
                 {
-                    state.Events = await calendarService.GetEventsByTitle(state.Title);
+                    state.FocusedMeetings_temp = await calendarService.GetEventsByTitle(state.Title);
                     state.Title = null;
-                    if (state.Events.Count > 0)
+                    if (state.FocusedMeetings_temp.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
@@ -428,26 +428,26 @@ namespace CalendarSkill.Dialogs
 
                 if (sc.Result != null)
                 {
-                    state.Events = sc.Result as List<EventModel>;
+                    state.FocusedMeetings_temp = sc.Result as List<EventModel>;
                 }
 
-                if (state.Events.Count == 0)
+                if (state.FocusedMeetings_temp.Count == 0)
                 {
                     // should not doto this part. add log here for safe
                     await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
                     return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
-                if (state.Events.Count > 1)
+                if (state.FocusedMeetings_temp.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < state.Events.Count; i++)
+                    for (var i = 0; i < state.FocusedMeetings_temp.Count; i++)
                     {
-                        var item = state.Events[i];
+                        var item = state.FocusedMeetings_temp[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,

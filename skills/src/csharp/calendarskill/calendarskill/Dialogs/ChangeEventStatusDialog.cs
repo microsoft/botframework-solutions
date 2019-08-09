@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
@@ -60,16 +61,16 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (sc.Result != null && state.Events.Count > 1)
+                if (sc.Result != null && state.FocusedMeetings_temp.Count > 1)
                 {
-                    var events = state.Events;
-                    state.Events = new List<EventModel>
+                    var events = state.FocusedMeetings_temp;
+                    state.FocusedMeetings_temp = new List<EventModel>
                     {
                         events[(sc.Result as FoundChoice).Index],
                     };
                 }
 
-                var deleteEvent = state.Events[0];
+                var deleteEvent = state.FocusedMeetings_temp[0];
                 string replyResponse;
                 string retryResponse;
                 if (state.NewEventStatus == EventStatus.Cancelled)
@@ -105,12 +106,13 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var deleteEvent = state.Events[0];
-                    if (state.NewEventStatus == EventStatus.Cancelled)
+                    var deleteEvent = state.FocusedMeetings_temp[0];
+                    if (options.NewEventStatus == EventStatus.Cancelled)
                     {
                         if (deleteEvent.IsOrganizer)
                         {
@@ -179,7 +181,7 @@ namespace CalendarSkill.Dialogs
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.StartDateTime == null)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
+                    return await sc.BeginDialogAsync(Actions.ChooseMeetingToUpdate, sc.Options);
                 }
                 else
                 {
@@ -204,21 +206,23 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.Events.Count > 0)
+                // If there is any meeting saved from other dialog, continue
+                if (state.FocusedMeetings_temp.Count > 0)
                 {
                     return await sc.NextAsync();
                 }
 
+                // Get meeting by time that got from utterance first. If there is no related meeting, get meeting by title
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 if (state.StartDate.Any() || state.StartTime.Any())
                 {
-                    state.Events = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    state.FocusedMeetings_temp = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     state.StartDate = new List<DateTime>();
                     state.StartTime = new List<DateTime>();
                     state.EndDate = new List<DateTime>();
                     state.EndTime = new List<DateTime>();
-                    if (state.Events.Count > 0)
+                    if (state.FocusedMeetings_temp.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
@@ -226,14 +230,15 @@ namespace CalendarSkill.Dialogs
 
                 if (state.Title != null)
                 {
-                    state.Events = await calendarService.GetEventsByTitle(state.Title);
+                    state.FocusedMeetings_temp = await calendarService.GetEventsByTitle(state.Title);
                     state.Title = null;
-                    if (state.Events.Count > 0)
+                    if (state.FocusedMeetings_temp.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
                 }
 
+                // if there is no meeting can be got from information in utterance, prompt user to get meetings to update
                 if (state.NewEventStatus == EventStatus.Cancelled)
                 {
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
@@ -264,28 +269,28 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
+                // get result from GetEventPrompt
                 if (sc.Result != null)
                 {
-                    state.Events = sc.Result as List<EventModel>;
+                    state.FocusedMeetings_temp = sc.Result as List<EventModel>;
                 }
 
-                if (state.Events.Count == 0)
+                if (state.FocusedMeetings_temp.Count == 0)
                 {
                     // should not doto this part. add log here for safe
                     await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
                     return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
-                if (state.Events.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < state.Events.Count; i++)
+                    for (var i = 0; i < state.FocusedMeetings_temp.Count; i++)
                     {
-                        var item = state.Events[i];
+                        var item = state.FocusedMeetings_temp[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,
@@ -299,10 +304,6 @@ namespace CalendarSkill.Dialogs
                     options.Prompt = prompt;
 
                     return await sc.PromptAsync(Actions.EventChoice, options);
-                }
-                else
-                {
-                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (SkillException ex)

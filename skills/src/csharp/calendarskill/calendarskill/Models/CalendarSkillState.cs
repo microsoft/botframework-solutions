@@ -8,183 +8,35 @@ namespace CalendarSkill.Models
 {
     public class CalendarSkillState
     {
-        public CalendarSkillState()
-        {
-            User = new User();
-            UserInfo = new UserInformation();
-            Title = null;
-            Content = null;
-            StartDate = new List<DateTime>();
-            StartDateString = null;
-            StartTime = new List<DateTime>();
-            StartTimeString = null;
-            StartDateTime = null;
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OriginalStartDate = new List<DateTime>();
-            OriginalStartTime = new List<DateTime>();
-            OriginalEndDate = new List<DateTime>();
-            OriginalEndTime = new List<DateTime>();
-            NewStartDate = new List<DateTime>();
-            NewStartTime = new List<DateTime>();
-            NewEndDate = new List<DateTime>();
-            NewEndTime = new List<DateTime>();
-            Location = null;
-            Attendees = new List<EventModel.Attendee>();
-            APIToken = null;
-            Events = new List<EventModel>();
-            NewStartDateTime = null;
-            EventSource = EventSource.Other;
-            AttendeesNameList = new List<string>();
-            CurrentAttendeeName = string.Empty;
-            ConfirmAttendeesNameIndex = 0;
-            DialogName = string.Empty;
-            ShowAttendeesIndex = 0;
-            ShowEventIndex = 0;
-            SummaryEvents = null;
-            FocusEvents = new List<EventModel>();
-            Duration = 0;
-            MoveTimeSpan = 0;
-            AskParameterContent = string.Empty;
-            RecurrencePattern = string.Empty;
-            CreateHasDetail = false;
-            RecreateState = null;
-            NewEventStatus = EventStatus.None;
-            FirstRetryInFindContact = true;
-            UnconfirmedPerson = new List<CustomizedPerson>();
-            ConfirmedPerson = new CustomizedPerson();
-            FirstEnterFindContact = true;
-            IsActionFromSummary = false;
-            ConfirmedMeeting = new List<EventModel>();
-            TotalConflictCount = 0;
-            FilterMeetingKeyWord = null;
-            UserSelectIndex = -1;
-        }
-
-        public User User { get; set; }
-
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
         public Luis.CalendarLuis LuisResult { get; set; }
 
         public Luis.General GeneralLuisResult { get; set; }
 
-        public string Title { get; set; }
-
-        public string Content { get; set; }
-
-        // user time zone
-        public List<DateTime> StartDate { get; set; }
-
-        // user time zone
-        public List<DateTime> StartTime { get; set; }
-
-        // UTC
-        public DateTime? StartDateTime { get; set; }
-
-        // user time zone
-        public List<DateTime> EndDate { get; set; }
-
-        // user time zone
-        public List<DateTime> EndTime { get; set; }
-
-        // user time zone
-        public List<DateTime> OriginalStartDate { get; set; }
-
-        // user time zone
-        public List<DateTime> OriginalStartTime { get; set; }
-
-        // user time zone
-        public List<DateTime> OriginalEndDate { get; set; }
-
-        // user time zone
-        public List<DateTime> OriginalEndTime { get; set; }
-
-        // user time zone
-        public List<DateTime> NewStartDate { get; set; }
-
-        // user time zone
-        public List<DateTime> NewStartTime { get; set; }
-
-        // user time zone
-        public List<DateTime> NewEndDate { get; set; }
-
-        // user time zone
-        public List<DateTime> NewEndTime { get; set; }
-
-        // the order reference, such as 'next'
-        public string OrderReference { get; set; }
-
-        // UTC
-        public DateTime? EndDateTime { get; set; }
-
-        public string Location { get; set; }
-
-        public List<EventModel.Attendee> Attendees { get; set; }
-
         public string APIToken { get; set; }
 
-        public List<EventModel> Events { get; set; }
+        public int PageSize { get; set; } = 0;
 
-        // UTC
-        public DateTime? NewStartDateTime { get; set; }
+        public EventSource EventSource { get; set; } = EventSource.Other;
 
-        public EventSource EventSource { get; set; }
+        //public List<EventModel> FocusedMeetings_temp { get; set; }
 
-        public List<string> AttendeesNameList { get; set; }
+        public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
 
-        public string CurrentAttendeeName { get; set; }
+        public ShowMeetingInformation ShowMeetingInfor { get; set; } = new ShowMeetingInformation();
 
-        public int ConfirmAttendeesNameIndex { get; set; }
+        public UpdateMeetingInformation UpdateMeetingInfor { get; set; } = new UpdateMeetingInformation();
 
-        public string DialogName { get; set; }
+        // todo: move these to options
+        //public bool FirstRetryInFindContact { get; set; }
 
-        public int ShowAttendeesIndex { get; set; }
+        //public bool FirstEnterFindContact { get; set; }
 
-        public int ShowEventIndex { get; set; }
+        //public bool IsActionFromSummary { get; set; }
 
-        public List<EventModel> SummaryEvents { get; set; }
-
-        public List<EventModel> FocusEvents { get; set; }
-
-        public int Duration { get; set; }
-
-        public string StartDateString { get; set; }
-
-        public string StartTimeString { get; set; }
-
-        public int MoveTimeSpan { get; set; }
-
-        public string AskParameterContent { get; set; }
-
-        public string RecurrencePattern { get; set; }
-
-        public bool CreateHasDetail { get; set; }
-
-        public EventStatus NewEventStatus { get; set; }
-
-        public int PageSize { get; set; }
-
-        public RecreateEventState? RecreateState { get; set; }
-
-        public bool FirstRetryInFindContact { get; set; }
-
-        public bool FirstEnterFindContact { get; set; }
-
-        public List<CustomizedPerson> UnconfirmedPerson { get; set; }
-
-        public CustomizedPerson ConfirmedPerson { get; set; }
-
-        public bool IsActionFromSummary { get; set; }
-
-        public List<EventModel> ConfirmedMeeting { get; set; }
-
-        public int TotalConflictCount { get; set; }
-
-        public string FilterMeetingKeyWord { get; set; }
-
-        public int UserSelectIndex { get; set; }
+        // merge with focused meeting
+        //public List<EventModel> ConfirmedMeeting { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -198,154 +50,15 @@ namespace CalendarSkill.Models
 
         public void Clear()
         {
-            User = new User();
-            Title = null;
-            Content = null;
-            StartDate = new List<DateTime>();
-            StartDateString = null;
-            StartTime = new List<DateTime>();
-            StartTimeString = null;
-            StartDateTime = null;
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OriginalStartDate = new List<DateTime>();
-            OriginalStartTime = new List<DateTime>();
-            OriginalEndDate = new List<DateTime>();
-            OriginalEndTime = new List<DateTime>();
-            NewStartDate = new List<DateTime>();
-            NewStartTime = new List<DateTime>();
-            NewEndDate = new List<DateTime>();
-            NewEndTime = new List<DateTime>();
-            OrderReference = null;
-            Location = null;
-            Attendees = new List<EventModel.Attendee>();
+            UserInfo = new UserInformation();
+            LuisResult = null;
+            GeneralLuisResult = null;
             APIToken = null;
-            Events = new List<EventModel>();
-            NewStartDateTime = null;
+            PageSize = 0;
             EventSource = EventSource.Other;
-            AttendeesNameList = new List<string>();
-            CurrentAttendeeName = string.Empty;
-            ConfirmAttendeesNameIndex = 0;
-            DialogName = string.Empty;
-            ShowAttendeesIndex = 0;
-            ShowEventIndex = 0;
-            SummaryEvents = null;
-            FocusEvents = new List<EventModel>();
-            Duration = 0;
-            MoveTimeSpan = 0;
-            AskParameterContent = string.Empty;
-            RecurrencePattern = string.Empty;
-            CreateHasDetail = false;
-            NewEventStatus = EventStatus.None;
-            RecreateState = null;
-            FirstRetryInFindContact = true;
-            UnconfirmedPerson = new List<CustomizedPerson>();
-            ConfirmedPerson = new CustomizedPerson();
-            FirstEnterFindContact = true;
-            IsActionFromSummary = false;
-            ConfirmedMeeting = new List<EventModel>();
-            TotalConflictCount = 0;
-            FilterMeetingKeyWord = null;
-            UserSelectIndex = -1;
-        }
-
-        public void ClearSummaryList()
-        {
-            SummaryEvents = null;
-            FocusEvents = null;
-            FilterMeetingKeyWord = null;
-        }
-
-        public void ClearChangeStautsInfo()
-        {
-            // only clear change status flow related info if begin the flow from summary
-            NewEventStatus = EventStatus.None;
-            Events = new List<EventModel>();
-            IsActionFromSummary = false;
-        }
-
-        public void ClearUpdateEventInfo()
-        {
-            // only clear update meeting flow related info if begin the flow from summary
-            OriginalStartDate = new List<DateTime>();
-            OriginalStartTime = new List<DateTime>();
-            OriginalEndDate = new List<DateTime>();
-            OriginalEndTime = new List<DateTime>();
-            NewStartDate = new List<DateTime>();
-            NewStartTime = new List<DateTime>();
-            NewEndDate = new List<DateTime>();
-            NewEndTime = new List<DateTime>();
-            NewStartDateTime = null;
-            Events = new List<EventModel>();
-            IsActionFromSummary = false;
-        }
-
-        public void ClearTimes()
-        {
-            StartDate = new List<DateTime>();
-            StartDateString = null;
-            StartTime = new List<DateTime>();
-            StartTimeString = null;
-            StartDateTime = null;
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OriginalStartDate = new List<DateTime>();
-            OriginalStartTime = new List<DateTime>();
-            OriginalEndDate = new List<DateTime>();
-            OriginalEndTime = new List<DateTime>();
-            NewStartDateTime = null;
-            MoveTimeSpan = 0;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Time;
-        }
-
-        public void ClearTimesExceptStartTime()
-        {
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OriginalStartDate = new List<DateTime>();
-            OriginalStartTime = new List<DateTime>();
-            OriginalEndDate = new List<DateTime>();
-            OriginalEndTime = new List<DateTime>();
-            NewStartDateTime = null;
-            Duration = 0;
-            MoveTimeSpan = 0;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Duration;
-        }
-
-        public void ClearLocation()
-        {
-            Location = null;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Location;
-        }
-
-        public void ClearParticipants()
-        {
-            Attendees = new List<EventModel.Attendee>();
-            AttendeesNameList = new List<string>();
-            CurrentAttendeeName = string.Empty;
-            ConfirmAttendeesNameIndex = 0;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Participants;
-        }
-
-        public void ClearSubject()
-        {
-            Title = null;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Subject;
-        }
-
-        public void ClearContent()
-        {
-            Content = null;
-            CreateHasDetail = true;
-            RecreateState = RecreateEventState.Content;
+            MeetingInfor.Clear();
+            ShowMeetingInfor.Clear();
+            UpdateMeetingInfor.Clear();
         }
 
         public class UserInformation
@@ -378,6 +91,234 @@ namespace CalendarSkill.Models
             public string DisplayName { get; set; }
 
             public string UserPrincipalName { get; set; }
+        }
+
+        public class MeetingInformation
+        {
+            public FindContactInformation ContactInfor { get; set; } = new FindContactInformation();
+
+            public string Title { get; set; }
+
+            public string Content { get; set; }
+
+            // user time zone
+            public List<DateTime> StartDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> StartTime { get; set; } = new List<DateTime>();
+
+            // UTC
+            public DateTime? StartDateTime { get; set; }
+
+            public string StartDateString { get; set; }
+
+            // user time zone
+            public List<DateTime> EndDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> EndTime { get; set; } = new List<DateTime>();
+
+            // UTC
+            public DateTime? EndDateTime { get; set; }
+
+            // the order reference, such as 'next'
+            public string OrderReference { get; set; }
+
+            public string Location { get; set; }
+
+            public int Duration { get; set; }
+
+            // if the utterance contains any detail like "create a meeting at 4 PM"
+            public bool CreateHasDetail { get; set; }
+
+            public RecreateEventState? RecreateState { get; set; }
+
+            public void Clear()
+            {
+                ContactInfor.Clear();
+                Title = null;
+                Content = null;
+                StartDate.Clear();
+                StartTime.Clear();
+                StartDateTime = null;
+                StartDateString = null;
+                EndDate.Clear();
+                EndTime.Clear();
+                EndDateTime = null;
+                OrderReference = null;
+                Location = null;
+                Duration = 0;
+                CreateHasDetail = false;
+                RecreateState = null;
+            }
+
+            public void ClearLocation()
+            {
+                Location = null;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Location;
+            }
+
+            public void ClearParticipants()
+            {
+                ContactInfor.Clear();
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Participants;
+            }
+
+            public void ClearSubject()
+            {
+                Title = null;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Subject;
+            }
+
+            public void ClearContent()
+            {
+                Content = null;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Content;
+            }
+
+            public void ClearTimes()
+            {
+                StartDate.Clear();
+                StartDateString = null;
+                StartTime.Clear();
+                StartDateTime = null;
+                EndDate.Clear();
+                EndTime.Clear();
+                EndDateTime = null;
+                Duration = 0;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Time;
+            }
+
+            public void ClearEndTimesAndDuration()
+            {
+                EndDate.Clear();
+                EndTime.Clear();
+                EndDateTime = null;
+                Duration = 0;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.Duration;
+            }
+        }
+
+        public class FindContactInformation
+        {
+            public List<string> ContactsNameList { get; set; } = new List<string>();
+
+            public List<EventModel.Attendee> Contacts { get; set; } = new List<EventModel.Attendee>();
+
+            public int ConfirmContactsNameIndex { get; set; } = 0;
+
+            public List<CustomizedPerson> UnconfirmedContact { get; set; } = new List<CustomizedPerson>();
+
+            // todo: move
+            public bool FirstRetryInFindContact { get; set; }
+
+            public CustomizedPerson ConfirmedContact { get; set; } = new CustomizedPerson();
+
+            public int ShowContactsIndex { get; set; } = 0;
+
+            public string CurrentContactName { get; set; }
+
+            public void Clear()
+            {
+                CurrentContactName = string.Empty;
+                ContactsNameList.Clear();
+                Contacts.Clear();
+                ConfirmContactsNameIndex = 0;
+                ShowContactsIndex = 0;
+                UnconfirmedContact.Clear();
+                // todo: remove?
+                FirstRetryInFindContact = true;
+                ConfirmedContact = new CustomizedPerson();
+            }
+        }
+
+        public class ShowMeetingInformation
+        {
+            public ShowMeetingInformation()
+            {
+                AskParameterContent = null;
+                TotalConflictCount = 0;
+                FilterMeetingKeyWord = null;
+            }
+
+            public string AskParameterContent { get; set; }
+
+            public int TotalConflictCount { get; set; }
+
+            public string FilterMeetingKeyWord { get; set; }
+
+            public int ShowEventIndex { get; set; } = 0;
+
+            public int UserSelectIndex { get; set; } = -1;
+
+            public List<EventModel> ShowingMeetings { get; set; } = new List<EventModel>();
+
+            public List<EventModel> FocusedEvents { get; set; } = new List<EventModel>();
+
+            public void Clear()
+            {
+                AskParameterContent = null;
+                TotalConflictCount = 0;
+                FilterMeetingKeyWord = null;
+                ShowEventIndex = 0;
+                ShowingMeetings.Clear();
+                FocusedEvents.Clear();
+            }
+        }
+
+        public class UpdateMeetingInformation
+        {
+            // user time zone
+            public List<DateTime> OriginalStartDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> OriginalStartTime { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> OriginalEndDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> OriginalEndTime { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> NewStartDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> NewStartTime { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> NewEndDate { get; set; } = new List<DateTime>();
+
+            // user time zone
+            public List<DateTime> NewEndTime { get; set; } = new List<DateTime>();
+
+            // UTC
+            public DateTime? NewStartDateTime { get; set; }
+
+            public int MoveTimeSpan { get; set; }
+
+            public string RecurrencePattern { get; set; }
+
+            public void Clear()
+            {
+                OriginalStartDate.Clear();
+                OriginalStartTime.Clear();
+                OriginalEndDate.Clear();
+                OriginalEndTime.Clear();
+                NewStartDate.Clear();
+                NewStartTime.Clear();
+                NewEndDate.Clear();
+                NewEndTime.Clear();
+                NewStartDateTime = null;
+                MoveTimeSpan = 0;
+                RecurrencePattern = null;
+            }
         }
     }
 }
