@@ -22,7 +22,6 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
             : base(sendTraceActivity: false)
         {
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
 
             this.Conversation = new ConversationReference
             {
