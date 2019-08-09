@@ -35,11 +35,11 @@ namespace VirtualAssistantSample
 
             if (recognizeSkill == null)
             {
-                if (intent == DispatchLuis.Intent.q_faq)
+                if (intent == DispatchLuis.Intent.q_Faq)
                 {
                     return "FAQ";
                 }
-                else if (intent == DispatchLuis.Intent.q_chitchat)
+                else if (intent == DispatchLuis.Intent.q_Chitchat)
                 {
                     return "Chit chat";
                 }
