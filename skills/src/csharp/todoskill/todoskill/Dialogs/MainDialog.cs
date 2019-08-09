@@ -28,14 +28,12 @@ namespace ToDoSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             AddToDoItemDialog addToDoItemDialog,
             MarkToDoItemDialog markToDoItemDialog,
@@ -46,7 +44,6 @@ namespace ToDoSkill.Dialogs
         {
             _settings = settings;
             _services = services;
-            _responseManager = responseManager;
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 

@@ -21,8 +21,7 @@ namespace EmailSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            IBotTelemetryClient telemetryClient,
-            ResourceExplorer resourceExplorer)
+            IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("Shared.lg");

@@ -32,7 +32,6 @@ namespace CalendarSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
@@ -43,7 +42,6 @@ namespace CalendarSkill.Dialogs
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             ProactiveState proactiveState,
@@ -60,7 +58,6 @@ namespace CalendarSkill.Dialogs
             _settings = settings;
             _services = services;
             _userState = userState;
-            _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
 

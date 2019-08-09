@@ -22,7 +22,6 @@ namespace CalendarSkill.Bots
         private IStorage _storage;
         private ResourceExplorer _resourceExplorer;
 
-
         public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
@@ -55,8 +54,6 @@ namespace CalendarSkill.Bots
             if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
             {
                 turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
-
-                var lg = new LanguageGeneratorManager(_resourceExplorer);
             }
 
             return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);

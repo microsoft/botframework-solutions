@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -20,15 +21,14 @@ namespace ToDoSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager,
-            ResourceExplorer resourceExplorer)
+            IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+                var activity = await new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg").Generate(context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };

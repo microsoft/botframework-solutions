@@ -18,9 +18,11 @@ namespace ToDoSkill.Bots
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
+        private DialogManager _dialogManager;
+        private IStorage _storage;
         private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog, ResourceExplorer resourceExplorer)
+        public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
@@ -29,16 +31,19 @@ namespace ToDoSkill.Bots
             _dialogs = new DialogSet(dialogState);
             _dialogs.Add(dialog);
 
+            _dialogManager = new DialogManager(dialog);
+            _storage = storage;
+
             _resourceExplorer = resourceExplorer;
         }
 
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
                 _telemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.", Severity.Information, null);
-                return;
+                return Task.CompletedTask;
             }
 
             if (turnContext.TurnState.Get<IStorage>() == null)
@@ -51,16 +56,7 @@ namespace ToDoSkill.Bots
                 turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
             }
 
-            var dc = await _dialogs.CreateContextAsync(turnContext);
-
-            if (dc.ActiveDialog != null)
-            {
-                var result = await dc.ContinueDialogAsync();
-            }
-            else
-            {
-                await dc.BeginDialogAsync(typeof(T).Name);
-            }
+            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }

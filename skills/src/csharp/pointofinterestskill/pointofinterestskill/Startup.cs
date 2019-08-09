@@ -15,8 +15,8 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -24,10 +24,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PointOfInterestSkill.Adapters;
 using PointOfInterestSkill.Bots;
 using PointOfInterestSkill.Dialogs;
-using PointOfInterestSkill.Responses.CancelRoute;
-using PointOfInterestSkill.Responses.FindPointOfInterest;
-using PointOfInterestSkill.Responses.Route;
-using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 
 namespace PointOfInterestSkill
@@ -55,7 +51,7 @@ namespace PointOfInterestSkill
 
         public IConfiguration Configuration { get; }
 
-        IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -116,10 +112,10 @@ namespace PointOfInterestSkill
 			// Configure adapters
 			services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, POISkillWebSocketBotAdapter>();
+            services.AddTransient<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

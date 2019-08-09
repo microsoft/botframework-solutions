@@ -39,7 +39,6 @@ namespace CalendarSkill.Dialogs
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -48,7 +47,6 @@ namespace CalendarSkill.Dialogs
         {
             Settings = settings;
             Services = services;
-            ResponseManager = responseManager;
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             Accessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             ServiceManager = serviceManager;

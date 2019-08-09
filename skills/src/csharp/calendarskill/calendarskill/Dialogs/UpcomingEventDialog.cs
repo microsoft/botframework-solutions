@@ -32,21 +32,19 @@ namespace CalendarSkill.Dialogs
         public UpcomingEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpcomingEventDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("UpcomingEventDialog.lg");
 
             _backgroundTaskQueue = backgroundTaskQueue;
             _proactiveState = proactiveState;
             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
-            _responseManager = responseManager;
 
             var upcomingMeeting = new WaterfallStep[]
             {

@@ -45,7 +45,6 @@ namespace ToDoSkill.Dialogs
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
@@ -57,7 +56,6 @@ namespace ToDoSkill.Dialogs
             _httpContext = httpContext;
             _settings = settings;
             Services = services;
-            ResponseManager = responseManager;
 
             // Initialize state accessor
             ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));

@@ -5,14 +5,6 @@ using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
-using EmailSkill.Responses.DeleteEmail;
-using EmailSkill.Responses.FindContact;
-using EmailSkill.Responses.ForwardEmail;
-using EmailSkill.Responses.Main;
-using EmailSkill.Responses.ReplyEmail;
-using EmailSkill.Responses.SendEmail;
-using EmailSkill.Responses.Shared;
-using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -25,8 +17,8 @@ using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -44,9 +36,9 @@ namespace EmailSkill
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -57,7 +49,7 @@ namespace EmailSkill
 
         public IConfiguration Configuration { get; }
 
-        IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -75,8 +67,7 @@ namespace EmailSkill
             services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure bot state
-            //services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
-            services.AddSingleton<IStorage>(new MemoryStorage());
+            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
             services.AddSingleton(sp =>
@@ -118,10 +109,10 @@ namespace EmailSkill
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, EmailSkillWebSocketBotAdapter>();
+            services.AddTransient<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

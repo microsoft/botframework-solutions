@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -23,18 +24,14 @@ using Microsoft.Extensions.DependencyInjection;
 using ToDoSkill.Adapters;
 using ToDoSkill.Bots;
 using ToDoSkill.Dialogs;
-using ToDoSkill.Responses.AddToDo;
-using ToDoSkill.Responses.DeleteToDo;
-using ToDoSkill.Responses.Main;
-using ToDoSkill.Responses.MarkToDo;
-using ToDoSkill.Responses.Shared;
-using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;
 
 namespace ToDoSkill
 {
     public class Startup
     {
+        private bool _isProduction = false;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -58,7 +55,7 @@ namespace ToDoSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
             var provider = services.BuildServiceProvider();
 
             // Load settings
@@ -83,7 +80,6 @@ namespace ToDoSkill
             });
 
             // Config LG
-            var path = this.HostingEnvironment.ContentRootPath;
             var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
 
@@ -103,17 +99,8 @@ namespace ToDoSkill
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
 
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new AddToDoResponses(),
-                new DeleteToDoResponses(),
-                new ToDoMainResponses(),
-                new MarkToDoResponses(),
-                new ToDoSharedResponses(),
-                new ShowToDoResponses()));
-
             // register dialogs
+            services.AddSingleton<MainDialog>();
             services.AddSingleton<AddToDoItemDialog>();
             services.AddSingleton<DeleteToDoItemDialog>();
             services.AddSingleton<MarkToDoItemDialog>();
@@ -122,13 +109,13 @@ namespace ToDoSkill
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, ToDoSkillWebSocketBotAdapter>();
+            services.AddTransient<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
-            services.AddSingleton<MainDialog>();
             services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
@@ -139,11 +126,7 @@ namespace ToDoSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            _isProduction = env.IsProduction();
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()

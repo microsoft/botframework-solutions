@@ -35,14 +35,13 @@ namespace CalendarSkill.Dialogs
         public SummaryDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UpdateEventDialog updateEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(SummaryDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("SummaryDialog.lg");
             TelemetryClient = telemetryClient;

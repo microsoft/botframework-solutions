@@ -5,15 +5,6 @@ using System.Linq;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
-using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CreateEvent;
-using CalendarSkill.Responses.FindContact;
-using CalendarSkill.Responses.JoinEvent;
-using CalendarSkill.Responses.Main;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
-using CalendarSkill.Responses.TimeRemaining;
-using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -26,9 +17,9 @@ using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -59,7 +50,7 @@ namespace CalendarSkill
 
         public IConfiguration Configuration { get; }
 
-        IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -90,7 +81,6 @@ namespace CalendarSkill
             });
 
             // Config LG
-            var path = this.HostingEnvironment.ContentRootPath;
             var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
 
@@ -110,19 +100,6 @@ namespace CalendarSkill
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
 
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new ChangeEventStatusResponses(),
-                new CreateEventResponses(),
-                new JoinEventResponses(),
-                new CalendarMainResponses(),
-                new CalendarSharedResponses(),
-                new SummaryResponses(),
-                new TimeRemainingResponses(),
-                new UpdateEventResponses()));
-
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<ChangeEventStatusDialog>();
@@ -138,6 +115,7 @@ namespace CalendarSkill
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
+            services.AddTransient<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot

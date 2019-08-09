@@ -29,12 +29,11 @@ namespace CalendarSkill.Dialogs
         public TimeRemainingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(TimeRemainingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(TimeRemainingDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("TimeRemainingDialog.lg");
             TelemetryClient = telemetryClient;

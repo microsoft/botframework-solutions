@@ -34,12 +34,11 @@ namespace CalendarSkill.Dialogs
         public FindContactDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(FindContactDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("FindContactDialog.lg");
 

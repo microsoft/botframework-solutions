@@ -1,9 +1,11 @@
 ﻿using System.Globalization;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -13,17 +15,19 @@ namespace CalendarSkill.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+                var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, context, "[CalendarErrorMessage]", null);
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };

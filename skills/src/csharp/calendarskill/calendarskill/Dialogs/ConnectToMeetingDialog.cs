@@ -33,12 +33,11 @@ namespace CalendarSkill.Dialogs
         public ConnectToMeetingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(ConnectToMeetingDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("JoinEventDialog.lg");
 
