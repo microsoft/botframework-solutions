@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace ITSMSkill.Models
 {
-    public class SearchKnowledgeResult : ResultBase
+    public enum AttributeType
     {
-        public Knowledge[] Knowledges { get; set; }
+        None,
+        Id,
+        Description,
+        Urgency
     }
 }

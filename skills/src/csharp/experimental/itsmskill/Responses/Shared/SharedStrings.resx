@@ -144,6 +144,15 @@
   <data name="TicketStateResolved" xml:space="preserve">
     <value>Resolved</value>
   </data>
+  <data name="AttributeDescription" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="AttributeId" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="AttributeUrgency" xml:space="preserve">
+    <value>urgency</value>
+  </data>
   <data name="OpenedAt" xml:space="preserve">
     <value>Opened at </value>
   </data>

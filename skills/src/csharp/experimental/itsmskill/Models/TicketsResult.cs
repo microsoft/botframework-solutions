@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace ITSMSkill.Models
 {
-    public class CreateTicketResult : ResultBase
+    public class TicketsResult : ResultBase
     {
-        public Ticket Ticket { get; set; }
+        public Ticket[] Tickets { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿[Ticket Create](./Ticket/Create.lu)
+[Ticket Update](./Ticket/Update.lu)
 
 # None
 > from chitchat
@@ -18,3 +19,15 @@
 > # Entity definitions
 
 $TicketDescription:simple
+
+> # List entities
+
+$AttributeType:urgency=
+
+$AttributeType:description=
+
+$UrgencyLevel:low=
+
+$UrgencyLevel:medium=
+
+$UrgencyLevel:high=

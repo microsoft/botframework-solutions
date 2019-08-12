@@ -3,11 +3,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
+using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
 using Luis;
@@ -51,9 +53,29 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
 
+            var setDescription = new WaterfallStep[]
+            {
+                CheckDescription,
+                InputDescription,
+                SetDescription
+            };
+
+            var setUrgency = new WaterfallStep[]
+            {
+                CheckUrgency,
+                InputUrgency,
+                SetUrgency
+            };
+
+            var attributesForUpdate = new AttributeType[] { AttributeType.Description, AttributeType.Urgency };
+
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new AttributePrompt(Actions.UpdateAttributeNoYesNo, attributesForUpdate, false));
+            AddDialog(new AttributePrompt(Actions.UpdateAttributeHasYesNo, attributesForUpdate, true));
+            AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
+            AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
         }
 
         protected BotSettings Settings { get; set; }
@@ -118,6 +140,193 @@ namespace ITSMSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        protected async Task<DialogTurnResult> CheckId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.Id))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Id", state.Id }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmId, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.Id))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputId)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.Id);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.Id = (string)sc.Result;
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> CheckAttributeNoConfirm(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (state.AttributeType == AttributeType.None)
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputAttribute)
+                };
+
+                return await sc.PromptAsync(Actions.UpdateAttributeNoYesNo, options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.AttributeType);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.AttributeType = (AttributeType)sc.Result;
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketDescription))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Description", state.TicketDescription }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmDescription, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketDescription))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputDescription)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketDescription);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.TicketDescription = (string)sc.Result;
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> CheckUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (state.UrgencyLevel == UrgencyLevel.None)
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Urgency", state.UrgencyLevel.ToString() }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmUrgency, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || state.UrgencyLevel == UrgencyLevel.None)
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputUrgency),
+                    Choices = new List<Choice>()
+                    {
+                        new Choice()
+                        {
+                            Value = UrgencyLevel.Low.ToString()
+                        },
+                        new Choice()
+                        {
+                            Value = UrgencyLevel.Medium.ToString()
+                        },
+                        new Choice()
+                        {
+                            Value = UrgencyLevel.High.ToString()
+                        }
+                    }
+                };
+
+                return await sc.PromptAsync(nameof(ChoicePrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(new FoundChoice()
+                {
+                    Value = state.UrgencyLevel.ToString()
+                });
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.UrgencyLevel = Enum.Parse<UrgencyLevel>(((FoundChoice)sc.Result).Value);
+            return await sc.NextAsync();
         }
 
         // Validators
@@ -234,6 +443,12 @@ namespace ITSMSkill.Dialogs
         protected class Actions
         {
             public const string CreateTicket = "CreateTicket";
+            public const string SetDescription = "SetDescription";
+            public const string SetUrgency = "SetUrgency";
+            public const string UpdateTicket = "UpdateTicket";
+            public const string UpdateAttribute = "UpdateAttribute";
+            public const string UpdateAttributeNoYesNo = "UpdateAttributeNoYesNo";
+            public const string UpdateAttributeHasYesNo = "UpdateAttributeHasYesNo";
         }
     }
 }

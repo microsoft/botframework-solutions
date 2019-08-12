@@ -4,14 +4,15 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace ITSMSkill.Responses.CreateTicket
+namespace ITSMSkill.Responses.Ticket
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class CreateTicketResponses : IResponseIdCollection
+    public class TicketResponses : IResponseIdCollection
     {
         // Generated accessors
         public const string TicketCreated = "TicketCreated";
+        public const string TicketUpdated = "TicketUpdated";
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace ITSMSkill.Models.ServiceNow
 {
-    public class SearchKnowledgeResponse
+    public class MultiTicketsResponse
     {
-        public List<KnowledgeResponse> result { get; set; }
+        public List<TicketResponse> result { get; set; }
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
-using ITSMSkill.Responses.CreateTicket;
+using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
 using Microsoft.Bot.Builder;
@@ -43,57 +46,9 @@ namespace ITSMSkill.Dialogs
                 AfterGetAuthToken,
                 CreateTicket
             };
-            AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket));
 
             InitialDialogId = Actions.CreateTicket;
-        }
-
-        public async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (string.IsNullOrEmpty(state.TicketDescription))
-            {
-                return await sc.NextAsync(false);
-            }
-            else
-            {
-                var replacements = new StringDictionary
-                {
-                    { "Description", state.TicketDescription }
-                };
-
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmDescription, replacements)
-                };
-
-                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
-            }
-        }
-
-        public async Task<DialogTurnResult> InputDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketDescription))
-            {
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetResponse(SharedResponses.InputDescription)
-                };
-
-                return await sc.PromptAsync(nameof(TextPrompt), options);
-            }
-            else
-            {
-                return await sc.NextAsync(state.TicketDescription);
-            }
-        }
-
-        public async Task<DialogTurnResult> SetDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.TicketDescription = (string)sc.Result;
-            return await sc.NextAsync();
         }
 
         public async Task<DialogTurnResult> DisplayExisting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -163,73 +118,6 @@ namespace ITSMSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> CheckUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.UrgencyLevel == UrgencyLevel.None)
-            {
-                return await sc.NextAsync(false);
-            }
-            else
-            {
-                var replacements = new StringDictionary
-                {
-                    { "Urgency", state.UrgencyLevel.ToString() }
-                };
-
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmUrgency, replacements)
-                };
-
-                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
-            }
-        }
-
-        public async Task<DialogTurnResult> InputUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (!(bool)sc.Result || state.UrgencyLevel == UrgencyLevel.None)
-            {
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetResponse(SharedResponses.InputUrgency),
-                    Choices = new List<Choice>()
-                    {
-                        new Choice()
-                        {
-                            Value = UrgencyLevel.Low.ToString()
-                        },
-                        new Choice()
-                        {
-                            Value = UrgencyLevel.Medium.ToString()
-                        },
-                        new Choice()
-                        {
-                            Value = UrgencyLevel.High.ToString()
-                        }
-                    }
-                };
-
-                return await sc.PromptAsync(nameof(ChoicePrompt), options);
-            }
-            else
-            {
-                return await sc.NextAsync(new FoundChoice()
-                {
-                    Value = state.UrgencyLevel.ToString()
-                });
-            }
-        }
-
-        public async Task<DialogTurnResult> SetUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            Enum.TryParse(((FoundChoice)sc.Result).Value, out UrgencyLevel urgency);
-            state.UrgencyLevel = urgency;
-            return await sc.NextAsync();
-        }
-
         public async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
@@ -255,10 +143,10 @@ namespace ITSMSkill.Dialogs
             var card = new Card()
             {
                 Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(result.Ticket)
+                Data = ConvertTicket(result.Tickets[0])
             };
 
-            await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(CreateTicketResponses.TicketCreated, card, null));
+            await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketCreated, card, null));
             return await sc.NextAsync();
         }
     }

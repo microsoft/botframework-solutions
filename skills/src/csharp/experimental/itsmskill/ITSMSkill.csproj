@@ -10,7 +10,7 @@
     <Content Remove="Content\Knowledge.json" />
     <Content Remove="Content\Ticket.1.0.json" />
     <Content Remove="Content\Ticket.json" />
-    <Content Remove="Responses\CreateTicket\CreateTicketResponses.json" />
+    <Content Remove="Responses\Ticket\CreateTicketResponses.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.json" />
   </ItemGroup>
@@ -19,7 +19,7 @@
     <EmbeddedResource Include="Content\Knowledge.1.0.json" />
     <EmbeddedResource Include="Content\Knowledge.json" />
     <EmbeddedResource Include="Content\Ticket.json" />
-    <EmbeddedResource Include="Responses\CreateTicket\CreateTicketResponses.json" />
+    <EmbeddedResource Include="Responses\Ticket\TicketResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
   </ItemGroup>
@@ -60,9 +60,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\CreateTicket\CreateTicketResponses.tt">
+    <None Update="Responses\Ticket\TicketResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CreateTicketResponses.cs</LastGenOutput>
+      <LastGenOutput>TicketResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\CreateTicket\MainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -87,10 +87,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Responses\CreateTicket\CreateTicketResponses.cs">
+    <Compile Update="Responses\Ticket\TicketResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CreateTicketResponses.tt</DependentUpon>
+      <DependentUpon>TicketResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\CreateTicket\MainResponses.cs">
       <DesignTime>True</DesignTime>

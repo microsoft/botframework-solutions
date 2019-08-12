@@ -16,7 +16,8 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             None, 
-            TicketCreate
+            TicketCreate, 
+            TicketUpdate
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -25,10 +26,16 @@ namespace Luis
             // Simple entities
             public string[] TicketDescription;
 
+            // Lists
+            public string[][] AttributeType;
+            public string[][] UrgencyLevel;
+
             // Instance
             public class _Instance
             {
                 public InstanceData[] TicketDescription;
+                public InstanceData[] AttributeType;
+                public InstanceData[] UrgencyLevel;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

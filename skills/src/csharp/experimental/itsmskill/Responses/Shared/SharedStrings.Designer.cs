@@ -61,6 +61,33 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to description.
+        /// </summary>
+        public static string AttributeDescription {
+            get {
+                return ResourceManager.GetString("AttributeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to id.
+        /// </summary>
+        public static string AttributeId {
+            get {
+                return ResourceManager.GetString("AttributeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to urgency.
+        /// </summary>
+        public static string AttributeUrgency {
+            get {
+                return ResourceManager.GetString("AttributeUrgency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opened at .
         /// </summary>
         public static string OpenedAt {

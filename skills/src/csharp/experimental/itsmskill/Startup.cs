@@ -5,7 +5,7 @@ using System.Linq;
 using ITSMSkill.Adapters;
 using ITSMSkill.Bots;
 using ITSMSkill.Dialogs;
-using ITSMSkill.Responses.CreateTicket;
+using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Responses.Main;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
@@ -96,7 +96,7 @@ namespace ITSMSkill
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
-                new CreateTicketResponses(),
+                new TicketResponses(),
                 new SharedResponses()));
 
             // Configure service
@@ -104,6 +104,7 @@ namespace ITSMSkill
 
             // Register dialogs
             services.AddTransient<CreateTicketDialog>();
+            services.AddTransient<UpdateTicketDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

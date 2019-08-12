@@ -22,6 +22,10 @@ namespace ITSMSkill.Responses.Shared
         public const string InputDescription = "InputDescription";
         public const string ConfirmUrgency = "ConfirmUrgency";
         public const string InputUrgency = "InputUrgency";
+        public const string ConfirmId = "ConfirmId";
+        public const string InputId = "InputId";
+        public const string InputAttribute = "InputAttribute";
+        public const string InputAttributeMore = "InputAttributeMore";
         public const string IfExistingSolve = "IfExistingSolve";
         public const string ExistingSolve = "ExistingSolve";
         public const string ServiceFailed = "ServiceFailed";

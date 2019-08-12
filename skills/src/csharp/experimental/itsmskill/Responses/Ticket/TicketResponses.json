@@ -7,5 +7,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "TicketUpdated": {
+    "replies": [
+      {
+        "text": "Your ticket has been updated. Let me know when you need my help.",
+        "speak": "Your ticket has been updated. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

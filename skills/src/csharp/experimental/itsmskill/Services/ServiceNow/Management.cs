@@ -6,7 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Models.ServiceNow;
+using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Serializers;
 
 namespace ITSMSkill.Services.ServiceNow
 {
@@ -52,7 +54,7 @@ namespace ITSMSkill.Services.ServiceNow
             this.limitSize = limitSize;
         }
 
-        public async Task<CreateTicketResult> CreateTicket(string description, UrgencyLevel urgency)
+        public async Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency)
         {
             var request = CreateRequest(TicketResource);
             var body = new CreateTicketRequest()
@@ -63,7 +65,7 @@ namespace ITSMSkill.Services.ServiceNow
             request.AddJsonBody(body);
             try
             {
-                var result = await client.PostAsync<CreateTicketResponse>(request);
+                var result = await client.PostAsync<SingleTicketResponse>(request);
 
                 // didn't find way to get current user's id directly, so update again. or have to create a custom api like https://community.servicenow.com/community?id=community_question&sys_id=52efcb88db1ddb084816f3231f9619c7
                 request = CreateRequest($"{TicketResource}/{result.result.sys_id}?sysparm_exclude_ref_link=true");
@@ -72,17 +74,17 @@ namespace ITSMSkill.Services.ServiceNow
                     caller_id = result.result.opened_by.value
                 };
                 request.AddJsonBody(updateBody);
-                result = await client.PatchAsync<CreateTicketResponse>(request);
+                result = await client.PatchAsync<SingleTicketResponse>(request);
 
-                return new CreateTicketResult()
+                return new TicketsResult()
                 {
                     Success = true,
-                    Ticket = ConvertTicket(result.result)
+                    Tickets = new Ticket[] { ConvertTicket(result.result) }
                 };
             }
             catch (Exception ex)
             {
-                return new CreateTicketResult()
+                return new TicketsResult()
                 {
                     Success = false,
                     ErrorMessage = ex.Message
@@ -90,7 +92,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<SearchTicketResult> SearchTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
+        public async Task<TicketsResult> SearchTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
         {
             var request = CreateRequest(TicketResource);
             var sysparmQuery = new List<string>();
@@ -123,8 +125,8 @@ namespace ITSMSkill.Services.ServiceNow
 
             try
             {
-                var result = await client.GetAsync<SearchTicketResponse>(request);
-                return new SearchTicketResult()
+                var result = await client.GetAsync<MultiTicketsResponse>(request);
+                return new TicketsResult()
                 {
                     Success = true,
                     Tickets = result.result?.Select(r => ConvertTicket(r)).ToArray()
@@ -132,7 +134,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
             catch (Exception ex)
             {
-                return new SearchTicketResult()
+                return new TicketsResult()
                 {
                     Success = false,
                     ErrorMessage = ex.Message
@@ -140,7 +142,37 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<SearchKnowledgeResult> SearchKnowledge(string query)
+        public async Task<TicketsResult> UpdateTicket(string id, string description = null, UrgencyLevel urgency = UrgencyLevel.None)
+        {
+            var request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
+            var body = new CreateTicketRequest()
+            {
+                short_description = description,
+                urgency = urgency == UrgencyLevel.None ? null : UrgencyToString[urgency]
+            };
+            request.JsonSerializer = new JsonNoNull();
+            request.AddJsonBody(body);
+            try
+            {
+                var result = await client.PatchAsync<SingleTicketResponse>(request);
+
+                return new TicketsResult()
+                {
+                    Success = true,
+                    Tickets = new Ticket[] { ConvertTicket(result.result) }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new TicketsResult()
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+        public async Task<KnowledgesResult> SearchKnowledge(string query)
         {
             var request = CreateRequest(KnowledgeResource);
 
@@ -151,8 +183,8 @@ namespace ITSMSkill.Services.ServiceNow
 
             try
             {
-                var result = await client.GetAsync<SearchKnowledgeResponse>(request);
-                return new SearchKnowledgeResult()
+                var result = await client.GetAsync<MultiKnowledgesResponse>(request);
+                return new KnowledgesResult()
                 {
                     Success = true,
                     Knowledges = result.result?.Select(r => ConvertKnowledge(r)).ToArray()
@@ -160,7 +192,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
             catch (Exception ex)
             {
-                return new SearchKnowledgeResult()
+                return new KnowledgesResult()
                 {
                     Success = false,
                     ErrorMessage = ex.Message
@@ -227,6 +259,21 @@ namespace ITSMSkill.Services.ServiceNow
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {token}");
             return request;
+        }
+
+        private class JsonNoNull : ISerializer
+        {
+            public JsonNoNull()
+            {
+                ContentType = "application/json";
+            }
+
+            public string ContentType { get; set; }
+
+            public string Serialize(object obj)
+            {
+                return JsonConvert.SerializeObject(obj, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            }
         }
     }
 }
