@@ -35,6 +35,7 @@ namespace MusicSkill.Dialogs
             ResponseManager = responseManager;
             StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
             TelemetryClient = telemetryClient;
+            Settings = settings;
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!settings.OAuthConnections.Any())

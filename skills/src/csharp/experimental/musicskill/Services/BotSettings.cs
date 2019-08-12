@@ -7,5 +7,8 @@ namespace MusicSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string SpotifyClientId { get; set; }
+
+        public string SpotifyClientSecret { get; set; }
     }
 }

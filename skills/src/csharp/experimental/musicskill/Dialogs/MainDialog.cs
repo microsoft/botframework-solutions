@@ -36,7 +36,7 @@ namespace MusicSkill.Dialogs
             ResponseManager responseManager,
             UserState userState,
             ConversationState conversationState,
-            SampleDialog sampleDialog,
+            PlayMusicDialog playMusicDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -50,7 +50,7 @@ namespace MusicSkill.Dialogs
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
-            AddDialog(sampleDialog);
+            AddDialog(playMusicDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -83,9 +83,9 @@ namespace MusicSkill.Dialogs
 
                 switch (intent)
                 {
-                    case MusicSkillLuis.Intent.Sample:
+                    case MusicSkillLuis.Intent.PlayMusic:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(PlayMusicDialog));
                             break;
                         }
 

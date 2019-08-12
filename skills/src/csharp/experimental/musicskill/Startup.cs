@@ -100,7 +100,7 @@ namespace MusicSkill
                 new SampleResponses()));
 
             // Register dialogs
-            services.AddTransient<SampleDialog>();
+            services.AddTransient<PlayMusicDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

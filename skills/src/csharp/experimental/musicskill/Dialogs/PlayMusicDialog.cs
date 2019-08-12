@@ -9,18 +9,22 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using MusicSkill.Responses.Sample;
 using MusicSkill.Services;
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Auth;
+using SpotifyAPI.Web.Enums; 
+using SpotifyAPI.Web.Models;
 
 namespace MusicSkill.Dialogs
 {
-    public class SampleDialog : SkillDialogBase
+    public class PlayMusicDialog : SkillDialogBase
     {
-        public SampleDialog(
+        public PlayMusicDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(SampleDialog), settings, services, responseManager, conversationState, telemetryClient)
+            : base(nameof(PlayMusicDialog), settings, services, responseManager, conversationState, telemetryClient)
         {
             var sample = new WaterfallStep[]
             {
@@ -32,18 +36,27 @@ namespace MusicSkill.Dialogs
                 End,
             };
 
-            AddDialog(new WaterfallDialog(nameof(SampleDialog), sample));
+            AddDialog(new WaterfallDialog(nameof(PlayMusicDialog), sample));
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
 
-            InitialDialogId = nameof(SampleDialog);
+            InitialDialogId = nameof(PlayMusicDialog);
         }
 
         private async Task<DialogTurnResult> PromptForName(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // NOTE: Uncomment the following lines to access LUIS result for this turn.
-            // var state = await ConversationStateAccessor.GetAsync(stepContext.Context);
-            // var intent = state.LuisResult.TopIntent().intent;
-            // var entities = state.LuisResult.Entities;
+            var state = await StateAccessor.GetAsync(stepContext.Context);
+            var intent = state.LuisResult.TopIntent().intent;
+            var entities = state.LuisResult.Entities;
+
+            // Extract query entity to search against Spotify for
+            var searchQuery = entities.Artist[0];
+
+            // Get Spotify Client
+            var client = await GetSpotifyWebAPIClient(Settings);
+
+            var searchItems = await client.SearchItemsEscapedAsync(searchQuery, SearchType.Artist);
+
             var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
             return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
         }
@@ -69,6 +82,14 @@ namespace MusicSkill.Dialogs
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
+        }
+
+        private async Task<SpotifyWebAPI> GetSpotifyWebAPIClient(BotSettings settings)
+        {
+            CredentialsAuth auth = new CredentialsAuth(settings.SpotifyClientId, settings.SpotifyClientSecret);
+            Token token = await auth.GetToken();
+            SpotifyWebAPI api = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
+            return api;
         }
     }
 }
