@@ -4,10 +4,10 @@ A skill needs to be able to validate the request coming from another bot (Virtua
 
 ![Skill Authentication Flow](../../media/virtualassistant-skillauthentication.png)
 
-Between Virtual Assistant and skill bot, we'll use AAD as the authority to generate and validate token. The token will be a JWT token. Virtual Assistant will use these information to request a JWT token:
-	1. Microsoft app id - this will become the source appid claim in the token
-	2. Microsoft app password
-	3. Skill bot's Microsoft app id - this will become the audience claim in the token
+Between Virtual Assistant and skill bot, we'll use AAD as the authority to generate and validate token. The token will be a JWT token. Virtual Assistant will use this information to request a JWT token:
+  1.  Microsoft app id - this will become the source appid claim in the token
+  2. Microsoft app password
+  3. Skill bot's Microsoft app id - this will become the audience claim in the token
 
 The JWT token will be a 'bearer' token so it'll be part of the Authorization header.
 
