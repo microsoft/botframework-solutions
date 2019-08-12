@@ -83,11 +83,11 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.textinput) TextInputEditText textInput;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
     @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.mic_image) ImageView micImage;
+    @BindView(R.id.kbd_image) ImageView kbdImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
     @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
 
@@ -98,7 +98,6 @@ public class MainActivity extends BaseActivity
     // STATE
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
-    private boolean alwaysShowTextInput;
     private boolean showFullConversation;
     private Handler handler;
     private boolean launchedAsAssistant;
@@ -106,6 +105,8 @@ public class MainActivity extends BaseActivity
     private SfxManager sfxManager;
     private boolean willListenAgain;
     private boolean enableKws;
+    private boolean isExpandedTextInput;
+    private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +121,6 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        alwaysShowTextInput = getBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT);
-        switchShowTextInput.setChecked(alwaysShowTextInput);
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
         switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
@@ -160,6 +159,8 @@ public class MainActivity extends BaseActivity
 
         // assign animation
         animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
+
+        isCreated = true;//keep this as last line in onCreate()
     }
 
     // Register for EventBus messages and SpeechService
@@ -179,6 +180,7 @@ public class MainActivity extends BaseActivity
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
         chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
         chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
+        chatAdapter.setShowFullConversation(showFullConversation);
     }
 
     // Unregister EventBus messages and SpeechService
@@ -308,6 +310,15 @@ public class MainActivity extends BaseActivity
         sfxManager.playEarconDoneListening();
     }
 
+    @OnClick(R.id.kbd_image)
+    public void onClickKeyboard() {
+        if (isExpandedTextInput)
+            textInputLayout.setVisibility(View.GONE);
+        else
+            textInputLayout.setVisibility(View.VISIBLE);
+        isExpandedTextInput = !isExpandedTextInput;
+    }
+
     @OnClick(R.id.mic_image)
     public void onClickAssistant() {
         try {
@@ -321,44 +332,51 @@ public class MainActivity extends BaseActivity
 
     @OnCheckedChanged(R.id.switch_enable_kws)
     public void onCheckedChangedEnableKws(CompoundButton button, boolean checked){
+        if (isCreated) {
+            if (speechServiceBinder != null) {
+                // if there's a connection to the service, go ahead and toggle Kws
+                enableKws = setKwsState(checked);//returns true only if Kws is turned on
+            } else {
+                // defer toggling Kws for later, for now records users' wishes
+                enableKws = checked;
+            }
 
-        if (speechServiceBinder != null) {
-            // if there's a connection to the service, go ahead and toggle Kws
-            enableKws = setKwsState(checked);//returns true only if Kws is turned on
-        } else {
-            // defer toggling Kws for later, for now records users' wishes
-            enableKws = checked;
+            putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
+
+            if (checked && !enableKws) {
+                switchEnableKws.setChecked(false);
+            }
         }
-
-        putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
-
-        if (checked && !enableKws) {
-            switchEnableKws.setChecked(false);
-        }
-    }
-
-    @OnCheckedChanged(R.id.switch_show_textinput)
-    public void OnCheckedChangedShowTextInput(CompoundButton button, boolean checked){
-        alwaysShowTextInput = checked;
-        putBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT, checked);
-        if (alwaysShowTextInput)
-            textInputLayout.setVisibility(View.VISIBLE);
-        else
-            textInputLayout.setVisibility(View.GONE);
     }
 
     @OnCheckedChanged(R.id.switch_show_full_conversation)
     public void OnCheckedChangedShowFullConversation(CompoundButton button, boolean checked){
-        showFullConversation = checked;
-        putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
-        chatAdapter.setShowFullConversation(showFullConversation);
+        if (isCreated) {
+            showFullConversation = checked;
+            putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
+            chatAdapter.setShowFullConversation(showFullConversation);
+        }
     }
 
     @OnCheckedChanged(R.id.switch_night_mode)
     public void OnCheckedChangedEnableNightMode(CompoundButton button, boolean checked){
-        putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
-        AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
-        getDelegate().applyDayNight();
+        if (isCreated) {
+            // OutOfMemoryError can occur, try to free as many objects as possible 1st
+            // note: the assistant animation might need to be unloaded prior to switching night mode
+            chatAdapter.resetChat();
+            sfxManager.reset();
+            sfxManager = null;
+            System.gc();
+
+            // now proceed with the night mode switch
+            putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
+            AppCompatDelegate.setDefaultNightMode(checked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            getDelegate().applyDayNight();
+
+            // re-init SFX manager
+            sfxManager = new SfxManager();
+            sfxManager.initialize(this);
+        }
     }
 
     @OnEditorAction(R.id.textinput)
@@ -381,17 +399,6 @@ public class MainActivity extends BaseActivity
             e.printStackTrace();
         }
     }
-
-//    @OnFocusChange(R.id.textinput)
-//    void onFocusChanged(boolean focused) {
-//        if (focused) {
-//            try {
-//                speechServiceBinder.stopAnyTTS();
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     // send text message
     private void sendTextMessage(String msg){
@@ -462,6 +469,7 @@ public class MainActivity extends BaseActivity
     public void onEventRecognized(Recognized event) {
         hideListeningAnimation();
         detectedSpeechToText.setText(event.recognized_speech);
+        chatAdapter.addUserRequest(event.recognized_speech);
 
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
