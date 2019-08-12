@@ -46,8 +46,8 @@
   "AddMoreTask": {
     "replies": [
       {
-        "text": "您还要再往{listType}列表添加一个任务吗？",
-        "speak": "您还要再往{listType}列表添加一个任务吗？"
+        "text": "您还要再往{listType}列表添加一个事项吗？",
+        "speak": "您还要再往{listType}列表添加一个事项吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -55,8 +55,8 @@
   "AddMoreTaskConfirmFailed": {
     "replies": [
       {
-        "text": "对不起，我没有理解您的意思。请问您还要再往{listType}列表添加一个任务吗？",
-        "speak": "对不起，我没有理解您的意思。请问您还要再往{listType}列表添加一个任务吗？"
+        "text": "对不起，我没有理解您的意思。请问您还要再往{listType}列表添加一个事项吗？",
+        "speak": "对不起，我没有理解您的意思。请问您还要再往{listType}列表添加一个事项吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -64,8 +64,8 @@
   "AskAddDupTaskPrompt": {
     "replies": [
       {
-        "text": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个任务吗？",
-        "speak": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个任务吗？"
+        "text": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个事项吗？",
+        "speak": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个事项吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -73,8 +73,8 @@
   "AskAddDupTaskConfirmFailed": {
     "replies": [
       {
-        "text": "对不起，我没有理解您的意思。您还要添加这个任务吗？",
-        "speak": "对不起，我没有理解您的意思。您还要添加这个任务吗？"
+        "text": "对不起，我没有理解您的意思。您还要添加这个事项吗？",
+        "speak": "对不起，我没有理解您的意思。您还要添加这个事项吗？"
       }
     ],
     "inputHint": "expectingInput"

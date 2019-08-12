@@ -469,6 +469,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 for (var i = 0; i < pointOfInterestList.Count; i++)
                 {
+                    pointOfInterestList[i].CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
                     pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
 
                     // Increase by one to avoid zero based options to the user which are confusing
