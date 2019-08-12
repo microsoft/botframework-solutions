@@ -1,6 +1,6 @@
 ﻿# Power BI
 
-The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) provides a PowerBI template that can be used to understand how your bot is performing.
+The  [Conversational Analytics Power BI sample](https://github.com/microsoft/botframework-solutions/blob/master/solutions/analytics/ConversationalAnalyticsSample_4_6_0.pbit) provides a PowerBI template that can be used to understand how your bot is performing.
 
 ## Sample Overview
 
