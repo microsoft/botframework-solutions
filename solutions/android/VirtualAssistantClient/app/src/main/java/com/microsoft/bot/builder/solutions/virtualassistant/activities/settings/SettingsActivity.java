@@ -3,6 +3,7 @@ package com.microsoft.bot.builder.solutions.virtualassistant.activities.settings
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,6 +26,11 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActiv
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.IOException;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -31,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
+import events.GpsLocationSent;
 
 /**
  * Bot Configuration Activity - settings to change the connection to the Bot
@@ -54,6 +62,7 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.edit_color_picked_user) EditText colorPickedUserEditText;
     @BindView(R.id.edit_color_picked_bot_text) EditText colorPickedBotTextEditText;
     @BindView(R.id.edit_color_picked_user_text) EditText colorPickedUserTextEditText;
+    @BindView(R.id.edit_time_text) EditText gpsSentTimeEditText;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_settings;
@@ -63,6 +72,7 @@ public class SettingsActivity extends BaseActivity {
     private ArrayAdapter tzAdapter;
     private Gson gson;
     private Integer colorBubbleBot, colorBubbleUser, colorTextBot, colorTextUser;
+    private String[] keywords;
 
     public static Intent getNewIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -73,8 +83,17 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(CONTENT_VIEW);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         gson = new Gson();
         initTimezoneAdapter();
+
+        AssetManager am = getAssets();
+        try {
+            keywords = am.list("keywords");
+        }
+        catch (IOException e){
+            Log.e(LOGTAG, e.getMessage());
+        }
     }
 
     @Override
@@ -92,6 +111,12 @@ public class SettingsActivity extends BaseActivity {
             speechServiceBinder = null;
         }
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -209,6 +234,15 @@ public class SettingsActivity extends BaseActivity {
         builder.show();
     }
 
+    @OnClick(R.id.btn_send_gps)
+    public void onClickSendGps() {
+        try {
+            speechServiceBinder.sendLocationUpdate();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @OnClick(R.id.btn_cancel)
     public void onClickCancel() {
         finish();
@@ -219,6 +253,12 @@ public class SettingsActivity extends BaseActivity {
         saveConfiguration();// must save updated config first
         initializeAndConnect();// re-init service to make it read updated config
         finish();
+    }
+
+    // EventBus: the GPS location was sent
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventGpsLocationSent(GpsLocationSent event) {
+        showGpsLocationSentDate();
     }
 
     private void initTimezoneAdapter() {
@@ -281,10 +321,39 @@ public class SettingsActivity extends BaseActivity {
             colorPickedBotTextEditText.setText(String.format("%06X", colorTextBot & 0xFFFFFF));
             colorPickedUserTextEditText.setText(String.format("%06X", colorTextUser & 0xFFFFFF));
 
+            // keywords
+            Spinner spinner = findViewById(R.id.keyword_dropdown);
+            spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    configuration.keyword = keywords[position];
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+
+            // gps sent time
+            showGpsLocationSentDate();
+
 
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
         }
+    }
+
+    private void showGpsLocationSentDate() {
+        String gpsTime = null;
+        try {
+            gpsTime = speechServiceBinder.getDateSentLocationEvent();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        if (gpsTime == null)
+            gpsSentTimeEditText.setText(R.string.configuration_location_unsent);
+        else
+            gpsSentTimeEditText.setText(gpsTime);
     }
 
     private void saveConfiguration(){
@@ -309,6 +378,8 @@ public class SettingsActivity extends BaseActivity {
             // text colors
             configuration.colorTextBot = colorTextBot;
             configuration.colorTextUser = colorTextUser;
+
+            // note: keyword is stored in showConfiguration()$OnItemSelectedListener
 
             String json = gson.toJson(configuration);
             speechServiceBinder.setConfiguration(json);

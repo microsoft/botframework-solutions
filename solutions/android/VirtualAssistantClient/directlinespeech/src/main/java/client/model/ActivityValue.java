@@ -1,46 +1,90 @@
 package client.model;
 
-import java.io.Serializable;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ActivityValue implements Serializable
-{
-
-    @SerializedName("ActiveTopics")
+public class ActivityValue {
+    @SerializedName("IsConfirmed")
     @Expose
-    private List<String> activeTopics = null;
-    @SerializedName("CurrentTopic")
+    private Boolean isConfirmed;
+
+    @SerializedName("IsRelativeAmount")
     @Expose
-    private CurrentTopic currentTopic;
-    @SerializedName("Slots")
+    private Boolean isRelativeAmount;
+
+    @SerializedName("OperationStatus")
     @Expose
-    private Slots slots;
-    private final static long serialVersionUID = 8137697838200767049L;
+    private Integer operationStatus;
 
-    public List<String> getActiveTopics() {
-        return activeTopics;
+    @SerializedName("SettingName")
+    @Expose
+    private String settingName;
+
+    @SerializedName("Value")
+    @Expose
+    private String value;
+
+    @SerializedName("Amount")
+    @Expose
+    private ActivityValueAmount amount;
+
+    @SerializedName("Uri")
+    @Expose
+    private String uri;
+
+    public Boolean getConfirmed() {
+        return isConfirmed;
     }
 
-    public void setActiveTopics(List<String> activeTopics) {
-        this.activeTopics = activeTopics;
+    public void setConfirmed(Boolean confirmed) {
+        isConfirmed = confirmed;
     }
 
-    public CurrentTopic getCurrentTopic() {
-        return currentTopic;
+    public Boolean getRelativeAmount() {
+        return isRelativeAmount;
     }
 
-    public void setCurrentTopic(CurrentTopic currentTopic) {
-        this.currentTopic = currentTopic;
+    public void setRelativeAmount(Boolean relativeAmount) {
+        isRelativeAmount = relativeAmount;
     }
 
-    public Slots getSlots() {
-        return slots;
+    public Integer getOperationStatus() {
+        return operationStatus;
     }
 
-    public void setSlots(Slots slots) {
-        this.slots = slots;
+    public void setOperationStatus(Integer operationStatus) {
+        this.operationStatus = operationStatus;
     }
 
+    public String getSettingName() {
+        return settingName;
+    }
+
+    public void setSettingName(String settingName) {
+        this.settingName = settingName;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public ActivityValueAmount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(ActivityValueAmount amount) {
+        this.amount = amount;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 }
