@@ -62,7 +62,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
         // set recipient to the skill
         if (activity !== undefined && activity.recipient !== undefined) {
             const recipientId: string = activity.recipient.id;
-            activity.recipient.id = this.skillManifest.msAppId;
+            activity.recipient.id = this.skillManifest.msaAppId;
 
             // Serialize the activity and POST to the Skill endpoint
             const request: Request = Request.create('POST', '');
