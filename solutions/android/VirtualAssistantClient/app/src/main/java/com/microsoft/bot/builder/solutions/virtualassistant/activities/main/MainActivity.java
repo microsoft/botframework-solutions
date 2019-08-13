@@ -468,11 +468,13 @@ public class MainActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
         hideListeningAnimation();
-        detectedSpeechToText.setText(event.recognized_speech);
-        chatAdapter.addUserRequest(event.recognized_speech);
+        if (event.recognized_speech.length()>0) {
+            detectedSpeechToText.setText(event.recognized_speech);
+            chatAdapter.addUserRequest(event.recognized_speech);
 
-        // in 2 seconds clear the text (at this point the bot should be giving its' response)
-        handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
+            // in 2 seconds clear the text (at this point the bot should be giving its' response)
+            handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
+        }
     }
 
     // EventBus: received a response from Bot
