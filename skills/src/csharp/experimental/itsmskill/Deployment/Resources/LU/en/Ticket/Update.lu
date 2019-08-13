@@ -4,7 +4,7 @@
 - update an incident
 - update an issue
 - update ticket's urgency to high
-- update ticket's description tp {TicketDescription=can't log}
+- update ticket's description to {TicketDescription=can't log}
 - change a ticket
 - change an incident
 - change an issue

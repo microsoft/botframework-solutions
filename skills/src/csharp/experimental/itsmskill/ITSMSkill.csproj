@@ -132,6 +132,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Responses\Ticket\TicketResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TicketResponses.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

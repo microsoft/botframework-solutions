@@ -8,22 +8,22 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "UpdateAttribute": {
-    // same with SharedStrings
-    "suggestedActions": [ "description", "urgency" ],
+  "ConfirmUpdateAttribute": {
     "replies": [
       {
-        "text": "Please input the attribute to update:",
-        "speak": "Please input the attribute to update:"
+        "text": "Do you want to update {Attribute}?",
+        "speak": "Do you want to update {Attribute}?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "UpdateAttributeMore": {
+  "UpdateAttribute": {
+    // same with SharedStrings
+    "suggestedActions": [ "description", "urgency", "no" ],
     "replies": [
       {
-        "text": "Do you want to update more attributes? Or input the attribute type directly.",
-        "speak": "Do you want to update more attributes? Or input the attribute type directly."
+        "text": "What attribute do you want to set for updating? Or \"No\" for no more attribute.",
+        "speak": "What attribute do you want to set for updating? Or \"No\" for no more attribute."
       }
     ],
     "inputHint": "expectingInput"
@@ -55,22 +55,31 @@
     ],
     "inputHint": "igoringInput"
   },
-  "ShowAttribute": {
-    // same with SharedStrings
-    "suggestedActions": [ "id", "description", "urgency" ],
+  "ShowUpdateNone": {
     "replies": [
       {
-        "text": "Please input the attribute to constrain search:",
-        "speak": "Please input the attribute to constrain search:"
+        "text": "You don't have any to update.",
+        "speak": "You don't have any to update."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "igoringInput"
   },
-  "ShowAttributeMore": {
+  "ShowUpdates": {
     "replies": [
       {
-        "text": "Do you want to add attributes to constrain? Or input the attribute type directly.",
-        "speak": "Do you want to add attributes to constrain? Or input the attribute type directly."
+        "text": "You have the following to update:",
+        "speak": "You have the following to update:"
+      }
+    ],
+    "inputHint": "igoringInput"
+  },
+  "ShowAttribute": {
+    // same with SharedStrings
+    "suggestedActions": [ "id", "description", "urgency", "no" ],
+    "replies": [
+      {
+        "text": "What attribute do you want to set as search constraint? Or \"No\" for no more attribute.",
+        "speak": "What attribute do you want to set as search constraint? Or \"No\" for no more attribute."
       }
     ],
     "inputHint": "expectingInput"

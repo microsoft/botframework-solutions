@@ -13,13 +13,14 @@ namespace ITSMSkill.Responses.Ticket
     {
         // Generated accessors
         public const string TicketCreated = "TicketCreated";
+        public const string ConfirmUpdateAttribute = "ConfirmUpdateAttribute";
         public const string UpdateAttribute = "UpdateAttribute";
-        public const string UpdateAttributeMore = "UpdateAttributeMore";
         public const string TicketUpdated = "TicketUpdated";
         public const string ShowConstraintNone = "ShowConstraintNone";
         public const string ShowConstraints = "ShowConstraints";
+        public const string ShowUpdateNone = "ShowUpdateNone";
+        public const string ShowUpdates = "ShowUpdates";
         public const string ShowAttribute = "ShowAttribute";
-        public const string ShowAttributeMore = "ShowAttributeMore";
         public const string TicketShow = "TicketShow";
         public const string TicketShowNone = "TicketShowNone";
         public const string TicketClosed = "TicketClosed";

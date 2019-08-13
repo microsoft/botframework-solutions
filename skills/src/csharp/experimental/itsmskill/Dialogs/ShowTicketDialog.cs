@@ -13,6 +13,7 @@ using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
+using ITSMSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -44,26 +45,25 @@ namespace ITSMSkill.Dialogs
             var showAttribute = new WaterfallStep[]
             {
                 ShowConstraints,
-                UpdateMore,
-                AfterUpdateMore,
-                CheckAttributeNoConfirm,
+                CheckAttribute,
+                InputAttribute,
                 SetAttribute,
-                UpdateSelectedAttribute
+                UpdateSelectedAttribute,
+                ShowLoop
             };
 
             var attributesForShow = new AttributeType[] { AttributeType.Id, AttributeType.Description, AttributeType.Urgency };
 
             AddDialog(new WaterfallDialog(Actions.ShowTicket, showTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowAttribute, showAttribute) { TelemetryClient = telemetryClient });
-            AddDialog(new AttributePrompt(Actions.ShowAttributeNoYesNo, attributesForShow, false));
-            AddDialog(new AttributePrompt(Actions.ShowAttributeHasYesNo, attributesForShow, true));
+            AddDialog(new AttributeWithNoPrompt(Actions.ShowAttributePrompt, attributesForShow));
 
             InitialDialogId = Actions.ShowTicket;
 
+            // never used
+            // ConfirmAttributeResponse
             InputAttributeResponse = TicketResponses.ShowAttribute;
-            InputAttributePrompt = Actions.ShowAttributeNoYesNo;
-            InputMoreAttributeResponse = TicketResponses.ShowAttributeMore;
-            InputMoreAttributePrompt = Actions.ShowAttributeHasYesNo;
+            InputAttributePrompt = Actions.ShowAttributePrompt;
         }
 
         protected async Task<DialogTurnResult> ShowAttributeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -74,6 +74,10 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> ShowConstraints(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+
+            // always prompt for search
+            state.AttributeType = AttributeType.None;
+
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(state.Id))
             {
@@ -87,7 +91,7 @@ namespace ITSMSkill.Dialogs
 
             if (state.UrgencyLevel != UrgencyLevel.None)
             {
-                sb.AppendLine($"{SharedStrings.Urgency}{ConvertUrgencyLevel(state.UrgencyLevel)}");
+                sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
             }
 
             if (sb.Length == 0)
@@ -101,6 +105,11 @@ namespace ITSMSkill.Dialogs
             }
 
             return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> ShowLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.ReplaceDialogAsync(Actions.ShowAttribute);
         }
 
         protected async Task<DialogTurnResult> ShowTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

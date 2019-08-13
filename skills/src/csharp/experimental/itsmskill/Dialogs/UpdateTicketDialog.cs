@@ -4,13 +4,16 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
+using ITSMSkill.Models.ServiceNow;
 using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
+using ITSMSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -44,31 +47,66 @@ namespace ITSMSkill.Dialogs
 
             var updateAttribute = new WaterfallStep[]
             {
-                CheckAttributeNoConfirm,
+                ShowUpdates,
+                CheckAttribute,
+                InputAttribute,
                 SetAttribute,
                 UpdateSelectedAttribute,
-                UpdateMore,
-                AfterUpdateMore
+                UpdateLoop
             };
 
             var attributesForUpdate = new AttributeType[] { AttributeType.Description, AttributeType.Urgency };
 
             AddDialog(new WaterfallDialog(Actions.UpdateTicket, updateTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateAttribute, updateAttribute) { TelemetryClient = telemetryClient });
-            AddDialog(new AttributePrompt(Actions.UpdateAttributeNoYesNo, attributesForUpdate, false));
-            AddDialog(new AttributePrompt(Actions.UpdateAttributeHasYesNo, attributesForUpdate, true));
+            AddDialog(new AttributeWithNoPrompt(Actions.UpdateAttributePrompt, attributesForUpdate));
 
             InitialDialogId = Actions.UpdateTicket;
 
+            ConfirmAttributeResponse = TicketResponses.ConfirmUpdateAttribute;
             InputAttributeResponse = TicketResponses.UpdateAttribute;
-            InputAttributePrompt = Actions.UpdateAttributeNoYesNo;
-            InputMoreAttributeResponse = TicketResponses.UpdateAttributeMore;
-            InputMoreAttributePrompt = Actions.UpdateAttributeHasYesNo;
+            InputAttributePrompt = Actions.UpdateAttributePrompt;
         }
 
         protected async Task<DialogTurnResult> UpdateAttributeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Actions.UpdateAttribute);
+        }
+
+        protected async Task<DialogTurnResult> ShowUpdates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            var sb = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(state.TicketDescription))
+            {
+                sb.AppendLine($"{SharedStrings.Description}{state.TicketDescription}");
+            }
+
+            if (state.UrgencyLevel != UrgencyLevel.None)
+            {
+                sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
+            }
+
+            if (sb.Length == 0)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdateNone));
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdates));
+                await sc.Context.SendActivityAsync(sb.ToString());
+            }
+
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> UpdateLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.AttributeType = AttributeType.None;
+
+            return await sc.ReplaceDialogAsync(Actions.UpdateAttribute);
         }
 
         protected async Task<DialogTurnResult> UpdateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

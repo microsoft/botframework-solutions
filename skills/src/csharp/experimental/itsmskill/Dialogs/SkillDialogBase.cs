@@ -12,6 +12,7 @@ using ITSMSkill.Models;
 using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
+using ITSMSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -92,13 +93,11 @@ namespace ITSMSkill.Dialogs
 
         protected IServiceManager ServiceManager { get; set; }
 
+        protected string ConfirmAttributeResponse { get; set; }
+
         protected string InputAttributeResponse { get; set; }
 
         protected string InputAttributePrompt { get; set; }
-
-        protected string InputMoreAttributeResponse { get; set; }
-
-        protected string InputMoreAttributePrompt { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -202,10 +201,33 @@ namespace ITSMSkill.Dialogs
             return await sc.NextAsync();
         }
 
-        protected async Task<DialogTurnResult> CheckAttributeNoConfirm(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CheckAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             if (state.AttributeType == AttributeType.None)
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Attribute", state.AttributeType.ToLocalizedString() }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(ConfirmAttributeResponse, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || state.AttributeType == AttributeType.None)
             {
                 var options = new PromptOptions()
                 {
@@ -222,6 +244,11 @@ namespace ITSMSkill.Dialogs
 
         protected async Task<DialogTurnResult> SetAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (sc.Result == null)
+            {
+                return await sc.EndDialogAsync();
+            }
+
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             state.AttributeType = (AttributeType)sc.Result;
             return await sc.NextAsync();
@@ -246,50 +273,6 @@ namespace ITSMSkill.Dialogs
             {
                 throw new Exception($"Invalid AttributeType: {state.AttributeType}");
             }
-        }
-
-        protected async Task<DialogTurnResult> UpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var options = new PromptOptions()
-            {
-                Prompt = ResponseManager.GetResponse(InputMoreAttributeResponse)
-            };
-
-            return await sc.PromptAsync(InputMoreAttributePrompt, options);
-        }
-
-        protected async Task<DialogTurnResult> AfterUpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (sc.Result == null)
-            {
-                return await sc.EndDialogAsync();
-            }
-
-            var type = (AttributeType)sc.Result;
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.AttributeType = type;
-
-            if (state.AttributeType == AttributeType.Description)
-            {
-                state.TicketDescription = null;
-            }
-            else if (state.AttributeType == AttributeType.Urgency)
-            {
-                state.UrgencyLevel = UrgencyLevel.None;
-            }
-            else if (state.AttributeType == AttributeType.Id)
-            {
-                state.Id = null;
-            }
-            else if (state.AttributeType == AttributeType.None)
-            {
-            }
-            else
-            {
-                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
-            }
-
-            return await sc.ReplaceDialogAsync(Actions.UpdateAttribute);
         }
 
         protected async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -423,15 +406,15 @@ namespace ITSMSkill.Dialogs
                     {
                         new Choice()
                         {
-                            Value = UrgencyLevel.Low.ToString()
+                            Value = UrgencyLevel.Low.ToLocalizedString()
                         },
                         new Choice()
                         {
-                            Value = UrgencyLevel.Medium.ToString()
+                            Value = UrgencyLevel.Medium.ToLocalizedString()
                         },
                         new Choice()
                         {
-                            Value = UrgencyLevel.High.ToString()
+                            Value = UrgencyLevel.High.ToLocalizedString()
                         }
                     }
                 };
@@ -440,9 +423,10 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
+                // use Index to skip localization
                 return await sc.NextAsync(new FoundChoice()
                 {
-                    Value = state.UrgencyLevel.ToString()
+                    Index = (int)state.UrgencyLevel - 1
                 });
             }
         }
@@ -450,7 +434,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> SetUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.UrgencyLevel = Enum.Parse<UrgencyLevel>(((FoundChoice)sc.Result).Value);
+            state.UrgencyLevel = (UrgencyLevel)(((FoundChoice)sc.Result).Index + 1);
             return await sc.NextAsync();
         }
 
@@ -505,8 +489,8 @@ namespace ITSMSkill.Dialogs
             var card = new TicketCard()
             {
                 Description = ticket.Description,
-                UrgencyLevel = $"{SharedStrings.Urgency}{ConvertUrgencyLevel(ticket.Urgency)}",
-                State = $"{SharedStrings.TicketState}{ConvertTicketState(ticket.State)}",
+                UrgencyLevel = $"{SharedStrings.Urgency}{ticket.Urgency.ToLocalizedString()}",
+                State = $"{SharedStrings.TicketState}{ticket.State.ToLocalizedString()}",
                 OpenedTime = $"{SharedStrings.OpenedAt}{ticket.OpenedTime.ToString()}",
                 Id = $"{SharedStrings.ID}{ticket.Id}",
                 ResolvedReason = ticket.ResolvedReason,
@@ -526,31 +510,6 @@ namespace ITSMSkill.Dialogs
                 Speak = knowledge.Title
             };
             return card;
-        }
-
-        protected string ConvertUrgencyLevel(UrgencyLevel urgency)
-        {
-            switch (urgency)
-            {
-                case UrgencyLevel.Low: return SharedStrings.UrgencyLow;
-                case UrgencyLevel.Medium: return SharedStrings.UrgencyMedium;
-                case UrgencyLevel.High: return SharedStrings.UrgencyHigh;
-                default: return string.Empty;
-            }
-        }
-
-        protected string ConvertTicketState(TicketState state)
-        {
-            switch (state)
-            {
-                case TicketState.New: return SharedStrings.TicketStateNew;
-                case TicketState.InProgress: return SharedStrings.TicketStateInProgress;
-                case TicketState.OnHold: return SharedStrings.TicketStateOnHold;
-                case TicketState.Resolved: return SharedStrings.TicketStateResolved;
-                case TicketState.Closed: return SharedStrings.TicketStateClosed;
-                case TicketState.Canceled: return SharedStrings.TicketStateCanceled;
-                default: return string.Empty;
-            }
         }
 
         protected string GetDivergedCardName(ITurnContext turnContext, string card)
@@ -575,13 +534,11 @@ namespace ITSMSkill.Dialogs
 
             public const string UpdateTicket = "UpdateTicket";
             public const string UpdateAttribute = "UpdateAttribute";
-            public const string UpdateAttributeNoYesNo = "UpdateAttributeNoYesNo";
-            public const string UpdateAttributeHasYesNo = "UpdateAttributeHasYesNo";
+            public const string UpdateAttributePrompt = "UpdateAttributePrompt";
 
             public const string ShowTicket = "ShowTicket";
             public const string ShowAttribute = "ShowAttribute";
-            public const string ShowAttributeNoYesNo = "ShowAttributeNoYesNo";
-            public const string ShowAttributeHasYesNo = "ShowAttributeHasYesNo";
+            public const string ShowAttributePrompt = "ShowAttributePrompt";
 
             public const string CloseTicket = "CloseTicket";
 

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ITSMSkill.Responses.Shared;
+using ITSMSkill.Utilities;
 
 namespace ITSMSkill.Models
 {
@@ -9,11 +7,17 @@ namespace ITSMSkill.Models
     public enum TicketState
     {
         None,
+        [EnumLocalizedDescription("TicketStateNew", typeof(SharedStrings))]
         New,
+        [EnumLocalizedDescription("TicketStateInProgress", typeof(SharedStrings))]
         InProgress,
+        [EnumLocalizedDescription("TicketStateOnHold", typeof(SharedStrings))]
         OnHold,
+        [EnumLocalizedDescription("TicketStateResolved", typeof(SharedStrings))]
         Resolved,
+        [EnumLocalizedDescription("TicketStateClosed", typeof(SharedStrings))]
         Closed,
+        [EnumLocalizedDescription("TicketStateCanceled", typeof(SharedStrings))]
         Canceled
     }
 }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Responses.Shared;
+using ITSMSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -11,15 +12,13 @@ using Microsoft.Bot.Schema;
 
 namespace ITSMSkill.Prompts
 {
-    public class AttributePrompt : Prompt<AttributeType?>
+    public class AttributeWithNoPrompt : Prompt<AttributeType?>
     {
-        private readonly bool hasYesNo;
         private readonly AttributeType[] attributes;
 
-        public AttributePrompt(string dialogId, AttributeType[] attributes, bool hasYesNo, PromptValidator<AttributeType?> validator = null, string defaultLocale = null)
+        public AttributeWithNoPrompt(string dialogId, AttributeType[] attributes, PromptValidator<AttributeType?> validator = null, string defaultLocale = null)
        : base(dialogId, validator)
         {
-            this.hasYesNo = hasYesNo;
             this.attributes = attributes;
             DefaultLocale = defaultLocale;
         }
@@ -60,21 +59,11 @@ namespace ITSMSkill.Prompts
             {
                 var message = turnContext.Activity.AsMessageActivity();
 
-                if (hasYesNo)
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(message.Text, turnContext.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && !promptRecognizerResult.Value)
                 {
-                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(message.Text, turnContext.Activity.Locale);
-                    if (promptRecognizerResult.Succeeded)
-                    {
-                        result.Succeeded = true;
-                        if (promptRecognizerResult.Value)
-                        {
-                            result.Value = AttributeType.None;
-                        }
-                        else
-                        {
-                            result.Value = null;
-                        }
-                    }
+                    result.Succeeded = true;
+                    result.Value = null;
                 }
 
                 if (!result.Succeeded)
@@ -99,9 +88,8 @@ namespace ITSMSkill.Prompts
         {
             switch (attribute)
             {
-                case AttributeType.Description: return message.Equals(SharedStrings.AttributeDescription);
-                case AttributeType.Urgency: return message.Equals(SharedStrings.AttributeUrgency);
-                default: return false;
+                case AttributeType.None: return false;
+                default: return message.Equals(attribute.ToLocalizedString());
             }
         }
     }

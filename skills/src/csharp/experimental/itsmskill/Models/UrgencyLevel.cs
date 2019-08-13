@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ITSMSkill.Responses.Shared;
+using ITSMSkill.Utilities;
 
 namespace ITSMSkill.Models
 {
@@ -9,8 +7,11 @@ namespace ITSMSkill.Models
     public enum UrgencyLevel
     {
         None,
+        [EnumLocalizedDescription("UrgencyLow", typeof(SharedStrings))]
         Low,
+        [EnumLocalizedDescription("UrgencyMedium", typeof(SharedStrings))]
         Medium,
+        [EnumLocalizedDescription("UrgencyHigh", typeof(SharedStrings))]
         High
     }
 }

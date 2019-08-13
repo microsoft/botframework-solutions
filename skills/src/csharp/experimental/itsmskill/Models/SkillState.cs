@@ -51,6 +51,20 @@ namespace ITSMSkill.Models
             {
                 AttributeType = Enum.Parse<AttributeType>(luis.Entities.AttributeType[0][0], true);
             }
+
+            var topIntent = luis.TopIntent().intent;
+            if (topIntent == ITSMLuis.Intent.TicketUpdate)
+            {
+                // clear AttributeType if already set
+                if (AttributeType == AttributeType.Description && !string.IsNullOrEmpty(TicketDescription))
+                {
+                    AttributeType = AttributeType.None;
+                }
+                else if (AttributeType == AttributeType.Urgency && UrgencyLevel != UrgencyLevel.None)
+                {
+                    AttributeType = AttributeType.None;
+                }
+            }
         }
 
         public void Clear()
