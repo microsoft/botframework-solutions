@@ -106,6 +106,7 @@ namespace ITSMSkill
             services.AddTransient<CreateTicketDialog>();
             services.AddTransient<UpdateTicketDialog>();
             services.AddTransient<ShowTicketDialog>();
+            services.AddTransient<CloseTicketDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

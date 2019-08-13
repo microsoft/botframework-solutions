@@ -21,6 +21,8 @@ namespace ITSMSkill.Models
 
         public string TicketDescription { get; set; }
 
+        public string CloseReason { get; set; }
+
         public UrgencyLevel UrgencyLevel { get; set; }
 
         public AttributeType AttributeType { get; set; }
@@ -32,6 +34,11 @@ namespace ITSMSkill.Models
             if (luis.Entities.TicketDescription != null)
             {
                 TicketDescription = string.Join(' ', luis.Entities.TicketDescription);
+            }
+
+            if (luis.Entities.CloseReason != null)
+            {
+                CloseReason = string.Join(' ', luis.Entities.CloseReason);
             }
 
             // TODO only the first one is considered now
@@ -51,6 +58,7 @@ namespace ITSMSkill.Models
             Token = null;
             Id = null;
             TicketDescription = null;
+            CloseReason = null;
             UrgencyLevel = UrgencyLevel.None;
             AttributeType = AttributeType.None;
         }

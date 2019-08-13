@@ -1,6 +1,7 @@
 ﻿[Ticket Create](./Ticket/Create.lu)
 [Ticket Update](./Ticket/Update.lu)
 [Ticket Show](./Ticket/Show.lu)
+[Ticket Close](./Ticket/Close.lu)
 
 # None
 > from chitchat
@@ -20,6 +21,8 @@
 > # Entity definitions
 
 $TicketDescription:simple
+
+$CloseReason:simple
 
 > # List entities
 

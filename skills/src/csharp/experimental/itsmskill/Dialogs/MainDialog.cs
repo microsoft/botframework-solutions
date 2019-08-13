@@ -41,6 +41,7 @@ namespace ITSMSkill.Dialogs
             CreateTicketDialog createTicketDialog,
             UpdateTicketDialog updateTicketDialog,
             ShowTicketDialog showTicketDialog,
+            CloseTicketDialog closeTicketDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -57,6 +58,7 @@ namespace ITSMSkill.Dialogs
             AddDialog(createTicketDialog);
             AddDialog(updateTicketDialog);
             AddDialog(showTicketDialog);
+            AddDialog(closeTicketDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -110,6 +112,12 @@ namespace ITSMSkill.Dialogs
                     case ITSMLuis.Intent.TicketShow:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowTicketDialog));
+                            break;
+                        }
+
+                    case ITSMLuis.Intent.TicketClose:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(CloseTicketDialog));
                             break;
                         }
 

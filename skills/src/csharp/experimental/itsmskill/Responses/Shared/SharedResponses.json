@@ -163,6 +163,24 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ConfirmReason": {
+    "replies": [
+      {
+        "text": "Is the reason \"{Reason}\" correct?",
+        "speak": "Is the reason \"{Reason}\" correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InputReason": {
+    "replies": [
+      {
+        "text": "Please input the reason:",
+        "speak": "Please input the reason:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "ConfirmUrgency": {
     "replies": [
       {

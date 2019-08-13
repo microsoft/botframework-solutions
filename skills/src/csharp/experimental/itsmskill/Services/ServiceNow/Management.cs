@@ -174,6 +174,43 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
+        public async Task<TicketsResult> CloseTicket(string id, string reason)
+        {
+            try
+            {
+                // minimum field required: https://community.servicenow.com/community?id=community_question&sys_id=84ceb6a5db58dbc01dcaf3231f9619e9
+                var request = CreateRequest(GetUserIdResource);
+                var userId = await client.GetAsync<GetUserIdResponse>(request);
+
+                request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
+                var body = new
+                {
+                    close_code = "Closed/Resolved by Caller",
+                    state = "7",
+                    caller_id = userId.result,
+                    close_notes = reason
+                };
+                request.JsonSerializer = new JsonNoNull();
+                request.AddJsonBody(body);
+
+                var result = await client.PatchAsync<SingleTicketResponse>(request);
+
+                return new TicketsResult()
+                {
+                    Success = true,
+                    Tickets = new Ticket[] { ConvertTicket(result.result) }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new TicketsResult()
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
         public async Task<KnowledgesResult> SearchKnowledge(string query)
         {
             var request = CreateRequest(KnowledgeResource);

@@ -20,6 +20,8 @@ namespace ITSMSkill.Responses.Shared
         public const string ErrorMessage = "ErrorMessage";
         public const string ConfirmDescription = "ConfirmDescription";
         public const string InputDescription = "InputDescription";
+        public const string ConfirmReason = "ConfirmReason";
+        public const string InputReason = "InputReason";
         public const string ConfirmUrgency = "ConfirmUrgency";
         public const string InputUrgency = "InputUrgency";
         public const string ConfirmId = "ConfirmId";

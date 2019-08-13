@@ -92,5 +92,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "TicketClosed": {
+    "replies": [
+      {
+        "text": "Your ticket has been closed. Let me know when you need my help.",
+        "speak": "Your ticket has been closed. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

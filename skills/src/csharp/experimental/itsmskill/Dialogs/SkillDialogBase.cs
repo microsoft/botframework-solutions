@@ -340,6 +340,54 @@ namespace ITSMSkill.Dialogs
             return await sc.NextAsync();
         }
 
+        protected async Task<DialogTurnResult> CheckReason(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.CloseReason))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Reason", state.CloseReason }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmReason, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputReason(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.CloseReason))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputReason)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.CloseReason);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetReason(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.CloseReason = (string)sc.Result;
+            return await sc.NextAsync();
+        }
+
         protected async Task<DialogTurnResult> CheckUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
@@ -534,6 +582,8 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttribute = "ShowAttribute";
             public const string ShowAttributeNoYesNo = "ShowAttributeNoYesNo";
             public const string ShowAttributeHasYesNo = "ShowAttributeHasYesNo";
+
+            public const string CloseTicket = "CloseTicket";
         }
     }
 }

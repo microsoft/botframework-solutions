@@ -51,7 +51,7 @@ namespace ITSMSkill.Dialogs
             InitialDialogId = Actions.CreateTicket;
         }
 
-        public async Task<DialogTurnResult> DisplayExisting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> DisplayExisting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             if (state.Token == null)
@@ -105,7 +105,7 @@ namespace ITSMSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> IfExistingSolve(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> IfExistingSolve(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             if ((bool)sc.Result)
             {
@@ -118,7 +118,7 @@ namespace ITSMSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             if (state.Token == null)

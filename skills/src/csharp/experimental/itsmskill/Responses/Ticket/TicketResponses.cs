@@ -22,5 +22,6 @@ namespace ITSMSkill.Responses.Ticket
         public const string ShowAttributeMore = "ShowAttributeMore";
         public const string TicketShow = "TicketShow";
         public const string TicketShowNone = "TicketShowNone";
+        public const string TicketClosed = "TicketClosed";
     }
 }

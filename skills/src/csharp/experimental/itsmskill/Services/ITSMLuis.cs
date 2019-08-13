@@ -18,7 +18,8 @@ namespace Luis
             None, 
             TicketCreate, 
             TicketUpdate, 
-            TicketShow
+            TicketShow, 
+            TicketClose
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -26,6 +27,7 @@ namespace Luis
         {
             // Simple entities
             public string[] TicketDescription;
+            public string[] CloseReason;
 
             // Lists
             public string[][] AttributeType;
@@ -35,6 +37,7 @@ namespace Luis
             public class _Instance
             {
                 public InstanceData[] TicketDescription;
+                public InstanceData[] CloseReason;
                 public InstanceData[] AttributeType;
                 public InstanceData[] UrgencyLevel;
             }
