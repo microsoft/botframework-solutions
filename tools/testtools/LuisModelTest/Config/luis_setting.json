@@ -1,0 +1,6 @@
+{
+  "subscriptionKey": "",
+  "applicationId": "",
+  "luisFileName": "TrainSets/trainsample1.json",
+  "testFileName": "TestSets/trainsample2.json"
+}

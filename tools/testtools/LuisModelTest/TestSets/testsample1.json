@@ -1,0 +1,79 @@
+{
+  "utterances": [
+    {
+      "text": "Looking for a new situation with responsibilities in accounting.",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "New jobs?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "Show me all the jobs for engineers that were added in the last 2 days.",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "Today's job postings?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "What accounting positions are open in the london office?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "What positions are available for Senior Engineers?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "Where is the job listings",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "Katherine Kelly didn't make it to the important marketing off-site meeting.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "Denise Dillard missed the meeting for June reviews.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "Mark Mathews rocked the sales pitch at Harvard",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "Walter Williams did a great job on the presentation at Stanford",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "i’m lily",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "What's the weather today?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "order a pizza for me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "shift alice anderson to oakland from redmond",
+      "intent": "None",
+      "entities": []
+    },
+  ]
+}

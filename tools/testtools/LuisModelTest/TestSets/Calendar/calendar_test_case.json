@@ -1,0 +1,1353 @@
+{
+  "utterances": [
+    {
+      "text": "accept my meeting at 7pm today",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 21,
+          "endPos": 23
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "accept the event for tonight.",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "accept my meeting at tomorrow 10am",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "accept this lunch meeting.",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 12,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "accept the event",
+      "intent": "AcceptEventEntry",
+      "entities": []
+    },
+    {
+      "text": "accept this event.",
+      "intent": "AcceptEventEntry",
+      "entities": []
+    },
+    {
+      "text": "accept today's event at 3pm.",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 7,
+          "endPos": 11
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 24,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "2 hours meeting with ladawn padilla at 5 on tuesday",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Duration",
+          "startPos": 0,
+          "endPos": 6
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 39,
+          "endPos": 39
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 44,
+          "endPos": 50
+        },
+        {
+          "entity": "builtin.personName",
+          "startPos": 21,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "add ballet to my calendar wednesday at five thirty to six thirty pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 9
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 26,
+          "endPos": 34
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 39,
+          "endPos": 49
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 54,
+          "endPos": 66
+        }
+      ]
+    },
+    {
+      "text": "add date night on the 5th at 7pm every month",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 13
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 22,
+          "endPos": 24
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 29,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "add maple beach to my calendar at 10 on sunday",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 14
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 34,
+          "endPos": 35
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 40,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "add office party on march 8th from 6 pm to 9 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 15
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 20,
+          "endPos": 28
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 35,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "add pay pearl fees on my calendar tomorrow",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "add solo gig at lincombe hall on the 7th of march at 8 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 11
+        },
+        {
+          "entity": "Location",
+          "startPos": 16,
+          "endPos": 28
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 37,
+          "endPos": 48
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 53,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "add chorus concert to calendar for may 1st at 3 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 17
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 35,
+          "endPos": 41
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 46,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "add dance on tuesday at four o clock",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 8
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 13,
+          "endPos": 19
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add dentist appointment on tuesday june at the 1st clinic",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 22
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 27,
+          "endPos": 38
+        },
+        {
+          "entity": "Location",
+          "startPos": 47,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "add baseball game on friday to calendar",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 16
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "add vacation to my calendar from july 4th until july 29th",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 11
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 33,
+          "endPos": 40
+        },
+        {
+          "entity": "ToDate",
+          "startPos": 48,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "add work to calendar friday from 8 for an hour",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 21,
+          "endPos": 26
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 33,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "attend the lunch meeting at 11:30am.",
+      "intent": "AcceptEventEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 11,
+          "endPos": 23
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 28,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "call into meeting",
+      "intent": "ConnectToMeeting",
+      "entities": []
+    },
+    {
+      "text": "cancel my appointment at 9 pm",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 25,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "cancel my meeting at shanghai on monday at 10 am",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "Location",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 33,
+          "endPos": 38
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 43,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "cancel the meeting",
+      "intent": "DeleteCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "change appointment",
+      "intent": "ChangeCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "change calendar",
+      "intent": "ChangeCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "change marathon training from 8:00am to 1:00pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 7,
+          "endPos": 23
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 30,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "change meeting from 2pm-3pm to 4pm-5pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 31,
+          "endPos": 33
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 35,
+          "endPos": 37
+        },
+        {
+          "entity": "ToDate",
+          "startPos": 39,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "change my 8 till 9 appointment to 11 till 12",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 10,
+          "endPos": 10
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 17,
+          "endPos": 17
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 34,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "change my 8am event to 10am",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 23,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "change the appointment ending at 3 to end at 4 instead",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 33,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "change tomorrow ' s appointment from 10am to wednesday at 9 am",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 7,
+          "endPos": 14
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 37,
+          "endPos": 40
+        },
+        {
+          "entity": "ToDate",
+          "startPos": 45,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "clear all of my appointments today",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 7:00pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "create a meeting for tomorrow 6pm with lucy chen",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "delete meeting",
+      "intent": "DeleteCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "do i have any meetings today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find a meeting about group meeting",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 21,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find a meeting with title second lesson from amanda",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 26,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "go back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "hello world",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how long will i wait for the next appointment",
+      "intent": "TimeRemaining",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 29,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "how many days till christmas",
+      "intent": "TimeRemaining",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "how much time before lunch",
+      "intent": "TimeRemaining",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "how's the weather today",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i need to check the previous appointment",
+      "intent": "ShowPreviousCalendar",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i need to go back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "join current conference call",
+      "intent": "ConnectToMeeting",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "join the budget meeting conference call",
+      "intent": "ConnectToMeeting",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 9,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "join the meeting",
+      "intent": "ConnectToMeeting",
+      "entities": []
+    },
+    {
+      "text": "make next meeting to start 1 hour later",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        },
+        {
+          "entity": "MoveLaterTimeSpan",
+          "startPos": 27,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "make the appointment ending at 2 go until 4 pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 31,
+          "endPos": 31
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 42,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "make the meeting to start 40 minutes earlier",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "MoveEarlierTimeSpan",
+          "startPos": 26,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "meet with carol lee at home on march 10th at 4 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Location",
+          "startPos": 23,
+          "endPos": 26
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 31,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "meeting with ellen fung on monday at 9 am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 27,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "modify the meeting",
+      "intent": "ChangeCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "move my 12 pm meeting to 2",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "move my meeting to 6pm from 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "ToTime",
+          "startPos": 19,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "new calendar event",
+      "intent": "CreateCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "please go back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "postpone my 4 pm meeting today until 5 pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 25,
+          "endPos": 29
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 37,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "put dentist appointment in my calendar tuesday 2 45 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 22
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 39,
+          "endPos": 45
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 47,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "put dentist on my calendar for this thursday at 10 am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 36,
+          "endPos": 43
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 48,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "put swimming tomorrow",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "remove dentist appointment",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 7,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "return to previous step",
+      "intent": "GoBack",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "return to the previous step",
+      "intent": "GoBack",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "schedule a dental appointment tomorrow afternoon at five thirty pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 11,
+          "endPos": 28
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 30,
+          "endPos": 37
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 39,
+          "endPos": 65
+        }
+      ]
+    },
+    {
+      "text": "schedule a meeting for next thursday",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 23,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "schedule a soccer game for next friday",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "schedule an appointment for me tomorrow at 3 am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "schedule an appointment on november 5th at 3 30",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 27,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "schedule an appointment with madden tomorrow at 5 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 36,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "schedule appointment yearly check up friday march one 10 am one hour",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 21,
+          "endPos": 35
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 37,
+          "endPos": 52
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 54,
+          "endPos": 58
+        },
+        {
+          "entity": "Duration",
+          "startPos": 60,
+          "endPos": 67
+        }
+      ]
+    },
+    {
+      "text": "schedule group meeting with madden on march 3rd at 4 00 pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 9,
+          "endPos": 21
+        },
+        {
+          "entity": "FromDate",
+          "startPos": 38,
+          "endPos": 46
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 51,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "schedule lunch with pura at noon on wednesday may 20 minutes",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 9,
+          "endPos": 13
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 28,
+          "endPos": 31
+        },
+        {
+          "entity": "Duration",
+          "startPos": 50,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "schedule therapy appointment at 8 o clock",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 9,
+          "endPos": 15
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 32,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "set up an event",
+      "intent": "CreateCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "show me my next meeting",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "show me the meeting about online session",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 26,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "show me the previous meeting with tiffany",
+      "intent": "ShowPreviousCalendar",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "time before my next appointment",
+      "intent": "TimeRemaining",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "time remaining",
+      "intent": "TimeRemaining",
+      "entities": []
+    },
+    {
+      "text": "update lunch appointment",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 7,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "update my next appointment",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "update my tomorrow 5pm meeting to 6pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 10,
+          "endPos": 17
+        },
+        {
+          "entity": "FromTime",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 34,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "what ' s my 1st appointment tomorrow",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "calendar for today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 13,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "what ' s on my calendar for today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "what ' s on my calendar today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "what are the next 3 events on my calendar",
+      "intent": "ShowNextCalendar",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "what can you do",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what do i have for today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "what do i have from 2 to 4 on saturday",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromTime",
+          "startPos": 20,
+          "endPos": 20
+        },
+        {
+          "entity": "ToTime",
+          "startPos": 25,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "check my calendar",
+      "intent": "FindCalendarEntry",
+      "entities": []
+    },
+    {
+      "text": "what have i got on tomorrow",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "what is my next event",
+      "intent": "ShowNextCalendar",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "what is my schedule tomorrow",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is next in calendar",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what is on my calendar today",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "FromDate",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is the time now",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what's my name",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what's the weather today",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what's your name",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "which is my next event",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    }
+  ],
+  "settings": []
+}

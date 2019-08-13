@@ -1,0 +1,190 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "EntityExtraction",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "NameExtraction"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "personName",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [
+    {
+      "pattern": "(i'm|i am) {personName}[.]",
+      "intent": "NameExtraction"
+    },
+    {
+      "pattern": "(it's|it is|this is) {personName}[.]",
+      "intent": "NameExtraction"
+    },
+    {
+      "pattern": "my name is {personName} [.]",
+      "intent": "NameExtraction"
+    },
+    {
+      "pattern": "([you can]|[please]) call me {personName}[.]",
+      "intent": "NameExtraction"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "1",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "alice",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "barking dogs are annoying",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "call me steve!",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "call me steve.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "denise dillard",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello world",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how's the weather today",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i am anna",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "i am tom.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "i’m john jackson.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "i’m lily",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "is there any work with databases?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "it is jackson.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "it's alice anderson!",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "it's alice anderson.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "jill jones",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "john smith",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "my name is bill jones",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "my name is jill jones.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "my name's david.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "order a pizza for me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "penguins in the ocean",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "shift alice anderson to oakland from redmond",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "this is john w. smith.",
+      "intent": "NameExtraction",
+      "entities": []
+    },
+    {
+      "text": "walter williams",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what's your name",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "you can call me thompson.",
+      "intent": "NameExtraction",
+      "entities": []
+    }
+  ],
+  "settings": []
+}

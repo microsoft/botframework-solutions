@@ -1,0 +1,126 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "LuisTest",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "EmployeeFeedback"
+    },
+    {
+      "name": "GetJobInformation"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "personName",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "add example utterances to the none intent",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "any new jobs posted today?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "are there any new positions in the seattle office?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "are there any remote worker or telecommute jobs open for engineers?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "barking dogs are annoying",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bob barnes didn't have all the required invoices for the paperwork.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "denise dillard missed the meeting for june reviews.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "do not leave the none intent empty",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i'm looking for a co-working situation in the tampa office.",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "is there an internship in the san francisco office?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "is there any work with databases?",
+      "intent": "GetJobInformation",
+      "entities": []
+    },
+    {
+      "text": "jill jones did a great job of comforting a co-worker in her time of grief.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "john smith did a nice job of welcoming back a co-worker from maternity leave",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "katherine kelly didn't make it to the important marketing off-site meeting.",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    },
+    {
+      "text": "order a pizza for me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "penguins in the ocean",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "select manage in the top right navigation",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "todd thomas turned in the required forms a month late with no signatures",
+      "intent": "EmployeeFeedback",
+      "entities": []
+    }
+  ],
+  "settings": []
+}

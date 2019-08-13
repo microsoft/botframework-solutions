@@ -2,28 +2,23 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Config\**" />
-    <EmbeddedResource Remove="Config\**" />
-    <None Remove="Config\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="knowledgebases_settings.json">
+    <None Update="Config\luis_setting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LuisModels\Calednar_EN_v1.3.1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="LuisModels\Calendar\Calendar_enus_official_new.json">
+    <None Update="TrainSets\Calendar\Calendar_enus_official_new.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LuisModels\Calendar_enus_official_new.json">
@@ -35,25 +30,16 @@
     <None Update="LuisModels\Calendar_zhcn_v1.2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="LuisModels\Email\email.json">
+    <None Update="TrainSets\Email\email.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="LuisModels\Todo\todo.json">
+    <None Update="TrainSets\Todo\todo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="TestData\chitchat.qna">
+    <None Update="TrainSets\trainsample1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="TestData\faq.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TestData\testsample1.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TestData\testsample2.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TestData\testsample3.qna">
+    <None Update="TrainSets\trainsample2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TestSets\CalendarTest.json">
@@ -68,19 +54,13 @@
     <None Update="TestSets\Email\email_test_case.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestSets\testsample1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestSets\testsample2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestSets\Todo\todo_test_case.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TrainData\chitchat.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TrainData\faq.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TrainData\trainsample1.qna">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TrainData\trainsample2.qna">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

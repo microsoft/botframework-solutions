@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using QnAMakerTest.Models;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
@@ -16,11 +13,158 @@ namespace QnAMakerTest
     class Program
     {
         static HttpClient client;
+        static void Usage()
+        {
+            Console.Error.WriteLine("QnAMakerTest <QnA.json> [-h hostname] [-e endpointKey] [-k kbId] [-t trainFile] [-s subscriptionKey] [-v] [--version]");
+            Console.Error.WriteLine("Test a qna model with giving testcases");
+            Console.Error.WriteLine("-h hostname, hosturl like https://*.azurewebsites.net/qnamaker");
+            Console.Error.WriteLine("-e endpointKey, EndpointKey for Authorization.");
+            Console.Error.WriteLine("-k kbId, knowledgebaseId");
+            Console.Error.WriteLine("-t trainFile, [Optional] file to train a new model for testing");
+            Console.Error.WriteLine("-s subscriptionKey, [Optional] required if trainFile is inputed.");
+            System.Environment.Exit(-1);
+        }
+        static string NextArg(ref int i, string[] args, bool optional = false, bool allowCmd = false)
+        {
+            string arg = null;
+            if (i < args.Length)
+            {
+                arg = args[i];
+                if (arg.StartsWith("{"))
+                {
+                    while (!args[i].EndsWith("}") && ++i < args.Length) ;
+                    ++i;
+                }
+                arg = null;
+                if (allowCmd)
+                {
+                    if (i < args.Length)
+                    {
+                        arg = args[i];
+                    }
+                }
+                else
+                {
+                    if (i < args.Length && !args[i].StartsWith('-'))
+                    {
+                        arg = args[i];
+                    }
+                    else if (!optional)
+                    {
+                        Usage();
+                    }
+                    else
+                    {
+                        --i;
+                    }
+                }
+            }
+            return arg?.Trim();
+        }
         static void Main(string[] args)
         {
+            client = new HttpClient();
+            string kbId = null;
+            string subscriptionKey = null;
+            string trainFileName = null;
+            string endpointKey = null;
+            string hostname = null;
+            string testFileName = null;
+            for (var i = 0; i < args.Length; ++i)
+            {
+                var arg = NextArg(ref i, args, allowCmd: true);
+                if (arg != null)
+                {
+                    if (arg.StartsWith('-'))
+                    {
+                        arg = arg.ToLower();
+                        switch (arg)
+                        {
+                            case "-s":
+                                {
+                                    ++i;
+                                    subscriptionKey = NextArg(ref i, args);
+                                }
+                                break;
+                            case "-h":
+                                {
+                                    ++i;
+                                    hostname = NextArg(ref i, args);
+                                    break;
+                                }
+                            case "-k":
+                                {
+                                    ++i;
+                                    kbId = NextArg(ref i, args);
+                                }
+                                break;
+                            case "-e":
+                                {
+                                    ++i;
+                                    endpointKey = NextArg(ref i, args);
+                                }
+                                break;
+                            case "-t":
+                                {
+                                    ++i;
+                                    trainFileName = NextArg(ref i, args);
+                                }
+                                break;
+                            case "-v":
+                            case "--version":
+                                Console.WriteLine($"0.1");
+                                break;
+                            default:
+                                Usage();
+                                break;
+                        }
+                    }
+                    else if (testFileName == null)
+                    {
+                        testFileName = arg;
+                    }
+                    else
+                    {
+                        Usage();
+                    }
+                }
+            }
+
+            if(testFileName == null || kbId == null || hostname == null || endpointKey == null)
+            {
+                Usage();
+            }
+            else if(trainFileName != null && subscriptionKey == null)
+            {
+                Usage();
+            }
+            else
+            {
+                if(trainFileName!=null)
+                {
+                    bool replaced = ReplaceQnAMakerKB(kbId, subscriptionKey, trainFileName).Result;
+                    if (replaced)
+                    {
+                        bool published = PublishQnAMakerKB(kbId, subscriptionKey).Result;
+                        if (published)
+                        {
+                            RunTest(kbId, endpointKey, hostname, testFileName).Wait();
+                        }
+                    }
+                }
+                else
+                {
+                    RunTest(kbId, endpointKey, hostname, testFileName).Wait();
+                }
+                Console.WriteLine("Finished. Press any key to exit");
+                Console.ReadKey();
+            }
+        }
+        static void Test()
+        { 
             var qnamakerManager = new QnAmakerManager.QnAMakerManager("knowledgebases_settings.json");
             var qnamakerService = qnamakerManager.QnAMakerService;
-            client = new HttpClient();
+            //client = new HttpClient();
 
             bool replaced = ReplaceQnAMakerKB(qnamakerService.kbID, qnamakerService.subscriptionKey, qnamakerService.trainFileName).Result;
             if(replaced)
@@ -145,7 +289,6 @@ namespace QnAMakerTest
             HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
             //response.EnsureSuccessStatusCode();
             string result =  await response.Content.ReadAsStringAsync();
-            QnAMakerResult qr = JsonConvert.DeserializeObject<QnAMakerResult>(result);
             return JsonConvert.DeserializeObject<QnAMakerResult>(result);
         }
         private static HttpRequestMessage BuildRequest(QnAMakerEndpoint qnaEndpoint, string query)
