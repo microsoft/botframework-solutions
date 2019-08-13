@@ -105,6 +105,7 @@ namespace ITSMSkill
             // Register dialogs
             services.AddTransient<CreateTicketDialog>();
             services.AddTransient<UpdateTicketDialog>();
+            services.AddTransient<ShowTicketDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

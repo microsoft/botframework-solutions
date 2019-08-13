@@ -67,15 +67,19 @@ namespace ITSMSkill.Dialogs
                 SetUrgency
             };
 
-            var attributesForUpdate = new AttributeType[] { AttributeType.Description, AttributeType.Urgency };
+            var setId = new WaterfallStep[]
+            {
+                CheckId,
+                InputId,
+                SetId
+            };
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new AttributePrompt(Actions.UpdateAttributeNoYesNo, attributesForUpdate, false));
-            AddDialog(new AttributePrompt(Actions.UpdateAttributeHasYesNo, attributesForUpdate, true));
             AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
             AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
+            AddDialog(new WaterfallDialog(Actions.SetId, setId));
         }
 
         protected BotSettings Settings { get; set; }
@@ -87,6 +91,14 @@ namespace ITSMSkill.Dialogs
         protected ResponseManager ResponseManager { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
+
+        protected string InputAttributeResponse { get; set; }
+
+        protected string InputAttributePrompt { get; set; }
+
+        protected string InputMoreAttributeResponse { get; set; }
+
+        protected string InputMoreAttributePrompt { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -197,10 +209,10 @@ namespace ITSMSkill.Dialogs
             {
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetResponse(SharedResponses.InputAttribute)
+                    Prompt = ResponseManager.GetResponse(InputAttributeResponse)
                 };
 
-                return await sc.PromptAsync(Actions.UpdateAttributeNoYesNo, options);
+                return await sc.PromptAsync(InputAttributePrompt, options);
             }
             else
             {
@@ -213,6 +225,71 @@ namespace ITSMSkill.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             state.AttributeType = (AttributeType)sc.Result;
             return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> UpdateSelectedAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (state.AttributeType == AttributeType.Description)
+            {
+                return await sc.BeginDialogAsync(Actions.SetDescription);
+            }
+            else if (state.AttributeType == AttributeType.Urgency)
+            {
+                return await sc.BeginDialogAsync(Actions.SetUrgency);
+            }
+            else if (state.AttributeType == AttributeType.Id)
+            {
+                return await sc.BeginDialogAsync(Actions.SetId);
+            }
+            else
+            {
+                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
+            }
+        }
+
+        protected async Task<DialogTurnResult> UpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new PromptOptions()
+            {
+                Prompt = ResponseManager.GetResponse(InputMoreAttributeResponse)
+            };
+
+            return await sc.PromptAsync(InputMoreAttributePrompt, options);
+        }
+
+        protected async Task<DialogTurnResult> AfterUpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (sc.Result == null)
+            {
+                return await sc.EndDialogAsync();
+            }
+
+            var type = (AttributeType)sc.Result;
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.AttributeType = type;
+
+            if (state.AttributeType == AttributeType.Description)
+            {
+                state.TicketDescription = null;
+            }
+            else if (state.AttributeType == AttributeType.Urgency)
+            {
+                state.UrgencyLevel = UrgencyLevel.None;
+            }
+            else if (state.AttributeType == AttributeType.Id)
+            {
+                state.Id = null;
+            }
+            else if (state.AttributeType == AttributeType.None)
+            {
+            }
+            else
+            {
+                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
+            }
+
+            return await sc.ReplaceDialogAsync(Actions.UpdateAttribute);
         }
 
         protected async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -383,7 +460,7 @@ namespace ITSMSkill.Dialogs
                 UrgencyLevel = $"{SharedStrings.Urgency}{ConvertUrgencyLevel(ticket.Urgency)}",
                 State = $"{SharedStrings.TicketState}{ConvertTicketState(ticket.State)}",
                 OpenedTime = $"{SharedStrings.OpenedAt}{ticket.OpenedTime.ToString()}",
-                Id = ticket.Id,
+                Id = $"{SharedStrings.ID}{ticket.Id}",
                 ResolvedReason = ticket.ResolvedReason,
                 Speak = ticket.Description
             };
@@ -394,7 +471,7 @@ namespace ITSMSkill.Dialogs
         {
             var card = new KnowledgeCard()
             {
-                Id = knowledge.Id,
+                Id = $"{SharedStrings.ID}{knowledge.Id}",
                 Title = knowledge.Title,
                 UpdatedTime = $"{SharedStrings.UpdatedAt}{knowledge.UpdatedTime.ToString()}",
                 Content = knowledge.Content,
@@ -442,13 +519,21 @@ namespace ITSMSkill.Dialogs
 
         protected class Actions
         {
-            public const string CreateTicket = "CreateTicket";
             public const string SetDescription = "SetDescription";
             public const string SetUrgency = "SetUrgency";
+            public const string SetId = "SetId";
+
+            public const string CreateTicket = "CreateTicket";
+
             public const string UpdateTicket = "UpdateTicket";
             public const string UpdateAttribute = "UpdateAttribute";
             public const string UpdateAttributeNoYesNo = "UpdateAttributeNoYesNo";
             public const string UpdateAttributeHasYesNo = "UpdateAttributeHasYesNo";
+
+            public const string ShowTicket = "ShowTicket";
+            public const string ShowAttribute = "ShowAttribute";
+            public const string ShowAttributeNoYesNo = "ShowAttributeNoYesNo";
+            public const string ShowAttributeHasYesNo = "ShowAttributeHasYesNo";
         }
     }
 }

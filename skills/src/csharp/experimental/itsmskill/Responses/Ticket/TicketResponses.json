@@ -8,11 +8,87 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "UpdateAttribute": {
+    // same with SharedStrings
+    "suggestedActions": [ "description", "urgency" ],
+    "replies": [
+      {
+        "text": "Please input the attribute to update:",
+        "speak": "Please input the attribute to update:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "UpdateAttributeMore": {
+    "replies": [
+      {
+        "text": "Do you want to update more attributes? Or input the attribute type directly.",
+        "speak": "Do you want to update more attributes? Or input the attribute type directly."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "TicketUpdated": {
     "replies": [
       {
         "text": "Your ticket has been updated. Let me know when you need my help.",
         "speak": "Your ticket has been updated. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowConstraintNone": {
+    "replies": [
+      {
+        "text": "You don't have any constraints on search.",
+        "speak": "You don't have any constraints on search."
+      }
+    ],
+    "inputHint": "igoringInput"
+  },
+  "ShowConstraints": {
+    "replies": [
+      {
+        "text": "You have the following constraints on search:",
+        "speak": "You have the following constraints on search:"
+      }
+    ],
+    "inputHint": "igoringInput"
+  },
+  "ShowAttribute": {
+    // same with SharedStrings
+    "suggestedActions": [ "id", "description", "urgency" ],
+    "replies": [
+      {
+        "text": "Please input the attribute to constrain search:",
+        "speak": "Please input the attribute to constrain search:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowAttributeMore": {
+    "replies": [
+      {
+        "text": "Do you want to add attributes to constrain? Or input the attribute type directly.",
+        "speak": "Do you want to add attributes to constrain? Or input the attribute type directly."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "TicketShow": {
+    "replies": [
+      {
+        "text": "Here are your search results. Let me know when you need my help.",
+        "speak": "Here are your search results. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "TicketShowNone": {
+    "replies": [
+      {
+        "text": "I'm sorry I can't find any. Let me know when you need my help.",
+        "speak": "I'm sorry I can't find any. Let me know when you need my help."
       }
     ],
     "inputHint": "acceptingInput"

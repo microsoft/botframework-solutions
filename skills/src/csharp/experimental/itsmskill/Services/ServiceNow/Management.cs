@@ -14,13 +14,14 @@ namespace ITSMSkill.Services.ServiceNow
 {
     public class Management : IITServiceManagement
     {
-        private static readonly string TicketResource = "table/incident";
-        private static readonly string KnowledgeResource = "table/kb_knowledge";
+        private static readonly string TicketResource = "now/v1/table/incident";
+        private static readonly string KnowledgeResource = "now/v1/table/kb_knowledge";
         private static readonly Dictionary<UrgencyLevel, string> UrgencyToString;
         private static readonly Dictionary<string, UrgencyLevel> StringToUrgency;
         private static readonly Dictionary<TicketState, string> TicketStateToString;
         private static readonly Dictionary<string, TicketState> StringToTicketState;
         private readonly RestClient client;
+        private readonly string GetUserIdResource;
         private readonly string token;
         private readonly int limitSize;
 
@@ -47,34 +48,30 @@ namespace ITSMSkill.Services.ServiceNow
             StringToTicketState = new Dictionary<string, TicketState>(TicketStateToString.Select(pair => KeyValuePair.Create(pair.Value, pair.Key)));
         }
 
-        public Management(string url, string token, int limitSize)
+        public Management(string url, string token, int limitSize, string getUserIdResource)
         {
-            this.client = new RestClient($"{url}/api/now/v1/");
+            this.client = new RestClient($"{url}/api/");
+            this.GetUserIdResource = getUserIdResource;
             this.token = token;
             this.limitSize = limitSize;
         }
 
         public async Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency)
         {
-            var request = CreateRequest(TicketResource);
-            var body = new CreateTicketRequest()
-            {
-                short_description = description,
-                urgency = UrgencyToString[urgency]
-            };
-            request.AddJsonBody(body);
             try
             {
-                var result = await client.PostAsync<SingleTicketResponse>(request);
+                var request = CreateRequest(GetUserIdResource);
+                var userId = await client.GetAsync<GetUserIdResponse>(request);
 
-                // didn't find way to get current user's id directly, so update again. or have to create a custom api like https://community.servicenow.com/community?id=community_question&sys_id=52efcb88db1ddb084816f3231f9619c7
-                request = CreateRequest($"{TicketResource}/{result.result.sys_id}?sysparm_exclude_ref_link=true");
-                var updateBody = new
+                request = CreateRequest(TicketResource);
+                var body = new CreateTicketRequest()
                 {
-                    caller_id = result.result.opened_by.value
+                    caller_id = userId.result,
+                    short_description = description,
+                    urgency = UrgencyToString[urgency]
                 };
-                request.AddJsonBody(updateBody);
-                result = await client.PatchAsync<SingleTicketResponse>(request);
+                request.AddJsonBody(body);
+                var result = await client.PostAsync<SingleTicketResponse>(request);
 
                 return new TicketsResult()
                 {
@@ -94,37 +91,42 @@ namespace ITSMSkill.Services.ServiceNow
 
         public async Task<TicketsResult> SearchTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
         {
-            var request = CreateRequest(TicketResource);
-            var sysparmQuery = new List<string>();
-            if (!string.IsNullOrEmpty(description))
-            {
-                sysparmQuery.Add($"short_descriptionLIKE{description}");
-            }
-
-            if (urgencies != null && urgencies.Count > 0)
-            {
-                sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => UrgencyToString[urgency]))}");
-            }
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                sysparmQuery.Add($"sys_id={id}");
-            }
-
-            if (states != null && states.Count > 0)
-            {
-                sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
-            }
-
-            if (sysparmQuery.Count > 0)
-            {
-                request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
-            }
-
-            request.AddParameter("sysparm_limit", limitSize);
-
             try
             {
+                var request = CreateRequest(GetUserIdResource);
+                var userId = await client.GetAsync<GetUserIdResponse>(request);
+
+                request = CreateRequest(TicketResource);
+
+                var sysparmQuery = new List<string>
+                {
+                    $"caller_id={userId.result}"
+                };
+
+                if (!string.IsNullOrEmpty(description))
+                {
+                    sysparmQuery.Add($"short_descriptionLIKE{description}");
+                }
+
+                if (urgencies != null && urgencies.Count > 0)
+                {
+                    sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => UrgencyToString[urgency]))}");
+                }
+
+                if (!string.IsNullOrEmpty(id))
+                {
+                    sysparmQuery.Add($"sys_id={id}");
+                }
+
+                if (states != null && states.Count > 0)
+                {
+                    sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
+                }
+
+                request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
+
+                request.AddParameter("sysparm_limit", limitSize);
+
                 var result = await client.GetAsync<MultiTicketsResponse>(request);
                 return new TicketsResult()
                 {

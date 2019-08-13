@@ -7,8 +7,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
-using ITSMSkill.Responses.Ticket;
+using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
+using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -50,73 +51,24 @@ namespace ITSMSkill.Dialogs
                 AfterUpdateMore
             };
 
-            AddDialog(new WaterfallDialog(Actions.UpdateTicket, updateTicket) { TelemetryClient = telemetryClient });
+            var attributesForUpdate = new AttributeType[] { AttributeType.Description, AttributeType.Urgency };
 
+            AddDialog(new WaterfallDialog(Actions.UpdateTicket, updateTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateAttribute, updateAttribute) { TelemetryClient = telemetryClient });
+            AddDialog(new AttributePrompt(Actions.UpdateAttributeNoYesNo, attributesForUpdate, false));
+            AddDialog(new AttributePrompt(Actions.UpdateAttributeHasYesNo, attributesForUpdate, true));
 
             InitialDialogId = Actions.UpdateTicket;
+
+            InputAttributeResponse = TicketResponses.UpdateAttribute;
+            InputAttributePrompt = Actions.UpdateAttributeNoYesNo;
+            InputMoreAttributeResponse = TicketResponses.UpdateAttributeMore;
+            InputMoreAttributePrompt = Actions.UpdateAttributeHasYesNo;
         }
 
         protected async Task<DialogTurnResult> UpdateAttributeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Actions.UpdateAttribute);
-        }
-
-        protected async Task<DialogTurnResult> UpdateSelectedAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.AttributeType == AttributeType.Description)
-            {
-                return await sc.BeginDialogAsync(Actions.SetDescription);
-            }
-            else if (state.AttributeType == AttributeType.Urgency)
-            {
-                return await sc.BeginDialogAsync(Actions.SetUrgency);
-            }
-            else
-            {
-                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
-            }
-        }
-
-        protected async Task<DialogTurnResult> UpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var options = new PromptOptions()
-            {
-                Prompt = ResponseManager.GetResponse(SharedResponses.InputAttributeMore)
-            };
-
-            return await sc.PromptAsync(Actions.UpdateAttributeHasYesNo, options);
-        }
-
-        protected async Task<DialogTurnResult> AfterUpdateMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (sc.Result == null)
-            {
-                return await sc.NextAsync();
-            }
-
-            var type = (AttributeType)sc.Result;
-            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.AttributeType = type;
-
-            if (state.AttributeType == AttributeType.Description)
-            {
-                state.TicketDescription = null;
-            }
-            else if (state.AttributeType == AttributeType.Urgency)
-            {
-                state.UrgencyLevel = UrgencyLevel.None;
-            }
-            else if (state.AttributeType == AttributeType.None)
-            {
-            }
-            else
-            {
-                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
-            }
-
-            return await sc.ReplaceDialogAsync(Actions.UpdateAttribute);
         }
 
         protected async Task<DialogTurnResult> UpdateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

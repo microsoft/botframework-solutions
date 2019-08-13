@@ -199,26 +199,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "InputAttribute": {
-    // same with SharedStrings
-    "suggestedActions": [ "description", "urgency" ],
-    "replies": [
-      {
-        "text": "Please input the attribute to update:",
-        "speak": "Please input the attribute to update:"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "InputAttributeMore": {
-    "replies": [
-      {
-        "text": "Do you want to update more attribute? Or input the attribute to update directly.",
-        "speak": "Do you want to update more attribute? Or input the attribute to update directly."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "IfExistingSolve": {
     "replies": [
       {

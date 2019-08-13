@@ -165,4 +165,10 @@
   <data name="Urgency" xml:space="preserve">
     <value>Urgency: </value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description: </value>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID: </value>
+  </data>
 </root>

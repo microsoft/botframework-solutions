@@ -35,7 +35,7 @@
           "type": "TextBlock",
           "size": "Small",
           "color": "Default",
-          "text": "ID: {Id}"
+          "text": "{Id}"
         }
       ]
     },

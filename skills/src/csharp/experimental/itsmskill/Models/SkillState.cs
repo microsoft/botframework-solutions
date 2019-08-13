@@ -34,6 +34,7 @@ namespace ITSMSkill.Models
                 TicketDescription = string.Join(' ', luis.Entities.TicketDescription);
             }
 
+            // TODO only the first one is considered now
             if (luis.Entities.UrgencyLevel != null)
             {
                 UrgencyLevel = Enum.Parse<UrgencyLevel>(luis.Entities.UrgencyLevel[0][0], true);

@@ -17,7 +17,8 @@ namespace Luis
         public enum Intent {
             None, 
             TicketCreate, 
-            TicketUpdate
+            TicketUpdate, 
+            TicketShow
         };
         public Dictionary<Intent, IntentScore> Intents;
 

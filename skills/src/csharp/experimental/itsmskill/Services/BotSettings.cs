@@ -9,6 +9,8 @@ namespace ITSMSkill.Services
     {
         public string ServiceNowUrl { get; set; }
 
+        public string ServiceNowGetUserId { get; set; }
+
         public int LimitSize { get; set; }
     }
 }

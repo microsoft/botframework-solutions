@@ -6,9 +6,9 @@ namespace ITSMSkill.Services
     {
         public IITServiceManagement CreateManagement(BotSettings botSettings, TokenResponse tokenResponse)
         {
-            if (!string.IsNullOrEmpty(botSettings.ServiceNowUrl) && tokenResponse.ConnectionName == "ServiceNow")
+            if (tokenResponse.ConnectionName == "ServiceNow" && !string.IsNullOrEmpty(botSettings.ServiceNowUrl) && !string.IsNullOrEmpty(botSettings.ServiceNowGetUserId))
             {
-                return new ServiceNow.Management(botSettings.ServiceNowUrl, tokenResponse.Token, botSettings.LimitSize);
+                return new ServiceNow.Management(botSettings.ServiceNowUrl, tokenResponse.Token, botSettings.LimitSize, botSettings.ServiceNowGetUserId);
             }
             else
             {
