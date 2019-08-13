@@ -30,37 +30,41 @@ foreach ($langCode in $languageMap.Keys) {
     $models = $languageMap[$langCode]
     $dispatch = $models.dispatchModel
 
-    if($RemoteToLocal)
-    {
+    if($RemoteToLocal) {
         # Update local LU files based on hosted models
-        foreach ($luisApp in $models.languageModels)
-        {
+        foreach ($luisApp in $models.languageModels){
+            $culture = (luis get application `
+                    --appId $luisApp.appId `
+                    --authoringKey $luisApp.authoringKey `
+                    --subscriptionKey $luisApp.subscriptionKey `
+                    --region $luisApp.authoringRegion | ConvertFrom-Json).culture
             Write-Host "> Updating local $($luisApp.id).lu file ..."
             luis export version `
                 --appId $luisApp.appId `
                 --versionId $luisApp.version `
-                --region $luisApp.region `
+                --region $luisApp.authoringRegion `
                 --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
                 -n "$($luisApp.id).lu" `
                 -o $(Join-Path $luisFolder $langCode)
 
             # Parse LU file
-                $id = $luisApp.id
-                $outFile = "$($id).luis"
-                $outFolder = $(Join-Path $luisFolder $langCode)
-                $appName = "$($name)$($langCode)_$($id)"
+            $id = $luisApp.id
+            $outFile = "$($id).luis"
+            $outFolder = $(Join-Path $luisFolder $langCode)
+            $appName = "$($name)$($langCode)_$($id)"
 
-                Write-Host "> Parsing $($luisApp.id) LU file ..."
-                ludown parse toluis `
-                    --in $(Join-Path $outFolder "$($luisApp.id).lu") `
-                    --luis_culture $luisApp.culture `
-                    --out_folder $(Join-Path $luisFolder $langCode) `
-                    --out "$($luisApp.id).luis"
-
+            Write-Host "> Parsing $($luisApp.id) LU file ..."
+            ludown parse toluis `
+                --in $(Join-Path $outFolder "$($luisApp.id).lu") `
+                --luis_culture $culture `
+                --out_folder $(Join-Path $luisFolder $langCode) `
+                --out "$($luisApp.id).luis"
+            if ($useLuisGen) {
                 Write-Host "> Running LuisGen for $($luisApp.id) app ..."
                 $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
                 RunLuisGen -lu_file $(Get-Item $luPath) -outName "$($luisApp.id)" -outFolder $lgOutFolder
+            }
                 
             # Add the LUIS application to the dispatch model. 
             # If the LUIS application id already exists within the model no action will be taken
@@ -70,7 +74,7 @@ foreach ($langCode in $languageMap.Keys) {
                         --type "luis" `
                         --name $luisApp.name `
                         --id $luisApp.appid  `
-                        --region $luisApp.region `
+                        --region $luisApp.authoringRegion `
                         --intentName "l_$($luisApp.id)" `
                         --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
                         --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
@@ -78,8 +82,7 @@ foreach ($langCode in $languageMap.Keys) {
         }
 
         # Update local LU files based on hosted QnA KBs
-        foreach ($kb in $models.knowledgeBases)
-        {
+        foreach ($kb in $models.knowledgeBases) {
             Write-Host "> Updating local $($kb.id).lu file ..."
             qnamaker export kb `
                 --environment Prod `
@@ -104,8 +107,7 @@ foreach ($langCode in $languageMap.Keys) {
             }
         }
     }
-    else
-    {
+    else {
         # Update each luis model based on local LU files
 		foreach ($luisApp in $models.languageModels) {
             Write-Host "> Updating hosted $($luisApp.id) app..."
@@ -137,9 +139,11 @@ foreach ($langCode in $languageMap.Keys) {
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
 
-        # Update dispatch.ts file
-        Write-Host "> Running LuisGen ..."
-        luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -ts "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
+        if ($useLuisGen) {
+            # Update dispatch.ts file
+            Write-Host "> Running LuisGen ..."
+            luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -ts "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
+        }
     }
 }
 

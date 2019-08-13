@@ -5,10 +5,11 @@ Param(
 	[string] $luisAuthoringRegion,
 	[string] $luisAuthoringKey,
 	[string] $luisAccountName,
+	[string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
-	[switch] $useDispatch,
+	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -66,7 +67,7 @@ if (-not $luisAccountName) {
 if (-not $resourceGroup) {
 	$resourceGroup = $name
 
-	$rgExists = az group exists -n $resourceGroup
+	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
 	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
@@ -74,7 +75,7 @@ if (-not $resourceGroup) {
 }
 
 if (-not $luisSubscriptionKey) {
-	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup --output json | ConvertFrom-Json
 
 	if ($keys) {
 		$luisSubscriptionKey = $keys.key1
@@ -86,6 +87,9 @@ if (-not $luisSubscriptionKey) {
 	}
 }
 
+if (-not $luisAccountRegion) {
+	$luisAccountRegion = Read-Host "? LUIS Service Location"
+}
 if (-not $qnaSubscriptionKey) {	
 	$useQna = $false
 }
@@ -93,14 +97,14 @@ else {
 	$useQna = $true
 }
 
-$azAccount = az account show | ConvertFrom-Json
-$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
+$azAccount = az account show --output json | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
 
 # Initialize settings obj
-$settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSObject  }
+$settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSObject }
 
 # Deploy localized resources
 Write-Host "> Deploying cognitive models ..."
@@ -115,8 +119,8 @@ foreach ($language in $languageArr)
 
 	    # Initialize Dispatch
 		Write-Host "> Initializing dispatch model ..."
-		$dispatchName = "$($name)$($langCode)_dispatch"
-		$dataFolder = Join-Path $PSScriptRoot .. Resources Dispatch $langCode
+		$dispatchName = "$($name)$($langCode)_Dispatch"
+		$dataFolder = Join-Path $PSScriptRoot .. resources Dispatch $langCode
 		(dispatch init `
 			--name $dispatchName `
 			--luisAuthoringKey $luisAuthoringKey `
@@ -178,10 +182,10 @@ foreach ($language in $languageArr)
 					name = $luisApp.name
 					appId = $luisApp.id
 					authoringKey = $luisAuthoringKey
+					authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
-					region = $luisAuthoringRegion
-					culture = $language
+					region = $luisAccountRegion
 				}
 			}
 			else {
@@ -196,7 +200,7 @@ foreach ($language in $languageArr)
 			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'qnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
 
 			if ($qnaFiles) {
-				$config | Add-Member -MemberType NoteProperty -Name knowledgebases -Value @()
+				$config | Add-Member -MemberType NoteProperty -Name knowledgeBases -Value @()
 
 				foreach ($lu in $qnaFiles)
 				{
@@ -233,11 +237,11 @@ foreach ($language in $languageArr)
 			}
 		}
 		else {
-			Write-Host "! No knowledgebases found. Skipping." -ForegroundColor Cyan
+			Write-Host "! No knowledgeBases found. Skipping." -ForegroundColor Cyan
 		}
 	}
 	else {
-		Write-Host "! No QnA Maker Subscription Key provided. Skipping knowledgebases." -ForegroundColor Cyan
+		Write-Host "! No QnA Maker Subscription Key provided. Skipping knowledgeBases." -ForegroundColor Cyan
 	}
 
 	if ($useDispatch) {
@@ -278,11 +282,11 @@ foreach ($language in $languageArr)
 			$config.dispatchModel = @{
 				type = "dispatch"
 				name = $dispatchApp.name
-				appid = $dispatchApp.appId
+				appId = $dispatchApp.appId
 				authoringKey = $luisAuthoringKey
+				authoringRegion = $luisAuthoringRegion
 				subscriptionKey = $luisSubscriptionKey
 				region = $luisAuthoringRegion
-				culture = $language
 			}
 		}
 	}
