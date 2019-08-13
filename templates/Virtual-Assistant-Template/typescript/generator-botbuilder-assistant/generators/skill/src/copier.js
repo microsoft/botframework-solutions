@@ -5,6 +5,7 @@
 "use strict";
 const { join } = require(`path`);
 const templateFiles = new Map();
+const deploymentTemplateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let ignoredLanguages = [];
 let selectedLanguages = [];
@@ -16,22 +17,30 @@ class Copier {
   }
 
   // Copy the template ignoring the templates files, those that starts with _ character
-  copyIgnoringTemplateFiles(srcFolder, dstFolder) {
+  copyTemplate(srcFolder, dstFolder) {
     this.generator.fs.copy(
       this.generator.templatePath(srcFolder),
       this.generator.destinationPath(dstFolder),
       {
         globOptions: {
-          ignore: ["**/_*.*", ...ignoredLanguages]
+          ignore: [...ignoredLanguages]
         }
       }
     );
   }
 
-  // Copy the templates files passing the attributes of the new skill
+  // Copy the templates files passing the attributes of the new assistant and remove the files starting with character "_"
   copyTemplateFiles(srcFolder, dstFolder, newSkill) {
     this.loadTemplatesFiles(newSkill);
     templateFiles.forEach((dstFile, srcFile) => {
+      this.generator.fs.copyTpl(
+        this.generator.templatePath(srcFolder, srcFile),
+        this.generator.destinationPath(dstFolder, dstFile),
+        newSkill
+      );
+      this.generator.fs.delete(join(dstFolder, srcFile));
+    });
+    deploymentTemplateFiles.forEach((dstFile, srcFile) => {
       this.generator.fs.copyTpl(
         this.generator.templatePath(srcFolder, srcFile),
         this.generator.destinationPath(dstFolder, dstFile),
@@ -52,8 +61,8 @@ class Copier {
       });
 
     // Add the paths of the deployment languages
-    selectedLanguages.forEach(language => {
-      templateFiles.set(
+    languages.forEach(language => {
+      deploymentTemplateFiles.set(
         join(`deployment`, `resources`, `LU`, language, `general.lu`),
         join(`deployment`, `resources`, `LU`, language, `general.lu`)
       );

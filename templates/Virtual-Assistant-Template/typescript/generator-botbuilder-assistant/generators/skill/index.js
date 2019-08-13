@@ -18,6 +18,7 @@ let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let containsSpecialCharacter = false;
 let finalSkillName = "";
+
 const languagesChoice = [
   {
     name: "Chinese",
@@ -257,8 +258,8 @@ module.exports = class extends Generator {
         skillName
       );
     }
-    
-    if (this.props.skillName != skillName) {
+
+    if (this.props.skillName !== skillName) {
       finalSkillName = skillName;
       containsSpecialCharacter = true;
     }
@@ -288,8 +289,12 @@ module.exports = class extends Generator {
 
     // Start the copy of the template
     this.copier.selectLanguages(skillLang);
-    this.copier.copyIgnoringTemplateFiles(templateName, skillGenerationPath);
-    this.copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
+    this.copier.copyTemplate(templateName, skillGenerationPath);
+    this.copier.copyTemplateFiles(
+      templateName,
+      skillGenerationPath,
+      newSkill
+    );
   }
 
   install() {
@@ -327,8 +332,13 @@ module.exports = class extends Generator {
       } else {
         this.spawnCommandSync("npm run build", []);
         if (containsSpecialCharacter) {
-          this.log(chalk.yellow(`\nYour skill name (${this.props.skillName}) had special characters, it was changed to '${finalSkillName}'`));
+          this.log(
+            chalk.yellow(
+              `\nYour skill name (${this.props.skillName}) had special characters, it was changed to '${finalSkillName}'`
+            )
+          );
         }
+
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new skill is ready!  `));
         this.log(chalk.green(`------------------------ `));
@@ -342,11 +352,7 @@ module.exports = class extends Generator {
             `\nNext step - being in the root of your generated skill, to deploy it execute the following command:`
           )
         );
-        this.log(
-          chalk.blue(
-            `pwsh -File deployment\\scripts\\deploy.ps1`
-          )
-        );
+        this.log(chalk.blue(`pwsh -File deployment\\scripts\\deploy.ps1`));
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
