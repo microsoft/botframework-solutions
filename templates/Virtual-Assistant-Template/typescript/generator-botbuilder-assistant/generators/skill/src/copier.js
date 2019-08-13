@@ -29,7 +29,7 @@ class Copier {
     );
   }
 
-  // Copy the templates files passing the attributes of the new assistant and remove the files starting with character "_"
+  // Copy the templates files passing the attributes of the new skill
   copyTemplateFiles(srcFolder, dstFolder, newSkill) {
     this.loadTemplatesFiles(newSkill);
     templateFiles.forEach((dstFile, srcFile) => {
