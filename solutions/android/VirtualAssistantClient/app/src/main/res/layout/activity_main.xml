@@ -23,14 +23,6 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/suggestedactions"/>
 
-        <!-- SUGGESTED ACTIONS -->
-        <android.support.v7.widget.RecyclerView
-            style="@style/BackgroundStyle"
-            android:id="@+id/suggestedactions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/animated_assistant"/>
-
         <!-- ANIMATED ASSISTANT -->
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/animated_assistant"
@@ -40,6 +32,14 @@
             android:layout_above="@+id/speech_detection"
             android:elevation="2dp"
             android:visibility="gone"/>
+
+        <!-- SUGGESTED ACTIONS -->
+        <android.support.v7.widget.RecyclerView
+            style="@style/BackgroundStyle"
+            android:id="@+id/suggestedactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/speech_detection"/>
 
         <!-- SHOW WHAT THE USER IS SAYING -->
         <TextView
