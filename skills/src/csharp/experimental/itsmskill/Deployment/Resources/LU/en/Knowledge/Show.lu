@@ -1,0 +1,17 @@
+﻿# KnowledgeShow
+
+- show knowledgebase
+- show knowledge articles
+- show knowledge database
+- show knowledge articles related to {TicketDescription=lost connection}
+- show knowledge database about {TicketDescription=new employee hire}
+- search knowledgebase
+- search knowledge articles
+- search knowledge database
+- search knowledge articles related to {TicketDescription=unable to connect}
+- search knowledge database about {TicketDescription=disk is still having issues}
+- explore knowledgebase
+- explore knowledge articles
+- explore knowledge database
+- explore knowledge articles related to {TicketDescription=need oracle installed}
+- explore knowledge database about {TicketDescription=unable to connect}

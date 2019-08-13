@@ -1,0 +1,20 @@
+{
+  "KnowledgeShow": {
+    "replies": [
+      {
+        "text": "Here are your search results. Let me know when you need my help.",
+        "speak": "Here are your search results. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "KnowledgeShowNone": {
+    "replies": [
+      {
+        "text": "I'm sorry I can't find any. Let me know when you need my help.",
+        "speak": "I'm sorry I can't find any. Let me know when you need my help."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

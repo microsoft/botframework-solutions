@@ -21,7 +21,7 @@ namespace ITSMSkill.Services.ServiceNow
         private static readonly Dictionary<TicketState, string> TicketStateToString;
         private static readonly Dictionary<string, TicketState> StringToTicketState;
         private readonly RestClient client;
-        private readonly string GetUserIdResource;
+        private readonly string getUserIdResource;
         private readonly string token;
         private readonly int limitSize;
 
@@ -51,7 +51,7 @@ namespace ITSMSkill.Services.ServiceNow
         public Management(string url, string token, int limitSize, string getUserIdResource)
         {
             this.client = new RestClient($"{url}/api/");
-            this.GetUserIdResource = getUserIdResource;
+            this.getUserIdResource = getUserIdResource;
             this.token = token;
             this.limitSize = limitSize;
         }
@@ -60,7 +60,7 @@ namespace ITSMSkill.Services.ServiceNow
         {
             try
             {
-                var request = CreateRequest(GetUserIdResource);
+                var request = CreateRequest(getUserIdResource);
                 var userId = await client.GetAsync<GetUserIdResponse>(request);
 
                 request = CreateRequest(TicketResource);
@@ -93,7 +93,7 @@ namespace ITSMSkill.Services.ServiceNow
         {
             try
             {
-                var request = CreateRequest(GetUserIdResource);
+                var request = CreateRequest(getUserIdResource);
                 var userId = await client.GetAsync<GetUserIdResponse>(request);
 
                 request = CreateRequest(TicketResource);
@@ -179,7 +179,7 @@ namespace ITSMSkill.Services.ServiceNow
             try
             {
                 // minimum field required: https://community.servicenow.com/community?id=community_question&sys_id=84ceb6a5db58dbc01dcaf3231f9619e9
-                var request = CreateRequest(GetUserIdResource);
+                var request = CreateRequest(getUserIdResource);
                 var userId = await client.GetAsync<GetUserIdResponse>(request);
 
                 request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");

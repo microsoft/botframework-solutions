@@ -5,9 +5,10 @@ using System.Linq;
 using ITSMSkill.Adapters;
 using ITSMSkill.Bots;
 using ITSMSkill.Dialogs;
-using ITSMSkill.Responses.Ticket;
+using ITSMSkill.Responses.Knowledge;
 using ITSMSkill.Responses.Main;
 using ITSMSkill.Responses.Shared;
+using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -97,6 +98,7 @@ namespace ITSMSkill
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
                 new TicketResponses(),
+                new KnowledgeResponses(),
                 new SharedResponses()));
 
             // Configure service
@@ -107,6 +109,7 @@ namespace ITSMSkill
             services.AddTransient<UpdateTicketDialog>();
             services.AddTransient<ShowTicketDialog>();
             services.AddTransient<CloseTicketDialog>();
+            services.AddTransient<ShowKnowledgeDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

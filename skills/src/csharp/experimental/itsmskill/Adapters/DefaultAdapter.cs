@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using ITSMSkill.Responses.Shared;
+using ITSMSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -9,8 +11,6 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using ITSMSkill.Responses.Shared;
-using ITSMSkill.Services;
 
 namespace ITSMSkill.Bots
 {

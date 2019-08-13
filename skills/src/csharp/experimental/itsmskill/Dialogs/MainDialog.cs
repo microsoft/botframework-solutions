@@ -42,6 +42,7 @@ namespace ITSMSkill.Dialogs
             UpdateTicketDialog updateTicketDialog,
             ShowTicketDialog showTicketDialog,
             CloseTicketDialog closeTicketDialog,
+            ShowKnowledgeDialog showKnowledgeDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -59,11 +60,11 @@ namespace ITSMSkill.Dialogs
             AddDialog(updateTicketDialog);
             AddDialog(showTicketDialog);
             AddDialog(closeTicketDialog);
+            AddDialog(showKnowledgeDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var locale = CultureInfo.CurrentUICulture;
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
         }
 
@@ -121,6 +122,12 @@ namespace ITSMSkill.Dialogs
                             break;
                         }
 
+                    case ITSMLuis.Intent.KnowledgeShow:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowKnowledgeDialog));
+                            break;
+                        }
+
                     case ITSMLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
@@ -148,7 +155,7 @@ namespace ITSMSkill.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (dc.Context.Adapter is IRemoteUserTokenProvider || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
                 response.Type = ActivityTypes.EndOfConversation;

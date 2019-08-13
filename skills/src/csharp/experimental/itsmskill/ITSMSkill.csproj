@@ -10,18 +10,29 @@
     <Content Remove="Content\Knowledge.json" />
     <Content Remove="Content\Ticket.1.0.json" />
     <Content Remove="Content\Ticket.json" />
+    <Content Remove="Responses\Knowledge\KnowledgeResponses.json" />
     <Content Remove="Responses\Ticket\CreateTicketResponses.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.json" />
+    <Content Remove="Responses\Ticket\TicketResponses.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Responses\Ticket\TicketResponses.tt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Content\Knowledge.1.0.json" />
     <EmbeddedResource Include="Content\Knowledge.json" />
     <EmbeddedResource Include="Content\Ticket.json" />
-    <EmbeddedResource Include="Responses\Ticket\TicketResponses.json" />
+    <EmbeddedResource Include="Responses\Knowledge\KnowledgeResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
+    <EmbeddedResource Include="Responses\Ticket\TicketResponses.json" />
+    <EmbeddedResource Include="Responses\Ticket\TicketResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TicketResponses.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -60,7 +71,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\Ticket\TicketResponses.tt">
+    <None Update="Responses\Knowledge\KnowledgeResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KnowledgeResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Knowledge\TicketResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TicketResponses.cs</LastGenOutput>
     </None>
@@ -87,7 +102,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Responses\Ticket\TicketResponses.cs">
+    <Compile Update="Responses\Knowledge\KnowledgeResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>KnowledgeResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Knowledge\TicketResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TicketResponses.tt</DependentUpon>

@@ -148,11 +148,6 @@ namespace ITSMSkill.Dialogs
                     });
                 }
 
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetCardResponse(TicketResponses.TicketShow, cards)
-                };
-
                 await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketShow, cards));
                 return await sc.NextAsync();
             }

@@ -584,6 +584,8 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttributeHasYesNo = "ShowAttributeHasYesNo";
 
             public const string CloseTicket = "CloseTicket";
+
+            public const string ShowKnowledge = "ShowKnowledge";
         }
     }
 }

@@ -19,7 +19,8 @@ namespace Luis
             TicketCreate, 
             TicketUpdate, 
             TicketShow, 
-            TicketClose
+            TicketClose, 
+            KnowledgeShow
         };
         public Dictionary<Intent, IntentScore> Intents;
 
