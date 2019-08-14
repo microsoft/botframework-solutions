@@ -30,8 +30,8 @@ function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $lo
 	}
 	else {
 	    # train and publish luis app
-		$(luis train version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait 
-        & luis publish version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait) 2>> $log | Out-Null
+            luis train version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait 
+            luis publish version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait
 
 		Return $luisApp
 	}
@@ -99,8 +99,8 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --wait | ConvertFrom-Json
     
     # train and publish luis app
-    $(luis train version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait 
-    & luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait) 2>> $log | Out-Null
+    luis train version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait 
+    luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait
 }
 
 function RunLuisGen($lu_file, $outName, $outFolder) {
