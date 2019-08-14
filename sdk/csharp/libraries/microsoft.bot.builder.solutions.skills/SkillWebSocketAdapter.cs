@@ -34,12 +34,12 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
             BotSettingsBase botSettingsBase,
-            IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider = null,
             IBotTelemetryClient botTelemetryClient = null)
         {
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
             _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
-            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            _whitelistAuthenticationProvider = whitelistAuthenticationProvider;
             _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
             _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
 
