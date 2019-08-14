@@ -469,7 +469,6 @@ namespace PointOfInterestSkill.Dialogs
             {
                 for (var i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterestList[i].CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
                     pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
 
                     // Increase by one to avoid zero based options to the user which are confusing
@@ -656,7 +655,8 @@ namespace PointOfInterestSkill.Dialogs
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString()),
-                        Speak = GetFormattedTravelTimeSpanString(travelTimeSpan)
+                        Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
+                        CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
 
                     cardData.Add(routeDirectionsModel);
