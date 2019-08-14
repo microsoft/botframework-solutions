@@ -1,0 +1,121 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Expressions" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Expressions.Parser" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
+    <ProjectReference Include="..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Deployment\Resources\LU\de\general.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>general.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\en\general.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>general.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\en\skill.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>skill.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\es\general.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>general.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\es\skill.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>skill.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\fr\general.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>general.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Resources\LU\fr\skill.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>skill.lu</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Scripts\deploy.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>deploy.ps1</DependentUpon>
+    </Compile>
+    <Compile Update="Deployment\Scripts\deploy_cognitive_models.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>deploy_cognitive_models.ps1</DependentUpon>
+    </Compile>
+    <Compile Update="MyTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MyTemplate.vstemplate</DependentUpon>
+    </Compile>
+    <Compile Update="readme.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>readme.md</DependentUpon>
+    </Compile>
+    <Compile Update="__TemplateIcon.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>__TemplateIcon.ico</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

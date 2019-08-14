@@ -1,0 +1,26 @@
+{
+  "id": "AdaptiveCalendarSkill",
+  "name": "AdaptiveCalendarSkill",
+  "description": "",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "AdaptiveCalendarSkill_Sample",
+      "definition": {
+        "description": "Sample Skill action with no slots",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "AdaptiveCalendarSkill#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
