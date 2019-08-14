@@ -6,10 +6,6 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-
   <ItemGroup>
     <Content Remove="Content\CalendarCard.json" />
     <Content Remove="Content\CalendarCardNoJoinButton.json" />
