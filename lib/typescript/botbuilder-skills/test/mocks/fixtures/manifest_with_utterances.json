@@ -35906,7 +35906,7 @@
                     }
                 }
             ],
-            "msAppId": "9afc4045-b3f3-4106-80be-d152d8821879",
+            "msaAppId": "9afc4045-b3f3-4106-80be-d152d8821879",
             "endpoint": "http://127.0.0.1:3980/api/skill/messages"
         },
         "rawHeaders": [

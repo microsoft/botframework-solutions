@@ -10,7 +10,7 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
         --in $lu_file `
         --out_folder $outFolder `
         --out $outFile
-        
+
 	# Create QnA Maker kb
     Write-Host "> Deploying $($id) QnA kb ..."
 
