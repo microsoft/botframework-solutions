@@ -146,3 +146,6 @@
 
 # SentSuccessfully(subject)
 - I have sent the email with subject {subject}.
+
+# RetryInput
+- Sorry, I don't understand what you mean. Could you please try again?

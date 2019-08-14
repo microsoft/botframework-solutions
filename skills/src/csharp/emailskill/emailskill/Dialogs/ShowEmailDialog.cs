@@ -598,7 +598,7 @@ namespace EmailSkill.Dialogs
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.RetryInput) });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[RetryInput]", null) });
             }
             catch (Exception ex)
             {
