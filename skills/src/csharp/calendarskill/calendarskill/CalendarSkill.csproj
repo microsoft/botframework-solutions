@@ -121,8 +121,6 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-08-01-02" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-08-01-02" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-08-01-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.1144" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.1144" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-08-01-02" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-08-01-02" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-08-01-02" />
