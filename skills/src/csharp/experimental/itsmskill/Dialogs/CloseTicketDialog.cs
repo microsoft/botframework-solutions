@@ -55,7 +55,7 @@ namespace ITSMSkill.Dialogs
             if (state.Token == null)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var management = ServiceManager.CreateManagement(Settings, state.Token);
@@ -68,7 +68,7 @@ namespace ITSMSkill.Dialogs
                     { "Error", result.ErrorMessage }
                 };
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var card = new Card()

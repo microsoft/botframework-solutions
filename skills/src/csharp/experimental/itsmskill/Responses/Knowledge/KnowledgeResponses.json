@@ -1,9 +1,27 @@
 {
-  "KnowledgeShow": {
+  "IfFindWanted": {
     "replies": [
       {
-        "text": "Here are your search results. Let me know when you need my help.",
-        "speak": "Here are your search results. Let me know when you need my help."
+        "text": "Page {Page}. Do you find what you want? \"Go forward/previously\" to navigate.",
+        "speak": "Page {Page}. Do you find what you want? \"Go forward/previously\" to navigate."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "IfCreateTicket": {
+    "replies": [
+      {
+        "text": "Do you want to create a ticket for this?",
+        "speak": "Do you want to create a ticket for this?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "KnowledgeEnd": {
+    "replies": [
+      {
+        "text": "Page {Page} does not contain anything, try \"Go previously\".",
+        "speak": "Page {Page} does not contain anything, try \"Go previously\"."
       }
     ],
     "inputHint": "acceptingInput"

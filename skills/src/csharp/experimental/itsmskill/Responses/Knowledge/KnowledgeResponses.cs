@@ -12,7 +12,10 @@ namespace ITSMSkill.Responses.Knowledge
     public class KnowledgeResponses : IResponseIdCollection
     {
         // Generated accessors
+        public const string IfFindWanted = "IfFindWanted";
+        public const string IfCreateTicket = "IfCreateTicket";
         public const string KnowledgeShow = "KnowledgeShow";
+        public const string KnowledgeEnd = "KnowledgeEnd";
         public const string KnowledgeShowNone = "KnowledgeShowNone";
     }
 }

@@ -12,6 +12,7 @@ using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Knowledge;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -39,55 +40,62 @@ namespace ITSMSkill.Dialogs
                 SetDescription,
                 GetAuthToken,
                 AfterGetAuthToken,
-                ShowKnowledge
+                ShowKnowledgeLoop,
+                IfCreateTicket,
+                AfterIfCreateTicket
+            };
+
+            var showKnowledgeLoop = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                ShowKnowledge,
+                IfKnowledgeHelp
             };
 
             AddDialog(new WaterfallDialog(Actions.ShowKnowledge, showKnowledge));
+            AddDialog(new WaterfallDialog(Actions.ShowKnowledgeLoop, showKnowledgeLoop));
 
             InitialDialogId = Actions.ShowKnowledge;
+
+            ShowKnowledgeNoResponse = KnowledgeResponses.KnowledgeShowNone;
+            ShowKnowledgeEndResponse = KnowledgeResponses.KnowledgeEnd;
+            ShowKnowledgeResponse = KnowledgeResponses.IfFindWanted;
+            ShowKnowledgePrompt = Actions.NavigateYesNoPrompt;
+            KnowledgeHelpLoop = Actions.ShowKnowledgeLoop;
         }
 
-        protected async Task<DialogTurnResult> ShowKnowledge(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> ShowKnowledgeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.Token == null)
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.EndDialogAsync();
-            }
+            state.PageIndex = -1;
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
-            var result = await management.SearchKnowledge(state.TicketDescription);
+            return await sc.BeginDialogAsync(Actions.ShowKnowledgeLoop);
+        }
 
-            if (!result.Success)
+        protected async Task<DialogTurnResult> IfCreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new PromptOptions()
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.EndDialogAsync();
-            }
+                Prompt = ResponseManager.GetResponse(KnowledgeResponses.IfCreateTicket)
+            };
 
-            if (result.Knowledges == null || result.Knowledges.Length == 0)
+            return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+        }
+
+        protected async Task<DialogTurnResult> AfterIfCreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if ((bool)sc.Result)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(KnowledgeResponses.KnowledgeShowNone));
-                return await sc.NextAsync();
+                var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+                state.SkipDisplayExisting = true;
+
+                return await sc.ReplaceDialogAsync(nameof(CreateTicketDialog));
             }
             else
             {
-                var cards = new List<Card>();
-                foreach (var knowledge in result.Knowledges)
-                {
-                    cards.Add(new Card()
-                    {
-                        Name = GetDivergedCardName(sc.Context, "Knowledge"),
-                        Data = ConvertKnowledge(knowledge)
-                    });
-                }
-
-                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(KnowledgeResponses.KnowledgeShow, cards));
-                return await sc.NextAsync();
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
+                return await sc.CancelAllDialogsAsync();
             }
         }
     }

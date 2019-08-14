@@ -89,7 +89,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<TicketsResult> SearchTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
+        public async Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
         {
             try
             {
@@ -126,6 +126,8 @@ namespace ITSMSkill.Services.ServiceNow
                 request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
 
                 request.AddParameter("sysparm_limit", limitSize);
+
+                request.AddParameter("sysparm_offset", limitSize * pageIndex);
 
                 var result = await client.GetAsync<MultiTicketsResponse>(request);
                 return new TicketsResult()
@@ -211,7 +213,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<KnowledgesResult> SearchKnowledge(string query)
+        public async Task<KnowledgesResult> SearchKnowledge(string query, int pageIndex)
         {
             var request = CreateRequest(KnowledgeResource);
 
@@ -219,6 +221,8 @@ namespace ITSMSkill.Services.ServiceNow
             request.AddParameter("sysparm_query", $"IR_AND_OR_QUERY={query}");
 
             request.AddParameter("sysparm_limit", limitSize);
+
+            request.AddParameter("sysparm_offset", limitSize * pageIndex);
 
             try
             {

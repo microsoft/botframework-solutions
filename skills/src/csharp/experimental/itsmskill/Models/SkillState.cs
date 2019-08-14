@@ -12,10 +12,17 @@ namespace ITSMSkill.Models
     {
         public SkillState()
         {
-            Clear();
+            ClearLuisResult();
         }
 
+        // always call GetAuthToken before using
         public TokenResponse Token { get; set; }
+
+        // handle manually
+        public int PageIndex { get; set; }
+
+        // used when from ShowKnowledge to CreateTicket
+        public bool SkipDisplayExisting { get; set; }
 
         public string Id { get; set; }
 
@@ -27,9 +34,12 @@ namespace ITSMSkill.Models
 
         public AttributeType AttributeType { get; set; }
 
+        // from OnInterruptDialogAsync
+        public GeneralLuis.Intent GeneralIntent { get; set; }
+
         public void DigestLuisResult(ITSMLuis luis)
         {
-            Clear();
+            ClearLuisResult();
 
             if (luis.Entities.TicketDescription != null)
             {
@@ -65,11 +75,14 @@ namespace ITSMSkill.Models
                     AttributeType = AttributeType.None;
                 }
             }
+            else if (topIntent == ITSMLuis.Intent.TicketCreate)
+            {
+                SkipDisplayExisting = false;
+            }
         }
 
-        public void Clear()
+        public void ClearLuisResult()
         {
-            Token = null;
             Id = null;
             TicketDescription = null;
             CloseReason = null;

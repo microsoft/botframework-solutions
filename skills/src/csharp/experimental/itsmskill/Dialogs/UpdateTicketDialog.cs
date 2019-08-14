@@ -94,8 +94,11 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdates));
-                await sc.Context.SendActivityAsync(sb.ToString());
+                var token = new StringDictionary()
+                {
+                    { "Attributes", sb.ToString() }
+                };
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdates, token));
             }
 
             return await sc.NextAsync();
@@ -104,6 +107,8 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> UpdateLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+
+            // state.AttributeType from Luis should be used first
             state.AttributeType = AttributeType.None;
 
             return await sc.ReplaceDialogAsync(Actions.UpdateAttribute);
@@ -115,7 +120,7 @@ namespace ITSMSkill.Dialogs
             if (state.Token == null)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var management = ServiceManager.CreateManagement(Settings, state.Token);
@@ -128,7 +133,7 @@ namespace ITSMSkill.Dialogs
                     { "Error", result.ErrorMessage }
                 };
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var card = new Card()

@@ -1,4 +1,13 @@
 {
+  "IfExistingSolve": {
+    "replies": [
+      {
+        "text": "Page {Page}. Does one of these solve your problem? \"Go forward/previously\" to navigate.",
+        "speak": "Page {Page}. Does one of these solve your problem? \"Go forward/previously\" to navigate."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "TicketCreated": {
     "replies": [
       {
@@ -49,8 +58,8 @@
   "ShowConstraints": {
     "replies": [
       {
-        "text": "You have the following constraints on search:",
-        "speak": "You have the following constraints on search:"
+        "text": "You have the following constraints on search:\n{Attributes}",
+        "speak": "You have the following constraints on search:\n{Attributes}"
       }
     ],
     "inputHint": "igoringInput"
@@ -67,8 +76,8 @@
   "ShowUpdates": {
     "replies": [
       {
-        "text": "You have the following to update:",
-        "speak": "You have the following to update:"
+        "text": "You have the following to update:\n{Attributes}",
+        "speak": "You have the following to update:\n{Attributes}"
       }
     ],
     "inputHint": "igoringInput"
@@ -87,8 +96,17 @@
   "TicketShow": {
     "replies": [
       {
-        "text": "Here are your search results. Let me know when you need my help.",
-        "speak": "Here are your search results. Let me know when you need my help."
+        "text": "Page {Page}. Do you want to see more search results? Try \"Go forward/previously\".",
+        "speak": "Page {Page}. Do you want to see more search results? Try \"Go forward/previously\"."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "TicketEnd": {
+    "replies": [
+      {
+        "text": "Page {Page} does not contain anything, try \"Go previously\".",
+        "speak": "Page {Page} does not contain anything, try \"Go previously\"."
       }
     ],
     "inputHint": "acceptingInput"

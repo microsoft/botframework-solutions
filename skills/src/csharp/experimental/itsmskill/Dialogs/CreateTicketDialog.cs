@@ -8,9 +8,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
+using ITSMSkill.Prompts;
+using ITSMSkill.Responses.Knowledge;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -35,10 +38,7 @@ namespace ITSMSkill.Dialogs
                 CheckDescription,
                 InputDescription,
                 SetDescription,
-                GetAuthToken,
-                AfterGetAuthToken,
-                DisplayExisting,
-                IfExistingSolve,
+                DisplayExistingLoop,
                 CheckUrgency,
                 InputUrgency,
                 SetUrgency,
@@ -46,75 +46,40 @@ namespace ITSMSkill.Dialogs
                 AfterGetAuthToken,
                 CreateTicket
             };
+
+            var displayExisting = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                ShowKnowledge,
+                IfKnowledgeHelp
+            };
+
             AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket));
+            AddDialog(new WaterfallDialog(Actions.DisplayExisting, displayExisting));
 
             InitialDialogId = Actions.CreateTicket;
+
+            // intended null
+            // ShowKnowledgeNoResponse
+            ShowKnowledgeEndResponse = KnowledgeResponses.KnowledgeEnd;
+            ShowKnowledgeResponse = TicketResponses.IfExistingSolve;
+            ShowKnowledgePrompt = Actions.NavigateYesNoPrompt;
+            KnowledgeHelpLoop = Actions.DisplayExisting;
         }
 
-        protected async Task<DialogTurnResult> DisplayExisting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> DisplayExistingLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.Token == null)
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.EndDialogAsync();
-            }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
-            var result = await management.SearchKnowledge(state.TicketDescription);
-
-            if (!result.Success)
-            {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.EndDialogAsync();
-            }
-
-            if (result.Knowledges == null || result.Knowledges.Length == 0)
-            {
-                return await sc.NextAsync(false);
-            }
-            else
-            {
-                var cards = new List<Card>();
-                foreach (var knowledge in result.Knowledges)
-                {
-                    cards.Add(new Card()
-                    {
-                        Name = GetDivergedCardName(sc.Context, "Knowledge"),
-                        Data = ConvertKnowledge(knowledge)
-                    });
-                }
-
-                var options = new PromptOptions()
-                {
-                    Prompt = ResponseManager.GetCardResponse(SharedResponses.IfExistingSolve, cards)
-                };
-
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
-
-                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
-            }
-        }
-
-        protected async Task<DialogTurnResult> IfExistingSolve(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if ((bool)sc.Result)
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ExistingSolve));
-                return await sc.EndDialogAsync();
-            }
-            else
+            if (state.SkipDisplayExisting)
             {
                 return await sc.NextAsync();
+            }
+            else
+            {
+                state.PageIndex = -1;
+                return await sc.BeginDialogAsync(Actions.DisplayExisting);
             }
         }
 
@@ -124,7 +89,7 @@ namespace ITSMSkill.Dialogs
             if (state.Token == null)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var management = ServiceManager.CreateManagement(Settings, state.Token);
@@ -137,7 +102,7 @@ namespace ITSMSkill.Dialogs
                     { "Error", result.ErrorMessage }
                 };
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.EndDialogAsync();
+                return await sc.CancelAllDialogsAsync();
             }
 
             var card = new Card()

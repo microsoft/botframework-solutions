@@ -217,24 +217,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "IfExistingSolve": {
-    "replies": [
-      {
-        "text": "Does one of these solve your problem?",
-        "speak": "Does one of these solve your problem?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ExistingSolve": {
-    "replies": [
-      {
-        "text": "Cool, let me know when you need my help.",
-        "speak": "Cool, let me know when you need my help."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "ServiceFailed": {
     "replies": [
       {
