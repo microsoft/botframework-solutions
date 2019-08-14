@@ -179,7 +179,7 @@ if ($outputs)
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
 	if (Test-Path $(Join-Path $projDir appsettings.json)) {
-		$settings = Get-Content -Encoding UTF8 $(Join-Path $projDir appsettings.json) | ConvertFrom-Json
+		$settings = Get-Content -Encoding uft8 $(Join-Path $projDir appsettings.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
