@@ -28,6 +28,27 @@ Run the above deployment script again but provide two new arguments `appId` and 
 
 > NOTE: Take special care when providing the appSecret step above as special characters (e.g. @) can cause parse issues. Ensure you wrap these parameters in single quotes.
 
+## LUISGen error on Mac OSX during deployment
+
+When deploying your Virtual Assistant or Skill on a Mac you may experience the following LuisGen error:
+
+```
+Luisgen : The term 'luisgen' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At /Users/BotPath/Deployment/Scripts/add_remote_skill.ps1:170 char:2
++     luisgen $dispatchJsonPath -cs "DispatchLuis" -o $lgOutFolder 2>>  ...
++     ~~~~~~~
++ CategoryInfo          : ObjectNotFound: (luisgen:String) [], CommandNotFoundException
++ FullyQualifiedErrorId : CommandNotFoundException
+```
+The root cause is  [discussed here](https://github.com/dotnet/sdk/issues/2998) whereby powershell isn’t expanding the ~ in the path. If you run `$env:PATH` within Powershell on your Mac you’ll see `~/.dotnet/tools`in the path which is where luisgen will have been installed. In fact if you run `~/.dotnet/tools/luisgen` within powershell you should be able to execute it correctly.
+
+The workaround at this time is to run this ahead of any of the Virtual Assistant deployment scripts.
+
+```
+$env:PATH += ":/users/YOUR_USER_NAME/.dotnet/tools"
+```
+
 ## The Teams channel doesn't render OAuth cards.
 
 Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please:
