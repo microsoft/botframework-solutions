@@ -14,13 +14,21 @@ namespace HospitalitySkill.Services
     public class HotelService : IHotelService
     {
         private const string RoomServiceMenuFileName = "RoomServiceMenu.json";
+        private const string AvailableItemsFileName = "AvailableItems.json";
+
         private readonly string _menuFilePath;
+        private readonly string _availableItemsFilePath;
 
         public HotelService()
         {
             _menuFilePath = typeof(HotelService).Assembly
                 .GetManifestResourceNames()
                 .Where(x => x.Contains(RoomServiceMenuFileName))
+                .First();
+
+            _availableItemsFilePath = typeof(HotelService).Assembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains(AvailableItemsFileName))
                 .First();
         }
 
@@ -47,6 +55,26 @@ namespace HospitalitySkill.Services
         {
             // send request for this list of items to be brought
             return await Task.FromResult(true);
+        }
+
+        public RoomItem CheckRoomItemAvailability(string item)
+        {
+            using (var r = new StreamReader(typeof(HotelService).Assembly.GetManifestResourceStream(_availableItemsFilePath)))
+            {
+                string json = r.ReadToEnd();
+                RoomItem[] roomItems = JsonConvert.DeserializeObject<RoomItem[]>(json);
+
+                // check all item names
+                foreach (var roomItem in roomItems)
+                {
+                    if (Array.Exists(roomItem.Names, x => string.Equals(x, item, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        return roomItem;
+                    }
+                }
+
+                return null;
+            }
         }
 
         // returns full name of menu item if found

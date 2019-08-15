@@ -11,7 +11,9 @@
     <Content Remove="Content\FoodOrderCard.json" />
     <Content Remove="Content\MenuCard.json" />
     <Content Remove="Content\MenuItemCard.json" />
+    <Content Remove="Content\RequestItemCard.json" />
     <Content Remove="Content\ReservationDetails.json" />
+    <Content Remove="Content\RoomItemCard.json" />
     <Content Remove="Data\AvailableItems.json" />
     <Content Remove="Data\RoomServiceMenu.json" />
     <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
@@ -39,7 +41,9 @@
     <EmbeddedResource Include="Content\FoodOrderCard.json" />
     <EmbeddedResource Include="Content\MenuCard.json" />
     <EmbeddedResource Include="Content\MenuItemCard.json" />
+    <EmbeddedResource Include="Content\RequestItemCard.json" />
     <EmbeddedResource Include="Content\ReservationDetails.json" />
+    <EmbeddedResource Include="Content\RoomItemCard.json" />
     <EmbeddedResource Include="Data\AvailableItems.json" />
     <EmbeddedResource Include="Data\RoomServiceMenu.json" />
     <EmbeddedResource Include="Responses\RequestItem\RequestItemResponses.json" />
