@@ -1,0 +1,56 @@
+> # Intent definitions
+
+## NameExtraction
+- call me steve!
+- call me steve.
+- i am anna
+- i am tom.
+- i'm john jackson.
+- i'm lily
+- it is jackson.
+- it's alice anderson!
+- it's alice anderson.
+- my name is bill jones
+- my name is jill jones.
+- my name's david.
+- this is john w. smith.
+- you can call me thompson.
+- (i'm|i am) {personName}[.]
+- (it's|it is|this is) {personName}[.]
+- my name is {personName} [.]
+- ([you can]|[please]) call me {personName}[.]
+
+
+## None
+- 1
+- alice
+- barking dogs are annoying
+- denise dillard
+- hello world
+- how's the weather today
+- is there any work with databases?
+- jill jones
+- john smith
+- order a pizza for me
+- penguins in the ocean
+- shift alice anderson to oakland from redmond
+- walter williams
+- what's your name
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:personName
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+

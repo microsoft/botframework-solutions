@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using VirtualAssistantSample.Models;
@@ -16,6 +19,7 @@ namespace VirtualAssistantSample.Dialogs
         private static OnboardingResponses _responder = new OnboardingResponses();
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
+        private BotServices _services;
 
         public OnboardingDialog(
             BotServices botServices,
@@ -25,6 +29,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
+            _services = botServices;
 
             var onboarding = new WaterfallStep[]
             {
@@ -59,9 +64,26 @@ namespace VirtualAssistantSample.Dialogs
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var name = _state.Name = (string)sc.Result;
-            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
+            var name = _state.Name;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = _state.Name = (string)sc.Result;
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var cognitiveModels = _services.CognitiveModelSets[locale];
+                cognitiveModels.LuisServices.TryGetValue("EntityExtraction", out var luisService);
+                if (luisService != null)
+                {
+                    var luisResult = await luisService.RecognizeAsync<EntityExtractionLuis>(sc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
+                    var score = luisResult.TopIntent().score;
+                    if (intent == EntityExtractionLuis.Intent.NameExtraction && score > 0.5 && luisResult.Entities.personName != null)
+                    {
+                        name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
+                    }
+                }
+            }
 
+            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
             return await sc.EndDialogAsync();
         }

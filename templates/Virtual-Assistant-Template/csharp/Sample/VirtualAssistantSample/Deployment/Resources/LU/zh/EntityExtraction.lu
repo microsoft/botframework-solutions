@@ -1,0 +1,55 @@
+> # Intent definitions
+
+## NameExtraction
+- 叫我史蒂夫!
+- 叫我史蒂夫
+- 我是安娜
+- 我是汤姆.
+- 我是约翰·杰克逊
+- 我是莉莉
+- 我是杰克逊
+- 我的名字是爱丽丝·安德森!
+- 我的名字是比尔·琼斯
+- 我叫吉尔·琼斯
+- 我叫大卫
+- 这是约翰·史密斯
+- 你可以叫我汤普森
+- 我(是|叫){personName}[.]
+- 我的名字(是|叫){personName}[.]
+- ([你可以][请])叫我{personName}[.]
+
+
+## None
+- 1
+- 爱丽丝
+- 吠叫的狗很烦人
+- 丹尼斯·迪拉德
+- 世界您好
+- 今天天气怎么样
+- 是否有与数据库的工作？
+- 吉尔·琼斯
+- 约翰·史密斯
+- 为我点披萨
+- 海洋中的企鹅
+- 转移爱丽丝安德森到奥克兰从雷德蒙德
+- 瓦尔特·威廉斯
+- 你叫什么名字
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:personName
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+
+
