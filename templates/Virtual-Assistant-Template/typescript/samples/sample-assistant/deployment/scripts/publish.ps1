@@ -26,7 +26,7 @@ if (-not (Test-Path (Join-Path $projFolder 'web.config'))) {
 if (-not (Test-Path (Join-Path $projFolder '.deployment'))) {
 
 	# Add needed deployment configuration
-	Add-Content -Path -Encoding utf8 $(Join-Path $projFolder ".deployment") -Value @("[config]", "SCM_DO_BUILD_DURING_DEPLOYMENT=true")
+	Add-Content -Path $(Join-Path $projFolder ".deployment") -Value @("[config]", "SCM_DO_BUILD_DURING_DEPLOYMENT=true") -Encoding utf8
 }
 
 
