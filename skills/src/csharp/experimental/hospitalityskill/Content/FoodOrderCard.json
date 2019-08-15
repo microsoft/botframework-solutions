@@ -1,6 +1,7 @@
 {
     "type": "AdaptiveCard",
-    "version": "1.0",
+  "version": "1.0",
+    "id": "FoodOrderCard",
     "body": [
         {
             "type": "Container",

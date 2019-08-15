@@ -35,15 +35,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ListOrder": {
-    "replies": [
-      {
-        "text": "Here is your current order:",
-        "speak": "Here is your current order:"
-      }
-    ],
-    "inputHint": "ignoringInput"
-  },
   "ItemsNotAvailable": {
     "replies": [
       {

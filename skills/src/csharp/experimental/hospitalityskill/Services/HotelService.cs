@@ -73,6 +73,7 @@ namespace HospitalitySkill.Services
             }
         }
 
+        // gets requested menu details
         public Menu GetMenu(string menuType)
         {
             using (var r = new StreamReader(typeof(HotelService).Assembly.GetManifestResourceStream(_menuFilePath)))
