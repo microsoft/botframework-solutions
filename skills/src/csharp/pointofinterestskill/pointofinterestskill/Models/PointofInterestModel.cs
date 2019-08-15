@@ -269,6 +269,14 @@ namespace PointOfInterestSkill.Models
         public string SubmitText { get; set; }
 
         /// <summary>
+        /// Gets or sets the card title.
+        /// </summary>
+        /// <value>
+        /// The text to submit.
+        /// </value>
+        public string CardTitle { get; set; }
+
+        /// <summary>
         /// Gets the formatted string for available details.
         /// </summary>
         /// <value>

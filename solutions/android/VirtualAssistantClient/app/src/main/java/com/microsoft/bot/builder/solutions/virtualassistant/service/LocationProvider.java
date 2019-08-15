@@ -1,7 +1,6 @@
 package com.microsoft.bot.builder.solutions.virtualassistant.service;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -38,6 +37,7 @@ public class LocationProvider {
     private Context context;
     private LocationProviderCallback locationProviderCallback;
     private LocationListener locationListener;
+    private Location lastKnownLocation;
 
     // INTERFACE
     public interface LocationProviderCallback {
@@ -51,6 +51,13 @@ public class LocationProvider {
         isPlayStoreInstalled = checkPlayServices();
     }
 
+    protected Location getLastKnownLocation() {
+        return lastKnownLocation;
+    }
+
+    /**
+     * Start receiving periodic location updates
+     */
     protected void startLocationUpdates() {
         if (isPlayStoreInstalled) {
             if (fusedLocationClient == null) {
@@ -81,6 +88,7 @@ public class LocationProvider {
                         public void onLocationResult(LocationResult locationResult) {
                             // Inform the Bot of the location change
                             Location location = locationResult.getLastLocation();
+                            lastKnownLocation = location;
                             if (location != null && locationProviderCallback != null) {
                                 locationProviderCallback.onLocationResult(location);
                             }
@@ -92,13 +100,6 @@ public class LocationProvider {
                     //this will trigger the first time the app is run - just retry after getting permission
                     Log.i(LOGTAG, "Missing ACCESS_FINE_LOCATION permission");
                 }
-            } else {
-                // an Android Activity just launched and wants the coordinates. Trigger callback.
-                fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                    if (location != null && locationProviderCallback != null) {
-                        locationProviderCallback.onLocationResult(location);
-                    }
-                });
             }
         } else {
             locationUpdatesWithoutGoogleServices();
@@ -146,6 +147,7 @@ public class LocationProvider {
         return new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                lastKnownLocation = location;
                 if (location != null && locationProviderCallback != null) {
                     locationProviderCallback.onLocationResult(location);
                 }

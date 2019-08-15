@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Newtonsoft.Json;
 
@@ -22,32 +23,40 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
         private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
+        private readonly IAuthenticationProvider _authenticationProvider;
+        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
+        private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
 
-		public SkillController(
+        public SkillController(
             IBot bot,
             BotSettingsBase botSettings,
-			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-			SkillWebSocketAdapter skillWebSocketAdapter)
-		{
-			_bot = bot ?? throw new ArgumentNullException(nameof(IBot));
-			_botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
-			_botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-			_skillWebSocketAdapter = skillWebSocketAdapter;
+            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+            SkillWebSocketAdapter skillWebSocketAdapter,
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
+        {
+            _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
+            _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
+            _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
+            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            _skillWebSocketAdapter = skillWebSocketAdapter;
+
+            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
+            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
         }
 
-		// Each skill provides a template manifest file which we use to fill in the dynamic elements.
-		// There are protected to enable unit tests to mock.
-		protected HttpClient HttpClient { get; set; } = new HttpClient();
+        // Each skill provides a template manifest file which we use to fill in the dynamic elements.
+        // There are protected to enable unit tests to mock.
+        protected HttpClient HttpClient { get; set; } = new HttpClient();
 
-		protected string ManifestTemplateFilename { get; set; } = "manifestTemplate.json";
+        protected string ManifestTemplateFilename { get; set; } = "manifestTemplate.json";
 
-		/// <summary>
-		/// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
-		/// </summary>
-		/// <returns>Task.</returns>
-		[Route("api/messages")]
+        /// <summary>
+        /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [Route("api/messages")]
         [HttpPost]
         public async Task BotMessage()
         {
@@ -114,6 +123,19 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// This API is for calling bots to see if a skill is live
+        /// Additional it can also be used to verify if calling bot can pass authentication
+        /// because this API verifies the bearer token in the process.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [Route("api/skill/ping")]
+        [HttpGet]
+        public async Task SkillPing()
+        {
+            await _authenticator.Authenticate(Request, Response);
         }
     }
 }

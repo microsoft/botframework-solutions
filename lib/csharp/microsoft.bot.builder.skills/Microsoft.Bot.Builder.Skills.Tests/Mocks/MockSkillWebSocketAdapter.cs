@@ -1,11 +1,15 @@
-﻿using Microsoft.Bot.Builder.Solutions;
+﻿using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions;
 
 namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
     public class MockSkillWebSocketAdapter : SkillWebSocketAdapter
     {
-        public MockSkillWebSocketAdapter(SkillWebSocketBotAdapter skillWebSocketBotAdapter, BotSettingsBase botSettingsBase)
-            : base(skillWebSocketBotAdapter, botSettingsBase, new MockWhitelistAuthenticationProvider())
+        public MockSkillWebSocketAdapter(
+            SkillWebSocketBotAdapter skillWebSocketBotAdapter,
+            BotSettingsBase botSettingsBase,
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
+            : base(skillWebSocketBotAdapter, botSettingsBase, whitelistAuthenticationProvider)
         {
         }
     }

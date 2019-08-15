@@ -83,7 +83,7 @@ public class BotConnectorActivity {
     private String file;
     @SerializedName("value")
     @Expose
-    private ActivityValue value;
+    private Object value;//TODO this should be an ActivityValue. Keep it as Object until server updated
     @SerializedName("Amount")
     @Expose
     private String amount;
@@ -225,7 +225,7 @@ public class BotConnectorActivity {
         this.type = type;
     }
 
-    public ActivityValue getValue() {
+    public Object getValue() {
         return value;
     }
 

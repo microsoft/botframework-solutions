@@ -53,6 +53,10 @@ public class Configuration {
     @Expose
     public Integer colorTextUser;
 
+    @SerializedName("keyword")
+    @Expose
+    public String keyword;
+
 
     public boolean isEmpty(){
         return serviceKey==null&&
@@ -66,6 +70,7 @@ public class Configuration {
                 colorBubbleBot==null&&
                 colorBubbleUser==null&&
                 colorTextBot==null&&
-                colorTextUser==null;
+                colorTextUser==null&&
+                keyword==null;
     }
 }

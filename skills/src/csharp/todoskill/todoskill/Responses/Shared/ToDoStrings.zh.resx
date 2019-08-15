@@ -121,10 +121,10 @@
     <value>和{0}。</value>
   </data>
   <data name="CardMultiNumber" xml:space="preserve">
-    <value>{0}个代办事项</value>
+    <value>{0}个事项</value>
   </data>
   <data name="CardOneNumber" xml:space="preserve">
-    <value>{0}个代办事项</value>
+    <value>{0}个事项</value>
   </data>
   <data name="CardTitle" xml:space="preserve">
     <value>您的{0}列表</value>
@@ -157,6 +157,6 @@
     <value>待办事项</value>
   </data>
   <data name="ToDoSynonym" xml:space="preserve">
-    <value>代办事项 代办项 待完成事项 待处理事项 待准备事项 待做事项</value>
+    <value>待办事项 待办项 待完成事项 待处理事项 待准备事项 待做事项</value>
   </data>
 </root>
