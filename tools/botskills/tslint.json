@@ -1,26 +1,41 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-microsoft-contrib"
-    ],
-    "linterOptions":{
-        "exclude": [
-          "src/dialogs/shared/resources/*"
-        ]
-    },
-    "rules": {
-      "function-name": [ true,
-        {
-          "static-method-regex":"^[a-z][\\w\\d]+$"
-        }
-      ],
-      "linebreak-style": [false],
-      "member-ordering": [false],
-      "no-relative-imports": [false],
-      "completed-docs": false
-    },
-    "rulesDirectory": [
-      "tslint-microsoft-contrib"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-microsoft-contrib"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "src/botskills.ts",
+      "src/botskills-*.ts"
     ]
-  }
+  },
+  "rules": {
+    "function-name": [
+      true,
+      {
+        "static-method-regex": "^[a-z][\\w\\d]+$"
+      }
+    ],
+    "strict-boolean-expressions": [
+      true,
+      "allow-undefined-union",
+      "allow-null-union",
+      "allow-mix",
+      "allow-string",
+      "ignore-rhs"
+    ],
+    "linebreak-style": false,
+    "completed-docs": false,
+    "no-relative-imports": false,
+    "member-ordering": false,
+    "no-use-before-declare": false,
+    "no-function-constructor-with-string-args": false,
+    "no-reserved-keywords": false,
+    "no-increment-decrement": false,
+    "no-unnecessary-bind": false
+  },
+  "rulesDirectory": [
+    "tslint-microsoft-contrib"
+  ]
+}
