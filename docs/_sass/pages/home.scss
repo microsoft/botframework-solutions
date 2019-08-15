@@ -1,0 +1,26 @@
+.timeline-comment {
+  position: relative;
+}
+
+.timeline-comment:before {
+    border-width: 8px;
+    border-right-color: #d1d5da;
+}
+.timeline-comment:after {
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-color: transparent;
+    border-style: solid solid outset;
+}
+
+figure {
+  margin: 0;
+  padding: $spacer-3;
+}
