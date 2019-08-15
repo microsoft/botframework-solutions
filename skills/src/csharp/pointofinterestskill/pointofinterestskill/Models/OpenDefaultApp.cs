@@ -7,6 +7,6 @@ namespace PointOfInterestSkill.Models
 {
     public class OpenDefaultApp
     {
-        public string Uri { get; set; }
+        public string MapsUri { get; set; }
     }
 }
