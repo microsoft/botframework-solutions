@@ -1,14 +1,57 @@
 {
   "type": "AdaptiveCard",
-  "id":  "MenuItemCard",
+  "id": "MenuItemCard",
   "body": [
     {
       "type": "Container",
       "items": [
         {
-          "type": "TextBlock",
-          "text": "{Name} {Price}",
-          "weight": "Bolder"
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{Name} {Price}",
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "None",
+                  "text": "GF",
+                  "color": "Warning",
+                  "weight": "Bolder",
+                  "size": "Small",
+                  "isVisible": "{GlutenFree}"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "V",
+                  "color": "Good",
+                  "weight": "Bolder",
+                  "size": "Small",
+                  "isVisible": "{Vegetarian}"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
         },
         {
           "type": "TextBlock",
