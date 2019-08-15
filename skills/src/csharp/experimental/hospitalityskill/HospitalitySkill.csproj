@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\FoodItemCard.json" />
+    <Content Remove="Content\FoodOrderCard.json" />
+    <Content Remove="Content\MenuCard.json" />
+    <Content Remove="Content\MenuItemCard.json" />
     <Content Remove="Content\ReservationDetails.json" />
     <Content Remove="Data\AvailableItems.json" />
+    <Content Remove="Data\RoomServiceMenu.json" />
     <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
     <Content Remove="Responses\ExtendStay\ExtendStayResponses.json" />
     <Content Remove="Responses\GetReservation\GetReservationResponses.json" />
@@ -30,8 +35,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\FoodItemCard.json" />
+    <EmbeddedResource Include="Content\FoodOrderCard.json" />
+    <EmbeddedResource Include="Content\MenuCard.json" />
+    <EmbeddedResource Include="Content\MenuItemCard.json" />
     <EmbeddedResource Include="Content\ReservationDetails.json" />
     <EmbeddedResource Include="Data\AvailableItems.json" />
+    <EmbeddedResource Include="Data\RoomServiceMenu.json" />
     <EmbeddedResource Include="Responses\RequestItem\RequestItemResponses.json" />
     <EmbeddedResource Include="Responses\GetReservation\GetReservationResponses.json" />
     <EmbeddedResource Include="Responses\ExtendStay\ExtendStayResponses.json" />

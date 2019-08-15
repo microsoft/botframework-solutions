@@ -1,0 +1,25 @@
+{
+  "type": "AdaptiveCard",
+  "id":  "MenuItemCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{Name} {Price}",
+          "weight": "Bolder"
+        },
+        {
+          "type": "TextBlock",
+          "text": "{Description}",
+          "wrap": true,
+          "horizontalAlignment": "Left",
+          "spacing": "None"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

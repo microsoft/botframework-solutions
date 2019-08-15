@@ -13,5 +13,13 @@ namespace HospitalitySkill.Responses.RoomService
     {
         // Generated accessors
         public const string MenuPrompt = "MenuPrompt";
+        public const string ChooseOneMenu = "ChooseOneMenu";
+        public const string FoodOrder = "FoodOrder";
+        public const string RetryFoodOrder = "RetryFoodOrder";
+        public const string ListOrder = "ListOrder";
+        public const string ItemsNotAvailable = "ItemsNotAvailable";
+        public const string AddMore = "AddMore";
+        public const string ConfirmOrder = "ConfirmOrder";
+        public const string FinalOrderConfirmation = "FinalOrderConfirmation";
     }
 }

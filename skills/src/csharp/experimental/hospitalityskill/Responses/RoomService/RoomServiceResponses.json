@@ -7,5 +7,77 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ChooseOneMenu": {
+    "replies": [
+      {
+        "text": "Please choose one menu to view: Breakfast, Lunch, Dinner or 24 Hour.",
+        "speak": "Please choose one menu to view: Breakfast, Lunch, Dinner or 24 Hour."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FoodOrder": {
+    "replies": [
+      {
+        "text": "What would you like to order?",
+        "speak": "What would you like to order?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryFoodOrder": {
+    "replies": [
+      {
+        "text": "Sorry I didn't get that. What would you like to order?",
+        "speak": "Sorry I didn't get that. What would you like to order?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ListOrder": {
+    "replies": [
+      {
+        "text": "Here is your current order:",
+        "speak": "Here is your current order:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ItemsNotAvailable": {
+    "replies": [
+      {
+        "text": "Sorry the following items are not available on our menu:",
+        "speak": "Sorry the following items are not available on our menu"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AddMore": {
+    "replies": [
+      {
+        "text": "Would you like to add anything else?",
+        "speak": "Would you like to add anything else?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmOrder": {
+    "replies": [
+      {
+        "text": "Shall I place your order? It will be billed to your room.",
+        "speak": "Shall I place your order? It will be billed to your room."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FinalOrderConfirmation": {
+    "replies": [
+      {
+        "text": "Ok! Your order will be brought to your room shortly.",
+        "speak": "Ok! Your order will be brought to your room shortly."
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

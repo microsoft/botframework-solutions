@@ -130,6 +130,8 @@ namespace HospitalitySkill.Dialogs
 
                     case HospitalityLuis.Intent.RoomService:
                         {
+                            // ordering room service
+                            turnResult = await dc.BeginDialogAsync(nameof(RoomServiceDialog));
                             break;
                         }
 
