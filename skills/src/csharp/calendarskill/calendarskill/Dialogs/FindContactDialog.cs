@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
+using CalendarSkill.Responses.CreateEvent;
+using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
@@ -13,6 +16,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -385,7 +390,6 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.MeetingInfor.ContactInfor.FirstRetryInFindContact)
                     {
-                        state.FirstRetryInFindContact = false;
                         return await sc.PromptAsync(
                             Actions.Prompt,
                             new PromptOptions
@@ -407,8 +411,7 @@ namespace CalendarSkill.Dialogs
                             { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
                             { "UserName", currentRecipientName }
                             }));
-                        state.FirstRetryInFindContact = true;
-                        state.CurrentAttendeeName = string.Empty;
+                        state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
                         return await sc.EndDialogAsync();
                     }
                 }
@@ -730,8 +733,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
                 }, cancellationToken);
             }
             catch (Exception ex)

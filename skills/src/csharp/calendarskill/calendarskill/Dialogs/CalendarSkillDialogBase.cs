@@ -276,7 +276,7 @@ namespace CalendarSkill.Dialogs
                     OverlapEventCount = overlapEventCount.ToString(),
                     TotalEventCountUnit = string.Format(
                         totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
-                        state.StartDateString ?? CalendarCommonStrings.TodayLower),
+                        state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower),
                     OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
                     Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
                     UserPhoto = await GetMyPhotoUrlAsync(dc.Context),

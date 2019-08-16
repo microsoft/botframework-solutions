@@ -150,7 +150,7 @@ namespace CalendarSkill.Dialogs
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
                     tokens["RemainingTime"] = remainingTime;
-                    if (state.OrderReference == "next")
+                    if (state.MeetingInfor.OrderReference == "next")
                     {
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
@@ -185,7 +185,7 @@ namespace CalendarSkill.Dialogs
 
                         if (state.MeetingInfor.Title != null)
                         {
-                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
+                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title);
                         }
 
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);

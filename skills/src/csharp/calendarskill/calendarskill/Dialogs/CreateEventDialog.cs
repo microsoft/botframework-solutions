@@ -129,7 +129,7 @@ namespace CalendarSkill.Dialogs
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
+                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
                     var data = new StringDictionary() { { "UserName", userNameString } };
                     var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
 
@@ -182,7 +182,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                if (string.IsNullOrEmpty(state.Content) && (!(state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Content))
+                if (string.IsNullOrEmpty(state.MeetingInfor.Content) && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoContent) }, cancellationToken);
                 }
@@ -299,7 +299,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.MeetingInfor.StartDate == null)
+                if (state.MeetingInfor.EndDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
@@ -324,7 +324,7 @@ namespace CalendarSkill.Dialogs
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.Location == null && (!(state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Location))
+                if (state.MeetingInfor.Location == null && (!(state.MeetingInfor.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Location))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoLocation) }, cancellationToken);
                 }
@@ -387,47 +387,47 @@ namespace CalendarSkill.Dialogs
                 };
 
                 var attendeeConfirmTextString = string.Empty;
-                if (state.Attendees.Count > 0)
+                if (state.MeetingInfor.ContactInfor.Contacts.Count > 0)
                 {
                     var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateAttendees, new StringDictionary()
                     {
-                        { "Attendees", DisplayHelper.ToDisplayParticipantsStringSummary(state.Attendees, 5) }
+                        { "Attendees", DisplayHelper.ToDisplayParticipantsStringSummary(state.MeetingInfor.ContactInfor.Contacts, 5) }
                     });
                     attendeeConfirmTextString = attendeeConfirmResponse.Text;
                 }
 
                 var subjectConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.Title))
+                if (!string.IsNullOrEmpty(state.MeetingInfor.Title))
                 {
                     var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateSubject, new StringDictionary()
                     {
-                        { "Subject", string.IsNullOrEmpty(state.Title) ? CalendarCommonStrings.Empty : state.Title }
+                        { "Subject", string.IsNullOrEmpty(state.MeetingInfor.Title) ? CalendarCommonStrings.Empty : state.MeetingInfor.Title }
                     });
                     subjectConfirmString = subjectConfirmResponse.Text;
                 }
 
                 var locationConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.Location))
+                if (!string.IsNullOrEmpty(state.MeetingInfor.Location))
                 {
                     var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateLocation, new StringDictionary()
                     {
-                        { "Location", string.IsNullOrEmpty(state.Location) ? CalendarCommonStrings.Empty : state.Location },
+                        { "Location", string.IsNullOrEmpty(state.MeetingInfor.Location) ? CalendarCommonStrings.Empty : state.MeetingInfor.Location },
                     });
                     locationConfirmString = subjectConfirmResponse.Text;
                 }
 
                 var contentConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.Content))
+                if (!string.IsNullOrEmpty(state.MeetingInfor.Content))
                 {
                     var contentConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateContent, new StringDictionary()
                     {
-                        { "Content", string.IsNullOrEmpty(state.Content) ? CalendarCommonStrings.Empty : state.Content },
+                        { "Content", string.IsNullOrEmpty(state.MeetingInfor.Content) ? CalendarCommonStrings.Empty : state.MeetingInfor.Content },
                     });
                     contentConfirmString = contentConfirmResponse.Text;
                 }
 
-                var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
-                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.EndDateTime.Value, state.GetUserTimeZone());
+                var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone());
                 var tokens = new StringDictionary
                 {
                     { "AttendeesConfirm", attendeeConfirmTextString },
@@ -502,10 +502,10 @@ namespace CalendarSkill.Dialogs
                     {
                         var tokens = new StringDictionary
                         {
-                            { "Subject", state.Title },
+                            { "Subject", state.MeetingInfor.Title },
                         };
 
-                        newEvent.ContentPreview = state.Content;
+                        newEvent.ContentPreview = state.MeetingInfor.Content;
 
                         var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
 

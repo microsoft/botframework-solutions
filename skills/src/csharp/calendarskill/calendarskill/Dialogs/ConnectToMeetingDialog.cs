@@ -160,7 +160,7 @@ namespace CalendarSkill.Dialogs
                     { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
                 };
 
-                var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
+                var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state), JoinEventResponses.SelectMeeting, responseParams);
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = reply });
             }
@@ -400,7 +400,7 @@ namespace CalendarSkill.Dialogs
             {
                 if ((bool)sc.Result)
                 {
-                    var selectedEvent = state.ConfirmedMeeting.First();
+                    var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
                     var replyEvent = sc.Context.Activity.CreateReply();
                     replyEvent.Type = ActivityTypes.Event;

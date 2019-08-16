@@ -116,7 +116,7 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindMeetingRoom:
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
                             break;
                         }
 
@@ -134,13 +134,13 @@ namespace CalendarSkill.Dialogs
 
                     case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.ConnectToMeeting:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), options);
                             break;
                         }
 
