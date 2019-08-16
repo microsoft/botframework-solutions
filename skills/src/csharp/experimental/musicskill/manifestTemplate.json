@@ -1,21 +1,21 @@
 {
   "id": "MusicSkill",
   "name": "MusicSkill",
-  "description": "",
+  "description": "The Music Skill searches for music using Spotify",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "MusicSkill_Sample",
+      "id": "musicskill_playMusic",
       "definition": {
-        "description": "Sample Skill action with no slots",
+        "description": "Play music",
         "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "MusicSkill#Sample"
+                "MusicSkill#PlayMusic"
               ]
             }
           ]
