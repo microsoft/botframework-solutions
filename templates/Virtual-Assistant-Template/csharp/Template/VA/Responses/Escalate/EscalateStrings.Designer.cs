@@ -69,6 +69,28 @@ namespace $safeprojectname$.Responses.Escalate
             }
         }
 
+                /// <summary>
+        ///   Looks up a localized string similar to Call now.
+        /// </summary>
+        public static string CALL_NOW
+        {
+            get
+            {
+                return ResourceManager.GetString("CALL_NOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Teams.
+        /// </summary>
+        public static string OPEN_TEAMS
+        {
+            get
+            {
+                return ResourceManager.GetString("OPEN_TEAMS", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams..
         /// </summary>
