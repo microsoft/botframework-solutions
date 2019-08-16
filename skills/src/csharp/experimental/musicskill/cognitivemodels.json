@@ -4,7 +4,7 @@
       "languageModels": [
         {
           "id": "General",
-          "appid": "",
+          "appId": "",
           "name": "",
           "region": "",
           "subscriptionKey": "",
@@ -14,7 +14,7 @@
         },
         {
           "id": "MusicSkill",
-          "appid": "",
+          "appId": "",
           "name": "",
           "region": "",
           "subscriptionKey": "",
