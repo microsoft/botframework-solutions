@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Bot.StreamingExtensions" Version="4.5.1-preview1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj"/>
+    <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Responses\SkillResponses.tt">
