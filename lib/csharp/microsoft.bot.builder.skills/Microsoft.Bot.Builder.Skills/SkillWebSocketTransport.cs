@@ -54,6 +54,9 @@ namespace Microsoft.Bot.Builder.Skills
 
             await _streamingTransportClient.ConnectAsync(headers);
 
+            // populate call id for auth purpose
+            activity.CallerId = serviceClientCredentials.MicrosoftAppId;
+
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
             activity.Recipient.Id = skillManifest.MSAappId;

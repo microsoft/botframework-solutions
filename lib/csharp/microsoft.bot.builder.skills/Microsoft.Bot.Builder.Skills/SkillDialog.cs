@@ -315,9 +315,6 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                // populate call id for auth purpose
-                activity.CallerId = _serviceClientCredentials.MicrosoftAppId;
-
                 var endOfConversationActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
                 if (endOfConversationActivity != null)
