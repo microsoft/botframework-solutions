@@ -27,13 +27,14 @@ namespace Luis
 
         public class _Entities
         {
-            // Simple entities
-            public string[] Artist;
+
+            // Pattern.any
+            public string[] Artist_Any;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] Artist;
+                public InstanceData[] Artist_Any;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

@@ -7,17 +7,21 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using MusicSkill.Responses.Sample;
+using Microsoft.Bot.Schema;
+using MusicSkill.Models;
+using MusicSkill.Responses.Main;
 using MusicSkill.Services;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web.Enums; 
+using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
 
 namespace MusicSkill.Dialogs
 {
     public class PlayMusicDialog : SkillDialogBase
     {
+        private ResponseManager _responseManager;
+
         public PlayMusicDialog(
             BotSettings settings,
             BotServices services,
@@ -26,62 +30,59 @@ namespace MusicSkill.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(PlayMusicDialog), settings, services, responseManager, conversationState, telemetryClient)
         {
+            _responseManager = responseManager;
+
             var sample = new WaterfallStep[]
             {
-                // NOTE: Uncomment these lines to include authentication steps to this dialog
-                // GetAuthToken,
-                // AfterGetAuthToken,
-                PromptForName,
-                GreetUser,
-                End,
+                GetAndSendMusicResult,
             };
 
             AddDialog(new WaterfallDialog(nameof(PlayMusicDialog), sample));
-            AddDialog(new TextPrompt(DialogIds.NamePrompt));
 
             InitialDialogId = nameof(PlayMusicDialog);
         }
 
-        private async Task<DialogTurnResult> PromptForName(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> GetAndSendMusicResult(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // NOTE: Uncomment the following lines to access LUIS result for this turn.
             var state = await StateAccessor.GetAsync(stepContext.Context);
             var intent = state.LuisResult.TopIntent().intent;
             var entities = state.LuisResult.Entities;
 
             // Extract query entity to search against Spotify for
-            var searchQuery = entities.Artist[0];
+            var searchQuery = entities.Artist_Any[0];
 
-            // Get Spotify Client
+            // Get music api client
             var client = await GetSpotifyWebAPIClient(Settings);
 
-            var searchItems = await client.SearchItemsEscapedAsync(searchQuery, SearchType.Artist);
+            // Search library
+            var searchItems = await client.SearchItemsEscapedAsync(searchQuery, SearchType.All, 5);
 
-            var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
-            return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
-        }
-
-        private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            var tokens = new StringDictionary
+            // If any results exist, get the first playlist, then artist result
+            if (searchItems.Playlists?.Total != 0)
             {
-                { "Name", stepContext.Result.ToString() },
-            };
+                await SendOpenDefaultAppEventActivity(stepContext, searchItems.Playlists.Items[0].Uri, cancellationToken);
 
-            var response = ResponseManager.GetResponse(SampleResponses.HaveNameMessage, tokens);
-            await stepContext.Context.SendActivityAsync(response);
+            }
+            else if (searchItems.Artists?.Total != 0)
+            {
+                await SendOpenDefaultAppEventActivity(stepContext, searchItems.Artists.Items[0].Uri, cancellationToken);
+            }
+            else
+            {
+                await stepContext.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.NoResultstMessage));
+            }
 
-            return await stepContext.NextAsync();
+            // End dialog
+            return await stepContext.EndDialogAsync();
         }
 
-        private Task<DialogTurnResult> End(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private static async Task SendOpenDefaultAppEventActivity(WaterfallStepContext stepContext, string spotifyResultUri, CancellationToken cancellationToken)
         {
-            return stepContext.EndDialogAsync();
-        }
-
-        private class DialogIds
-        {
-            public const string NamePrompt = "namePrompt";
+            var replyEvent = stepContext.Context.Activity.CreateReply();
+            replyEvent.Type = ActivityTypes.Event;
+            replyEvent.Name = "OpenDefaultApp";
+            replyEvent.Value = new OpenDefaultApp() { MusicUri = spotifyResultUri };
+            await stepContext.Context.SendActivityAsync(replyEvent, cancellationToken);
         }
 
         private async Task<SpotifyWebAPI> GetSpotifyWebAPIClient(BotSettings settings)

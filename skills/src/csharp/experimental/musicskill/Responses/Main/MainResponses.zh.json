@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "[在此输入您的简介信息]",
-        "speak": "[在此输入您的简介信息]"
+        "text": "你想让我玩什么？",
+        "speak": "你想让我玩什么？"
       }
     ],
     "inputHint": "acceptingInput"
@@ -78,5 +78,13 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoResultstMessage": {
+    "replies": [
+      {
+        "text": "对不起，没有比赛。",
+        "speak": "对不起，没有比赛。"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
-}

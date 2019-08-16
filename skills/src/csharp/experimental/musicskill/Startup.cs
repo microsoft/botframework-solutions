@@ -24,7 +24,6 @@ using MusicSkill.Adapters;
 using MusicSkill.Bots;
 using MusicSkill.Dialogs;
 using MusicSkill.Responses.Main;
-using MusicSkill.Responses.Sample;
 using MusicSkill.Responses.Shared;
 using MusicSkill.Services;
 
@@ -96,8 +95,7 @@ namespace MusicSkill
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
-                new SharedResponses(),
-                new SampleResponses()));
+                new SharedResponses()));
 
             // Register dialogs
             services.AddTransient<PlayMusicDialog>();

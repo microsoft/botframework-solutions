@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "[Enter your intro message here]",
-        "speak": "[Enter your intro message here]"
+        "text": "What do you want me to play?",
+        "speak": "What do you want me to play?"
       }
     ],
     "suggestedActions": [],
@@ -76,6 +76,15 @@
       {
         "text": "Ok, let's start over.",
         "speak": "Ok, let's start over."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoResultstMessage": {
+    "replies": [
+      {
+        "text": "Sorry, no match.",
+        "speak": "Sorry, no match."
       }
     ],
     "inputHint": "acceptingInput"
