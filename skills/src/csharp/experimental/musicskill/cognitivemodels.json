@@ -7,20 +7,20 @@
           "appid": "",
           "name": "",
           "region": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "authoringRegion": "",
           "version": "",
-          "authoringkey": ""
+          "authoringKey": ""
         },
         {
           "id": "MusicSkill",
           "appid": "",
           "name": "",
           "region": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "authoringRegion": "",
           "version": "",
-          "authoringkey": ""
+          "authoringKey": ""
         }
       ]
     }
