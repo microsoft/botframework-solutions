@@ -19,11 +19,11 @@ namespace Luis
             q_Chitchat, 
             q_Faq, 
             q_hotel_FAQ, 
-            hospitalitySkill, 
             restaurantBookingSkill, 
             newsSkill, 
             pointOfInterestSkill, 
             WeatherSkill, 
+            hospitalitySkill, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -31,20 +31,20 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
-            public string[] Item;
             public string[] topic;
             public string[] site;
             public string[] KEYWORD;
             public string[] ADDRESS;
+            public string[] Item;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] Item;
                 public InstanceData[] topic;
                 public InstanceData[] site;
                 public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
+                public InstanceData[] Item;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
