@@ -8,14 +8,65 @@
     {
       "id": "newsSkill_findArticles",
       "definition": {
-        "description": "Find News articles",
-        "slots": [ ],
+        "description": "Find News articles.",
+        "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
                 "news#FindArticles"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_trendingArticles",
+      "definition": {
+        "description": "Show articles currently trending on social media.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "news#TrendingArticles"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_setFavoriteTopics",
+      "definition": {
+        "description": "Set the user's favorite news topic.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "news#SetFavoriteTopics"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_showFavoriteTopics",
+      "definition": {
+        "description": "Show news articles of the user's currently set favorite topic.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "news#ShowFavoriteTopics"
               ]
             }
           ]
