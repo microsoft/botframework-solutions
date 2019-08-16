@@ -14,6 +14,7 @@
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for building Bot Framework Skills.</Description>
+    <RestoreAdditionalProjectSources>https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;</RestoreAdditionalProjectSources>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <SignAssembly>true</SignAssembly>
