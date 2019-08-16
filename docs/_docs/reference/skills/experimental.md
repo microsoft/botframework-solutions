@@ -31,7 +31,11 @@ The [News skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/e
 
 ## Weather Skill
 
-The Weather skill provides a basic Skill that integrates with [AccuWeather](https://developer.accuweather.com) to demonstrate how a weather experience can be integrated into a Virtual Assistant. Provide an API key from [AccuWeather Getting Started](https://developer.accuweather.com/getting-started) in the appsettings to configure the Skill.
+The Weather skill provides a basic Skill that integrates with [AccuWeather](https://developer.accuweather.com) to demonstrate how a weather experience can be integrated into a Virtual Assistant. Provide an API key from [AccuWeather Getting Started](https://developer.accuweather.com/getting-started) in the appsettings to configure the skill.
+
+## Music Skill
+
+The Music skill integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open via the Spotify app. Provide credentials after you [create a Spotify client](https://developer.spotify.com/dashboard/) in the appsettings to configure the skill.
 
 ## Experimental Skill Deployment
 
