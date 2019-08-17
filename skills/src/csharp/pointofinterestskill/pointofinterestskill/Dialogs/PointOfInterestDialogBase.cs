@@ -92,7 +92,7 @@ namespace PointOfInterestSkill.Dialogs
             var replyEvent = activity.CreateReply();
             replyEvent.Type = ActivityTypes.Event;
             replyEvent.Name = "OpenDefaultApp";
-            replyEvent.Value = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}";
+            replyEvent.Value = new OpenDefaultApp() { MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}" };
             return replyEvent;
         }
 
