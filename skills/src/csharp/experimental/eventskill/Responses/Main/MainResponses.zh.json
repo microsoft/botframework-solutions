@@ -1,0 +1,82 @@
+﻿{
+  "WelcomeMessage": {
+    "replies": [
+      {
+        "text": "[在此输入您的简介信息]",
+        "speak": "[在此输入您的简介信息]"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "[在此处输入您的帮助信息]",
+        "speak": "[在此处输入您的帮助信息]"
+      }
+    ],
+    "suggestedActions": [],
+    "inputHint": "acceptingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "嗨！",
+        "speak": "嗨！"
+      },
+      {
+        "text": "我在这！",
+        "speak": "我在这！"
+      },
+      {
+        "text": "你好！",
+        "speak": "你好！"
+      },
+      {
+        "text": "您好！",
+        "speak": "您好！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GoodbyeMessage": {
+    "replies": [
+      {
+        "text": "再见！",
+        "speak": "再见！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "您已成功退出。",
+        "speak": "您已成功退出。"
+      },
+      {
+        "text": "您已退出。",
+        "speak": "您已退出。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "此功能在此技能中尚不可用。",
+        "speak": "此功能在此技能中尚不可用。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "好的, 我们从头再来。",
+        "speak": "好的, 我们从头再来。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "eventSkill",
+  "name": "EventSkill",
+  "description": "The Event experimental skill uses the Eventbrite API to retrieve local event information.",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "EventSkill_getEvents",
+      "definition": {
+        "description": "Finds events happening in the area today.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "EventSkill#GetEvents"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
