@@ -5,6 +5,7 @@ using System.Linq;
 using EventSkill.Adapters;
 using EventSkill.Bots;
 using EventSkill.Dialogs;
+using EventSkill.Responses.FindEvents;
 using EventSkill.Responses.Main;
 using EventSkill.Responses.Shared;
 using EventSkill.Services;
@@ -95,9 +96,11 @@ namespace EventSkill
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
-                new SharedResponses()));
+                new SharedResponses(),
+                new FindEventsResponses()));
 
             // Register dialogs
+            services.AddTransient<FindEventsDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

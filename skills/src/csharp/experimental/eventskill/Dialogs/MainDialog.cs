@@ -36,6 +36,7 @@ namespace EventSkill.Dialogs
             ResponseManager responseManager,
             UserState userState,
             ConversationState conversationState,
+            FindEventsDialog findEventsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -49,6 +50,7 @@ namespace EventSkill.Dialogs
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
+            AddDialog(findEventsDialog ?? throw new ArgumentNullException(nameof(findEventsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -67,7 +69,7 @@ namespace EventSkill.Dialogs
             await PopulateStateFromSemanticAction(dc.Context);
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("EventSkill", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Event", out var luisService);
 
             if (luisService == null)
             {
@@ -81,6 +83,12 @@ namespace EventSkill.Dialogs
 
                 switch (intent)
                 {
+                    case EventLuis.Intent.FindEvents:
+                        {
+                            // searching for local events
+                            turnResult = await dc.BeginDialogAsync(nameof(FindEventsDialog));
+                            break;
+                        }
 
                     case EventLuis.Intent.None:
                         {

@@ -20,9 +20,9 @@ using Microsoft.Bot.Schema;
 
 namespace EventSkill.Dialogs
 {
-    public class SkillDialogBase : ComponentDialog
+    public class EventDialogBase : ComponentDialog
     {
-        public SkillDialogBase(
+        public EventDialogBase(
              string dialogId,
              BotSettings settings,
              BotServices services,
@@ -146,7 +146,7 @@ namespace EventSkill.Dialogs
                 // Get luis service for current locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var localeConfig = Services.CognitiveModelSets[locale];
-                var luisService = localeConfig.LuisServices["EventSkill"];
+                var luisService = localeConfig.LuisServices["Event"];
 
                 // Get intent and entities for activity
                 var result = await luisService.RecognizeAsync<EventLuis>(dc.Context, CancellationToken.None);

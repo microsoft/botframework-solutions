@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "[Enter your intro message here]",
-        "speak": "[Enter your intro message here]"
+        "text": "Welcome to the Event Skill!",
+        "speak": "Welcome to the Event Skill!"
       }
     ],
     "suggestedActions": [],

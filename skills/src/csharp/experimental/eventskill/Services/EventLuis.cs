@@ -10,13 +10,12 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class EventLuis : IRecognizerConvert
+    public partial class EventLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent
-        {
-            GetEvents,
+        public enum Intent {
+            FindEvents, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -34,11 +33,11 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<EventLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<EventLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

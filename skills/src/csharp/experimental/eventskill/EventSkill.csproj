@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Responses\FindEvents\FindEventsResponses.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
     <Content Remove="Responses\Main\MainResponses.fr.json" />
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Responses\FindEvents\FindEventsResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
@@ -71,6 +73,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\FindEvents\FindEventsResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FindEventsResponses.cs</LastGenOutput>
+    </None>
     <None Update="Responses\Main\MainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MainResponses.cs</LastGenOutput>
@@ -115,6 +121,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>readme.md</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindEvents\FindEventsResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FindEventsResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Main\MainResponses.cs">
       <DesignTime>True</DesignTime>

@@ -1,0 +1,11 @@
+{
+  "LocationPrompt": {
+    "replies": [
+      {
+        "text": "Where are you?",
+        "speak": "Where are you?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
