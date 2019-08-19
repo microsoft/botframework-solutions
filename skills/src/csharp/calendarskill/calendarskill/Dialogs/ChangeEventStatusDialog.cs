@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
@@ -60,19 +61,21 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (sc.Result != null && state.Events.Count > 1)
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
+
+                if (sc.Result != null && state.ShowMeetingInfor.FocusedEvents.Count > 1)
                 {
-                    var events = state.Events;
-                    state.Events = new List<EventModel>
+                    var events = state.ShowMeetingInfor.FocusedEvents;
+                    state.ShowMeetingInfor.FocusedEvents = new List<EventModel>
                     {
                         events[(sc.Result as FoundChoice).Index],
                     };
                 }
 
-                var deleteEvent = state.Events[0];
+                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
                 string replyResponse;
                 string retryResponse;
-                if (state.NewEventStatus == EventStatus.Cancelled)
+                if (options.NewEventStatus == EventStatus.Cancelled)
                 {
                     replyResponse = ChangeEventStatusResponses.ConfirmDelete;
                     retryResponse = ChangeEventStatusResponses.ConfirmDeleteFailed;
@@ -105,12 +108,14 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
+
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var deleteEvent = state.Events[0];
-                    if (state.NewEventStatus == EventStatus.Cancelled)
+                    var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                    if (options.NewEventStatus == EventStatus.Cancelled)
                     {
                         if (deleteEvent.IsOrganizer)
                         {
@@ -134,9 +139,10 @@ namespace CalendarSkill.Dialogs
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
                 }
 
-                if (state.IsActionFromSummary)
+                if (options.SubFlowMode)
                 {
-                    state.ClearChangeStautsInfo();
+                    state.MeetingInfor.ClearTimes();
+                    state.MeetingInfor.ClearTitle();
                 }
                 else
                 {
@@ -162,24 +168,11 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.LuisResult?.TopIntent().intent.ToString() == CalendarLuis.Intent.DeleteCalendarEntry.ToString())
-                {
-                    state.NewEventStatus = EventStatus.Cancelled;
-                }
-                else
-                {
-                    state.NewEventStatus = EventStatus.Accepted;
-                }
-
-                if (string.IsNullOrEmpty(state.APIToken))
-                {
-                    return await sc.EndDialogAsync(true);
-                }
 
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                if (state.StartDateTime == null)
+                if (state.MeetingInfor.StartDateTime == null)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
+                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, sc.Options);
                 }
                 else
                 {
@@ -203,38 +196,36 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                if (state.Events.Count > 0)
+                if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                 {
                     return await sc.NextAsync();
                 }
 
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.StartDate.Any() || state.StartTime.Any())
+                if (state.MeetingInfor.StartDate.Any() || state.MeetingInfor.StartTime.Any())
                 {
-                    state.Events = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
-                    state.StartDate = new List<DateTime>();
-                    state.StartTime = new List<DateTime>();
-                    state.EndDate = new List<DateTime>();
-                    state.EndTime = new List<DateTime>();
-                    if (state.Events.Count > 0)
+                    state.ShowMeetingInfor.FocusedEvents = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                    state.MeetingInfor.ClearTimes();
+                    if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
                 }
 
-                if (state.Title != null)
+                if (state.MeetingInfor.Title != null)
                 {
-                    state.Events = await calendarService.GetEventsByTitle(state.Title);
-                    state.Title = null;
-                    if (state.Events.Count > 0)
+                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitle(state.MeetingInfor.Title);
+                    state.MeetingInfor.Title = null;
+                    if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
                 }
 
-                if (state.NewEventStatus == EventStatus.Cancelled)
+                if (options.NewEventStatus == EventStatus.Cancelled)
                 {
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
@@ -266,26 +257,26 @@ namespace CalendarSkill.Dialogs
 
                 if (sc.Result != null)
                 {
-                    state.Events = sc.Result as List<EventModel>;
+                    state.ShowMeetingInfor.FocusedEvents = sc.Result as List<EventModel>;
                 }
 
-                if (state.Events.Count == 0)
+                if (state.ShowMeetingInfor.FocusedEvents.Count == 0)
                 {
                     // should not doto this part. add log here for safe
                     await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
                     return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
-                if (state.Events.Count > 1)
+                if (state.ShowMeetingInfor.FocusedEvents.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < state.Events.Count; i++)
+                    for (var i = 0; i < state.ShowMeetingInfor.FocusedEvents.Count; i++)
                     {
-                        var item = state.Events[i];
+                        var item = state.ShowMeetingInfor.FocusedEvents[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,
@@ -294,7 +285,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.ShowMeetingInfor.FocusedEvents, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 
