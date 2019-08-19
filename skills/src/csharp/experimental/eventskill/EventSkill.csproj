@@ -86,37 +86,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Deployment\Resources\LU\de\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
     <Compile Update="Deployment\Resources\LU\en\general.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>general.lu</DependentUpon>
     </Compile>
     <Compile Update="Deployment\Resources\LU\en\skill.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>skill.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\es\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\es\skill.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>skill.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\fr\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\fr\skill.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>skill.lu</DependentUpon>
