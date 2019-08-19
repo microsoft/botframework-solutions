@@ -1,0 +1,57 @@
+> # Intent definitions
+
+## NameExtraction
+- chiamami steve!
+- chiamami steve.
+- Io sono anna
+- Io sono Tom.
+- Sono John Jackson.
+- Sono giglio
+- è Jackson.
+- è Alice Anderson!
+- è Alice Anderson.
+- il mio nome è Bill Jones
+- il mio nome è Jill Jones.
+- mi chiamo David.
+- questo è John w. Smith.
+- puoi chiamarmi thompson.
+- (Io sono)  {personName} [.]
+- (è, è, questo è)  {personName} [.]
+- mi chiamo  {personName} [.]
+- ([si può] [per favore]) Chiamami  {personName} [.]
+
+
+## None
+- 1
+- Alice
+- cani che abbaiano sono fastidiosi
+- denise dillard
+- Salve, mondo
+- come va il tempo oggi
+- c'è qualche lavoro con i database?
+- jill jones
+- john smith
+- ordinare una pizza per me
+- pinguini nell'oceano
+- spostare Alice Anderson a Oakland da redmond
+- walter williams
+- Come ti chiami
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:personName
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+
+
