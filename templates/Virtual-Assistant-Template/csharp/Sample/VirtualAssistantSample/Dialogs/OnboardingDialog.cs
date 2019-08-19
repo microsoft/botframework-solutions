@@ -70,13 +70,13 @@ namespace VirtualAssistantSample.Dialogs
                 name = _state.Name = (string)sc.Result;
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var cognitiveModels = _services.CognitiveModelSets[locale];
-                cognitiveModels.LuisServices.TryGetValue("EntityExtraction", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("Onboarding", out var luisService);
                 if (luisService != null)
                 {
-                    var luisResult = await luisService.RecognizeAsync<EntityExtractionLuis>(sc.Context, cancellationToken);
+                    var luisResult = await luisService.RecognizeAsync<OnboardingLuis>(sc.Context, cancellationToken);
                     var intent = luisResult.TopIntent().intent;
                     var score = luisResult.TopIntent().score;
-                    if (intent == EntityExtractionLuis.Intent.NameExtraction && score > 0.5 && luisResult.Entities.personName != null)
+                    if (intent == OnboardingLuis.Intent.NameExtraction && score > 0.5 && luisResult.Entities.personName != null)
                     {
                         name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
                     }

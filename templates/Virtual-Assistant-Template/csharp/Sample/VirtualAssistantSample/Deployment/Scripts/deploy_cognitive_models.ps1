@@ -164,7 +164,7 @@ foreach ($language in $languageArr)
 					Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
 				}
 
-				if($lu.BaseName -eq "EntityExtraction"){
+				if($lu.BaseName -eq "Onboarding"){
 					$useDispatch = $false
 				}
 				else{
