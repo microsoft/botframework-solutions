@@ -256,8 +256,8 @@ module.exports = class extends Generator {
       /([^a-z0-9-]+)/gi,
       ``
     );
-    
-    if (this.props.assistantName != assistantName) {
+
+    if (this.props.assistantName !== assistantName) {
       finalAssistantName = assistantName;
       containsSpecialCharacter = true;
     }
@@ -290,7 +290,7 @@ module.exports = class extends Generator {
 
     // Start the copy of the template
     this.copier.selectLanguages(assistantLang);
-    this.copier.copyIgnoringTemplateFiles(
+    this.copier.copyTemplate(
       templateName,
       assistantGenerationPath
     );
@@ -336,8 +336,13 @@ module.exports = class extends Generator {
       } else {
         this.spawnCommandSync("npm run build", []);
         if (containsSpecialCharacter) {
-          this.log(chalk.yellow(`\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`));
+          this.log(
+            chalk.yellow(
+              `\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`
+            )
+          );
         }
+
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new assistant is ready!  `));
         this.log(chalk.green(`------------------------ `));
@@ -351,11 +356,7 @@ module.exports = class extends Generator {
             `\nNext step - being in the root of your generated assistant, to deploy it execute the following command:`
           )
         );
-        this.log(
-          chalk.blue(
-            `pwsh -File deployment\\scripts\\deploy.ps1`
-          )
-        );
+        this.log(chalk.blue(`pwsh -File deployment\\scripts\\deploy.ps1`));
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
