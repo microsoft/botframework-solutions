@@ -39,7 +39,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             Services.AddSingleton(UserState);
 
             Services.AddSingleton(new BotSettingsBase());
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddSingleton<TestAdapter, DefaultTestAdapter>(sp =>
+            {
+                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
+                return new DefaultTestAdapter(adapter);
+            });
 			Services.AddSingleton<ISkillTransport, SkillWebSocketTransport>();
         }
 
