@@ -35,7 +35,6 @@ A manifest is made up of the following structure:
   - Trigger
     - UtteranceSources
     - Utterance
-    - Events
 
 ### Manifest Header
 
@@ -116,7 +115,7 @@ Parameter  | Description | Required
 
 ### Trigger
 
-A given action can be trigged through different mechanisms, an utterance or an event. Example triggering utterances must be provided by a skill to enable a caller to train a natural language dispatcher so it can identify utterances that should be routed to a skill.
+A given action can be trigged through different mechanisms or an utterance. Example triggering utterances must be provided by a skill to enable a caller to train a natural language dispatcher so it can identify utterances that should be routed to a skill.
 
 References to an source of utterances can be provided through the (`utteranceSource`) element.
 
@@ -149,17 +148,6 @@ Utterances can also be provided in-line with the skill manifest as shown below. 
 ```
 
 Both `utteranceSources` and `utterances` support multiple-locales enabling you to express the locales your Skill supports.
-
-Actions can also be invoked through an event mechanism. The event trigger specifies the name of an Activity which will trigger a given action to be performed. In this case retrieve a meeting summary for today.
-
-```json
- "triggers": {
-    "events": [
-    {
-        "name": "summaryEvent"
-    }]
-}
-```
 
 ### Example Skill Manifest
 
@@ -286,20 +274,6 @@ Actions can also be invoked through an event mechanism. The event trigger specif
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "calendarskill_summary",
-      "definition": {
-        "description": "Retrieve a summary of meetings through an event invocation.",
-        "slots": [],
-        "triggers": {
-          "events": [
-            {
-              "name": "summaryEvent"
             }
           ]
         }
