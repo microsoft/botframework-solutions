@@ -25,7 +25,9 @@ import io.adaptivecards.objectmodel.AdaptiveCard;
 import io.adaptivecards.objectmodel.HostConfig;
 import io.adaptivecards.objectmodel.ParseResult;
 import io.adaptivecards.renderer.AdaptiveCardRenderer;
+import io.adaptivecards.renderer.IResourceResolver;
 import io.adaptivecards.renderer.RenderedAdaptiveCard;
+import io.adaptivecards.renderer.registration.CardRendererRegistration;
 
 public class ViewholderBot extends RecyclerView.ViewHolder {
 
@@ -50,6 +52,7 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
         view = itemView;
         ButterKnife.bind(this, view);
         cardActionHandler = new ActionHandler();
+        CardRendererRegistration.getInstance().registerResourceResolver("data", new SvgImageLoader());
     }
 
     /**

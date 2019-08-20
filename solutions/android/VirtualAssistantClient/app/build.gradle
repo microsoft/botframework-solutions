@@ -43,6 +43,7 @@ dependencies {
 
     // for adaptive card rendering, see https://mvnrepository.com/artifact/io.adaptivecards/adaptivecards-android
     implementation 'io.adaptivecards:adaptivecards-android:1.2.1'
+    implementation 'com.pixplicity.sharp:library:1.1.0'
 
     // JSON
     implementation "com.google.code.gson:gson:2.8.4"
