@@ -6,16 +6,16 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "WeatherSkill_Sample",
+      "id": "WeatherSkill_GetForecast",
       "definition": {
-        "description": "Sample Skill action with no slots",
+        "description": "Weather Skill - Get Forecast",
         "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "WeatherSkill#Sample"
+                "WeatherSkill#GetForecast"
               ]
             }
           ]
