@@ -233,10 +233,10 @@ See the table below for a direct link to the appropriate sample project for your
 
 Name | Language | Sample Project Location | Deployment Scripts Folder |
 -------- | ---- | ----- | ----- 
-Virtual Assistant | csharp | [Sample Project Location]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/csharp/Sample) | [Deployment Scripts]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment)
-Virtual Assistant | typescript | [Sample Project Location]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant) | [Deployment Scripts]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/deployment)
-Skill Template | csharp | [Sample Project Location]({{site.repo}}/tree/master/templates/Skill-Template/csharp/Sample) | [Deployment Scripts]({{site.repo}}/tree/master/templates/Skill-Template/csharp/Sample/SkillSample/Deployment)
-Skill Template | typescript | [Sample Project Location]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-skill) | [Deployment Scripts]({{site.repo}}/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-skill/deployment)
+Virtual Assistant | csharp | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment)
+Virtual Assistant | typescript | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/deployment)
+Skill Template | csharp | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/master/templates/Skill-Template/csharp/Sample) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/master/templates/Skill-Template/csharp/Sample/SkillSample/Deployment)
+Skill Template | typescript | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-skill) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/typescript/samples/sample-skill/deployment)
 
 #### Updating your deployment scripts
 {:.no_toc}
