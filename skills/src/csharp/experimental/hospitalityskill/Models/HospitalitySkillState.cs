@@ -19,6 +19,8 @@ namespace HospitalitySkill.Models
 
         public List<ItemRequestClass> ItemList { get; set; }
 
+        public List<FoodRequestClass> FoodList { get; set; }
+
         public void Clear()
         {
         }

@@ -61,7 +61,7 @@ namespace HospitalitySkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reservation details.
+        ///   Looks up a localized string similar to Reservation Details.
         /// </summary>
         public static string ReservationDetails {
             get {
@@ -70,7 +70,7 @@ namespace HospitalitySkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updated reservation details .
+        ///   Looks up a localized string similar to Updated Reservation Details .
         /// </summary>
         public static string UpdateReservation {
             get {
