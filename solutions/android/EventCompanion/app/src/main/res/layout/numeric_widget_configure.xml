@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="@string/preview"
+                     android:layout_marginBottom="8dp"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_rect_round_corners_dark"
+                android:padding="8dp">
+
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="64dp" android:id="@+id/preview_main" android:layout_centerInParent="true">
+
+                <TextView
+                        android:text="@string/widget_numeric_preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="64dp" android:id="@+id/preview_text"
+                        android:textColor="@android:color/white" android:textStyle="bold|italic"
+                        android:textSize="30sp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp" android:layout_marginBottom="8dp"
+                        android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <TextView
+                    android:text="@string/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/preview_label" android:textStyle="bold|italic"
+                    android:textColor="@android:color/white" android:layout_centerHorizontal="true"
+                    android:layout_below="@id/preview_main"/>
+        </RelativeLayout>
+        <TextView
+                android:text="@string/templates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <com.microsoft.bot.builder.solutions.eventcompanion.MySpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/widget_template_list"
+                android:layout_marginBottom="16dp"/>
+        <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="@string/label"
+                     android:layout_marginBottom="8dp"
+                     />
+        <EditText
+                     android:id="@+id/widget_label_edit"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:inputType="text" android:singleLine="true" android:imeOptions="actionDone"
+                     android:autofillHints=""/>
+        <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content" android:text="@string/event"/>
+        <EditText
+                     android:id="@+id/widget_event_edit"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:inputType="text" android:singleLine="true" android:imeOptions="actionDone"/>
+        <LinearLayout
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+                         <TextView
+                         android:text="@string/unit"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content" android:layout_weight="0.25"/>
+                         <TextView
+                         android:text="@string/minimum"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content" android:layout_weight="0.25"/>
+                         <TextView
+                         android:text="@string/maximum"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content" android:layout_weight="0.25"/>
+                         <Space
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content" android:layout_weight="0.25"/>
+                         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                                                      tools:listitem="@layout/numeric_widget_value_range_item"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent" android:id="@+id/widget_value_ranges" tools:itemCount="2">
+                                                      </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+                         android:orientation="horizontal"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+                         <EditText
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:ems="10"
+                         android:id="@+id/widget_unit_edit" android:layout_weight="0.25"/>
+                         <EditText
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:inputType="number"
+                         android:ems="10"
+                         android:id="@+id/widget_min_edit" android:layout_weight="0.25"/>
+                         <EditText
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:inputType="number"
+                         android:ems="10"
+                         android:id="@+id/widget_max_edit" android:layout_weight="0.25"/>
+                         <Button
+                         android:text="@string/add"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content" android:id="@+id/widget_add_range_button"
+                         android:layout_weight="0.25"/>
+                         </LinearLayout>
+        <Button
+                   android:id="@+id/widget_add_button"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="@string/add_widget"
+                   android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>

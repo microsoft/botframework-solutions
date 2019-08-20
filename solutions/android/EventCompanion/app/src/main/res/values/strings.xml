@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">EventCompanion</string>
+    <string name="widget_toggle">Toggle</string>
+    <string name="widget_numeric">Numeric</string>
+    <string name="widget_numeric_preview">21°C</string>
+    <string name="widget_status">Status</string>
+    <string name="preview">Preview</string>
+    <string name="label">Label</string>
+    <string name="event">Event</string>
+    <string name="unit">Unit</string>
+    <string name="minimum">Minimum</string>
+    <string name="maximum">Maximum</string>
+    <string name="set_icon">Set Icon</string>
+    <string name="add_widget">Add Widget</string>
+    <string name="save_widget">Save Widget</string>
+    <string name="remove">Remove</string>
+    <string name="add">Add</string>
+    <string name="templates">Templates</string>
+</resources>
