@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace CalendarSkill.Models
+namespace CalendarSkill.Models.DialogOptions
 {
-    public class UpdateUserNameDialogOptions
+    public class UpdateAddressDialogOptions
     {
-        public UpdateUserNameDialogOptions()
+        public UpdateAddressDialogOptions()
         {
             Reason = UpdateReason.NotFound;
         }
 
-        public UpdateUserNameDialogOptions(UpdateReason reason)
+        public UpdateAddressDialogOptions(UpdateReason reason)
         {
             Reason = reason;
         }
@@ -18,24 +18,14 @@ namespace CalendarSkill.Models
         public enum UpdateReason
         {
             /// <summary>
-            /// NotADateTime.
+            /// NotAnAddress.
             /// </summary>
-            TooMany,
+            NotAnAddress,
 
             /// <summary>
             /// NotFound.
             /// </summary>
             NotFound,
-
-            /// <summary>
-            /// ConfirmNo.
-            /// </summary>
-            ConfirmNo,
-
-            /// <summary>
-            /// ConfirmNo.
-            /// </summary>
-            Initialize,
         }
 
         public UpdateReason Reason { get; set; }

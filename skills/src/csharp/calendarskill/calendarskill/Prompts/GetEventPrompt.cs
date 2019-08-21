@@ -14,6 +14,9 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Prompts
 {
+    /// <summary>
+    /// Prompt meeting start time or title to get a list of meetings.
+    /// </summary>
     public class GetEventPrompt : Prompt<IList<EventModel>>
     {
         private static ICalendarService calendarService = null;

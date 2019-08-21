@@ -1,14 +1,14 @@
 {
   "id": "WeatherSkill",
   "name": "WeatherSkill",
-  "description": "",
+  "description": "The weather skill provides an example of displaying the current weather using AccuWeather.",
   "iconUrl": "WeatherSkill.png",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "WeatherSkill_GetForecast",
+      "id": "WeatherSkill_getForecast",
       "definition": {
-        "description": "Weather Skill - Get Forecast",
+        "description": "Showing the weather forecast.",
         "slots": [],
         "triggers": {
           "utteranceSources": [

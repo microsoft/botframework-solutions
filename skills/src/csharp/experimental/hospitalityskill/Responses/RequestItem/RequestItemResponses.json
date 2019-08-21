@@ -56,8 +56,8 @@
   "ItemsRequested": {
     "replies": [
       {
-        "text": "The following items will be brought to your room shortly: ",
-        "speak": "The following items will be brought to your room shortly: "
+        "text": "These items will be brought to your room shortly.",
+        "speak": "These items will be brought to your room shortly."
       }
     ],
     "inputHint": "acceptingInput"
