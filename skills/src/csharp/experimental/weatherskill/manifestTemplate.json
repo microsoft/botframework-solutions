@@ -2,7 +2,7 @@
   "id": "WeatherSkill",
   "name": "WeatherSkill",
   "description": "",
-  "iconUrl": "",
+  "iconUrl": "WeatherSkill.png",
   "authenticationConnections": [],
   "actions": [
     {
