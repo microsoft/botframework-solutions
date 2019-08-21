@@ -4,7 +4,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Virtual Assistant and Skills.
 baseurl: "/botframework-solutions" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_repo: https://github.com/microsoft/botframework-solutions
+repo: https://github.com/microsoft/botframework-solutions
 
 # custom properties
 show_full_navigation: true
