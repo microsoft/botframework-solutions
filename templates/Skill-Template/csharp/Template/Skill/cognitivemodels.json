@@ -3,7 +3,7 @@
     "en": {
       "languageModels": [
         {
-          "id": "general",
+          "id": "General",
           "name": "",
           "appid": "",
           "version": "0.1",
@@ -13,7 +13,7 @@
           "subscriptionkey": ""
         },
         {
-          "id": "skill",
+          "id": "Skill",
           "name": "",
           "appid": "",
           "version": "0.1",
