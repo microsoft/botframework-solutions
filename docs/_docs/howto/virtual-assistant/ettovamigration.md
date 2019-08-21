@@ -88,7 +88,7 @@ With these limitations addressed we have now moved to a ARM template based appro
 
 ### Deployment
 
-It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
+It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
 
 Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new `appSettings.json` and `cognitiveModels.json` files.
 
