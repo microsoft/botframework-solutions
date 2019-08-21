@@ -24,7 +24,7 @@ The CLI performs the following operations on your behalf:
 4. Refresh the dispatch LUIS model with the new utterances.
 5. In the case of **Active Directory Authentication Providers**, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
-> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
+> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/) version 10.8 or higher
