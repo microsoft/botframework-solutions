@@ -39,7 +39,7 @@ The `botskills` CLI can be installed using the following npm command:
 npm install -g botskills
 ```
 
-> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
+> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
 ## Skill Deployment
 
