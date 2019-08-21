@@ -2,7 +2,7 @@
   "id": "WeatherSkill",
   "name": "WeatherSkill",
   "description": "The weather skill provides an example of displaying the current weather using AccuWeather.",
-  "iconUrl": "WeatherSkill.png",
+  "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
