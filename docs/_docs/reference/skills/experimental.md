@@ -37,6 +37,22 @@ The Weather skill provides a basic Skill that integrates with [AccuWeather](http
 
 The Music skill integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open via the Spotify app. Provide credentials after you [create a Spotify client](https://developer.spotify.com/dashboard/) in the appsettings to configure the skill.
 
+## IT Service Managerment Skill
+
+The [IT Service Managerment skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+
+To test this skill, one should setup the following:
+
+* Create a ServiceNow instance in [Developers](https://developer.servicenow.com/app.do#!/instance) and update the serviceNowUrl of appsettings.json
+* Set up a scripted REST API for current user's sys_id following [this question](https://community.servicenow.com/community?id=community_question&sys_id=52efcb88db1ddb084816f3231f9619c7) and update the serviceNowGetUserId of appsetting.json
+	- Please raise an issue if simpler way is found
+* Set up endpoint by [this document](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients) for Client id and Client secret to be used in the following OAuth Connection
+    - Redirect URL is https://token.botframework.com/.auth/web/redirect
+* Add an OAuth Connection in the Settings of Web App Bot named 'ServiceNow' with Service Provider 'Generic Oauth 2'
+    - Authorization URL as https://instance.service-now.com/oauth_auth.do
+    - Token URL, Refresh URL as https://instance.service-now.com/oauth_token.do
+* If one wants to use it in VA, add VA's appId to AppsWhitelist in the Startup.cs
+
 ## Experimental Skill Deployment
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.

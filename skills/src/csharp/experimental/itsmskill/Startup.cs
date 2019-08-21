@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Linq;
 using ITSMSkill.Adapters;
 using ITSMSkill.Bots;
@@ -21,6 +22,7 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -119,6 +121,8 @@ namespace ITSMSkill
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,6 +138,12 @@ namespace ITSMSkill
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();
+        }
+
+        public class SimpleWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
+        {
+            // set VA appid here
+            public List<string> AppsWhitelist => new List<string> { };
         }
     }
 }

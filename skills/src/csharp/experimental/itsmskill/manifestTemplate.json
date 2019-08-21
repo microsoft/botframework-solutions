@@ -1,23 +1,27 @@
 {
-  "id": "",
-  "name": "",
-  "description": "",
+  "id": "itsmSkill",
+  "name": "ITSM Skill",
+  "description": "The IT Service Management Skill provides ticket and knowledge base related capabilities and supports SerivceNow.",
   "iconUrl": "",
   "authenticationConnections": [
     {
-      "id": "",
-      "serviceProviderId": "",
+      "id": "ServiceNow",
+      "serviceProviderId": "Generic Oauth 2",
       "scopes": ""
     }
   ],
   "actions": [
     {
-      "id": "",
+      "id": "itsmSkill_createTicket",
       "definition": {
-        "description": "",
+        "description": "Create a new ticket",
         "slots": [
           {
-            "name": "",
+            "name": "ticketDescription",
+            "types": [ "string" ]
+          },
+          {
+            "name": "urgencyLevel",
             "types": [ "string" ]
           }
         ],
@@ -26,7 +30,115 @@
             {
               "locale": "en",
               "source": [
-                "luisModel#intent"
+                "ITSM#TicketCreate"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "itsmSkill_updateTicket",
+      "definition": {
+        "description": "Update an existing ticket",
+        "slots": [
+          {
+            "name": "ticketDescription",
+            "types": [ "string" ]
+          },
+          {
+            "name": "urgencyLevel",
+            "types": [ "string" ]
+          },
+          {
+            "name": "attributeType",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "ITSM#TicketUpdate"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "itsmSkill_showTicket",
+      "definition": {
+        "description": "Show tickets matching constraints",
+        "slots": [
+          {
+            "name": "ticketDescription",
+            "types": [ "string" ]
+          },
+          {
+            "name": "urgencyLevel",
+            "types": [ "string" ]
+          },
+          {
+            "name": "id",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "ITSM#TicketShow"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "itsmSkill_closeTicket",
+      "definition": {
+        "description": "Close ticket with reason",
+        "slots": [
+          {
+            "name": "closeReason",
+            "types": [ "string" ]
+          },
+          {
+            "name": "id",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "ITSM#TicketClose"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "itsmSkill_showKnowledge",
+      "definition": {
+        "description": "Show knowledge base matching constraints",
+        "slots": [
+          {
+            "name": "ticketDescription",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "ITSM#KnowledgeShow"
               ]
             }
           ]
