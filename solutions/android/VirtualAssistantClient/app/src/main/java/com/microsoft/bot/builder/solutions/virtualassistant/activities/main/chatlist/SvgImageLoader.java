@@ -71,7 +71,14 @@ public class SvgImageLoader implements IResourceResolver
         }
         else {
             int height = (int)((float)maxWidth * ((float)drawable.getIntrinsicHeight() / (float)drawable.getIntrinsicWidth()));
-            Bitmap bitmap = Bitmap.createBitmap(maxWidth, height, Bitmap.Config.ARGB_8888);
+
+            Bitmap bitmap;
+            try {
+                // this can cause OutOfMemoryError
+                bitmap = Bitmap.createBitmap(maxWidth, height, Bitmap.Config.ARGB_8888);
+            } catch (OutOfMemoryError exception){
+                bitmap = Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888);
+            }
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
