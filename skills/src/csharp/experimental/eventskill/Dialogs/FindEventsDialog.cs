@@ -39,15 +39,23 @@ namespace EventSkill.Dialogs
 
         private async Task<DialogTurnResult> GetLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new EventSkillState());
             var userState = await UserAccessor.GetAsync(sc.Context, () => new EventSkillUserState());
 
             if (string.IsNullOrWhiteSpace(userState.Location))
             {
-                return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
+                if (!string.IsNullOrWhiteSpace(convState.CurrentCoordinates))
                 {
-                    Prompt = ResponseManager.GetResponse(FindEventsResponses.LocationPrompt),
-                    RetryPrompt = ResponseManager.GetResponse(FindEventsResponses.RetryLocationPrompt)
-                });
+                    userState.Location = convState.CurrentCoordinates;
+                }
+                else
+                {
+                    return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
+                    {
+                        Prompt = ResponseManager.GetResponse(FindEventsResponses.LocationPrompt),
+                        RetryPrompt = ResponseManager.GetResponse(FindEventsResponses.RetryLocationPrompt)
+                    });
+                }
             }
 
             return await sc.NextAsync();

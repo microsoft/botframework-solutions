@@ -9,6 +9,7 @@ namespace EventSkill.Models
 
         public void Clear()
         {
+            Location = null;
         }
     }
 }
