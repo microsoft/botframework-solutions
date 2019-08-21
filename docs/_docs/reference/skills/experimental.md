@@ -49,4 +49,4 @@ The Experimental Skills require the following dependencies for end to end operat
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
+**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
