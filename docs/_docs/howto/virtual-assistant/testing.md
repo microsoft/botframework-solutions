@@ -28,7 +28,7 @@ If you'd like to take this further, you can explore the tests of a published ski
 
 ### Bot Framework Emulator
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps]({{site.baseurl}}/tutorials/create-assistant/4_provision_your_azure_resources) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 
