@@ -20,7 +20,7 @@ Your Virtual Assistant can be tested just like any other Bot Framework Bot; the 
 
 ## Unit Testing
 
-Take advantage of the Test project that is available when you [Create a New Skill]({{site.baseurl}}/tutorials/create-skill/1_intro).
+Take advantage of the Test project that is available when you [Create a New Skill]({{site.baseurl}}/tutorials/csharp/create-skill/1_intro).
 Follow along with the Flow tests to see a basic usage of how to mock activities from a user and validate the bot responses.
 If you'd like to take this further, you can explore the tests of a published skill for a deep dive on APIs, mocking LUIS, and more.
 
