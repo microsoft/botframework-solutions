@@ -28,12 +28,14 @@ namespace EventSkill.Dialogs
              BotServices services,
              ResponseManager responseManager,
              ConversationState conversationState,
+             UserState userState,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
             Services = services;
             ResponseManager = responseManager;
             StateAccessor = conversationState.CreateProperty<EventSkillState>(nameof(EventSkillState));
+            UserAccessor = userState.CreateProperty<EventSkillUserState>(nameof(EventSkillUserState));
             TelemetryClient = telemetryClient;
 
             // NOTE: Uncomment the following if your skill requires authentication
@@ -50,6 +52,8 @@ namespace EventSkill.Dialogs
         protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<EventSkillState> StateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<EventSkillUserState> UserAccessor { get; set; }
 
         protected ResponseManager ResponseManager { get; set; }
 

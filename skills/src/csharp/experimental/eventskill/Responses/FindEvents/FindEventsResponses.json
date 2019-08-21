@@ -6,6 +6,24 @@
         "speak": "Where are you?"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
+  },
+  "RetryLocationPrompt": {
+    "replies": [
+      {
+        "text": "Please provide your location.",
+        "speak": "Please provide your location."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FoundEvents": {
+    "replies": [
+      {
+        "text": "Here's what I found happening this week:",
+        "speak": "Here's what I found happening this week:"
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

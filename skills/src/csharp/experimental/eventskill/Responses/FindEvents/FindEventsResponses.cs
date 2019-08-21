@@ -13,5 +13,7 @@ namespace EventSkill.Responses.FindEvents
     {
         // Generated accessors
         public const string LocationPrompt = "LocationPrompt";
+        public const string RetryLocationPrompt = "RetryLocationPrompt";
+        public const string FoundEvents = "FoundEvents";
     }
 }

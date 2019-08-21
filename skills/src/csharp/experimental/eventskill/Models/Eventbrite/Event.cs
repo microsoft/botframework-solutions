@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace EventSkill.Models.Eventbrite
 {
@@ -26,29 +25,17 @@ namespace EventSkill.Models.Eventbrite
         [JsonProperty("end")]
         public DateTimeTZ End { get; set; }
 
-        [JsonProperty("created")]
-        public DateTime Created { get; set; }
+        [JsonProperty("locale")]
+        public string Locale { get; set; }
 
-        [JsonProperty("changed")]
-        public DateTime Changed { get; set; }
+        [JsonProperty("is_free")]
+        public bool IsFree { get; set; }
 
-        [JsonProperty("published")]
-        public DateTime Published { get; set; }
+        [JsonProperty("venue")]
+        public Venue Venue { get; set; }
 
-        [JsonProperty("status")]
-        public string Status { get; set; }
-
-        [JsonProperty("currency")]
-        public string Currency { get; set; }
-
-        [JsonProperty("online_event")]
-        public bool OnlineEvent { get; set; }
-
-        [JsonProperty("hide_start_date")]
-        public bool HideStartDate { get; set; }
-
-        [JsonProperty("hide_end_date")]
-        public bool HideEndDate { get; set; }
+        [JsonProperty("ticket_availability")]
+        public TicketAvailability TicketAvailability { get; set; }
 
         [JsonProperty("logo")]
         public Logo Logo { get; set; }
