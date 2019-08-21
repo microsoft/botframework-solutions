@@ -86,12 +86,12 @@ namespace EventSkill.Dialogs
                 var eventCardData = new EventCardData()
                 {
                     Title = item.Name.Text,
-                    ImageUrl = item?.Logo?.Url,
+                    ImageUrl = item?.Logo?.Url ?? " ",
                     StartDate = item.Start.Local.ToString("dddd, MMMM dd, h:mm tt"),
                     Location = GetVenueLocation(item),
                     Price = item.IsFree ? "Free" : "Starts at " +
                         Convert.ToDouble(item.TicketAvailability.MinTicketPrice.MajorValue)
-                        .ToString("C", System.Globalization.CultureInfo.GetCultureInfo(item.Locale)),
+                        .ToString("C", System.Globalization.CultureInfo.GetCultureInfo(item.Locale.Replace("_", "-"))),
                     Url = item.Url
                 };
 

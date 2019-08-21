@@ -1,6 +1,6 @@
 {
   "id": "eventSkill",
-  "name": "EventSkill",
+  "name": "Event Skill",
   "description": "The Event experimental skill uses the Eventbrite API to retrieve local event information.",
   "iconUrl": "",
   "authenticationConnections": [],
@@ -22,7 +22,7 @@
             {
               "locale": "en",
               "source": [
-                "EventSkill#GetEvents"
+                "Event#GetEvents"
               ]
             }
           ]
