@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "[在此输入您的简介信息]",
-        "speak": "[在此输入您的简介信息]"
+        "text": "我是天气查询技能， 可以帮助您查询天气。",
+        "speak": "我是天气查询技能， 可以帮助您查询天气。"
       }
     ],
     "inputHint": "acceptingInput"
