@@ -33,6 +33,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.PlayStoreUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotResponse;
 
@@ -77,6 +78,7 @@ public class SpeechService extends Service {
     private LocationProvider locationProvider;
     private Gson gson;
     private boolean shouldListenAgain;
+    private boolean previousRequestWasTyped;
 
     // CONSTRUCTOR
     public SpeechService() {
@@ -115,6 +117,7 @@ public class SpeechService extends Service {
             public void resetBot(){
                 if (speechSdk != null) {
                     shouldListenAgain = false;
+                    previousRequestWasTyped = false;
                     speechSdk.resetBot(configurationManager.getConfiguration());
                 }
             }
@@ -141,12 +144,18 @@ public class SpeechService extends Service {
 
             @Override
             public void listenOnceAsync(){
-                if (speechSdk != null) speechSdk.listenOnceAsync();
+                if (speechSdk != null) {
+                    speechSdk.listenOnceAsync();
+                    previousRequestWasTyped = false;
+                }
             }
 
             @Override
             public void sendActivityMessageAsync(String msg){
-                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
+                if (speechSdk != null) {
+                    speechSdk.sendActivityMessageAsync(msg);
+                    previousRequestWasTyped = true;
+                }
             }
 
             @Override
@@ -394,6 +403,10 @@ public class SpeechService extends Service {
     // EventBus: the synthesizer has stopped playing
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventSynthesizerStopped(SynthesizerStopped event) {
+        if (previousRequestWasTyped){
+            previousRequestWasTyped = false;
+            shouldListenAgain = false;
+        }
 
         if(shouldListenAgain){
             shouldListenAgain = false;
@@ -508,6 +521,7 @@ public class SpeechService extends Service {
                         startActivity(mapIntent);
                     } else {
                         // since Waze and Google maps aren't available, show error to user
+                        PlayStoreUtils.launchPlayStore(this, "com.google.android.apps.maps");
                         Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
                     }
                 }
@@ -528,6 +542,7 @@ public class SpeechService extends Service {
                     spotifyIntent.setPackage("com.spotify.music");
                     startActivity(spotifyIntent);
                 } catch (ActivityNotFoundException ex) {
+                    PlayStoreUtils.launchPlayStore(this,"com.spotify.music");
                     Toast.makeText(this, R.string.service_error_no_spotify, Toast.LENGTH_LONG).show();
                 }
             }

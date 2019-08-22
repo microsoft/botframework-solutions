@@ -64,13 +64,12 @@ import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
-import client.model.InputHints;
 import events.ActivityReceived;
+import events.BotListening;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
-import events.SynthesizerStopped;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
@@ -103,7 +102,6 @@ public class MainActivity extends BaseActivity
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
-    private boolean willListenAgain;
     private boolean enableKws;
     private boolean isExpandedTextInput;
     private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
@@ -300,12 +298,14 @@ public class MainActivity extends BaseActivity
     }
 
     private void showListeningAnimation(){
+        Log.i(LOGTAG, "Listening again - showListeningAnimation()");
         animatedAssistant.setVisibility(View.VISIBLE);
         ((AnimationDrawable) animatedAssistant.getBackground()).start();
         sfxManager.playEarconListening();
     }
 
     private void hideListeningAnimation(){
+        Log.i(LOGTAG, "Listening again - hideListeningAnimation()");
         animatedAssistant.setVisibility(View.GONE);
         sfxManager.playEarconDoneListening();
     }
@@ -323,7 +323,7 @@ public class MainActivity extends BaseActivity
     public void onClickAssistant() {
         try {
             speechServiceBinder.stopAnyTTS();
-            showListeningAnimation();
+            //showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -444,18 +444,13 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    // EventBus: the synthesizer has stopped playing
+    // EventBus: the Bot is listening
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+    public void onEventBotListening(BotListening event) {
 
         // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
-        // visual, the app also needs to subscribe to this event and act on it.
-        if(willListenAgain){
-            willListenAgain = false;
-            Log.i(LOGTAG, "Listening again");
-            showListeningAnimation();
-        }
-
+        // visual, the app needs to subscribe to this event and act on it.
+        showListeningAnimation();
     }
 
     // EventBus: the user spoke and the app recognized intermediate speech
@@ -512,14 +507,6 @@ public class MainActivity extends BaseActivity
                 default:
                     break;
             }
-
-            // the service looks for the same expectingInput event. The app needs it to trigger visuals
-            if(botConnectorActivity.getInputHint() != null){
-                Log.i(LOGTAG, "InputHint: "+botConnectorActivity.getInputHint());
-                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
-                    willListenAgain = true;
-                }
-            }
         }
     }
 
@@ -548,7 +535,6 @@ public class MainActivity extends BaseActivity
         if (clickData != null) {
             try {
                 speechServiceBinder.stopAnyTTS();
-                willListenAgain = false;// no need to listen again since user clicked adaptive card
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
