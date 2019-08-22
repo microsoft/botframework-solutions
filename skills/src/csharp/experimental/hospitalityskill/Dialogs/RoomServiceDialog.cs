@@ -153,10 +153,17 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> ConfirmOrderPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            return await sc.PromptAsync(DialogIds.ConfirmOrder, new PromptOptions()
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+
+            if (convState.FoodList.Count > 0)
             {
-                Prompt = ResponseManager.GetResponse(RoomServiceResponses.ConfirmOrder)
-            });
+                return await sc.PromptAsync(DialogIds.ConfirmOrder, new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(RoomServiceResponses.ConfirmOrder)
+                });
+            }
+
+            return await sc.NextAsync(false);
         }
 
         private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
