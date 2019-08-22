@@ -211,6 +211,7 @@ namespace EmailSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
+                case SkillEvents.FallbackHandledEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -255,27 +256,30 @@ namespace EmailSkill.Dialogs
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent().intent;
+                    var topIntent = luisResult.TopIntent();
 
-                    switch (topIntent)
+                    if (topIntent.score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        switch (topIntent.intent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }

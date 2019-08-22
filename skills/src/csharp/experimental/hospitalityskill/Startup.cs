@@ -11,6 +11,7 @@ using HospitalitySkill.Responses.GetReservation;
 using HospitalitySkill.Responses.LateCheckOut;
 using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.RequestItem;
+using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
 using Microsoft.ApplicationInsights;
@@ -106,7 +107,8 @@ namespace HospitalitySkill
                 new LateCheckOutResponses(),
                 new ExtendStayResponses(),
                 new GetReservationResponses(),
-                new RequestItemResponses()));
+                new RequestItemResponses(),
+                new RoomServiceResponses()));
 
             // Register dialogs
             services.AddTransient<CheckOutDialog>();
@@ -114,6 +116,7 @@ namespace HospitalitySkill
             services.AddTransient<ExtendStayDialog>();
             services.AddTransient<GetReservationDialog>();
             services.AddTransient<RequestItemDialog>();
+            services.AddTransient<RoomServiceDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

@@ -40,7 +40,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "Location services"
+                          "text": "{CardTitle}"
                         }
                       ],
                       "width": "stretch"

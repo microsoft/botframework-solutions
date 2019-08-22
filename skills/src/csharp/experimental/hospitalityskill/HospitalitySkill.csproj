@@ -7,8 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\FoodItemCard.json" />
+    <Content Remove="Content\FoodOrderCard.json" />
+    <Content Remove="Content\MenuCard.json" />
+    <Content Remove="Content\MenuItemCard.json" />
+    <Content Remove="Content\RequestItemCard.json" />
     <Content Remove="Content\ReservationDetails.json" />
+    <Content Remove="Content\RoomItemCard.json" />
     <Content Remove="Data\AvailableItems.json" />
+    <Content Remove="Data\RoomServiceMenu.json" />
     <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
     <Content Remove="Responses\ExtendStay\ExtendStayResponses.json" />
     <Content Remove="Responses\GetReservation\GetReservationResponses.json" />
@@ -20,6 +27,7 @@
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
     <Content Remove="Responses\RequestItem\RequestItemResponses.json" />
+    <Content Remove="Responses\RoomService\RoomServiceResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -29,8 +37,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\FoodItemCard.json" />
+    <EmbeddedResource Include="Content\FoodOrderCard.json" />
+    <EmbeddedResource Include="Content\MenuCard.json" />
+    <EmbeddedResource Include="Content\MenuItemCard.json" />
+    <EmbeddedResource Include="Content\RequestItemCard.json" />
     <EmbeddedResource Include="Content\ReservationDetails.json" />
+    <EmbeddedResource Include="Content\RoomItemCard.json" />
     <EmbeddedResource Include="Data\AvailableItems.json" />
+    <EmbeddedResource Include="Data\RoomServiceMenu.json" />
     <EmbeddedResource Include="Responses\RequestItem\RequestItemResponses.json" />
     <EmbeddedResource Include="Responses\GetReservation\GetReservationResponses.json" />
     <EmbeddedResource Include="Responses\ExtendStay\ExtendStayResponses.json" />
@@ -42,6 +57,7 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
     <EmbeddedResource Include="Responses\CheckOut\CheckOutResponses.json" />
     <EmbeddedResource Include="Responses\LateCheckOut\LateCheckOutResponses.json" />
+    <EmbeddedResource Include="Responses\RoomService\RoomServiceResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
@@ -109,6 +125,10 @@
     <None Update="Responses\CheckOut\CheckOutResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CheckOutResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\RoomService\RoomServiceResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RoomServiceResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Shared\SharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -205,6 +225,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CheckOutResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\RoomService\RoomServiceResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RoomServiceResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\ResponseIdCollection.cs">
       <DesignTime>True</DesignTime>

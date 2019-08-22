@@ -89,6 +89,23 @@
           ]
         }
       }
+    },
+    {
+      "id": "hospitalitySkill_roomService",
+      "definition": {
+        "description": "Order room service.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#RoomService"
+              ]
+            }
+          ]
+        }
+      }
     }
   ]
 }

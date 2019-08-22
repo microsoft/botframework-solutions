@@ -4,7 +4,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Adapters;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
@@ -13,13 +15,15 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
-using static CalendarSkill.Models.ShowMeetingsDialogOptions;
+using static CalendarSkill.Models.DialogOptions.ShowMeetingsDialogOptions;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
@@ -69,6 +73,13 @@ namespace CalendarSkill.Dialogs
                 AfterReadOutEvent,
             };
 
+            var retryUnknown = new WaterfallStep[]
+            {
+                SendFallback,
+                RetryInput,
+                HandleActions,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
@@ -76,6 +87,8 @@ namespace CalendarSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
+            AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
+            AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetEventsInit;
@@ -86,7 +99,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.OrderReference != null && state.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                 {
                     return await sc.BeginDialogAsync(Actions.ShowNextEvent, options: sc.Options);
                 }
@@ -108,7 +121,7 @@ namespace CalendarSkill.Dialogs
 
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = sc.Options as ShowMeetingsDialogOptions;
-                if (state.SummaryEvents == null)
+                if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
                 {
                     // this will lead to error when test
                     if (string.IsNullOrEmpty(state.APIToken))
@@ -121,12 +134,12 @@ namespace CalendarSkill.Dialogs
 
                     var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate.Any())
+                    if (state.MeetingInfor.StartDate.Any())
                     {
-                        searchDate = state.StartDate.Last();
+                        searchDate = state.MeetingInfor.StartDate.Last();
                     }
 
-                    var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
                     var searchTodayMeeting = SearchesTodayMeeting(state);
                     foreach (var item in results)
@@ -150,7 +163,7 @@ namespace CalendarSkill.Dialogs
                             var responseParams = new StringDictionary()
                             {
                                 { "Count", searchedEvents.Count.ToString() },
-                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower }
+                                { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower }
                             };
                             if (searchedEvents.Count == 1)
                             {
@@ -167,7 +180,7 @@ namespace CalendarSkill.Dialogs
                             {
                                 { "Count", searchedEvents.Count.ToString() },
                                 { "EventName1", searchedEvents[0].Title },
-                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
+                                { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
                                 { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
                                 { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees, 1) }
                             };
@@ -215,7 +228,7 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    state.TotalConflictCount = totalConflictCount;
+                    state.ShowMeetingInfor.TotalConflictCount = totalConflictCount;
 
                     await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
                         sc,
@@ -226,15 +239,15 @@ namespace CalendarSkill.Dialogs
                         totalConflictCount,
                         null,
                         null));
-                    state.SummaryEvents = searchedEvents;
-                    if (state.SummaryEvents.Count == 1)
+                    state.ShowMeetingInfor.ShowingMeetings = searchedEvents;
+                    if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
                     {
                         return await sc.PromptAsync(Actions.Prompt, new PromptOptions());
                     }
                 }
                 else
                 {
-                    var currentPageMeetings = GetCurrentPageMeetings(state.SummaryEvents, state);
+                    var currentPageMeetings = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
                     if (options != null && (
                         options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings ||
                         options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings ||
@@ -244,42 +257,42 @@ namespace CalendarSkill.Dialogs
 
                         if (options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings)
                         {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAbout, state.FilterMeetingKeyWord);
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAbout, state.ShowMeetingInfor.FilterMeetingKeyWord);
                         }
                         else if (options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings)
                         {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAt, state.FilterMeetingKeyWord);
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAt, state.ShowMeetingInfor.FilterMeetingKeyWord);
                         }
                         else if (options.Reason == ShowMeetingReason.ShowFilteredByParticipantNameMeetings)
                         {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsWith, state.FilterMeetingKeyWord);
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsWith, state.ShowMeetingInfor.FilterMeetingKeyWord);
                         }
 
                         var reply = await GetGeneralMeetingListResponseAsync(
                             sc,
                             meetingListTitle,
-                            state.SummaryEvents,
+                            state.ShowMeetingInfor.ShowingMeetings,
                             SummaryResponses.ShowMultipleFilteredMeetings,
-                            new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } });
+                            new StringDictionary() { { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() } });
                         await sc.Context.SendActivityAsync(reply);
                     }
                     else
                     {
                         var responseParams = new StringDictionary()
                         {
-                            { "Count", state.SummaryEvents.Count.ToString() },
+                            { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
                             { "EventName1", currentPageMeetings[0].Title },
-                            { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
+                            { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
                             { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees, 1) }
                         };
                         var reply = await GetOverviewMeetingListResponseAsync(
                             sc,
-                            GetCurrentPageMeetings(state.SummaryEvents, state, out var firstIndex, out var lastIndex),
+                            GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state, out var firstIndex, out var lastIndex),
                             firstIndex,
                             lastIndex,
-                            state.SummaryEvents.Count,
-                            state.TotalConflictCount,
+                            state.ShowMeetingInfor.ShowingMeetings.Count,
+                            state.ShowMeetingInfor.TotalConflictCount,
                             SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
                             responseParams);
 
@@ -331,22 +344,22 @@ namespace CalendarSkill.Dialogs
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    state.FocusEvents = new List<EventModel>() { state.SummaryEvents[0] };
+                    state.ShowMeetingInfor.FocusedEvents = new List<EventModel>() { state.ShowMeetingInfor.ShowingMeetings[0] };
                 }
 
-                if (state.SummaryEvents.Count > 1 && (state.FocusEvents == null || state.FocusEvents.Count <= 0))
+                if (state.ShowMeetingInfor.ShowingMeetings.Count > 1 && (state.ShowMeetingInfor.FocusedEvents == null || state.ShowMeetingInfor.FocusedEvents.Count <= 0))
                 {
                     var filteredMeetingList = new List<EventModel>();
                     ShowMeetingReason showMeetingReason = ShowMeetingReason.FirstShowOverview;
                     string filterKeyWord = null;
 
                     // filter meetings with number
-                    if (state.UserSelectIndex >= 0)
+                    if (state.ShowMeetingInfor.UserSelectIndex >= 0)
                     {
-                        var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
-                        if (state.UserSelectIndex < currentList.Count)
+                        var currentList = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
+                        if (state.ShowMeetingInfor.UserSelectIndex < currentList.Count)
                         {
-                            filteredMeetingList.Add(currentList[state.UserSelectIndex]);
+                            filteredMeetingList.Add(currentList[state.ShowMeetingInfor.UserSelectIndex]);
                         }
                     }
 
@@ -365,7 +378,7 @@ namespace CalendarSkill.Dialogs
                                 if (dateTime != null)
                                 {
                                     var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(dateTime, state.GetUserTimeZone());
-                                    foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
+                                    foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
                                     {
                                         if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
                                         {
@@ -388,7 +401,7 @@ namespace CalendarSkill.Dialogs
                             subject = GetSubjectFromEntity(luisResult.Entities);
                         }
 
-                        foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
+                        foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
                         {
                             if (meeting.Title.ToLower().Contains(subject.ToLower()))
                             {
@@ -408,7 +421,7 @@ namespace CalendarSkill.Dialogs
                             contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
                         }
 
-                        foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
+                        foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
                         {
                             var containsAllContacts = true;
                             foreach (var contactName in contactNameList)
@@ -431,13 +444,13 @@ namespace CalendarSkill.Dialogs
 
                     if (filteredMeetingList.Count == 1)
                     {
-                        state.FocusEvents = filteredMeetingList;
+                        state.ShowMeetingInfor.FocusedEvents = filteredMeetingList;
                         return await sc.NextAsync();
                     }
                     else if (filteredMeetingList.Count > 1)
                     {
-                        state.FilterMeetingKeyWord = filterKeyWord;
-                        state.SummaryEvents = filteredMeetingList;
+                        state.ShowMeetingInfor.FilterMeetingKeyWord = filterKeyWord;
+                        state.ShowMeetingInfor.ShowingMeetings = filteredMeetingList;
                         return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(showMeetingReason, sc.Options));
                     }
                 }
@@ -460,7 +473,7 @@ namespace CalendarSkill.Dialogs
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
 
-                var eventItem = state.FocusEvents.FirstOrDefault();
+                var eventItem = state.ShowMeetingInfor.FocusedEvents.FirstOrDefault();
 
                 if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
                 {
@@ -477,15 +490,15 @@ namespace CalendarSkill.Dialogs
 
                     if (eventItem.IsOrganizer)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                     else if (eventItem.IsAccepted)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                     else
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                 }
                 else
@@ -514,21 +527,21 @@ namespace CalendarSkill.Dialogs
 
                 var topIntent = luisResult?.TopIntent().intent;
 
-                if (state.FocusEvents.Count > 0)
+                if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                     if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                     {
-                        state.FocusEvents = null;
-                        state.SummaryEvents = null;
+                        state.ShowMeetingInfor.FocusedEvents = null;
+                        state.ShowMeetingInfor.ShowingMeetings = null;
                         return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
                     }
 
-                    var readoutEvent = state.FocusEvents[0];
-                    state.FocusEvents = null;
-                    state.SummaryEvents = null;
+                    var readoutEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                    state.ShowMeetingInfor.FocusedEvents = null;
+                    state.ShowMeetingInfor.ShowingMeetings = null;
                 }
 
                 state.Clear();
@@ -560,11 +573,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
                 {
-                    if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
+                    if ((state.ShowMeetingInfor.ShowEventIndex + 1) * state.PageSize < state.ShowMeetingInfor.ShowingMeetings.Count)
                     {
-                        state.ShowEventIndex++;
+                        state.ShowMeetingInfor.ShowEventIndex++;
                     }
                     else
                     {
@@ -573,11 +586,11 @@ namespace CalendarSkill.Dialogs
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
                 {
-                    if (state.ShowEventIndex > 0)
+                    if (state.ShowMeetingInfor.ShowEventIndex > 0)
                     {
-                        state.ShowEventIndex--;
+                        state.ShowMeetingInfor.ShowEventIndex--;
                     }
                     else
                     {
@@ -587,61 +600,59 @@ namespace CalendarSkill.Dialogs
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
 
-                if (state.FocusEvents.Count <= 0)
+                if (state.ShowMeetingInfor.FocusedEvents.Count <= 0)
                 {
-                    var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
-                    if (state.UserSelectIndex < currentList.Count)
+                    var currentList = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
+                    if (state.ShowMeetingInfor.UserSelectIndex >= 0 && state.ShowMeetingInfor.UserSelectIndex < currentList.Count)
                     {
-                        state.FocusEvents.Add(currentList[state.UserSelectIndex]);
-                    }
-                    else
-                    {
-                        return await sc.EndDialogAsync();
+                        state.ShowMeetingInfor.FocusedEvents.Add(currentList[state.ShowMeetingInfor.UserSelectIndex]);
                     }
                 }
 
-                var focusEvent = state.FocusEvents.First();
-                if (focusEvent.IsOrganizer)
+                if (state.ShowMeetingInfor.FocusedEvents != null && state.ShowMeetingInfor.FocusedEvents.Count > 0)
                 {
-                    if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
-                    }
+                    var options = (CalendarSkillDialogOptions)sc.Options;
+                    options.SubFlowMode = true;
 
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                    var focusEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                    if (focusEvent != null)
                     {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
-                    }
-                }
-                else if (focusEvent.IsAccepted)
-                {
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
-                    }
-                }
-                else
-                {
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
-                    {
-                        state.Events.Add(focusEvent);
-                        state.IsActionFromSummary = true;
-                        return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
+                        if (focusEvent.IsOrganizer)
+                        {
+                            if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+                            {
+                                return await sc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                            }
+
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                            {
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                            }
+                        }
+                        else if (focusEvent.IsAccepted)
+                        {
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                            {
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                            }
+                        }
+                        else
+                        {
+                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
+                            {
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                            }
+                            else if (topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                            {
+                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                            }
+                        }
+
+                        return await sc.BeginDialogAsync(Actions.Read, sc.Options);
                     }
                 }
 
-                if (state.FocusEvents != null)
-                {
-                    return await sc.BeginDialogAsync(Actions.Read, sc.Options);
-                }
-
-                return await sc.NextAsync();
+                return await sc.ReplaceDialogAsync(Actions.RetryUnknown, sc.Options);
             }
             catch (Exception ex)
             {
@@ -655,7 +666,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var askParameter = new AskParameterModel(state.AskParameterContent);
+                var askParameter = new AskParameterModel(state.ShowMeetingInfor.AskParameterContent);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
@@ -767,11 +778,11 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.ClearSummaryList();
+                state.ShowMeetingInfor.Clear();
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }),
-                    RetryPrompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } })
+                    Prompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }),
+                    RetryPrompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } })
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -811,8 +822,8 @@ namespace CalendarSkill.Dialogs
 
         private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state, out int firstIndex, out int lastIndex)
         {
-            firstIndex = state.ShowEventIndex * state.PageSize;
-            lastIndex = Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize));
+            firstIndex = state.ShowMeetingInfor.ShowEventIndex * state.PageSize;
+            lastIndex = Math.Min(state.PageSize, allMeetings.Count - (state.ShowMeetingInfor.ShowEventIndex * state.PageSize));
             return allMeetings.GetRange(firstIndex, lastIndex);
         }
 
@@ -821,15 +832,67 @@ namespace CalendarSkill.Dialogs
             var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
             var searchDate = userNow;
 
-            if (state.StartDate.Any())
+            if (state.MeetingInfor.StartDate.Any())
             {
-                searchDate = state.StartDate.Last();
+                searchDate = state.MeetingInfor.StartDate.Last();
             }
 
-            return !state.StartTime.Any() &&
-                !state.EndDate.Any() &&
-                !state.EndTime.Any() &&
+            return !state.MeetingInfor.StartTime.Any() &&
+                !state.MeetingInfor.EndDate.Any() &&
+                !state.MeetingInfor.EndTime.Any() &&
                 EventModel.IsSameDate(searchDate, userNow);
+        }
+
+        protected Task<bool> ResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        {
+            var activity = pc.Recognized.Value;
+            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackHandledEventName)
+            {
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
+        }
+
+        protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+
+                // Send Fallback Event
+                if (sc.Context.Adapter is CalendarSkillWebSocketBotAdapter remoteInvocationAdapter)
+                {
+                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
+
+                    // Wait for the FallbackHandle event
+                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> RetryInput(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CalendarSharedResponses.RetryInput) });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
     }
 }

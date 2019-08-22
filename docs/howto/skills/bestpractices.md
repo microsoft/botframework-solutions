@@ -426,3 +426,49 @@ For dialog state, you can save your data in `stepContext.State.Dialog[YOUR_DIALO
 ### Manage the dialogs
 
 Use dialog options to transfer data among dialogs. Read [Create advanced conversation flow using branches and loops](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=csharp) to learn more about dialog management.
+
+## Support skill fallback
+Currently if you want to support skill switching scenarios like this in Virtual Assistant:
+
+- User: What's my meetings today?
+
+- Bot (Virtual Assistant, Calendar skill): [Meetings], do you want to hear the first one?
+
+- User: What tasks do I have?
+
+- Bot (Virtual Assistant): Are you sure to switch to todoSkill?
+
+- User: Yes, please.
+
+- Bot (Virtual Assistant, To Do skill): [To do list].
+
+You can make this happen by sending the FallbackEvent back to Virtual Assistant, to confirm whether other skills are able to handle this utterance.
+
+```csharp
+protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Send Fallback Event
+                if (sc.Context.Adapter is EmailSkillWebSocketBotAdapter remoteInvocationAdapter)
+                {
+                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
+
+                    // Wait for the FallbackHandle event
+                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+```
+
+If other skills can handle it, Virtual Assistant will cancel current skill and pass user input to the proper skill. If not, Virtual Assistant will send back a FallbackHandledEvent to continue current skill.

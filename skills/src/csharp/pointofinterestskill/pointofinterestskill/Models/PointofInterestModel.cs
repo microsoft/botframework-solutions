@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using PointOfInterestSkill.Models.Foursquare;
+using PointOfInterestSkill.Responses.Shared;
 
 namespace PointOfInterestSkill.Models
 {
@@ -49,6 +50,7 @@ namespace PointOfInterestSkill.Models
             Category = (azureMapsPoi.Poi?.Classifications != null)
             ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Classifications.FirstOrDefault().Names.FirstOrDefault().NameProperty)
             : Category;
+            CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
 
             if (Provider == null)
             {
@@ -98,6 +100,7 @@ namespace PointOfInterestSkill.Models
             Category = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.First().ShortName
                 : Category;
+            CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
 
             if (Provider == null)
             {
@@ -267,6 +270,14 @@ namespace PointOfInterestSkill.Models
         /// The text to submit.
         /// </value>
         public string SubmitText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the card title.
+        /// </summary>
+        /// <value>
+        /// The text to submit.
+        /// </value>
+        public string CardTitle { get; set; }
 
         /// <summary>
         /// Gets the formatted string for available details.
