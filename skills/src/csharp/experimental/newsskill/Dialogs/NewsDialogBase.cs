@@ -71,11 +71,17 @@ namespace NewsSkill.Dialogs
         protected async Task<DialogTurnResult> GetMarket(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
+            var convState = await ConvAccessor.GetAsync(sc.Context, () => new NewsSkillState());
 
             // Check if there's already a location
             if (!string.IsNullOrWhiteSpace(userState.Market))
             {
                 return await sc.NextAsync(userState.Market);
+            }
+            else if (!string.IsNullOrWhiteSpace(convState.CurrentCoordinates))
+            {
+                // make maps service query with location coordinates instead of user input
+                return await sc.NextAsync(convState.CurrentCoordinates);
             }
 
             // Prompt user for location

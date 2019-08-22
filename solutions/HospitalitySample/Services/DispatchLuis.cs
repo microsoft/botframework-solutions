@@ -22,9 +22,9 @@ namespace Luis
             restaurantBookingSkill, 
             pointOfInterestSkill, 
             hospitalitySkill, 
-            WeatherSkill, 
-            newsSkill, 
             eventSkill, 
+            newsSkill, 
+            WeatherSkill, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

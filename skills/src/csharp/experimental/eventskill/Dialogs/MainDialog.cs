@@ -237,7 +237,7 @@ namespace EventSkill.Dialogs
 
         private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
-            // Example of populating local state with data passed through semanticAction out of Activity
+            // Populating local state with data passed through semanticAction out of Activity
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
             if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))

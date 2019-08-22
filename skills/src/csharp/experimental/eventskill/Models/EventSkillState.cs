@@ -11,7 +11,7 @@ namespace EventSkill.Models
 
         public EventLuis LuisResult { get; set; }
 
-        public string CurrentCoordinates { get; internal set; }
+        public string CurrentCoordinates { get; set; }
 
         public void Clear()
         {
