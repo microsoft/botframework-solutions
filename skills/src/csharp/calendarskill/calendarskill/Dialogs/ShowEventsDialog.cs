@@ -27,9 +27,9 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class SummaryDialog : CalendarSkillDialogBase
+    public class ShowEventsDialog : CalendarSkillDialogBase
     {
-        public SummaryDialog(
+        public ShowEventsDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
@@ -39,7 +39,7 @@ namespace CalendarSkill.Dialogs
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(ShowEventsDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 

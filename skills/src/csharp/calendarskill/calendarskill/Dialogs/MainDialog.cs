@@ -46,9 +46,9 @@ namespace CalendarSkill.Dialogs
             CreateEventDialog createEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
             TimeRemainingDialog timeRemainingDialog,
-            SummaryDialog summaryDialog,
+            ShowEventsDialog summaryDialog,
             UpdateEventDialog updateEventDialog,
-            ConnectToMeetingDialog connectToMeetingDialog,
+            JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
@@ -140,7 +140,7 @@ namespace CalendarSkill.Dialogs
 
                     case CalendarLuis.Intent.ConnectToMeeting:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), options);
+                            turnResult = await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
                             break;
                         }
 
@@ -151,7 +151,7 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindCalendarWho:
                     case CalendarLuis.Intent.FindDuration:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -164,7 +164,7 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.ShowNextCalendar:
                     case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -172,7 +172,7 @@ namespace CalendarSkill.Dialogs
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             }
                             else
                             {

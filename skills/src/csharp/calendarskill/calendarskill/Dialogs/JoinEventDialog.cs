@@ -23,9 +23,9 @@ using Microsoft.Bot.Schema;
 
 namespace CalendarSkill.Dialogs
 {
-    public class ConnectToMeetingDialog : CalendarSkillDialogBase
+    public class JoinEventDialog : CalendarSkillDialogBase
     {
-        public ConnectToMeetingDialog(
+        public JoinEventDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
@@ -33,7 +33,7 @@ namespace CalendarSkill.Dialogs
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(JoinEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
