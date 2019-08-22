@@ -43,6 +43,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import client.model.ActivityValue;
 import client.model.BotConnectorActivity;
@@ -477,10 +478,13 @@ public class SpeechService extends Service {
         }
     }
 
-    private void openDefaultApp(BotConnectorActivity botConnectorActivity){
+    private void openDefaultApp(BotConnectorActivity botConnectorActivity) {
         String intentStr = null;
         if (botConnectorActivity.getValue() instanceof String) {
             intentStr = (String) botConnectorActivity.getValue();
+        } else if (botConnectorActivity.getValue() instanceof Map) {
+            Object[] values = ((Map) botConnectorActivity.getValue()).values().toArray();
+            intentStr = (String) values[0];
         } else {
             intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
         }
@@ -515,6 +519,16 @@ public class SpeechService extends Service {
                 dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (dialerIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(dialerIntent);
+                }
+            }
+            if (intentStr.startsWith("spotify:")) {
+                try {
+                    // please note that ":play" makes Spotify automatically start playing
+                    Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentStr + ":play"));
+                    spotifyIntent.setPackage("com.spotify.music");
+                    startActivity(spotifyIntent);
+                } catch (ActivityNotFoundException ex) {
+                    Toast.makeText(this, R.string.service_error_no_spotify, Toast.LENGTH_LONG).show();
                 }
             }
         } else {
