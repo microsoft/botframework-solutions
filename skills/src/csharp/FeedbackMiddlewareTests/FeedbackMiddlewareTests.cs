@@ -98,10 +98,10 @@ namespace FeedbackMiddlewareTest
             await new TestFlow(adapter, async (context, cancellationToken) =>
             {
                 var feedbackActivity = await FeedbackMiddleware.CreateFeedbackMessage(context, "the answer is 123");
-                var state = ConvState.Get(context);
                 Assert.AreEqual(feedbackActivity.SuggestedActions.Actions.Count, expectedSuggestedActionsNum);
+                var state = ConvState.Get(context);
                 Assert.IsNotNull(state["Feedback"]);
-                await context.SendActivityAsync(feedbackActivity);
+                await FeedbackMiddleware.SendFeedbackActivity(context, "the answer is 123");
             })
             .Send("what is 100 + 20 + 3?")
             .AssertReply((activity) =>
@@ -117,17 +117,17 @@ namespace FeedbackMiddlewareTest
         [TestCategory("Middleware")]
         public async Task SendGetFeedbackActivity()
         {
-            TestAdapter adapter = new TestAdapter()
+            TestAdapter adapter = new TestAdapter(sendTraceActivity: true)
                 .Use(new MockPendingFeedbackMiddleware(ConvState, MockPendingFeedbackMiddleware.MockFeedbackRecordWithoutComments))
                 .Use(new FeedbackMiddleware(ConvState));
 
             await new TestFlow(adapter)
             .Send(DefaultFeedbackOptions.FeedbackActions[0].Text)
-            //.AssertReply((activity) =>
-            //{
-            //    var reply = activity as Activity;
-            //    Assert.AreEqual(reply.Type, ActivityTypes.Trace);
-            //})
+            .AssertReply((activity) =>
+            {
+                var reply = activity as Activity;
+                Assert.AreEqual(reply.Type, ActivityTypes.Trace);
+            })
             .AssertReply((activity) =>
             {
                 var reply = activity as Activity;
@@ -158,17 +158,17 @@ namespace FeedbackMiddlewareTest
         [TestCategory("Middleware")]
         public async Task SendGetCommentsActivity()
         {
-            TestAdapter adapter = new TestAdapter()
+            TestAdapter adapter = new TestAdapter(sendTraceActivity: true)
                 .Use(new MockPendingFeedbackMiddleware(ConvState, MockPendingFeedbackMiddleware.MockFeedbackRecordWithComments))
                 .Use(new FeedbackMiddleware(ConvState));
 
             await new TestFlow(adapter)
             .Send("my comments")
-            //.AssertReply((activity) =>
-            //{
-            //    var reply = activity as Activity;
-            //    Assert.AreEqual(reply.Type, ActivityTypes.Trace);
-            //})
+            .AssertReply((activity) =>
+            {
+                var reply = activity as Activity;
+                Assert.AreEqual(reply.Type, ActivityTypes.Trace);
+            })
             .AssertReply((activity) =>
             {
                 var reply = activity as Activity;
