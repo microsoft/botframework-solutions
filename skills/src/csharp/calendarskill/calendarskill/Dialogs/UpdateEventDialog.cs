@@ -152,7 +152,7 @@ namespace CalendarSkill.Dialogs
                     }
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                    var newEvent = await calendarService.UpdateEventById(updateEvent);
+                    var newEvent = await calendarService.UpdateEventByIdAsync(updateEvent);
 
                     var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);
 
@@ -398,7 +398,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.MeetingInfor.Title != null)
                 {
-                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitle(state.MeetingInfor.Title);
+                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
                     state.MeetingInfor.Title = null;
                     if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                     {
@@ -455,7 +455,8 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.ShowMeetingInfor.FocusedEvents, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
+                    state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 

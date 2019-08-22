@@ -31,17 +31,17 @@ namespace CalendarSkillTest.Flow
             });
         }
 
-        [TestMethod]
-        public async Task Test_BaseConnectToMeeting()
-        {
-            await this.GetTestFlow()
-                .Send(ConnectToMeetingUtterances.BaseConnectToMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ShowNoMeetings())
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
+        //[TestMethod]
+        //public async Task Test_BaseConnectToMeeting()
+        //{
+        //    await this.GetTestFlow()
+        //        .Send(ConnectToMeetingUtterances.BaseConnectToMeeting)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.ShowNoMeetings())
+        //        .AssertReply(this.ActionEndMessage())
+        //        .StartTestAsync();
+        //}
 
         private Action<IActivity> ShowAuth()
         {

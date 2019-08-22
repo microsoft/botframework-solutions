@@ -22,7 +22,6 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using static CalendarSkill.Models.DialogOptions.ShowMeetingsDialogOptions;
 using static Microsoft.Recognizers.Text.Culture;
 
@@ -44,67 +43,122 @@ namespace CalendarSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var initStep = new WaterfallStep[]
-            {
-                Init,
-            };
-
-            var showNext = new WaterfallStep[]
+            var showMeetings = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                ShowNextEvent,
+                SetSearchCondition,
             };
 
-            var showSummary = new WaterfallStep[]
+            var searchEvents = new WaterfallStep[]
             {
-                GetAuthToken,
-                AfterGetAuthToken,
+                SearchEventsWithEntities,
+                FilterTodayEvent,
+                AddConflictFlag,
                 ShowEventsList,
-                FilterMeeting,
-                HandleActions,
-                AskForShowOverview,
-                AfterAskForShowOverview
+            };
+
+            var showNextMeeting = new WaterfallStep[]
+            {
+                ShowAskParameterDetails,
+                ShowNextMeeting,
+            };
+
+            var showEventsOverview = new WaterfallStep[]
+            {
+                ShowEventsOverview,
+                PromptForNextAction,
+                HandleNextAction
+            };
+
+            var showEventsOverviewAgain = new WaterfallStep[]
+            {
+                ShowEventsOverviewAgain,
+                PromptForNextAction,
+                HandleNextAction
+            };
+
+            var showFilteredEvents = new WaterfallStep[]
+            {
+                ShowFilteredEvents,
+                PromptForNextAction,
+                HandleNextAction
             };
 
             var readEvent = new WaterfallStep[]
             {
                 ReadEvent,
-                AfterReadOutEvent,
+                PromptForNextActionAfterRead,
+                HandleNextActionAfterRead,
             };
 
             var retryUnknown = new WaterfallStep[]
             {
                 SendFallback,
                 RetryInput,
-                HandleActions,
+                HandleNextAction,
+            };
+
+            var updateEvent = new WaterfallStep[]
+            {
+                UpdateEvent,
+                ReShow
+            };
+
+            var changeEventStatus = new WaterfallStep[]
+            {
+                ChangeEventStatus,
+                ReShow
+            };
+
+            var reshow = new WaterfallStep[]
+            {
+                AskForShowOverview,
+                AfterAskForShowOverview
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowEvents, showMeetings) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.SearchEvents, searchEvents) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNextMeeting) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowEventsOverview, showEventsOverview) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowEventsOverviewAgain, showEventsOverviewAgain) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowFilteredEvents, showFilteredEvents) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateEvent, updateEvent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Reshow, reshow) { TelemetryClient = telemetryClient });
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
             AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
             AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
 
             // Set starting dialog for component
-            InitialDialogId = Actions.GetEventsInit;
+            InitialDialogId = Actions.ShowEvents;
         }
 
-        public async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> SetSearchCondition(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as ShowMeetingsDialogOptions;
+
+                // if show next meeting
                 if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.ShowNextEvent, options: sc.Options);
+                    options.Reason = ShowMeetingReason.ShowNextMeeting;
+                }
+                else
+                {
+                    // set default search date
+                    if (!state.MeetingInfor.StartDate.Any())
+                    {
+                        state.MeetingInfor.StartDate.Add(TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()));
+                    }
                 }
 
-                return await sc.BeginDialogAsync(Actions.ShowEventsSummary, options: sc.Options);
+                return await sc.BeginDialogAsync(Actions.SearchEvents, options);
             }
             catch (Exception ex)
             {
@@ -113,194 +167,93 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        public async Task<DialogTurnResult> FilterTodayEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // if user query meetings in today, only show the meeting is upcoming in today.
+            var state = await Accessor.GetAsync(sc.Context);
+            var isSearchedTodayMeeting = IsSearchedTodayMeeting(state);
+            if (isSearchedTodayMeeting)
+            {
+                var searchedEvents = new List<EventModel>();
+                foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
+                {
+                    if (item.StartTime >= DateTime.UtcNow)
+                    {
+                        searchedEvents.Add(item);
+                    }
+                }
+
+                state.ShowMeetingInfor.ShowingMeetings = searchedEvents;
+            }
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> AddConflictFlag(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // can't get conflict flag from api, so lable them here
+            var state = await Accessor.GetAsync(sc.Context);
+            for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count - 1; i++)
+            {
+                for (var j = i + 1; j < state.ShowMeetingInfor.ShowingMeetings.Count; j++)
+                {
+                    if (state.ShowMeetingInfor.ShowingMeetings[i].StartTime <= state.ShowMeetingInfor.ShowingMeetings[j].StartTime &&
+                        state.ShowMeetingInfor.ShowingMeetings[i].EndTime > state.ShowMeetingInfor.ShowingMeetings[j].StartTime)
+                    {
+                        state.ShowMeetingInfor.ShowingMeetings[i].IsConflict = true;
+                        state.ShowMeetingInfor.ShowingMeetings[j].IsConflict = true;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // count the conflict meetings
+            var totalConflictCount = 0;
+            foreach (var eventItem in state.ShowMeetingInfor.ShowingMeetings)
+            {
+                if (eventItem.IsConflict)
+                {
+                    totalConflictCount++;
+                }
+            }
+
+            state.ShowMeetingInfor.TotalConflictCount = totalConflictCount;
+
+            return await sc.NextAsync();
+        }
+
         public async Task<DialogTurnResult> ShowEventsList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var tokenResponse = sc.Result as TokenResponse;
-
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = sc.Options as ShowMeetingsDialogOptions;
-                if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
+
+                // no meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
-                    // this will lead to error when test
-                    if (string.IsNullOrEmpty(state.APIToken))
-                    {
-                        state.Clear();
-                        return await sc.EndDialogAsync(true);
-                    }
-
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-
-                    var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
-
-                    if (state.MeetingInfor.StartDate.Any())
-                    {
-                        searchDate = state.MeetingInfor.StartDate.Last();
-                    }
-
-                    var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
-                    var searchedEvents = new List<EventModel>();
-                    var searchTodayMeeting = SearchesTodayMeeting(state);
-                    foreach (var item in results)
-                    {
-                        if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
-                        {
-                            searchedEvents.Add(item);
-                        }
-                    }
-
-                    if (searchedEvents.Count == 0)
-                    {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNoMeetingMessage));
-                        state.Clear();
-                        return await sc.EndDialogAsync(true);
-                    }
-                    else
-                    {
-                        if (options != null && options.Reason == ShowMeetingReason.ShowOverviewAgain)
-                        {
-                            var responseParams = new StringDictionary()
-                            {
-                                { "Count", searchedEvents.Count.ToString() },
-                                { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower }
-                            };
-                            if (searchedEvents.Count == 1)
-                            {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams));
-                            }
-                            else
-                            {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMeetingSummaryAgainMessage, responseParams));
-                            }
-                        }
-                        else
-                        {
-                            var responseParams = new StringDictionary()
-                            {
-                                { "Count", searchedEvents.Count.ToString() },
-                                { "EventName1", searchedEvents[0].Title },
-                                { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
-                                { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
-                                { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees, 1) }
-                            };
-
-                            if (searchedEvents.Count == 1)
-                            {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams));
-                            }
-                            else
-                            {
-                                responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
-                                responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
-                                responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[searchedEvents.Count - 1].Attendees, 1));
-
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams));
-                            }
-                        }
-                    }
-
-                    // add conflict flag
-                    for (var i = 0; i < searchedEvents.Count - 1; i++)
-                    {
-                        for (var j = i + 1; j < searchedEvents.Count; j++)
-                        {
-                            if (searchedEvents[i].StartTime <= searchedEvents[j].StartTime &&
-                                searchedEvents[i].EndTime > searchedEvents[j].StartTime)
-                            {
-                                searchedEvents[i].IsConflict = true;
-                                searchedEvents[j].IsConflict = true;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    // count the conflict meetings
-                    var totalConflictCount = 0;
-                    foreach (var eventItem in searchedEvents)
-                    {
-                        if (eventItem.IsConflict)
-                        {
-                            totalConflictCount++;
-                        }
-                    }
-
-                    state.ShowMeetingInfor.TotalConflictCount = totalConflictCount;
-
-                    await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
-                        sc,
-                        GetCurrentPageMeetings(searchedEvents, state, out var firstIndex, out var lastIndex),
-                        firstIndex,
-                        lastIndex,
-                        searchedEvents.Count,
-                        totalConflictCount,
-                        null,
-                        null));
-                    state.ShowMeetingInfor.ShowingMeetings = searchedEvents;
-                    if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions());
-                    }
-                }
-                else
-                {
-                    var currentPageMeetings = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
-                    if (options != null && (
-                        options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings ||
-                        options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings ||
-                        options.Reason == ShowMeetingReason.ShowFilteredByParticipantNameMeetings))
-                    {
-                        string meetingListTitle = null;
-
-                        if (options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings)
-                        {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAbout, state.ShowMeetingInfor.FilterMeetingKeyWord);
-                        }
-                        else if (options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings)
-                        {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAt, state.ShowMeetingInfor.FilterMeetingKeyWord);
-                        }
-                        else if (options.Reason == ShowMeetingReason.ShowFilteredByParticipantNameMeetings)
-                        {
-                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsWith, state.ShowMeetingInfor.FilterMeetingKeyWord);
-                        }
-
-                        var reply = await GetGeneralMeetingListResponseAsync(
-                            sc,
-                            meetingListTitle,
-                            state.ShowMeetingInfor.ShowingMeetings,
-                            SummaryResponses.ShowMultipleFilteredMeetings,
-                            new StringDictionary() { { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() } });
-                        await sc.Context.SendActivityAsync(reply);
-                    }
-                    else
-                    {
-                        var responseParams = new StringDictionary()
-                        {
-                            { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
-                            { "EventName1", currentPageMeetings[0].Title },
-                            { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
-                            { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
-                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees, 1) }
-                        };
-                        var reply = await GetOverviewMeetingListResponseAsync(
-                            sc,
-                            GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state, out var firstIndex, out var lastIndex),
-                            firstIndex,
-                            lastIndex,
-                            state.ShowMeetingInfor.ShowingMeetings.Count,
-                            state.ShowMeetingInfor.TotalConflictCount,
-                            SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
-                            responseParams);
-
-                        await sc.Context.SendActivityAsync(reply);
-                    }
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNoMeetingMessage));
+                    state.Clear();
+                    return await sc.EndDialogAsync(true);
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.ReadOutMorePrompt) });
+                if (options != null && options.Reason == ShowMeetingReason.ShowNextMeeting)
+                {
+                    return await sc.BeginDialogAsync(Actions.ShowNextEvent, options);
+                }
+                else if (options != null && (options.Reason == ShowMeetingReason.FirstShowOverview || options.Reason == ShowMeetingReason.ShowOverviewAfterPageTurning))
+                {
+                    return await sc.BeginDialogAsync(Actions.ShowEventsOverview, options);
+                }
+                else if (options != null && options.Reason == ShowMeetingReason.ShowOverviewAgain)
+                {
+                    return await sc.BeginDialogAsync(Actions.ShowEventsOverviewAgain, options);
+                }
+
+                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {
@@ -314,11 +267,183 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> FilterMeeting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ShowAskParameterDetails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var options = sc.Options as ShowMeetingsDialogOptions;
+
+            // this step will answer the question like: "when is my next meeting", next meeting is only one meeting will have answer
+            if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
+            {
+                var askParameter = new AskParameterModel(state.ShowMeetingInfor.AskParameterContent);
+                if (askParameter.NeedDetail)
+                {
+                    var tokens = new StringDictionary()
+                    {
+                        { "EventName", state.ShowMeetingInfor.ShowingMeetings[0].Title },
+                        { "EventStartTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                        { "EventEndTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                        { "EventDuration", state.ShowMeetingInfor.ShowingMeetings[0].ToSpeechDurationString() },
+                        { "EventLocation", state.ShowMeetingInfor.ShowingMeetings[0].Location },
+                    };
+
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.BeforeShowEventDetails, tokens));
+
+                    if (askParameter.NeedTime)
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadTime, tokens));
+                    }
+
+                    if (askParameter.NeedDuration)
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadDuration, tokens));
+                    }
+
+                    if (askParameter.NeedLocation)
+                    {
+                        // for some event there might be no localtion.
+                        if (string.IsNullOrEmpty(tokens["EventLocation"]))
+                        {
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadNoLocation));
+                        }
+                        else
+                        {
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadLocation, tokens));
+                        }
+                    }
+                }
+            }
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> ShowNextMeeting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            // if only one next meeting, show the meeting detail card, otherwise show a meeting list card
+            if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
+            {
+                var speakParams = new StringDictionary()
+                {
+                    { "EventName", state.ShowMeetingInfor.ShowingMeetings[0].Title },
+                    { "PeopleCount", state.ShowMeetingInfor.ShowingMeetings[0].Attendees.Count.ToString() },
+                };
+
+                speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingDateTime(TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()), state.ShowMeetingInfor.ShowingMeetings[0].IsAllDay == true));
+
+                if (string.IsNullOrEmpty(state.ShowMeetingInfor.ShowingMeetings[0].Location))
+                {
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingNoLocationMessage, speakParams));
+                }
+                else
+                {
+                    speakParams.Add("Location", state.ShowMeetingInfor.ShowingMeetings[0].Location);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingMessage, speakParams));
+                }
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleNextMeetingMessage));
+            }
+
+            state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.UpcommingMeeting;
+            var reply = await GetGeneralMeetingListResponseAsync(sc.Context, state, true);
+
+            await sc.Context.SendActivityAsync(reply);
+
+            state.Clear();
+            return await sc.EndDialogAsync();
+        }
+
+        public async Task<DialogTurnResult> ShowEventsOverview(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var options = sc.Options as ShowMeetingsDialogOptions;
+
+            // show first meeting detail in response
+            var responseParams = new StringDictionary()
+                    {
+                        { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
+                        { "EventName1", state.ShowMeetingInfor.ShowingMeetings[0].Title },
+                        { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
+                        { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()), state.ShowMeetingInfor.ShowingMeetings[0].IsAllDay == true) },
+                        { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(state.ShowMeetingInfor.ShowingMeetings[0].Attendees, 1) }
+                    };
+            string responseTemplateId;
+
+            if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
+            {
+                responseTemplateId = SummaryResponses.ShowOneMeetingSummaryMessage;
+            }
+            else if (options.Reason == ShowMeetingReason.ShowOverviewAfterPageTurning)
+            {
+                responseTemplateId = SummaryResponses.ShowMeetingSummaryNotFirstPageMessage;
+            }
+            else
+            {
+                // if there are multiple meeting searched, show first and last meeting details in responses
+                responseParams.Add("EventName2", state.ShowMeetingInfor.ShowingMeetings[state.ShowMeetingInfor.ShowingMeetings.Count - 1].Title);
+                responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[state.ShowMeetingInfor.ShowingMeetings.Count - 1].StartTime, state.GetUserTimeZone()), state.ShowMeetingInfor.ShowingMeetings[state.ShowMeetingInfor.ShowingMeetings.Count - 1].IsAllDay == true));
+                responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(state.ShowMeetingInfor.ShowingMeetings[state.ShowMeetingInfor.ShowingMeetings.Count - 1].Attendees, 1));
+
+                responseTemplateId = SummaryResponses.ShowMultipleMeetingSummaryMessage;
+            }
+
+            await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(sc.Context, state, responseTemplateId, responseParams));
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> ShowEventsOverviewAgain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            // when show overview again, won't show meeting details in response
+            var responseParams = new StringDictionary()
+            {
+                { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
+                { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower }
+            };
+            var responseTemplateId = state.ShowMeetingInfor.ShowingMeetings.Count == 1 ? SummaryResponses.ShowOneMeetingSummaryAgainMessage : SummaryResponses.ShowMeetingSummaryAgainMessage;
+            await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(sc.Context, state, responseTemplateId, responseParams));
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> ShowFilteredEvents(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            // show filtered meeting with general event list
+            await sc.Context.SendActivityAsync(await GetGeneralMeetingListResponseAsync(
+                sc.Context, state, false,
+                SummaryResponses.ShowMultipleFilteredMeetings,
+                new StringDictionary() { { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() } }));
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> PromptForNextAction(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
+            {
+                // if only one meeting is showing, the prompt text is already included in show events step, prompt a empty message here
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions());
+            }
+
+            var prompt = ResponseManager.GetResponse("ReadOutMorePrompt");
+            return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt });
+        }
+
+        public async Task<DialogTurnResult> HandleNextAction(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -333,129 +458,89 @@ namespace CalendarSkill.Dialogs
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                {
+                    state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings.First());
+                    return await sc.BeginDialogAsync(Actions.Read);
+                }
+                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.Clear();
-                    return await sc.CancelAllDialogsAsync();
+                    return await sc.EndDialogAsync();
                 }
-                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
                 {
-                    state.ShowMeetingInfor.FocusedEvents = new List<EventModel>() { state.ShowMeetingInfor.ShowingMeetings[0] };
-                }
+                    if ((state.ShowMeetingInfor.ShowEventIndex + 1) * state.PageSize < state.ShowMeetingInfor.ShowingMeetings.Count)
+                    {
+                        state.ShowMeetingInfor.ShowEventIndex++;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
+                    }
 
-                if (state.ShowMeetingInfor.ShowingMeetings.Count > 1 && (state.ShowMeetingInfor.FocusedEvents == null || state.ShowMeetingInfor.FocusedEvents.Count <= 0))
+                    var options = sc.Options as ShowMeetingsDialogOptions;
+                    options.Reason = ShowMeetingReason.ShowOverviewAfterPageTurning;
+                    return await sc.ReplaceDialogAsync(Actions.ShowEvents, options);
+                }
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
                 {
-                    var filteredMeetingList = new List<EventModel>();
-                    ShowMeetingReason showMeetingReason = ShowMeetingReason.FirstShowOverview;
-                    string filterKeyWord = null;
-
-                    // filter meetings with number
-                    if (state.ShowMeetingInfor.UserSelectIndex >= 0)
+                    if (state.ShowMeetingInfor.ShowEventIndex > 0)
                     {
-                        var currentList = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
-                        if (state.ShowMeetingInfor.UserSelectIndex < currentList.Count)
-                        {
-                            filteredMeetingList.Add(currentList[state.ShowMeetingInfor.UserSelectIndex]);
-                        }
+                        state.ShowMeetingInfor.ShowEventIndex--;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
                     }
 
-                    // filter meetings with start time
-                    var timeResult = RecognizeDateTime(userInput, sc.Context.Activity.Locale ?? English, false);
-                    if (filteredMeetingList.Count <= 0 && timeResult != null)
-                    {
-                        foreach (var result in timeResult)
-                        {
-                            var dateTimeConvertTypeString = result.Timex;
-                            var dateTimeConvertType = new TimexProperty(dateTimeConvertTypeString);
-                            if (result.Value != null || (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Time) || dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime)))
-                            {
-                                var dateTime = DateTime.Parse(result.Value);
-
-                                if (dateTime != null)
-                                {
-                                    var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(dateTime, state.GetUserTimeZone());
-                                    foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
-                                    {
-                                        if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
-                                        {
-                                            showMeetingReason = ShowMeetingReason.ShowFilteredByTimeMeetings;
-                                            filterKeyWord = string.Format("{0:H:mm}", dateTime);
-                                            filteredMeetingList.Add(meeting);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // filter meetings with subject
-                    if (filteredMeetingList.Count <= 0)
-                    {
-                        var subject = userInput;
-                        if (luisResult.Entities.Subject != null)
-                        {
-                            subject = GetSubjectFromEntity(luisResult.Entities);
-                        }
-
-                        foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
-                        {
-                            if (meeting.Title.ToLower().Contains(subject.ToLower()))
-                            {
-                                showMeetingReason = ShowMeetingReason.ShowFilteredByTitleMeetings;
-                                filterKeyWord = subject;
-                                filteredMeetingList.Add(meeting);
-                            }
-                        }
-                    }
-
-                    // filter meetings with contact name
-                    if (filteredMeetingList.Count <= 0)
-                    {
-                        var contactNameList = new List<string>() { userInput };
-                        if (luisResult.Entities.personName != null)
-                        {
-                            contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
-                        }
-
-                        foreach (var meeting in GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state))
-                        {
-                            var containsAllContacts = true;
-                            foreach (var contactName in contactNameList)
-                            {
-                                if (!meeting.ContainsAttendee(contactName))
-                                {
-                                    containsAllContacts = false;
-                                    break;
-                                }
-                            }
-
-                            if (containsAllContacts)
-                            {
-                                showMeetingReason = ShowMeetingReason.ShowFilteredByParticipantNameMeetings;
-                                filterKeyWord = string.Join(", ", contactNameList);
-                                filteredMeetingList.Add(meeting);
-                            }
-                        }
-                    }
-
-                    if (filteredMeetingList.Count == 1)
-                    {
-                        state.ShowMeetingInfor.FocusedEvents = filteredMeetingList;
-                        return await sc.NextAsync();
-                    }
-                    else if (filteredMeetingList.Count > 1)
-                    {
-                        state.ShowMeetingInfor.FilterMeetingKeyWord = filterKeyWord;
-                        state.ShowMeetingInfor.ShowingMeetings = filteredMeetingList;
-                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(showMeetingReason, sc.Options));
-                    }
+                    var options = sc.Options as ShowMeetingsDialogOptions;
+                    options.Reason = ShowMeetingReason.ShowOverviewAfterPageTurning;
+                    return await sc.ReplaceDialogAsync(Actions.ShowEvents, options);
                 }
+                else
+                {
+                    if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
+                    {
+                        state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings[0]);
+                    }
+                    else
+                    {
+                        var filteredMeetingList = GetFilteredEvents(state, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
 
-                return await sc.NextAsync(true);
+                        if (filteredMeetingList.Count == 1)
+                        {
+                            state.ShowMeetingInfor.FocusedEvents = filteredMeetingList;
+                        }
+                        else if (filteredMeetingList.Count > 1)
+                        {
+                            state.ShowMeetingInfor.Clear();
+                            state.ShowMeetingInfor.ShowingCardTitle = showingCardTitle;
+                            state.ShowMeetingInfor.ShowingMeetings = filteredMeetingList;
+                            return await sc.ReplaceDialogAsync(Actions.ShowFilteredEvents, sc.Options);
+                        }
+                    }
+
+                    if (state.ShowMeetingInfor.FocusedEvents.Count == 1)
+                    {
+                        if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                        {
+                            return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
+                        }
+                        else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+                        {
+                            return await sc.BeginDialogAsync(Actions.UpdateEvent);
+                        }
+                        else
+                        {
+                            return await sc.BeginDialogAsync(Actions.Read);
+                        }
+                    }
+
+                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, sc.Options);
+                }
             }
             catch (Exception ex)
             {
@@ -470,41 +555,18 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var luisResult = state.LuisResult;
-                var topIntent = luisResult?.TopIntent().intent;
-
                 var eventItem = state.ShowMeetingInfor.FocusedEvents.FirstOrDefault();
-
-                if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
+                var tokens = new StringDictionary()
                 {
-                    var tokens = new StringDictionary()
-                    {
-                        { "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
-                        { "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true) },
-                        { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees, 1) },
-                        { "Subject", eventItem.Title }
-                    };
+                    { "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
+                    { "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true) },
+                    { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees, 1) },
+                    { "Subject", eventItem.Title }
+                };
 
-                    var replyMessage = await GetDetailMeetingResponseAsync(sc, eventItem, SummaryResponses.ReadOutMessage, tokens);
-                    await sc.Context.SendActivityAsync(replyMessage);
-
-                    if (eventItem.IsOrganizer)
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
-                    else if (eventItem.IsAccepted)
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
-                }
-                else
-                {
-                    return await sc.NextAsync();
-                }
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, eventItem, SummaryResponses.ReadOutMessage, tokens);
+                await sc.Context.SendActivityAsync(replyMessage);
+                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {
@@ -518,30 +580,52 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterReadOutEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> PromptForNextActionAfterRead(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            var eventItem = state.ShowMeetingInfor.FocusedEvents.FirstOrDefault();
+
+            if (eventItem.IsOrganizer)
+            {
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+            }
+            else if (eventItem.IsAccepted)
+            {
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+            }
+            else
+            {
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
+            }
+        }
+
+        public async Task<DialogTurnResult> HandleNextActionAfterRead(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
-
                 var topIntent = luisResult?.TopIntent().intent;
 
-                if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-                    if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                    state.ShowMeetingInfor.Clear();
+                    return await sc.ReplaceDialogAsync(Actions.ShowEvents, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
+                }
+                else
+                {
+                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
                     {
-                        state.ShowMeetingInfor.FocusedEvents = null;
-                        state.ShowMeetingInfor.ShowingMeetings = null;
-                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
+                        return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
                     }
-
-                    var readoutEvent = state.ShowMeetingInfor.FocusedEvents[0];
-                    state.ShowMeetingInfor.FocusedEvents = null;
-                    state.ShowMeetingInfor.ShowingMeetings = null;
+                    else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateEvent);
+                    }
                 }
 
                 state.Clear();
@@ -554,222 +638,32 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> HandleActions(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ReShow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-
-                var luisResult = state.LuisResult;
-                var topIntent = luisResult?.TopIntent().intent;
-
-                var generalLuisResult = state.GeneralLuisResult;
-                var generalTopIntent = generalLuisResult?.TopIntent().intent;
-                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
-
-                if (topIntent == null)
-                {
-                    state.Clear();
-                    return await sc.CancelAllDialogsAsync();
-                }
-
-                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
-                {
-                    if ((state.ShowMeetingInfor.ShowEventIndex + 1) * state.PageSize < state.ShowMeetingInfor.ShowingMeetings.Count)
-                    {
-                        state.ShowMeetingInfor.ShowEventIndex++;
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
-                    }
-
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
-                }
-                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
-                {
-                    if (state.ShowMeetingInfor.ShowEventIndex > 0)
-                    {
-                        state.ShowMeetingInfor.ShowEventIndex--;
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
-                    }
-
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
-                }
-
-                if (state.ShowMeetingInfor.FocusedEvents.Count <= 0)
-                {
-                    var currentList = GetCurrentPageMeetings(state.ShowMeetingInfor.ShowingMeetings, state);
-                    if (state.ShowMeetingInfor.UserSelectIndex >= 0 && state.ShowMeetingInfor.UserSelectIndex < currentList.Count)
-                    {
-                        state.ShowMeetingInfor.FocusedEvents.Add(currentList[state.ShowMeetingInfor.UserSelectIndex]);
-                    }
-                }
-
-                if (state.ShowMeetingInfor.FocusedEvents != null && state.ShowMeetingInfor.FocusedEvents.Count > 0)
-                {
-                    var options = (CalendarSkillDialogOptions)sc.Options;
-                    options.SubFlowMode = true;
-
-                    var focusEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                    if (focusEvent != null)
-                    {
-                        if (focusEvent.IsOrganizer)
-                        {
-                            if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                            {
-                                return await sc.BeginDialogAsync(nameof(UpdateEventDialog), options);
-                            }
-
-                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                            {
-                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
-                            }
-                        }
-                        else if (focusEvent.IsAccepted)
-                        {
-                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                            {
-                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
-                            }
-                        }
-                        else
-                        {
-                            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
-                            {
-                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
-                            }
-                            else if (topIntent == CalendarLuis.Intent.AcceptEventEntry)
-                            {
-                                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
-                            }
-                        }
-
-                        return await sc.BeginDialogAsync(Actions.Read, sc.Options);
-                    }
-                }
-
-                return await sc.ReplaceDialogAsync(Actions.RetryUnknown, sc.Options);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
+            return await sc.BeginDialogAsync(Actions.Reshow);
         }
 
-        public async Task<DialogTurnResult> ShowNextEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> UpdateEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
+            var options = new CalendarSkillDialogOptions() { SubFlowMode = true };
+            return await sc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+        }
+
+        public async Task<DialogTurnResult> ChangeEventStatus(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var luisResult = state.LuisResult;
+            var topIntent = luisResult?.TopIntent().intent;
+
+            if (topIntent == CalendarLuis.Intent.AcceptEventEntry)
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                var askParameter = new AskParameterModel(state.ShowMeetingInfor.AskParameterContent);
-                if (string.IsNullOrEmpty(state.APIToken))
-                {
-                    return await sc.EndDialogAsync(true);
-                }
-
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-
-                var eventList = await calendarService.GetUpcomingEvents();
-                var nextEventList = new List<EventModel>();
-                foreach (var item in eventList)
-                {
-                    if (item.IsCancelled != true && (nextEventList.Count == 0 || nextEventList[0].StartTime == item.StartTime))
-                    {
-                        nextEventList.Add(item);
-                    }
-                }
-
-                if (nextEventList.Count == 0)
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNoMeetingMessage));
-                }
-                else
-                {
-                    if (nextEventList.Count == 1)
-                    {
-                        // if user asked for specific details
-                        if (askParameter.NeedDetail)
-                        {
-                            var tokens = new StringDictionary()
-                            {
-                                { "EventName", nextEventList[0].Title },
-                                { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventDuration", nextEventList[0].ToSpeechDurationString() },
-                                { "EventLocation", nextEventList[0].Location },
-                            };
-
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.BeforeShowEventDetails, tokens));
-
-                            if (askParameter.NeedTime)
-                            {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadTime, tokens));
-                            }
-
-                            if (askParameter.NeedDuration)
-                            {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadDuration, tokens));
-                            }
-
-                            if (askParameter.NeedLocation)
-                            {
-                                // for some event there might be no localtion.
-                                if (string.IsNullOrEmpty(tokens["EventLocation"]))
-                                {
-                                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadNoLocation));
-                                }
-                                else
-                                {
-                                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadLocation, tokens));
-                                }
-                            }
-                        }
-
-                        var speakParams = new StringDictionary()
-                        {
-                            { "EventName", nextEventList[0].Title },
-                            { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
-                        };
-
-                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingDateTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
-
-                        if (string.IsNullOrEmpty(nextEventList[0].Location))
-                        {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingNoLocationMessage, speakParams));
-                        }
-                        else
-                        {
-                            speakParams.Add("Location", nextEventList[0].Location);
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingMessage, speakParams));
-                        }
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleNextMeetingMessage));
-                    }
-
-                    var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.UpcommingMeeting, nextEventList, null, null);
-
-                    await sc.Context.SendActivityAsync(reply);
-                }
-
-                state.Clear();
-                return await sc.EndDialogAsync(true);
+                var options = new ChangeEventStatusDialogOptions(new CalendarSkillDialogOptions() { SubFlowMode = true }, EventStatus.Accepted);
+                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), options);
             }
-            catch (SkillException ex)
+            else
             {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                var options = new ChangeEventStatusDialogOptions(new CalendarSkillDialogOptions() { SubFlowMode = true }, EventStatus.Cancelled);
+                return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), options);
             }
         }
 
@@ -799,7 +693,7 @@ namespace CalendarSkill.Dialogs
                 var result = (bool)sc.Result;
                 if (result)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
+                    return await sc.ReplaceDialogAsync(Actions.ShowEvents, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
                 }
                 else
                 {
@@ -815,19 +709,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state)
-        {
-            return GetCurrentPageMeetings(allMeetings, state, out var firstIndex, out var lastIndex);
-        }
-
-        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state, out int firstIndex, out int lastIndex)
-        {
-            firstIndex = state.ShowMeetingInfor.ShowEventIndex * state.PageSize;
-            lastIndex = Math.Min(state.PageSize, allMeetings.Count - (state.ShowMeetingInfor.ShowEventIndex * state.PageSize));
-            return allMeetings.GetRange(firstIndex, lastIndex);
-        }
-
-        private bool SearchesTodayMeeting(CalendarSkillState state)
+        private bool IsSearchedTodayMeeting(CalendarSkillState state)
         {
             var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
             var searchDate = userNow;

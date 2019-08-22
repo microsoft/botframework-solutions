@@ -7,11 +7,16 @@
         public const string Choice = "choice";
         public const string ConnectToMeeting = "ConnectToMeeting";
         public const string EventChoice = "event_choice";
-        public const string ShowEventsSummary = "showEventsSummary";
-        public const string ShowNextEvent = "showNextEvent";
+        public const string ShowEvents = "ShowEvents";
+        public const string SearchEvents = "SearchEvents";
+        public const string ShowNextEvent = "ShowNextEvent";
+        public const string ShowEventsOverview = "ShowEventsOverview";
+        public const string ShowEventsOverviewAgain = "ShowEventsOverviewAgain";
+        public const string ShowFilteredEvents = "ShowFilteredEvents";
         public const string CreateEvent = "createEvent";
         public const string UpdateEventTime = "UpdateEventTime";
         public const string ChangeEventStatus = "ChangeEventStatus";
+        public const string UpdateEvent = "UpdateEvent";
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string LoopNameList = "LoopNameList";
@@ -23,6 +28,7 @@
         public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
+        public const string ChooseEvent = "ChooseEvent";
         public const string UpdateStartTime = "UpdateStartTime";
         public const string UpdateNewStartTime = "UpdateNewStartTime";
         public const string UpdateStartDateForCreate = "UpdateStartDateForCreate";
@@ -38,9 +44,9 @@
         public const string GetEventPrompt = "GetEventPrompt";
         public const string GetRecreateInfoPrompt = "GetRecreateInfoPrompt";
         public const string GetRecreateInfo = "GetRecreateInfo";
+        public const string Reshow = "Reshow";
         public const string Read = "read";
         public const string Greeting = "greeting";
-        public const string GetEventsInit = "getEventsInit";
         public const string ShowUpcomingMeeting = "ShowUpcomingMeeting";
         public const string ConfirmNumber = "ConfirmNumber";
         public const string ShowRestParticipants = "ShowRestParticipants";

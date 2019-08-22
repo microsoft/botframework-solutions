@@ -150,49 +150,49 @@ namespace CalendarSkillTest.Flow.Fakes
             return new EventModel(createdEvent);
         }
 
-        public async Task<EventModel> CreateEvent(EventModel newEvent)
+        public async Task<EventModel> CreateEventAysnc(EventModel newEvent)
         {
             return await Task.FromResult(newEvent);
         }
 
-        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
+        public async Task<List<EventModel>> GetUpcomingEventsAsync(TimeSpan? timeSpan = null)
         {
             return await Task.FromResult(this.FakeEvents);
         }
 
-        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
+        public async Task<List<EventModel>> GetEventsByTimeAsync(DateTime startTime, DateTime endTime)
         {
             return await Task.FromResult(this.FakeEvents);
         }
 
-        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
+        public async Task<List<EventModel>> GetEventsByStartTimeAsync(DateTime startTime)
         {
             return await Task.FromResult(this.FakeEvents);
         }
 
-        public async Task<List<EventModel>> GetEventsByTitle(string title)
+        public async Task<List<EventModel>> GetEventsByTitleAsync(string title)
         {
             return await Task.FromResult(this.FakeEvents);
         }
 
-        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
+        public async Task<EventModel> UpdateEventByIdAsync(EventModel updateEvent)
         {
             updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 9, 0, 0), DateTimeKind.Utc);
             updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 10, 0, 0), DateTimeKind.Utc);
             return await Task.FromResult(updateEvent);
         }
 
-        public async Task DeleteEventById(string id)
+        public async Task DeleteEventByIdAsync(string id)
         {
             await Task.CompletedTask;
         }
 
-        public async Task DeclineEventById(string id)
+        public async Task DeclineEventByIdAsync(string id)
         {
             await Task.CompletedTask;
         }
 
-        public async Task AcceptEventById(string id)
+        public async Task AcceptEventByIdAsync(string id)
         {
             await Task.CompletedTask;
         }

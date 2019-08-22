@@ -23,19 +23,19 @@ namespace CalendarSkill.Services
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> CreateEvent(EventModel newEvent)
+        public async Task<EventModel> CreateEventAysnc(EventModel newEvent)
         {
-            return await calendarAPI.CreateEvent(newEvent);
+            return await calendarAPI.CreateEventAysnc(newEvent);
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
+        public async Task<List<EventModel>> GetUpcomingEventsAsync(TimeSpan? timeSpan = null)
         {
-            return await calendarAPI.GetUpcomingEvents(timeSpan);
+            return await calendarAPI.GetUpcomingEventsAsync(timeSpan);
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
+        public async Task<List<EventModel>> GetEventsByTimeAsync(DateTime startTime, DateTime endTime)
         {
             if (startTime.Kind != DateTimeKind.Utc)
             {
@@ -47,47 +47,47 @@ namespace CalendarSkill.Services
                 throw new Exception("Get Event By Time -  End Time is not UTC");
             }
 
-            return await calendarAPI.GetEventsByTime(startTime, endTime);
+            return await calendarAPI.GetEventsByTimeAsync(startTime, endTime);
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
+        public async Task<List<EventModel>> GetEventsByStartTimeAsync(DateTime startTime)
         {
             if (startTime.Kind != DateTimeKind.Utc)
             {
                 throw new Exception("Get Event By Start Time -  Start Time is not UTC");
             }
 
-            return await calendarAPI.GetEventsByStartTime(startTime);
+            return await calendarAPI.GetEventsByStartTimeAsync(startTime);
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTitle(string title)
+        public async Task<List<EventModel>> GetEventsByTitleAsync(string title)
         {
-            return await calendarAPI.GetEventsByTitle(title);
+            return await calendarAPI.GetEventsByTitleAsync(title);
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
+        public async Task<EventModel> UpdateEventByIdAsync(EventModel updateEvent)
         {
-            return await calendarAPI.UpdateEventById(updateEvent);
+            return await calendarAPI.UpdateEventByIdAsync(updateEvent);
         }
 
         /// <inheritdoc/>
-        public async Task DeleteEventById(string id)
+        public async Task DeleteEventByIdAsync(string id)
         {
-            await calendarAPI.DeleteEventById(id);
+            await calendarAPI.DeleteEventByIdAsync(id);
             return;
         }
 
-        public async Task DeclineEventById(string id)
+        public async Task DeclineEventByIdAsync(string id)
         {
-            await calendarAPI.DeclineEventById(id);
+            await calendarAPI.DeclineEventByIdAsync(id);
         }
 
-        public async Task AcceptEventById(string id)
+        public async Task AcceptEventByIdAsync(string id)
         {
-            await calendarAPI.AcceptEventById(id);
+            await calendarAPI.AcceptEventByIdAsync(id);
         }
     }
 }

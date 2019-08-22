@@ -119,18 +119,18 @@ namespace CalendarSkill.Dialogs
                     {
                         if (deleteEvent.IsOrganizer)
                         {
-                            await calendarService.DeleteEventById(deleteEvent.Id);
+                            await calendarService.DeleteEventByIdAsync(deleteEvent.Id);
                         }
                         else
                         {
-                            await calendarService.DeclineEventById(deleteEvent.Id);
+                            await calendarService.DeclineEventByIdAsync(deleteEvent.Id);
                         }
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventDeleted));
                     }
                     else
                     {
-                        await calendarService.AcceptEventById(deleteEvent.Id);
+                        await calendarService.AcceptEventByIdAsync(deleteEvent.Id);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventAccepted));
                     }
                 }
@@ -217,7 +217,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.MeetingInfor.Title != null)
                 {
-                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitle(state.MeetingInfor.Title);
+                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
                     state.MeetingInfor.Title = null;
                     if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                     {
@@ -285,7 +285,8 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.ShowMeetingInfor.FocusedEvents, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 

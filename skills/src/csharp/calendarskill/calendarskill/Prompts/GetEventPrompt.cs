@@ -125,7 +125,7 @@ namespace CalendarSkill.Prompts
                     startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, userTimeZone) : startTimeValue;
 
                     startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
-                    events = await calendarService.GetEventsByStartTime(startTimeValue);
+                    events = await calendarService.GetEventsByStartTimeAsync(startTimeValue);
                     if (events != null && events.Count > 0)
                     {
                         break;
@@ -138,7 +138,7 @@ namespace CalendarSkill.Prompts
 
         private async Task<IList<EventModel>> GetEventsWithTitle(string title)
         {
-            IList<EventModel> events = await calendarService.GetEventsByTitle(title);
+            IList<EventModel> events = await calendarService.GetEventsByTitleAsync(title);
             return events;
         }
 

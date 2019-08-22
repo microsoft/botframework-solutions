@@ -25,7 +25,7 @@ namespace CalendarSkill.Proactive
             // only continue checking for 30 minutes for upcoming event
             while (stopWatch.Elapsed < TimeSpan.FromMinutes(30))
             {
-                var eventList = await CalendarService.GetUpcomingEvents(TimeSpan.FromMinutes(60));
+                var eventList = await CalendarService.GetUpcomingEventsAsync(TimeSpan.FromMinutes(60));
                 if (eventList != null && eventList.Count > 0)
                 {
                     await upcomingEventCallback(eventList[0], default(CancellationToken));

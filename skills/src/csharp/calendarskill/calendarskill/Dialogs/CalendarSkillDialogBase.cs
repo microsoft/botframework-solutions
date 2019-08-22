@@ -25,8 +25,10 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
 using static Microsoft.Recognizers.Text.Culture;
+using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
 namespace CalendarSkill.Dialogs
 {
@@ -255,75 +257,72 @@ namespace CalendarSkill.Dialogs
 
         // Helpers
         protected async Task<Activity> GetOverviewMeetingListResponseAsync(
-            DialogContext dc,
-            List<EventModel> events,
-            int firstIndex,
-            int lastIndex,
-            int totalCount,
-            int overlapEventCount,
-            string templateId,
+            ITurnContext context,
+            CalendarSkillState state,
+            string templateId = null,
             StringDictionary tokens = null)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var currentEvents = GetCurrentPageMeetings(state, out var firstIndex, out var lastIndex);
 
             var overviewCard = new Card()
             {
-                Name = GetDivergedCardName(dc.Context, "CalendarOverview"),
+                Name = GetDivergedCardName(context, "CalendarOverview"),
                 Data = new CalendarMeetingListCardData()
                 {
                     ListTitle = CalendarCommonStrings.OverviewTitle,
-                    TotalEventCount = totalCount.ToString(),
-                    OverlapEventCount = overlapEventCount.ToString(),
+                    TotalEventCount = state.ShowMeetingInfor.ShowingMeetings.Count.ToString(),
+                    OverlapEventCount = state.ShowMeetingInfor.TotalConflictCount.ToString(),
                     TotalEventCountUnit = string.Format(
-                        totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
+                        state.ShowMeetingInfor.ShowingMeetings.Count == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
                         state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower),
                     OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
-                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    UserPhoto = await GetMyPhotoUrlAsync(dc.Context),
-                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
+                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, currentEvents[0].SourceString()),
+                    UserPhoto = await GetMyPhotoUrlAsync(context),
+                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), state.ShowMeetingInfor.ShowingMeetings.Count.ToString())
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(dc, events);
+            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
 
             return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
         }
 
         protected async Task<Activity> GetGeneralMeetingListResponseAsync(
-            DialogContext dc,
-            string listTitle,
-            List<EventModel> events,
-            string templateId,
-            StringDictionary tokens = null,
-            int firstIndex = -1,
-            int lastIndex = -1,
-            int totalCount = -1)
+            ITurnContext context,
+            CalendarSkillState state,
+            bool isShowAll = false,
+            string templateId = null,
+            StringDictionary tokens = null)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            List<EventModel> currentEvents;
+            int firstIndex = 0;
+            int lastIndex = state.ShowMeetingInfor.ShowingMeetings.Count;
 
-            if (firstIndex == -1 || lastIndex == -1 || totalCount == -1)
+            if (isShowAll)
             {
-                firstIndex = 0;
-                lastIndex = events.Count;
-                totalCount = events.Count;
+                currentEvents = state.ShowMeetingInfor.ShowingMeetings;
+            }
+            else
+            {
+                currentEvents = GetCurrentPageMeetings(state, out firstIndex, out lastIndex);
             }
 
             var overviewCard = new Card()
             {
-                Name = GetDivergedCardName(dc.Context, "CalendarGeneralMeetingList"),
+                Name = GetDivergedCardName(context, "CalendarGeneralMeetingList"),
                 Data = new CalendarMeetingListCardData()
                 {
-                    ListTitle = listTitle,
+                    ListTitle = state.ShowMeetingInfor.ShowingCardTitle,
                     TotalEventCount = null,
                     OverlapEventCount = null,
                     TotalEventCountUnit = null,
                     OverlapEventCountUnit = null,
-                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
+                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, currentEvents[0].SourceString()),
+                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), state.ShowMeetingInfor.ShowingMeetings.Count.ToString())
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(dc, events);
+            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
 
             return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
         }
@@ -368,6 +367,114 @@ namespace CalendarSkill.Dialogs
             participantContainerList.Add(participantContainerCard);
 
             return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state)
+        {
+            return GetCurrentPageMeetings(state, out var firstIndex, out var lastIndex);
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = state.ShowMeetingInfor.ShowEventIndex * state.PageSize;
+            var count = Math.Min(state.PageSize, state.ShowMeetingInfor.ShowingMeetings.Count - (state.ShowMeetingInfor.ShowEventIndex * state.PageSize));
+            lastIndex = firstIndex + count;
+            return state.ShowMeetingInfor.ShowingMeetings.GetRange(firstIndex, count);
+        }
+
+        protected List<EventModel> GetFilteredEvents(CalendarSkillState state, string userInput, string locale, out string showingCardTitle)
+        {
+            var luisResult = state.LuisResult;
+            var filteredMeetingList = new List<EventModel>();
+            showingCardTitle = null;
+
+            // filter meetings with start time
+            var timeResult = RecognizeDateTime(userInput, locale, false);
+            if (filteredMeetingList.Count <= 0 && timeResult != null)
+            {
+                foreach (var result in timeResult)
+                {
+                    var dateTimeConvertTypeString = result.Timex;
+                    var dateTimeConvertType = new TimexProperty(dateTimeConvertTypeString);
+                    if (result.Value != null || (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Time) || dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime)))
+                    {
+                        var dateTime = DateTime.Parse(result.Value);
+
+                        if (dateTime != null)
+                        {
+                            var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(dateTime, state.GetUserTimeZone());
+                            foreach (var meeting in GetCurrentPageMeetings(state))
+                            {
+                                if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
+                                {
+                                    filteredMeetingList.Add(meeting);
+                                    showingCardTitle = string.Format(CalendarCommonStrings.MeetingsAt, string.Format("{0:H:mm}", dateTime));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // filter meetings with number
+            if (filteredMeetingList.Count <= 0 && state.ShowMeetingInfor.UserSelectIndex >= 0)
+            {
+                var currentList = GetCurrentPageMeetings(state);
+                if (state.ShowMeetingInfor.UserSelectIndex < currentList.Count)
+                {
+                    filteredMeetingList.Add(currentList[state.ShowMeetingInfor.UserSelectIndex]);
+                }
+            }
+
+            // filter meetings with subject
+            if (filteredMeetingList.Count <= 0)
+            {
+                var subject = userInput;
+                if (luisResult.Entities.Subject != null)
+                {
+                    subject = GetSubjectFromEntity(luisResult.Entities);
+                }
+
+                foreach (var meeting in GetCurrentPageMeetings(state))
+                {
+                    if (meeting.Title.ToLower().Contains(subject.ToLower()))
+                    {
+                        filteredMeetingList.Add(meeting);
+                        showingCardTitle = string.Format(CalendarCommonStrings.MeetingsAbout, subject);
+                    }
+                }
+            }
+
+            // filter meetings with contact name
+            if (filteredMeetingList.Count <= 0)
+            {
+                var contactNameList = new List<string>() { userInput };
+                if (luisResult.Entities.personName != null)
+                {
+                    contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
+                }
+
+                foreach (var meeting in GetCurrentPageMeetings(state))
+                {
+                    var containsAllContacts = true;
+                    foreach (var contactName in contactNameList)
+                    {
+                        if (!meeting.ContainsAttendee(contactName))
+                        {
+                            containsAllContacts = false;
+                            break;
+                        }
+                    }
+
+                    if (containsAllContacts)
+                    {
+                        filteredMeetingList.Add(meeting);
+                        showingCardTitle = string.Format(CalendarCommonStrings.MeetingsWith, string.Join(", ", contactNameList));
+                    }
+                }
+            }
+
+            return filteredMeetingList;
         }
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
@@ -509,7 +616,7 @@ namespace CalendarSkill.Dialogs
             {
                 foreach (var startTime in searchStartTimeList)
                 {
-                    rawEvents = await calendarService.GetEventsByStartTime(startTime);
+                    rawEvents = await calendarService.GetEventsByStartTimeAsync(startTime);
                     if (rawEvents.Any())
                     {
                         searchStartTime = startTime;
@@ -521,7 +628,7 @@ namespace CalendarSkill.Dialogs
             {
                 for (var i = 0; i < searchStartTimeList.Count(); i++)
                 {
-                    rawEvents = await calendarService.GetEventsByTime(
+                    rawEvents = await calendarService.GetEventsByTimeAsync(
                         searchStartTimeList[i],
                         searchEndTimeList.Count() > i ? searchEndTimeList[i] : searchEndTimeList[0]);
                     if (rawEvents.Any())
@@ -1356,6 +1463,57 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        // shared steps
+        protected async Task<DialogTurnResult> SearchEventsWithEntities(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+
+            // search by time without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                var searchedMeeting = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                foreach (var item in searchedMeeting)
+                {
+                    if (item.IsCancelled != true)
+                    {
+                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                    }
+                }
+            }
+
+            // search by title without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
+                foreach (var item in searchedMeeting)
+                {
+                    if (item.IsCancelled != true)
+                    {
+                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                    }
+                }
+            }
+
+            // search next meeting without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                {
+                    var upcomingMeetings = await calendarService.GetUpcomingEventsAsync();
+                    foreach (var item in upcomingMeetings)
+                    {
+                        if (item.IsCancelled != true && (!state.ShowMeetingInfor.ShowingMeetings.Any() || state.ShowMeetingInfor.ShowingMeetings[0].StartTime == item.StartTime))
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return await sc.NextAsync();
+        }
+
         private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)
         {
             if (attendees.Count <= index)
@@ -1366,10 +1524,8 @@ namespace CalendarSkill.Dialogs
             return await GetUserPhotoUrlAsync(context, attendees[index]);
         }
 
-        private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
+        private async Task<List<Card>> GetMeetingCardListAsync(CalendarSkillState state, List<EventModel> events)
         {
-            var state = await Accessor.GetAsync(dc.Context);
-
             var eventItemList = new List<Card>();
 
             DateTime? currentAddedDateUser = null;

@@ -498,7 +498,7 @@ namespace CalendarSkill.Dialogs
                     };
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                    if (await calendarService.CreateEvent(newEvent) != null)
+                    if (await calendarService.CreateEventAysnc(newEvent) != null)
                     {
                         var tokens = new StringDictionary
                         {

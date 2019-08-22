@@ -151,7 +151,7 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindCalendarWho:
                     case CalendarLuis.Intent.FindDuration:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -164,7 +164,7 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.ShowNextCalendar:
                     case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -172,7 +172,7 @@ namespace CalendarSkill.Dialogs
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             }
                             else
                             {

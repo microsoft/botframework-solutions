@@ -257,22 +257,17 @@ namespace CalendarSkill.Models
 
         public class ShowMeetingInformation
         {
-            public ShowMeetingInformation()
-            {
-                AskParameterContent = null;
-                TotalConflictCount = 0;
-                FilterMeetingKeyWord = null;
-            }
+            public string AskParameterContent { get; set; } = null;
 
-            public string AskParameterContent { get; set; }
+            public int TotalConflictCount { get; set; } = 0;
 
-            public int TotalConflictCount { get; set; }
-
-            public string FilterMeetingKeyWord { get; set; }
+            public string FilterMeetingKeyWord { get; set; } = null;
 
             public int ShowEventIndex { get; set; } = 0;
 
             public int UserSelectIndex { get; set; } = -1;
+
+            public string ShowingCardTitle { get; set; } = null;
 
             public List<EventModel> ShowingMeetings { get; set; } = new List<EventModel>();
 
@@ -287,6 +282,7 @@ namespace CalendarSkill.Models
                 ShowEventIndex = 0;
                 ShowingMeetings.Clear();
                 FocusedEvents.Clear();
+                ShowingCardTitle = null;
             }
 
             public void ClearFocusedEvents()
