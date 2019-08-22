@@ -93,7 +93,7 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
                                 }
                             }
                         } catch (JSONException jsonExcept){
-                            Log.e(LOGTAG, "unclickable card");
+                            Log.i(LOGTAG, "unclickable card");
                         }
 
                         final int clickPosition = x;

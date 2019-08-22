@@ -540,6 +540,7 @@ public class SpeechService extends Service {
                     // please note that ":play" makes Spotify automatically start playing
                     Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentStr + ":play"));
                     spotifyIntent.setPackage("com.spotify.music");
+                    spotifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(spotifyIntent);
                 } catch (ActivityNotFoundException ex) {
                     PlayStoreUtils.launchPlayStore(this,"com.spotify.music");
