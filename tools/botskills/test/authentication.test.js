@@ -137,7 +137,7 @@ describe("The authentication util", function() {
 
             const warningList = configuration.logger.getWarning();
             strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:
-https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration`);
+https://aka.ms/vamanualauthsteps`);
             strictEqual(warningList[warningList.length - 2], `There's no Azure Active Directory v2 authentication connection in your Skills manifest. You must configure one of the following connection types MANUALLY in the Azure Portal:
         Google`);
         });
@@ -171,7 +171,7 @@ https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assis
             
             const warningList = configuration.logger.getWarning();
             strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:
-https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration`);
+https://aka.ms/vamanualauthsteps`);
             strictEqual(warningList[warningList.length - 2], `You must configure one of the following connection types MANUALLY in the Azure Portal:
         Azure Active Directory v2`);
             strictEqual(warningList[warningList.length - 3], `There was an error while executing the following command:\n\taz ad app show --id \nMocked function throws an Error`)
