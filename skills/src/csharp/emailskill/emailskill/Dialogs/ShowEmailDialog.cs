@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Adapters;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
@@ -14,10 +15,13 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs
@@ -96,6 +100,13 @@ namespace EmailSkill.Dialogs
                 HandleMore,
             };
 
+            var retryUnknown = new WaterfallStep[]
+            {
+                SendFallback,
+                RetryInput,
+                HandleMore,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEmail) { TelemetryClient = telemetryClient });
@@ -105,9 +116,11 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
+            AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
             InitialDialogId = Actions.Show;
         }
 
@@ -372,6 +385,9 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
+                    var cachedMessageList = state.MessageList;
+                    var cachedFocusedMessages = state.Message;
+
                     await DigestEmailLuisResult(sc, state.LuisResult, true);
                     await SearchEmailsFromList(sc, cancellationToken);
 
@@ -380,9 +396,10 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    // return a signal for main flow need to start a new ComponentDialog.
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                    return await sc.EndDialogAsync(true);
+                    state.MessageList = cachedMessageList;
+                    state.Message = cachedFocusedMessages;
+
+                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, skillOptions);
                 }
             }
             catch (Exception ex)
@@ -526,6 +543,58 @@ namespace EmailSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected Task<bool> ResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        {
+            var activity = pc.Recognized.Value;
+            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackHandledEventName)
+            {
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
+        }
+
+        protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Send Fallback Event
+                if (sc.Context.Adapter is EmailSkillWebSocketBotAdapter remoteInvocationAdapter)
+                {
+                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
+
+                    // Wait for the FallbackHandle event
+                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> RetryInput(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.RetryInput) });
             }
             catch (Exception ex)
             {

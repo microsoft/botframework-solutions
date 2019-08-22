@@ -73,7 +73,7 @@ namespace RestaurantBooking.Dialogs
                     // Get luis service for current locale
                     var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                     var localeConfig = Services.CognitiveModelSets[locale];
-                    var luisService = localeConfig.LuisServices["Reservation"];
+                    var luisService = localeConfig.LuisServices["Restaurant"];
 
                     // Get intent and entities for activity
                     var result = await luisService.RecognizeAsync<ReservationLuis>(dc.Context, CancellationToken.None);

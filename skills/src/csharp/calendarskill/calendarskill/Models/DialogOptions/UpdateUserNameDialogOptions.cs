@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace CalendarSkill.Models
+namespace CalendarSkill.Models.DialogOptions
 {
-    public class UpdateDateTimeDialogOptions
+    public class UpdateUserNameDialogOptions
     {
-        public UpdateDateTimeDialogOptions()
+        public UpdateUserNameDialogOptions()
         {
             Reason = UpdateReason.NotFound;
         }
 
-        public UpdateDateTimeDialogOptions(UpdateReason reason)
+        public UpdateUserNameDialogOptions(UpdateReason reason)
         {
             Reason = reason;
         }
@@ -20,7 +20,7 @@ namespace CalendarSkill.Models
             /// <summary>
             /// NotADateTime.
             /// </summary>
-            NotADateTime,
+            TooMany,
 
             /// <summary>
             /// NotFound.
@@ -28,9 +28,14 @@ namespace CalendarSkill.Models
             NotFound,
 
             /// <summary>
-            /// NoEvent.
+            /// ConfirmNo.
             /// </summary>
-            NoEvent,
+            ConfirmNo,
+
+            /// <summary>
+            /// ConfirmNo.
+            /// </summary>
+            Initialize,
         }
 
         public UpdateReason Reason { get; set; }

@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
@@ -94,6 +95,11 @@ namespace CalendarSkill.Dialogs
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
+            var options = new CalendarSkillDialogOptions()
+            {
+                SubFlowMode = false
+            };
+
             if (luisService == null)
             {
                 throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
@@ -110,26 +116,31 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindMeetingRoom:
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.AcceptEventEntry:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                            break;
+                        }
+
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
                             break;
                         }
 
                     case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.ConnectToMeeting:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), options);
                             break;
                         }
 
@@ -215,7 +226,7 @@ namespace CalendarSkill.Dialogs
                 await dc.Context.SendActivityAsync(response);
             }
 
-            // End active dialog
+            // End active dialog.
             await dc.EndDialogAsync(result);
         }
 
@@ -224,6 +235,7 @@ namespace CalendarSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
+                case SkillEvents.FallbackHandledEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -274,28 +286,31 @@ namespace CalendarSkill.Dialogs
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent().intent;
+                    var topIntent = luisResult.TopIntent();
 
-                    // check intent
-                    switch (topIntent)
+                    if (topIntent.score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        // check intent
+                        switch (topIntent.intent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }

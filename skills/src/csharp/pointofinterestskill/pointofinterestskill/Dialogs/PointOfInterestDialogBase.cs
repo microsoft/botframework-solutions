@@ -92,7 +92,7 @@ namespace PointOfInterestSkill.Dialogs
             var replyEvent = activity.CreateReply();
             replyEvent.Type = ActivityTypes.Event;
             replyEvent.Name = "OpenDefaultApp";
-            replyEvent.Value = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}";
+            replyEvent.Value = new OpenDefaultApp() { MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}" };
             return replyEvent;
         }
 
@@ -655,7 +655,8 @@ namespace PointOfInterestSkill.Dialogs
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString()),
-                        Speak = GetFormattedTravelTimeSpanString(travelTimeSpan)
+                        Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
+                        CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
 
                     cardData.Add(routeDirectionsModel);

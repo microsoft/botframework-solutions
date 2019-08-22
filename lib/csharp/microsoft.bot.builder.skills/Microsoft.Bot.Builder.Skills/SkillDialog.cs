@@ -12,7 +12,6 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
-using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -24,7 +23,6 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly MultiProviderAuthDialog _authDialog;
         private IServiceClientCredentials _serviceClientCredentials;
-        private IBotTelemetryClient _telemetryClient;
         private UserState _userState;
 
         private SkillManifest _skillManifest;
@@ -34,6 +32,8 @@ namespace Microsoft.Bot.Builder.Skills
         private object _lockObject = new object();
 
         private ISkillIntentRecognizer _skillIntentRecognizer;
+
+        private bool _authDialogCancelled = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -58,7 +58,6 @@ namespace Microsoft.Bot.Builder.Skills
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
             _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
             _skillIntentRecognizer = skillIntentRecognizer;
@@ -213,7 +212,11 @@ namespace Microsoft.Bot.Builder.Skills
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
-            return await ForwardToSkillAsync(innerDc, activity);
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+
+            _skillTransport.Disconnect();
+
+            return dialogResult;
         }
 
         /// <summary>
@@ -315,9 +318,6 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                // populate call id for auth purpose
-                activity.CallerId = _serviceClientCredentials.MicrosoftAppId;
-
                 var endOfConversationActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
                 if (endOfConversationActivity != null)
@@ -325,13 +325,21 @@ namespace Microsoft.Bot.Builder.Skills
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction?.Entities);
                 }
+                else if (_authDialogCancelled)
+                {
+                    // cancel remote skill dialog if AuthDialog is cancelled
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context);
+
+                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user."));
+                    return await innerDc.EndDialogAsync();
+                }
                 else
                 {
                     var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     // if there's any response we need to send to the skill queued
                     // forward to skill and start a new turn
-                    while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
+                    while (_queuedResponses.Count > 0)
                     {
                         var lastEvent = _queuedResponses.Dequeue();
 
@@ -391,19 +399,27 @@ namespace Microsoft.Bot.Builder.Skills
                 // Send trace to emulator
                 dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill")).GetAwaiter().GetResult();
 
-                var authResult = dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
+                var result = dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
 
-                if (authResult.Result?.GetType() == typeof(ProviderTokenResponse))
+                if (result.Status == DialogTurnStatus.Complete)
                 {
-                    var tokenEvent = activity.CreateReply();
-                    tokenEvent.Type = ActivityTypes.Event;
-                    tokenEvent.Name = TokenEvents.TokenResponseEventName;
-                    tokenEvent.Value = authResult.Result as ProviderTokenResponse;
-                    tokenEvent.SemanticAction = activity.SemanticAction;
-
-                    lock (_lockObject)
+                    var resultObj = result.Result;
+                    if (resultObj != null && resultObj is ProviderTokenResponse tokenResponse)
                     {
-                        _queuedResponses.Enqueue(tokenEvent);
+                        var tokenEvent = activity.CreateReply();
+                        tokenEvent.Type = ActivityTypes.Event;
+                        tokenEvent.Name = TokenEvents.TokenResponseEventName;
+                        tokenEvent.Value = tokenResponse;
+                        tokenEvent.SemanticAction = activity.SemanticAction;
+
+                        lock (_lockObject)
+                        {
+                            _queuedResponses.Enqueue(tokenEvent);
+                        }
+                    }
+                    else
+                    {
+                        _authDialogCancelled = true;
                     }
                 }
             };

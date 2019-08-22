@@ -92,7 +92,7 @@ namespace RestaurantBooking.Dialogs
             // This would be passed from the Virtual Assistant moving forward
             var tokens = new StringDictionary
             {
-                { "UserName", state.Name ?? "Unknown" }
+                { "UserName", state.Name ?? string.Empty }
             };
 
             // Start the flow
