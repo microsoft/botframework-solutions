@@ -28,6 +28,22 @@
         public string MicrosoftAppPassword { get; set; }
 
         /// <summary>
+        /// Gets or sets the skill version.
+        /// </summary>
+        /// <value>
+        /// The skill version.
+        /// </value>
+        public string Version { get; set; }
+
+        /// <summary>
+        /// Gets or sets the privacy policy.
+        /// </summary>
+        /// <value>
+        /// The privacy policy.
+        /// </value>
+        public string PrivacyPolicy { get; set; }
+
+        /// <summary>
         /// Gets or sets the default locale of the bot.
         /// </summary>
         /// <value>

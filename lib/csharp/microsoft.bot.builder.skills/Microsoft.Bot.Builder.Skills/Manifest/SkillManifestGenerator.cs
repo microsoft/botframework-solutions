@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Skills
             _httpClient = httpClient;
         }
 
-        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, BotSettingsBase.CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
+        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, BotSettingsBase.CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false, string version = null, string privacyPolicy = null)
         {
             SkillManifest skillManifest = null;
 
@@ -62,6 +62,8 @@ namespace Microsoft.Bot.Builder.Skills
                 }
 
                 skillManifest.MSAappId = appId;
+                skillManifest.Version = version;
+                skillManifest.PrivacyPolicy = privacyPolicy;
                 skillManifest.Endpoint = new Uri($"{uriBase}{_skillRoute}");
 
                 if (skillManifest.IconUrl != null)

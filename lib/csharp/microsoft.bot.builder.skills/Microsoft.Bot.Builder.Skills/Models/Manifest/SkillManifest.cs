@@ -25,6 +25,12 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
+        [JsonProperty(PropertyName = "privacyPolicy")]
+        public string PrivacyPolicy { get; set; }
+
+        [JsonProperty(PropertyName = "version")]
+        public string Version { get; set; }
+
         [JsonProperty(PropertyName = "iconUrl")]
         public Uri IconUrl { get; set; }
 

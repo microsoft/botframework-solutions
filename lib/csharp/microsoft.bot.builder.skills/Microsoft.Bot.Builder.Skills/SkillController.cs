@@ -97,7 +97,7 @@ namespace Microsoft.Bot.Builder.Skills
                 string skillUriBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
                 SkillManifestGenerator manifestGenerator = new SkillManifestGenerator(HttpClient);
-                var skillManifest = await manifestGenerator.GenerateManifest(ManifestTemplateFilename, _botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances);
+                var skillManifest = await manifestGenerator.GenerateManifest(ManifestTemplateFilename, _botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances, _botSettings.Version, _botSettings.PrivacyPolicy);
 
                 Response.ContentType = "application/json";
                 Response.StatusCode = 200;
