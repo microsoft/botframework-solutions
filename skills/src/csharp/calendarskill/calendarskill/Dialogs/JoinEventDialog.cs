@@ -99,14 +99,27 @@ namespace CalendarSkill.Dialogs
 
         private async Task<DialogTurnResult> CheckFocusedEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            if (state.ShowMeetingInfor.FocusedEvents.Any())
+            try
             {
-                return await sc.NextAsync();
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.ChooseEvent);
+                }
             }
-            else
+            catch (SkillException ex)
             {
-                return await sc.BeginDialogAsync(Actions.ChooseEvent);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -143,102 +156,154 @@ namespace CalendarSkill.Dialogs
 
         public async Task<DialogTurnResult> ConfirmEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
 
-            if (sc.Result != null)
-            {
-                state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
-            }
-
-            if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
-            {
-                // should not doto this part. add log here for safe
-                await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            else if (state.ShowMeetingInfor.ShowingMeetings.Count > 1)
-            {
-                var options = new PromptOptions()
+                if (sc.Result != null)
                 {
-                    Choices = new List<Choice>(),
-                };
-
-                for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count; i++)
-                {
-                    var item = state.ShowMeetingInfor.ShowingMeetings[i];
-                    var choice = new Choice()
-                    {
-                        Value = string.Empty,
-                        Synonyms = new List<string> { (i + 1).ToString(), item.Title },
-                    };
-                    options.Choices.Add(choice);
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
                 }
 
-                state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
-                var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
+                {
+                    // should not doto this part. add log here for safe
+                    await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                }
+                else if (state.ShowMeetingInfor.ShowingMeetings.Count > 1)
+                {
+                    var options = new PromptOptions()
+                    {
+                        Choices = new List<Choice>(),
+                    };
 
-                options.Prompt = prompt;
+                    for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count; i++)
+                    {
+                        var item = state.ShowMeetingInfor.ShowingMeetings[i];
+                        var choice = new Choice()
+                        {
+                            Value = string.Empty,
+                            Synonyms = new List<string> { (i + 1).ToString(), item.Title },
+                        };
+                        options.Choices.Add(choice);
+                    }
 
-                return await sc.PromptAsync(Actions.EventChoice, options);
+                    state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+
+                    options.Prompt = prompt;
+
+                    return await sc.PromptAsync(Actions.EventChoice, options);
+                }
+                else
+                {
+                    state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings.First());
+                    return await sc.EndDialogAsync(true);
+                }
             }
-            else
+            catch (SkillException ex)
             {
-                state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings.First());
-                return await sc.EndDialogAsync(true);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
         public async Task<DialogTurnResult> AfterConfirmEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            var options = (ChangeEventStatusDialogOptions)sc.Options;
-
-            if (sc.Result != null && state.ShowMeetingInfor.FocusedEvents.Count > 1)
+            try
             {
-                var events = state.ShowMeetingInfor.FocusedEvents;
-                state.ShowMeetingInfor.FocusedEvents.Add(events[(sc.Result as FoundChoice).Index]);
-            }
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-            return await sc.NextAsync();
+                if (sc.Result != null && state.ShowMeetingInfor.FocusedEvents.Count > 1)
+                {
+                    var events = state.ShowMeetingInfor.FocusedEvents;
+                    state.ShowMeetingInfor.FocusedEvents.Add(events[(sc.Result as FoundChoice).Index]);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         private async Task<DialogTurnResult> ConfirmNumber(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-
-            var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-            var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
-            var responseParams = new StringDictionary()
+            try
             {
-                { "PhoneNumber", phoneNumber },
-            };
-            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(JoinEventResponses.ConfirmPhoneNumber, responseParams) });
+                var state = await Accessor.GetAsync(sc.Context);
+
+                var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
+                var responseParams = new StringDictionary()
+                {
+                    { "PhoneNumber", phoneNumber },
+                };
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(JoinEventResponses.ConfirmPhoneNumber, responseParams) });
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         private async Task<DialogTurnResult> AfterConfirmNumber(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            if (sc.Result is bool)
+            try
             {
-                if ((bool)sc.Result)
+                var state = await Accessor.GetAsync(sc.Context);
+                if (sc.Result is bool)
                 {
-                    var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
-                    var replyEvent = sc.Context.Activity.CreateReply();
-                    replyEvent.Type = ActivityTypes.Event;
-                    replyEvent.Name = "JoinEvent.DialInNumber";
-                    replyEvent.Value = GetDialInNumberFromMeeting(selectedEvent);
-                    await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
+                    if ((bool)sc.Result)
+                    {
+                        var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
+                        var replyEvent = sc.Context.Activity.CreateReply();
+                        replyEvent.Type = ActivityTypes.Event;
+                        replyEvent.Name = "JoinEvent.DialInNumber";
+                        replyEvent.Value = GetDialInNumberFromMeeting(selectedEvent);
+                        await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
+                    }
                 }
-                else
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
-                }
+
+                state.ShowMeetingInfor.ShowingMeetings.Clear();
+
+                return await sc.EndDialogAsync();
             }
-
-            state.ShowMeetingInfor.ShowingMeetings.Clear();
-
-            return await sc.EndDialogAsync();
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
     }
 }
