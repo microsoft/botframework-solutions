@@ -87,11 +87,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>deploy.ps1</DependentUpon>
     </Compile>
-    <Compile Update="Deployment\Scripts\deploy_cognitive_models.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>deploy_cognitive_models.ps1</DependentUpon>
-    </Compile>
     <Compile Update="MyTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -106,11 +101,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MainResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Responses\Shared\ResponseIdCollection.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ResponseIdCollection.t4</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\SharedResponses.cs">
       <DesignTime>True</DesignTime>

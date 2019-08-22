@@ -365,6 +365,40 @@
           }
         }
       ]
+    },
+    {
+      "id": "eventSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "Event Skill",
+      "endpoint": "<YOUR ENDPOINT URL HERE>",
+      "description": "The Event experimental skill uses the Eventbrite API to retrieve local event information.",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "EventSkill_getEvents",
+          "definition": {
+            "description": "Finds events happening in the area today.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Event#GetEvents"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
