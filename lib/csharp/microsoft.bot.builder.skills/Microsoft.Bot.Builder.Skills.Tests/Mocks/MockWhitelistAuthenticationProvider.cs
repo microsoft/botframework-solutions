@@ -5,6 +5,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
     public class MockWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
     {
-        public List<string> AppsWhitelist => new List<string>();
+        public HashSet<string> AppsWhitelist => new HashSet<string>();
     }
 }

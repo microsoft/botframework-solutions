@@ -55,7 +55,6 @@ namespace SkillSample.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var locale = CultureInfo.CurrentUICulture;
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
         }
 
