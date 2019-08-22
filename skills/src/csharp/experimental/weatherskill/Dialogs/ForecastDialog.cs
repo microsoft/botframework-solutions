@@ -103,9 +103,8 @@ namespace WeatherSkill.Dialogs
             // check if geography is in state from processed LUIS result
             if (string.IsNullOrEmpty(state.Geography))
             {
-                var prompt = ResponseManager.GetResponse(SharedResponses.LocationPrompt);
-                await promptContext.Context.SendActivityAsync(prompt, cancellationToken: cancellationToken);
-                return false;
+                state.Geography = promptContext.Recognized.Value;
+                return true;
             }
 
             return true;
