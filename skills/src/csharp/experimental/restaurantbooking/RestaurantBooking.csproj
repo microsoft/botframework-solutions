@@ -7,11 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.de.json" />
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.es.json" />
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.fr.json" />
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.it.json" />
     <Content Remove="Responses\Main\RestaurantBookingMainResponses.json" />
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.zh.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.de.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.es.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.fr.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.it.json" />
     <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.zh.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -27,9 +42,14 @@
     <EmbeddedResource Include="Content\RestaurantChoiceCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.it.json" />
     <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
