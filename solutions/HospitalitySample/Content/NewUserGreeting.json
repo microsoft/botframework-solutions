@@ -48,17 +48,17 @@
       }
     },
     {
-      "type": "Action.OpenUrl",
-      "title": "Documentation",
-      "url": "https://aka.ms/virtualassistantdocs"
+      "type": "Action.Submit",
+      "title": "Room service",
+      "data": "I want to order room service"
     },
     {
-      "type": "Action.OpenUrl",
-      "title": "Skills",
-      "url": "https://aka.ms/botframeworkskills"
+      "type": "Action.Submit",
+      "title": "Today's weather",
+      "data": "What's the weather today?"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Hi, I'm **your** Virtual Assistant. Now that I'm up and running, explore the links here to learn what I can do."
+  "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do."
 }

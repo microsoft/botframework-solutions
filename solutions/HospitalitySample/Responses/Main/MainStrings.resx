@@ -136,22 +136,22 @@
     <value>Hey, {0}!</value>
   </data>
   <data name="HELP_BTN_TEXT_1" xml:space="preserve">
-    <value>Test LUIS</value>
+    <value>Extend Your Stay</value>
   </data>
   <data name="HELP_BTN_TEXT_2" xml:space="preserve">
-    <value>Test QnA Maker</value>
+    <value>Find Local Events</value>
   </data>
   <data name="HELP_BTN_TEXT_3" xml:space="preserve">
-    <value>Learn more</value>
+    <value>Recent News</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Talk to a human</value>
+    <value>Can I extend my stay?</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
-    <value>What is a Virtual Assistant?</value>
+    <value>Find me something to do nearby</value>
   </data>
   <data name="HELP_BTN_VALUE_3" xml:space="preserve">
-    <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
+    <value>What's the news?</value>
   </data>
   <data name="HELP_TEXT" xml:space="preserve">
     <value>This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites.</value>
