@@ -232,6 +232,8 @@ namespace CalendarSkill.Models
 
             public List<CustomizedPerson> UnconfirmedContact { get; set; } = new List<CustomizedPerson>();
 
+            public Dictionary<string, RelatedEntityInfo> RelatedEntityInfoDict { get; set; } = new Dictionary<string, RelatedEntityInfo>();
+ 
             // todo: move
             public bool FirstRetryInFindContact { get; set; }
 
@@ -241,6 +243,7 @@ namespace CalendarSkill.Models
 
             public string CurrentContactName { get; set; }
 
+
             public void Clear()
             {
                 CurrentContactName = string.Empty;
@@ -249,10 +252,18 @@ namespace CalendarSkill.Models
                 ConfirmContactsNameIndex = 0;
                 ShowContactsIndex = 0;
                 UnconfirmedContact.Clear();
+                RelatedEntityInfoDict.Clear();
                 // todo: remove?
                 FirstRetryInFindContact = true;
                 ConfirmedContact = new CustomizedPerson();
             }
+        }
+
+        public class RelatedEntityInfo
+        {
+            public string PronounType { get; set; }
+
+            public string RelationshipName { get; set; }
         }
 
         public class ShowMeetingInformation

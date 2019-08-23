@@ -134,6 +134,16 @@ namespace CalendarSkill.Services.GoogleAPI
             }
         }
 
+        public Task<PersonModel> GetMyManagerAsync()
+        {
+            return Task.FromResult(new PersonModel());
+        }
+
+        public Task<PersonModel> GetManagerAsync(string name)
+        {
+            return Task.FromResult(new PersonModel());
+        }
+
         public async Task<string> GetPhotoAsync(string email)
         {
             List<PersonModel> persons = null;

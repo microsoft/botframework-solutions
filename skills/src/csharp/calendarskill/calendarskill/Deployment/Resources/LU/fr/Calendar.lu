@@ -1232,6 +1232,24 @@ $PREBUILT:ordinal
 
 > # List entities
 
+$PossecivePronoun:FirstPerson=
+- mon
+- notre
+- mien
+- notre propre
+
+$PossecivePronoun:SecondPerson=
+- ton
+- votre propre
+
+$PossecivePronoun:ThirdPerson=
+- son
+- son
+- leur
+- son propre
+- son propre
+- leur propre
+
 $RelationshipName:tante=
 
 $RelationshipName:tantes=

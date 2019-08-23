@@ -1144,6 +1144,34 @@ $PREBUILT:ordinal
 
 > # List entities
 
+
+$PossecivePronoun:FirstPerson=
+- 我
+- 我们
+- 我的
+- 我们的
+- 我自己的
+- 我们自己的
+
+$PossecivePronoun:SecondPerson=
+- 你
+- 你的
+- 你自己的
+
+$PossecivePronoun:ThirdPerson=
+- 他
+- 她
+- 他们
+- 她们
+- 他的
+- 她的
+- 他们的
+- 她们的
+- 他自己的
+- 她自己的
+- 他们自己的
+- 她们自己的
+
 $DestinationCalendar:hotmail=
 
 $DestinationCalendar:qq=
