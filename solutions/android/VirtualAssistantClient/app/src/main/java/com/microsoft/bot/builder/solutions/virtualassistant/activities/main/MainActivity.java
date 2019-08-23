@@ -282,6 +282,8 @@ public class MainActivity extends BaseActivity
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
                     chatAdapter.resetChat();
+                    suggActionsAdapter.clear();
+                    speechServiceBinder.clearSuggestedActions();
                     break;
                 case R.id.nav_menu_show_assistant_settings:
                     startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
@@ -420,7 +422,6 @@ public class MainActivity extends BaseActivity
             List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
             if (list != null && list.size() > 0){
                 list = null;
-                speechServiceBinder.clearSuggestedActions();
                 suggActionsAdapter.clear();
             }
         } catch (RemoteException exception){
