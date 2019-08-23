@@ -34,10 +34,12 @@ namespace ITSMSkill.Models
 
         public AttributeType AttributeType { get; set; }
 
+        public TicketState TicketState { get; set; }
+
         // from OnInterruptDialogAsync
         public GeneralLuis.Intent GeneralIntent { get; set; }
 
-        public void DigestLuisResult(ITSMLuis luis)
+        public void DigestLuisResult(ITSMLuis luis, ITSMLuis.Intent topIntent)
         {
             ClearLuisResult();
 
@@ -62,7 +64,12 @@ namespace ITSMSkill.Models
                 AttributeType = Enum.Parse<AttributeType>(luis.Entities.AttributeType[0][0], true);
             }
 
-            var topIntent = luis.TopIntent().intent;
+            if (luis.Entities.TicketState != null)
+            {
+                TicketState = Enum.Parse<TicketState>(luis.Entities.TicketState[0][0], true);
+            }
+
+            // TODO some special digestions
             if (topIntent == ITSMLuis.Intent.TicketUpdate)
             {
                 // clear AttributeType if already set
@@ -79,6 +86,10 @@ namespace ITSMSkill.Models
             {
                 SkipDisplayExisting = false;
             }
+            else if (topIntent == ITSMLuis.Intent.TicketShow)
+            {
+                AttributeType = AttributeType.None;
+            }
         }
 
         public void ClearLuisResult()
@@ -88,6 +99,7 @@ namespace ITSMSkill.Models
             CloseReason = null;
             UrgencyLevel = UrgencyLevel.None;
             AttributeType = AttributeType.None;
+            TicketState = TicketState.None;
         }
     }
 }

@@ -76,6 +76,20 @@ namespace ITSMSkill.Dialogs
                 SetId
             };
 
+            var setState = new WaterfallStep[]
+            {
+                CheckState,
+                InputState,
+                SetState
+            };
+
+            var baseAuth = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                BeginInitialDialog
+            };
+
             var navigateYesNo = new HashSet<GeneralLuis.Intent>()
             {
                 GeneralLuis.Intent.ShowNext,
@@ -97,8 +111,12 @@ namespace ITSMSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
             AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
             AddDialog(new WaterfallDialog(Actions.SetId, setId));
+            AddDialog(new WaterfallDialog(Actions.SetState, setState));
+            AddDialog(new WaterfallDialog(Actions.BaseAuth, baseAuth));
             AddDialog(new GeneralPrompt(Actions.NavigateYesNoPrompt, navigateYesNo, StateAccessor));
             AddDialog(new GeneralPrompt(Actions.NavigateNoPrompt, navigateNo, StateAccessor));
+
+            base.InitialDialogId = Actions.BaseAuth;
         }
 
         protected BotSettings Settings { get; set; }
@@ -110,6 +128,8 @@ namespace ITSMSkill.Dialogs
         protected ResponseManager ResponseManager { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
+
+        protected new string InitialDialogId { get; set; }
 
         protected string ConfirmAttributeResponse { get; set; }
 
@@ -172,6 +192,12 @@ namespace ITSMSkill.Dialogs
                     state.Token = null;
                 }
 
+                if (state.Token == null)
+                {
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
+                    return await sc.CancelAllDialogsAsync();
+                }
+
                 return await sc.NextAsync();
             }
             catch (SkillException ex)
@@ -184,6 +210,11 @@ namespace ITSMSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        protected async Task<DialogTurnResult> BeginInitialDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.BeginDialogAsync(InitialDialogId);
         }
 
         protected async Task<DialogTurnResult> CheckId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -292,15 +323,23 @@ namespace ITSMSkill.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             if (state.AttributeType == AttributeType.Description)
             {
+                state.TicketDescription = null;
                 return await sc.BeginDialogAsync(Actions.SetDescription);
             }
             else if (state.AttributeType == AttributeType.Urgency)
             {
+                state.UrgencyLevel = UrgencyLevel.None;
                 return await sc.BeginDialogAsync(Actions.SetUrgency);
             }
             else if (state.AttributeType == AttributeType.Id)
             {
+                state.Id = null;
                 return await sc.BeginDialogAsync(Actions.SetId);
+            }
+            else if (state.AttributeType == AttributeType.State)
+            {
+                state.TicketState = TicketState.None;
+                return await sc.BeginDialogAsync(Actions.SetState);
             }
             else
             {
@@ -471,14 +510,88 @@ namespace ITSMSkill.Dialogs
             return await sc.NextAsync();
         }
 
+        protected async Task<DialogTurnResult> CheckState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (state.TicketState == TicketState.None)
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "State", state.TicketState.ToString() }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmState, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || state.TicketState == TicketState.None)
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputState),
+                    Choices = new List<Choice>()
+                    {
+                        new Choice()
+                        {
+                            Value = TicketState.New.ToLocalizedString()
+                        },
+                        new Choice()
+                        {
+                            Value = TicketState.InProgress.ToLocalizedString()
+                        },
+                        new Choice()
+                        {
+                            Value = TicketState.OnHold.ToLocalizedString()
+                        },
+                        new Choice()
+                        {
+                            Value = TicketState.Resolved.ToLocalizedString()
+                        },
+                        new Choice()
+                        {
+                            Value = TicketState.Closed.ToLocalizedString()
+                        },
+                        new Choice()
+                        {
+                            Value = TicketState.Canceled.ToLocalizedString()
+                        }
+                    }
+                };
+
+                return await sc.PromptAsync(nameof(ChoicePrompt), options);
+            }
+            else
+            {
+                // use Index to skip localization
+                return await sc.NextAsync(new FoundChoice()
+                {
+                    Index = (int)state.TicketState - 1
+                });
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.TicketState = (TicketState)(((FoundChoice)sc.Result).Index + 1);
+            return await sc.NextAsync();
+        }
+
         protected async Task<DialogTurnResult> ShowKnowledge(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.Token == null)
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.CancelAllDialogsAsync();
-            }
 
             bool firstDisplay = false;
             if (state.PageIndex == -1)
@@ -680,6 +793,9 @@ namespace ITSMSkill.Dialogs
             public const string SetDescription = "SetDescription";
             public const string SetUrgency = "SetUrgency";
             public const string SetId = "SetId";
+            public const string SetState = "SetState";
+
+            public const string BaseAuth = "BaseAuth";
 
             public const string NavigateYesNoPrompt = "NavigateYesNoPrompt";
             public const string NavigateNoPrompt = "NavigateNoPrompt";

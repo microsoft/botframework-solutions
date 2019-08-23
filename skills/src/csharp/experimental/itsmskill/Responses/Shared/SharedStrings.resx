@@ -171,4 +171,7 @@
   <data name="ID" xml:space="preserve">
     <value>ID: </value>
   </data>
+  <data name="AttributeState" xml:space="preserve">
+    <value>state</value>
+  </data>
 </root>

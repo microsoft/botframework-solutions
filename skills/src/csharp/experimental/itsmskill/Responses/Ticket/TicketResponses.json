@@ -84,7 +84,7 @@
   },
   "ShowAttribute": {
     // same with SharedStrings
-    "suggestedActions": [ "id", "description", "urgency", "no" ],
+    "suggestedActions": [ "id", "description", "urgency", "state", "no" ],
     "replies": [
       {
         "text": "What attribute do you want to set as search constraint? Or \"No\" for no more attribute.",

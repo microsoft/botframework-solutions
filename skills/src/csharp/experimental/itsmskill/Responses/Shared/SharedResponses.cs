@@ -24,6 +24,8 @@ namespace ITSMSkill.Responses.Shared
         public const string InputReason = "InputReason";
         public const string ConfirmUrgency = "ConfirmUrgency";
         public const string InputUrgency = "InputUrgency";
+        public const string ConfirmState = "ConfirmState";
+        public const string InputState = "InputState";
         public const string ConfirmId = "ConfirmId";
         public const string InputId = "InputId";
         public const string ServiceFailed = "ServiceFailed";

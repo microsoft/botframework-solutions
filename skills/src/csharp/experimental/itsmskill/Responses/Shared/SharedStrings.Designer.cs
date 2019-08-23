@@ -79,6 +79,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to state.
+        /// </summary>
+        public static string AttributeState {
+            get {
+                return ResourceManager.GetString("AttributeState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to urgency.
         /// </summary>
         public static string AttributeUrgency {

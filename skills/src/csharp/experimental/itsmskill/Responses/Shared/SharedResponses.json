@@ -199,6 +199,24 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ConfirmState": {
+    "replies": [
+      {
+        "text": "Is the ticket state \"{State}\" correct?",
+        "speak": "Is the ticket state \"{State}\" correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InputState": {
+    "replies": [
+      {
+        "text": "Please input the ticket state:",
+        "speak": "Please input the ticket state:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "ConfirmId": {
     "replies": [
       {

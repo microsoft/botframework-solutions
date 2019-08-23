@@ -60,7 +60,7 @@ namespace ITSMSkill.Dialogs
                 IfContinueShow
             };
 
-            var attributesForShow = new AttributeType[] { AttributeType.Id, AttributeType.Description, AttributeType.Urgency };
+            var attributesForShow = new AttributeType[] { AttributeType.Id, AttributeType.Description, AttributeType.Urgency, AttributeType.State };
 
             AddDialog(new WaterfallDialog(Actions.ShowTicket, showTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowAttribute, showAttribute) { TelemetryClient = telemetryClient });
@@ -111,6 +111,11 @@ namespace ITSMSkill.Dialogs
                 sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
             }
 
+            if (state.TicketState != TicketState.None)
+            {
+                sb.AppendLine($"{SharedStrings.TicketState}{state.TicketState.ToLocalizedString()}");
+            }
+
             if (sb.Length == 0)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowConstraintNone));
@@ -136,11 +141,6 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> ShowTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.Token == null)
-            {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
-                return await sc.CancelAllDialogsAsync();
-            }
 
             bool firstDisplay = false;
             if (state.PageIndex == -1)
@@ -156,7 +156,13 @@ namespace ITSMSkill.Dialogs
                 urgencies.Add(state.UrgencyLevel);
             }
 
-            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, id: state.Id);
+            var states = new List<TicketState>();
+            if (state.TicketState != TicketState.None)
+            {
+                states.Add(state.TicketState);
+            }
+
+            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, id: state.Id, states: states);
 
             if (!result.Success)
             {

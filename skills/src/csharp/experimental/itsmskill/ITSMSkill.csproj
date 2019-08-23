@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <NoWarn>NU1701</NoWarn>
+    <RestoreAdditionalProjectSources>
+      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>

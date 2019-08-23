@@ -90,10 +90,10 @@ namespace ITSMSkill.Dialogs
                 var result = await luisService.RecognizeAsync<ITSMLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                if (intent != ITSMLuis.Intent.None)
+                if (intent != null && intent != ITSMLuis.Intent.None)
                 {
                     var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
-                    state.DigestLuisResult(result);
+                    state.DigestLuisResult(result, (ITSMLuis.Intent)intent);
                 }
 
                 switch (intent)

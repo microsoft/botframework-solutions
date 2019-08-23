@@ -31,8 +31,25 @@ $AttributeType:urgency=
 
 $AttributeType:description=
 
+$AttributeType:state=
+
 $UrgencyLevel:low=
 
 $UrgencyLevel:medium=
 
 $UrgencyLevel:high=
+- urgent
+
+$TicketState:new=
+
+$TicketState:inprogress=
+- in progress
+
+$TicketState:onhold=
+- on hold
+
+$TicketState:resolved=
+
+$TicketState:closed=
+
+$TicketState:canceled=

@@ -12,8 +12,12 @@ namespace Luis
 {
     public partial class ITSMLuis: IRecognizerConvert
     {
+        [JsonProperty("text")]
         public string Text;
+
+        [JsonProperty("alteredText")]
         public string AlteredText;
+
         public enum Intent {
             None, 
             TicketCreate, 
@@ -22,29 +26,36 @@ namespace Luis
             TicketClose, 
             KnowledgeShow
         };
+        [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] TicketDescription;
             public string[] CloseReason;
+
+            public string[] TicketDescription;
 
             // Lists
             public string[][] AttributeType;
+
+            public string[][] TicketState;
+
             public string[][] UrgencyLevel;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] TicketDescription;
-                public InstanceData[] CloseReason;
                 public InstanceData[] AttributeType;
+                public InstanceData[] CloseReason;
+                public InstanceData[] TicketDescription;
+                public InstanceData[] TicketState;
                 public InstanceData[] UrgencyLevel;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
+        [JsonProperty("entities")]
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]

@@ -11,6 +11,8 @@ namespace ITSMSkill.Models
         [EnumLocalizedDescription("AttributeDescription", typeof(SharedStrings))]
         Description,
         [EnumLocalizedDescription("AttributeUrgency", typeof(SharedStrings))]
-        Urgency
+        Urgency,
+        [EnumLocalizedDescription("AttributeState", typeof(SharedStrings))]
+        State,
     }
 }
