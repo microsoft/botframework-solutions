@@ -10,7 +10,6 @@ import com.pixplicity.sharp.Sharp;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 
 import io.adaptivecards.objectmodel.AdaptiveBase64Util;
 import io.adaptivecards.objectmodel.CharVector;

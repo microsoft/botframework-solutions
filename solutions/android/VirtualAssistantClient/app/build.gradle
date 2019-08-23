@@ -48,11 +48,6 @@ dependencies {
     // JSON
     implementation "com.google.code.gson:gson:2.8.4"
 
-    // rxJava
-    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
-    implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'io.reactivex:rxjava:1.1.6'
-
     // Material Dialogs
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
