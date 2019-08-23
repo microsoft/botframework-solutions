@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Options;
 using CalendarSkill.Prompts;
+using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
@@ -552,10 +553,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DatePromptForCreate, new PromptOptions
+                return await sc.PromptAsync(Actions.DatePromptForCreate, new DatePromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate),
                     RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDateRetry),
+                    TimeZone = state.GetUserTimeZone()
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -600,25 +602,12 @@ namespace CalendarSkill.Dialogs
 
                                 if (dateTime != null)
                                 {
-                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
                                     if (ContainsTime(dateTimeConvertType))
                                     {
-                                        state.StartTime.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()));
+                                        state.StartTime.Add(dateTime);
                                     }
 
-                                    // Workaround as DateTimePrompt only return as local time
-                                    if (isRelativeTime)
-                                    {
-                                        dateTime = new DateTime(
-                                            dateTime.Year,
-                                            dateTime.Month,
-                                            dateTime.Day,
-                                            DateTime.Now.Hour,
-                                            DateTime.Now.Minute,
-                                            DateTime.Now.Second);
-                                    }
-
-                                    state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                    state.StartDate.Add(dateTime);
                                 }
                             }
                             catch (FormatException ex)
@@ -646,11 +635,12 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (!state.StartTime.Any())
                 {
-                    return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
+                    return await sc.PromptAsync(Actions.TimePromptForCreate, new TimePromptOptions
                     {
                         Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
                         RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
                         NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeNoSkip),
+                        TimeZone = state.GetUserTimeZone()
                     }, cancellationToken);
                 }
                 else
@@ -685,8 +675,7 @@ namespace CalendarSkill.Dialogs
 
                                 if (dateTime != null)
                                 {
-                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
-                                    state.StartTime.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                    state.StartTime.Add(dateTime);
                                 }
                             }
                             catch (FormatException ex)

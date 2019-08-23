@@ -351,7 +351,7 @@ namespace CalendarSkill.Dialogs
                     }
 
                     // filter meetings with start time
-                    var timeResult = RecognizeDateTime(userInput, sc.Context.Activity.Locale ?? English, false);
+                    var timeResult = RecognizeDateTime(userInput, sc.Context.Activity.Locale ?? English, state.GetUserTimeZone(), false);
                     if (filteredMeetingList.Count <= 0 && timeResult != null)
                     {
                         foreach (var result in timeResult)

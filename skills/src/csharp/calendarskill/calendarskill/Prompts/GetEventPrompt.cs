@@ -73,7 +73,7 @@ namespace CalendarSkill.Prompts
             {
                 var message = turnContext.Activity.AsMessageActivity();
                 var culture = turnContext.Activity.Locale ?? DefaultLocale ?? English;
-                var date = GetTimeFromMessage(message.Text, culture);
+                var date = GetTimeFromMessage(message.Text, culture, userTimeZone);
                 if (date.Count > 0)
                 {
                     // input is a time
@@ -117,11 +117,7 @@ namespace CalendarSkill.Prompts
                         continue;
                     }
 
-                    var dateTimeConvertType = resolution.Timex;
-                    var isRelativeTime = IsRelativeTime(message, dateTimeResolutions[0].Value, dateTimeResolutions[0].Timex);
-                    startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, userTimeZone) : startTimeValue;
-
-                    startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
+                    startTimeValue = TimeZoneInfo.ConvertTimeToUtc(startTimeValue, userTimeZone);
                     events = await calendarService.GetEventsByStartTime(startTimeValue);
                     if (events != null && events.Count > 0)
                     {
@@ -139,42 +135,17 @@ namespace CalendarSkill.Prompts
             return events;
         }
 
-        private bool IsRelativeTime(string userInput, string resolverResult, string timex)
+        private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture, TimeZoneInfo userTimeZone)
         {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
-            {
-                return true;
-            }
-
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
-            {
-                return true;
-            }
-
-            if (timex == "PRESENT_REF")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture)
-        {
-            IList<DateTimeResolution> results = RecognizeDateTime(message, culture);
+            IList<DateTimeResolution> results = RecognizeDateTime(message, culture, userTimeZone);
 
             return results;
         }
 
-        private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, TimeZoneInfo userTimeZone)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, DateTimeOptions.CalendarMode, userNow);
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
