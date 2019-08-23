@@ -62,5 +62,17 @@
   {
     "item": "Tissue Box",
     "names": [ "tissue box", "tissue boxes", "tissues", "tissue", "box of tissue", "box of tissues" ]
+  },
+  {
+    "item": "Workout Clothes",
+    "names": [ "workout clothes", "work out clothes", "work out clothing", "workout clothing", "gym clothes", "exercise clothes" ]
+  },
+  {
+    "item": "Running Shoes",
+    "names": [ "running shoes", "exercise shoes", "workout shoes", "workout shoes", "tennis shoes" ]
+  },
+  {
+    "item": "Umbrella",
+    "names": [ "umbrella", "umbrellas" ]
   }
 ]

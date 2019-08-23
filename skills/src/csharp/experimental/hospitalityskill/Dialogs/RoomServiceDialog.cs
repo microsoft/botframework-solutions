@@ -9,6 +9,7 @@ using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Schema;
 using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Dialogs
@@ -57,10 +58,22 @@ namespace HospitalitySkill.Dialogs
             // didn't order, prompt if 1 menu type not identified
             if (convState.FoodList.Count == 0 && string.IsNullOrWhiteSpace(menu?[0][0]) && menu?.Length != 1)
             {
+                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt);
+                prompt.SuggestedActions = new SuggestedActions()
+                {
+                    Actions = new List<CardAction>()
+                    {
+                        new CardAction() { Title = "Breakfast", Type = ActionTypes.ImBack, Value = "Breakfast menu"},
+                        new CardAction() { Title = "Lunch", Type = ActionTypes.ImBack, Value = "Lunch menu"},
+                        new CardAction() { Title = "Dinner", Type = ActionTypes.ImBack, Value = "Dinner menu"},
+                        new CardAction() { Title = "24 Hour", Type = ActionTypes.ImBack, Value = "24 hour menu"},
+                    }
+                };
+
                 return await sc.PromptAsync(DialogIds.MenuPrompt, new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt),
-                    RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu)
+                    Prompt = prompt,
+                    RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu),
                 });
             }
 
