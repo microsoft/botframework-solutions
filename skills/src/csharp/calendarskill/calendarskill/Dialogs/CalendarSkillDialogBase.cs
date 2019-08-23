@@ -420,33 +420,6 @@ namespace CalendarSkill.Dialogs
             return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
         }
 
-        //protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
-        //{
-        //    var userInputLower = userInput.ToLower();
-        //    if (userInputLower.Contains(CalendarCommonStrings.Ago) ||
-        //        userInputLower.Contains(CalendarCommonStrings.Before) ||
-        //        userInputLower.Contains(CalendarCommonStrings.Later) ||
-        //        userInputLower.Contains(CalendarCommonStrings.Next))
-        //    {
-        //        return true;
-        //    }
-
-        //    if (userInputLower.Contains(CalendarCommonStrings.TodayLower) ||
-        //        userInputLower.Contains(CalendarCommonStrings.Now) ||
-        //        userInputLower.Contains(CalendarCommonStrings.YesterdayLower) ||
-        //        userInputLower.Contains(CalendarCommonStrings.TomorrowLower))
-        //    {
-        //        return true;
-        //    }
-
-        //    if (timex == "PRESENT_REF")
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
         protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
             // todo: check input datetime is utc
@@ -1473,7 +1446,6 @@ namespace CalendarSkill.Dialogs
 
                         if (dateTime != null)
                         {
-                            //var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
                             dateTimeResults.Add(dateTime);
                         }
                     }
@@ -1517,7 +1489,6 @@ namespace CalendarSkill.Dialogs
 
                         if (dateTime != null)
                         {
-                            //var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
                             dateTimeResults.Add(dateTime);
                         }
                     }
