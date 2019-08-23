@@ -148,6 +148,19 @@ namespace CalendarSkillTest.Flow.Fakes
             return Task.FromResult(user);
         }
 
+        public async Task<PersonModel> GetMyManagerAsync()
+        {
+            var user = new PersonModel();
+            return user;
+        }
+
+        public async Task<PersonModel> GetManagerAsync(string name)
+        {
+            var user = new PersonModel();
+            return user;
+        }
+
+
         public Task<string> GetPhotoAsync(string id)
         {
             return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
