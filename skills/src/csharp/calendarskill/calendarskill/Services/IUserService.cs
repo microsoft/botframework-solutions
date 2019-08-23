@@ -22,6 +22,10 @@ namespace CalendarSkill.Services
 
         Task<PersonModel> GetMeAsync();
 
+        Task<PersonModel> GetMyManagerAsync();
+
+        Task<PersonModel> GetManagerAsync(string name);
+
         Task<string> GetPhotoAsync(string email);
     }
 }

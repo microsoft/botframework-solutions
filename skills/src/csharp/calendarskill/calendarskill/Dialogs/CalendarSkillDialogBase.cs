@@ -24,6 +24,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
@@ -813,6 +814,13 @@ namespace CalendarSkill.Dialogs
                                 state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
+                            if (entity.RelationshipName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                state.MeetingInfor.ContactInfor.ContactsNameList = AddRelatedEntityIntoAttendees(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict, state.MeetingInfor.ContactInfor.ContactsNameList);
+                            }
+
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
@@ -1381,6 +1389,22 @@ namespace CalendarSkill.Dialogs
             return result;
         }
 
+        protected async Task<PersonModel> GetMyManager(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMyManagerAsync();
+        }
+
+        protected async Task<PersonModel> GetManager(WaterfallStepContext sc, string name)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetManagerAsync(name);
+        }
+
         protected async Task<PersonModel> GetMe(ITurnContext context)
         {
             var state = await Accessor.GetAsync(context);
@@ -1431,6 +1455,51 @@ namespace CalendarSkill.Dialogs
                 {
                     attendees.Add(contactName);
                 }
+            }
+
+            return attendees;
+        }
+
+        protected Dictionary<string, CalendarSkillState.RelatedEntityInfo> GetRelatedEntityFromRelationship(CalendarLuis._Entities entity, string inputString, Dictionary<string, CalendarSkillState.RelatedEntityInfo> entities = null )
+        {
+            if (entities == null)
+            {
+                entities = new Dictionary<string, CalendarSkillState.RelatedEntityInfo>();
+            }
+
+            int index = 0;
+            var rawRelationships = entity._instance.RelationshipName;
+            foreach (var relationship in rawRelationships)
+            {
+                string relationshipName = relationship.Text;
+                var rawPronouns = entity._instance.PossecivePronoun;
+                for (int i = 0; i < entity.PossecivePronoun.Length; i++)
+                {
+                    string pronounType = entity.PossecivePronoun[i][0];
+                    string pronounName = rawPronouns[i].Text;
+                    if (Regex.IsMatch(inputString, pronounName + "( )?" + relationshipName, RegexOptions.IgnoreCase))
+                    {
+                        var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
+                        entities.Add(originalName, new CalendarSkillState.RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName }) ;
+                    }
+                }
+
+                index++;
+            }
+
+            return entities;
+        }
+
+        protected List<string> AddRelatedEntityIntoAttendees(Dictionary<string, CalendarSkillState.RelatedEntityInfo> entities, List<string> attendees = null)
+        {
+            if (attendees == null)
+            {
+                attendees = new List<string>();
+            }
+
+            foreach(var entity in entities)
+            {
+                attendees.Add(entity.Key);
             }
 
             return attendees;

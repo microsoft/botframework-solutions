@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
@@ -345,7 +346,8 @@ namespace CalendarSkill.Dialogs
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = name,
-                        Address = confirmedPerson.Emails.First().Address
+                        Address = confirmedPerson.Emails.First().Address,
+                        UserPrincipalName = confirmedPerson.UserPrincipalName
                     };
                     if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
@@ -458,7 +460,8 @@ namespace CalendarSkill.Dialogs
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = currentRecipientName,
-                        Address = currentRecipientName
+                        Address = currentRecipientName,
+                        UserPrincipalName = currentRecipientName,
                     };
                     if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
@@ -476,6 +479,41 @@ namespace CalendarSkill.Dialogs
                 {
                     var me = await GetMe(sc.Context);
                     unionList.Add(new CustomizedPerson(me));
+                }
+                else if (!string.IsNullOrEmpty(currentRecipientName) && state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                {
+                    string pronounType = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].PronounType;
+                    string relationship = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].RelationshipName;
+                    var personList = new List<PersonModel>();
+                    if (pronounType == "FirstPerson")
+                    {
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetMyManager(sc);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+                    else if (pronounType == "ThirdPerson" && state.MeetingInfor.ContactInfor.Contacts.Count > 0)
+                    {
+                        int count = state.MeetingInfor.ContactInfor.Contacts.Count;
+                        string prename = state.MeetingInfor.ContactInfor.Contacts[count - 1].UserPrincipalName;
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetManager(sc, prename);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+
+                    foreach (var person in personList)
+                    {
+                        unionList.Add(new CustomizedPerson(person));
+                    }
                 }
                 else
                 {
