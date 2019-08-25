@@ -16,6 +16,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.LogUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.RawUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -26,6 +27,7 @@ import io.adaptivecards.objectmodel.HostConfig;
 import io.adaptivecards.objectmodel.ParseResult;
 import io.adaptivecards.renderer.AdaptiveCardRenderer;
 import io.adaptivecards.renderer.RenderedAdaptiveCard;
+import io.adaptivecards.renderer.registration.CardRendererRegistration;
 
 public class ViewholderBot extends RecyclerView.ViewHolder {
 
@@ -50,6 +52,7 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
         view = itemView;
         ButterKnife.bind(this, view);
         cardActionHandler = new ActionHandler();
+        CardRendererRegistration.getInstance().registerResourceResolver("data", new SvgImageLoader());
     }
 
     /**
@@ -80,12 +83,16 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
 
                         // collect payload for the click event
                         String selectActionData = null;
-                        JSONObject selectAction = cardContent.getJSONObject("selectAction");
-                        if (selectAction != null) {
-                            String selectActionType = selectAction.getString("type");
-                            if (selectActionType != null && selectActionType.equals("Action.Submit")) {
-                                selectActionData = selectAction.getString("data");
+                        try {
+                            JSONObject selectAction = cardContent.getJSONObject("selectAction");
+                            if (selectAction != null) {
+                                String selectActionType = selectAction.getString("type");
+                                if (selectActionType != null && selectActionType.equals("Action.Submit")) {
+                                    selectActionData = selectAction.getString("data");
+                                }
                             }
+                        } catch (JSONException jsonExcept){
+                            Log.i(LOGTAG, "unclickable card");
                         }
 
                         final int clickPosition = x;
@@ -99,9 +106,11 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
                         View adaptiveCardRendered = renderedCard.getView();
                         adaptiveCardRendered.setFocusable(false);
                         adaptiveCardRendered.setFocusableInTouchMode(false);
-                        adaptiveCardRendered.setOnClickListener(v -> {
-                            onClickListener.adaptiveCardClick(clickPosition, clickData); // callback to activity
-                        });
+                        if (clickData != null) {
+                            adaptiveCardRendered.setOnClickListener(v -> {
+                                onClickListener.adaptiveCardClick(clickPosition, clickData); // callback to activity
+                            });
+                        }
 
                         // add the card to its individual container to allow for resizing
                         View adaptiveCardView = LayoutInflater.from(parentActivity).inflate(R.layout.item_adaptive_card, adaptiveCardLayout, false);

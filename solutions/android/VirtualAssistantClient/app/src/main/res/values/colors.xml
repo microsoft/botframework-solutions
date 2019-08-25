@@ -39,6 +39,9 @@
     <color name="navigationDrawerNight">#2e2e2e</color>
     <color name="navigationDrawerTextNight">#FFFFFF</color>
 
+    <!-- WIDGETS -->
+    <color name="widgetBackgroundDark">#2e2e2e</color>
+
 
 
 </resources>

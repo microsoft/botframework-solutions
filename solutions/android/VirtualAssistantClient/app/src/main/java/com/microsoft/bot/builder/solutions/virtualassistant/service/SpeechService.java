@@ -33,6 +33,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.PlayStoreUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotResponse;
 
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import client.model.ActivityValue;
 import client.model.BotConnectorActivity;
@@ -76,6 +78,7 @@ public class SpeechService extends Service {
     private LocationProvider locationProvider;
     private Gson gson;
     private boolean shouldListenAgain;
+    private boolean previousRequestWasTyped;
 
     // CONSTRUCTOR
     public SpeechService() {
@@ -114,6 +117,7 @@ public class SpeechService extends Service {
             public void resetBot(){
                 if (speechSdk != null) {
                     shouldListenAgain = false;
+                    previousRequestWasTyped = false;
                     speechSdk.resetBot(configurationManager.getConfiguration());
                 }
             }
@@ -140,12 +144,18 @@ public class SpeechService extends Service {
 
             @Override
             public void listenOnceAsync(){
-                if (speechSdk != null) speechSdk.listenOnceAsync();
+                if (speechSdk != null) {
+                    speechSdk.listenOnceAsync();
+                    previousRequestWasTyped = false;
+                }
             }
 
             @Override
             public void sendActivityMessageAsync(String msg){
-                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
+                if (speechSdk != null) {
+                    speechSdk.sendActivityMessageAsync(msg);
+                    previousRequestWasTyped = true;
+                }
             }
 
             @Override
@@ -393,6 +403,10 @@ public class SpeechService extends Service {
     // EventBus: the synthesizer has stopped playing
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventSynthesizerStopped(SynthesizerStopped event) {
+        if (previousRequestWasTyped){
+            previousRequestWasTyped = false;
+            shouldListenAgain = false;
+        }
 
         if(shouldListenAgain){
             shouldListenAgain = false;
@@ -477,10 +491,13 @@ public class SpeechService extends Service {
         }
     }
 
-    private void openDefaultApp(BotConnectorActivity botConnectorActivity){
+    private void openDefaultApp(BotConnectorActivity botConnectorActivity) {
         String intentStr = null;
         if (botConnectorActivity.getValue() instanceof String) {
             intentStr = (String) botConnectorActivity.getValue();
+        } else if (botConnectorActivity.getValue() instanceof Map) {
+            Object[] values = ((Map) botConnectorActivity.getValue()).values().toArray();
+            intentStr = (String) values[0];
         } else {
             intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
         }
@@ -504,6 +521,7 @@ public class SpeechService extends Service {
                         startActivity(mapIntent);
                     } else {
                         // since Waze and Google maps aren't available, show error to user
+                        PlayStoreUtils.launchPlayStore(this, "com.google.android.apps.maps");
                         Toast.makeText(this, R.string.service_error_no_map, Toast.LENGTH_LONG).show();
                     }
                 }
@@ -515,6 +533,18 @@ public class SpeechService extends Service {
                 dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (dialerIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(dialerIntent);
+                }
+            }
+            if (intentStr.startsWith("spotify:")) {
+                try {
+                    // please note that ":play" makes Spotify automatically start playing
+                    Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentStr + ":play"));
+                    spotifyIntent.setPackage("com.spotify.music");
+                    spotifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(spotifyIntent);
+                } catch (ActivityNotFoundException ex) {
+                    PlayStoreUtils.launchPlayStore(this,"com.spotify.music");
+                    Toast.makeText(this, R.string.service_error_no_spotify, Toast.LENGTH_LONG).show();
                 }
             }
         } else {
