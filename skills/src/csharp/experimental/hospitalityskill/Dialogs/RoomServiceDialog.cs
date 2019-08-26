@@ -106,11 +106,11 @@ namespace HospitalitySkill.Dialogs
                 List<Card> menuItems = new List<Card>();
                 foreach (var item in menu.Items)
                 {
-                    menuItems.Add(new Card("MenuItemCard", item));
+                    menuItems.Add(new Card(GetCardName(sc.Context, "MenuItemCard"), item));
                 }
 
                 // show menu card
-                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("MenuCard", menu), null, "items", menuItems));
+                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(sc.Context, "MenuCard"), menu), null, "items", menuItems));
 
                 // prompt for order
                 return await sc.PromptAsync(DialogIds.FoodOrderPrompt, new PromptOptions()
@@ -225,7 +225,7 @@ namespace HospitalitySkill.Dialogs
                     SpecialRequest = foodRequest.SpecialRequest == null ? null : foodRequest.SpecialRequest[0]
                 };
 
-                foodItems.Add(new Card("FoodItemCard", foodItemData));
+                foodItems.Add(new Card(GetCardName(turnContext, "FoodItemCard"), foodItemData));
 
                 // add up bill
                 totalFoodOrder.BillTotal += foodItemData.Price * foodItemData.Quantity;
@@ -239,7 +239,7 @@ namespace HospitalitySkill.Dialogs
 
             if (convState.FoodList.Count > 0)
             {
-                await turnContext.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("FoodOrderCard", totalFoodOrder), null, "items", foodItems));
+                await turnContext.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(turnContext, "FoodOrderCard"), totalFoodOrder), null, "items", foodItems));
             }
         }
 

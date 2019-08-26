@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\FoodItemCard.1.0.json" />
     <Content Remove="Content\FoodItemCard.json" />
+    <Content Remove="Content\FoodOrderCard.1.0.json" />
     <Content Remove="Content\FoodOrderCard.json" />
+    <Content Remove="Content\MenuCard.1.0.json" />
     <Content Remove="Content\MenuCard.json" />
+    <Content Remove="Content\MenuItemCard.1.0.json" />
     <Content Remove="Content\MenuItemCard.json" />
+    <Content Remove="Content\RequestItemCard.1.0.json" />
     <Content Remove="Content\RequestItemCard.json" />
+    <Content Remove="Content\ReservationDetails.1.0.json" />
     <Content Remove="Content\ReservationDetails.json" />
+    <Content Remove="Content\RoomItemCard.1.0.json" />
     <Content Remove="Content\RoomItemCard.json" />
     <Content Remove="Data\AvailableItems.json" />
     <Content Remove="Data\RoomServiceMenu.json" />
@@ -37,12 +44,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\FoodItemCard.1.0.json" />
     <EmbeddedResource Include="Content\FoodItemCard.json" />
+    <EmbeddedResource Include="Content\FoodOrderCard.1.0.json" />
     <EmbeddedResource Include="Content\FoodOrderCard.json" />
+    <EmbeddedResource Include="Content\MenuCard.1.0.json" />
     <EmbeddedResource Include="Content\MenuCard.json" />
+    <EmbeddedResource Include="Content\MenuItemCard.1.0.json" />
     <EmbeddedResource Include="Content\MenuItemCard.json" />
+    <EmbeddedResource Include="Content\RequestItemCard.1.0.json" />
     <EmbeddedResource Include="Content\RequestItemCard.json" />
+    <EmbeddedResource Include="Content\ReservationDetails.1.0.json" />
     <EmbeddedResource Include="Content\ReservationDetails.json" />
+    <EmbeddedResource Include="Content\RoomItemCard.1.0.json" />
     <EmbeddedResource Include="Content\RoomItemCard.json" />
     <EmbeddedResource Include="Data\AvailableItems.json" />
     <EmbeddedResource Include="Data\RoomServiceMenu.json" />

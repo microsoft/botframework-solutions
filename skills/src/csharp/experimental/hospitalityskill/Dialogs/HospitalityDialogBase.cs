@@ -12,10 +12,12 @@ using HospitalitySkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace HospitalitySkill.Dialogs
@@ -192,6 +194,17 @@ namespace HospitalitySkill.Dialogs
             }
 
             return await sc.NextAsync();
+        }
+
+        // Get card that renders for adaptive card 1.0
+        protected string GetCardName(ITurnContext context, string name)
+        {
+            if (Channel.GetChannelId(context) == Channels.Msteams)
+            {
+                name += ".1.0";
+            }
+
+            return name;
         }
     }
 }

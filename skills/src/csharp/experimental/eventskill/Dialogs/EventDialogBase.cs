@@ -12,10 +12,12 @@ using EventSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace EventSkill.Dialogs
@@ -174,6 +176,17 @@ namespace EventSkill.Dialogs
             // clear state
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
+        }
+
+        // Get card that renders for adaptive card 1.0
+        protected string GetCardName(ITurnContext context, string name)
+        {
+            if (Channel.GetChannelId(context) == Channels.Msteams)
+            {
+                name += ".1.0";
+            }
+
+            return name;
         }
     }
 }

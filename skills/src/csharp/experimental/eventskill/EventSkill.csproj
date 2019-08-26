@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\EventCard.1.0.json" />
     <Content Remove="Content\EventCard.json" />
     <Content Remove="Responses\FindEvents\FindEventsResponses.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
@@ -24,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\EventCard.1.0.json" />
     <EmbeddedResource Include="Content\EventCard.json" />
     <EmbeddedResource Include="Responses\FindEvents\FindEventsResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
