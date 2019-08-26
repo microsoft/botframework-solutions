@@ -15,6 +15,7 @@
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for Conversational AI Virtual Assistants and Skills.</Description>
+    <RestoreAdditionalProjectSources>https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;</RestoreAdditionalProjectSources>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
