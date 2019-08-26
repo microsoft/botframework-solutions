@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F2E-60EB-4566-9ECD-56F114372037}"
 EndProject
@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimenta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkillPreview", "experimental\calendarskillpreview\CalendarSkillPreview.csproj", "{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalitySkill", "experimental\hospitalityskill\HospitalitySkill.csproj", "{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkillPreview", "experimental\calendarskillpreview\CalendarSkillPreview.csproj", "{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,14 +161,6 @@ Global
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -177,6 +169,14 @@ Global
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,8 +196,8 @@ Global
 		{9A2677E6-21E5-47EE-A42F-9D25079496D8} = {15B08548-1311-4749-8816-186C3268386E}
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
-		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
 		{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
+		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B849B7E-CCF5-4031-91F7-CA835433B457}
