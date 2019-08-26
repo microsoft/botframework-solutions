@@ -43,12 +43,16 @@ namespace Luis
 
             public string[][] UrgencyLevel;
 
+            // Regex entities
+            public string[] TicketNumber;
+
             // Instance
             public class _Instance
             {
                 public InstanceData[] AttributeType;
                 public InstanceData[] CloseReason;
                 public InstanceData[] TicketDescription;
+                public InstanceData[] TicketNumber;
                 public InstanceData[] TicketState;
                 public InstanceData[] UrgencyLevel;
             }

@@ -64,7 +64,7 @@
           "type": "TextBlock",
           "size": "Small",
           "color": "Default",
-          "text": "{Id}"
+          "text": "{Number}"
         }
       ]
     },

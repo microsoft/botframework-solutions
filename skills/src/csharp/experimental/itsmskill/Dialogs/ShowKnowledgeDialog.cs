@@ -88,7 +88,7 @@ namespace ITSMSkill.Dialogs
             if ((bool)sc.Result)
             {
                 var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-                state.SkipDisplayExisting = true;
+                state.DisplayExisting = false;
 
                 return await sc.ReplaceDialogAsync(nameof(CreateTicketDialog));
             }

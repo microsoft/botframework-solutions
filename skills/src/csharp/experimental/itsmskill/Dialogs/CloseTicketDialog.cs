@@ -33,9 +33,8 @@ namespace ITSMSkill.Dialogs
         {
             var closeTicket = new WaterfallStep[]
             {
-                CheckId,
-                InputId,
-                SetId,
+                BeginSetNumberThenId,
+                CheckClosed,
                 CheckReason,
                 InputReason,
                 SetReason,
@@ -49,6 +48,19 @@ namespace ITSMSkill.Dialogs
             InitialDialogId = Actions.CloseTicket;
         }
 
+        protected async Task<DialogTurnResult> CheckClosed(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+
+            if (state.TicketTarget.State == TicketState.Closed)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketAlreadyClosed));
+                return await sc.EndDialogAsync();
+            }
+
+            return await sc.NextAsync();
+        }
+
         protected async Task<DialogTurnResult> CloseTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
@@ -57,12 +69,7 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.CancelAllDialogsAsync();
+                return await SendServiceErrorAndCancel(sc, result);
             }
 
             var card = new Card()

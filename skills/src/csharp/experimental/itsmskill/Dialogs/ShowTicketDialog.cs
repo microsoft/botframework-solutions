@@ -60,7 +60,7 @@ namespace ITSMSkill.Dialogs
                 IfContinueShow
             };
 
-            var attributesForShow = new AttributeType[] { AttributeType.Id, AttributeType.Description, AttributeType.Urgency, AttributeType.State };
+            var attributesForShow = new AttributeType[] { AttributeType.Number, AttributeType.Description, AttributeType.Urgency, AttributeType.State };
 
             AddDialog(new WaterfallDialog(Actions.ShowTicket, showTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowAttribute, showAttribute) { TelemetryClient = telemetryClient });
@@ -96,9 +96,9 @@ namespace ITSMSkill.Dialogs
             state.AttributeType = AttributeType.None;
 
             var sb = new StringBuilder();
-            if (!string.IsNullOrEmpty(state.Id))
+            if (!string.IsNullOrEmpty(state.TicketNumber))
             {
-                sb.AppendLine($"{SharedStrings.ID}{state.Id}");
+                sb.AppendLine($"{SharedStrings.TicketNumber}{state.TicketNumber}");
             }
 
             if (!string.IsNullOrEmpty(state.TicketDescription))
@@ -162,16 +162,11 @@ namespace ITSMSkill.Dialogs
                 states.Add(state.TicketState);
             }
 
-            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, id: state.Id, states: states);
+            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!result.Success)
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.CancelAllDialogsAsync();
+                return await SendServiceErrorAndCancel(sc, result);
             }
 
             if (result.Tickets == null || result.Tickets.Length == 0)

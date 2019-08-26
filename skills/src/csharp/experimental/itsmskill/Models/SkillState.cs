@@ -22,7 +22,9 @@ namespace ITSMSkill.Models
         public int PageIndex { get; set; }
 
         // used when from ShowKnowledge to CreateTicket
-        public bool SkipDisplayExisting { get; set; }
+        public bool DisplayExisting { get; set; }
+
+        public Ticket TicketTarget { get; set; }
 
         public string Id { get; set; }
 
@@ -35,6 +37,9 @@ namespace ITSMSkill.Models
         public AttributeType AttributeType { get; set; }
 
         public TicketState TicketState { get; set; }
+
+        // INC[0-9]{7}
+        public string TicketNumber { get; set; }
 
         // from OnInterruptDialogAsync
         public GeneralLuis.Intent GeneralIntent { get; set; }
@@ -69,6 +74,11 @@ namespace ITSMSkill.Models
                 TicketState = Enum.Parse<TicketState>(luis.Entities.TicketState[0][0], true);
             }
 
+            if (luis.Entities.TicketNumber != null)
+            {
+                TicketNumber = luis.Entities.TicketNumber[0].ToUpper();
+            }
+
             // TODO some special digestions
             if (topIntent == ITSMLuis.Intent.TicketUpdate)
             {
@@ -84,7 +94,7 @@ namespace ITSMSkill.Models
             }
             else if (topIntent == ITSMLuis.Intent.TicketCreate)
             {
-                SkipDisplayExisting = false;
+                DisplayExisting = true;
             }
             else if (topIntent == ITSMLuis.Intent.TicketShow)
             {
@@ -100,6 +110,7 @@ namespace ITSMSkill.Models
             UrgencyLevel = UrgencyLevel.None;
             AttributeType = AttributeType.None;
             TicketState = TicketState.None;
+            TicketNumber = null;
         }
     }
 }

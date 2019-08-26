@@ -36,9 +36,7 @@ namespace ITSMSkill.Dialogs
         {
             var updateTicket = new WaterfallStep[]
             {
-                CheckId,
-                InputId,
-                SetId,
+                BeginSetNumberThenId,
                 UpdateAttributeLoop,
                 GetAuthToken,
                 AfterGetAuthToken,
@@ -117,17 +115,19 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> UpdateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+
+            if (string.IsNullOrEmpty(state.TicketDescription) && state.UrgencyLevel == UrgencyLevel.None)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketNoUpdate));
+                return await sc.NextAsync();
+            }
+
             var management = ServiceManager.CreateManagement(Settings, state.Token);
             var result = await management.UpdateTicket(state.Id, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.CancelAllDialogsAsync();
+                return await SendServiceErrorAndCancel(sc, result);
             }
 
             var card = new Card()

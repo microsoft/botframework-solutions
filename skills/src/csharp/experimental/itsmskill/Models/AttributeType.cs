@@ -14,5 +14,7 @@ namespace ITSMSkill.Models
         Urgency,
         [EnumLocalizedDescription("AttributeState", typeof(SharedStrings))]
         State,
+        [EnumLocalizedDescription("AttributeNumber", typeof(SharedStrings))]
+        Number,
     }
 }

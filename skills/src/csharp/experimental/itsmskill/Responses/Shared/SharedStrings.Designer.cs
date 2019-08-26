@@ -79,6 +79,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to number.
+        /// </summary>
+        public static string AttributeNumber {
+            get {
+                return ResourceManager.GetString("AttributeNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to state.
         /// </summary>
         public static string AttributeState {
@@ -120,6 +129,15 @@ namespace ITSMSkill.Responses.Shared {
         public static string OpenedAt {
             get {
                 return ResourceManager.GetString("OpenedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number: .
+        /// </summary>
+        public static string TicketNumber {
+            get {
+                return ResourceManager.GetString("TicketNumber", resourceCulture);
             }
         }
         

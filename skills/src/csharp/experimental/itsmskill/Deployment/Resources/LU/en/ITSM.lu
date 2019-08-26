@@ -53,3 +53,5 @@ $TicketState:resolved=
 $TicketState:closed=
 
 $TicketState:canceled=
+
+$TicketNumber:/INC[0-9]{7}/

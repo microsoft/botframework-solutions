@@ -9,7 +9,7 @@ namespace ITSMSkill.Services
         Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency);
 
         // like description & in urgencies & equal id & in states
-        Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null);
+        Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null);
 
         Task<TicketsResult> UpdateTicket(string id, string description = null, UrgencyLevel urgency = UrgencyLevel.None);
 

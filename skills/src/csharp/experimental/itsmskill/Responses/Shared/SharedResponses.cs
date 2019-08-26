@@ -28,6 +28,7 @@ namespace ITSMSkill.Responses.Shared
         public const string InputState = "InputState";
         public const string ConfirmId = "ConfirmId";
         public const string InputId = "InputId";
+        public const string InputTicketNumber = "InputTicketNumber";
         public const string ServiceFailed = "ServiceFailed";
     }
 }

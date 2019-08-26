@@ -17,6 +17,7 @@ namespace ITSMSkill.Responses.Ticket
         public const string ConfirmUpdateAttribute = "ConfirmUpdateAttribute";
         public const string UpdateAttribute = "UpdateAttribute";
         public const string TicketUpdated = "TicketUpdated";
+        public const string TicketNoUpdate = "TicketNoUpdate";
         public const string ShowConstraintNone = "ShowConstraintNone";
         public const string ShowConstraints = "ShowConstraints";
         public const string ShowUpdateNone = "ShowUpdateNone";
@@ -25,6 +26,9 @@ namespace ITSMSkill.Responses.Ticket
         public const string TicketShow = "TicketShow";
         public const string TicketEnd = "TicketEnd";
         public const string TicketShowNone = "TicketShowNone";
+        public const string TicketDuplicateNumber = "TicketDuplicateNumber";
+        public const string TicketTarget = "TicketTarget";
+        public const string TicketAlreadyClosed = "TicketAlreadyClosed";
         public const string TicketClosed = "TicketClosed";
     }
 }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Shared;
+using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
 using ITSMSkill.Utilities;
 using Luis;
@@ -83,6 +84,22 @@ namespace ITSMSkill.Dialogs
                 SetState
             };
 
+            // TODO since number is ServiceNow specific regex, no need to check
+            var setNumber = new WaterfallStep[]
+            {
+                InputTicketNumber,
+                SetTicketNumber,
+            };
+
+            var setNumberThenId = new WaterfallStep[]
+            {
+                InputTicketNumber,
+                SetTicketNumber,
+                GetAuthToken,
+                AfterGetAuthToken,
+                SetIdFromNumber,
+            };
+
             var baseAuth = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -108,10 +125,13 @@ namespace ITSMSkill.Dialogs
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new TicketNumberPrompt(nameof(TicketNumberPrompt)));
             AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
             AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
             AddDialog(new WaterfallDialog(Actions.SetId, setId));
             AddDialog(new WaterfallDialog(Actions.SetState, setState));
+            AddDialog(new WaterfallDialog(Actions.SetNumber, setNumber));
+            AddDialog(new WaterfallDialog(Actions.SetNumberThenId, setNumberThenId));
             AddDialog(new WaterfallDialog(Actions.BaseAuth, baseAuth));
             AddDialog(new GeneralPrompt(Actions.NavigateYesNoPrompt, navigateYesNo, StateAccessor));
             AddDialog(new GeneralPrompt(Actions.NavigateNoPrompt, navigateNo, StateAccessor));
@@ -341,6 +361,11 @@ namespace ITSMSkill.Dialogs
                 state.TicketState = TicketState.None;
                 return await sc.BeginDialogAsync(Actions.SetState);
             }
+            else if (state.AttributeType == AttributeType.Number)
+            {
+                state.TicketNumber = null;
+                return await sc.BeginDialogAsync(Actions.SetNumber);
+            }
             else
             {
                 throw new Exception($"Invalid AttributeType: {state.AttributeType}");
@@ -441,6 +466,72 @@ namespace ITSMSkill.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             state.CloseReason = (string)sc.Result;
             return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> InputTicketNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketNumber))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputTicketNumber)
+                };
+
+                return await sc.PromptAsync(nameof(TicketNumberPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketNumber);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetTicketNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.TicketNumber = (string)sc.Result;
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> SetIdFromNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var result = await management.SearchTicket(0, number: state.TicketNumber);
+
+            if (!result.Success)
+            {
+                return await SendServiceErrorAndCancel(sc, result);
+            }
+
+            if (result.Tickets == null || result.Tickets.Length == 0)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketShowNone));
+                return await sc.CancelAllDialogsAsync();
+            }
+
+            if (result.Tickets.Length >= 2)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketDuplicateNumber));
+                return await sc.CancelAllDialogsAsync();
+            }
+
+            state.TicketTarget = result.Tickets[0];
+            state.Id = state.TicketTarget.Id;
+
+            var card = new Card()
+            {
+                Name = GetDivergedCardName(sc.Context, "Ticket"),
+                Data = ConvertTicket(state.TicketTarget)
+            };
+
+            await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketTarget, card, null));
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> BeginSetNumberThenId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.BeginDialogAsync(Actions.SetNumberThenId);
         }
 
         protected async Task<DialogTurnResult> CheckUrgency(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -605,12 +696,7 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.CancelAllDialogsAsync();
+                return await SendServiceErrorAndCancel(sc, result);
             }
 
             if (result.Knowledges == null || result.Knowledges.Length == 0)
@@ -748,6 +834,16 @@ namespace ITSMSkill.Dialogs
             state.ClearLuisResult();
         }
 
+        protected async Task<DialogTurnResult> SendServiceErrorAndCancel(WaterfallStepContext sc, ResultBase result)
+        {
+            var errorReplacements = new StringDictionary
+            {
+                { "Error", result.ErrorMessage }
+            };
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
+            return await sc.CancelAllDialogsAsync();
+        }
+
         protected TicketCard ConvertTicket(Ticket ticket)
         {
             var card = new TicketCard()
@@ -758,7 +854,8 @@ namespace ITSMSkill.Dialogs
                 OpenedTime = $"{SharedStrings.OpenedAt}{ticket.OpenedTime.ToString()}",
                 Id = $"{SharedStrings.ID}{ticket.Id}",
                 ResolvedReason = ticket.ResolvedReason,
-                Speak = ticket.Description
+                Speak = ticket.Description,
+                Number = $"{SharedStrings.TicketNumber}{ticket.Number}",
             };
             return card;
         }
@@ -794,6 +891,8 @@ namespace ITSMSkill.Dialogs
             public const string SetUrgency = "SetUrgency";
             public const string SetId = "SetId";
             public const string SetState = "SetState";
+            public const string SetNumber = "SetNumber";
+            public const string SetNumberThenId = "SetNumberThenId";
 
             public const string BaseAuth = "BaseAuth";
 

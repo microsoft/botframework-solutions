@@ -72,14 +72,14 @@ namespace ITSMSkill.Dialogs
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
 
-            if (state.SkipDisplayExisting)
-            {
-                return await sc.NextAsync();
-            }
-            else
+            if (state.DisplayExisting)
             {
                 state.PageIndex = -1;
                 return await sc.BeginDialogAsync(Actions.DisplayExisting);
+            }
+            else
+            {
+                return await sc.NextAsync();
             }
         }
 
@@ -91,12 +91,7 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-                var errorReplacements = new StringDictionary
-                {
-                    { "Error", result.ErrorMessage }
-                };
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
-                return await sc.CancelAllDialogsAsync();
+                return await SendServiceErrorAndCancel(sc, result);
             }
 
             var card = new Card()

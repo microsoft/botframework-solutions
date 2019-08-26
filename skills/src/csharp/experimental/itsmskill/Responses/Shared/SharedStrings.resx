@@ -174,4 +174,10 @@
   <data name="AttributeState" xml:space="preserve">
     <value>state</value>
   </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Number: </value>
+  </data>
+  <data name="AttributeNumber" xml:space="preserve">
+    <value>number</value>
+  </data>
 </root>

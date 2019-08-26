@@ -89,7 +89,7 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null)
+        public async Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
         {
             try
             {
@@ -121,6 +121,11 @@ namespace ITSMSkill.Services.ServiceNow
                 if (states != null && states.Count > 0)
                 {
                     sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
+                }
+
+                if (!string.IsNullOrEmpty(number))
+                {
+                    sysparmQuery.Add($"number={number}");
                 }
 
                 request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
@@ -251,7 +256,8 @@ namespace ITSMSkill.Services.ServiceNow
                 Description = ticketResponse.short_description,
                 Urgency = StringToUrgency[ticketResponse.urgency],
                 State = StringToTicketState[ticketResponse.state],
-                OpenedTime = DateTime.Parse(ticketResponse.opened_at)
+                OpenedTime = DateTime.Parse(ticketResponse.opened_at),
+                Number = ticketResponse.number,
             };
 
             if (!string.IsNullOrEmpty(ticketResponse.close_code))

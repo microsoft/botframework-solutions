@@ -23,6 +23,8 @@ namespace ITSMSkill.Models.ServiceNow
 
         public string urgency { get; set; }
 
+        public string number { get; set; }
+
         public class UserInfo
         {
             public string value { get; set; }

@@ -18,5 +18,7 @@ namespace ITSMSkill.Models
         public DateTime OpenedTime { get; set; }
 
         public string ResolvedReason { get; set; }
+
+        public string Number { get; set; }
     }
 }

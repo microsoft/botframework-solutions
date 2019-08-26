@@ -235,6 +235,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "InputTicketNumber": {
+    "replies": [
+      {
+        "text": "Please input the ticket number:",
+        "speak": "Please input the ticket number:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "ServiceFailed": {
     "replies": [
       {

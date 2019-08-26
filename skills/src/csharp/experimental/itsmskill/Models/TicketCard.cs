@@ -19,5 +19,7 @@ namespace ITSMSkill.Models
         public string ResolvedReason { get; set; }
 
         public string Speak { get; set; }
+
+        public string Number { get; set; }
     }
 }
