@@ -133,11 +133,18 @@
       },
       {
         "name": "Coffee",
-        "allNames": [ "coffee", "cup of coffee", "coffees"],
+        "allNames": [ "coffee", "cup of coffee", "coffees" ],
         "glutenFree": true,
         "vegetarian": true,
         "price": 3,
         "description": "Latte, mocha, cappuccino, espresso, and macchiato available."
+      },
+      {
+        "name": "Water Bottle",
+        "allNames": [ "water bottle", "water bottles", "bottles of water", "bottle of water", "water", "waters" ],
+        "glutenFree": true,
+        "vegetarian": true,
+        "price": 3
       }
     ]
   }
