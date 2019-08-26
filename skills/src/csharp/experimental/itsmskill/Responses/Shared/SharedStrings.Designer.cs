@@ -133,6 +133,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Article.
+        /// </summary>
+        public static string OpenKnowledge {
+            get {
+                return ResourceManager.GetString("OpenKnowledge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number: .
         /// </summary>
         public static string TicketNumber {

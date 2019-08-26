@@ -868,7 +868,10 @@ namespace ITSMSkill.Dialogs
                 Title = knowledge.Title,
                 UpdatedTime = $"{SharedStrings.UpdatedAt}{knowledge.UpdatedTime.ToString()}",
                 Content = knowledge.Content,
-                Speak = knowledge.Title
+                Speak = knowledge.Title,
+                Number = $"{SharedStrings.TicketNumber}{knowledge.Number}",
+                UrlTitle = SharedStrings.OpenKnowledge,
+                UrlLink = knowledge.Url,
             };
             return card;
         }

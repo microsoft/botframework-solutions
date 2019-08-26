@@ -24,6 +24,7 @@ namespace ITSMSkill.Services.ServiceNow
         private readonly string getUserIdResource;
         private readonly string token;
         private readonly int limitSize;
+        private readonly string knowledgeUrl;
 
         static Management()
         {
@@ -54,6 +55,7 @@ namespace ITSMSkill.Services.ServiceNow
             this.getUserIdResource = getUserIdResource;
             this.token = token;
             this.limitSize = limitSize;
+            this.knowledgeUrl = $"{url}/kb_view.do?sysparm_article={{0}}";
         }
 
         public async Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency)
@@ -285,7 +287,9 @@ namespace ITSMSkill.Services.ServiceNow
             {
                 Id = knowledgeResponse.sys_id,
                 Title = knowledgeResponse.short_description,
-                UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on)
+                UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on),
+                Number = knowledgeResponse.number,
+                Url = string.Format(knowledgeUrl, knowledgeResponse.number),
             };
             if (!string.IsNullOrEmpty(knowledgeResponse.text))
             {

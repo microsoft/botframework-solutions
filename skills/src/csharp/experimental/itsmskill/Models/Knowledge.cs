@@ -14,5 +14,9 @@ namespace ITSMSkill.Models
         public DateTime UpdatedTime { get; set; }
 
         public string Content { get; set; }
+
+        public string Number { get; set; }
+
+        public string Url { get; set; }
     }
 }

@@ -51,7 +51,7 @@
           "type": "TextBlock",
           "size": "Small",
           "color": "Light",
-          "text": "{Id}"
+          "text": "{Number}"
         }
       ]
     },
@@ -60,6 +60,13 @@
       "wrap": true,
       "text": "{Content}",
       "maxLines": 5
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "{UrlTitle}",
+      "url": "{UrlLink}"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

@@ -13,5 +13,11 @@ namespace ITSMSkill.Models
         public string Content { get; set; }
 
         public string Speak { get; set; }
+
+        public string Number { get; set; }
+
+        public string UrlTitle { get; set; }
+
+        public string UrlLink { get; set; }
     }
 }

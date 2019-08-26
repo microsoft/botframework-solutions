@@ -180,4 +180,7 @@
   <data name="AttributeNumber" xml:space="preserve">
     <value>number</value>
   </data>
+  <data name="OpenKnowledge" xml:space="preserve">
+    <value>Open Article</value>
+  </data>
 </root>

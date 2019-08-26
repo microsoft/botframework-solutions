@@ -16,5 +16,7 @@ namespace ITSMSkill.Models.ServiceNow
         public string text { get; set; }
 
         public string wiki { get; set; }
+
+        public string number { get; set; }
     }
 }
