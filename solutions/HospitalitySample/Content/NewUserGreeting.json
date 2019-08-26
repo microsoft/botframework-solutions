@@ -42,10 +42,8 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "Get started",
-      "data": {
-        "action": "startOnboarding"
-      }
+      "title": "Send location",
+      "data": "\/event:{\"Name\": \"VA.Location\", \"Value\": \"47.639620,-122.130610\"}"
     },
     {
       "type": "Action.Submit",

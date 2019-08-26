@@ -169,7 +169,7 @@ namespace HospitalitySample.Responses.Main {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites..
+        ///   Looks up a localized string similar to Try asking about the weather or ordering room service! Or try using the buttons below..
         /// </summary>
         public static string HELP_TEXT {
             get {
@@ -178,7 +178,7 @@ namespace HospitalitySample.Responses.Main {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HELP.
+        ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string HELP_TITLE {
             get {

@@ -21,10 +21,11 @@ namespace Luis
             q_hotel_FAQ, 
             restaurantBookingSkill, 
             pointOfInterestSkill, 
-            hospitalitySkill, 
             eventSkill, 
             newsSkill, 
             WeatherSkill, 
+            BingSearchSkill, 
+            hospitalitySkill, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -34,18 +35,24 @@ namespace Luis
             // Simple entities
             public string[] KEYWORD;
             public string[] ADDRESS;
-            public string[] Item;
             public string[] topic;
             public string[] site;
+            public string[] Item;
+
+            // Pattern.any
+            public string[] CelebrityNamePatten;
+            public string[] MovieTitlePatten;
 
             // Instance
             public class _Instance
             {
                 public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
-                public InstanceData[] Item;
                 public InstanceData[] topic;
                 public InstanceData[] site;
+                public InstanceData[] Item;
+                public InstanceData[] CelebrityNamePatten;
+                public InstanceData[] MovieTitlePatten;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
