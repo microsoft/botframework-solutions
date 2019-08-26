@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using CalendarSkill.Responses.JoinEvent;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
@@ -29,19 +30,49 @@ namespace CalendarSkillTest.Flow
                     { "Calendar", new MockLuisRecognizer(new ConnectToMeetingUtterances()) }
                 }
             });
+
+            this.ServiceManager = new MockCalendarServiceManager();
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
-        //[TestMethod]
-        //public async Task Test_BaseConnectToMeeting()
-        //{
-        //    await this.GetTestFlow()
-        //        .Send(ConnectToMeetingUtterances.BaseConnectToMeeting)
-        //        .AssertReply(this.ShowAuth())
-        //        .Send(this.GetAuthResponse())
-        //        .AssertReplyOneOf(this.ShowNoMeetings())
-        //        .AssertReply(this.ActionEndMessage())
-        //        .StartTestAsync();
-        //}
+        [TestMethod]
+        public async Task Test_CalendarJoinWithStartTimeEntity()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            var now = DateTime.Now;
+            var startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1),
+                    content: "<a href=\"tel:12345678 \">12345678</a>")
+            });
+            await this.GetTestFlow()
+                .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmPhoneNumberPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.JoinMeetingResponse())
+                .AssertReply(this.JoinMeetingEvent())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        private string[] ConfirmPhoneNumberPrompt()
+        {
+            return this.ParseReplies(JoinEventResponses.ConfirmPhoneNumber, new StringDictionary() { { "PhoneNumber", "12345678" } });
+        }
+
+        private string[] JoinMeetingResponse()
+        {
+            return this.ParseReplies(JoinEventResponses.JoinMeeting, new StringDictionary());
+        }
 
         private Action<IActivity> ShowAuth()
         {
@@ -54,6 +85,23 @@ namespace CalendarSkillTest.Flow
         private string[] ShowNoMeetings()
         {
             return this.ParseReplies(JoinEventResponses.MeetingNotFound, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowCalendarList()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> JoinMeetingEvent()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+            };
         }
 
         private Action<IActivity> ActionEndMessage()

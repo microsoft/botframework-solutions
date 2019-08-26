@@ -132,6 +132,10 @@ namespace CalendarSkill.Dialogs
                 {
                     return await sc.EndDialogAsync();
                 }
+                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                {
+                    return await sc.NextAsync();
+                }
                 else
                 {
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
