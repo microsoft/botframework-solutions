@@ -1,0 +1,11 @@
+﻿# AfterTaskCompleted(taskContent, listType)
+- I have completed @{taskContent} on your @{listType} list.
+
+# AfterAllTasksCompleted(listType)
+- I have marked all your tasks as complete on your @{listType} list.
+
+# TaskCompleted
+- IF: {isCompleteAll == true}
+  - [AfterAllTasksCompleted(listType)]
+- ELSE:
+  - [AfterTaskCompleted(taskContent, listType)]

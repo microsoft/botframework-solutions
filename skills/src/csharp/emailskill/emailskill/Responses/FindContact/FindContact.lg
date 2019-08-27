@@ -1,0 +1,53 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# NoRecipients
+- Sure, who's the email going to?
+
+# AddMoreContacts
+- Who do you want to add?
+
+# BeforeSendingMessage(nameList)
+- Okay, I understand you want to send the email to {nameList}.
+
+# PromptOneNameOneAddress(userName, emailAddress)
+- Okay, I will add {userName}: {emailAddress}. Is {userName} the one you were looking for?
+
+# UserNotFound(userName)
+- I could not find the "{userName}" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.
+
+# UserNotFoundAgain(userName, source)
+- Unfortunately, I could not find the "{userName}" you want to select. For next time, it could help if you add the contact to your contact book in {source}.
+
+# AlreadyFirstPage
+- This is already the first page.
+
+# AlreadyLastPage
+- This is already the last page.
+
+# AddMoreContactsPrompt(nameList)
+- I have included {nameList}, do you want to add another?
+
+# ErrorMessage
+- Sorry, it looks like something went wrong!
+- An error occurred. Give me some time and try again later.
+- Something went wrong. Sorry!
+- I believe something went wrong. Can you try again later?
+- Sorry I think I cannot find what you want right now. Try again later please.
+
+# ConfirmMultiplContactEmailSinglePage
+- I found multiple contact details for {userName}. Which one would you like?
+
+# ConfirmMultiplContactEmailMultiPage
+- I found multiple contact details for {userName}. Which one would you like? You can also ask me to show you the previous or more options.
+
+# DidntUnderstandMessage
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way.
+- I didn't get what you mean, can you try in a different way.
+- Could you elaborate?
+- Say that again please in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again, I didn't get what you mean.

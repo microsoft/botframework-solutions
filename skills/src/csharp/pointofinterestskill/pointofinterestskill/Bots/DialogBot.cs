@@ -6,28 +6,38 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PointOfInterestSkill.Bots
 {
-    public class DialogBot<T> : IBot
+    public class DialogBot<T> : ActivityHandler
         where T : Dialog
     {
+        private readonly IBotTelemetryClient _telemetryClient;
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private readonly IBotTelemetryClient _telemetryClient;
+        private DialogManager _dialogManager;
+        private IStorage _storage;
+        private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog)
+        public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
             _dialog = dialog;
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
-            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
+            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
+
+            _dialogManager = new DialogManager(dialog);
+            _storage = storage;
+
+            _resourceExplorer = resourceExplorer;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        public async override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
@@ -36,7 +46,17 @@ namespace PointOfInterestSkill.Bots
                 return;
             }
 
-            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            if (turnContext.TurnState.Get<IStorage>() == null)
+            {
+                turnContext.TurnState.Add<IStorage>(_storage);
+            }
+
+            if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
+            {
+                turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
+            }
+
+            await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
 
             // Save any state changes that might have occured during the turn.
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);

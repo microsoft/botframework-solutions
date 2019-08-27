@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -22,20 +23,20 @@ using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             RouteDialog routeDialog,
@@ -46,13 +47,13 @@ namespace PointOfInterestSkill.Dialogs
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services;
-            _responseManager = responseManager;
             _userState = userState;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("POISharedResponses.lg");
 
             // Register dialogs
             AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
@@ -64,7 +65,8 @@ namespace PointOfInterestSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
+            var welcome = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[PointOfInterestWelcomeMessage]");
+            await dc.Context.SendActivityAsync(welcome);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -124,7 +126,7 @@ namespace PointOfInterestSkill.Dialogs
 
                     case PointOfInterestLuis.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[DidntUnderstandMessage]"));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -132,7 +134,8 @@ namespace PointOfInterestSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.FeatureNotAvailable));
+                            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[FeatureNotAvailable]");
+                            await dc.Context.SendActivityAsync(activity);
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -227,7 +230,7 @@ namespace PointOfInterestSkill.Dialogs
                             state.FoundRoutes = null;
                         }
 
-                        var replyMessage = _responseManager.GetResponse(RouteResponses.SendingRouteDetails);
+                        var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[SendingRouteDetails]");
                         await dc.Context.SendActivityAsync(replyMessage);
 
                         await dc.Context.SendActivityAsync(PointOfInterestDialogBase.CreateOpenDefaultAppReply(dc.Context.Activity, state.Destination));
@@ -313,7 +316,8 @@ namespace PointOfInterestSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CancelMessage]");
+            await dc.Context.SendActivityAsync(activity);
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -321,7 +325,8 @@ namespace PointOfInterestSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.HelpMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[HelpMessage]");
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -347,7 +352,8 @@ namespace PointOfInterestSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[LogOut]");
+            await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.StartedDialog;
         }

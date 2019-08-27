@@ -39,5 +39,7 @@ namespace EmailSkill.Models
         public string RecipientIcon4 { get; set; } = AdaptiveCardHelper.DefaultIcon;
 
         public string AdditionalRecipientNumber { get; set; }
+
+        public int RecipientsCount { get; set; }
     }
 }

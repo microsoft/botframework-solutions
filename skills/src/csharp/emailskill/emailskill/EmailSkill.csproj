@@ -6,6 +6,7 @@
     <NoWarn>NU1701</NoWarn>
     <RestoreAdditionalProjectSources>
       https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+      https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
@@ -39,20 +40,22 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily6" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.7.0-daily2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.7.0-daily2" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-07-31-01" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
     <PackageReference Include="MimeKit" Version="2.2.0" />
   </ItemGroup>

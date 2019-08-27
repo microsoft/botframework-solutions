@@ -1,0 +1,11 @@
+﻿# CardSummaryMessageForMultipleTasks(taskCount, listType, todoCount)
+- You have @{taskCount} tasks on your @{listType} list: Here are the @{todoCount} most recent, they are 
+
+# CardSummaryMessageForSingleTask(listType, todoCount)
+- You have 1 task on your @{listType} list: Here are the @{todoCount} most recent, they are 
+
+# CardSummary(allTasksCount, listType, todos)
+- IF: {allTasksCount == 1}
+  - [CardSummaryMessageForSingleTask(listType, count(todos))]
+- ELSE:
+  - [CardSummaryMessageForMultipleTasks(allTasksCount, listType, count(todos))]

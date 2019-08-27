@@ -1,0 +1,51 @@
+﻿[import](CardSummaryTexts.lg)
+
+# LatestTask 
+- Your latest task is 
+
+#  LatestTasks
+- Your latest tasks are 
+
+# ShowTodosBranch1(todos)
+- IF: {count(todos) == 1}
+  - [LatestTask]
+- ELSE:
+  - [LatestTasks]
+
+# ShowTodosBranch2(allTasksCount, listType, todos)
+- [CardSummary(allTasksCount, listType, todos)]
+
+# ShowToDos
+- IF: {allTasksCount <= count(todos)}
+  - [ShowTodosBranch1(todos)]
+- ELSE:
+  - [ShowTodosBranch2(allTasksCount, listType, todos)]
+
+# NextTask
+- The next task is 
+
+# NextTasks
+- The next tasks are 
+
+# ReadMore
+- IF: {count(todos) == 1}
+  - [NextTask]
+- ELSE:
+  - [NextTasks]
+
+# PreviousTasks
+- Your previous tasks are 
+
+# PreviousFirstTasks(taskCount)
+- Your first @{taskCount} tasks are 
+
+# PreviousFirstSingleTask(taskCount)
+- Your first @{taskCount} task is 
+
+# PreviousPage
+- IF: {isFirst == false}
+  - [PreviousTasks]
+- ELSEIF: {count(todos) == 1}
+  - [PreviousFirstSingleTask(count(todos))]
+- ELSE:
+  - [PreviousFirstTasks(count(todos))]

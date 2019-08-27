@@ -14,12 +14,14 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CalendarSkillState;
 
@@ -27,16 +29,19 @@ namespace CalendarSkill.Dialogs
 {
     public class FindContactDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public FindContactDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(FindContactDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("FindContactDialog.lg");
+
             TelemetryClient = telemetryClient;
 
             // entry, get the name list
@@ -144,11 +149,13 @@ namespace CalendarSkill.Dialogs
                 // ask for attendee
                 if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoAttendees]", null);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)prompt }, cancellationToken);
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreAttendees) }, cancellationToken);
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AddMoreAttendees]", null);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)prompt }, cancellationToken);
                 }
             }
             catch (Exception ex)
@@ -197,8 +204,8 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.AttendeesNameList.Count > 1)
                     {
-                        var nameString = await GetReadyToSendNameListStringAsync(sc);
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[BeforeSendingMessage]", new { attendeesNameList = state.AttendeesNameList });
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     // go to loop to go through all the names
@@ -313,7 +320,8 @@ namespace CalendarSkill.Dialogs
             if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PromptOneNameOneAddress]", new { confirmedPerson });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = (Activity)prompt });
             }
             else
             {
@@ -373,11 +381,12 @@ namespace CalendarSkill.Dialogs
                 // if it is confirm no, thenask user to give a new attendee
                 if (options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo)
                 {
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoAttendees]", null);
                     return await sc.PromptAsync(
                         Actions.Prompt,
                         new PromptOptions
                         {
-                            Prompt = ResponseManager.GetResponse(CreateEventResponses.NoAttendees)
+                            Prompt = (Activity)prompt
                         });
                 }
 
@@ -388,28 +397,19 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.FirstRetryInFindContact)
                     {
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFound]", new { userName = currentRecipientName });
                         state.FirstRetryInFindContact = false;
                         return await sc.PromptAsync(
                             Actions.Prompt,
                             new PromptOptions
                             {
-                                Prompt = ResponseManager.GetResponse(
-                                    FindContactResponses.UserNotFound,
-                                    new StringDictionary()
-                                    {
-                                    { "UserName", currentRecipientName }
-                                    })
+                                Prompt = (Activity)prompt
                             });
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            FindContactResponses.UserNotFoundAgain,
-                            new StringDictionary()
-                            {
-                            { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
-                            { "UserName", currentRecipientName }
-                            }));
+                        var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFoundAgain]", new { userName = currentRecipientName, source = state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
+                        await sc.Context.SendActivityAsync(prompt);
                         state.FirstRetryInFindContact = true;
                         state.CurrentAttendeeName = string.Empty;
                         return await sc.EndDialogAsync();
@@ -436,7 +436,9 @@ namespace CalendarSkill.Dialogs
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
+                    var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UserNotFoundAgain]", new { userName = state.CurrentAttendeeName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
+                    await sc.Context.SendActivityAsync(prompt);
+
                     return await sc.EndDialogAsync();
                 }
 
@@ -610,7 +612,9 @@ namespace CalendarSkill.Dialogs
                         }
                         else
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyFirstPage));
+                            var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AlreadyFirstPage]", null);
+                            var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyFirstPage]", null);
+                            await sc.Context.SendActivityAsync(prompt);
                         }
                     }
                     else
@@ -694,7 +698,8 @@ namespace CalendarSkill.Dialogs
                         }
                         else
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyFirstPage));
+                            var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyFirstPage]", null);
+                            await sc.Context.SendActivityAsync(prompt);
                         }
                     }
                     else
@@ -731,10 +736,12 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AddMoreUserPrompt]", new { users = state.Attendees });
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                    Prompt = (Activity)prompt,
+                    RetryPrompt = (Activity)prompt
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -783,19 +790,22 @@ namespace CalendarSkill.Dialogs
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
+                var prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyLastPage]", null);
+                await sc.Context.SendActivityAsync(prompt);
             }
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailSinglePage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+                Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactEmailSinglePage]", new { userName = confirmedPerson.DisplayName })
             };
 
             if (!isSinglePage)
             {
-                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailMultiPage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
+                options.Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactEmailMultiPage]", new { userName = confirmedPerson.DisplayName });
             }
+            
+            var didntUnderstandPrompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
 
             for (var i = 0; i < emailList.Count; i++)
             {
@@ -820,7 +830,7 @@ namespace CalendarSkill.Dialogs
                     {
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = (Activity)didntUnderstandPrompt;
                         return options;
                     }
 
@@ -834,7 +844,7 @@ namespace CalendarSkill.Dialogs
 
             options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = (Activity)didntUnderstandPrompt;
             return options;
         }
 
@@ -870,19 +880,21 @@ namespace CalendarSkill.Dialogs
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
+                await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AlreadyLastPage]", null));
             }
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameSinglePage, new StringDictionary() { { "UserName", currentRecipientName } })
+                Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactNameSinglePage]", new { userName = currentRecipientName })
             };
 
             if (!isSinglePage)
             {
-                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameMultiPage, new StringDictionary() { { "UserName", currentRecipientName } });
+                options.Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ConfirmMultipleContactNameMultiPage]", new { userName = currentRecipientName });
             }
+
+            var didntUnderstandPrompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
 
             for (var i = 0; i < unionList.Count; i++)
             {
@@ -906,7 +918,7 @@ namespace CalendarSkill.Dialogs
                     {
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text = GetSelectPromptString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = (Activity)didntUnderstandPrompt;
                         return options;
                     }
 
@@ -920,7 +932,7 @@ namespace CalendarSkill.Dialogs
 
             options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text = GetSelectPromptString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = (Activity)didntUnderstandPrompt;
             return options;
         }
     }

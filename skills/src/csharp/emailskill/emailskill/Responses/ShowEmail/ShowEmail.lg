@@ -1,0 +1,18 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+[import](./../Shared/Shared.lg)
+
+# ReadOut(messageList)
+- IF: {count(messageList) == 1}
+   - Do you want to know the content of this email?
+- ELSE:
+  - Do you want more detail on the first email? You can also ask about other emails too either by subject or sender.
+
+# ReadOutMore
+- Would you like to go back to your email overview? Alternatively you can ask me to complete an action on this email.
+
+# ReadOutMessages(emailDetails, emailDetailsWithContent)
+- ```
+The email is @{emailDetails}. || The email is @{emailDetailsWithContent}.
+```

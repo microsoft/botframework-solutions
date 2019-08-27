@@ -15,6 +15,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
@@ -23,6 +24,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using static CalendarSkill.Models.EventModel;
 
 namespace CalendarSkill.Dialogs
 {
@@ -30,15 +32,16 @@ namespace CalendarSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
 
+        //private TemplateEngine _lgEngine;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             ProactiveState proactiveState,
@@ -55,12 +58,13 @@ namespace CalendarSkill.Dialogs
             _settings = settings;
             _services = services;
             _userState = userState;
-            _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
+
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("MainDialog.lg");
 
             // Register dialogs
             AddDialog(createEventDialog ?? throw new ArgumentNullException(nameof(createEventDialog)));
@@ -74,8 +78,11 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CalendarWelcomeMessage]", null);
+
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -165,7 +172,7 @@ namespace CalendarSkill.Dialogs
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[DidntUnderstandMessage]", null));
                                 turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
@@ -174,7 +181,7 @@ namespace CalendarSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[FeatureNotAvailable]", null));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -308,7 +315,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CancelMessage]", null));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -316,7 +323,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[HelpMessage]", null));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -342,7 +349,7 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[LogOut]", null));
 
             return InterruptionAction.StartedDialog;
         }

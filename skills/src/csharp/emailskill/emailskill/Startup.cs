@@ -5,14 +5,6 @@ using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
-using EmailSkill.Responses.DeleteEmail;
-using EmailSkill.Responses.FindContact;
-using EmailSkill.Responses.ForwardEmail;
-using EmailSkill.Responses.Main;
-using EmailSkill.Responses.ReplyEmail;
-using EmailSkill.Responses.SendEmail;
-using EmailSkill.Responses.Shared;
-using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -21,11 +13,12 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -43,16 +36,20 @@ namespace EmailSkill
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -80,6 +77,10 @@ namespace EmailSkill
                 return new BotStateSet(userState, conversationState);
             });
 
+            // Config LG
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(resourceExplorer);
+
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
             var telemetryClient = new BotTelemetryClient(new TelemetryClient());
@@ -96,18 +97,6 @@ namespace EmailSkill
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
 
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new DeleteEmailResponses(),
-                new ForwardEmailResponses(),
-                new EmailMainResponses(),
-                new ReplyEmailResponses(),
-                new SendEmailResponses(),
-                new EmailSharedResponses(),
-                new ShowEmailResponses()));
-
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<DeleteEmailDialog>();
@@ -120,10 +109,10 @@ namespace EmailSkill
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, EmailSkillWebSocketBotAdapter>();
+            services.AddTransient<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

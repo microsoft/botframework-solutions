@@ -1,0 +1,14 @@
+﻿# AfterTaskDeleted(taskContent, listType)
+- I have deleted @{taskContent} from your @{listType} list.
+
+# AfterAllTasksDeleted(listType)
+- I have cleared out your @{listType} list.
+
+# TaskDeleted
+- IF: {isDeleteAll == true}
+  - [AfterAllTasksDeleted(listType)]
+- ELSE:
+  - [AfterTaskDeleted(taskContent, listType)]
+
+# DeletionAllConfirmationRefused
+- Okay, I did not delete all your tasks. You still have @{taskCount} task(s) on your @{listType} list today.

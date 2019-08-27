@@ -1,0 +1,21 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# MissingActiveLocationErrorMessage
+- Sorry, I didn't get that. Where would you like to go?
+
+# PromptToStartRoute
+- Would you like to begin your route now?
+- Shall we get started?
+
+# SendingRouteDetails
+- I'm sending you the route details.
+- Here are more detailed directions.
+
+# AskAboutRouteLater
+- Ok, you can ask me about this route anytime.
+- Ok, I can help you with this later.
+- Sure, you can come back to this another time.
+
+# RouteSuggestedActionName(input)
+- Route @{input.Id}

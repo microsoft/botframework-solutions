@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -33,6 +36,8 @@ namespace ToDoSkillTest.Flow
 {
     public class ToDoBotTestBase : BotTestBase
     {
+        private const string OauthConnection = "Azure Active Directory";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -49,7 +54,7 @@ namespace ToDoSkillTest.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = OauthConnection, Provider = OauthConnection }
                 }
             });
 
@@ -101,7 +106,13 @@ namespace ToDoSkillTest.Flow
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
+                return new DefaultTestAdapter(adapter, OauthConnection, OauthConnection);
+            });
+
             Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
 			Services.AddTransient<AddToDoItemDialog>();
@@ -109,6 +120,12 @@ namespace ToDoSkillTest.Flow
 			Services.AddTransient<MarkToDoItemDialog>();
 			Services.AddTransient<ShowToDoItemDialog>();
 			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\todoskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(resourceExplorer);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
         }
 
         public Activity GetAuthResponse()

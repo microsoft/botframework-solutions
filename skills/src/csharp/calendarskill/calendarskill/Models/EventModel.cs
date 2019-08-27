@@ -96,6 +96,7 @@ namespace CalendarSkill.Models
             {
                 case EventSource.Microsoft:
                     msftEventData = new Microsoft.Graph.Event();
+                    msftEventData.Body = new ItemBody();
                     break;
                 case EventSource.Google:
                     gmailEventData = new Google.Apis.Calendar.v3.Data.Event();
@@ -866,12 +867,13 @@ namespace CalendarSkill.Models
 
             return new CalendarItemCardData
             {
-                Time = userStartDateTime.ToString("H:mm"),
-                TimeColor = IsConflict ? "Attention" : "Dark",
-                Title = Title,
-                Location = Location,
-                Duration = ToDisplayDurationString(),
-                IsSubtle = !IsAccepted
+                Event = this
+                //Time = userStartDateTime.ToString("H:mm"),
+                //TimeColor = IsConflict ? "Attention" : "Dark",
+                //Title = Title,
+                //Location = Location,
+                //Duration = ToDisplayDurationString(),
+                //IsSubtle = !IsAccepted
             };
         }
 

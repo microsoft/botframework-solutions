@@ -28,12 +28,11 @@ namespace PointOfInterestSkill.Dialogs
         public RouteDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(RouteDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
+            : base(nameof(RouteDialog), settings, services, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -101,7 +100,7 @@ namespace PointOfInterestSkill.Dialogs
                 return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
             }
 
-            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
+            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[PromptForCurrentLocation]") as Activity });
         }
 
         /// <summary>
@@ -223,7 +222,7 @@ namespace PointOfInterestSkill.Dialogs
                 if (state.Destination == null)
                 {
                     // No ActiveLocation found
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[MissingActiveLocationErrorMessage]") as Activity });
                 }
 
                 if (!string.IsNullOrEmpty(state.RouteType))
@@ -241,18 +240,18 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (cards.Count() == 0)
                 {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoRouteFound);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoLocationsFound]");
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else if (cards.Count() == 1)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards));
+                    await sc.Context.SendActivityAsync(await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, sc.Context,  "[SingleRouteFound]", null, cards));
 
                     return await sc.NextAsync(true);
                 }
                 else
                 {
-                    var options = GetRoutesPrompt(POISharedResponses.MultipleRoutesFound, cards);
+                    var options = await GetRoutesPrompt("[MultipleRoutesFound]", cards, sc.Context);
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
                     if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
@@ -295,7 +294,7 @@ namespace PointOfInterestSkill.Dialogs
                         state.FoundRoutes = null;
                     }
 
-                    var replyMessage = ResponseManager.GetResponse(RouteResponses.SendingRouteDetails);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[SendingRouteDetails]");
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     // workaround. if connect skill directly to teams, the following response does not work.
@@ -306,7 +305,7 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else
                 {
-                    var replyMessage = ResponseManager.GetResponse(RouteResponses.AskAboutRouteLater);
+                    var replyMessage = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[AskAboutRouteLater]");
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
 
@@ -319,7 +318,7 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
-        private PromptOptions GetRoutesPrompt(string prompt, List<Card> cards)
+        private async Task<PromptOptions> GetRoutesPrompt(string prompt, List<Card> cards, ITurnContext context)
         {
             var options = new PromptOptions()
             {
@@ -329,11 +328,14 @@ namespace PointOfInterestSkill.Dialogs
             for (var i = 0; i < cards.Count; ++i)
             {
                 // Simple distinction
-                var promptReplacements = new StringDictionary
+                var promptReplacements = new
+                {
+                    input = new
                     {
-                        { "Id", (i + 1).ToString() },
-                    };
-                var suggestedActionValue = ResponseManager.GetResponse(RouteResponses.RouteSuggestedActionName, promptReplacements).Text;
+                        Id = (i + 1).ToString()
+                    }
+                };
+                var suggestedActionValue = await _lgMultiLangEngine.Generate(context, "[RouteSuggestedActionName]", promptReplacements);
 
                 var choice = new Choice()
                 {
@@ -344,7 +346,7 @@ namespace PointOfInterestSkill.Dialogs
                 (cards[i].Data as RouteDirectionsModel).SubmitText = suggestedActionValue;
             }
 
-            options.Prompt = cards == null ? ResponseManager.GetResponse(prompt) : ResponseManager.GetCardResponse(prompt, cards);
+            options.Prompt = (cards == null ? await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, context, prompt) : await LGHelper.GenerateAdaptiveCardAsync(_lgMultiLangEngine, context, prompt, null, cards)) as Activity;
             options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
 
             return options;

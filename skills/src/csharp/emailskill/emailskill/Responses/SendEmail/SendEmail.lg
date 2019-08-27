@@ -1,0 +1,34 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+[import](./../Shared/Shared.lg)
+
+# NoSubject
+- What is the email subject?
+
+# RetryNoSubject
+- Including a subject is often appreciated by contacts. Want to add a subject? Or you can input skip to bypass it.
+
+# NoMessageBody
+- What content do you want to add to the email? You can say skip to bypass it.
+
+# CheckContent
+- Do you want to include this in the email? || You can try Participants, Subject, or Content. Or say cancel.
+
+# ConfirmMessageRetry
+- Please confirm this message. You can input yes or no. || Please confirm this message. You can say yes or no.
+- Please confirm this message.
+
+# RetryContent
+- Got it, this email will not be sent yet.
+
+# GetRecreateInfo
+- ```
+Would you like to change the Participants, Subject or the Content?
+[Suggestions=Participants|Subject|Content]
+```
+# GetRecreateInfoRetry
+- You can try Participants, Subject, or Content. Or input cancel. || You can try Participants, Subject, or Content. Or say cancel.
+
+# PlayBackMessage(emailContent)
+- I will repeat the message for you to confirm: || I will repeat the message for you to confirm: {emailContent}

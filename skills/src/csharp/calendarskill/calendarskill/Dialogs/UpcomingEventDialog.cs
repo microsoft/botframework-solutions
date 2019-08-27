@@ -6,8 +6,10 @@ using CalendarSkill.Models;
 using CalendarSkill.Proactive;
 using CalendarSkill.Responses.UpcomingEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -21,6 +23,7 @@ namespace CalendarSkill.Dialogs
 {
     public class UpcomingEventDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
         private IBackgroundTaskQueue _backgroundTaskQueue;
         private ProactiveState _proactiveState;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
@@ -29,19 +32,19 @@ namespace CalendarSkill.Dialogs
         public UpcomingEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpcomingEventDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("UpcomingEventDialog.lg");
+
             _backgroundTaskQueue = backgroundTaskQueue;
             _proactiveState = proactiveState;
             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
-            _responseManager = responseManager;
 
             var upcomingMeeting = new WaterfallStep[]
             {
@@ -107,25 +110,17 @@ namespace CalendarSkill.Dialogs
             return async (turnContext, token) =>
             {
                 var responseString = string.Empty;
-                var responseParams = new StringDictionary()
+                var responseParams = new
                 {
-                    { "Minutes", (eventModel.StartTime - DateTime.UtcNow).Minutes.ToString() },
-                    { "Attendees", string.Join(",", eventModel.Attendees.ToSpeechString(CommonStrings.And, attendee => attendee.DisplayName ?? attendee.Address)) },
-                    { "Title", eventModel.Title },
+                    minutes = (eventModel.StartTime - DateTime.UtcNow).Minutes.ToString(),
+                    attendees = string.Join(",", eventModel.Attendees.ToSpeechString(CommonStrings.And, attendee => attendee.DisplayName ?? attendee.Address)),
+                    title = eventModel.Title,
+                    location = eventModel.Location
                 };
-
-                if (!string.IsNullOrWhiteSpace(eventModel.Location))
-                {
-                    responseString = UpcomingEventResponses.UpcomingEventMessageWithLocation;
-                    responseParams.Add("Location", eventModel.Location);
-                }
-                else
-                {
-                    responseString = UpcomingEventResponses.UpcomingEventMessage;
-                }
+                
+                var response = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[UpcomingEventMessage]", null);
 
                 var activity = turnContext.Activity.CreateReply();
-                var response = _responseManager.GetResponse(responseString, responseParams);
                 activity.Text = response.Text;
                 activity.Speak = response.Speak;
                 activity.InputHint = response.InputHint;

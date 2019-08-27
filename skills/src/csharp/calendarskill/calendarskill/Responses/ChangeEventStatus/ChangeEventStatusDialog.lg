@@ -1,0 +1,35 @@
+[import](./../Shared/Shared.en-us.lg)
+
+# ConfirmDelete
+- Are you sure you want to delete this from your calendar?
+
+# ConfirmDeleteFailed
+- Are you sure you want to delete this from your calendar? You can say 'yes' or 'no'
+
+# ConfirmAccept
+- Are you sure you want to accept the following event?
+
+# ConfirmAcceptFailed
+- Are you sure you want to accept the following from your calendar? You can say 'yes' or 'no'
+
+# EventDeleted
+- I have deleted the event.
+
+# EventAccepted
+- I have accepted the event.
+
+# EventWithStartTimeNotFound
+- No event was found at this time or with that title, please try again.
+- I could not find the event you asked for, please try again.
+- No event can be found with the event time or title, can you try again?
+
+# NoDeleteStartTime
+- Which event would you like to delete? By providing the start time or title I can retrieve your event.
+
+# NoAcceptStartTime
+- Which event would you like to accept? By providing the start time or title I can retrieve your event.
+
+# MultipleEventsStartAtSameTime
+- Multiple events found, please select the one you need.
+- I have found multiple events, can you select the event of choice.
+- There are multiple events, please select the relevant event.
