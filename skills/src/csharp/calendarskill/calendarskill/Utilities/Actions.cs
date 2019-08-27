@@ -28,9 +28,10 @@
         public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
+        public const string FindEvent = "FindEvent";
         public const string ChooseEvent = "ChooseEvent";
         public const string UpdateStartTime = "UpdateStartTime";
-        public const string UpdateNewStartTime = "UpdateNewStartTime";
+        public const string GetNewStartTime = "GetNewStartTime";
         public const string UpdateStartDateForCreate = "UpdateStartDateForCreate";
         public const string UpdateStartTimeForCreate = "UpdateStartTimeForCreate";
         public const string UpdateDurationForCreate = "UpdateDurationForCreate";

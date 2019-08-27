@@ -38,19 +38,27 @@ namespace CalendarSkill.Dialogs
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                FromTokenToStartTime,
+                CheckFocusedEvent,
                 ConfirmBeforeAction,
-                ChangeEventStatus,
+                ChangeEventStatus
             };
 
-            var updateStartTime = new WaterfallStep[]
+            var findEvent = new WaterfallStep[]
             {
-                UpdateStartTime,
-                AfterUpdateStartTime,
+                SearchEventsWithEntities,
+                GetEvents,
+                ChooseEvent
+            };
+
+            var chooseEvent = new WaterfallStep[]
+            {
+                ChooseEventPrompt,
+                AfterChooseEvent
             };
 
             AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindEvent, findEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ChooseEvent, chooseEvent) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ChangeEventStatus;
@@ -62,15 +70,6 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
-
-                if (sc.Result != null && state.ShowMeetingInfor.FocusedEvents.Count > 1)
-                {
-                    var events = state.ShowMeetingInfor.FocusedEvents;
-                    state.ShowMeetingInfor.FocusedEvents = new List<EventModel>
-                    {
-                        events[(sc.Result as FoundChoice).Index],
-                    };
-                }
 
                 var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
                 string replyResponse;
@@ -163,20 +162,40 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> FromTokenToStartTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> GetEvents(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                if (state.MeetingInfor.StartDateTime == null)
+                if (state.ShowMeetingInfor.FocusedEvents.Any())
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, sc.Options);
+                    return await sc.EndDialogAsync();
+                }
+                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                {
+                    return await sc.NextAsync();
                 }
                 else
                 {
-                    return await sc.NextAsync();
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    if (options.NewEventStatus == EventStatus.Cancelled)
+                    {
+                        return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
+                        {
+                            Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoDeleteStartTime),
+                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
+                        }, cancellationToken);
+                    }
+                    else
+                    {
+                        return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
+                        {
+                            Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoAcceptStartTime),
+                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
+                        }, cancellationToken);
+                    }
                 }
             }
             catch (SkillException ex)
@@ -191,65 +210,12 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> UpdateStartTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var options = (ChangeEventStatusDialogOptions)sc.Options;
-
-                if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
-                {
-                    return await sc.NextAsync();
-                }
-
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-
-                if (state.MeetingInfor.StartDate.Any() || state.MeetingInfor.StartTime.Any())
-                {
-                    state.ShowMeetingInfor.FocusedEvents = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
-                    state.MeetingInfor.ClearTimes();
-                    if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
-                    {
-                        return await sc.NextAsync();
-                    }
-                }
-
-                if (state.MeetingInfor.Title != null)
-                {
-                    state.ShowMeetingInfor.FocusedEvents = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
-                    state.MeetingInfor.Title = null;
-                    if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
-                    {
-                        return await sc.NextAsync();
-                    }
-                }
-
-                if (options.NewEventStatus == EventStatus.Cancelled)
-                {
-                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
-                    {
-                        Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoDeleteStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
-                    }, cancellationToken);
-                }
-                else
-                {
-                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
-                    {
-                        Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoAcceptStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
-                    }, cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
+            return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
         }
 
-        public async Task<DialogTurnResult> AfterUpdateStartTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ChooseEventPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -257,26 +223,25 @@ namespace CalendarSkill.Dialogs
 
                 if (sc.Result != null)
                 {
-                    state.ShowMeetingInfor.FocusedEvents = sc.Result as List<EventModel>;
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
                 }
 
-                if (state.ShowMeetingInfor.FocusedEvents.Count == 0)
+                if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
                 {
                     // should not doto this part. add log here for safe
                     await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
                     return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
-                else
-                if (state.ShowMeetingInfor.FocusedEvents.Count > 1)
+                else if (state.ShowMeetingInfor.ShowingMeetings.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < state.ShowMeetingInfor.FocusedEvents.Count; i++)
+                    for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count; i++)
                     {
-                        var item = state.ShowMeetingInfor.FocusedEvents[i];
+                        var item = state.ShowMeetingInfor.ShowingMeetings[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,
@@ -294,8 +259,36 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
+                    state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings.First());
                     return await sc.EndDialogAsync(true);
                 }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
+
+                if (sc.Result != null)
+                {
+                    var events = state.ShowMeetingInfor.ShowingMeetings;
+                    state.ShowMeetingInfor.FocusedEvents.Add(events[(sc.Result as FoundChoice).Index]);
+                }
+
+                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {

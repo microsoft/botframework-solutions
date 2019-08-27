@@ -160,32 +160,93 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        // Validators
-        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> ChooseEventPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event)
+            try
             {
-                return Task.FromResult(true);
+                var state = await Accessor.GetAsync(sc.Context);
+
+                if (sc.Result != null)
+                {
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                }
+
+                if (state.ShowMeetingInfor.ShowingMeetings.Count == 0)
+                {
+                    // should not doto this part. add log here for safe
+                    await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                }
+                else if (state.ShowMeetingInfor.ShowingMeetings.Count > 1)
+                {
+                    var options = new PromptOptions()
+                    {
+                        Choices = new List<Choice>(),
+                    };
+
+                    for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count; i++)
+                    {
+                        var item = state.ShowMeetingInfor.ShowingMeetings[i];
+                        var choice = new Choice()
+                        {
+                            Value = string.Empty,
+                            Synonyms = new List<string> { (i + 1).ToString(), item.Title },
+                        };
+                        options.Choices.Add(choice);
+                    }
+
+                    state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, CalendarSharedResponses.MultipleEventsFound, null);
+
+                    options.Prompt = prompt;
+
+                    return await sc.PromptAsync(Actions.EventChoice, options);
+                }
+                else
+                {
+                    state.ShowMeetingInfor.FocusedEvents.Add(state.ShowMeetingInfor.ShowingMeetings.First());
+                    return await sc.EndDialogAsync(true);
+                }
             }
-            else
+            catch (SkillException ex)
             {
-                return Task.FromResult(false);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
-        protected Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> AfterChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var token = promptContext.Recognized.Value;
-            if (token != null)
+            try
             {
-                return Task.FromResult(true);
+                var state = await Accessor.GetAsync(sc.Context);
+
+                if (sc.Result != null)
+                {
+                    var events = state.ShowMeetingInfor.ShowingMeetings;
+                    state.ShowMeetingInfor.FocusedEvents.Add(events[(sc.Result as FoundChoice).Index]);
+                }
+
+                return await sc.NextAsync();
             }
-            else
+            catch (SkillException ex)
             {
-                return Task.FromResult(false);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
+
+        // Validators
 
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
@@ -1512,6 +1573,32 @@ namespace CalendarSkill.Dialogs
             }
 
             return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> CheckFocusedEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.FindEvent);
+                }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)

@@ -34,66 +34,93 @@ namespace CalendarSkill.Dialogs
             : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
+
             var updateEvent = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                FromTokenToStartTime,
-                FromEventsToNewDate,
-                ConfirmBeforeUpdate,
-                UpdateEventTime,
-            };
-
-            var updateStartTime = new WaterfallStep[]
-            {
-                UpdateStartTime,
-                AfterUpdateStartTime,
-            };
-
-            var updateNewStartTime = new WaterfallStep[]
-            {
+                CheckFocusedEvent,
                 GetNewEventTime,
-                AfterGetNewEventTime,
+                ConfirmBeforeUpdate,
+                UpdateEventTime
+            };
+
+            var findEvent = new WaterfallStep[]
+            {
+                SearchEventsWithEntities,
+                GetEvents,
+                ChooseEvent
+            };
+
+            var chooseEvent = new WaterfallStep[]
+            {
+                ChooseEventPrompt,
+                AfterChooseEvent
+            };
+
+            var getNewStartTime = new WaterfallStep[]
+            {
+                GetNewEventTimePrompt,
+                AfterGetNewEventTimePrompt,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.UpdateEventTime, updateEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateNewStartTime, updateNewStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindEvent, findEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ChooseEvent, chooseEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetNewStartTime, getNewStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.UpdateEventTime;
         }
 
-        public async Task<DialogTurnResult> FromEventsToNewDate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> GetEvents(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (sc.Result != null && sc.Result is FoundChoice && state.ShowMeetingInfor.FocusedEvents.Count > 1)
-                {
-                    var events = state.ShowMeetingInfor.FocusedEvents;
-                    state.ShowMeetingInfor.FocusedEvents = new List<EventModel>
-                    {
-                        events[(sc.Result as FoundChoice).Index],
-                    };
-                }
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                var origin = state.ShowMeetingInfor.FocusedEvents[0];
-                if (!origin.IsOrganizer)
+                if (state.ShowMeetingInfor.FocusedEvents.Any())
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(UpdateEventResponses.NotEventOrganizer));
-                    state.Clear();
-                    return await sc.EndDialogAsync(true);
+                    return await sc.EndDialogAsync();
                 }
-                else if (state.UpdateMeetingInfor.NewStartDateTime == null)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
-                }
-                else
+                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }
+                else
+                {
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
+                    {
+                        Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
+                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound)
+                    }, cancellationToken);
+                }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
+        }
+
+        public async Task<DialogTurnResult> GetNewEventTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.GetNewStartTime, sc.Options);
             }
             catch (Exception ex)
             {
@@ -186,7 +213,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> GetNewEventTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> GetNewEventTimePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -209,7 +236,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterGetNewEventTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterGetNewEventTimePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -258,7 +285,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
+                        return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
                     }
 
                     state.UpdateMeetingInfor.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.UpdateMeetingInfor.NewStartDateTime.Value, state.GetUserTimeZone());
@@ -333,12 +360,12 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
+                        return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
                     }
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
+                    return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
                 }
             }
             catch (Exception ex)
