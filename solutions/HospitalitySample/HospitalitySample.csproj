@@ -78,6 +78,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Content\NewUserGreeting.1.0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Content\NewUserGreeting.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

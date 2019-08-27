@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using AdaptiveCards;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 
@@ -63,19 +64,24 @@ namespace HospitalitySample.Responses.Main
         {
             var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
             var card = AdaptiveCard.FromJson(introCard).Card;
+            
+            // work around for adaptive card actions not working in Teams
+            if (!Channel.SupportsSuggestedActions(turnContext.Activity.ChannelId))
+            {
+                card = AdaptiveCard.FromJson(introCard + ".1.0").Card;
+            }
+
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
             var response = MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
-
-            response.SuggestedActions = new SuggestedActions
+            if (Channel.SupportsSuggestedActions(turnContext.Activity.ChannelId))
             {
-                Actions = new List<CardAction>()
-                {
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
-                },
-            };
+                response.SuggestedActions = new SuggestedActions { Actions = GetCardActions() };
+            }
+            else
+            {
+                response.Attachments.Add(new HeroCard(buttons: GetCardActions()).ToAttachment());
+            }
 
             return response;
         }
@@ -90,12 +96,7 @@ namespace HospitalitySample.Responses.Main
 
             response.SuggestedActions = new SuggestedActions
             {
-                Actions = new List<CardAction>()
-                {
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
-                },
+                Actions = GetCardActions()
             };
 
             return response;
@@ -107,21 +108,30 @@ namespace HospitalitySample.Responses.Main
             {
                 Title = MainStrings.HELP_TITLE,
                 Text = MainStrings.HELP_TEXT,
-            }.ToAttachment();
+            };
 
-            var response = MessageFactory.Attachment(attachment, ssml: MainStrings.HELP_TEXT, inputHint: InputHints.AcceptingInput);
+            var response = MessageFactory.Attachment(attachment.ToAttachment(), ssml: MainStrings.HELP_TEXT, inputHint: InputHints.AcceptingInput);
 
-            response.SuggestedActions = new SuggestedActions
+            if (Channel.SupportsSuggestedActions(turnContext.Activity.ChannelId))
             {
-                Actions = new List<CardAction>()
+                response.SuggestedActions = new SuggestedActions { Actions = GetCardActions() };
+            }
+            else
+            {
+                response.Attachments.Add(new HeroCard(buttons: GetCardActions()).ToAttachment());
+            }
+
+            return response;
+        }
+
+        private static List<CardAction> GetCardActions()
+        {
+            return new List<CardAction>()
                 {
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
-                },
-            };
-
-            return response;
+                };
         }
 
         public class ResponseIds

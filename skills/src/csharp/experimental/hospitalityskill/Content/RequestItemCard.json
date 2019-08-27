@@ -60,7 +60,7 @@
                   "horizontalAlignment": "Center"
                 }
               ],
-              "width": "40px"
+              "width": 10
             },
             {
               "type": "Column",
@@ -71,7 +71,7 @@
                   "text": "Item"
                 }
               ],
-              "width": "stretch"
+              "width": 90
             }
           ]
         }

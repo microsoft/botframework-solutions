@@ -8,7 +8,9 @@ using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using static Luis.HospitalityLuis._Entities;
 
@@ -58,22 +60,30 @@ namespace HospitalitySkill.Dialogs
             // didn't order, prompt if 1 menu type not identified
             if (convState.FoodList.Count == 0 && string.IsNullOrWhiteSpace(menu?[0][0]) && menu?.Length != 1)
             {
-                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt);
-                prompt.SuggestedActions = new SuggestedActions()
-                {
-                    Actions = new List<CardAction>()
+                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt).Text;
+
+
+                var actions = new List<CardAction>()
                     {
-                        new CardAction() { Title = "Breakfast", Type = ActionTypes.ImBack, Value = "Breakfast menu"},
-                        new CardAction() { Title = "Lunch", Type = ActionTypes.ImBack, Value = "Lunch menu"},
-                        new CardAction() { Title = "Dinner", Type = ActionTypes.ImBack, Value = "Dinner menu"},
-                        new CardAction() { Title = "24 Hour", Type = ActionTypes.ImBack, Value = "24 hour menu"},
-                    }
+                       new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
                 };
+
+                var activity = MessageFactory.SuggestedActions(actions, prompt);
+
+                // create hero card instead when channel does not support suggested actions
+                if (!Channel.SupportsSuggestedActions(sc.Context.Activity.ChannelId))
+                {
+                    var hero = new HeroCard(buttons: actions);
+                    activity = MessageFactory.Attachment(hero.ToAttachment(), prompt);
+                }
 
                 return await sc.PromptAsync(DialogIds.MenuPrompt, new PromptOptions()
                 {
-                    Prompt = prompt,
-                    RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu),
+                    Prompt = (Activity)activity,
+                    RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu)
                 });
             }
 
@@ -106,7 +116,15 @@ namespace HospitalitySkill.Dialogs
                 List<Card> menuItems = new List<Card>();
                 foreach (var item in menu.Items)
                 {
-                    menuItems.Add(new Card(GetCardName(sc.Context, "MenuItemCard"), item));
+                    var cardName = GetCardName(sc.Context, "MenuItemCard");
+
+                    // workaround for webchat not supporting hidden items on cards
+                    if (Channel.GetChannelId(sc.Context) == Channels.Webchat)
+                    {
+                        cardName += ".1.0";
+                    }
+
+                    menuItems.Add(new Card(cardName, item));
                 }
 
                 // show menu card
