@@ -19,7 +19,7 @@ import { ChildProcessUtils, isValidAzVersion } from './';
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
     // tslint:disable-next-line: max-line-length
-    private docLink: string = 'https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration';
+    private docLink: string = 'https://aka.ms/vamanualauthsteps';
 
     private scopeMap: Map<string, string> = new Map([
         ['Files.Read.Selected', '5447fe39-cb82-4c1a-b977-520e67e724eb'],

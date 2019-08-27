@@ -1,0 +1,33 @@
+.sixteen-by-nine {
+  position: relative;
+
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: (9 / 16) * 100%;
+  }
+
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.switcher-input {
+  display: none;
+}
+
+.switcher-item {
+  transition: opacity .15s ease-in-out;
+  opacity: 0;
+
+  input:checked + & {
+    opacity: 1;
+  }
+}
