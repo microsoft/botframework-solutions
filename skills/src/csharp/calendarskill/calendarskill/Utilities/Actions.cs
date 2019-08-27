@@ -14,6 +14,9 @@
         public const string ShowEventsOverviewAgain = "ShowEventsOverviewAgain";
         public const string ShowFilteredEvents = "ShowFilteredEvents";
         public const string CreateEvent = "createEvent";
+        public const string CollectTitle = "CollectTitle";
+        public const string CollectContent = "CollectContent";
+        public const string CollectLocation = "CollectLocation";
         public const string UpdateEventTime = "UpdateEventTime";
         public const string ChangeEventStatus = "ChangeEventStatus";
         public const string UpdateEvent = "UpdateEvent";

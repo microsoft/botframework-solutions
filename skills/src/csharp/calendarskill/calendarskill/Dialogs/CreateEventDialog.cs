@@ -56,6 +56,18 @@ namespace CalendarSkill.Dialogs
                 CreateEvent,
             };
 
+            var collectTitle = new WaterfallStep[]
+            {
+                CollectTitlePrompt,
+                AfterCollectTitlePrompt
+            };
+
+            var collectContent = new WaterfallStep[]
+            {
+                CollectContentPrompt,
+                AfterCollectContentPrompt
+            };
+
             var updateStartDate = new WaterfallStep[]
             {
                 UpdateStartDateForCreate,
@@ -66,6 +78,12 @@ namespace CalendarSkill.Dialogs
             {
                 UpdateStartTimeForCreate,
                 AfterUpdateStartTimeForCreate,
+            };
+
+            var collectLocation = new WaterfallStep[]
+            {
+                CollectLocationPrompt,
+                AfterCollectLocationPrompt
             };
 
             var updateDuration = new WaterfallStep[]
@@ -88,6 +106,9 @@ namespace CalendarSkill.Dialogs
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectTitle, collectTitle) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectContent, collectContent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectLocation, collectLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
@@ -105,6 +126,24 @@ namespace CalendarSkill.Dialogs
 
         // Create Event waterfall steps
         public async Task<DialogTurnResult> CollectTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.CollectTitle, sc.Options);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectTitlePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -140,6 +179,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -147,40 +191,65 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> CollectContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterCollectTitlePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
+            bool? isTitleSkipByDefault = false;
+            isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
+            var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+
+            if (sc.Result != null || (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Subject)
             {
-                bool? isTitleSkipByDefault = false;
-                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
-
-                bool? isContentSkipByDefault = false;
-                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null || (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Subject)
+                if (string.IsNullOrEmpty(state.MeetingInfor.Title))
                 {
-                    if (string.IsNullOrEmpty(state.MeetingInfor.Title))
+                    if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Subject)
                     {
-                        if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Subject)
+                        state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
+                    }
+                    else
+                    {
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                        var title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (CreateEventWhiteList.IsSkip(title))
                         {
                             state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
                         else
                         {
-                            sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                            var title = content != null ? content.ToString() : sc.Context.Activity.Text;
-                            if (CreateEventWhiteList.IsSkip(title))
-                            {
-                                state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
-                            }
-                            else
-                            {
-                                state.MeetingInfor.Title = title;
-                            }
+                            state.MeetingInfor.Title = title;
                         }
                     }
                 }
+            }
+
+            return await sc.EndDialogAsync();
+        }
+
+        public async Task<DialogTurnResult> CollectContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.CollectContent, sc.Options);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectContentPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (string.IsNullOrEmpty(state.MeetingInfor.Content) && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
                 {
@@ -198,17 +267,45 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        public async Task<DialogTurnResult> AfterCollectContentPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (sc.Result != null && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
+                {
+                    if (string.IsNullOrEmpty(state.MeetingInfor.Content))
+                    {
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                        var merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (!CreateEventWhiteList.IsSkip(merged_content))
+                        {
+                            state.MeetingInfor.Content = merged_content;
+                        }
+                    }
+                }
+                else if (state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                {
+                    state.MeetingInfor.Content = CalendarCommonStrings.DefaultContent;
+                }
+
+                return await sc.EndDialogAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         public async Task<DialogTurnResult> CollectAttendees(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (string.IsNullOrEmpty(state.APIToken))
-                {
-                    return await sc.EndDialogAsync(true, cancellationToken);
-                }
-
-                ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 if (state.MeetingInfor.ContactInfor.Contacts.Count == 0 || state.MeetingInfor.RecreateState == RecreateEventState.Participants)
                 {
@@ -235,26 +332,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                bool? isContentSkipByDefault = false;
-                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
-
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
-                {
-                    if (string.IsNullOrEmpty(state.MeetingInfor.Content))
-                    {
-                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        var merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
-                        if (!CreateEventWhiteList.IsSkip(merged_content))
-                        {
-                            state.MeetingInfor.Content = merged_content;
-                        }
-                    }
-                }
-                else if (state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
-                {
-                    state.MeetingInfor.Content = CalendarCommonStrings.DefaultContent;
-                }
 
                 if (!state.MeetingInfor.StartDate.Any())
                 {
@@ -319,6 +397,24 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                return await sc.BeginDialogAsync(Actions.CollectLocation, sc.Options);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectLocationPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
                 bool? isLocationSkipByDefault = false;
                 isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
 
@@ -340,7 +436,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmBeforeCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterCollectLocationPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -372,6 +468,21 @@ namespace CalendarSkill.Dialogs
                 {
                     state.MeetingInfor.Location = CalendarCommonStrings.DefaultLocation;
                 }
+
+                return await sc.EndDialogAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ConfirmBeforeCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 var source = state.EventSource;
                 var newEvent = new EventModel(source)
