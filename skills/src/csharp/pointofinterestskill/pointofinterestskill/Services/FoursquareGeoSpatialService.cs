@@ -83,6 +83,11 @@ namespace PointOfInterestSkill.Services
             throw new NotSupportedException();
         }
 
+        public Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels)
+        {
+            throw new NotSupportedException();
+        }
+
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
         /// </summary>

@@ -8,6 +8,8 @@
 
         public const string SelectPointOfInterestPrompt = "SelectPointOfInterestPrompt";
 
+        public const string SelectRoutePrompt = "SelectRoutePrompt";
+
         public const string FindAlongRoute = "FindAlongRoute";
 
         public const string FindRouteToActiveLocation = "FindRouteToActiveLocation";

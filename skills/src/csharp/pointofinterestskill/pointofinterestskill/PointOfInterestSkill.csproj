@@ -9,12 +9,16 @@
   <ItemGroup>
     <Content Remove="Content\PointOfInterestDetails.1.0.json" />
     <Content Remove="Content\PointOfInterestDetails.json" />
+    <Content Remove="Content\PointOfInterestDetailsContainer.1.0.json" />
+    <Content Remove="Content\PointOfInterestDetailsContainer.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Content\PointOfInterestDetails.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetailsContainer.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetailsContainer.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
   </ItemGroup>

@@ -74,7 +74,8 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.None });
+            AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
         protected BotSettings Settings { get; set; }
@@ -127,36 +128,18 @@ namespace PointOfInterestSkill.Dialogs
                     var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
-                else if (cards.Count == 1)
-                {
-                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-
-                    var options = new PromptOptions
-                    {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.CurrentLocationSingleSelection, cards)
-                    };
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
-
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
-                }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.CurrentLocationMultipleSelection, pointOfInterestList, cards);
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    if (cards.Count == 1)
                     {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
+                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, service);
+
+                    var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.CurrentLocationSingleSelection : POISharedResponses.CurrentLocationMultipleSelection, containerCard, "Container", cards);
+
+                    return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
                 }
 
                 state.ClearLuisResults();
@@ -287,36 +270,18 @@ namespace PointOfInterestSkill.Dialogs
                     var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
-                else if (cards.Count == 1)
-                {
-                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-
-                    var options = new PromptOptions
-                    {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
-                    };
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
-
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
-                }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    if (cards.Count == 1)
                     {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
+                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
+
+                    var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
+
+                    return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
                 }
 
                 state.ClearLuisResults();
@@ -392,15 +357,31 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
+        protected async Task<Card> GetContainerCard(ITurnContext context, string name, LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestList, IGeoSpatialService service)
+        {
+            return new Card
+            {
+                Name = GetDivergedCardName(context, name),
+                Data = new PointOfInterestModel
+                {
+                    CardTitle = PointOfInterestSharedStrings.CARD_TITLE,
+                    PointOfInterestImageUrl = await service.GetAllPointOfInterestsImageAsync(currentCoordinates, pointOfInterestList)
+                }
+            };
+        }
+
         /// <summary>
         /// Gets ChoicePrompt options with a formatted display name if there are identical locations.
         /// </summary>
         /// <param name="prompt">Prompt string.</param>
-        /// <param name="pointOfInterestList">List of PointOfInterestModels.</param>
-        /// <param name="cards">List of Cards.</param>
+        /// <param name="containerCard">Container card.</param>
+        /// <param name="container">Container.</param>
+        /// <param name="cards">List of Cards. Data must be PointOfInterestModel.</param>
         /// <returns>PromptOptions.</returns>
-        protected PromptOptions GetPointOfInterestPrompt(string prompt, List<PointOfInterestModel> pointOfInterestList, List<Card> cards = null)
+        protected PromptOptions GetPointOfInterestPrompt(string prompt, Card containerCard, string container, List<Card> cards)
         {
+            var pointOfInterestList = cards.Select(card => card.Data as PointOfInterestModel).ToList();
+
             var options = new PromptOptions()
             {
                 Choices = new List<Choice>(),
@@ -442,8 +423,12 @@ namespace PointOfInterestSkill.Dialogs
                 pointOfInterestList[i].SubmitText = suggestedActionValue;
             }
 
-            options.Prompt = cards == null ? ResponseManager.GetResponse(prompt) : ResponseManager.GetCardResponse(prompt, cards);
-            options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options.Prompt, ReadPreference.Enumeration, 5));
+            options.Prompt = ResponseManager.GetCardResponse(prompt, containerCard, null, container, cards);
+
+            if (cards.Count >= 2)
+            {
+                options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Enumeration, 5));
+            }
 
             return options;
         }

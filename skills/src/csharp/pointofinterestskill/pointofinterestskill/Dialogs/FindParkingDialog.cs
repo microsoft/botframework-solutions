@@ -84,8 +84,6 @@ namespace PointOfInterestSkill.Dialogs
         /// <returns>DialogTurnResult.</returns>
         protected async Task<DialogTurnResult> RouteToFindFindParkingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-
             return await sc.ReplaceDialogAsync(Actions.FindParking);
         }
 
@@ -140,36 +138,18 @@ namespace PointOfInterestSkill.Dialogs
                     await sc.Context.SendActivityAsync(replyMessage);
                     return await sc.EndDialogAsync();
                 }
-                else if (cards.Count == 1)
-                {
-                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-
-                    var options = new PromptOptions
-                    {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
-                    };
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
-
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
-                }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    if (cards.Count == 1)
                     {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
+                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
+
+                    var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
+
+                    return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
                 }
             }
             catch (Exception ex)

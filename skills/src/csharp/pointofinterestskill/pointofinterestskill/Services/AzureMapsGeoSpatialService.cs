@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
@@ -27,6 +28,7 @@ namespace PointOfInterestSkill.Services
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string PinStyle = "default|la15+50|al0.75|cod83b01";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}||{{0}} {{1}}";
+        private static readonly string ImageUrlForPoints = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}|{{3}}";
         private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
         private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives=2";
@@ -132,8 +134,8 @@ namespace PointOfInterestSkill.Services
         /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude, string poiType = null)
         {
-        return await GetPointsOfInterestAsync(
-            string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius, limit), poiType);
+            return await GetPointsOfInterestAsync(
+                string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius, limit), poiType);
         }
 
         /// <summary>
@@ -209,10 +211,7 @@ namespace PointOfInterestSkill.Services
 
         public async Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
         {
-            double maxLongitude = -180;
-            double minLongitude = 180;
-            double maxLatitude = -90;
-            double minLatitude = 90;
+            var latLngs = new List<LatLng>();
 
             // TODO or we could use Data in Azure Maps Service to store the whole path
             var sb = new StringBuilder();
@@ -236,6 +235,64 @@ namespace PointOfInterestSkill.Services
 
             AddPoint(destination.Geolocation.Longitude, destination.Geolocation.Latitude);
 
+            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs);
+
+            string pins = string.Format(CultureInfo.InvariantCulture, RoutePins, PointOfInterestSharedStrings.START, route.Legs[0].Points[0].Longitude, route.Legs[0].Points[0].Latitude, PointOfInterestSharedStrings.END, destination.Geolocation.Longitude, destination.Geolocation.Latitude);
+
+            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString()) + "&subscription-key=" + apiKey;
+
+            void AddPoint(double longitude, double latitude)
+            {
+                sb.Append($"|{longitude} {latitude}");
+                latLngs.Add(new LatLng
+                {
+                    Latitude = latitude,
+                    Longitude = longitude
+                });
+            }
+        }
+
+        public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels)
+        {
+            var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
+
+            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs);
+
+            var sb = new StringBuilder();
+            foreach (var model in pointOfInterestModels)
+            {
+                // TODO better idea? '(%2527) is not supported.
+                sb.Append($"|'{HttpUtility.UrlEncode(HttpUtility.UrlEncode(model.Name.Replace("'", string.Empty)))}'{model.Geolocation.Longitude} {model.Geolocation.Latitude}");
+            }
+
+            if (currentCoordinates != null)
+            {
+                sb.Append($"|'{PointOfInterestSharedStrings.YOU}'{currentCoordinates.Longitude} {currentCoordinates.Latitude}");
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, ImageUrlForPoints, centerLongitude, centerLatitude, zoom, sb.ToString()) + "&subscription-key=" + apiKey;
+        }
+
+        /// <summary>
+        /// Get longtitude, latitude, zoom that cover input.
+        /// </summary>
+        /// <param name="latLngs">Input locations.</param>
+        /// <returns>Longtitude, latitude, zoom.</returns>
+        private (double, double, int) GetCoveredLocationZoom(IList<LatLng> latLngs)
+        {
+            double maxLongitude = -180;
+            double minLongitude = 180;
+            double maxLatitude = -90;
+            double minLatitude = 90;
+
+            foreach (var latLng in latLngs)
+            {
+                maxLongitude = Math.Max(maxLongitude, latLng.Longitude);
+                minLongitude = Math.Min(minLongitude, latLng.Longitude);
+                maxLatitude = Math.Max(maxLatitude, latLng.Latitude);
+                minLatitude = Math.Min(minLatitude, latLng.Latitude);
+            }
+
             double centerLongitude = (maxLongitude + minLongitude) * 0.5;
             double longitudeDifference = maxLongitude - minLongitude;
             if (longitudeDifference > 180)
@@ -251,18 +308,7 @@ namespace PointOfInterestSkill.Services
             double latitudeZoom = Math.Log((ImageHeight - (2 * pinBuffer)) * 180.0 / 512.0 / latitudeDifference, 2);
             int zoom = (int)Math.Min(longitudeZoom, latitudeZoom);
 
-            string pins = string.Format(CultureInfo.InvariantCulture, RoutePins, PointOfInterestSharedStrings.START, route.Legs[0].Points[0].Longitude, route.Legs[0].Points[0].Latitude, PointOfInterestSharedStrings.END, destination.Geolocation.Longitude, destination.Geolocation.Latitude);
-
-            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString()) + "&subscription-key=" + apiKey;
-
-            void AddPoint(double longitude, double latitude)
-            {
-                sb.Append($"|{longitude} {latitude}");
-                maxLongitude = Math.Max(maxLongitude, longitude);
-                minLongitude = Math.Min(minLongitude, longitude);
-                maxLatitude = Math.Max(maxLatitude, latitude);
-                minLatitude = Math.Min(minLatitude, latitude);
-            }
+            return (centerLongitude, centerLatitude, zoom);
         }
 
         /// <summary>
