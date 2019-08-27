@@ -19,13 +19,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
         {
         }
 
-		public Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
-		{
-			_activityForwarded = activity;
-
-            return Task.FromResult<Activity>(null);
-        }
-
         public bool CheckIfSkillInvoked()
         {
             return _activityForwarded != null;
@@ -34,6 +27,13 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
         public void VerifyActivityForwardedCorrectly(Action<Activity> assertion)
         {
             assertion(_activityForwarded);
+        }
+
+        public Task ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity)
+        {
+            _activityForwarded = activity;
+
+            return Task.FromResult<Activity>(null);
         }
     }
 }

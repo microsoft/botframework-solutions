@@ -18,22 +18,16 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly Router _router;
         private readonly ITurnContext _turnContext;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private readonly Action<Activity> _tokenRequestHandler;
-        private readonly Action<Activity> _fallbackRequestHandler;
-        private readonly Action<Activity> _handoffActivityHandler;
+        private readonly ISkillProtocolHandler _skillProtocolHandler;
 
         public SkillCallingRequestHandler(
             ITurnContext turnContext,
             IBotTelemetryClient botTelemetryClient,
-            Action<Activity> tokenRequestHandler = null,
-            Action<Activity> fallbackRequestHandler = null,
-            Action<Activity> handoffActivityHandler = null)
+            ISkillProtocolHandler skillProtocolHandler)
         {
             _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
             _botTelemetryClient = botTelemetryClient;
-            _tokenRequestHandler = tokenRequestHandler;
-            _fallbackRequestHandler = fallbackRequestHandler;
-            _handoffActivityHandler = handoffActivityHandler;
+            _skillProtocolHandler = skillProtocolHandler;
 
             var routes = new RouteTemplate[]
             {
@@ -51,9 +45,9 @@ namespace Microsoft.Bot.Builder.Skills
                                 {
                                     if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
                                     {
-                                        if (_tokenRequestHandler != null)
+                                        if (_skillProtocolHandler != null)
                                         {
-                                            _tokenRequestHandler(activity);
+                                            await _skillProtocolHandler.HandleTokenRequest(activity);
 
                                             return new ResourceResponse();
                                         }
@@ -64,11 +58,11 @@ namespace Microsoft.Bot.Builder.Skills
                                     }
                                     else if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
                                     {
-                                        if (_fallbackRequestHandler != null)
+                                        if (_skillProtocolHandler != null)
                                         {
-                                            _fallbackRequestHandler(activity);
+                                            await _skillProtocolHandler.HandleFallback(activity);
 
-                                             return new ResourceResponse();
+                                            return new ResourceResponse();
                                         }
                                         else
                                         {
@@ -78,9 +72,9 @@ namespace Microsoft.Bot.Builder.Skills
                                     else if (activity.Type == ActivityTypes.EndOfConversation)
                                     {
                                         var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
-                                        if (_handoffActivityHandler != null)
+                                        if (_skillProtocolHandler != null)
                                         {
-                                            _handoffActivityHandler(activity);
+                                            await _skillProtocolHandler.HandleEndOfConversation(activity);
 
                                             return new ResourceResponse();
                                         }

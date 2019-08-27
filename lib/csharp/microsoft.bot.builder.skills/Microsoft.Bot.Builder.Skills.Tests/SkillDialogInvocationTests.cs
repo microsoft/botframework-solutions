@@ -33,8 +33,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 				_skillManifest,
 				_mockServiceClientCredentials,
 				_mockTelemetryClient,
-				UserState,
-				_mockSkillTransport));
+				UserState));
         }
 
         /// <summary>

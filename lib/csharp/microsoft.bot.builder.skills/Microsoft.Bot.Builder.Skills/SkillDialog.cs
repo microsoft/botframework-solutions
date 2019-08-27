@@ -19,21 +19,18 @@ namespace Microsoft.Bot.Builder.Skills
     /// <summary>
     /// The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
     /// </summary>
-    public class SkillDialog : ComponentDialog
+    public class SkillDialog : ComponentDialog, ISkillProtocolHandler
     {
         private readonly MultiProviderAuthDialog _authDialog;
         private IServiceClientCredentials _serviceClientCredentials;
         private UserState _userState;
-
+        private SkillCallingAdapter _skillCallingAdapter;
         private SkillManifest _skillManifest;
-        private ISkillTransport _skillTransport;
 
-        private Queue<Activity> _queuedResponses = new Queue<Activity>();
-        private object _lockObject = new object();
+        private Activity _endOfConversationActivity;
+        private DialogContext _dialogContext;
 
         private ISkillIntentRecognizer _skillIntentRecognizer;
-
-        private bool _authDialogCancelled = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -45,22 +42,20 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
         /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
-        /// <param name="skillTransport">Transport used for skill invocation.</param>
         public SkillDialog(
             SkillManifest skillManifest,
             IServiceClientCredentials serviceClientCredentials,
             IBotTelemetryClient telemetryClient,
             UserState userState,
             MultiProviderAuthDialog authDialog = null,
-            ISkillIntentRecognizer skillIntentRecognizer = null,
-            ISkillTransport skillTransport = null)
+            ISkillIntentRecognizer skillIntentRecognizer = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _userState = userState;
-            _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
             _skillIntentRecognizer = skillIntentRecognizer;
+            _skillCallingAdapter = new SkillCallingAdapter(_skillManifest, _serviceClientCredentials, this, telemetryClient);
 
             var intentSwitching = new WaterfallStep[]
             {
@@ -101,7 +96,7 @@ namespace Microsoft.Bot.Builder.Skills
                 if (sc.Result is bool result && result)
                 {
                     // 1) End remote skill dialog
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context);
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context);
 
                     // 2) Reset user input
                     sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
@@ -129,13 +124,80 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
-                if (_skillTransport != null)
-                {
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
-                }
+                await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
             }
 
             await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+        }
+
+        public async Task HandleEndOfConversation(Activity activity)
+        {
+            _endOfConversationActivity = activity;
+        }
+
+        public async Task HandleTokenRequest(Activity activity)
+        {
+            // Send trace to emulator
+            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill")).GetAwaiter().GetResult();
+
+            var result = _dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
+
+            if (result.Status == DialogTurnStatus.Complete)
+            {
+                var resultObj = result.Result;
+                if (resultObj != null && resultObj is ProviderTokenResponse tokenResponse)
+                {
+                    var tokenEvent = activity.CreateReply();
+                    tokenEvent.Type = ActivityTypes.Event;
+                    tokenEvent.Name = TokenEvents.TokenResponseEventName;
+                    tokenEvent.Value = tokenResponse;
+                    tokenEvent.SemanticAction = activity.SemanticAction;
+
+                    await ForwardToSkillAsync(_dialogContext, tokenEvent);
+                }
+                else
+                {
+                    // cancel remote skill dialog if AuthDialog is cancelled
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context);
+
+                    await _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user."));
+                    await _dialogContext.EndDialogAsync();
+                }
+            }
+        }
+
+        public async Task HandleFallback(Activity activity)
+        {
+            // Send trace to emulator
+            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
+
+            // if skillIntentRecognizer specified, run the recognizer
+            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
+            {
+                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(_dialogContext);
+
+                // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
+                // if the result is the same as the current intent, re-send it to the current skill
+                // if the result is empty which means no intent, re-send it to the current skill
+                if (recognizedSkillManifestRecognized != null
+                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
+                {
+                    if (_skillIntentRecognizer.ConfirmIntentSwitch)
+                    {
+                        var options = new SkillSwitchConfirmOption()
+                        {
+                            FallbackHandledEvent = activity,
+                            TargetIntent = recognizedSkillManifestRecognized,
+                            UserInputActivity = _dialogContext.Context.Activity,
+                        };
+
+                        await _dialogContext.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options);
+                    }
+
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context);
+                    await _dialogContext.EndDialogAsync(recognizedSkillManifestRecognized);
+                }
+            }
         }
 
         /// <summary>
@@ -212,9 +274,10 @@ namespace Microsoft.Bot.Builder.Skills
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
-            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+            // set dialogContext for callback to use
+            _dialogContext = innerDc;
 
-            _skillTransport.Disconnect();
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
             return dialogResult;
         }
@@ -274,9 +337,11 @@ namespace Microsoft.Bot.Builder.Skills
                 }
             }
 
+            // set dialogContext for callback to use
+            _dialogContext = innerDc;
+
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-            _skillTransport.Disconnect();
             return dialogResult;
         }
 
@@ -318,69 +383,16 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversationActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
+                await _skillCallingAdapter.SendActivitiesAsync(innerDc.Context, new Activity[] { activity }, default(CancellationToken));
 
-                if (endOfConversationActivity != null)
+                if (_endOfConversationActivity == null)
                 {
-                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await innerDc.EndDialogAsync(endOfConversationActivity.SemanticAction?.Entities);
-                }
-                else if (_authDialogCancelled)
-                {
-                    // cancel remote skill dialog if AuthDialog is cancelled
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context);
-
-                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user."));
-                    return await innerDc.EndDialogAsync();
+                    return new DialogTurnResult(DialogTurnStatus.Waiting);
                 }
                 else
                 {
-                    var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
-
-                    // if there's any response we need to send to the skill queued
-                    // forward to skill and start a new turn
-                    while (_queuedResponses.Count > 0)
-                    {
-                        var lastEvent = _queuedResponses.Dequeue();
-
-                        if (lastEvent.Name == SkillEvents.FallbackEventName)
-                        {
-                            // Set fallback event to fallback handled event
-                            lastEvent.Name = SkillEvents.FallbackHandledEventName;
-
-                            // if skillIntentRecognizer specified, run the recognizer
-                            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
-                            {
-                                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(innerDc);
-
-                                // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
-                                // if the result is the same as the current intent, re-send it to the current skill
-                                // if the result is empty which means no intent, re-send it to the current skill
-                                if (recognizedSkillManifestRecognized != null
-                                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
-                                {
-                                    if (_skillIntentRecognizer.ConfirmIntentSwitch)
-                                    {
-                                        var options = new SkillSwitchConfirmOption()
-                                        {
-                                            FallbackHandledEvent = lastEvent,
-                                            TargetIntent = recognizedSkillManifestRecognized,
-                                            UserInputActivity = innerDc.Context.Activity,
-                                        };
-
-                                        return await innerDc.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options);
-                                    }
-
-                                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context);
-                                    return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized);
-                                }
-                            }
-                        }
-
-                        dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
-                    }
-
-                    return dialogResult;
+                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
+                    return await innerDc.EndDialogAsync(activity.SemanticAction?.Entities);
                 }
             }
             catch
@@ -390,57 +402,6 @@ namespace Microsoft.Bot.Builder.Skills
                 await innerDc.EndDialogAsync();
                 throw;
             }
-        }
-
-        private Action<Activity> GetTokenRequestCallback(DialogContext dialogContext)
-        {
-            return (activity) =>
-            {
-                // Send trace to emulator
-                dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill")).GetAwaiter().GetResult();
-
-                var result = dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
-
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    var resultObj = result.Result;
-                    if (resultObj != null && resultObj is ProviderTokenResponse tokenResponse)
-                    {
-                        var tokenEvent = activity.CreateReply();
-                        tokenEvent.Type = ActivityTypes.Event;
-                        tokenEvent.Name = TokenEvents.TokenResponseEventName;
-                        tokenEvent.Value = tokenResponse;
-                        tokenEvent.SemanticAction = activity.SemanticAction;
-
-                        lock (_lockObject)
-                        {
-                            _queuedResponses.Enqueue(tokenEvent);
-                        }
-                    }
-                    else
-                    {
-                        _authDialogCancelled = true;
-                    }
-                }
-            };
-        }
-
-        private Action<Activity> GetFallbackCallback(DialogContext dialogContext)
-        {
-            return (activity) =>
-            {
-                // Send trace to emulator
-                dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
-
-                var fallbackEvent = activity.CreateReply();
-                fallbackEvent.Type = ActivityTypes.Event;
-                fallbackEvent.Name = SkillEvents.FallbackEventName;
-
-                lock (_lockObject)
-                {
-                    _queuedResponses.Enqueue(fallbackEvent);
-                }
-            };
         }
 
         private class DialogIds
