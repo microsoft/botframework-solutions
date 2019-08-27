@@ -468,7 +468,7 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         // Show address as the name
                         pointOfInterestList[i].Name = pointOfInterestList[i].Address;
-                        pointOfInterestList[i].Address = string.Empty;
+                        pointOfInterestList[i].Address = pointOfInterestList[i].AddressAlternative;
                     }
 
                     pointOfInterestList[i].ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", pointOfInterestList[i].Provider.Aggregate((j, k) => j + "&" + k).ToString());

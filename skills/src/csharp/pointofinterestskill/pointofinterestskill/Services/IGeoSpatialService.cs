@@ -100,10 +100,11 @@ namespace PointOfInterestSkill.Services
         /// <param name="key">Geospatial service key.</param>
         /// <param name="radiusConfiguration">The radius from configuration.</param>
         /// <param name="limitConfiguration">The limit size from configuration.</param>
+        /// <param name="routeLimitConfiguration">The limit size of route.</param>
         /// <param name="locale">The user locale.</param>
         /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>Task service itself.</returns>
-        Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en", HttpClient client = null);
+        Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en", HttpClient client = null);
 
         /// <summary>
         /// Init task service.
@@ -112,9 +113,10 @@ namespace PointOfInterestSkill.Services
         /// <param name="clientSecret">Geospatial service client secret.</param>
         /// <param name="radiusConfiguration">The radius from configuration.</param>
         /// <param name="limitConfiguration">The limit size from configuration.</param>
+        /// <param name="routeLimitConfiguration">The limit size of route.</param>
         /// <param name="locale">The user locale.</param>
         /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>Task service itself.</returns>
-        Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, string locale = "en", HttpClient client = null);
+        Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en", HttpClient client = null);
     }
 }

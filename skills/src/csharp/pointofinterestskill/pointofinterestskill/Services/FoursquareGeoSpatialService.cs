@@ -42,7 +42,7 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
-        public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace PointOfInterestSkill.Services
             return Task.FromResult(this as IGeoSpatialService);
         }
 
-        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotSupportedException();
         }

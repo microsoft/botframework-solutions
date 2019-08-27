@@ -19,6 +19,7 @@ namespace PointOfInterestSkill.Services
     {
         private static readonly int ImageWidth = 440;
         private static readonly int ImageHeight = 240;
+        private static readonly int DefaultZoom = 14;
         private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
@@ -31,8 +32,8 @@ namespace PointOfInterestSkill.Services
         private static readonly string ImageUrlForPoints = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}|{{3}}";
         private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
         private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
-        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives=2";
-        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives=2";
+        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives={{1}}";
+        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives={{2}}";
         private static string apiKey;
         private static string userLocale;
         private static HttpClient httpClient;
@@ -47,12 +48,14 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
-        public Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        private int routeLimit;
+
+        public Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -60,6 +63,7 @@ namespace PointOfInterestSkill.Services
                 userLocale = locale;
                 radius = radiusConfiguration;
                 limit = limitConfiguration;
+                routeLimit = routeLimitConfiguration;
 
                 if (client == null)
                 {
@@ -174,14 +178,12 @@ namespace PointOfInterestSkill.Services
         /// <returns>PointOfInterestModel.</returns>
         public Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
-            int zoom = 14;
-
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
                 ImageUrlByPoint,
                 pointOfInterest?.Geolocation?.Longitude,
                 pointOfInterest?.Geolocation?.Latitude,
-                zoom) + "&subscription-key=" + apiKey;
+                DefaultZoom) + "&subscription-key=" + apiKey;
 
             pointOfInterest.PointOfInterestImageUrl = imageUrl;
 
@@ -199,13 +201,14 @@ namespace PointOfInterestSkill.Services
         /// <returns>RouteDirections.</returns>
         public async Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
+            // maxAlternatives are ones except for the default result. so minus 1
             if (string.IsNullOrEmpty(routeType))
             {
-                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirections, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude) + "&subscription-key=" + apiKey);
+                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirections, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeLimit - 1) + "&subscription-key=" + apiKey);
             }
             else
             {
-                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirectionsWithRouteType, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeType) + "&subscription-key=" + apiKey);
+                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirectionsWithRouteType, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeType, routeLimit - 1) + "&subscription-key=" + apiKey);
             }
         }
 
@@ -255,6 +258,10 @@ namespace PointOfInterestSkill.Services
         public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels)
         {
             var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
+            if (currentCoordinates != null)
+            {
+                latLngs.Add(currentCoordinates);
+            }
 
             (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs);
 
@@ -307,6 +314,19 @@ namespace PointOfInterestSkill.Services
             double longitudeZoom = Math.Log((ImageWidth - (2 * pinBuffer)) * 360.0 / 512.0 / longitudeDifference, 2);
             double latitudeZoom = Math.Log((ImageHeight - (2 * pinBuffer)) * 180.0 / 512.0 / latitudeDifference, 2);
             int zoom = (int)Math.Min(longitudeZoom, latitudeZoom);
+
+            // all differences are zero
+            if (zoom < 0)
+            {
+                zoom = DefaultZoom;
+            }
+
+            // maximum level
+            // https://docs.microsoft.com/en-us/azure/azure-maps/zoom-levels-and-tile-grid?tabs=csharp
+            if (zoom > 24)
+            {
+                zoom = 24;
+            }
 
             return (centerLongitude, centerLatitude, zoom);
         }
