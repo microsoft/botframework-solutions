@@ -17,9 +17,11 @@ order: 1
 
 ## Prerequisites
 
-1. [Create a Virtual Assistant]({{ site.baseurl }}/tutorials/csharp/create-assistant/1_intro/) to setup your environment.
+1. Install [Android Studio](https://developer.android.com/studio/) on your PC.
 
-2. [Enable speech]({{ site.baseurl }}/tutorials/enable-speech/1_intro) on your new Virtual Assistant, which enables you to retrieve a
+1. [Create a Virtual Assistant]({{ site.baseurl }}/tutorials/csharp/create-assistant/1_intro/) to setup your Virtual Assistant environment.
+
+1. [Enable speech]({{ site.baseurl }}/tutorials/enable-speech/1_intro) on your new Virtual Assistant, which enables you to retrieve a
     - [Microsoft Speech Cognitive Service subscription key]({{ site.baseurl }}/tutorials/enable-speech/2_create_speech_instance/)
     - [Add the Direct Line Speech channel to your Assistant]({{ site.baseurl }}/tutorials/enable-speech/3_add_speech_channel/)
 
