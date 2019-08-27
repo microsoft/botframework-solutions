@@ -244,7 +244,7 @@
         "endpoint": "[variables('botEndpoint')]",
         "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
-        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
+        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
       }
     },
