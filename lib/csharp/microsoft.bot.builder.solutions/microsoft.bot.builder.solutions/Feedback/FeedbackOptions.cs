@@ -1,5 +1,5 @@
-﻿using Microsoft.Bot.Schema;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Feedback
 {
