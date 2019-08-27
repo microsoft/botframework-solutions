@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Prompts;
-using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
@@ -34,6 +33,7 @@ namespace CalendarSkill.Dialogs
     public class CalendarSkillDialogBase : ComponentDialog
     {
         private ConversationState _conversationState;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public CalendarSkillDialogBase(
             string dialogId,
@@ -45,6 +45,7 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(dialogId)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("Shared.lg");
             Settings = settings;
             Services = services;
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
@@ -1039,7 +1040,7 @@ namespace CalendarSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+            await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CalendarErrorMessage]", null));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);
@@ -1062,11 +1063,11 @@ namespace CalendarSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+                await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CalendarErrorMessageBotProblem]", null));
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+                await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CalendarErrorMessage]", null));
             }
 
             // clear state
@@ -1250,94 +1251,6 @@ namespace CalendarSkill.Dialogs
             }
 
             return result;
-        }
-
-        protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            var pageIndex = state.ShowAttendeesIndex;
-            var pageSize = 5;
-            var skip = pageSize * pageIndex;
-            var options = new PromptOptions
-            {
-                Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmRecipient),
-            };
-            for (var i = 0; i < personList.Count; i++)
-            {
-                var user = personList[i];
-                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
-
-                var choice = new Choice()
-                {
-                    Value = $"**{user.DisplayName}: {mailAddress}**",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            if (options.Choices.Count == 0)
-            {
-                pageSize = 10;
-            }
-
-            for (var i = 0; i < userList.Count; i++)
-            {
-                var user = userList[i];
-                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
-                var choice = new Choice()
-                {
-                    Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else if (skip >= 10)
-                {
-                    return options;
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            return options;
         }
 
         protected string GetSubjectFromEntity(CalendarLuis._Entities entity)

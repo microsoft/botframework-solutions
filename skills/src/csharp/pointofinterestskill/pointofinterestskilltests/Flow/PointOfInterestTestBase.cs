@@ -80,7 +80,8 @@ namespace PointOfInterestSkillTests.Flow
             var path = Environment.CurrentDirectory;
             path = Path.Combine(path + @"\..\..\..\..\pointofinterestskill\");
             var resourceExplorer = ResourceExplorer.LoadProject(path);
-            Services.AddSingleton(new LanguageGeneratorManager(resourceExplorer));
+            Services.AddSingleton(resourceExplorer);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },

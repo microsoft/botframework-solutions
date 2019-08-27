@@ -1,3 +1,17 @@
+# CalendarErrorMessage
+- Sorry, it looks like something went wrong!
+- An error occurred, please try again later.
+- Something went wrong, sorry!
+- It seems like something went wrong. Can you try again later?
+- Sorry I can't help right now. Please try again later.
+
+# CalendarErrorMessageBotProblem
+- Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.
+
+# ActionEnded
+- Let me know if you need my help with something else.
+- I'm here if you need me.
+
 # FormatDate(date, timezone)
 - IF: @{date(convertFromUTC(formatDateTime(date), timezone)) == date(convertFromUTC(utcNow(), timezone))}
 	- today

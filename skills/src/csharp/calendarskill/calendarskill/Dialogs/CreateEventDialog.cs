@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Options;
 using CalendarSkill.Prompts;
-using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
@@ -17,7 +16,6 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -118,7 +116,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.RecreateState == RecreateEventState.Subject)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[NoTitleShort]", null) }, cancellationToken);
                 }
                 else if (state.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
                 {
@@ -838,7 +836,7 @@ namespace CalendarSkill.Dialogs
                     switch (recreateState.Value)
                     {
                         case RecreateEventState.Cancel:
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded), cancellationToken);
+                            await sc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ActionEnded]", null), cancellationToken);
                             state.Clear();
                             return await sc.EndDialogAsync(true, cancellationToken);
                         case RecreateEventState.Time:
@@ -885,8 +883,8 @@ namespace CalendarSkill.Dialogs
             {
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt)
+                    Prompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ShowRestParticipantsPrompt]", null),
+                    RetryPrompt = (Activity)await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ShowRestParticipantsPrompt]", null)
                 }, cancellationToken);
             }
             catch (Exception ex)

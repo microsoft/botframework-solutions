@@ -119,7 +119,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
+                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.NoAuth}]", null);
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ToDoCommonUtil.GetToDoResponseActivity(response) });
             }
             catch (Exception ex)
             {
@@ -238,7 +239,8 @@ namespace ToDoSkill.Dialogs
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.NoTasksInList));
+                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.NoTasksInList}]", null);
+                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -561,7 +563,8 @@ namespace ToDoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
+            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
 
             // clear state
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
@@ -581,15 +584,18 @@ namespace ToDoSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageBotProblem));
+                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessageBotProblem}]", null);
+                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageAccountProblem));
+                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessageAccountProblem}]", null);
+                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
+                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
             }
 
             // clear state
@@ -613,13 +619,17 @@ namespace ToDoSkill.Dialogs
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOneNoteMessage));
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", null);
+                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                            var response2 = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", null);
+                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response2));
                         }
                         else
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOutlookMessage));
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOutlookSetupMessage));
+                            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.SettingUpOutlookMessage}]", null);
+                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                            var response2 = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", null);
+                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response2));
                         }
 
                         var taskWebLink = await taskServiceInit.GetTaskWebLink();
