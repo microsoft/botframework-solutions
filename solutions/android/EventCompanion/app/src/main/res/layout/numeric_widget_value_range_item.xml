@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/range_unit" android:layout_weight="0.25"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/range_min" android:layout_weight="0.25"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/range_max" android:layout_weight="0.25"/>
+    <Button
+            android:text="@string/remove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/range_remove" android:layout_weight="0.25"/>
+</LinearLayout>

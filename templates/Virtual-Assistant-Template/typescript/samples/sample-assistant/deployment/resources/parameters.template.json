@@ -1,21 +1,33 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "appInsightsLocation": {
-        "value": "westus2"
-        },
-        "contentModeratorLocation": {
-        "value": "westus"
-        },
-        "luisServiceLocation": {
-        "value": "westus"
-        },
-        "qnaServiceLocation": {
-        "value": "westus"
-        },
-        "qnaMakerSearchSku": {
-        "value": "basic"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "useCosmosDb": {
+      "value": false
+    },
+    "useStorage": {
+      "value": false
+    },
+    "useContentModerator": {
+      "value": false
+    },
+    "appServicePlanSku": {
+      "value": {
+        "tier": "Free",
+        "name": "F1"
+      }
+    },
+    "botServiceSku": {
+      "value": "F0"
+    },
+    "luisServiceSku": {
+      "value": "F0"
+    },
+    "qnaMakerServiceSku": {
+      "value": "F0"
+    },
+    "qnaMakerSearchSku": {
+      "value": "free"
     }
+  }
 }

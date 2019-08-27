@@ -3,8 +3,18 @@
  * Licensed under the MIT License.
  */
 
-import { BotFrameworkAdapterSettings, BotTelemetryClient, NullTelemetryClient, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import {
+    BotFrameworkAdapterSettings,
+    BotTelemetryClient,
+    ConversationState,
+    NullTelemetryClient,
+    StatePropertyAccessor,
+    TurnContext,
+    UserState } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
+import {
+    CosmosDbStorage,
+    CosmosDbStorageSettings } from 'botbuilder-azure';
 import { Dialog } from 'botbuilder-dialogs';
 import {
     IAuthenticationConnection,
@@ -17,6 +27,7 @@ import {
     IOAuthConnection,
     Locales,
     MultiProviderAuthDialog } from 'botbuilder-solutions';
+import { MicrosoftAppCredentials } from 'botframework-connector';
 import i18next from 'i18next';
 // tslint:disable-next-line: match-default-export-name
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
@@ -84,26 +95,53 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
-const adapter: DefaultAdapter = new DefaultAdapter(botSettings, adapterSettings, telemetryClient);
+
+let cosmosDbStorageSettings: CosmosDbStorageSettings;
+if (botSettings.cosmosDb === undefined) {
+    throw new Error();
+}
+cosmosDbStorageSettings = {
+    authKey: botSettings.cosmosDb.authkey,
+    collectionId: botSettings.cosmosDb.collectionId,
+    databaseId: botSettings.cosmosDb.databaseId,
+    serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
+};
+
+const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
+const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage);
+
+const appCredentials: MicrosoftAppCredentials = new MicrosoftAppCredentials(
+    botSettings.microsoftAppId || '',
+    botSettings.microsoftAppPassword || ''
+);
+const adapter: DefaultAdapter = new DefaultAdapter(
+    botSettings,
+    adapterSettings,
+    telemetryClient,
+    userState,
+    conversationState
+);
+// const webSocketEnabledHttpAdapter: webSocketEnabledHttpAdapter = (botsettings, adapter))
 
 let bot: DialogBot<Dialog>;
 try {
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
 
     const onboardingStateAccessor: StatePropertyAccessor<IOnboardingState> =
-        adapter.userState.createProperty<IOnboardingState>('OnboardingState');
+        userState.createProperty<IOnboardingState>('OnboardingState');
     const skillContextAccessor: StatePropertyAccessor<SkillContext> =
-        adapter.userState.createProperty<SkillContext>(SkillContext.name);
+        userState.createProperty<SkillContext>(SkillContext.name);
 
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient);
     const escalateDialog: EscalateDialog = new EscalateDialog(botServices, telemetryClient);
     const cancelDialog: CancelDialog = new CancelDialog();
     const skillDialogs: SkillDialog[] = skills.map((skill: ISkillManifest): SkillDialog => {
-        const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings);
+        const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings, appCredentials);
         const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
             botSettings.microsoftAppId || '',
             botSettings.microsoftAppPassword || '',
-            skill.msAppId);
+            skill.msaAppId);
 
         return new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
     });
@@ -114,11 +152,12 @@ try {
         escalateDialog,
         cancelDialog,
         skillDialogs,
+        skillContextAccessor,
         onboardingStateAccessor,
         telemetryClient
     );
 
-    bot = new DialogBot(adapter.conversationState, telemetryClient, mainDialog);
+    bot = new DialogBot(conversationState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }
@@ -151,7 +190,10 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
 });
 
 // This method creates a MultiProviderAuthDialog based on a skill manifest.
-function buildAuthDialog(skill: ISkillManifest, settings: Partial<IBotSettings>): MultiProviderAuthDialog|undefined {
+function buildAuthDialog(
+    skill: ISkillManifest,
+    settings: Partial<IBotSettings>,
+    credentials: MicrosoftAppCredentials): MultiProviderAuthDialog|undefined {
     if (skill.authenticationConnections !== undefined && skill.authenticationConnections.length > 0) {
         if (settings.oauthConnections !== undefined) {
             const oauthConnections: IOAuthConnection[] | undefined = settings.oauthConnections.filter(
@@ -161,7 +203,7 @@ function buildAuthDialog(skill: ISkillManifest, settings: Partial<IBotSettings>)
                     });
                 });
             if (oauthConnections !== undefined) {
-                return new MultiProviderAuthDialog(oauthConnections);
+                return new MultiProviderAuthDialog(oauthConnections, credentials);
             }
         } else {
             throw new Error(`You must configure at least one supported OAuth connection to use this skill: ${skill.name}.`);
