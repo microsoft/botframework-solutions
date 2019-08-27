@@ -19,5 +19,14 @@ namespace HospitalitySkill.Services
 
         // request items to be brought
         Task<bool> RequestItems(List<ItemRequestClass> items);
+
+        // check item request availability
+        RoomItem CheckRoomItemAvailability(string item);
+
+        // check availability of a room service request
+        MenuItem CheckMenuItemAvailability(string item);
+
+        // get the requested menu to view
+        Menu GetMenu(string menuType);
     }
 }

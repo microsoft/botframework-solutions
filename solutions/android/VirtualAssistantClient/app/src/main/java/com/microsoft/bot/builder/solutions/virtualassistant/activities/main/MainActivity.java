@@ -64,13 +64,12 @@ import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
-import client.model.InputHints;
 import events.ActivityReceived;
+import events.BotListening;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
-import events.SynthesizerStopped;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
@@ -83,11 +82,11 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.textinput) TextInputEditText textInput;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
     @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.mic_image) ImageView micImage;
+    @BindView(R.id.kbd_image) ImageView kbdImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
     @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
 
@@ -98,14 +97,14 @@ public class MainActivity extends BaseActivity
     // STATE
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
-    private boolean alwaysShowTextInput;
     private boolean showFullConversation;
     private Handler handler;
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
-    private boolean willListenAgain;
     private boolean enableKws;
+    private boolean isExpandedTextInput;
+    private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +119,6 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        alwaysShowTextInput = getBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT);
-        switchShowTextInput.setChecked(alwaysShowTextInput);
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
         switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
@@ -160,6 +157,8 @@ public class MainActivity extends BaseActivity
 
         // assign animation
         animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
+
+        isCreated = true;//keep this as last line in onCreate()
     }
 
     // Register for EventBus messages and SpeechService
@@ -179,6 +178,7 @@ public class MainActivity extends BaseActivity
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
         chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
         chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
+        chatAdapter.setShowFullConversation(showFullConversation);
     }
 
     // Unregister EventBus messages and SpeechService
@@ -282,6 +282,8 @@ public class MainActivity extends BaseActivity
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
                     chatAdapter.resetChat();
+                    suggActionsAdapter.clear();
+                    speechServiceBinder.clearSuggestedActions();
                     break;
                 case R.id.nav_menu_show_assistant_settings:
                     startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
@@ -298,21 +300,32 @@ public class MainActivity extends BaseActivity
     }
 
     private void showListeningAnimation(){
+        Log.i(LOGTAG, "Listening again - showListeningAnimation()");
         animatedAssistant.setVisibility(View.VISIBLE);
         ((AnimationDrawable) animatedAssistant.getBackground()).start();
         sfxManager.playEarconListening();
     }
 
     private void hideListeningAnimation(){
+        Log.i(LOGTAG, "Listening again - hideListeningAnimation()");
         animatedAssistant.setVisibility(View.GONE);
         sfxManager.playEarconDoneListening();
+    }
+
+    @OnClick(R.id.kbd_image)
+    public void onClickKeyboard() {
+        if (isExpandedTextInput)
+            textInputLayout.setVisibility(View.GONE);
+        else
+            textInputLayout.setVisibility(View.VISIBLE);
+        isExpandedTextInput = !isExpandedTextInput;
     }
 
     @OnClick(R.id.mic_image)
     public void onClickAssistant() {
         try {
             speechServiceBinder.stopAnyTTS();
-            showListeningAnimation();
+            //showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -321,44 +334,51 @@ public class MainActivity extends BaseActivity
 
     @OnCheckedChanged(R.id.switch_enable_kws)
     public void onCheckedChangedEnableKws(CompoundButton button, boolean checked){
+        if (isCreated) {
+            if (speechServiceBinder != null) {
+                // if there's a connection to the service, go ahead and toggle Kws
+                enableKws = setKwsState(checked);//returns true only if Kws is turned on
+            } else {
+                // defer toggling Kws for later, for now records users' wishes
+                enableKws = checked;
+            }
 
-        if (speechServiceBinder != null) {
-            // if there's a connection to the service, go ahead and toggle Kws
-            enableKws = setKwsState(checked);//returns true only if Kws is turned on
-        } else {
-            // defer toggling Kws for later, for now records users' wishes
-            enableKws = checked;
+            putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
+
+            if (checked && !enableKws) {
+                switchEnableKws.setChecked(false);
+            }
         }
-
-        putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
-
-        if (checked && !enableKws) {
-            switchEnableKws.setChecked(false);
-        }
-    }
-
-    @OnCheckedChanged(R.id.switch_show_textinput)
-    public void OnCheckedChangedShowTextInput(CompoundButton button, boolean checked){
-        alwaysShowTextInput = checked;
-        putBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT, checked);
-        if (alwaysShowTextInput)
-            textInputLayout.setVisibility(View.VISIBLE);
-        else
-            textInputLayout.setVisibility(View.GONE);
     }
 
     @OnCheckedChanged(R.id.switch_show_full_conversation)
     public void OnCheckedChangedShowFullConversation(CompoundButton button, boolean checked){
-        showFullConversation = checked;
-        putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
-        chatAdapter.setShowFullConversation(showFullConversation);
+        if (isCreated) {
+            showFullConversation = checked;
+            putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
+            chatAdapter.setShowFullConversation(showFullConversation);
+        }
     }
 
     @OnCheckedChanged(R.id.switch_night_mode)
     public void OnCheckedChangedEnableNightMode(CompoundButton button, boolean checked){
-        putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
-        AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
-        getDelegate().applyDayNight();
+        if (isCreated) {
+            // OutOfMemoryError can occur, try to free as many objects as possible 1st
+            // note: the assistant animation might need to be unloaded prior to switching night mode
+            chatAdapter.resetChat();
+            sfxManager.reset();
+            sfxManager = null;
+            System.gc();
+
+            // now proceed with the night mode switch
+            putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
+            AppCompatDelegate.setDefaultNightMode(checked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            getDelegate().applyDayNight();
+
+            // re-init SFX manager
+            sfxManager = new SfxManager();
+            sfxManager.initialize(this);
+        }
     }
 
     @OnEditorAction(R.id.textinput)
@@ -382,17 +402,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-//    @OnFocusChange(R.id.textinput)
-//    void onFocusChanged(boolean focused) {
-//        if (focused) {
-//            try {
-//                speechServiceBinder.stopAnyTTS();
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
     // send text message
     private void sendTextMessage(String msg){
         if (msg == null || msg.length() == 0) return;
@@ -413,7 +422,6 @@ public class MainActivity extends BaseActivity
             List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
             if (list != null && list.size() > 0){
                 list = null;
-                speechServiceBinder.clearSuggestedActions();
                 suggActionsAdapter.clear();
             }
         } catch (RemoteException exception){
@@ -437,18 +445,13 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    // EventBus: the synthesizer has stopped playing
+    // EventBus: the Bot is listening
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+    public void onEventBotListening(BotListening event) {
 
         // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
-        // visual, the app also needs to subscribe to this event and act on it.
-        if(willListenAgain){
-            willListenAgain = false;
-            Log.i(LOGTAG, "Listening again");
-            showListeningAnimation();
-        }
-
+        // visual, the app needs to subscribe to this event and act on it.
+        showListeningAnimation();
     }
 
     // EventBus: the user spoke and the app recognized intermediate speech
@@ -461,10 +464,13 @@ public class MainActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
         hideListeningAnimation();
-        detectedSpeechToText.setText(event.recognized_speech);
+        if (event.recognized_speech.length()>0) {
+            detectedSpeechToText.setText(event.recognized_speech);
+            chatAdapter.addUserRequest(event.recognized_speech);
 
-        // in 2 seconds clear the text (at this point the bot should be giving its' response)
-        handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
+            // in 2 seconds clear the text (at this point the bot should be giving its' response)
+            handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
+        }
     }
 
     // EventBus: received a response from Bot
@@ -502,14 +508,6 @@ public class MainActivity extends BaseActivity
                 default:
                     break;
             }
-
-            // the service looks for the same expectingInput event. The app needs it to trigger visuals
-            if(botConnectorActivity.getInputHint() != null){
-                Log.i(LOGTAG, "InputHint: "+botConnectorActivity.getInputHint());
-                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
-                    willListenAgain = true;
-                }
-            }
         }
     }
 
@@ -538,7 +536,6 @@ public class MainActivity extends BaseActivity
         if (clickData != null) {
             try {
                 speechServiceBinder.stopAnyTTS();
-                willListenAgain = false;// no need to listen again since user clicked adaptive card
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

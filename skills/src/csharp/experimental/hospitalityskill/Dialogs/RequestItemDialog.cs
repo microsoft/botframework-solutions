@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,16 +9,13 @@ using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Newtonsoft.Json;
 using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Dialogs
 {
     public class RequestItemDialog : HospitalityDialogBase
     {
-        private const string AvailableItemsFileName = "AvailableItems.json";
         private readonly HotelService _hotelService;
-        private readonly string _availableItemsFilePath;
 
         public RequestItemDialog(
             BotSettings settings,
@@ -41,11 +36,6 @@ namespace HospitalitySkill.Dialogs
             };
 
             _hotelService = hotelService;
-
-            _availableItemsFilePath = typeof(RequestItemDialog).Assembly
-                .GetManifestResourceNames()
-                .Where(x => x.Contains(AvailableItemsFileName))
-                .First();
 
             AddDialog(new WaterfallDialog(nameof(RequestItemDialog), requestItem));
             AddDialog(new TextPrompt(DialogIds.ItemPrompt, ValidateItemPrompt));
@@ -126,11 +116,17 @@ namespace HospitalitySkill.Dialogs
 
             foreach (var itemRequest in convState.ItemList.ToList())
             {
-                if (!CheckItemAvailability(itemRequest.Item[0]))
+                var roomItem = _hotelService.CheckRoomItemAvailability(itemRequest.Item[0]);
+
+                if (roomItem == null)
                 {
                     // specific item is not available
                     notAvailable.Add(itemRequest);
                     convState.ItemList.Remove(itemRequest);
+                }
+                else
+                {
+                    itemRequest.Item[0] = roomItem.Item;
                 }
             }
 
@@ -139,7 +135,7 @@ namespace HospitalitySkill.Dialogs
                 var reply = ResponseManager.GetResponse(RequestItemResponses.ItemNotAvailable).Text;
                 foreach (var itemRequest in notAvailable)
                 {
-                    reply += Environment.NewLine + "- " + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemRequest.Item[0]);
+                    reply += Environment.NewLine + "- " + itemRequest.Item[0];
                 }
 
                 await sc.Context.SendActivityAsync(reply);
@@ -151,16 +147,6 @@ namespace HospitalitySkill.Dialogs
             }
 
             return await sc.NextAsync();
-        }
-
-        private bool CheckItemAvailability(string item)
-        {
-            using (var r = new StreamReader(typeof(RequestItemDialog).Assembly.GetManifestResourceStream(_availableItemsFilePath)))
-            {
-                string json = r.ReadToEnd();
-                string[] items = JsonConvert.DeserializeObject<string[]>(json);
-                return Array.Exists(items, x => x == item);
-            }
         }
 
         private async Task<bool> ValidateGuestServicesPrompt(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
@@ -185,21 +171,24 @@ namespace HospitalitySkill.Dialogs
 
             if (convState.ItemList.Count > 0)
             {
-                string reply = ResponseManager.GetResponse(RequestItemResponses.ItemsRequested).Text;
+                List<Card> roomItems = new List<Card>();
+
                 foreach (var itemRequest in convState.ItemList)
                 {
-                    if (itemRequest.number == null)
+                    var roomItem = new RoomItem
                     {
-                        itemRequest.number = new double[] { 1.0 };
-                    }
+                        Item = itemRequest.Item[0],
+                        Quantity = itemRequest.number == null ? 1 : (int)itemRequest.number[0]
+                    };
 
-                    reply += Environment.NewLine + "- " + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemRequest.Item[0]) + string.Format(" ({0})", itemRequest.number[0].ToString());
+                    roomItems.Add(new Card("RoomItemCard", roomItem));
                 }
 
                 await _hotelService.RequestItems(convState.ItemList);
 
-                // if at least one item was available send this reply
-                await sc.Context.SendActivityAsync(reply);
+                // if at least one item was available send this card reply
+                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("RequestItemCard"), null, "items", roomItems));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(RequestItemResponses.ItemsRequested));
             }
 
             return await sc.EndDialogAsync();
