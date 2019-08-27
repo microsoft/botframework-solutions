@@ -197,7 +197,7 @@ foreach ($language in $languageArr)
 	if ($useQna) {
 		if (Test-Path $(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)) {
 			# Deploy QnA Maker KBs
-			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'qnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
+			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
 
 			if ($qnaFiles) {
 				$config | Add-Member -MemberType NoteProperty -Name knowledgeBases -Value @()
