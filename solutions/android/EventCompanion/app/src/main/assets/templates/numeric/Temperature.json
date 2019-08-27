@@ -1,0 +1,21 @@
+{
+  "label": "Temperature",
+  "event": "AutomotiveSkill.Temperature",
+  "ranges": [{
+    "unit": "°C",
+    "minimum": 14,
+    "maximum": 32
+  }, {
+    "unit": "°F",
+    "minimum": 56,
+    "maximum": 91
+  }, {
+    "unit": "°",
+    "minimum": 14,
+    "maximum": 91
+  }, {
+    "unit": "",
+    "minimum": 14,
+    "maximum": 91
+  }]
+}

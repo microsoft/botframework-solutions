@@ -1,0 +1,29 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "id": "General",
+          "name": "",
+          "appid": "",
+          "version": "0.1",
+          "region": "",
+          "authoringkey": "",
+          "authoringRegion": "",
+          "subscriptionkey": ""
+        },
+        {
+          "id": "Event",
+          "name": "",
+          "appid": "",
+          "version": "0.1",
+          "region": "",
+          "authoringkey": "",
+          "authoringRegion": "",
+          "subscriptionkey": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

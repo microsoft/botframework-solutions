@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="@string/preview"
+                     android:layout_marginBottom="8dp"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_rect_round_corners_dark" android:paddingTop="8dp"
+                android:paddingBottom="8dp" android:paddingLeft="16dp" android:paddingRight="16dp"
+        >
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp" android:id="@+id/preview_main"
+                    android:layout_centerHorizontal="true">
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="47dp"
+                        android:id="@+id/preview_icon"
+                        android:layout_marginTop="3dp" android:layout_gravity="center_horizontal"
+                        app:srcCompat="@mipmap/ic_launcher"/>
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="8dp" android:src="@drawable/shape_rect_round_corners"
+                        android:id="@+id/preview_indicator"
+                        android:layout_marginTop="6dp" android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+            <TextView
+                    android:text="@string/widget_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/preview_text"
+                    android:textColor="@android:color/white" android:textStyle="bold|italic"
+                    android:layout_centerHorizontal="true" android:layout_below="@id/preview_main"/>
+        </RelativeLayout>
+        <TextView
+                android:text="@string/templates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <com.microsoft.bot.builder.solutions.eventcompanion.MySpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/widget_template_list" android:layout_marginBottom="16dp"/>
+        <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="@string/label"
+                     android:layout_marginBottom="8dp"/>
+        <EditText
+                     android:id="@+id/widget_label_edit"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:inputType="text" android:singleLine="true" android:imeOptions="actionDone"/>
+        <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content" android:text="@string/event"/>
+        <EditText
+                     android:id="@+id/widget_event_edit"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:inputType="text" android:singleLine="true" android:imeOptions="actionDone"/>
+        <Button
+                   android:text="@string/set_icon"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content" android:id="@+id/widget_icon_button"/>
+        <Button
+                   android:id="@+id/widget_add_button"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="@string/add_widget"
+                   android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -18,6 +18,10 @@
 - [Create a Speech Cognitive Service Key](https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/csharp/speechenablement.md#create-a-microsoft-speech-instance)
 - [Add the Speech Channel to your assistant](https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/csharp/speechenablement.md#add-the-speech-channel-to-your-assistant)
 
+### Step 0 - Get the Code
+1. Fork the repo, for an example, see [https://help.github.com/en/articles/fork-a-repo](https://help.github.com/en/articles/fork-a-repo)
+2. Ensure you've got Android Studio installed, if not, see [https://developer.android.com/studio](https://developer.android.com/studio)
+
 ### Step 1 - Apply Credentials
 
 Edit `DefaultConfiguration.java` to provide the *SPEECH_SERVICE_SUBSCRIPTION_KEY*, *DIRECT_LINE_SPEECH_SECRET_KEY* and *USER_FROM_ID* which will be used to perform speech operations and identify the user uniquely. 
@@ -32,14 +36,14 @@ You can control the basic styling and behavior of Adaptive Cards by providing yo
 Replace the provided [hostconfig.json file](/VirtualAssistantClient/app/src/main/res/raw/hostconfig.json) with your own.
 
 ### Step 3 - Deploy
-1. Select the desired build flavor (debug or release) and ensure credentials are set for the desired build flavor
-2. Deploy to emulator or device
+1. Select the desired build variant (i.e. debug or release). For help, see [https://developer.android.com/studio/run#changing-variant](https://developer.android.com/studio/run#changing-variant)
+2. Ensure credentials are set for the desired build flavor
+3. Deploy to emulator or device. For help, see [https://developer.android.com/training/basics/firstapp/running-app](https://developer.android.com/training/basics/firstapp/running-app)
 
 ## Using the Project
 ### Running for First Time
 - Accept the Record Audio permission to make voice requests from the bot. Without this permission, the user can only type requests to the Bot.
 - Accept the Fine Location permission to easily make voice requests that are related to your GPS location, such as "find the nearest coffee shop". Without this permission, the user will be asked by the Bot to provide the current location.
-- Slide away the service notification
 
 ### The UI
 #### Main UI

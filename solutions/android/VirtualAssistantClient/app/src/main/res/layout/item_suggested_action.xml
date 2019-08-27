@@ -20,7 +20,7 @@
 
         <!-- Message -->
         <TextView
-            style="@style/SuggestedActionStyle"
+            style="@style/SuggestedActionTextStyle"
             android:id="@+id/tv_suggested_action"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"

@@ -34,6 +34,7 @@ import client.model.ActivityTypes;
 import client.model.CardAction;
 import client.model.ChannelAccount;
 import events.ActivityReceived;
+import events.BotListening;
 import events.Connected;
 import events.Disconnected;
 import events.GpsLocationSent;
@@ -265,6 +266,7 @@ public class SpeechSdk {
 
     public void listenOnceAsync(){
         LogInfo("listenOnceAsync");
+        EventBus.getDefault().post(new BotListening());
         final Future<Void> task = botConnector.listenOnceAsync();
         setOnTaskCompletedListener(task, result -> {
             // your code here

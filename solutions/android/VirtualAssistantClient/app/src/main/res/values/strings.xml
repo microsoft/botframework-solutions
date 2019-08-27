@@ -60,5 +60,6 @@
     <!-- SERVICE ERRORS -->
     <string name="service_error_no_map">Unable to show directions because Waze and Google Maps are not installed</string>
     <string name="service_error_uri">Missing URI field</string>
+    <string name="service_error_no_spotify">Unable to launch Spotify because it is not installed</string>
 
 </resources>
