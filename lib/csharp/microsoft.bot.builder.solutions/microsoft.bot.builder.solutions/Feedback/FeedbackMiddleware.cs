@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Solutions.Feedback
                         if (Channel.SupportsSuggestedActions(context.Activity.ChannelId))
                         {
                             var commentPrompt = MessageFactory.SuggestedActions(
-                                text: $"{_options.HaveFeedbackResponse} {_options.CommentPrompt}",
+                                text: $"{_options.FeedbackReceivedMessage} {_options.CommentPrompt}",
                                 cardActions: new List<CardAction>() { _options.DismissAction });
 
                             // prompt for comment
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Solutions.Feedback
                     {
                         // comments not enabled, respond and cleanup
                         // send feedback response
-                        await context.SendActivityAsync(_options.HaveFeedbackResponse).ConfigureAwait(false);
+                        await context.SendActivityAsync(_options.FeedbackReceivedMessage).ConfigureAwait(false);
 
                         // log feedback in appInsights
                         LogFeedback(record);
@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Solutions.Feedback
                     await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
                     // Respond to comment
-                    await context.SendActivityAsync(_options.CommentReceived).ConfigureAwait(false);
+                    await context.SendActivityAsync(_options.CommentReceivedMessage).ConfigureAwait(false);
 
                     // log feedback in appInsights
                     LogFeedback(record);
