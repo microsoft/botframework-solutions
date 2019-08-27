@@ -18,12 +18,13 @@ namespace Microsoft.Bot.Builder.Skills
             SkillManifest skillManifest,
             IServiceClientCredentials serviceClientCredentials,
             ISkillProtocolHandler skillProtocolHandler,
-            IBotTelemetryClient botTelemetryClient)
+            IBotTelemetryClient botTelemetryClient,
+            ISkillTransport skillTransport = null)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
 
-            _skillTransport = new SkillWebSocketTransport(botTelemetryClient, skillProtocolHandler);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(botTelemetryClient, skillProtocolHandler);
         }
 
         public override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)

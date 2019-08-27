@@ -15,8 +15,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     {
         private SkillManifest _skillManifest;
         private IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
-		private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
-		private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
+        private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
 
         [TestInitialize]
         public void AddSkillManifest()
@@ -28,12 +28,13 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "https://testskill.tempuri.org/api/skill",
                 "testSkill/testAction");
 
-			// Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-			Dialogs.Add(new SkillDialogTest(
-				_skillManifest,
-				_mockServiceClientCredentials,
-				_mockTelemetryClient,
-				UserState));
+            // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
+            Dialogs.Add(new SkillDialogTest(
+                _skillManifest,
+                _mockServiceClientCredentials,
+                _mockTelemetryClient,
+                UserState,
+                _mockSkillTransport));
         }
 
         /// <summary>

@@ -41,6 +41,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
+        /// <param name="skillTransport">Skill Transport.</param>
         /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
         public SkillDialog(
             SkillManifest skillManifest,
@@ -48,6 +49,7 @@ namespace Microsoft.Bot.Builder.Skills
             IBotTelemetryClient telemetryClient,
             UserState userState,
             MultiProviderAuthDialog authDialog = null,
+            ISkillTransport skillTransport = null,
             ISkillIntentRecognizer skillIntentRecognizer = null)
             : base(skillManifest.Id)
         {
@@ -55,7 +57,7 @@ namespace Microsoft.Bot.Builder.Skills
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _userState = userState;
             _skillIntentRecognizer = skillIntentRecognizer;
-            _skillCallingAdapter = new SkillCallingAdapter(_skillManifest, _serviceClientCredentials, this, telemetryClient);
+            _skillCallingAdapter = new SkillCallingAdapter(_skillManifest, _serviceClientCredentials, this, telemetryClient, skillTransport);
 
             var intentSwitching = new WaterfallStep[]
             {
@@ -130,9 +132,11 @@ namespace Microsoft.Bot.Builder.Skills
             await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
         }
 
-        public async Task HandleEndOfConversation(Activity activity)
+        public Task HandleEndOfConversation(Activity activity)
         {
             _endOfConversationActivity = activity;
+
+            return Task.CompletedTask;
         }
 
         public async Task HandleTokenRequest(Activity activity)
