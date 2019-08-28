@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private IStreamingTransportClient _streamingTransportClient;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private Activity endOfConversationActivity;
+        private Activity _handoffActivity;
 
         public SkillWebSocketTransport(
             IBotTelemetryClient botTelemetryClient,
@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Builder.Skills
                     { "Latency", stopWatch.ElapsedMilliseconds },
                 });
 
-            return endOfConversationActivity;
+            return _handoffActivity;
         }
 
         public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext)
@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             return (activity) =>
             {
-                endOfConversationActivity = activity;
+                _handoffActivity = activity;
             };
         }
 

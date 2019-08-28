@@ -272,7 +272,7 @@ namespace Microsoft.Bot.Builder.Skills
                     activity.SemanticAction = turnContext.Activity.SemanticAction;
                 }
 
-                if (activity.Type == ActivityTypes.EndOfConversation)
+                if (activity.Type == ActivityTypes.Handoff)
                 {
                     activity.SemanticAction.State = SkillConstants.SkillDone;
                 }
