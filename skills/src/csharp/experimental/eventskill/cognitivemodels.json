@@ -5,22 +5,22 @@
         {
           "id": "General",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "0.1",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
         },
         {
           "id": "Event",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "0.1",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
         }
       ]
     }
