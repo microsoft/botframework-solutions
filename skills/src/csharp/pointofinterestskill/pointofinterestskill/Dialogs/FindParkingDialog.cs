@@ -145,7 +145,7 @@ namespace PointOfInterestSkill.Dialogs
                         pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
 
                     var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
 

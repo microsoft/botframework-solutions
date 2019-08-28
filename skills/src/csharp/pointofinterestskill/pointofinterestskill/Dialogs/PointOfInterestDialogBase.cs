@@ -135,7 +135,7 @@ namespace PointOfInterestSkill.Dialogs
                         pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, service);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, service);
 
                     var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.CurrentLocationSingleSelection : POISharedResponses.CurrentLocationMultipleSelection, containerCard, "Container", cards);
 
@@ -277,7 +277,7 @@ namespace PointOfInterestSkill.Dialogs
                         pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
                     }
 
-                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestDetailsContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
 
                     var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
 
@@ -503,7 +503,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 foreach (var pointOfInterest in pointOfInterestList)
                 {
-                    cards.Add(new Card(GetDivergedCardName(sc.Context, "PointOfInterestDetails"), pointOfInterest));
+                    cards.Add(new Card(GetDivergedCardName(sc.Context, "PointOfInterestOverview"), pointOfInterest));
                 }
             }
 
