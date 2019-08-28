@@ -77,9 +77,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setShowFullConversation(boolean showFullConversation){
-        this.showFullConversation = showFullConversation;
-        chatList.clear();
-        notifyDataSetChanged();
+        if (this.showFullConversation != showFullConversation) {
+            this.showFullConversation = showFullConversation;
+            chatList.clear();
+            notifyDataSetChanged();
+        }
     }
 
     public void addBotResponse(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, ViewholderBot.OnClickListener clickListener) {
