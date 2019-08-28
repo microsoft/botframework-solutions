@@ -96,7 +96,12 @@ namespace Microsoft.Bot.Builder.Solutions.Feedback
                 {
                     // if activity text matches a feedback action
                     // save feedback in state
-                    record.Feedback = context.Activity.Text;
+                    var feedback = _options.FeedbackActions
+                        .Where(f => context.Activity.Text == (string)f.Value || context.Activity.Text == f.Title)
+                        .First();
+
+                    // Set the feedback to the action value for consistency
+                    record.Feedback = (string)feedback.Value;
                     await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
                     if (_options.CommentsEnabled)
