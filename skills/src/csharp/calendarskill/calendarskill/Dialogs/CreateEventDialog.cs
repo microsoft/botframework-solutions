@@ -51,7 +51,7 @@ namespace CalendarSkill.Dialogs
                 CollectStartTime,
                 CollectDuration,
                 CollectLocation,
-                ConfirmBeforeCreate,
+                ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
                 CreateEvent,
             };
@@ -478,7 +478,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmBeforeCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ShowEventInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -588,7 +588,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> CreateEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterConfirmBeforeCreatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -596,44 +596,59 @@ namespace CalendarSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var source = state.EventSource;
-                    var newEvent = new EventModel(source)
-                    {
-                        Title = state.MeetingInfor.Title,
-                        Content = state.MeetingInfor.Content,
-                        Attendees = state.MeetingInfor.ContactInfor.Contacts,
-                        StartTime = (DateTime)state.MeetingInfor.StartDateTime,
-                        EndTime = (DateTime)state.MeetingInfor.EndDateTime,
-                        TimeZone = TimeZoneInfo.Utc,
-                        Location = state.MeetingInfor.Location,
-                    };
-
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                    if (await calendarService.CreateEventAysnc(newEvent) != null)
-                    {
-                        var tokens = new StringDictionary
-                        {
-                            { "Subject", state.MeetingInfor.Title },
-                        };
-
-                        newEvent.ContentPreview = state.MeetingInfor.Content;
-
-                        var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
-
-                        await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
-                    }
-                    else
-                    {
-                        var prompt = ResponseManager.GetResponse(CreateEventResponses.EventCreationFailed);
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
-                    }
-
-                    state.Clear();
+                    return await sc.NextAsync();
                 }
                 else
                 {
                     return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
                 }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> CreateEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var source = state.EventSource;
+                var newEvent = new EventModel(source)
+                {
+                    Title = state.MeetingInfor.Title,
+                    Content = state.MeetingInfor.Content,
+                    Attendees = state.MeetingInfor.ContactInfor.Contacts,
+                    StartTime = (DateTime)state.MeetingInfor.StartDateTime,
+                    EndTime = (DateTime)state.MeetingInfor.EndDateTime,
+                    TimeZone = TimeZoneInfo.Utc,
+                    Location = state.MeetingInfor.Location,
+                };
+
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                if (await calendarService.CreateEventAysnc(newEvent) != null)
+                {
+                    var tokens = new StringDictionary
+                    {
+                        { "Subject", state.MeetingInfor.Title },
+                    };
+
+                    newEvent.ContentPreview = state.MeetingInfor.Content;
+
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
+
+                    await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
+                }
+                else
+                {
+                    var prompt = ResponseManager.GetResponse(CreateEventResponses.EventCreationFailed);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
+                }
+
+                state.Clear();
 
                 return await sc.EndDialogAsync(true, cancellationToken);
             }
