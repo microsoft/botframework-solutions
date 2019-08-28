@@ -28,9 +28,9 @@ namespace PointOfInterestSkill.Services
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string PinStyle = "default|la15+50|al0.75|cod83b01";
-        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}||{{0}} {{1}}";
-        private static readonly string ImageUrlForPoints = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}|{{3}}";
-        private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
+        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={{3}}&height={{4}}&pins={PinStyle}||{{0}} {{1}}";
+        private static readonly string ImageUrlForPoints = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={{4}}&height={{5}}&pins={PinStyle}|{{3}}";
+        private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={{5}}&height={{6}}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
         private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives={{1}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives={{2}}";
@@ -49,6 +49,8 @@ namespace PointOfInterestSkill.Services
         private int limit;
 
         private int routeLimit;
+
+        public string Provider { get { return PointOfInterestModel.AzureMaps; } }
 
         public Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
@@ -176,14 +178,16 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
         /// <returns>PointOfInterestModel.</returns>
-        public Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
+        public Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
                 ImageUrlByPoint,
                 pointOfInterest?.Geolocation?.Longitude,
                 pointOfInterest?.Geolocation?.Latitude,
-                DefaultZoom) + "&subscription-key=" + apiKey;
+                DefaultZoom,
+                width <= 0 ? ImageWidth : width,
+                height <= 0 ? ImageHeight : height) + "&subscription-key=" + apiKey;
 
             pointOfInterest.PointOfInterestImageUrl = imageUrl;
 
@@ -212,7 +216,7 @@ namespace PointOfInterestSkill.Services
             }
         }
 
-        public async Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
+        public async Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route, int width = 0, int height = 0)
         {
             var latLngs = new List<LatLng>();
 
@@ -238,11 +242,14 @@ namespace PointOfInterestSkill.Services
 
             AddPoint(destination.Geolocation.Longitude, destination.Geolocation.Latitude);
 
-            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs);
+            width = width <= 0 ? ImageWidth : width;
+            height = height <= 0 ? ImageHeight : height;
+
+            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs, width, height);
 
             string pins = string.Format(CultureInfo.InvariantCulture, RoutePins, PointOfInterestSharedStrings.START, route.Legs[0].Points[0].Longitude, route.Legs[0].Points[0].Latitude, PointOfInterestSharedStrings.END, destination.Geolocation.Longitude, destination.Geolocation.Latitude);
 
-            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString()) + "&subscription-key=" + apiKey;
+            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
 
             void AddPoint(double longitude, double latitude)
             {
@@ -255,7 +262,7 @@ namespace PointOfInterestSkill.Services
             }
         }
 
-        public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels)
+        public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
             if (currentCoordinates != null)
@@ -263,7 +270,10 @@ namespace PointOfInterestSkill.Services
                 latLngs.Add(currentCoordinates);
             }
 
-            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs);
+            width = width <= 0 ? ImageWidth : width;
+            height = height <= 0 ? ImageHeight : height;
+
+            (double centerLongitude, double centerLatitude, int zoom) = GetCoveredLocationZoom(latLngs, width, height);
 
             var sb = new StringBuilder();
             foreach (var model in pointOfInterestModels)
@@ -277,7 +287,7 @@ namespace PointOfInterestSkill.Services
                 sb.Append($"|'{PointOfInterestSharedStrings.YOU}'{currentCoordinates.Longitude} {currentCoordinates.Latitude}");
             }
 
-            return string.Format(CultureInfo.InvariantCulture, ImageUrlForPoints, centerLongitude, centerLatitude, zoom, sb.ToString()) + "&subscription-key=" + apiKey;
+            return string.Format(CultureInfo.InvariantCulture, ImageUrlForPoints, centerLongitude, centerLatitude, zoom, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
         }
 
         /// <summary>
@@ -285,7 +295,7 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latLngs">Input locations.</param>
         /// <returns>Longtitude, latitude, zoom.</returns>
-        private (double, double, int) GetCoveredLocationZoom(IList<LatLng> latLngs)
+        private (double, double, int) GetCoveredLocationZoom(IList<LatLng> latLngs, int width, int height)
         {
             double maxLongitude = -180;
             double minLongitude = 180;
@@ -311,8 +321,8 @@ namespace PointOfInterestSkill.Services
             double centerLatitude = (maxLatitude + minLatitude) * 0.5;
             double latitudeDifference = maxLatitude - minLatitude;
             int pinBuffer = 10;
-            double longitudeZoom = Math.Log((ImageWidth - (2 * pinBuffer)) * 360.0 / 512.0 / longitudeDifference, 2);
-            double latitudeZoom = Math.Log((ImageHeight - (2 * pinBuffer)) * 180.0 / 512.0 / latitudeDifference, 2);
+            double longitudeZoom = Math.Log((width - (2 * pinBuffer)) * 360.0 / 512.0 / longitudeDifference, 2);
+            double latitudeZoom = Math.Log((height - (2 * pinBuffer)) * 180.0 / 512.0 / latitudeDifference, 2);
             int zoom = (int)Math.Min(longitudeZoom, latitudeZoom);
 
             // all differences are zero

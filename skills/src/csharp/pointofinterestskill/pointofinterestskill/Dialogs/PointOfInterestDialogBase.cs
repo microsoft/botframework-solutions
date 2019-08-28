@@ -359,14 +359,24 @@ namespace PointOfInterestSkill.Dialogs
 
         protected async Task<Card> GetContainerCard(ITurnContext context, string name, LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestList, IGeoSpatialService service)
         {
+            var model = new PointOfInterestModel
+            {
+                CardTitle = PointOfInterestSharedStrings.CARD_TITLE,
+                PointOfInterestImageUrl = await service.GetAllPointOfInterestsImageAsync(currentCoordinates, pointOfInterestList, ImageSize.OverviewWidth, ImageSize.OverviewHeight),
+                Provider = new SortedSet<string> { service.Provider }
+            };
+
+            foreach (var poi in pointOfInterestList)
+            {
+                model.Provider.UnionWith(poi.Provider);
+            }
+
+            model.ProviderDisplayText = model.GenerateProviderDisplayText();
+
             return new Card
             {
                 Name = GetDivergedCardName(context, name),
-                Data = new PointOfInterestModel
-                {
-                    CardTitle = PointOfInterestSharedStrings.CARD_TITLE,
-                    PointOfInterestImageUrl = await service.GetAllPointOfInterestsImageAsync(currentCoordinates, pointOfInterestList)
-                }
+                Data = model
             };
         }
 
@@ -454,7 +464,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 for (var i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
+                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i], ImageSize.DetailWidth, ImageSize.DetailHeight);
 
                     // Increase by one to avoid zero based options to the user which are confusing
                     pointOfInterestList[i].Index = i + 1;
@@ -470,8 +480,6 @@ namespace PointOfInterestSkill.Dialogs
                         pointOfInterestList[i].Name = pointOfInterestList[i].Address;
                         pointOfInterestList[i].Address = pointOfInterestList[i].AddressAlternative;
                     }
-
-                    pointOfInterestList[i].ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", pointOfInterestList[i].Provider.Aggregate((j, k) => j + "&" + k).ToString());
 
                     // If multiple points of interest share the same name, use their combined name & address as the speak property.
                     // Otherwise, just use the name.
@@ -617,13 +625,12 @@ namespace PointOfInterestSkill.Dialogs
                 state.FoundRoutes = routes.Select(route => route.Summary).ToList();
 
                 var destination = state.Destination;
+                destination.Provider.Add(routeDirections.Provider);
 
                 foreach (var route in routes)
                 {
                     var travelTimeSpan = TimeSpan.FromSeconds(route.Summary.TravelTimeInSeconds);
                     var trafficTimeSpan = TimeSpan.FromSeconds(route.Summary.TrafficDelayInSeconds);
-
-                    destination.Provider.Add(routeDirections.Provider);
 
                     // Set card data with formatted time strings and distance converted to miles
                     var routeDirectionsModel = new RouteDirectionsModel()
@@ -632,14 +639,14 @@ namespace PointOfInterestSkill.Dialogs
                         Address = destination.Address,
                         AvailableDetails = destination.AvailableDetails,
                         Hours = destination.Hours,
-                        PointOfInterestImageUrl = await service.GetRouteImageAsync(destination, route),
+                        PointOfInterestImageUrl = await service.GetRouteImageAsync(destination, route, ImageSize.RouteWidth, ImageSize.RouteHeight),
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
                         Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString()),
+                        ProviderDisplayText = destination.GenerateProviderDisplayText(),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
@@ -747,6 +754,16 @@ namespace PointOfInterestSkill.Dialogs
                     return $"{imageUriStr}/{imagePath}";
                 }
             }
+        }
+
+        private class ImageSize
+        {
+            public const int RouteWidth = 440;
+            public const int RouteHeight = 240;
+            public const int OverviewWidth = 440;
+            public const int OverviewHeight = 150;
+            public const int DetailWidth = 240;
+            public const int DetailHeight = 240;
         }
     }
 }

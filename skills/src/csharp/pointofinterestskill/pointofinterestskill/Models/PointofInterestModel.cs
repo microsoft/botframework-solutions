@@ -319,5 +319,10 @@ namespace PointOfInterestSkill.Models
                 return availableDetailsString.ToString();
             }
         }
+
+        public string GenerateProviderDisplayText()
+        {
+            return string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", Provider.Aggregate((j, k) => j + " & " + k));
+        }
     }
 }

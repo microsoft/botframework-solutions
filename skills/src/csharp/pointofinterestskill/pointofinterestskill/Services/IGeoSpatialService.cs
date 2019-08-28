@@ -13,6 +13,8 @@ namespace PointOfInterestSkill.Services
     /// </summary>
     public interface IGeoSpatialService
     {
+        string Provider { get; }
+
         /// <summary>
         /// Gets route directions from origin to destination.
         /// </summary>
@@ -29,16 +31,20 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="destination">The destination.</param>
         /// <param name="route">The route.</param>
+        /// <param name="width">Image width. 0 for default.</param>
+        /// <param name="height">Image height. 0 for default.</param>
         /// <returns>The image url.</returns>
-        Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route);
+        Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route, int width = 0, int height = 0);
 
         /// <summary>
         /// Get an image containing all point of interests.
         /// </summary>
         /// <param name="currentCoordinates">Current location. Could be null.</param>
         /// <param name="pointOfInterestModels">Point of interests.</param>
+        /// <param name="width">Image width. 0 for default.</param>
+        /// <param name="height">Image height. 0 for default.</param>
         /// <returns>The image url.</returns>
-        Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels);
+        Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0);
 
         /// <summary>
         /// Gets the points of interest by a fuzzy search.
@@ -82,8 +88,10 @@ namespace PointOfInterestSkill.Services
         /// Gets point of interest details.
         /// </summary>
         /// <param name="pointOfInterest">The point of interest.</param>
+        /// <param name="width">Image width. 0 for default.</param>
+        /// <param name="height">Image height. 0 for default.</param>
         /// <returns>Image URL string.</returns>
-        Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest);
+        Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0);
 
         /// <summary>
         /// Gets the points of interest nearby.

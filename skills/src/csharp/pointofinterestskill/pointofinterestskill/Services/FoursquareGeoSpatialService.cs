@@ -42,6 +42,8 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
+        public string Provider { get { return PointOfInterestModel.Foursquare; } }
+
         public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
@@ -78,12 +80,12 @@ namespace PointOfInterestSkill.Services
             throw new NotSupportedException();
         }
 
-        public Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
+        public Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route, int width = 0, int height = 0)
         {
             throw new NotSupportedException();
         }
 
-        public Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels)
+        public Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             throw new NotSupportedException();
         }
@@ -165,7 +167,7 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
         /// <returns>PointOfInterestModel.</returns>
-        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
             if (pointOfInterest == null)
             {

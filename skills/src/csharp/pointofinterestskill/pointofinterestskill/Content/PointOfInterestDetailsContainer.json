@@ -55,8 +55,21 @@
     },
     {
       "type": "Container",
-      "id":  "Container",
+      "id": "Container",
       "items": [
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "default",
+          "text": "{ProviderDisplayText}"
+        }
       ]
     }
   ],
