@@ -9,7 +9,14 @@
       "id": "WeatherSkill_getForecast",
       "definition": {
         "description": "Showing the weather forecast.",
-        "slots": [],
+        "slots": [
+          {
+            "name": "location",
+            "types": [
+              "string"
+            ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {

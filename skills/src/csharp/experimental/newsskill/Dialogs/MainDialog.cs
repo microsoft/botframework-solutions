@@ -58,6 +58,9 @@ namespace NewsSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
+            // Populate state from SemanticAction as required
+            await PopulateStateFromSemanticAction(dc.Context);
+
             // If dispatch result is general luis model
             _services.CognitiveModelSets["en"].LuisServices.TryGetValue("News", out var luisService);
 
@@ -90,7 +93,7 @@ namespace NewsSkill.Dialogs
                             turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
                             break;
                         }
-                        
+
                     case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
@@ -186,6 +189,20 @@ namespace NewsSkill.Dialogs
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Help);
             return InterruptionAction.MessageSentToUser;
+        }
+
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            // Populating local state with data passed through semanticAction out of Activity
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            {
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
+                var state = await _stateAccessor.GetAsync(context, () => new NewsSkillState());
+                state.CurrentCoordinates = locationObj;
+            }
         }
     }
 }

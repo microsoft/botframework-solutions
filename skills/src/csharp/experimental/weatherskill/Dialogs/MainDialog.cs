@@ -260,18 +260,15 @@ namespace WeatherSkill.Dialogs
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
+            // Populating local state with data passed through semanticAction out of Activity
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
             {
-                // Example of populating local state with data passed through Skill Context
-                // if (skillContext.ContainsKey("Location"))
-                // {
-                //    // Add to your local state
-                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                //    state.Location = skillContext["Location"];
-                // }
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
+                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                state.Geography = locationObj;
             }
         }
 

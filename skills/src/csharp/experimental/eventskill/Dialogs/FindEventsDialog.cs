@@ -95,7 +95,7 @@ namespace EventSkill.Dialogs
                     Url = item.Url
                 };
 
-                cards.Add(new Card("EventCard", eventCardData));
+                cards.Add(new Card(GetCardName(sc.Context, "EventCard"), eventCardData));
             }
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(FindEventsResponses.FoundEvents, cards, null));

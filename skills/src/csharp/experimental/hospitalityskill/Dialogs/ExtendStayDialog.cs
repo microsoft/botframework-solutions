@@ -262,7 +262,7 @@ namespace HospitalitySkill.Dialogs
                 cardData.Title = string.Format(HospitalityStrings.UpdateReservation);
 
                 // check out date moved confirmation
-                var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card("ReservationDetails", cardData), tokens);
+                var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card(GetCardName(sc.Context, "ReservationDetails"), cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
 

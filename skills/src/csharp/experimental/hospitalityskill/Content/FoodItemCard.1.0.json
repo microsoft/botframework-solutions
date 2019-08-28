@@ -14,7 +14,7 @@
               "horizontalAlignment": "Center"
             }
           ],
-          "width": 10
+          "width": "auto"
         },
         {
           "type": "Column",
@@ -26,11 +26,10 @@
             {
               "type": "TextBlock",
               "text": "{SpecialRequest}",
-              "isSubtle": true,
               "spacing": "None"
             }
           ],
-          "width": 70
+          "width": "stretch"
         },
         {
           "type": "Column",
@@ -41,7 +40,7 @@
               "horizontalAlignment": "Right"
             }
           ],
-          "width": 20
+          "width": "auto"
         }
       ]
     }

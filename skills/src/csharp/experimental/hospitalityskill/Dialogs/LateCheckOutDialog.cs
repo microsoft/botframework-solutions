@@ -48,7 +48,7 @@ namespace HospitalitySkill.Dialogs
                 var cardData = userState.UserReservation;
                 cardData.Title = string.Format(HospitalityStrings.ReservationDetails);
 
-                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.HasLateCheckOut, new Card("ReservationDetails", cardData), null);
+                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.HasLateCheckOut, new Card(GetCardName(sc.Context, "ReservationDetails"), cardData), null);
                 await sc.Context.SendActivityAsync(reply);
 
                 return await sc.EndDialogAsync();
@@ -112,7 +112,7 @@ namespace HospitalitySkill.Dialogs
                 cardData.Title = string.Format(HospitalityStrings.UpdateReservation);
 
                 // check out time moved confirmation
-                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.MoveCheckOutSuccess, new Card("ReservationDetails", cardData), tokens);
+                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.MoveCheckOutSuccess, new Card(GetCardName(sc.Context, "ReservationDetails"), cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
 

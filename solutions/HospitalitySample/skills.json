@@ -365,6 +365,101 @@
           }
         }
       ]
+    },
+    {
+      "id": "eventSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "Event Skill",
+      "endpoint": "<YOUR ENDPOINT URL HERE>",
+      "description": "The Event experimental skill uses the Eventbrite API to retrieve local event information.",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "EventSkill_getEvents",
+          "definition": {
+            "description": "Finds events happening in the area today.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Event#GetEvents"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "BingSearchSkill",
+      "msaAppId": "<YOUR APPID HERE>",
+      "name": "BingSearchSkill",
+      "endpoint": "<YOUR ENDPOINT URL HERE>",
+      "description": "",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "BingSearchSkill_GetCelebrityInfo",
+          "definition": {
+            "description": "Get celebrity info.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#GetCelebrityInfo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "BingSearchSkill_SearchMovieInfo",
+          "definition": {
+            "description": "Search movie info.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#SearchMovieInfo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "BingSearchSkill_QueryQna",
+          "definition": {
+            "description": "Query Qna.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#QueryQna"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
