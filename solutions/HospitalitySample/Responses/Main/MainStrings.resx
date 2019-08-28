@@ -162,6 +162,9 @@
   <data name="INTRO_PATH" xml:space="preserve">
     <value>./Content/NewUserGreeting.json</value>
   </data>
+  <data name="INTRO_PATH_TEAMS" xml:space="preserve">
+    <value>./Content/NewUserGreeting.1.0.json</value>
+  </data>
   <data name="INTRO_RETURNING" xml:space="preserve">
     <value>./Content/ReturningUserGreeting.json</value>
   </data>
