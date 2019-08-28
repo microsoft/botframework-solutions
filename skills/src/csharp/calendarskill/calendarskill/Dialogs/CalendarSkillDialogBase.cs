@@ -9,6 +9,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Prompts;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
+using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
@@ -160,6 +161,131 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        protected async Task<DialogTurnResult> SearchEventsWithEntities(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+
+            // search by time without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                var searchedMeeting = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                foreach (var item in searchedMeeting)
+                {
+                    if (item.IsCancelled != true)
+                    {
+                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                    }
+                }
+            }
+
+            // search by title without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
+                foreach (var item in searchedMeeting)
+                {
+                    if (item.IsCancelled != true)
+                    {
+                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                    }
+                }
+            }
+
+            // search next meeting without cancelled meeting
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            {
+                if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                {
+                    var upcomingMeetings = await calendarService.GetUpcomingEventsAsync();
+                    foreach (var item in upcomingMeetings)
+                    {
+                        if (item.IsCancelled != true && (!state.ShowMeetingInfor.ShowingMeetings.Any() || state.ShowMeetingInfor.ShowingMeetings[0].StartTime == item.StartTime))
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return await sc.NextAsync();
+        }
+
+        protected async Task<DialogTurnResult> CheckFocusedEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.FindEvent);
+                }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AddConflictFlag(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                // can't get conflict flag from api, so lable them here
+                var state = await Accessor.GetAsync(sc.Context);
+                for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count - 1; i++)
+                {
+                    for (var j = i + 1; j < state.ShowMeetingInfor.ShowingMeetings.Count; j++)
+                    {
+                        if (state.ShowMeetingInfor.ShowingMeetings[i].StartTime <= state.ShowMeetingInfor.ShowingMeetings[j].StartTime &&
+                            state.ShowMeetingInfor.ShowingMeetings[i].EndTime > state.ShowMeetingInfor.ShowingMeetings[j].StartTime)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings[i].IsConflict = true;
+                            state.ShowMeetingInfor.ShowingMeetings[j].IsConflict = true;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                // count the conflict meetings
+                var totalConflictCount = 0;
+                foreach (var eventItem in state.ShowMeetingInfor.ShowingMeetings)
+                {
+                    if (eventItem.IsConflict)
+                    {
+                        totalConflictCount++;
+                    }
+                }
+
+                state.ShowMeetingInfor.TotalConflictCount = totalConflictCount;
+
+                return await sc.NextAsync();
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         protected async Task<DialogTurnResult> ChooseEventPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -179,28 +305,14 @@ namespace CalendarSkill.Dialogs
                 }
                 else if (state.ShowMeetingInfor.ShowingMeetings.Count > 1)
                 {
-                    var options = new PromptOptions()
+                    if (string.IsNullOrEmpty(state.ShowMeetingInfor.ShowingCardTitle))
                     {
-                        Choices = new List<Choice>(),
-                    };
-
-                    for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count; i++)
-                    {
-                        var item = state.ShowMeetingInfor.ShowingMeetings[i];
-                        var choice = new Choice()
-                        {
-                            Value = string.Empty,
-                            Synonyms = new List<string> { (i + 1).ToString(), item.Title },
-                        };
-                        options.Choices.Add(choice);
+                        state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
                     }
 
-                    state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, true, CalendarSharedResponses.MultipleEventsFound, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc.Context, state, false, CalendarSharedResponses.MultipleEventsFound, null);
 
-                    options.Prompt = prompt;
-
-                    return await sc.PromptAsync(Actions.EventChoice, options);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt });
                 }
                 else
                 {
@@ -225,11 +337,55 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                if (sc.Result != null)
+                var luisResult = state.LuisResult;
+                var topIntent = luisResult?.TopIntent().intent;
+
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
+
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
                 {
-                    var events = state.ShowMeetingInfor.ShowingMeetings;
-                    state.ShowMeetingInfor.FocusedEvents.Add(events[(sc.Result as FoundChoice).Index]);
+                    if ((state.ShowMeetingInfor.ShowEventIndex + 1) * state.PageSize < state.ShowMeetingInfor.ShowingMeetings.Count)
+                    {
+                        state.ShowMeetingInfor.ShowEventIndex++;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
+                    }
+
+                    return await sc.ReplaceDialogAsync(Actions.ChooseEvent, sc.Options);
+                }
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.ShowMeetingInfor.ShowingMeetings != null)
+                {
+                    if (state.ShowMeetingInfor.ShowEventIndex > 0)
+                    {
+                        state.ShowMeetingInfor.ShowEventIndex--;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
+                    }
+
+                    return await sc.ReplaceDialogAsync(Actions.ChooseEvent, sc.Options);
+                }
+
+                var filteredMeetingList = GetFilteredEvents(state, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
+
+                if (filteredMeetingList.Count == 1)
+                {
+                    state.ShowMeetingInfor.FocusedEvents = filteredMeetingList;
+                }
+                else if (filteredMeetingList.Count > 1)
+                {
+                    state.ShowMeetingInfor.Clear();
+                    state.ShowMeetingInfor.ShowingCardTitle = showingCardTitle;
+                    state.ShowMeetingInfor.ShowingMeetings = filteredMeetingList;
+                    return await sc.ReplaceDialogAsync(Actions.ChooseEvent, sc.Options);
                 }
 
                 return await sc.NextAsync();
@@ -1521,83 +1677,6 @@ namespace CalendarSkill.Dialogs
             else
             {
                 return card;
-            }
-        }
-
-        // shared steps
-        protected async Task<DialogTurnResult> SearchEventsWithEntities(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-
-            // search by time without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
-            {
-                var searchedMeeting = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
-                foreach (var item in searchedMeeting)
-                {
-                    if (item.IsCancelled != true)
-                    {
-                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
-                    }
-                }
-            }
-
-            // search by title without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
-            {
-                var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
-                foreach (var item in searchedMeeting)
-                {
-                    if (item.IsCancelled != true)
-                    {
-                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
-                    }
-                }
-            }
-
-            // search next meeting without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
-            {
-                if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
-                {
-                    var upcomingMeetings = await calendarService.GetUpcomingEventsAsync();
-                    foreach (var item in upcomingMeetings)
-                    {
-                        if (item.IsCancelled != true && (!state.ShowMeetingInfor.ShowingMeetings.Any() || state.ShowMeetingInfor.ShowingMeetings[0].StartTime == item.StartTime))
-                        {
-                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
-                        }
-                    }
-                }
-            }
-
-            return await sc.NextAsync();
-        }
-
-        protected async Task<DialogTurnResult> CheckFocusedEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
-                {
-                    return await sc.NextAsync();
-                }
-                else
-                {
-                    return await sc.BeginDialogAsync(Actions.FindEvent);
-                }
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 

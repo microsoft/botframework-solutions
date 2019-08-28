@@ -207,55 +207,6 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AddConflictFlag(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                // can't get conflict flag from api, so lable them here
-                var state = await Accessor.GetAsync(sc.Context);
-                for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count - 1; i++)
-                {
-                    for (var j = i + 1; j < state.ShowMeetingInfor.ShowingMeetings.Count; j++)
-                    {
-                        if (state.ShowMeetingInfor.ShowingMeetings[i].StartTime <= state.ShowMeetingInfor.ShowingMeetings[j].StartTime &&
-                            state.ShowMeetingInfor.ShowingMeetings[i].EndTime > state.ShowMeetingInfor.ShowingMeetings[j].StartTime)
-                        {
-                            state.ShowMeetingInfor.ShowingMeetings[i].IsConflict = true;
-                            state.ShowMeetingInfor.ShowingMeetings[j].IsConflict = true;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                // count the conflict meetings
-                var totalConflictCount = 0;
-                foreach (var eventItem in state.ShowMeetingInfor.ShowingMeetings)
-                {
-                    if (eventItem.IsConflict)
-                    {
-                        totalConflictCount++;
-                    }
-                }
-
-                state.ShowMeetingInfor.TotalConflictCount = totalConflictCount;
-
-                return await sc.NextAsync();
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         public async Task<DialogTurnResult> ShowEventsList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -422,13 +373,13 @@ namespace CalendarSkill.Dialogs
 
                 // show first meeting detail in response
                 var responseParams = new StringDictionary()
-                        {
-                            { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
-                            { "EventName1", state.ShowMeetingInfor.ShowingMeetings[0].Title },
-                            { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
-                            { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()), state.ShowMeetingInfor.ShowingMeetings[0].IsAllDay == true) },
-                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(state.ShowMeetingInfor.ShowingMeetings[0].Attendees, 1) }
-                        };
+                {
+                    { "Count", state.ShowMeetingInfor.ShowingMeetings.Count.ToString() },
+                    { "EventName1", state.ShowMeetingInfor.ShowingMeetings[0].Title },
+                    { "DateTime", state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower },
+                    { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()), state.ShowMeetingInfor.ShowingMeetings[0].IsAllDay == true) },
+                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(state.ShowMeetingInfor.ShowingMeetings[0].Attendees, 1) }
+                };
                 string responseTemplateId;
 
                 if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
