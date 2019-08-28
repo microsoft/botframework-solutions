@@ -162,4 +162,7 @@
   <data name="START" xml:space="preserve">
     <value>开始</value>
   </data>
+  <data name="YOU" xml:space="preserve">
+    <value>你</value>
+  </data>
 </root>

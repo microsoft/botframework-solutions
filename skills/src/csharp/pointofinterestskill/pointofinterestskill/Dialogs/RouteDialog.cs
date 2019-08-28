@@ -261,7 +261,7 @@ namespace PointOfInterestSkill.Dialogs
                         options.Prompt = null;
                     }
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    return await sc.PromptAsync(Actions.SelectRoutePrompt, options);
                 }
 
                 state.ClearLuisResults();

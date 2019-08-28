@@ -162,4 +162,7 @@
   <data name="START" xml:space="preserve">
     <value>commencer</value>
   </data>
+  <data name="YOU" xml:space="preserve">
+    <value>on</value>
+  </data>
 </root>
