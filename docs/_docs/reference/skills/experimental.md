@@ -82,7 +82,7 @@ This skill demonstrates the following scenarios:
 - Room service: *I want to see a room service menu*
 - Check out: *Can I check out now?*
 
-The [Hospitality Sample VA](https://github.com/microsoft/AI/tree/master/solutions/HospitalitySample) leverages this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
+The [Hospitality Sample VA]({{site.baseurl}}/reference/virtual-assistant/hospitalitysample) leverages this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
 
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
