@@ -53,6 +53,7 @@ namespace CalendarSkill.Dialogs
                 CollectLocation,
                 ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
+                AfterConfirmBeforeCreatePrompt,
                 CreateEvent,
             };
 
