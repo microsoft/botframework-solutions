@@ -2,7 +2,7 @@
 category: Reference
 subcategory: Virtual Assistant
 title: Hospitality Sample
-description: [Description]
+description: Virtual Assistant sample made for a hospitality scenario.
 order: 8
 ---
 
