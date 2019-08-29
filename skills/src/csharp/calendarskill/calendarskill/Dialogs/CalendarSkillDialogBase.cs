@@ -180,7 +180,7 @@ namespace CalendarSkill.Dialogs
             }
 
             // search by title without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            if (!state.ShowMeetingInfor.ShowingMeetings.Any() && !string.IsNullOrEmpty(state.MeetingInfor.Title))
             {
                 var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
                 foreach (var item in searchedMeeting)
@@ -955,13 +955,13 @@ namespace CalendarSkill.Dialogs
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
-                                    state.UpdateMeetingInfor.OriginalStartDate = date;
+                                    state.MeetingInfor.StartDate = date;
                                 }
 
                                 date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
-                                    state.UpdateMeetingInfor.OriginalEndDate = date;
+                                    state.MeetingInfor.EndDate = date;
                                 }
                             }
 
@@ -981,13 +981,13 @@ namespace CalendarSkill.Dialogs
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.UpdateMeetingInfor.OriginalStartTime = time;
+                                    state.MeetingInfor.StartTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
-                                    state.UpdateMeetingInfor.OriginalEndTime = time;
+                                    state.MeetingInfor.EndTime = time;
                                 }
                             }
 

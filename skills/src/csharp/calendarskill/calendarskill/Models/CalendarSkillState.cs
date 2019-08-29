@@ -20,23 +20,11 @@ namespace CalendarSkill.Models
 
         public EventSource EventSource { get; set; } = EventSource.Other;
 
-        //public List<EventModel> FocusedMeetings_temp { get; set; }
-
         public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
 
         public ShowMeetingInformation ShowMeetingInfor { get; set; } = new ShowMeetingInformation();
 
         public UpdateMeetingInformation UpdateMeetingInfor { get; set; } = new UpdateMeetingInformation();
-
-        // todo: move these to options
-        //public bool FirstRetryInFindContact { get; set; }
-
-        //public bool FirstEnterFindContact { get; set; }
-
-        //public bool IsActionFromSummary { get; set; }
-
-        // merge with focused meeting
-        //public List<EventModel> ConfirmedMeeting { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -294,18 +282,6 @@ namespace CalendarSkill.Models
         public class UpdateMeetingInformation
         {
             // user time zone
-            public List<DateTime> OriginalStartDate { get; set; } = new List<DateTime>();
-
-            // user time zone
-            public List<DateTime> OriginalStartTime { get; set; } = new List<DateTime>();
-
-            // user time zone
-            public List<DateTime> OriginalEndDate { get; set; } = new List<DateTime>();
-
-            // user time zone
-            public List<DateTime> OriginalEndTime { get; set; } = new List<DateTime>();
-
-            // user time zone
             public List<DateTime> NewStartDate { get; set; } = new List<DateTime>();
 
             // user time zone
@@ -326,10 +302,6 @@ namespace CalendarSkill.Models
 
             public void Clear()
             {
-                OriginalStartDate.Clear();
-                OriginalStartTime.Clear();
-                OriginalEndDate.Clear();
-                OriginalEndTime.Clear();
                 NewStartDate.Clear();
                 NewStartTime.Clear();
                 NewEndDate.Clear();
