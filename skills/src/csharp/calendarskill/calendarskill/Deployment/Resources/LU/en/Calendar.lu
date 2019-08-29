@@ -1401,17 +1401,17 @@ $PREBUILT:ordinal
 
 > # List entities
 
-$PossecivePronoun:FirstPerson=
+$PossessivePronoun:FirstPerson=
 - my
 - our
 - my own
 - our own
 
-$PossecivePronoun:SecondPerson=
+$PossessivePronoun:SecondPerson=
 - your
 - your own
 
-$PossecivePronoun:ThirdPerson=
+$PossessivePronoun:ThirdPerson=
 - his
 - her
 - their
