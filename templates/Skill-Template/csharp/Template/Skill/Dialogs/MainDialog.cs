@@ -115,7 +115,7 @@ namespace $safeprojectname$.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            response.Type = ActivityTypes.Handoff;
             await dc.Context.SendActivityAsync(response);
             await dc.EndDialogAsync(result);
         }
@@ -133,7 +133,7 @@ namespace $safeprojectname$.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }
