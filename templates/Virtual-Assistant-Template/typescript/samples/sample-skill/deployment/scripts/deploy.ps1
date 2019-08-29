@@ -195,16 +195,7 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-<<<<<<< HEAD
-	if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
-	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
-	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
-	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
-	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
-
-=======
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
->>>>>>> c1ac5dac... Update Sample Skill
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
 
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
@@ -212,17 +203,10 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-<<<<<<< HEAD
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
-	
-	# Publish bot
-	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup) -projFolder `"$($projDir)` '" -ForegroundColor Magenta
-=======
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
 	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'" -ForegroundColor Magenta
->>>>>>> c1ac5dac... Update Sample Skill
 	Write-Host "> Done."
 }
 else
