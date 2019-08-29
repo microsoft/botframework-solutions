@@ -47,6 +47,8 @@ namespace CalendarSkill.Dialogs
             {
                 SearchEventsWithEntities,
                 GetEvents,
+                AfterGetEventsPrompt,
+                AddConflictFlag,
                 ChooseEvent
             };
 
@@ -202,6 +204,26 @@ namespace CalendarSkill.Dialogs
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterGetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+
+                if (sc.Result != null)
+                {
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {

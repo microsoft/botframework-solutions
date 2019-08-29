@@ -48,7 +48,9 @@ namespace CalendarSkill.Dialogs
             var findEvent = new WaterfallStep[]
             {
                 SearchEventsWithEntities,
-                GetEvents,
+                GetEventsPrompt,
+                AfterGetEventsPrompt,
+                AddConflictFlag,
                 ChooseEvent
             };
 
@@ -74,7 +76,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.UpdateEventTime;
         }
 
-        private async Task<DialogTurnResult> GetEvents(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> GetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -111,9 +113,37 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        public async Task<DialogTurnResult> AfterGetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+
+                if (sc.Result != null)
+                {
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         public async Task<DialogTurnResult> ChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> GetNewEventTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -415,7 +445,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.UpdateMeetingInfor.OriginalStartDate.Any() || state.UpdateMeetingInfor.OriginalStartTime.Any())
                 {
-                    state.ShowMeetingInfor.FocusedEvents = await GetEventsByTime(state.UpdateMeetingInfor.OriginalStartDate, state.UpdateMeetingInfor.OriginalStartTime, state.UpdateMeetingInfor.OriginalEndDate, state.UpdateMeetingInfor.OriginalEndTime, state.GetUserTimeZone(), calendarService);
+                    state.ShowMeetingInfor.FocusedEvents = await CalendarCommonUtil.GetEventsByTime(state.UpdateMeetingInfor.OriginalStartDate, state.UpdateMeetingInfor.OriginalStartTime, state.UpdateMeetingInfor.OriginalEndDate, state.UpdateMeetingInfor.OriginalEndTime, state.GetUserTimeZone(), calendarService);
                     state.UpdateMeetingInfor.Clear();
                     if (state.ShowMeetingInfor.FocusedEvents.Count > 0)
                     {

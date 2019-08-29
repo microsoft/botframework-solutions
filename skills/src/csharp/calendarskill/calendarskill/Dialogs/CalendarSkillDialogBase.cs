@@ -169,7 +169,7 @@ namespace CalendarSkill.Dialogs
             // search by time without cancelled meeting
             if (!state.ShowMeetingInfor.ShowingMeetings.Any())
             {
-                var searchedMeeting = await GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                var searchedMeeting = await CalendarCommonUtil.GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
                 foreach (var item in searchedMeeting)
                 {
                     if (item.IsCancelled != true)
@@ -769,107 +769,6 @@ namespace CalendarSkill.Dialogs
             }
 
             return false;
-        }
-
-        protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
-        {
-            // todo: check input datetime is utc
-            var rawEvents = new List<EventModel>();
-            var resultEvents = new List<EventModel>();
-
-            DateTime? startDate = null;
-            if (startDateList.Any())
-            {
-                startDate = startDateList.Last();
-            }
-
-            DateTime? endDate = null;
-            if (endDateList.Any())
-            {
-                endDate = endDateList.Last();
-            }
-
-            var searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
-
-            startDate = startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
-            endDate = endDate ?? startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
-
-            var searchStartTimeList = new List<DateTime>();
-            var searchEndTimeList = new List<DateTime>();
-
-            if (startTimeList.Any())
-            {
-                foreach (var time in startTimeList)
-                {
-                    searchStartTimeList.Add(TimeZoneInfo.ConvertTimeToUtc(
-                        new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, time.Hour, time.Minute, time.Second),
-                        userTimeZone));
-                }
-            }
-            else
-            {
-                searchStartTimeList.Add(TimeZoneInfo.ConvertTimeToUtc(
-                    new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day), userTimeZone));
-            }
-
-            if (endTimeList.Any())
-            {
-                foreach (var time in endTimeList)
-                {
-                    searchEndTimeList.Add(TimeZoneInfo.ConvertTimeToUtc(
-                        new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, time.Hour, time.Minute, time.Second),
-                        userTimeZone));
-                }
-            }
-            else
-            {
-                searchEndTimeList.Add(TimeZoneInfo.ConvertTimeToUtc(
-                    new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, 23, 59, 59), userTimeZone));
-            }
-
-            DateTime? searchStartTime = null;
-
-            if (searchByStartTime)
-            {
-                foreach (var startTime in searchStartTimeList)
-                {
-                    rawEvents = await calendarService.GetEventsByStartTimeAsync(startTime);
-                    if (rawEvents.Any())
-                    {
-                        searchStartTime = startTime;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < searchStartTimeList.Count(); i++)
-                {
-                    rawEvents = await calendarService.GetEventsByTimeAsync(
-                        searchStartTimeList[i],
-                        searchEndTimeList.Count() > i ? searchEndTimeList[i] : searchEndTimeList[0]);
-                    if (rawEvents.Any())
-                    {
-                        searchStartTime = searchStartTimeList[i];
-                        break;
-                    }
-                }
-            }
-
-            foreach (var item in rawEvents)
-            {
-                if (item.StartTime >= searchStartTime && item.IsCancelled != true)
-                {
-                    resultEvents.Add(item);
-                }
-            }
-
-            return resultEvents;
-        }
-
-        protected bool ContainsTime(string timex)
-        {
-            return timex.Contains("T");
         }
 
         protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, bool isBeginDialog)

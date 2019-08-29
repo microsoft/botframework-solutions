@@ -728,7 +728,7 @@ namespace CalendarSkill.Dialogs
                                 if (dateTime != null)
                                 {
                                     var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
-                                    if (ContainsTime(dateTimeConvertType))
+                                    if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
                                     {
                                         state.MeetingInfor.StartTime.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()));
                                     }
