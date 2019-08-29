@@ -42,7 +42,9 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
-        public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public string Provider { get { return PointOfInterestModel.Foursquare; } }
+
+        public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -68,7 +70,7 @@ namespace PointOfInterestSkill.Services
             return Task.FromResult(this as IGeoSpatialService);
         }
 
-        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotSupportedException();
         }
@@ -78,7 +80,12 @@ namespace PointOfInterestSkill.Services
             throw new NotSupportedException();
         }
 
-        public Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
+        public Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route, int width = 0, int height = 0)
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             throw new NotSupportedException();
         }
@@ -89,15 +96,16 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="query">The search query.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query, string poiType = null)
         {
             if (string.IsNullOrEmpty(query))
             {
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, ExploreVenuesUrl, latitude, longitude, query, radius, limit));
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, ExploreVenuesUrl, latitude, longitude, query, radius, limit), poiType);
         }
 
         /// <summary>
@@ -106,8 +114,9 @@ namespace PointOfInterestSkill.Services
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
+        public Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address, string poiType = null)
         {
             throw new NotSupportedException();
         }
@@ -117,8 +126,9 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
+        public Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude, string poiType = null)
         {
             throw new NotSupportedException();
         }
@@ -128,11 +138,12 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude, string poiType = null)
         {
             return await GetVenueAsync(
-                string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude, radius, limit));
+                string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude, radius, limit), poiType);
         }
 
         /// <summary>
@@ -140,14 +151,15 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude, string poiType = null)
         {
             // Available categories described at https://developer.foursquare.com/docs/resources/categories
             var parkingCategory = "4c38df4de52ce0d596b336e1";
 
             return await GetVenueAsync(
-                string.Format(CultureInfo.InvariantCulture, SearchForVenuesByCategoryUrl, latitude, longitude, parkingCategory, radius, limit));
+                string.Format(CultureInfo.InvariantCulture, SearchForVenuesByCategoryUrl, latitude, longitude, parkingCategory, radius, limit), poiType);
         }
 
         /// <summary>
@@ -155,7 +167,7 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
         /// <returns>PointOfInterestModel.</returns>
-        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
             if (pointOfInterest == null)
             {
@@ -172,8 +184,9 @@ namespace PointOfInterestSkill.Services
         /// Gets a request to Foursquare API & convert to PointOfInterestModels.
         /// </summary>
         /// <param name="url">The HTTP request URL.</param>
+        /// <param name="poiType">The poi type.</param>
         /// <returns>A list of PointOfInterestModels.</returns>
-        private async Task<List<PointOfInterestModel>> GetVenueAsync(string url)
+        private async Task<List<PointOfInterestModel>> GetVenueAsync(string url, string poiType = null)
         {
             url = string.Concat(url, $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}");
 
@@ -195,6 +208,19 @@ namespace PointOfInterestSkill.Services
 					}
 					else if (apiResponse?.Response?.Venues != null)
 					{
+						if (!string.IsNullOrEmpty(poiType))
+						{
+							if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
+							{
+								var nearestResult = apiResponse.Response.Venues.Aggregate((agg, next) => agg.Location.Distance <= next.Location.Distance ? agg : next);
+
+								if (nearestResult != null)
+								{
+									apiResponse.Response.Venues = new Venue[] { nearestResult };
+								}
+							}
+						}
+
 						foreach (var venue in apiResponse.Response.Venues)
 						{
 							var newPointOfInterest = new PointOfInterestModel(venue);
@@ -203,6 +229,19 @@ namespace PointOfInterestSkill.Services
 					}
 					else if (apiResponse?.Response?.Groups != null)
 					{
+						if (!string.IsNullOrEmpty(poiType))
+						{
+							if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
+							{
+								var nearestResult = apiResponse.Response.Groups.First().Items.Aggregate((agg, next) => agg.Venue.Location.Distance <= next.Venue.Location.Distance ? agg : next);
+
+								if (nearestResult != null)
+								{
+									apiResponse.Response.Groups.First().Items = new Item[] { nearestResult };
+								}
+							}
+						}
+
 						foreach (var item in apiResponse.Response.Groups.First().Items)
 						{
 							var newPointOfInterest = new PointOfInterestModel(item.Venue);

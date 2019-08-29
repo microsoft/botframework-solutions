@@ -12,8 +12,12 @@ namespace Luis
 {
     public partial class PointOfInterestLuis: IRecognizerConvert
     {
+        [JsonProperty("text")]
         public string Text;
+
+        [JsonProperty("alteredText")]
         public string AlteredText;
+
         public enum Intent {
             None, 
             NAVIGATION_CANCEL_ROUTE, 
@@ -21,36 +25,40 @@ namespace Luis
             NAVIGATION_ROUTE_FROM_X_TO_Y, 
             NAVIGATION_FIND_PARKING
         };
+        [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] KEYWORD;
             public string[] ADDRESS;
 
+            public string[] KEYWORD;
+
             // Built-in entities
+            public GeographyV2[] geographyV2;
+
             public double[] number;
-            // Workaround. Remove them when combined to geographV2[] in 4.5
-            public string[] geographyV2_poi;
-            public string[] geographyV2_city;
 
             // Lists
+            public string[][] POI_TYPE;
+
             public string[][] ROUTE_TYPE;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
-                public InstanceData[] number;
-                public InstanceData[] geographyV2_poi;
-                public InstanceData[] geographyV2_city;
+                public InstanceData[] KEYWORD;
+                public InstanceData[] POI_TYPE;
                 public InstanceData[] ROUTE_TYPE;
+                public InstanceData[] geographyV2;
+                public InstanceData[] number;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
+        [JsonProperty("entities")]
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]

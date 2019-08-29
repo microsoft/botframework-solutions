@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="end"
+    tools:context=".activities.main.MainActivity"
+    android:keepScreenOn="true">
+
+    <RelativeLayout
+        android:id="@+id/root_container"
+        style="@style/BackgroundStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.microsoft.bot.builder.solutions.virtualassistant.customview.SquareRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <!-- MAIN / CENTRAL FOCUS -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                style="@style/BackgroundStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/suggestedactions" />
+
+            <!-- ANIMATED ASSISTANT -->
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/animated_assistant"
+                android:layout_width="@dimen/animated_assistant_width"
+                android:layout_height="@dimen/animated_assistant_height"
+                android:layout_above="@+id/speech_detection"
+                android:layout_centerInParent="true"
+                android:elevation="2dp"
+                android:visibility="gone" />
+
+            <!-- SUGGESTED ACTIONS -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/suggestedactions"
+                style="@style/BackgroundStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/speech_detection" />
+
+            <!-- SHOW WHAT THE USER IS SAYING -->
+            <TextView
+                android:id="@+id/speech_detection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/container_buttons"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="30sp" />
+
+            <!-- MIC, KEYBOARD BUTTONS AND TEXTINPUT ON THE BOTTOM -->
+            <LinearLayout
+                android:id="@+id/container_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:animateLayoutChanges="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- MIC BUTTON -->
+                <ImageView
+                    android:id="@+id/mic_image"
+                    style="@style/MicStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="8dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_mic" />
+
+                <!-- TEXT INPUT -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinputlayout"
+                    style="@style/TextInputAccentStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/bot_input_hint"
+                    android:visibility="gone">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textinput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionSend"
+                        android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- KEYBOARD BUTTON -->
+                <ImageView
+                    android:id="@+id/kbd_image"
+                    style="@style/MicStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="58dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_keyboard" />
+
+            </LinearLayout>
+
+        </com.microsoft.bot.builder.solutions.virtualassistant.customview.SquareRelativeLayout>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:theme="@style/NavigationDrawerStyle"
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_drawer_menu">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="14dp"
+            android:orientation="vertical">
+
+            <!-- hidden for now since it is blocked from making progress -->
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_enable_kws"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_enable_kws"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_show_full_conversation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_show_full_conversation"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_night_mode"/>
+
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

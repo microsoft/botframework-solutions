@@ -18,7 +18,7 @@ public class SfxManager implements SoundPool.OnLoadCompleteListener{
 
     // CONSTANTS
     private final String LOGTAG = getClass().getSimpleName();
-    private final static int MAX_SIMULTANEOUS_SFX = 10;
+    private final static int MAX_SIMULTANEOUS_SFX = 5;
     private final static float PLAY_RATE = 1.0f;
     private final static float VOLUME = 0.5f;
 
@@ -55,6 +55,15 @@ public class SfxManager implements SoundPool.OnLoadCompleteListener{
     }
 
     /**
+     * Unload all SFX
+     * Note: after this call, the Soundpool must be re-init
+     */
+    public void reset(){
+        mSoundPool.release();
+        mSoundPool = null;
+    }
+
+    /**
      * Play a sound in its own MediaPlayer on its own thread
      * @param resRawId
      * @return the sound id
@@ -63,8 +72,6 @@ public class SfxManager implements SoundPool.OnLoadCompleteListener{
         final int soundId = mSoundPool.load(context, resRawId, 1);
         return soundId;
     }
-
-
 
     public void playEarconDisambigError() {
         playSfx(R.raw.earcon_disambig_error);

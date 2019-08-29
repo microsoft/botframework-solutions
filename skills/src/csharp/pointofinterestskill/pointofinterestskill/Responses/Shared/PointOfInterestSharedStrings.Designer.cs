@@ -61,6 +61,15 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location services.
+        /// </summary>
+        public static string CARD_TITLE {
+            get {
+                return ResourceManager.GetString("CARD_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End.
         /// </summary>
         public static string END {
@@ -183,6 +192,15 @@ namespace PointOfInterestSkill.Responses.Shared {
         public static string START {
             get {
                 return ResourceManager.GetString("START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You.
+        /// </summary>
+        public static string YOU {
+            get {
+                return ResourceManager.GetString("YOU", resourceCulture);
             }
         }
     }

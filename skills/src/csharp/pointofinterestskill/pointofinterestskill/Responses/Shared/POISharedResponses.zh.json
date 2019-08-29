@@ -226,6 +226,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoRouteFound": {
+    "inputHint": "acceptingInput",
+    "replies": [
+      {
+        "text": "对不起,我找不到任何路线。",
+        "speak": "对不起,我找不到任何路线。"
+      }
+    ]
+  },
   "CurrentLocationSingleSelection": {
     "replies": [
       {

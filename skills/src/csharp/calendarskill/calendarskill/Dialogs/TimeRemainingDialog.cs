@@ -66,19 +66,19 @@ namespace CalendarSkill.Dialogs
                     var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
                     if (item.IsCancelled != true && nextEventList.Count == 0)
                     {
-                        if (state.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                        if (state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.StartDate[0].DayOfYear)
+                        else if (state.MeetingInfor.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.MeetingInfor.StartDate[0].DayOfYear)
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.StartTime.Any() && itemUserTimeZoneTime == state.StartTime[0])
+                        else if (state.MeetingInfor.StartTime.Any() && itemUserTimeZoneTime == state.MeetingInfor.StartTime[0])
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.Title != null && item.Title.Equals(state.Title, StringComparison.CurrentCultureIgnoreCase))
+                        else if (state.MeetingInfor.Title != null && item.Title.Equals(state.MeetingInfor.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
                             nextEventList.Add(item);
                         }
@@ -150,7 +150,7 @@ namespace CalendarSkill.Dialogs
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
                     tokens["RemainingTime"] = remainingTime;
-                    if (state.OrderReference == "next")
+                    if (state.MeetingInfor.OrderReference == "next")
                     {
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
@@ -161,16 +161,16 @@ namespace CalendarSkill.Dialogs
                         var timeToken = string.Empty;
                         var timeSpeakToken = string.Empty;
 
-                        if (state.StartDate.Any())
+                        if (state.MeetingInfor.StartDate.Any())
                         {
-                            timeSpeakToken += $"{state.StartDate[0].ToSpeechDateString()} ";
-                            timeToken += $"{state.StartDate[0].ToShortDateString()} ";
+                            timeSpeakToken += $"{state.MeetingInfor.StartDate[0].ToSpeechDateString()} ";
+                            timeToken += $"{state.MeetingInfor.StartDate[0].ToShortDateString()} ";
                         }
 
-                        if (state.StartTime.Any())
+                        if (state.MeetingInfor.StartTime.Any())
                         {
-                            timeSpeakToken += $"{state.StartTime[0].ToSpeechTimeString()}";
-                            timeToken += $"{state.StartTime[0].ToShortTimeString()}";
+                            timeSpeakToken += $"{state.MeetingInfor.StartTime[0].ToSpeechTimeString()}";
+                            timeToken += $"{state.MeetingInfor.StartTime[0].ToShortTimeString()}";
                         }
 
                         if (timeSpeakToken.Length > 0)
@@ -183,9 +183,9 @@ namespace CalendarSkill.Dialogs
                             tokens["Time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
                         }
 
-                        if (state.Title != null)
+                        if (state.MeetingInfor.Title != null)
                         {
-                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
+                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title);
                         }
 
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);

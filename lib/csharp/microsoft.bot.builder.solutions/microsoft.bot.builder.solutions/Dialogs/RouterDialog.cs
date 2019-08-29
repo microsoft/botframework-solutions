@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             {
                                 await OnEventAsync(innerDc).ConfigureAwait(false);
                             }
-                            else if (!string.IsNullOrEmpty(activity.Text))
+                            else
                             {
                                 var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
 
@@ -66,6 +66,12 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
+                                            if (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart)
+                                            {
+                                                await RouteAsync(innerDc).ConfigureAwait(false);
+                                                break;
+                                            }
+
                                             await CompleteAsync(innerDc).ConfigureAwait(false);
 
                                             // End active dialog

@@ -16,6 +16,7 @@ namespace PointOfInterestSkill.Models
             LastFoundPointOfInterests = null;
             ActiveRoute = null;
             RouteType = string.Empty;
+            PoiType = string.Empty;
             UserSelectIndex = -1;
         }
 
@@ -39,6 +40,8 @@ namespace PointOfInterestSkill.Models
 
         public string RouteType { get; set; }
 
+        public string PoiType { get; set; }
+
         public PointOfInterestLuis LuisResult { get; set; }
 
         public DialogState ConversationDialogState { get; set; }
@@ -61,6 +64,7 @@ namespace PointOfInterestSkill.Models
             Keyword = string.Empty;
             Address = string.Empty;
             RouteType = string.Empty;
+            PoiType = string.Empty;
             UserSelectIndex = -1;
         }
 

@@ -7,5 +7,7 @@
         }
 
         public Luis.NewsLuis LuisResult { get; set; }
+
+        public string CurrentCoordinates { get; set; }
     }
 }

@@ -14,6 +14,9 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         [JsonProperty(PropertyName = "slots")]
         public List<Slot> Slots { get; set; } = new List<Slot>();
 
+        [JsonProperty(PropertyName = "response")]
+        public dynamic Response { get; set; }
+
         [JsonProperty(PropertyName = "triggers")]
         public Triggers Triggers { get; set; }
     }

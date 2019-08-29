@@ -69,7 +69,7 @@ namespace RestaurantBooking.Dialogs
             var localeConfig = _services.CognitiveModelSets[locale];
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("Reservation", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Restaurant", out var luisService);
 
             if (luisService == null)
             {
@@ -121,7 +121,7 @@ namespace RestaurantBooking.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -141,7 +141,7 @@ namespace RestaurantBooking.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }
@@ -174,27 +174,30 @@ namespace RestaurantBooking.Dialogs
                     else
                     {
                         var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                        var topIntent = luisResult.TopIntent().intent;
+                        var topIntent = luisResult.TopIntent();
 
-                        switch (topIntent)
+                        if (topIntent.score > 0.5)
                         {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                            switch (topIntent.intent)
+                            {
+                                case General.Intent.Cancel:
+                                    {
+                                        result = await OnCancel(dc);
+                                        break;
+                                    }
 
-                            case General.Intent.Help:
-                                {
-                                    result = await OnHelp(dc);
-                                    break;
-                                }
+                                case General.Intent.Help:
+                                    {
+                                        result = await OnHelp(dc);
+                                        break;
+                                    }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
+                                case General.Intent.Logout:
+                                    {
+                                        result = await OnLogout(dc);
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }

@@ -231,4 +231,7 @@
   <data name="More" xml:space="preserve">
     <value>more</value>
   </data>
+  <data name="ConfirmSkillSwitch" xml:space="preserve">
+    <value>Are you sure to switch to {0}?</value>
+  </data>
 </root>

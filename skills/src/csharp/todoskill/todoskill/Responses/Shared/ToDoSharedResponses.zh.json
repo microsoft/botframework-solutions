@@ -88,8 +88,8 @@
   "AfterOneNoteSetupMessage": {
     "replies": [
       {
-        "text": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的代办事项了。",
-        "speak": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的代办事项了。"
+        "text": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的待办事项了。",
+        "speak": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的待办事项了。"
       }
     ],
     "inputHint": "ignoringInput"
@@ -106,8 +106,8 @@
   "AfterOutlookSetupMessage": {
     "replies": [
       {
-        "text": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的代办事项了。",
-        "speak": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的代办事项了。"
+        "text": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的待办事项了。",
+        "speak": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的待办事项了。"
       }
     ],
     "inputHint": "ignoringInput"

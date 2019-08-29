@@ -15,6 +15,6 @@ namespace WeatherSkill.Models
 
         public bool IsDaylightSaving { get; set; }
 
-        public DateTime NextOffsetChange { get; set; }
+        public DateTime? NextOffsetChange { get; set; }
     }
 }

@@ -1,36 +1,36 @@
 <resources>
     <string name="app_name">Virtual Assistant Client</string>
 
-    <!-- Permissions -->
+    <!-- PERMISSIONS -->
     <string name="permission_record_audio_title" translatable="false">Permission to record audio</string>
     <string name="permission_record_audio_rationale" translatable="false">In order for this app to listen to your voice, it requires permission use the microphone</string>
     <string name="permission_record_audio_denied" translatable="false">You will only be able to type to the Bot</string>
     <string name="permission_access_fine_location_title" translatable="false">GPS Permission</string>
     <string name="permission_access_fine_location_rationale" translatable="false">Location permission is required to be able to direct you to points of interest</string>
 
-    <!-- General Messages for User -->
+    <!-- GENERAL MESSAGES FOR USER -->
     <string name="msg_listening" translatable="false">I am listening…</string>
     <string name="msg_listening_not" translatable="false">I am no longer listening…</string>
     <string name="msg_disconnected" translatable="false">Reconnecting to Service</string>
 
-    <!-- General Strings -->
+    <!-- GENERAL STRINGS -->
     <string name="bot_input_hint" translatable="false">Type a message to the bot</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
-    <!-- Navigation Drawer Menu -->
+    <!-- NAVIGATION DRAWER MENU -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_menu_show_textinput" translatable="false">Show Textinput</string>
     <string name="nav_menu_show_full_conversation" translatable="false">Show full conversation</string>
     <string name="nav_menu_reset_bot" translatable="false">Restart Conversation</string>
-    <string name="nav_menu_toggle_kws" translatable="false">Enable KWS</string>
     <string name="nav_menu_configuration" translatable="false">Settings</string>
     <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
     <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
     <string name="nav_menu_night_mode" translatable="false">Enable Dark Mode</string>
+    <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
 
-    <!-- Configuration -->
+    <!-- CONFIGURATION -->
     <string name="configuration_service_key_hint">Speech Service Subscription Key</string>
     <string name="configuration_service_region_hint">Speech Service Subscription Key Region</string>
     <string name="configuration_bot_id_hint">Direct Line Speech Secret Key</string>
@@ -46,11 +46,20 @@
     <string name="configuration_pick_color">Pick a color</string>
     <string name="configuration_bot_text_color">Bot Text Color</string>
     <string name="configuration_user_text_color">User Text Color</string>
+    <string name="configuration_keyword">Keyword</string>
+    <string name="configuration_location_event">GPS Sent On</string>
+    <string name="configuration_location_send">Send GPS Location</string>
+    <string name="configuration_location_unsent">Not Sent</string>
 
-    <!-- Widgets -->
+    <!-- WIDGETS -->
     <string name="widget_push_to_talk">Talk</string>
 
     <!-- SERVICE -->
     <string name="service_notification_action_button">Listen</string>
+
+    <!-- SERVICE ERRORS -->
+    <string name="service_error_no_map">Unable to show directions because Waze and Google Maps are not installed</string>
+    <string name="service_error_uri">Missing URI field</string>
+    <string name="service_error_no_spotify">Unable to launch Spotify because it is not installed</string>
 
 </resources>

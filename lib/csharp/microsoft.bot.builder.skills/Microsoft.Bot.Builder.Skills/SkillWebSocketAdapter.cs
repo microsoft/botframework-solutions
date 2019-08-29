@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.StreamingExtensions.Transport;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
@@ -23,18 +25,26 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
+        private readonly BotSettingsBase _botSettingsBase;
         private readonly IAuthenticationProvider _authenticationProvider;
-		private readonly Stopwatch _stopWatch;
+        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
+        private readonly IAuthenticator _authenticator;
+        private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
-            IAuthenticationProvider authenticationProvider = null,
+            BotSettingsBase botSettingsBase,
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
             IBotTelemetryClient botTelemetryClient = null)
         {
-            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
-            _authenticationProvider = authenticationProvider;
+            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
+            _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
+            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
+            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
-			_stopWatch = new Stopwatch();
+            _stopWatch = new Stopwatch();
         }
 
         public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
@@ -56,52 +66,43 @@ namespace Microsoft.Bot.Builder.Skills
 
             if (!httpRequest.HttpContext.WebSockets.IsWebSocketRequest)
             {
-                httpRequest.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                await httpRequest.HttpContext.Response.WriteAsync("Upgrade to WebSocket required.").ConfigureAwait(false);
+                httpResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                await httpResponse.WriteAsync("Upgrade to WebSocket required.").ConfigureAwait(false);
                 return;
             }
 
-            if (_authenticationProvider != null)
-            {
-                var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
+            var claimsIdentity = await _authenticator.Authenticate(httpRequest, httpResponse);
 
-                if (!authenticated)
-                {
-                    httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return;
-                }
-            }
-
-            await CreateWebSocketConnectionAsync(httpRequest.HttpContext, bot).ConfigureAwait(false);
+            await CreateWebSocketConnectionAsync(claimsIdentity, httpRequest.HttpContext, bot).ConfigureAwait(false);
         }
 
-        private async Task CreateWebSocketConnectionAsync(HttpContext httpContext, IBot bot)
+        private async Task CreateWebSocketConnectionAsync(ClaimsIdentity claimsIdentity, HttpContext httpContext, IBot bot)
         {
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync().ConfigureAwait(false);
-            var handler = new SkillWebSocketRequestHandler(_botTelemetryClient);
+            var handler = new SkillWebSocketRequestHandler(claimsIdentity, _botTelemetryClient);
             var server = new WebSocketServer(socket, handler);
-			server.Disconnected += Server_Disconnected;
+            server.Disconnected += Server_Disconnected;
             _skillWebSocketBotAdapter.Server = server;
             handler.Bot = bot;
             handler.SkillWebSocketBotAdapter = _skillWebSocketBotAdapter;
 
             _botTelemetryClient.TrackTrace("Starting listening on websocket", Severity.Information, null);
-			_stopWatch.Start();
+            _stopWatch.Start();
             var startListening = server.StartAsync();
             Task.WaitAll(startListening);
         }
 
-		private void Server_Disconnected(object sender, DisconnectedEventArgs e)
-		{
-			if (_stopWatch.IsRunning)
-			{
-				_stopWatch.Stop();
+        private void Server_Disconnected(object sender, DisconnectedEventArgs e)
+        {
+            if (_stopWatch.IsRunning)
+            {
+                _stopWatch.Stop();
 
-				_botTelemetryClient.TrackEvent("SkillWebSocketOpenCloseLatency", null, new Dictionary<string, double>
-				{
-					{ "Latency", _stopWatch.ElapsedMilliseconds },
-				});
-			}
-		}
-	}
+                _botTelemetryClient.TrackEvent("SkillWebSocketOpenCloseLatency", null, new Dictionary<string, double>
+                {
+                    { "Latency", _stopWatch.ElapsedMilliseconds },
+                });
+            }
+        }
+    }
 }

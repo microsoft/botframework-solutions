@@ -26,7 +26,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Default",
-                          "text": "Location services"
+                          "text": "{CardTitle}"
                         }
                       ],
                       "width": "stretch"

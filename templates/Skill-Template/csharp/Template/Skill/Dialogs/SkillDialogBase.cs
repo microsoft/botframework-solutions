@@ -31,6 +31,7 @@ namespace $safeprojectname$.Dialogs
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
+            Settings = settings;
             Services = services;
             ResponseManager = responseManager;
             StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
