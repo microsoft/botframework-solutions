@@ -9,14 +9,23 @@
   <ItemGroup>
     <Content Remove="Content\PointOfInterestDetails.1.0.json" />
     <Content Remove="Content\PointOfInterestDetails.json" />
+    <Content Remove="Content\PointOfInterestDetailsContainer.1.0.json" />
+    <Content Remove="Content\PointOfInterestDetailsContainer.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
+    <Content Remove="Content\PointOfInterestOverview.1.0.json" />
+    <Content Remove="Content\PointOfInterestOverview.json" />
+    <Content Remove="Content\PointOfInterestOverviewContainer.1.0.json" />
+    <Content Remove="Content\PointOfInterestOverviewContainer.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\PointOfInterestDetails.1.0.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
+    <EmbeddedResource Include="Content\PointOfInterestOverview.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestOverview.json" />
+    <EmbeddedResource Include="Content\PointOfInterestOverviewContainer.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestOverviewContainer.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,7 +95,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\PointOfInterestDetails.json" />
     <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.de.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>

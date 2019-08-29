@@ -133,7 +133,7 @@ namespace NewsSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }

@@ -104,7 +104,7 @@ namespace AutomotiveSkillTest.Flow
                     IsConfirmed = true,
                 }))
                 .AssertReply(this.CheckReply("Setting Lane Change Detection to Off."))
-                .AssertReply(this.CheckForEndOfConversation())
+                .AssertReply(this.CheckForHandoff())
                 .StartTestAsync();
         }
 
@@ -116,7 +116,7 @@ namespace AutomotiveSkillTest.Flow
                 .AssertReply(this.CheckReply("So, you want to change Lane Change Detection to Off. Is that correct? (1) Yes or (2) No"))
                 .Send("no")
                 .AssertReply(this.CheckReply("Ok, not making any changes."))
-                .AssertReply(this.CheckForEndOfConversation())
+                .AssertReply(this.CheckForHandoff())
                 .StartTestAsync();
         }
 
@@ -332,12 +332,11 @@ namespace AutomotiveSkillTest.Flow
             };
         }
 
-        private Action<IActivity> CheckForEndOfConversation()
+        private Action<IActivity> CheckForHandoff()
         {
             return activity =>
             {
-                var eventReceived = activity.AsEndOfConversationActivity();
-                Assert.IsNotNull(eventReceived, "End of Conversation Activity not received.");
+                Assert.AreEqual(activity.Type, ActivityTypes.Handoff, "End of Conversation Activity not received.");
             };
         }
 

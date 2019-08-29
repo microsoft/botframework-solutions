@@ -196,6 +196,15 @@ namespace HospitalitySample.Responses.Main {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ./Content/NewUserGreeting.1.0.json.
+        /// </summary>
+        public static string INTRO_PATH_TEAMS {
+            get {
+                return ResourceManager.GetString("INTRO_PATH_TEAMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ./Content/ReturningUserGreeting.json.
         /// </summary>
         public static string INTRO_RETURNING {

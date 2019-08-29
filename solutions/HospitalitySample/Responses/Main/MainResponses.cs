@@ -68,7 +68,8 @@ namespace HospitalitySample.Responses.Main
             // work around for adaptive card actions not working in Teams
             if (!Channel.SupportsSuggestedActions(turnContext.Activity.ChannelId))
             {
-                card = AdaptiveCard.FromJson(introCard + ".1.0").Card;
+                introCard += File.ReadAllText(MainStrings.INTRO_PATH_TEAMS);
+                card = AdaptiveCard.FromJson(introCard).Card;
             }
 
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);

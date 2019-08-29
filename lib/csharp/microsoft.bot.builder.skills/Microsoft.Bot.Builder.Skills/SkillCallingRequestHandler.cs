@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.Skills
                                             throw new ArgumentNullException("FallbackRequestHandler", "Skill is asking for fallback but there is no handler on the calling side!");
                                         }
                                     }
-                                    else if (activity.Type == ActivityTypes.EndOfConversation)
+                                    else if (activity.Type == ActivityTypes.Handoff)
                                     {
                                         var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
                                         if (_handoffActivityHandler != null)

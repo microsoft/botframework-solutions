@@ -2,10 +2,8 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.Responses.CancelRoute;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkillTests.Flow.Strings;
@@ -207,26 +205,6 @@ namespace PointOfInterestSkillTests.Flow
         }
 
         /// <summary>
-        /// Asserts bot response of PointOfInterestSelection.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> PointOfInterestSelection()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                int index = messageActivity.Text.IndexOf("\n");
-                if (index > 0)
-                {
-                    messageActivity.Text = messageActivity.Text.Substring(0, index);
-                }
-
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.PointOfInterestSelection, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
         /// Asserts bot response of SingleLocationFound.
         /// </summary>
         /// <returns>Returns an Action with IActivity object.</returns>
@@ -275,34 +253,6 @@ namespace PointOfInterestSkillTests.Flow
         }
 
         /// <summary>
-        /// Asserts bot response of PromptToStartRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> PromptToStartRoute()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute, new StringDictionary()), messageActivity.Speak);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of AskAboutRouteLater.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> AskAboutRouteLater()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(RouteResponses.AskAboutRouteLater, new StringDictionary()), messageActivity.Speak);
-            };
-        }
-
-        /// <summary>
         /// Asserts bot response of SendingRouteDetails.
         /// </summary>
         /// <returns>Returns an Action with IActivity object.</returns>
@@ -317,34 +267,6 @@ namespace PointOfInterestSkillTests.Flow
         }
 
         /// <summary>
-        /// Asserts bot response of CannotCancelActiveRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CannotCancelActiveRoute()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CannotCancelActiveRoute, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of CancelActiveRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CancelActiveRoute()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CancelActiveRoute, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
         /// Asserts bot response of CompleteDialog.
         /// </summary>
         /// <returns>Returns an Action with IActivity object.</returns>
@@ -352,8 +274,7 @@ namespace PointOfInterestSkillTests.Flow
         {
             return activity =>
             {
-                var endOfConversationActivity = activity.AsEndOfConversationActivity();
-                Assert.AreEqual(endOfConversationActivity.Type, ActivityTypes.EndOfConversation);
+                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
             };
         }
 

@@ -16,6 +16,8 @@
 
         public const int Limit = 3;
 
+        public const int RouteLimit = 2;
+
         public const string Query = "MockQuery";
 
         public const string SendAsync = "SendAsync";
