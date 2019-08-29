@@ -1,9 +1,11 @@
 package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import client.model.BotConnectorActivity;
 
@@ -22,7 +25,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int MSG_TYPE_USER = 2;
 
     // STATE
-    private ArrayList<ChatModel> chatList = new ArrayList<>();
+    private ArrayList<ChatModel> chatList; // visible chat history
+    private ArrayList<ChatModel> chatHistory; // full chat history
     private AppCompatActivity parentActivity;
     private ViewholderBot.OnClickListener clickListener;
     private static int MAX_CHAT_ITEMS = 2;
@@ -31,7 +35,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Integer colorBubbleUser;
     private Integer colorTextBot;
     private Integer colorTextUser;
+    private ChatViewModel chatViewModel;
 
+    public ChatAdapter(Context context) {
+        // load chat history from view model
+        chatViewModel = ViewModelProviders.of((FragmentActivity) context).get(ChatViewModel.class);
+        chatHistory = chatViewModel.getChatHistory().getValue();
+        showFullConversation = chatViewModel.getShowFullConversation().getValue();
+
+        // filter chat history by the value of showFullConversation
+        if (showFullConversation) {
+            chatList = new ArrayList<>(chatHistory);
+        } else {
+            chatList = (ArrayList<ChatModel>) chatHistory.stream().filter(chatModel -> chatModel.userRequest == null).collect(Collectors.toList());
+        }
+        this.notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -77,18 +96,27 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setShowFullConversation(boolean showFullConversation){
+        // only if showFullConversation changed
         if (this.showFullConversation != showFullConversation) {
             this.showFullConversation = showFullConversation;
             chatList.clear();
+            // filter chat history by the value of showFullConversation
+            if (this.showFullConversation) {
+                chatList = new ArrayList<>(chatHistory);
+            } else {
+                chatList = (ArrayList<ChatModel>) chatHistory.stream().filter(chatModel -> chatModel.userRequest == null).collect(Collectors.toList());
+            }
+            chatViewModel.setShowFullConversation(showFullConversation);
             notifyDataSetChanged();
         }
     }
 
     public void addBotResponse(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, ViewholderBot.OnClickListener clickListener) {
-        Log.v(LOGTAG, "showing row id "+ botConnectorActivity.getId());
         this.parentActivity = parentActivity;
         this.clickListener = clickListener;
         ChatModel chatModel = new ChatModel(botConnectorActivity);
+        chatHistory.add(chatModel);
+        chatViewModel.setChatHistory(chatHistory);
         chatList.add(chatModel);
         if (chatList.size() > MAX_CHAT_ITEMS) {
             chatList.remove(0);
@@ -97,8 +125,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void addUserRequest(String request) {
+        ChatModel chatModel = new ChatModel(request);
+        chatHistory.add(chatModel);
+        chatViewModel.setChatHistory(chatHistory);
         if (showFullConversation) {
-            ChatModel chatModel = new ChatModel(request);
             chatList.add(chatModel);
             if (chatList.size() > MAX_CHAT_ITEMS) {
                 chatList.remove(0);
@@ -117,6 +147,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void resetChat(){
         chatList.clear();
+        chatHistory.clear();
+        chatViewModel.setChatHistory(chatHistory);
         notifyDataSetChanged();
     }
 
@@ -129,4 +161,5 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.colorTextBot = colorTextBot;
         this.colorTextUser = colorTextUser;
     }
+
 }

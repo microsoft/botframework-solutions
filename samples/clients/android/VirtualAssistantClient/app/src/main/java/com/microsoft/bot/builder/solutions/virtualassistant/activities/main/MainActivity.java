@@ -193,8 +193,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void setupChatRecyclerView() {
-
-        chatAdapter = new ChatAdapter();
+        chatAdapter = new ChatAdapter(this);
         chatRecyclerView.setAdapter(chatAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -365,7 +364,6 @@ public class MainActivity extends BaseActivity
         if (isCreated) {
             // OutOfMemoryError can occur, try to free as many objects as possible 1st
             // note: the assistant animation might need to be unloaded prior to switching night mode
-            chatAdapter.resetChat();
             sfxManager.reset();
             sfxManager = null;
             System.gc();
