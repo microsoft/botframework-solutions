@@ -1214,17 +1214,17 @@ $PREBUILT:ordinal
 
 > # List entities
 
-$PossecivePronoun:FirstPerson=
+$PossessivePronoun:FirstPerson=
 - mio
 - nostro
 - il mio
 - il nostro
 
-$PossecivePronoun:SecondPerson=
+$PossessivePronoun:SecondPerson=
 - La tua
 - il proprio
 
-$PossecivePronoun:ThirdPerson=
+$PossessivePronoun:ThirdPerson=
 - suo
 - lei
 - loro

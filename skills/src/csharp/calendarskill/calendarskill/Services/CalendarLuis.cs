@@ -65,7 +65,7 @@ namespace Luis
             public double[] ordinal;
 
             // Lists
-            public string[][] PossecivePronoun;
+            public string[][] PossessivePronoun;
             public string[][] RelationshipName;
 
             // Instance
@@ -89,7 +89,7 @@ namespace Luis
                 public InstanceData[] datetime;
                 public InstanceData[] personName;
                 public InstanceData[] ordinal;
-                public InstanceData[] PossecivePronoun;
+                public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
             }
             [JsonProperty("$instance")]

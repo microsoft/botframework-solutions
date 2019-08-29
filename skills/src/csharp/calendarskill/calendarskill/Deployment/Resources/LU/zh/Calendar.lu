@@ -1145,7 +1145,7 @@ $PREBUILT:ordinal
 > # List entities
 
 
-$PossecivePronoun:FirstPerson=
+$PossessivePronoun:FirstPerson=
 - 我
 - 我们
 - 我的
@@ -1153,12 +1153,12 @@ $PossecivePronoun:FirstPerson=
 - 我自己的
 - 我们自己的
 
-$PossecivePronoun:SecondPerson=
+$PossessivePronoun:SecondPerson=
 - 你
 - 你的
 - 你自己的
 
-$PossecivePronoun:ThirdPerson=
+$PossessivePronoun:ThirdPerson=
 - 他
 - 她
 - 他们

@@ -1469,22 +1469,25 @@ namespace CalendarSkill.Dialogs
 
             int index = 0;
             var rawRelationships = entity._instance.RelationshipName;
-            foreach (var relationship in rawRelationships)
+            var rawPronouns = entity._instance.PossessivePronoun;
+            if (rawRelationships != null && rawPronouns != null)
             {
-                string relationshipName = relationship.Text;
-                var rawPronouns = entity._instance.PossecivePronoun;
-                for (int i = 0; i < entity.PossecivePronoun.Length; i++)
+                foreach (var relationship in rawRelationships)
                 {
-                    string pronounType = entity.PossecivePronoun[i][0];
-                    string pronounName = rawPronouns[i].Text;
-                    if (Regex.IsMatch(inputString, pronounName + "( )?" + relationshipName, RegexOptions.IgnoreCase))
+                    string relationshipName = relationship.Text;
+                    for (int i = 0; i < entity.PossessivePronoun.Length; i++)
                     {
-                        var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
-                        entities.Add(originalName, new CalendarSkillState.RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName }) ;
+                        string pronounType = entity.PossessivePronoun[i][0];
+                        string pronounName = rawPronouns[i].Text;
+                        if (Regex.IsMatch(inputString, pronounName + "( )?" + relationshipName, RegexOptions.IgnoreCase))
+                        {
+                            var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
+                            entities.Add(originalName, new CalendarSkillState.RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName });
+                        }
                     }
-                }
 
-                index++;
+                    index++;
+                }
             }
 
             return entities;
