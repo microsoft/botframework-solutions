@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -13,24 +14,23 @@ using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class FindPointOfInterestDialog : PointOfInterestDialogBase
+    public class GetDirectionsDialog : PointOfInterestDialogBase
     {
-        public FindPointOfInterestDialog(
+        public GetDirectionsDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			RouteDialog routeDialog,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(FindPointOfInterestDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
+            : base(nameof(GetDirectionsDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
             var checkCurrentLocation = new WaterfallStep[]
             {
-                CheckForCurrentCoordinatesBeforeFindPointOfInterest,
+                CheckForCurrentCoordinatesBeforeGetDirections,
                 ConfirmCurrentLocation,
                 ProcessCurrentLocationSelection,
                 RouteToFindPointOfInterestDialog
@@ -39,26 +39,18 @@ namespace PointOfInterestSkill.Dialogs
             var findPointOfInterest = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
-                ProcessPointOfInterestSelection,
-                ProcessPointOfInterestAction,
+                SendEvent,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
-            AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CheckForCurrentLocation;
         }
 
-        /// <summary>
-        /// Check for the current coordinates and if missing, prompt user.
-        /// </summary>
-        /// <param name="sc">Step Context.</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>Dialog Turn Result.</returns>
-        protected async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeFindPointOfInterest(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeGetDirections(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
             var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
@@ -70,15 +62,36 @@ namespace PointOfInterestSkill.Dialogs
             return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
         }
 
-        /// <summary>
-        /// Replaces the active dialog with the FindPointOfInterest waterfall dialog.
-        /// </summary>
-        /// <param name="sc">WaterfallStepContext.</param>
-        /// <param name="cancellationToken">CancellationToken.</param>
-        /// <returns>DialogTurnResult.</returns>
         protected async Task<DialogTurnResult> RouteToFindPointOfInterestDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             return await sc.ReplaceDialogAsync(Actions.FindPointOfInterest);
+        }
+
+        protected async Task<DialogTurnResult> SendEvent(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var userSelectIndex = 0;
+
+            if (sc.Result is bool)
+            {
+                state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
+                state.LastFoundPointOfInterests = null;
+            }
+            else if (sc.Result is FoundChoice)
+            {
+                // Update the destination state with user choice.
+                userSelectIndex = (sc.Result as FoundChoice).Index;
+
+                state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
+                state.LastFoundPointOfInterests = null;
+            }
+
+            if (SupportOpenDefaultAppReply(sc.Context))
+            {
+                await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Map));
+            }
+
+            return await sc.NextAsync();
         }
     }
 }

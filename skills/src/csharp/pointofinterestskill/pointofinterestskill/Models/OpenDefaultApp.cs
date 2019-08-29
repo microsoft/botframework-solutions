@@ -8,5 +8,7 @@ namespace PointOfInterestSkill.Models
     public class OpenDefaultApp
     {
         public string MapsUri { get; set; }
+
+        public string TelUri { get; set; }
     }
 }

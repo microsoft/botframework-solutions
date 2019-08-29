@@ -39,17 +39,10 @@ namespace PointOfInterestSkill.Dialogs
 
             var checkCurrentLocation = new WaterfallStep[]
             {
-                CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute,
+                CheckForCurrentCoordinatesBeforeRoute,
                 ConfirmCurrentLocation,
                 ProcessCurrentLocationSelection,
-                RouteToFindPointOfInterestBeforeRouteDialog
-            };
-
-            var checkForActiveRouteAndLocation = new WaterfallStep[]
-            {
-                CheckIfActiveRouteExists,
-                CheckIfFoundLocationExists,
-                CheckIfDestinationExists,
+                RouteToFindPointOfInterestDialog,
             };
 
             var findRouteToActiveLocation = new WaterfallStep[]
@@ -58,31 +51,12 @@ namespace PointOfInterestSkill.Dialogs
                 ResponseToStartRoutePrompt,
             };
 
-            var findAlongRoute = new WaterfallStep[]
-            {
-                GetPointOfInterestLocations,
-                ProcessPointOfInterestSelection,
-                GetRoutesToDestination,
-                ResponseToStartRoutePrompt,
-            };
-
-            var findPointOfInterest = new WaterfallStep[]
-            {
-                GetPointOfInterestLocations,
-                ProcessPointOfInterestSelection,
-                GetRoutesToDestination,
-                ResponseToStartRoutePrompt,
-            };
-
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.FindPointOfInterestBeforeRoute, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Actions.GetActiveRoute;
+            InitialDialogId = Actions.CheckForCurrentLocation;
         }
 
         /// <summary>
@@ -91,14 +65,14 @@ namespace PointOfInterestSkill.Dialogs
         /// <param name="sc">Step Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>Dialog Turn Result.</returns>
-        public async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
             var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
 
             if (hasCurrentCoordinates)
             {
-                return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
+                return await sc.ReplaceDialogAsync(Actions.FindRouteToActiveLocation);
             }
 
             return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
@@ -110,11 +84,9 @@ namespace PointOfInterestSkill.Dialogs
         /// <param name="sc">WaterfallStepContext.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>DialogTurnResult.</returns>
-        public async Task<DialogTurnResult> RouteToFindPointOfInterestBeforeRouteDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        public async Task<DialogTurnResult> RouteToFindPointOfInterestDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-
-            return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
+            return await sc.ReplaceDialogAsync(Actions.FindRouteToActiveLocation);
         }
 
         public async Task<DialogTurnResult> CheckIfActiveRouteExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -218,12 +190,11 @@ namespace PointOfInterestSkill.Dialogs
                 var routeDirections = new RouteDirections();
                 var cards = new List<Card>();
 
-                state.CheckForValidCurrentCoordinates();
-
-                if (state.Destination == null)
+                if (state.Destination == null || !state.CheckForValidCurrentCoordinates())
                 {
-                    // No ActiveLocation found
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
+                    // should not happen
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage));
+                    return await sc.EndDialogAsync();
                 }
 
                 if (!string.IsNullOrEmpty(state.RouteType))
@@ -243,6 +214,8 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoRouteFound);
                     await sc.Context.SendActivityAsync(replyMessage);
+
+                    return await sc.EndDialogAsync();
                 }
                 else if (cards.Count() == 1)
                 {
@@ -263,10 +236,6 @@ namespace PointOfInterestSkill.Dialogs
 
                     return await sc.PromptAsync(Actions.SelectRoutePrompt, options);
                 }
-
-                state.ClearLuisResults();
-
-                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -298,10 +267,9 @@ namespace PointOfInterestSkill.Dialogs
                     var replyMessage = ResponseManager.GetResponse(RouteResponses.SendingRouteDetails);
                     await sc.Context.SendActivityAsync(replyMessage);
 
-                    // workaround. if connect skill directly to teams, the following response does not work.
-                    if (sc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(sc.Context) != Channels.Msteams)
+                    if (SupportOpenDefaultAppReply(sc.Context))
                     {
-                        await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination));
+                        await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Map));
                     }
                 }
                 else

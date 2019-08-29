@@ -10,6 +10,8 @@
 
         public const string SelectRoutePrompt = "SelectRoutePrompt";
 
+        public const string SelectActionPrompt = "SelectActionPrompt";
+
         public const string FindAlongRoute = "FindAlongRoute";
 
         public const string FindRouteToActiveLocation = "FindRouteToActiveLocation";

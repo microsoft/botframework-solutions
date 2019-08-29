@@ -49,6 +49,7 @@
         {
           "type": "Image",
           "url": "{PointOfInterestImageUrl}",
+          "size": "stretch",
           "horizontalAlignment": "center"
         }
       ]
