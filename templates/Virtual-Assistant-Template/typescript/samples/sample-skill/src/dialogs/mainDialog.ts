@@ -131,7 +131,7 @@ export class MainDialog extends RouterDialog {
 
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
-        response.type = ActivityTypes.EndOfConversation;
+        response.type = ActivityTypes.Handoff;
         await dc.context.sendActivity(response);
         await dc.endDialog(result);
     }
