@@ -4,22 +4,22 @@
       "languageModels": [
         {
           "id": "BingSearchSkill",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "region": "",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": ""
         },
         {
           "id": "General",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "region": "",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": ""
         }
       ]
