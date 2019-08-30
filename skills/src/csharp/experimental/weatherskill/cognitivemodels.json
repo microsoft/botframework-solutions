@@ -4,22 +4,22 @@
       "languageModels": [
         {
           "version": "",
-          "appid": "",
+          "appId": "",
           "id": "General",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
           "region": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "name": ""
         },
         {
           "version": "",
-          "appid": "",
+          "appId": "",
           "id": "WeatherSkill",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
           "region": "",
-          "subscriptionkey": "",
+          "subscriptionKey": "",
           "name": ""
         }
       ]
