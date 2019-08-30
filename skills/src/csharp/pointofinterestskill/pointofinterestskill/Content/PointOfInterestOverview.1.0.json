@@ -17,19 +17,19 @@
                   "spacing": "None",
                   "size": "Medium",
                   "weight": "Bolder",
-                  "color": "Default",
+                  "color": "default",
                   "text": "{Name}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Default",
+                  "color": "default",
                   "text": "{AvailableDetails}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Default",
+                  "color": "default",
                   "text": "{Address}",
                   "maxLines": 1,
                   "wrap": true
@@ -37,7 +37,7 @@
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Default",
+                  "color": "default",
                   "text": "{Hours}",
                   "wrap": true
                 }
@@ -51,7 +51,6 @@
               "items": [
                 {
                   "type": "Image",
-                  "size": "stretch",
                   "url": "{PointOfInterestImageUrl}",
                   "horizontalAlignment": "Center"
                 }

@@ -51,7 +51,7 @@
           "spacing": "None",
           "size": "Medium",
           "weight": "Bolder",
-          "color": "Accent",
+          "color": "default",
           "text": "{Name}"
         },
         {
@@ -86,7 +86,6 @@
       "items": [
         {
           "type": "Image",
-          "size": "stretch",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }

@@ -100,7 +100,6 @@
       "items": [
         {
           "type": "Image",
-          "size": "stretch",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }
