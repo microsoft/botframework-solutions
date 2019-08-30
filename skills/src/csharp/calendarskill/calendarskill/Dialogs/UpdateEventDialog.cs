@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Options;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.UpdateEvent;
@@ -194,10 +195,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.ContinueDialogAsync();
                 }
 
-                return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
+                return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry)
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry),
+                    TimeZone = state.GetUserTimeZone()
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -280,13 +282,6 @@ namespace CalendarSkill.Dialogs
                             continue;
                         }
 
-                        var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, resolution.Value, dateTimeConvertTypeString);
-                        if (isRelativeTime)
-                        {
-                            dateTimeValue = DateTime.SpecifyKind(dateTimeValue, DateTimeKind.Local);
-                        }
-
-                        dateTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTimeValue;
                         var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.Events[0].StartTime, state.GetUserTimeZone());
                         if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Date) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
                         {
