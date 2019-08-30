@@ -1,13 +1,13 @@
 ---
 category: Tutorials
 subcategory: Enable Speech
-title: Add the speech channel
+title: Add the Direct Line Speech channel
 order: 3
 ---
 
 # Tutorial: Enable Speech for your Assistant
 
-## Add the Speech Channel to your Assistant
+## Add the Direct Line Speech channel to your Assistant
 
 The first step is to add the Direct-Line Speech Channel to your deployed Assistant.
 
