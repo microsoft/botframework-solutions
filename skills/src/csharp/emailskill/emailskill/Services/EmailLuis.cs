@@ -42,7 +42,6 @@ namespace Luis
             public string[] ContactName;
             public string[] Attachment;
             public string[] Message;
-            public string[] RelationshipName;
             public string[] Time;
             public string[] Line;
             public string[] PositionReference;
@@ -54,6 +53,10 @@ namespace Luis
             // Built-in entities
             public string[] email;
             public double[] ordinal;
+
+            // Lists
+            public string[][] PossessivePronoun;
+            public string[][] RelationshipName;
 
             // Pattern.any
             public string[] Message_Any;
@@ -82,6 +85,7 @@ namespace Luis
                 public InstanceData[] Message_Any;
                 public InstanceData[] SearchTexts_Any;
                 public InstanceData[] EmailSubject_Any;
+                public InstanceData[] PossessivePronoun;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

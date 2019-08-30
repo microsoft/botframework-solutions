@@ -24,6 +24,8 @@
 
         public const string SelectEmail = "selectEmail";
 
-        public const string AddMoreContactsPrompt = "AddMoreUserPrompt";
+        public const string AddMoreContactsPrompt = "addMoreUserPrompt";
+
+        public const string ResolveContext = "resolveContext";
     }
 }

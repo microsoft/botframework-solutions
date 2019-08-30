@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -24,6 +26,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
+using static EmailSkill.Models.EmailSkillState.FindContactInformation;
 
 namespace EmailSkill.Dialogs
 {
@@ -1310,6 +1313,30 @@ namespace EmailSkill.Dialogs
                         }
                     }
 
+                    if (entity.RelationshipName != null)
+                    {
+                        var relatedEntities = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+
+                        foreach (var item in relatedEntities)
+                        {
+                            if (!state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(item.Key))
+                            {
+                                state.FindContactInfor.RelatedEntityInfoDict.Add(item.Key, item.Value);
+                            }
+                            else
+                            {
+                                state.FindContactInfor.RelatedEntityInfoDict[item.Key] = item.Value;
+                            }
+
+                            if (!state.FindContactInfor.ContactsNameList.Contains(item.Key))
+                            {
+                                state.FindContactInfor.ContactsNameList.Add(item.Key);
+                            }
+                        }
+
+                        state.FindContactInfor.RelatedEntityInfoDict = relatedEntities;
+                    }
+
                     if (!isBeginDialog)
                     {
                         return;
@@ -1453,6 +1480,38 @@ namespace EmailSkill.Dialogs
             {
                 // put log here
             }
+        }
+
+        protected Dictionary<string, RelatedEntityInfo> GetRelatedEntityFromRelationship(
+            EmailLuis._Entities entity,
+            string inputString)
+        {
+            var entities = new Dictionary<string, RelatedEntityInfo>();
+
+            int index = 0;
+            var rawRelationships = entity._instance.RelationshipName;
+            var rawPronouns = entity._instance.PossessivePronoun;
+            if (rawRelationships != null && rawPronouns != null)
+            {
+                foreach (var relationship in rawRelationships)
+                {
+                    string relationshipName = relationship.Text;
+                    for (int i = 0; i < entity.PossessivePronoun.Length; i++)
+                    {
+                        string pronounType = entity.PossessivePronoun[i][0];
+                        string pronounName = rawPronouns[i].Text;
+                        if (Regex.IsMatch(inputString, pronounName + "( )?" + relationshipName, RegexOptions.IgnoreCase))
+                        {
+                            var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
+                            entities.Add(originalName, new RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName });
+                        }
+                    }
+
+                    index++;
+                }
+            }
+
+            return entities;
         }
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)

@@ -127,6 +127,16 @@ namespace EmailSkill.Services.GoogleAPI
             }
         }
 
+        public Task<PersonModel> GetMyManagerAsync()
+        {
+            return null;
+        }
+
+        public Task<PersonModel> GetManagerAsync(string name)
+        {
+            return null;
+        }
+
         public async Task<string> GetPhotoAsync(string email)
         {
             List<PersonModel> persons = null;

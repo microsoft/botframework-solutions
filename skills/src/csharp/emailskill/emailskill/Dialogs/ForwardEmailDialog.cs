@@ -23,6 +23,7 @@ namespace EmailSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
+            UserState userState,
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -71,7 +72,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 

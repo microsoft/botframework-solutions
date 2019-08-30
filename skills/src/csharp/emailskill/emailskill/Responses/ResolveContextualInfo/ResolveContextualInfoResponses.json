@@ -1,0 +1,11 @@
+{
+  "PromptUnknownContact": {
+    "replies": [
+      {
+        "text": "Who is your wife?",
+        "speak": "Who is your wife?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

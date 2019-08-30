@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Contextual;
 using EmailSkill.Models;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Services;
@@ -13,6 +15,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Contextual.Dialogs;
+using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -32,6 +36,7 @@ namespace EmailSkill.Dialogs
              BotServices services,
              ResponseManager responseManager,
              ConversationState conversationState,
+             UserState userState,
              IServiceManager serviceManager,
              IBotTelemetryClient telemetryClient)
              : base(nameof(FindContactDialog))
@@ -40,7 +45,8 @@ namespace EmailSkill.Dialogs
             Services = services;
             ResponseManager = responseManager;
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
-            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            UserStateAccessor = userState.CreateProperty<UserInfoState>(nameof(UserInfoState));
+
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
@@ -86,6 +92,8 @@ namespace EmailSkill.Dialogs
                 // if called by itself when can not find the last input, it will ask back or end this one when multiple try.
                 UpdateUserName,
 
+                ResolveContext,
+
                 // check if email. add email direct into attendee and set state.ConfirmedPerson null.
                 // if not, search for the attendee.
                 // if got multiple persons, call selectPerson. use replace
@@ -114,6 +122,14 @@ namespace EmailSkill.Dialogs
                 AfterAddMoreUserPrompt
             };
 
+            var resolveContextualContact = new WaterfallStep[]
+            {
+                ResolveContextualInfo,
+                SaveResolvedContextualInfo,
+            };
+
+            var resolveContextualInfoDialog = new ResolveContextualInfoDialog(responseManager, conversationState, userState, telemetryClient);
+
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new WaterfallDialog(FindContactAction.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
@@ -124,6 +140,8 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(FindContactAction.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
             AddDialog(new ChoicePrompt(FindContactAction.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new WaterfallDialog(FindContactAction.AddMoreContactsPrompt, addMoreContactsPrompt) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.ResolveContext, resolveContextualContact) { TelemetryClient = telemetryClient });
+            AddDialog(resolveContextualInfoDialog ?? throw new ArgumentNullException(nameof(resolveContextualInfoDialog)));
             InitialDialogId = FindContactAction.ConfirmNameList;
         }
 
@@ -133,7 +151,7 @@ namespace EmailSkill.Dialogs
 
         protected IStatePropertyAccessor<EmailSkillState> Accessor { get; set; }
 
-        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
+        protected IStatePropertyAccessor<UserInfoState> UserStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
 
@@ -440,7 +458,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ResolveContext(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -455,7 +473,115 @@ namespace EmailSkill.Dialogs
                 }
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
-                state.FindContactInfor.CurrentContactName = currentRecipientName;
+                if (!string.IsNullOrEmpty(currentRecipientName) && state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                {
+                    var possessivePronoun = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName];
+                    var pronounType = possessivePronoun.PronounType;
+                    var relationship = possessivePronoun.RelationshipName;
+                    var personList = new List<PersonModel>();
+                    if (pronounType == PossessivePronoun.FirstPerson)
+                    {
+                        // To do
+                        if (!Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
+                        {
+                            var option = new UserInfoOptions() { QueryItem = possessivePronoun };
+                            return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
+                        }
+                    }
+                    else if (pronounType == PossessivePronoun.ThirdPerson && state.FindContactInfor.Contacts.Count > 0)
+                    {
+                        int count = state.FindContactInfor.Contacts.Count;
+                        string prename = state.FindContactInfor.Contacts[count - 1].EmailAddress.Name;
+
+                        // To do
+                        if (!Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
+                        {
+                            var option = new UserInfoOptions() { QueryItem = possessivePronoun };
+                            return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
+                        }
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ResolveContextualInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(nameof(ResolveContextualInfoDialog), sc.Options, cancellationToken);
+            }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> SaveResolvedContextualInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var resolvedContact = sc.Result as string;
+
+                var state = await Accessor.GetAsync(sc.Context);
+                state.FindContactInfor.CurrentContactName = resolvedContact;
+
+                return await sc.EndDialogAsync();
+            }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                //var userInput = sc.Result as string;
+                //var state = await Accessor.GetAsync(sc.Context);
+                var options = (FindContactDialogOptions)sc.Options;
+
+                //if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
+                //{
+                //    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
+                //    return await sc.EndDialogAsync();
+                //}
+
+                //var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
+                //state.FindContactInfor.CurrentContactName = currentRecipientName;
+
+                var state = await Accessor.GetAsync(sc.Context);
+                var currentRecipientName = state.FindContactInfor.CurrentContactName;
 
                 // if it's an email, add to attendee and keep the state.ConfirmedPerson null
                 if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
@@ -480,57 +606,98 @@ namespace EmailSkill.Dialogs
 
                 var unionList = new List<PersonModel>();
 
-                var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
-                var originContactList = await GetContactsAsync(sc, currentRecipientName);
-                originPersonList.AddRange(originContactList);
+                if (!string.IsNullOrEmpty(currentRecipientName) && state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                {
+                    string pronounType = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName].PronounType;
+                    string relationship = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName].RelationshipName;
+                    var personList = new List<PersonModel>();
+                    if (pronounType == PossessivePronoun.FirstPerson)
+                    {
+                        // To do
+                        if (Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetMyManager(sc);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+                    else if (pronounType == PossessivePronoun.ThirdPerson && state.FindContactInfor.Contacts.Count > 0)
+                    {
+                        int count = state.FindContactInfor.Contacts.Count;
+                        string prename = state.FindContactInfor.Contacts[count - 1].EmailAddress.Name;
 
-                var originUserList = new List<PersonModel>();
-                try
-                {
-                    originUserList = await GetUserAsync(sc, currentRecipientName);
-                }
-                catch
-                {
-                    // do nothing when get user failed. because can not use token to ensure user use a work account.
-                }
-
-                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
-
-                // people you work with has the distinct email address has the highest priority
-                if (personList.Count == 1 && personList.First().Emails.Any() && personList.First().Emails.First() != null)
-                {
-                    unionList.Add(personList.First());
-                }
-                else
-                {
-                    personList.AddRange(userList);
+                        // To do
+                        if (Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetManager(sc, prename);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
 
                     foreach (var person in personList)
                     {
-                        if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
-                        {
-                            var personWithSameName = personList.FindAll(p => p.DisplayName == person.DisplayName);
-                            if (personWithSameName.Count == 1)
-                            {
-                                unionList.Add(personWithSameName.First());
-                            }
-                            else
-                            {
-                                var unionPerson = personWithSameName.FirstOrDefault();
-                                var curEmailList = new List<string>();
-                                foreach (var sameNamePerson in personWithSameName)
-                                {
-                                    sameNamePerson.Emails.ToList().ForEach(e =>
-                                    {
-                                        if (!string.IsNullOrEmpty(e))
-                                        {
-                                            curEmailList.Add(e);
-                                        }
-                                    });
-                                }
+                        unionList.Add(person);
+                    }
+                }
+                else
+                {
+                    var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                    var originContactList = await GetContactsAsync(sc, currentRecipientName);
+                    originPersonList.AddRange(originContactList);
 
-                                unionPerson.Emails = curEmailList;
-                                unionList.Add(unionPerson);
+                    var originUserList = new List<PersonModel>();
+                    try
+                    {
+                        originUserList = await GetUserAsync(sc, currentRecipientName);
+                    }
+                    catch
+                    {
+                        // do nothing when get user failed. because can not use token to ensure user use a work account.
+                    }
+
+                    (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
+
+                    // people you work with has the distinct email address has the highest priority
+                    if (personList.Count == 1 && personList.First().Emails.Any() && personList.First().Emails.First() != null)
+                    {
+                        unionList.Add(personList.First());
+                    }
+                    else
+                    {
+                        personList.AddRange(userList);
+
+                        foreach (var person in personList)
+                        {
+                            if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
+                            {
+                                var personWithSameName = personList.FindAll(p => p.DisplayName == person.DisplayName);
+                                if (personWithSameName.Count == 1)
+                                {
+                                    unionList.Add(personWithSameName.First());
+                                }
+                                else
+                                {
+                                    var unionPerson = personWithSameName.FirstOrDefault();
+                                    var curEmailList = new List<string>();
+                                    foreach (var sameNamePerson in personWithSameName)
+                                    {
+                                        sameNamePerson.Emails.ToList().ForEach(e =>
+                                        {
+                                            if (!string.IsNullOrEmpty(e))
+                                            {
+                                                curEmailList.Add(e);
+                                            }
+                                        });
+                                    }
+
+                                    unionPerson.Emails = curEmailList;
+                                    unionList.Add(unionPerson);
+                                }
                             }
                         }
                     }
@@ -947,6 +1114,22 @@ namespace EmailSkill.Dialogs
             }
 
             return false;
+        }
+
+        protected async Task<PersonModel> GetMyManager(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            return await service.GetMyManagerAsync();
+        }
+
+        protected async Task<PersonModel> GetManager(WaterfallStepContext sc, string name)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            return await service.GetManagerAsync(name);
         }
 
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)

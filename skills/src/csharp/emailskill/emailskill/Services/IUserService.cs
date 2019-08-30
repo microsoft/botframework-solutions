@@ -37,6 +37,18 @@ namespace EmailSkill.Services
         Task<PersonModel> GetMeAsync();
 
         /// <summary>
+        /// Get my manager.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        Task<PersonModel> GetMyManagerAsync();
+
+        /// <summary>
+        /// Get user's manager.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        Task<PersonModel> GetManagerAsync(string name);
+
+        /// <summary>
         /// Get user photo from your organization.
         /// </summary>
         /// <param name="email">The user's email.</param>

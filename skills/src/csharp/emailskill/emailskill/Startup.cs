@@ -1,15 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
+using EmailSkill.Contextual;
 using EmailSkill.Dialogs;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.ForwardEmail;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.ReplyEmail;
+using EmailSkill.Responses.ResolveContextualInfo;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
@@ -24,6 +27,7 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -106,7 +110,8 @@ namespace EmailSkill
                 new ReplyEmailResponses(),
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
-                new ShowEmailResponses()));
+                new ShowEmailResponses(),
+                new ResolveContextualInfoResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();
@@ -116,6 +121,7 @@ namespace EmailSkill
             services.AddTransient<ReplyEmailDialog>();
             services.AddTransient<SendEmailDialog>();
             services.AddTransient<ShowEmailDialog>();
+            services.AddTransient<ResolveContextualInfoDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -125,6 +131,13 @@ namespace EmailSkill
             // Configure bot
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
+        }
+
+        public class SimpleWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
+        {
+            HashSet<string> IWhitelistAuthenticationProvider.AppsWhitelist => new HashSet<string> { };
         }
 
         /// <summary>

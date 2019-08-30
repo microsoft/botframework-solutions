@@ -5,6 +5,7 @@ using EmailSkill.Responses.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Graph;
 
 namespace EmailSkill.Models
@@ -77,7 +78,6 @@ namespace EmailSkill.Models
         public bool DirectlyToMe { get; set; }
 
         public int ShowEmailIndex { get; set; }
-
 
         public EmailLuis LuisResult { get; set; }
 
@@ -186,6 +186,8 @@ namespace EmailSkill.Models
 
             public List<PersonModel> UnconfirmedContact { get; set; }
 
+            public Dictionary<string, RelatedEntityInfo> RelatedEntityInfoDict { get; set; } = new Dictionary<string, RelatedEntityInfo>();
+
             public bool FirstRetryInFindContact { get; set; }
 
             public PersonModel ConfirmedContact { get; set; }
@@ -204,6 +206,7 @@ namespace EmailSkill.Models
                 UnconfirmedContact.Clear();
                 FirstRetryInFindContact = true;
                 ConfirmedContact = new PersonModel();
+                RelatedEntityInfoDict.Clear();
             }
         }
     }
