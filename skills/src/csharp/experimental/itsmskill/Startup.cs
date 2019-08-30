@@ -11,6 +11,7 @@ using ITSMSkill.Responses.Main;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
+using ITSMSkill.Utilities;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -138,12 +139,6 @@ namespace ITSMSkill
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();
-        }
-
-        public class SimpleWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
-        {
-            // set VA appid here
-            public List<string> AppsWhitelist => new List<string> { };
         }
     }
 }

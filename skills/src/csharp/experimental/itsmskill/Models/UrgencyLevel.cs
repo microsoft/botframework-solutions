@@ -1,4 +1,7 @@
-﻿using ITSMSkill.Responses.Shared;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using ITSMSkill.Responses.Shared;
 using ITSMSkill.Utilities;
 
 namespace ITSMSkill.Models
