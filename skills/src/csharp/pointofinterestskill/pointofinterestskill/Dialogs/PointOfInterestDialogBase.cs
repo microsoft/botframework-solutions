@@ -80,7 +80,6 @@ namespace PointOfInterestSkill.Dialogs
             _httpContext = httpContext;
 
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
-            AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
             AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectActionPrompt) { Style = ListStyle.None });
@@ -324,13 +323,13 @@ namespace PointOfInterestSkill.Dialogs
 
                     if (sc.Result is bool)
                     {
-                        promptResponse = POISharedResponses.SingleLocationFound;
+                        // promptResponse = POISharedResponses.SingleLocationFound;
                         state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
                         state.LastFoundPointOfInterests = null;
                     }
                     else if (sc.Result is FoundChoice)
                     {
-                        promptResponse = FindPointOfInterestResponses.PointOfInterestDetails;
+                        // promptResponse = FindPointOfInterestResponses.PointOfInterestDetails;
 
                         // Update the destination state with user choice.
                         userSelectIndex = (sc.Result as FoundChoice).Index;
@@ -341,13 +340,16 @@ namespace PointOfInterestSkill.Dialogs
 
                     var options = new PromptOptions()
                     {
-                        Choices = new List<Choice>
-                        {
-                            new Choice { Value = PointOfInterestSharedStrings.CALL },
-                            new Choice { Value = PointOfInterestSharedStrings.SHOW_DIRECTIONS },
-                            new Choice { Value = PointOfInterestSharedStrings.START_NAVIGATION },
-                        },
+                        Choices = new List<Choice>()
                     };
+
+                    if (!string.IsNullOrEmpty(state.Destination.Phone))
+                    {
+                        options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.CALL });
+                    }
+
+                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.SHOW_DIRECTIONS });
+                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.START_NAVIGATION });
 
                     var mapsService = ServiceManager.InitMapsService(Settings, sc.Context.Activity.Locale);
                     state.Destination = await mapsService.GetPointOfInterestDetailsAsync(state.Destination, ImageSize.DetailsWidth, ImageSize.DetailsHeight);
@@ -361,11 +363,18 @@ namespace PointOfInterestSkill.Dialogs
 
                     var card = new Card
                     {
-                        Name = GetDivergedCardName(sc.Context, "PointOfInterestDetails"),
+                        Name = GetDivergedCardName(sc.Context, string.IsNullOrEmpty(state.Destination.Phone) ? "PointOfInterestDetailsNoCall" : "PointOfInterestDetails"),
                         Data = state.Destination,
                     };
 
-                    options.Prompt = ResponseManager.GetCardResponse(promptResponse, card, null);
+                    if (promptResponse == null)
+                    {
+                        options.Prompt = ResponseManager.GetCardResponse(card);
+                    }
+                    else
+                    {
+                        options.Prompt = ResponseManager.GetCardResponse(promptResponse, card, null);
+                    }
 
                     return await sc.PromptAsync(Actions.SelectActionPrompt, options);
                 }
@@ -386,18 +395,26 @@ namespace PointOfInterestSkill.Dialogs
             var state = await Accessor.GetAsync(sc.Context);
 
             var choice = sc.Result as FoundChoice;
-            if (choice.Index == 0)
+            int choiceIndex = choice.Index;
+
+            // TODO skip call button
+            if (string.IsNullOrEmpty(state.Destination.Phone))
+            {
+                choiceIndex += 1;
+            }
+
+            if (choiceIndex == 0)
             {
                 if (SupportOpenDefaultAppReply(sc.Context))
                 {
                     await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Telephone));
                 }
             }
-            else if (choice.Index == 1)
+            else if (choiceIndex == 1)
             {
                 return await sc.ReplaceDialogAsync(nameof(RouteDialog));
             }
-            else if (choice.Index == 2)
+            else if (choiceIndex == 2)
             {
                 if (SupportOpenDefaultAppReply(sc.Context))
                 {
@@ -475,15 +492,6 @@ namespace PointOfInterestSkill.Dialogs
             }
 
             options.Prompt = ResponseManager.GetCardResponse(prompt, containerCard, null, container, cards);
-
-            if (cards.Count == 1)
-            {
-                options.Prompt.Speak = DecorateSpeak(options.Prompt.Text + pointOfInterestList[0].Name);
-            }
-            else
-            {
-                options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Enumeration, 5));
-            }
 
             // Restore Value to SubmitText
             for (var i = 0; i < pointOfInterestList.Count; ++i)
@@ -711,6 +719,7 @@ namespace PointOfInterestSkill.Dialogs
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = destination.GenerateProviderDisplayText(),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
+                        ActionStartNavigation = PointOfInterestSharedStrings.START,
                         CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
 

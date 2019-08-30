@@ -91,14 +91,6 @@
           "color": "default",
           "text": "{Hours}",
           "wrap": true
-        },
-        {
-          "type": "TextBlock",
-          "id": "Phone",
-          "spacing": "None",
-          "color": "default",
-          "text": "{Phone}",
-          "wrap": true
         }
       ]
     },

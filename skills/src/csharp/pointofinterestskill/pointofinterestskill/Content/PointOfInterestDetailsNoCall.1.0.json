@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "PointOfInterestDetailsCard",
+  "id": "PointOfInterestDetailsNoCallCard",
   "body": [
     {
       "type": "Container",
@@ -109,16 +109,6 @@
   // https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/cards/cards-actions
   // messageBack is treated as event now
   "actions": [
-    {
-      "type": "Action.Submit",
-      "title": "{ActionCall}",
-      "data": {
-        "msteams": {
-          "type": "imBack",
-          "value": "{ActionCall}"
-        }
-      }
-    },
     {
       "type": "Action.Submit",
       "title": "{ActionShowDirections}",

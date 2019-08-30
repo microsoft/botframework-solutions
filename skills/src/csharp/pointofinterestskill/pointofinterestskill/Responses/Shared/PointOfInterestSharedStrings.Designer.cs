@@ -196,7 +196,7 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Directions.
+        ///   Looks up a localized string similar to Show directions.
         /// </summary>
         public static string SHOW_DIRECTIONS {
             get {
@@ -214,7 +214,7 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start Navigation.
+        ///   Looks up a localized string similar to Start navigation.
         /// </summary>
         public static string START_NAVIGATION {
             get {

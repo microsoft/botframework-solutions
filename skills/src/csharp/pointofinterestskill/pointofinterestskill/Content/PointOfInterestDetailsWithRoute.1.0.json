@@ -165,6 +165,18 @@
       ]
     }
   ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{ActionStartNavigation}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionStartNavigation}"
+        }
+      }
+    }
+  ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "speak": "{Speak}"

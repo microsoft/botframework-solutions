@@ -163,13 +163,13 @@
     <value>Powered by</value>
   </data>
   <data name="SHOW_DIRECTIONS" xml:space="preserve">
-    <value>Show Directions</value>
+    <value>Show directions</value>
   </data>
   <data name="START" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="START_NAVIGATION" xml:space="preserve">
-    <value>Start Navigation</value>
+    <value>Start navigation</value>
   </data>
   <data name="YOU" xml:space="preserve">
     <value>You</value>

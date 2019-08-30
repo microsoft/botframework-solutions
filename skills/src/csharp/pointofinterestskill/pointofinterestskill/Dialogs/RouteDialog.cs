@@ -54,6 +54,7 @@ namespace PointOfInterestSkill.Dialogs
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new ConfirmPrompt(Actions.StartNavigationPrompt, ValidateStartNavigationPrompt) { Style = ListStyle.None });
 
             // Set starting dialog for component
             InitialDialogId = Actions.CheckForCurrentLocation;
@@ -219,22 +220,13 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count() == 1)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards));
-
-                    return await sc.NextAsync(true);
+                    return await sc.PromptAsync(Actions.StartNavigationPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(cards[0]) });
                 }
                 else
                 {
                     var options = GetRoutesPrompt(POISharedResponses.MultipleRoutesFound, cards);
 
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
-
-                    return await sc.PromptAsync(Actions.SelectRoutePrompt, options);
+                    return await sc.PromptAsync(Actions.StartNavigationPrompt, options);
                 }
             }
             catch (Exception ex)
@@ -250,22 +242,16 @@ namespace PointOfInterestSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if ((sc.Result is bool && (bool)sc.Result) || sc.Result is FoundChoice)
+                if (sc.Result is bool && (bool)sc.Result)
                 {
+                    // TODO do not care multiple routes
                     var activeRoute = state.FoundRoutes[0];
-                    if (sc.Result is FoundChoice)
-                    {
-                        activeRoute = state.FoundRoutes[(sc.Result as FoundChoice).Index];
-                    }
 
                     if (activeRoute != null)
                     {
                         state.ActiveRoute = activeRoute;
                         state.FoundRoutes = null;
                     }
-
-                    var replyMessage = ResponseManager.GetResponse(RouteResponses.SendingRouteDetails);
-                    await sc.Context.SendActivityAsync(replyMessage);
 
                     if (SupportOpenDefaultAppReply(sc.Context))
                     {
@@ -285,6 +271,26 @@ namespace PointOfInterestSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        private async Task<bool> ValidateStartNavigationPrompt(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
+        {
+            if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value == false)
+            {
+                return true;
+            }
+
+            if (promptContext.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var message = promptContext.Context.Activity.AsMessageActivity();
+                if (message.Text.Contains(PointOfInterestSharedStrings.START, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    promptContext.Recognized.Value = true;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private PromptOptions GetRoutesPrompt(string prompt, List<Card> cards)

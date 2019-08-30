@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PointOfInterestSkill.Dialogs;
+using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
@@ -25,10 +30,10 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.FindNearestPoi)
-                .AssertReply(AssertContains(POISharedResponses.SingleLocationFound))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -44,12 +49,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -65,12 +70,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(ContextStrings.MicrosoftWay)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -86,11 +91,11 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
-                .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionTwo)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.Call)
-                .AssertReply(CheckForEvent())
+                .AssertReply(CheckForEvent(PointOfInterestDialogBase.OpenDefaultAppType.Telephone))
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
@@ -105,9 +110,9 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
                 .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -124,13 +129,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionTwo)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertStartsWith(POISharedResponses.MultipleRoutesFound))
-                .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertStartsWith(POISharedResponses.MultipleRoutesFound, new string[] { CardStrings.Route, CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -146,12 +150,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearby)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -167,10 +171,10 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearest)
-                .AssertReply(AssertContains(POISharedResponses.SingleLocationFound))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -186,12 +190,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearAddress)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(FindPointOfInterestResponses.PointOfInterestDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.ShowDirections)
-                .AssertReply(AssertContains(POISharedResponses.SingleRouteFound))
-                .AssertReply(AssertContains(RouteResponses.SendingRouteDetails))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -207,7 +211,7 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(RouteFromXToYUtterances.GetToMicrosoft)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound))
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -229,27 +233,59 @@ namespace PointOfInterestSkillTests.Flow
                 .StartTestAsync();
         }
 
-        private Action<IActivity> AssertStartsWith(string response)
+        private Action<IActivity> AssertStartsWith(string response, IList<string> cardIds)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                Assert.IsTrue(ParseReplies(response, new StringDictionary()).Any((reply) =>
+                if (response == null)
                 {
-                    return messageActivity.Text.StartsWith(reply);
-                }));
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
+                {
+                    Assert.IsTrue(ParseReplies(response, new StringDictionary()).Any((reply) =>
+                    {
+                        return messageActivity.Text.StartsWith(reply);
+                    }));
+                }
+
+                AssertSameId(messageActivity, cardIds);
             };
         }
 
-        private Action<IActivity> AssertContains(string response)
+        private Action<IActivity> AssertContains(string response, IList<string> cardIds)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(response, new StringDictionary()), messageActivity.Text);
+                if (response == null)
+                {
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
+                {
+                    CollectionAssert.Contains(ParseReplies(response, new StringDictionary()), messageActivity.Text);
+                }
+
+                AssertSameId(messageActivity, cardIds);
             };
+        }
+
+        private void AssertSameId(IMessageActivity activity, IList<string> cardIds = null)
+        {
+            if (cardIds == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < cardIds.Count; ++i)
+            {
+                var card = activity.Attachments[i].Content as JObject;
+                Assert.AreEqual(card["id"], cardIds[i]);
+            }
         }
 
         /// <summary>
@@ -268,12 +304,20 @@ namespace PointOfInterestSkillTests.Flow
         /// Asserts bot response of Event Activity.
         /// </summary>
         /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CheckForEvent()
+        private Action<IActivity> CheckForEvent(PointOfInterestDialogBase.OpenDefaultAppType openDefaultAppType = PointOfInterestDialogBase.OpenDefaultAppType.Map)
         {
             return activity =>
             {
-                var eventReceived = activity.AsEventActivity();
+                var eventReceived = activity.AsEventActivity()?.Value as OpenDefaultApp;
                 Assert.IsNotNull(eventReceived, "Activity received is not an Event as expected");
+                if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Map)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.MapsUri));
+                }
+                else if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Telephone)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelUri));
+                }
             };
         }
     }
