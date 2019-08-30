@@ -154,7 +154,7 @@ export class MainDialog extends RouterDialog {
                 // If the dialog completed when we sent the token, end the skill conversation
                 if (result.status !== DialogTurnStatus.waiting) {
                     const response: Activity = ActivityExtensions.createReply(dc.context.activity);
-                    response.type = ActivityTypes.EndOfConversation;
+                    response.type = ActivityTypes.Handoff;
 
                     await dc.context.sendActivity(response);
                 }
