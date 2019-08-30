@@ -139,7 +139,10 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         /// <summary>
-        /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
+        /// Begin invocation of a SkillDialog.
+        ///     1. set the SemanticAction properly including name, state and entities/slots
+        ///     2. forward the activity to the skill
+        ///     3. return the dialog result.
         /// </summary>
         /// <param name="innerDc">inner dialog context.</param>
         /// <param name="options">options.</param>
@@ -149,12 +152,9 @@ namespace Microsoft.Bot.Builder.Skills
         {
             var slots = new Dictionary<string, JObject>();
 
-            // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
-
             var dialogOptions = options != null ? options as SkillDialogOption : null;
             var actionName = dialogOptions?.Action;
+            var actionSlots = dialogOptions?.Slots;
 
             var activity = innerDc.Context.Activity;
 
@@ -176,11 +176,11 @@ namespace Microsoft.Bot.Builder.Skills
                     var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
                     if (action != null)
                     {
-                        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                        if (action.Definition.Slots != null && skillContext.Count > 0)
+                        // If the action doesn't define any Slots or slots passed within DialogOption is empty then we skip slot evaluation
+                        if (action.Definition.Slots != null && actionSlots != null && actionSlots.Count > 0)
                         {
-                            // Match Slots to Skill Context
-                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                            // Match Slots to slots passed within DialogOption
+                            slots = await MatchSkillSlots(innerDc, action.Definition.Slots, actionSlots);
                         }
                     }
                     else
@@ -197,8 +197,8 @@ namespace Microsoft.Bot.Builder.Skills
                     var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
                     if (skillSlots != null)
                     {
-                        // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                        // Match Slots to slots passed within DialogOption
+                        slots = await MatchSkillSlots(innerDc, skillSlots.ToList(), actionSlots);
                     }
                 }
 
@@ -281,26 +281,26 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         /// <summary>
-        /// Map Skill slots to what we have in SkillContext.
+        /// Map Skill slots to what we have in the dictionary that's passed within SkillDialogOption.
         /// </summary>
         /// <param name="innerDc">Dialog Contect.</param>
-        /// <param name="actionSlots">The Slots within an Action.</param>
-        /// <param name="skillContext">Calling Bot's SkillContext.</param>
-        /// <returns>A filtered SkillContext for the Skill.</returns>
-        private async Task<SkillContext> MatchSkillContextToSlots(DialogContext innerDc, List<Slot> actionSlots, SkillContext skillContext)
+        /// <param name="actionSlotsDefinition">The slots within an Action.</param>
+        /// <param name="actionSlotsValues">The slots passed within SkillDialogOption.</param>
+        /// <returns>Matched dictionary for slots of the Skill.</returns>
+        private async Task<Dictionary<string, JObject>> MatchSkillSlots(DialogContext innerDc, List<Slot> actionSlotsDefinition, IDictionary<string, object> actionSlotsValues)
         {
-            SkillContext slots = new SkillContext();
-            if (actionSlots != null)
+            var slots = new Dictionary<string, JObject>();
+            if (actionSlotsDefinition != null)
             {
-                foreach (Slot slot in actionSlots)
+                foreach (var slot in actionSlotsDefinition)
                 {
                     // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (skillContext.TryGetValue(slot.Name, out JObject slotValue))
+                    if (actionSlotsValues.TryGetValue(slot.Name, out object slotValue))
                     {
-                        slots.Add(slot.Name, slotValue);
+                        slots.Add(slot.Name, JObject.FromObject(slotValue));
 
                         // Send trace to emulator
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the Skill."));
+                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot and passing to the Skill."));
                     }
                 }
             }
