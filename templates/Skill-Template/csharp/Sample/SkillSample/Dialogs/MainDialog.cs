@@ -68,7 +68,7 @@ namespace SkillSample.Dialogs
             await PopulateStateFromSemanticAction(dc.Context);
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("skill", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Skill", out var luisService);
 
             if (luisService == null)
             {
