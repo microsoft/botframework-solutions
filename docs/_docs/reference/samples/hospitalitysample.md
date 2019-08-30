@@ -1,9 +1,9 @@
 ---
 category: Reference
-subcategory: Virtual Assistant
-title: Hospitality Sample
+subcategory: Samples
+title: Hospitality Assistant
 description: Virtual Assistant sample made for a hospitality scenario.
-order: 8
+order: 2
 ---
 
 # {{ page.title }}
@@ -16,7 +16,7 @@ order: 8
 {:toc}
 
 ## Overview
-The [Hospitality Sample Virtual Assistant]({{site.repo}}/tree/master/solutions/HospitalitySample) is a prototype of an assistant that helps to conceptualize and demonstrate how a virtual assistant could be used in a hospitality specific scenario. It also provides a starting point for those interested in creating an assistant customized for this scenario.
+The [Hospitality Sample Virtual Assistant]({{site.repo}}/tree/master/samples/assistants/HospitalitySample) is a prototype of an assistant that helps to conceptualize and demonstrate how a virtual assistant could be used in a hospitality specific scenario. It also provides a starting point for those interested in creating an assistant customized for this scenario.
 
 This sample works off the basis that the assistant would be integrated into a hotel room device and would help a hotel guest with anything they might usually go to the hotel concierge about. It also provides additional capabilites that might be useful for guests, such as getting the weather forecast or showing current news articles. 
 
@@ -28,7 +28,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 
 ## Sample Configuration
 To configure this sample follow the steps below:
-1. Clone the [Hospitality Sample from our repository]({{site.repo}}/tree/master/solutions/HospitalitySample).
+1. Clone the [Hospitality Sample from our repository]({{site.repo}}/tree/master/samples/assistants/HospitalitySample).
 2. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
 3. Clone the following skills from our repository:
     - [Hospitality Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/hospitalityskill)
