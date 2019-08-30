@@ -30,17 +30,11 @@ namespace CalendarSkillTest.Flow
                     { "Calendar", new MockLuisRecognizer(new ConnectToMeetingUtterances()) }
                 }
             });
-
-            this.ServiceManager = new MockCalendarServiceManager();
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
         public async Task Test_CalendarJoinWithStartTimeEntity()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             var now = DateTime.Now;
             var startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
             startTime = startTime.AddDays(1);

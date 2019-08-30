@@ -250,7 +250,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.UpdateMeetingInfor.NewStartDate.Any() || state.UpdateMeetingInfor.NewStartTime.Any() || state.UpdateMeetingInfor.MoveTimeSpan != 0)
                 {
-                    return await sc.ContinueDialogAsync();
+                    return await sc.NextAsync();
                 }
 
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
@@ -320,7 +320,7 @@ namespace CalendarSkill.Dialogs
 
                     state.UpdateMeetingInfor.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.UpdateMeetingInfor.NewStartDateTime.Value, state.GetUserTimeZone());
 
-                    return await sc.ContinueDialogAsync();
+                    return await sc.EndDialogAsync();
                 }
                 else if (sc.Result != null)
                 {
@@ -386,7 +386,7 @@ namespace CalendarSkill.Dialogs
                     {
                         state.UpdateMeetingInfor.NewStartDateTime = newStartTime;
 
-                        return await sc.ContinueDialogAsync();
+                        return await sc.EndDialogAsync();
                     }
                     else
                     {

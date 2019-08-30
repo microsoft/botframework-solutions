@@ -98,7 +98,7 @@ namespace CalendarSkillTest.Flow.Fakes
             var eventList = new List<EventModel>();
             for (var i = 0; i < count; i++)
             {
-                eventList.Add(CreateEventModel());
+                eventList.Add(CreateEventModel(suffix: i.ToString()));
             }
 
             mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
@@ -181,7 +181,8 @@ namespace CalendarSkillTest.Flow.Fakes
             DateTime? endDateTime = null,
             string locationString = null,
             bool isOrganizer = true,
-            bool isCancelled = false)
+            bool isCancelled = false,
+            string suffix = "")
         {
             var attendees = new List<Attendee>();
 
@@ -203,19 +204,19 @@ namespace CalendarSkillTest.Flow.Fakes
                     EmailAddress = new EmailAddress
                     {
                         Address = Strings.Strings.DefaultUserEmail,
-                        Name = Strings.Strings.DefaultUserName,
+                        Name = Strings.Strings.DefaultUserName + suffix,
                     },
                     Type = AttendeeType.Required,
                 });
             }
 
             // Event Name
-            eventName = eventName ?? Strings.Strings.DefaultEventName;
+            eventName = eventName ?? (Strings.Strings.DefaultEventName + suffix);
 
             // Event body
             var body = new ItemBody
             {
-                Content = content ?? Strings.Strings.DefaultContent,
+                Content = content ?? (Strings.Strings.DefaultContent + suffix),
                 ContentType = BodyType.Text,
             };
 
@@ -248,7 +249,7 @@ namespace CalendarSkillTest.Flow.Fakes
             // Event location
             var location = new Location
             {
-                DisplayName = locationString ?? Strings.Strings.DefaultLocation,
+                DisplayName = locationString ?? (Strings.Strings.DefaultLocation + suffix),
             };
 
             // Add the event.

@@ -59,8 +59,6 @@ namespace CalendarSkill.Dialogs
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, DateTimeValidator, Culture.English));
-            AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, Culture.English));
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
             AddDialog(new TimePrompt(Actions.TimePrompt));
@@ -403,7 +401,6 @@ namespace CalendarSkill.Dialogs
         }
 
         // Validators
-
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(pc.Context);
@@ -465,11 +462,6 @@ namespace CalendarSkill.Dialogs
             }
 
             return generalIntent;
-        }
-
-        protected Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(true);
         }
 
         // Helpers
@@ -1763,24 +1755,6 @@ namespace CalendarSkill.Dialogs
         private string GetOrderReferenceFromEntity(CalendarLuis._Entities entity)
         {
             return entity.OrderReference[0];
-        }
-
-        /// <summary>
-        /// implement the basic validation. Advanced validation done in upper level dialogs.
-        /// </summary>
-        /// <param name="prompt">datetime prompt.</param>
-        /// <param name="cancellationToken">cancellation token.</param>
-        /// <returns>validation result.</returns>
-        private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
-        {
-            if (prompt.Recognized.Succeeded)
-            {
-                return Task.FromResult(true);
-            }
-            else
-            {
-                return Task.FromResult(false);
-            }
         }
     }
 }
