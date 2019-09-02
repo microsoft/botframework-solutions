@@ -306,6 +306,8 @@ namespace VirtualAssistantSample.Dialogs
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+                    var state = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+                    state.GeneralLuisResult = luisResult;
                     var intent = luisResult.TopIntent().intent;
 
                     if (luisResult.TopIntent().score > 0.5)

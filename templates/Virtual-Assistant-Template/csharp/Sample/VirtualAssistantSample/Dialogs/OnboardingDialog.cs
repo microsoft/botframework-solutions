@@ -64,22 +64,19 @@ namespace VirtualAssistantSample.Dialogs
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var name = _state.Name;
-            if (string.IsNullOrEmpty(name))
+            var name = _state.Name = (string)sc.Result;
+
+            var luisResult = _state.GeneralLuisResult;
+            if (luisResult != null && luisResult.TopIntent().intent == GeneralLuis.Intent.ExtractName)
             {
-                name = _state.Name = (string)sc.Result;
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
-                cognitiveModels.LuisServices.TryGetValue("Onboarding", out var luisService);
-                if (luisService != null)
+                var score = _state.GeneralLuisResult.TopIntent().score;
+                if (luisResult.Entities.PersonName_Any != null)
                 {
-                    var luisResult = await luisService.RecognizeAsync<OnboardingLuis>(sc.Context, cancellationToken);
-                    var intent = luisResult.TopIntent().intent;
-                    var score = luisResult.TopIntent().score;
-                    if (intent == OnboardingLuis.Intent.NameExtraction && score > 0.5 && luisResult.Entities.personName != null)
-                    {
-                        name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
-                    }
+                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.PersonName_Any[0]);
+                }
+                else if (luisResult.Entities.personName != null)
+                {
+                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
                 }
             }
 

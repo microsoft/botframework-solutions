@@ -10,5 +10,7 @@ namespace VirtualAssistantSample.Models
         public string Email { get; set; }
 
         public string Location { get; set; }
+
+        public Luis.GeneralLuis GeneralLuisResult { get; set; }
     }
 }
