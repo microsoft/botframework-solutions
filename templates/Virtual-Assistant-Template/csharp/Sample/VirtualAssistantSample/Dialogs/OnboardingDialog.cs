@@ -69,7 +69,6 @@ namespace VirtualAssistantSample.Dialogs
             var luisResult = _state.GeneralLuisResult;
             if (luisResult != null && luisResult.TopIntent().intent == GeneralLuis.Intent.ExtractName)
             {
-                var score = _state.GeneralLuisResult.TopIntent().score;
                 if (luisResult.Entities.PersonName_Any != null)
                 {
                     name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.PersonName_Any[0]);
