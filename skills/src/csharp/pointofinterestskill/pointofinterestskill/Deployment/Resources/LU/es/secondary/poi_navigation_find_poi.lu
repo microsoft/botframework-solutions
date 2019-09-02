@@ -1,356 +1,559 @@
-## NAVIGATION_FIND_POINTOFINTEREST
-- Cualquier  {KEYWORD=East Side Mario} Cercano
-- Hay  {KEYWORD=Restaurantes}  Cercano  {KEYWORD=Sydney Tower} 
-- Son  {KEYWORD=Nosotros}  Cerca  {ADDRESS=400}   {ADDRESS=calle amplia}  {ADDRESS=?} 
-- traer para arriba mejor clasificado  {KEYWORD=Tatuajes} cerca de más de 165 libras
-- traer más cercano  {KEYWORD=Paisajismo} cerca de no más de 469 libras
-- traer  {KEYWORD=Altavoces} por menos de 312 dólares en las cercanías
-- traer a la  {KEYWORD=Ayuntamiento}  en la intersección de  {ADDRESS=Benton Condado}  Y  {ADDRESS=Sapulpa} cerca de mí
-- ¿puede recomendar un  {KEYWORD=Palacio de Bombay} cerca de mi área
-- ¿puede recomendar un  {KEYWORD=restaurante búlgaro} por aquí por debajo de 25 dólares
-- ¿puede recomendar un  {KEYWORD=granero a granel} en ese país
-- ¿puede recomendar un  {KEYWORD=tienda de alfombras} por unos 49 dólares por aquí para mí
-- ¿puede recomendar un  {KEYWORD=tienda de teléfonos celulares} por menos de 916 dólares cerca de mí
-- puede recomendar una más costosa  {KEYWORD=restaurante saludable} en la ciudad por encima 95 euros
-- ¿puede recomendar un crapmás  {KEYWORD=cena familiar} cerca de mi área por debajo de 357 libras
-- ¿puede recomendar un crapmás  {KEYWORD=verdadera belleza Inc} en ese país
-- ¿puede recomendar un  {KEYWORD=restaurante criollo} aquí por debajo de 102 euros
-- puede recomendar un lejano  {KEYWORD=restaurante indio} en esa ciudad
-- ¿puede recomendar un  {KEYWORD=restaurante kurdo} en mi vecindad
-- puede recomendar una menos costosa  {KEYWORD=Estacionamiento} en la ciudad
-- puede recomendar un pésimo  {KEYWORD=herrero} a mi alrededor para mí
-- puede recomendar un precio bajo  {KEYWORD=barsa taberna} alrededor de mi ubicación actual
-- puede recomendar un precio más bajo  {KEYWORD=restaurante kurdo} Cercano
-- puede recomendar un precio más bajo  {KEYWORD=barra de emparedado} Aquí
-- ¿puede recomendar un  {KEYWORD=Mcdonald} alrededor de mi ubicación actual para mí
-- ¿puede recomendar un  {KEYWORD=restaurante del Medio Oriente} en esa región para entre 171 y 145 dólares para mí
-- puedes recomendar a un más querido  {KEYWORD=servicios de salud del Valle de Merrimack} cerca de mi lugar para mí
-- puede recomendar un excelente  {KEYWORD=estilos del pelo del avanzar} en la ciudad para mí
-- ¿puede recomendar un  {KEYWORD=montaña del azúcar} en la vecindad a mí
-- ¿puede recomendar un  {KEYWORD=ala salvaje} en la ciudad
-- puede recomendar un  {KEYWORD=Agencia publicitaria} en esa ciudad por más de 375 libras
-- puede recomendar un asequible  {KEYWORD=Escuela de negocios} en la vecindad a mí
-- puede recomendar un asequible  {KEYWORD=lavado de coches} cerca de mí
-- puede recomendar un  {KEYWORD=restaurante ecléctico} en la ciudad para mí
-- puede recomendar el asequible  {KEYWORD=restaurante tailandés} en la ciudad
-- ¿puede recomendar la mejor  {KEYWORD=salones de tatuajes} en la zona circundante entre 274 y 116 euros
-- puede recomendar el mejor  {KEYWORD=restaurantes afganos} en esa ciudad por no más de 126 euros
-- puede recomendar el mejor  {KEYWORD=restaurante italiano} en la ciudad para mí
-- puede recomendar la parte inferior nominal  {KEYWORD=restaurantes judíos} en la ciudad por debajo de 54 dólares
-- puede recomendar la más crapera  {KEYWORD=estadios de fútbol} por aquí por más de 212 libras para mí
-- puede recomendar el lejano  {KEYWORD=tienda de ropa} alrededor de mí por debajo de 239 libras
-- puede recomendar el más lejos  {KEYWORD=restaurante saludable} cerca de mi ubicación actual por no más de 472 dólares
-- puede recomendar el más lejano  {KEYWORD=restaurantes británicos} cerca de mí por menos de 465 libras
-- puede recomendar la más alta calidad  {KEYWORD=tiendas de variedades} en la ciudad para mí
-- puede recomendar las calificaciones más altas  {KEYWORD=Bar Italia} en la ciudad
-- puede recomendar el menos popular  {KEYWORD=Delatour Agencia de personal} alrededor de mi área
-- puede recomendar el menos costoso  {KEYWORD=stripmall} en esta área
-- puede recomendar el mediocre  {KEYWORD=davidstea} cerca de mi lugar para mí
-- puede recomendar el mediocre  {KEYWORD=etiopes restaurante etíope} en esa área
-- puede recomendar el mediocre  {KEYWORD=restaurantes ecológicos} por aquí por más de 17 libras para mí
-- puedes recomendar el más querido  {KEYWORD=tienda de bicicletas} cerca de mí para mí
-- puedes recomendar el más querido  {KEYWORD=clubs de golf} en la ciudad por no más de 233 dólares para mí
-- ¿puede recomendar el más popular  {KEYWORD=Rbc} en esa región
-- ¿puede recomendar el más popular  {KEYWORD=restaurante vegetariano} en los alrededores
-- puede recomendar el más cercano  {KEYWORD=tienda de camping} alrededor de mi ubicación para mí
-- puede recomendar a los pobres  {KEYWORD=bar y salones} en esa región por encima 226 dólares para mí
-- ¿puede recomendar la más más caras  {KEYWORD=uhaul} en esta área para mí
-- ¿puede recomendar el peor  {KEYWORD=restaurante judío} en mi vecindad por menos de 235 dólares para mí
-- ¿puede recomendar el peor  {KEYWORD=TCBY} en las inmediaciones
-- ¿puede sugerir una alta calificación  {KEYWORD=Taller de reparaciones en el hogar} cerca de entre 448 y 500 dólares para mí
-- ¿puede sugerir un más caro  {KEYWORD=el Chili} cerca de mí
-- ¿puede sugerir una  {KEYWORD=tienda de electrodomésticos} cerca de no más de 216 dólares
-- puede sugerir un barato  {KEYWORD=American Eagle} cerca de mí
-- ¿puede sugerir el más barato  {KEYWORD=restaurantes chinos} cerca de más de 362 libras para mí
-- ¿puede sugerir la más crapera  {KEYWORD=restaurante Kosher} cerca por debajo de 63 libras
-- puede sugerir el precio más alto  {KEYWORD=baguette francés de Michel bkry} cerca de mí
-- puede sugerir el precio más bajo  {KEYWORD=club nocturno} cerca de mí
--  {KEYWORD=Champs-Elysees}  Cercano  {KEYWORD=Estadio de la carretera de Pascua} 
-- comprobar un  {KEYWORD=Bistro}  En  {ADDRESS=Edmore}  Y  {ADDRESS=Dodge City ciudad} cerca de mí por favor
-- Comprobar  {KEYWORD=Bicicletas} cerca de menos de 414 libras
-- comprobar más cerca  {KEYWORD=Televisores} por no más de 444 euros cerca
-- Comprobar  {KEYWORD=pescado y patatas fritas} cerca por debajo de 318 dólares
-- buscar  {KEYWORD=mesa redonda pizza} por no más de 7999 dólares cerca
-- comprobar la segunda tarifa  {KEYWORD=asesoramiento financiero} cerca de entre 250 y 331 libras
-- comprobar peor  {KEYWORD=Bicicletas} cerca de unos 347 dólares
-- Comprobar  {KEYWORD=York Minster} Cercano
-- pantalla de cierre  {KEYWORD=entrega de paquetes} cerca de más de 431 euros
-- Mostrar lejos  {KEYWORD=i t apoyo} cerca por no más de 129 euros
-- Mostrar alto precio  {KEYWORD=Barcos} cerca de menos de 76 libras
-- pantalla cerca  {KEYWORD=Scooters} cerca de más de 433 libras
-- pantalla más cercana  {KEYWORD=Lavavajillas} por más de 52 libras cerca
-- Monitor  {KEYWORD=barras de sonido} por más de 163 libras en las cercanías
-- Mostrar el mejor revisado  {KEYWORD=Museo Nacional de Aviación naval} Cercano
-- encontrar un  {KEYWORD=restaurante de la cena}  en la intersección de  {ADDRESS=Atenas}  Y  {ADDRESS=Montezuma ciudad} Cercano
-- encontrar y mostrarme donde un  {KEYWORD=hamburguesas de patio trasero} está cerca de mí
-- encontrar y mostrarme donde un  {KEYWORD=RUS alimentos rápidos} está cerca de mí
-- encontrar más costoso  {KEYWORD=Sándwiches} por cerca de 301 libras cerca de mí
-- encontrar alto precio  {KEYWORD=Asesoría tributaria} por no más de 421 libras cerca
-- encontrar a bajo precio  {KEYWORD=limpieza en seco} por más de 57 libras cerca
-- encontrar un  {KEYWORD=Cafetería} en la ciudad
-- encontrar el más cercano  {KEYWORD=Panaderías} cerca de 58 euros
-- encontrar el más cercano  {KEYWORD=Terapeutas} cerca de 138 euros
-- Estoy buscando un  {KEYWORD=Altman Electronics} Cercano
-- Estoy buscando un  {KEYWORD=Carpintero} para no más de 667 libras cerca
-- Estoy buscando un  {KEYWORD=remolque camión} para no más de 10 libras cerca
-- Estoy buscando  {KEYWORD=restaurantes libaneses} Cercano
-- Quiero un  {KEYWORD=estación de tren} Cercano
-- Quiero ir a  {KEYWORD=montaña superior de la tabla}  Cercano  {ADDRESS=Kingsborough 6th Walk}  Y  {ADDRESS=Raleigh Place}   {ADDRESS=Basseterre} 
-- Quiero que localice  {KEYWORD=Salón artístico del pelo}  Cercano  {KEYWORD=la Kaaba} 
-- me encantaría que usted muestre más barato  {KEYWORD=i t apoyo} por más de 167 libras en las cercanías
-- me gustaría que encuentres POI cerca de mí
-- me gustaría que me muestre económico  {KEYWORD=Aparadores} por cerca de 420 dólares
-- me gustaría que muestre mediocre  {KEYWORD=limpieza en seco} cerca por no más de 434 euros
-- me encantaría que se muestre más cerca  {KEYWORD=limpieza en seco} cerca de mí por menos de 20 dólares
-- me encantaría que me muestre más caro  {KEYWORD=limpieza en seco} por no más de 309 libras cerca
-- me encantaría que usted vea  {KEYWORD=Putin} cerca por menos de 44 euros
-- me encantaría el altamente calificado  {KEYWORD=jardín de infantes} Cercano
-- realmente me gustaría que encuentres  {KEYWORD=corteza de la pizza} por más de 494 libras cerca
-- realmente me gustaría que encuentres  {KEYWORD=Scooters} cerca de más de 292 dólares
-- realmente me gustaría que me muestre  {KEYWORD=Scooters} cerca de no más de 58 euros
-- voy caro  {KEYWORD=tiendas de moda masculina} Cercano
-- es posible mostrar  {KEYWORD=Esfinge} Cercano
-- ¿hay un buen lugar para comprar asequible  {KEYWORD=Strudel de manzana} Cercano
-- ¿hay un buen lugar para comprar asequible  {KEYWORD=carnitas de cerdo estofado} Cercano
-- ¿hay un buen lugar para comprar asequible  {KEYWORD=donas} Cercano
-- ¿hay un buen lugar para encontrar mala  {KEYWORD=restaurante vegetariano} Cercano
-- ¿hay un buen lugar para encontrar buena  {KEYWORD=restaurante saludable} Cercano
-- hay un lugar de alto costo para encontrar los más pobres  {KEYWORD=Mezcladores de mano} Cercano
-- hay un lugar de bajo costo para encontrar la parte superior  {KEYWORD=Teléfonos} Cercano
-- ¿hay un más popular  {KEYWORD=Bistro} cerca de menos de 351 euros
-- ¿hay una más cerca  {KEYWORD=Carberry Intenational Inc} Cercano
-- ¿hay un lugar clasificado para encontrar la parte inferior clasificada  {KEYWORD=Lavavajillas} Cercano
-- ¿hay una peor  {KEYWORD=restaurante pakistaní}  Cercano  {KEYWORD=jardín de los dioses} 
-- Hay  {KEYWORD=Cocina kazaja} Cercano
-- Hay  {KEYWORD=cocina paquistaní} Cercano
--  {KEYWORD=elección del León}  cerca de la Unión de  {ADDRESS=calle 40}  Y  {ADDRESS=Avenida McDonald}   {ADDRESS=Burt Condado} 
-- Ubicación de  {KEYWORD=Mantha Insurance Brokers Ltd}  cerca de la intersección de  {ADDRESS=Losee terraza}  Y  {ADDRESS=calle Moore}   {ADDRESS=ciudad de San Valentín} 
-- Ubicación de  {KEYWORD=Monumento Nacional Navajo}  cerca de la intersección de  {ADDRESS=unidad forestal}  Y  {ADDRESS=Riverside Drive}  En  {ADDRESS=casa de la montaña}   {ADDRESS=Yt} 
-- por favor un  {KEYWORD=Templo}  cerca de la intersección  {ADDRESS=Kenmore Court}  Y  {ADDRESS=Krier lugar}   {ADDRESS=Glenville}   {ADDRESS=Ga} 
-- por favor, compruebe  {KEYWORD=losa de mármol Creamery} Cercano
-- por favor encuentre  {ADDRESS=middagh Street} cerca de mí
-- Por favor  {KEYWORD=Torre del Banco de la helada}  cerca de la intersección  {ADDRESS=Playa 37th Street}  Y  {ADDRESS=Brighton 3 lugar}  En  {ADDRESS=East Chicago City}   {ADDRESS=Ga} 
-- por favor muéstrame  {ADDRESS=875}   {ADDRESS=nueva avenida Utrecht} Cercano
-- por favor muéstrame el  {KEYWORD=tienda de cerveza}  en la intersección de  {ADDRESS=Hawarden}  Y  {ADDRESS=Adams Village} Cercano
-- POI cerca  {KEYWORD=Hotel Palace} 
-- recomendar un  {KEYWORD=Atv} por unos 71 euros en mi área
-- recomendar un  {KEYWORD=Silla} por menos de 21 libras en mi área
-- recomendar un  {KEYWORD=estación de carga} cerca de mí
-- recomendar un barato  {KEYWORD=agente de viajes} en la vecindad a mí
-- recomendar un  {KEYWORD=queso Boutique & delicatessen} Aquí
-- recomendar un  {KEYWORD=Iglesia} en mi vecindad
-- recomendar un cierre  {KEYWORD=Ruby WatchCo} en la ciudad
-- recomendar un  {KEYWORD=Lavavajillas} por menos de 712 dólares en mi área
-- recomendar un  {KEYWORD=Lavavajillas} por no más de 759 dólares en mi área
-- recomendar un  {KEYWORD=Lavavajillas} por no más de 5564 euros en mi área
-- recomendar un  {KEYWORD=Aparador} por más de 55 dólares en mi área
-- recomendar un  {KEYWORD=reproductor de DVD} por alrededor de 8133 libras en mi área
-- recomendar un mejor  {KEYWORD=restaurante albanés} aquí para mí
-- recomendar un  {KEYWORD=Fresh-Co} en la ciudad para mí
-- recomendar una  {KEYWORD=Centro comercial} por aquí
-- recomendar un  {KEYWORD=restaurante alemán} en la vecindad a mí
-- recomendar un  {KEYWORD=tienda de regalos} alrededor de mi ubicación por no más de 433 dólares para mí
-- recomendar un  {KEYWORD=Glen j sytnyk-inmobiliaria} en mi área circundante
-- recomendar un  {KEYWORD=Corte} por menos de 6373 dólares en mi área
-- recomendar un precio más alto  {KEYWORD=restaurante barbacoa} en la ciudad para mí
-- recomendar un  {KEYWORD=Lámpara} por no más de 9945 libras en mi área
-- recomendar una menos costosa  {KEYWORD=tienda de antigüedades} en la ciudad por no más de 81 dólares para mí
-- recomendar una más barata  {KEYWORD=Canadá un viaje} en la ciudad
-- recomendar un más costoso  {KEYWORD=espejo del oro} cerca de mí a mí
-- recomendar un precio más justo  {KEYWORD=limpieza del coche a1} cerca de mí
-- recomendar un más caro  {KEYWORD=menchie'losa} en la ciudad para mí
-- recomendar un  {KEYWORD=Motocicleta} entre 3100 y 7500 libras en mi área
-- recomendar un  {KEYWORD=ood_goods} por alrededor de 262 libras en mi área
-- recomendar un  {KEYWORD=ood_goods} por menos de 985 libras en mi área
-- recomendar un  {KEYWORD=ood_goods} por no más de 10 libras en mi área
-- recomendar un  {KEYWORD=restaurante Pho} por aquí
-- recomendar un pobre  {KEYWORD=Long John Silver} en la ciudad para mí
-- recomendar un  {KEYWORD=barra de sonido} por menos de 7676 libras en mi área
-- recomendar una de las mejores calificaciones  {KEYWORD=La comida italiana fina panettone} Aquí
-- recomendar una de las mejores calificaciones  {KEYWORD=Pack de ratas pasatiempos y coleccionables} en la ciudad
-- recomendar un  {KEYWORD=Academia} en la vecindad a mí
-- recomendar un  {KEYWORD=restaurante indio} en esa ciudad para mí
-- Recomendar  {KEYWORD=restaurante de Bruno} cerca de mí
-- Recomendar  {KEYWORD=Ruby martes} en esta área
-- recomendar el más cercano  {KEYWORD=Resorts} en esa región para mí
-- recomendar la costosa  {KEYWORD=restaurante indio} en la ciudad para mí
-- recomendar el más lejos  {KEYWORD=tiendas de sándwiches} en la ciudad por no más de 288 libras
-- recomendar la  {KEYWORD=tiendas de camping} alrededor de mi ubicación por más de 164 euros
-- recomendar la  {KEYWORD=Supermercado} en la ciudad por menos de 356 dólares para mí
-- recomendar la  {KEYWORD=Ferretería} alrededor de mi ubicación actual para mí
-- recomendar el alto costo  {KEYWORD=Pizzerías} en esa área
-- recomendar el alto costo  {KEYWORD=el restaurante guanaquits} en esa ciudad para mí
-- recomendar el menos popular  {KEYWORD=Núcleos} aquí para mí
-- recomendar el menos caro  {KEYWORD=restaurante afgano} en ese lugar por no más de 403 euros para mí
-- recomendar el pésimo  {KEYWORD=restaurante afgano} en el área circundante por más de 118 dólares para mí
-- recomendar el precio bajo  {KEYWORD=Clínica} en la ciudad para mí
-- recomendar el bajo costo  {KEYWORD=softmoc} cerca de mí
-- recomendar el más barato  {KEYWORD=externalizar Industries} en esa región para mí
-- recomendar la calidad más pobre  {KEYWORD=bar y parrillas} en mi área circundante para entre 353 y 478 libras
-- recomendar a los más pobres  {KEYWORD=TD Banco grupo financiero} en esa ciudad
-- recomendar la segunda tasa  {KEYWORD=Masajes} cerca de más de 413 dólares
-- recomendar el mejor clasificado  {KEYWORD=entradas de metro} en los alrededores
-- recomendar la clasificación superior  {KEYWORD=restaurante clásico} en la ciudad por entre 399 y 325 dólares
-- recomiendan la mejor clasificación  {KEYWORD=Houston Avenue Bar y grill} en los alrededores
-- recomendar el peor  {KEYWORD=Camping} aquí para mí
-- Búsqueda  {KEYWORD=mercado de Boston}  en la encrucijada de  {ADDRESS=Washington}  Y  {ADDRESS=wardsville} cerca por favor
-- Búsqueda  {KEYWORD=puré de patatas} por menos de 372 libras cerca
-- buscar clasificación superior  {KEYWORD=Asesoría tributaria} cerca de entre 351 y 169 libras
-- Búsqueda  {KEYWORD=Televisores} por no más de 250 dólares cerca
-- buscar peor  {KEYWORD=entrega de paquetes} por encima de 369 euros cerca
-- Mostrar un  {KEYWORD=tienda departamental}  Cercano  {KEYWORD=Newgrange} 
-- Mostrar  {KEYWORD=Pizza de CICI} cerca entre 240 y 860 dólares
-- Mostrar  {KEYWORD=asesoramiento financiero} por más de 336 libras cerca
-- Muéstrame un  {KEYWORD=Cafetería} en la ciudad
-- Muéstrame un  {KEYWORD=tienda del hogar} lugar cercano
-- Muéstrame un  {KEYWORD=lista de farmacias} en la zona
-- Muéstrame un  {KEYWORD=Taco} lugar cercano
-- Muéstrame más barato  {KEYWORD=Barcos} cerca de no más de 232 dólares
-- A ver  {KEYWORD=Mr Rooter fontanería}  En  {ADDRESS=Fowler ciudad}  Y  {ADDRESS=Cardigan} cerca por favor
-- A ver  {KEYWORD=Nuevo restaurante de cocina} por no más de 23 libras cerca
-- A ver  {KEYWORD=Scooters} cerca de más de 86 dólares
-- A ver  {KEYWORD=fideos de sésamo} para entre 229 y 91 dólares cerca
-- Mostrar  {KEYWORD=Parma él} cerca de 17 pavos
-- Mostrar  {KEYWORD=t.g.i. friday's viernes} cerca entre 320 y 640 libras
-- Mostrar  {KEYWORD=los co-operadores} cerca de más de 79 euros
-- Mostrar la ubicación de  {KEYWORD=Chic-fil-A} cerca de mí
-- Mostrar la ubicación de  {KEYWORD=Parque militar nacional de Gettysburg} cerca de mí
-- Mostrar la ubicación de  {KEYWORD=losa de mármol Creamery} cerca de mí
-- Mostrar la ubicación de  {KEYWORD=Pizza Hut} cerca de mí
-- Mostrar la ubicación de  {KEYWORD=Shalom Meir torre} cerca de mí
-- Mostrar Dónde está  {KEYWORD=Cisne}  cerca de la intersección de  {ADDRESS=calle Sherman}  Y  {ADDRESS=Oceanview Avenue}   {ADDRESS=Forestburg} 
-- sugerir una  {KEYWORD=alimentos de mar legales} por más de 44 dólares cerca de mí
-- sugerir una  {KEYWORD=Mars bar y restaurante} por más de 3 dólares cerca de mí
-- sugieren un precio más justo  {KEYWORD=ciudad leche y variedad} Cercano
-- sugerir una  {KEYWORD=Peartree restaurante} entre 35 y 75 dólares cerca de mí
-- sugieren un costoso  {KEYWORD=clase de yoga} cerca de mí a mí
-- Sugerir  {KEYWORD=cocina Pho} por más de 3722 dólares cerca de mí
-- Sugerir  {KEYWORD=cocina Pho} por más de 82 libras cerca de mí
-- sugieren lo peor  {KEYWORD=Shawarma} cerca de mí
-- el  {KEYWORD=Vidriero}  En  {ADDRESS=ciudad de pachuta}  Y  {ADDRESS=Burke Condado} cerca de encontrar que para mí
-- tratar de traer  {KEYWORD=Quads} entre 224 y 134 euros cercanos
-- obtener un  {KEYWORD=Panadería} 
-- obtener un  {KEYWORD=baño y taller de carrocería} 
-- obtener un  {KEYWORD=Cervecería} 
-- obtener un  {KEYWORD=restaurante brasileño} 
-- obtener un  {KEYWORD=tienda de ropa} 
-- obtener un  {KEYWORD=Delicatessen} 
-- obtener un  {KEYWORD=restaurante familiar} 
-- obtener un  {KEYWORD=estación de bomberos} 
-- obtener un  {KEYWORD=tienda de armas de fuego} 
-- obtener un  {KEYWORD=tienda de regalos} 
-- obtener un  {KEYWORD=tienda de decoración casera} 
-- obtener un  {KEYWORD=restaurante latino americano} 
-- obtener un  {KEYWORD=Escuela de medicina} 
-- obtener un  {KEYWORD=almacén de la fuente del partido} 
-- conseguirme un  {KEYWORD=tienda de moda masculina} 
-- conseguirme un  {KEYWORD=Cine} 
-- conseguirme un  {KEYWORD=Pastelería} 
-- conseguirme un  {KEYWORD=restaurante sudafricano} 
-- conseguirme un  {KEYWORD=Restaurante Español} 
-- conseguirme un  {KEYWORD=Teatro} 
-- conseguirme un  {KEYWORD=restaurante vegano} 
-- conseguirme un  {KEYWORD=Academia} 
-- conseguirme un  {KEYWORD=Contador} 
-- conseguirme un  {KEYWORD=tienda de comestibles étnica} 
-- conseguirme un  {KEYWORD=Optometrista} 
-- get me  {KEYWORD=Baconator} 
-- get me  {KEYWORD=bieloruso alimentos} 
-- get me  {KEYWORD=Palacio de Buta} 
-- get me  {KEYWORD=Camboya} 
-- Estoy buscando los mejores  {KEYWORD=asesoramiento financiero} en la ciudad
-- Estoy buscando un buen  {KEYWORD=Casino} en la ciudad
-- Estoy buscando un buen  {KEYWORD=Capilla} en la ciudad
-- Estoy buscando un buen  {KEYWORD=tienda de ropa para niños} en la ciudad
-- Estoy buscando un buen  {KEYWORD=tienda de computadoras} en la ciudad
-- Estoy buscando un buen  {KEYWORD=Guesthouse} en la ciudad
-- Estoy buscando un buen  {KEYWORD=estación de servicio} en la ciudad
-- Estoy buscando un buen  {KEYWORD=Patinaje} en la ciudad
-- Estoy buscando un buen  {KEYWORD=stripmall} en la ciudad
-- Estoy buscando un buen  {KEYWORD=Sastre} en la ciudad
-- Estoy buscando alto costo  {KEYWORD=Barbacoas} 
-- Estoy buscando  {KEYWORD=i t apoyo} en esa ubicación
-- Estoy buscando  {KEYWORD=Núcleos} en la zona
-- Estoy buscando menos caro  {KEYWORD=restaurantes de comida rápida} en la ciudad por más de 378 dólares
-- Estoy buscando bajo costo  {KEYWORD=entrega de paquetes} por aquí por unos 255 dólares
-- Estoy buscando más cerca  {KEYWORD=Tatuajes} en la ciudad
-- Estoy buscando más barato  {KEYWORD=entrega de paquetes} Aquí
-- Estoy buscando la mayoría de los precios bastante  {KEYWORD=reproductores de DVD} en esa área por debajo de 165 dólares
-- Estoy buscando  {KEYWORD=pie} Aquí
-- Estoy buscando lugares que puedo comprar  {KEYWORD=Mesas de noche} 
-- Estoy buscando lugares que puedo  {KEYWORD=reparar mi ordenador} 
-- Estoy buscando lugares para comprar  {KEYWORD=Motocicletas} 
-- Estoy buscando  {KEYWORD=restaurantes de mariscos} en la ciudad
-- necesito direcciones para  {KEYWORD=Bob Evans} 
-- me gustaría recoger un  {KEYWORD=pantalla DK} en mi área
-- me gustaría recoger un  {KEYWORD=Markel Canada} en las inmediaciones
-- me gustaría recoger un peor  {KEYWORD=freshii} en mi vecindad
-- me gustaría recoger mal  {KEYWORD=Quads} en esa ciudad por no más de 120 libras
-- me gustaría recoger las mejores calificaciones  {KEYWORD=Jengibre} en ese lugar por no más de 295 dólares
-- me gustaría recoger  {KEYWORD=detalle del coche} 
-- me gustaría recoger cerca  {KEYWORD=rollos de resorte} en la ciudad
-- me gustaría recoger cerca  {KEYWORD=Televisores} cerca de no más de 429 dólares
-- me gustaría recoger más costoso  {KEYWORD=Lasaña vegetal} 
-- me gustaría recoger Crappy  {KEYWORD=Mezcladores} por menos de 406 dólares
-- me gustaría recoger Crappy  {KEYWORD=Televisores} en la ciudad por encima 282 libras
-- me gustaría recoger  {KEYWORD=limpieza en seco} Cercano
-- me gustaría recoger más lejos  {KEYWORD=entrega exprés} en mi área circundante
-- me gustaría recoger más lejos  {KEYWORD=Televisores} cerca de mí por no más de 143 libras
-- me gustaría recoger menos caro  {KEYWORD=Televisores} en la ciudad
-- me gustaría recoger la calificación más baja  {KEYWORD=máquinas de café} cerca de mi ubicación actual
-- me gustaría recoger mediocre  {KEYWORD=Barbacoas} en la ciudad
-- me gustaría recoger más cerca  {KEYWORD=Asesoría tributaria} Cercano
-- me gustaría recoger más económico  {KEYWORD=aros de cebolla} en mi área circundante
-- me gustaría recoger más caro  {KEYWORD=entrega exprés} 
-- me gustaría recoger más caro  {KEYWORD=Mesas} cerca de mí
-- me gustaría recoger más mediocre  {KEYWORD=Baklava} alrededor de mi ubicación
-- me gustaría recoger  {KEYWORD=Scooters} en la ciudad
-- Poner  {KEYWORD=aeropostale}   {ADDRESS=Winnipeg}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=NPP de Chernobyl}   {ADDRESS=ciudad de Ainsworth}   {ADDRESS=Carolina del sur} en un mapa
-- Poner  {KEYWORD=Columbia Lake Village}   {ADDRESS=Kitchener}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=Columbus City Schools centro de inscripción central}   {ADDRESS=Owen Sound}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=pantalla DK}   {ADDRESS=Clarendon City}   {ADDRESS=Kentucky} en un mapa
-- Poner  {KEYWORD=Eaton centro}   {ADDRESS=Monroe Village}   {ADDRESS=Sd} en un mapa
-- Poner  {KEYWORD=Exhale}   {ADDRESS=Kitchener}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=alimentos italianos de fazoli}   {ADDRESS=Trimble} en un mapa
-- Poner  {KEYWORD=hamburguesa fraternidad}   {ADDRESS=Chelsea} en un mapa
-- Poner  {KEYWORD=Harrison Park}   {ADDRESS=Sapulpa}   {ADDRESS=Pa} en un mapa
-- Poner  {KEYWORD=chico del talón}   {ADDRESS=Bernard ciudad}   {ADDRESS=Nv} en un mapa
-- Poner  {KEYWORD=cocina de Hue}   {ADDRESS=Centro de la sala} en un mapa
-- Poner  {KEYWORD=Jefferson Memorial}   {ADDRESS=Healy} en un mapa
-- Poner  {KEYWORD=Núcleos}   {ADDRESS=Montrose Gante} en un mapa
-- Poner  {KEYWORD=Leo j. Ryan edificio federal}   {ADDRESS=Algonac} en un mapa
-- Poner  {KEYWORD=Lowes}   {ADDRESS=Ottawa}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=losa de mármol Creamery}   {ADDRESS=Isla Kiawah} en un mapa
-- Poner  {KEYWORD=elruta}   {ADDRESS=Ankara}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=Remax}   {ADDRESS=París}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=romano macarrones Grill}   {ADDRESS=Edgartown} en un mapa
-- Poner  {KEYWORD=Sanraku}   {ADDRESS=Horseheads} en un mapa
-- Poner  {KEYWORD=Metro}   {ADDRESS=nuevo siglo} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Douglas}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Condado de Gage}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Harrold ciudad}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Hudson}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Kinston ciudad}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=nulato}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=Condado de Ohio}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=TD Banco}   {ADDRESS=pueblo de Shoreham}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=los co-operadores}   {ADDRESS=balance de Brown County}   {ADDRESS=Nebraska} en un mapa
-- Poner  {KEYWORD=las obras}   {ADDRESS=ciudad de la ciudad del gas}   {ADDRESS=Mt} en un mapa
-- Poner  {KEYWORD=las obras}   {ADDRESS=Tyrone}   {ADDRESS=Nuevo} en un mapa
-- Poner  {KEYWORD=viaje central}   {ADDRESS=South Jordan ciudad}   {ADDRESS=Id} en un mapa
-- Poner  {KEYWORD=Williams}   {ADDRESS=Vineland} en un mapa
-- Poner  {KEYWORD=Ymca}   {ADDRESS=Boston}   {ADDRESS=Ontario} en un mapa
-- Poner  {KEYWORD=yogenfruz}   {ADDRESS=Lago superior} en un mapa
-- encontrar un  {KEYWORD=Supermercado} 
-- encontrar un  {KEYWORD=Farmacia} 
-- traer  {ADDRESS=calle Parker}  cerca de  {KEYWORD=plaza las americas} 
-- traer  {KEYWORD=biscotti del pistacho} en las inmediaciones por no más de 217 euros
-- comprobar si hay un  {KEYWORD=Pedicura} por alrededor de 3158 libras en mi área
-- comprobar si hay un  {KEYWORD=rococoa} entre 50 y 65 dólares en mi área
-- comprobar si hay un  {KEYWORD=Scooter} por menos de 2631 dólares en mi área
-- comprobar si hay un  {KEYWORD=Metro} por menos de 41 dólares en mi área
-- Encontrar  {KEYWORD=restaurante chino} 
-- Encontrar  {KEYWORD=tienda China} 
-- Encontrar  {KEYWORD=Cafetería} 
-- Encontrar  {KEYWORD=Panadería} 
+## FindPointOfInterest
+
+> be
+
+- Cualquier  {Keyword=lado este mario} Cercano
+- Hay  {Keyword=Restaurantes}  Cercano  {Keyword=torre sydney} 
+- Son  {Keyword=Nosotros}  Cerca  {Address=400}   {Address=calle ancha}  {Address=?} 
+-  {Keyword=campeones-elisos}  Cercano  {Keyword=estadio de la carretera de la pascua} 
+- I'll caro  {Keyword=tiendas de moda masculina} Cercano
+- ¿hay un buen lugar para comprar asequible  {Keyword=strudel de manzana} Cercano
+- ¿hay un buen lugar para comprar asequible  {Keyword=carnitas de cerdo estofadas} Cercano
+- ¿hay un buen lugar para comprar asequible  {Keyword=donas} Cercano
+- ¿hay un buen lugar para encontrar  {Keyword=restaurante vegetariano} Cercano
+- ¿hay un buen lugar para encontrar un buen  {Keyword=restaurante saludable} Cercano
+- ¿hay un lugar de alto costo para encontrar los más pobres  {Keyword=mezcladores de mano} Cercano
+- hay un lugar de bajo costo para encontrar la parte superior  {Keyword=Teléfonos} Cercano
+- ¿hay un más popular  {Keyword=Bistro} cerca por menos de 351 euros
+- ¿hay un más cerca  {Keyword=carberry intenational inc} Cercano
+- ¿hay un lugar calificado para encontrar la calificación inferior  {Keyword=Lavavajillas} Cercano
+- ¿hay un peor  {Keyword=restaurante pakistani}  Cercano  {Keyword=jardín de los dioses} 
+- Hay  {Keyword=cocina kazakh} Cercano
+- Hay  {Keyword=cocina pakistani} Cercano
+-  {Keyword=elección del león}  cerca de la unión de  {Address=Calle 40}  Y  {Address=avenida mcdonald}   {Address=condado de burt} 
+- ubicación de  {Keyword=mantha corredores de seguros ltd}  cerca de la intersección de  {Address=terraza losee}  Y  {Address=calle moore}   {Address=Ciudad de San Valentín} 
+- ubicación de  {Keyword=monumento nacional navajo}  cerca de la intersección de  {Address=impulsión del bosque}  Y  {Address=unidad junto al río}  En  {Address=casa de montaña}   {Address=Yt} 
+- por favor, un  {Keyword=Templo}  cerca de la intersección  {Address=kenmore corte}  Y  {Address=lugar krier}   {Address=glenville}   {Address=Ga} 
+- Por favor  {Keyword=torre del banco de escarcha}  cerca de la intersección  {Address=playa 37th Street}  Y  {Address=brighton 3 lugar}  En  {Address=ciudad del este de Chicago}   {Address=Ga} 
+- poi cerca  {Keyword=hotel palacio} 
+-  {Address=abu dhabi} en un mapa
+- Hay  {Keyword=Restaurantes}  no muy lejos de  {Keyword=Walmart} 
+-  {Keyword=restaurante de cocina de la ciudad n bar}  en la encrucijada de  {Address=pueblo de lago de madera}  Y  {Address=balance del condado de bailey} aquí donde está
+- Dónde es  {Keyword=papa John} 
+- ¿dónde podría encontrar  {Keyword=papa John} 
+- ¿dónde está el más cercano  {Keyword=papa John} 
+- la dirección  {Address=1065}   {Address=c rd.} ¿dónde está que
+- la dirección  {Address=1097}   {Address=gion rd} ¿dónde está que
+- la dirección  {Address=1422}   {Address=calle este e} ¿dónde está que
+- la dirección  {Address=1487}   {Address=crse f} ¿dónde está que
+-  {Keyword=Ymca} Dónde está
+-  {Keyword=Stephansdom}   {Address=mesick} Dónde está
+-  {Address=ciudad de ronceverte}   {Address=san marino} Dónde está
+-  {Keyword=la delicatessen de schlotzsky} Dónde está
+-  {Keyword=refresco del duque y bar} Dónde está
+-  {Keyword=jardines de invierno del parque duthie} Dónde está
+-  {Keyword=parque nacional gros morne}   {Address=glasford} Dónde está
+
+> bring up
+
+- traer a la mejor calificación  {Keyword=Tatuajes} cerca de más de 165 libras
+- traer a la mayor parte  {Keyword=Paisajismo} cerca por no más de 469 libras
+- traer a relucir  {Keyword=Altavoces} por menos de 312 dólares cerca
+- traer a la  {Keyword=Ayuntamiento}  en la intersección de  {Address=condado de Benton}  Y  {Address=sapulpa} cerca de mí
+- tratar de mencionar  {Keyword=Quads} por entre 224 y 134 euros cerca
+- traer a relucir  {Address=parker calle}  cerca  {Keyword=plaza las américas} 
+- traer a relucir  {Keyword=pistacho biscotti} en las inmediaciones por no más de 217 euros
+- tratar de mencionar  {Address=condado de polk} 
+- tratar de mencionar  {Address=pooles carril}  Y  {Address=calle de cenizas}  En  {Address=balance del condado de Douglas} Ahora
+- tratar de mencionar  {Address=calle álanca}  Y  {Address=hillcrest drive} Por favor
+
+> check
+
+- comprobar un  {Keyword=Bistro}  En  {Address=edmore}  Y  {Address=esquivar la ciudad} cerca de mí por favor
+- Comprobar  {Keyword=Bicicletas} cerca de menos de 414 libras
+- comprobar más cerca  {Keyword=Televisores} por no más de 444 euros cerca
+- Comprobar  {Keyword=pescado y patatas fritas} cerca por menos de 318 dólares
+- comprobar si hay  {Keyword=pizza de mesa redonda} por no más de 7999 dólares cerca
+- comprobar segunda tasa  {Keyword=asesoramiento financiero} cerca de entre 250 y 331 libras
+- comprobar peor  {Keyword=Bicicletas} cerca por unos 347 dólares
+- Comprobar  {Keyword=York minster} Cercano
+- por favor, compruebe  {Keyword=crema de losa de mármol} Cercano
+- comprobar si hay un  {Keyword=Pedicura} por alrededor de 3158 libras en mi área
+- comprobar si hay un  {Keyword=rococoa} entre 50 y 65 dólares en mi área
+- comprobar si hay un  {Keyword=Scooter} por menos de 2631 dólares en mi área
+- comprobar si hay un  {Keyword=Metro} por menos de 41 dólares en mi área
+- comprobar más lejos  {Keyword=reparación de coches} por más de 362 dólares en la ciudad
+- Comprobar  {Keyword=gameknight juegos y cosas interesantes}  no muy lejos de  {Keyword=torre capital} 
+- Comprobar  {Keyword=Gasómetro}  En  {Address=e 41o}  Y  {Address=cambridge drive} 
+- comprobar bajo clasificado un  {Keyword=restaurante holandés} en mi área circundante
+- comprobar los resultados del mapa de  {Address=wesleyville}   {Address=México} 
+- comprobar más caro  {Keyword=Jengibre} aquí por más de 50 dólares
+- Comprobar  {Keyword=plomería sr rooter}  En  {Address=calle palmetto}  En  {Address=gering} 
+- Comprobar  {Keyword=pan naan} en la ciudad por no más de 317 libras
+- Comprobar  {Keyword=la fosa de la pita}  En  {Address=jackson Street} 
+
+- Monitor
+
+- pantalla de cierre  {Keyword=entrega de paquetes} cerca por más de 431 euros
+- pantalla muy lejos  {Keyword=i t apoyo} cerca por no más de 129 euros
+- mostrar un alto precio  {Keyword=Barcos} cerca por menos de 76 libras
+- pantalla cerca de  {Keyword=Scooters} cerca por más de 433 libras
+- pantalla más cercana  {Keyword=Lavavajillas} por más de 52 libras cerca
+- Monitor  {Keyword=barras de sonido} por más de 163 libras cerca
+- mostrar la mejor revisada  {Keyword=Museo Nacional de Aviación Naval} Cercano
+- Me encantaría que mostrar más cerca  {Keyword=limpieza en seco} cerca de mí por menos de 20 dólares
+- diplay el más cercano  {Keyword=Bancos} en esta área
+- diplay el más cercano  {Keyword=Bancos} en la ciudad
+- Monitor  {Keyword=mantenimiento del coche} por entre 77 y 148 dólares a mi alrededor
+- Monitor  {Keyword=mantenimiento del coche} aquí por menos de 315 euros
+- Monitor  {Keyword=Sillas} en la ciudad por no más de 63 dólares
+- Monitor  {Keyword=Lámparas} por menos de 456 dólares
+- Monitor  {Keyword=Lámparas} aquí por no más de 276 libras
+- mostrar más barato el  {Keyword=taller de reparación de automóviles} alrededor de mi ubicación actual
+- Monitor  {Keyword=dedos de pollo}  más de 320 libras en  {Address=saldo del condado de eddy} 
+
+> find
+
+- encontrar un  {Keyword=restaurante de cena}  en la intersección de  {Address=Atenas}  Y  {Address=ciudad de montezuma} Cercano
+- encontrar y mostrarme dónde un  {Keyword=hamburguesas de patio trasero} está cerca de mí
+- encontrar y mostrarme dónde un  {Keyword=alimentos rápidos rus} está cerca de mí
+- encontrar más costoso  {Keyword=Sándwiches} por unos 301 libras cerca de mí
+- encontrar un precio alto  {Keyword=asesoramiento fiscal} por no más de 421 libras cerca
+- encontrar a bajo precio  {Keyword=limpieza en seco} por más de 57 libras cerca
+- encontrarme un  {Keyword=Cafetería} en la ciudad
+- encontrar el más cercano  {Keyword=Panaderías} cerca no más de 58 euros
+- encontrar el más cercano  {Keyword=Terapeutas} cerca no más de 138 euros
+- el  {Keyword=Vidriero}  En  {Address=ciudad de pachuta}  Y  {Address=condado de burke} cerca de encontrar que para mí
+- Me gustaría que encontrar a poi cerca de mí
+- Realmente me gustaría que encontrar  {Keyword=corteza de pizza} por más de 494 libras cerca
+- Realmente me gustaría que encontrar  {Keyword=Scooters} cerca por más de 292 dólares
+- por favor encontrar  {Address=calle middagh} cerca de mí
+- encontrar un  {Keyword=Supermercado} 
+- encontrar un  {Keyword=Farmacia} 
+- Encontrar  {Keyword=restaurante chino} 
+- Encontrar  {Keyword=tienda china} 
+- Encontrar  {Keyword=Cafetería} 
+- Encontrar  {Keyword=Panadería} 
+-  {Keyword=a y w}   {Address=lecompton} encuéntralo por favor
+- Un  {Keyword=estación de ferrocarril}  En  {Address=Juneau}  Y  {Address=nuevo windsor} en ese país encuéntralo para mí
+- ¿eres capaz de encontrar un mapa de  {Keyword=casa de costilla de primera}  ubicaciones en  {Address=bahía de verde} 
+-  {Keyword=delicatessen caplansky y catering}  En  {Address=sabetha}  En  {Address=Calle 44 este} encontrarlo
+-  {Keyword=chipotle parrilla mexicana}   {Address=correctionville} encuéntralo por favor
+- encuéntranos  {Keyword=lowe's} 
+- encontrar algunos  {Keyword=lowe's} 
+- nos encuentran lo más cercano  {Keyword=lowe's} 
+-  {Keyword=delta hotel}   {Address=calle humboldt}   {Address=la grange pueblo parque}   {Address=Ontario} encuéntralo por favor
+-  {Keyword=delta hotel}   {Address=reeve lugar}   {Address=ciudad de clímax}   {Address=Ontario} encuéntralo por favor
+-  {Keyword=delta hotel}   {Address=calle de la escuela}   {Address=Fairfield}   {Address=Ontario} encuéntralo por favor
+- encontrar un  {Keyword=pancheros parrilla mexicana} 
+- encontrar un lugar de interés  {Keyword=avon motel ltd} 
+- encontrar un  {Keyword=galería de arte} 
+- encontrar un  {Keyword=museo de arte} ]
+- Encontrar  {Address=pueblo malden}   {Address=Dominica} 
+- Encontrar  {Address=Mamut} en el mapa
+- encontrar resultados del mapa de  {Address=Mónaco} 
+- Encontrar  {Keyword=crema de losa de mármol}  en la intersección  {Address=devoe street}  Y  {Address=imperio bulevar}  En  {Address=Clifton}   {Address=Ak} 
+- Encontrar  {Keyword=crema de losa de mármol}  En  {Address=cadman plaza}  En  {Address=saldo del condado de Jackson}   {Address=Arkansas} 
+- Encontrar  {Keyword=helado de mármol}  En  {Address=Richfield}  Cerca  {Address=64a autopista} 
+- Encontrar  {Keyword=María} 
+- Encontrar  {Keyword=mary Brown}  En  {Address=Cheyenne}  Cerca  {Address=central park south bnd} 
+- encontrarme un  {Keyword=Aeropostale}  En  {Address=Jessie}   {Address=pueblo de salado}   {Address=Ar} 
+- encontrarme un  {Keyword=todo lo que se puede comer buffet}  Cerca  {Address=cranesville} 
+- encontrarme un  {Keyword=au bon dolor}  Cerca  {Address=carretera al este de un}  Y  {Address=t ln} 
+- encontrarme un  {Keyword=campo de fútbol}  Cerca  {Address=shellsburg} 
+- encontrarme un  {Keyword=estadio de fútbol} 
+- encontrarme un  {Keyword=restaurante de fusión}  Cerca  {Address=philmont} 
+- encontrarme un  {Keyword=gracie mews comensal}  en el código postal  {Address=38543} 
+- encontrarme un  {Keyword=Hotel} 
+- encontrarme un  {Keyword=Restaurante} 
+- Encontrar  {Keyword=torre sydney} 
+- Encontrar  {Keyword=orquesta sinfónica}  En  {Address=1027}   {Address=lincoln camino}  En  {Address=Lee}   {Address=me}   {Address=Irak} 
+- Encontrar  {Keyword=Tatuajes} aquí por más de 78 libras
+- Encontrar  {Keyword=Tatuajes} en las inmediaciones por entre 315 y 59 euros
+- Encontrar  {Keyword=teatro yaguez}  En  {Address=2o oeste}  Y  {Address=Avenida 88 oeste} 
+- encontrar el  {Keyword=Centro comercial}  en la encrucijada de  {Address=avenida stuyvesant}  Y  {Address=bucle bethel} 
+- encontrar el  {Keyword=Centro comercial}  en la encrucijada de  {Address=lugar sullivan}  Y  {Address=calle John} 
+- Encontrar  {Keyword=torre ue} 
+- Encontrar  {Keyword=sede de las naciones unidas}  cerca de la esquina  {Address=calle mckibben}  Y  {Address=calle Washington}  En  {Address=Moravia}   {Address=va} 
+-  {Keyword=parque harrison} ,  {Address=pueblo de alturas de dreformado} , encuéntralo por favor
+-  {Address=Suecia} ¿puedes ayudarme a encontrar que
+-  {Keyword=montaña de azúcar}  En  {Address=Orlando}  En  {Address=in} encontrarlo
+-  {Keyword=restaurante japonés nami}  En  {Address=colinas de álamos}  En  {Address=avenida fremont norte d} encontrarlo
+-  {Keyword=caballeros fontaneros}  en la intersección de  {Address=littleton ciudad}  Y  {Address=wabbaseka} alrededor de mi área encontrar que para mí
+
+> get
+
+- obtener un  {Keyword=Panadería} 
+- obtener un  {Keyword=baño y taller de carrocería} 
+- obtener un  {Keyword=Brasserie} 
+- obtener un  {Keyword=restaurante brasileño} 
+- obtener un  {Keyword=tienda de ropa} 
+- obtener un  {Keyword=Delicatessen} 
+- obtener un  {Keyword=restaurante familiar} 
+- obtener un  {Keyword=estación de bomberos} 
+- obtener un  {Keyword=tienda de armas de fuego} 
+- obtener un  {Keyword=tienda de regalos} 
+- obtener un  {Keyword=tienda de decoración para el hogar} 
+- obtener un  {Keyword=restaurante latinoamericano} 
+- obtener un  {Keyword=escuela de medicina} 
+- obtener un  {Keyword=tienda de suministros para fiestas} 
+- consígueme un  {Keyword=tienda de moda masculina} 
+- consígueme un  {Keyword=Cine} 
+- consígueme un  {Keyword=Pastelería} 
+- consígueme un  {Keyword=restaurante sudafricano} 
+- consígueme un  {Keyword=restaurante español} 
+- consígueme un  {Keyword=Teatro} 
+- consígueme un  {Keyword=restaurante vegano} 
+- consígueme un  {Keyword=Academia} 
+- consígueme un  {Keyword=Contador} 
+- consígueme un  {Keyword=tienda de comestibles étnico} 
+- consígueme un  {Keyword=Optometrista} 
+- consígueme  {Keyword=baconator} 
+- consígueme  {Keyword=comida bielorrusa} 
+- consígueme  {Keyword=buta palacio} 
+- consígueme  {Keyword=Camboya} 
+
+> locate
+
+- Quiero que localices  {Keyword=salón de pelo artístico}  Cercano  {Keyword=la kaaba} 
+- Quiero que localices  {Keyword=palacio schonbrunn}  En  {Address=544}   {Address=calle charles}   {Address=ninnekah}  En  {Address=Ar} 
+- Quiero que localices  {Address=carril de la escuela}  Y  {Address=24a avenida} Por favor
+- Quiero que localices  {Keyword=scotia plaza}  En  {Address=87479} 
+- Quiero que localices  {Keyword=edificio del parlamento escocés}  en la ciudad de  {Address=ouzinkie} 
+- Quiero que localices  {Keyword=edificio del parlamento escocés}  En  {Address=avenida del huerto} 
+- Localizar  {Keyword=hamburguesa de primera}  En  {Address=1665}   {Address=cancha de álamo}  En  {Address=condado de polk}   {Address=Wv}   {Address=sri lanka} 
+- Localizar  {Address=producir cancha}  Y  {Address=e gay st}  En  {Address=pueblo bartlett} 
+- Localizar  {Address=avenida de perspectivas}  Y  {Address=granja drive}  En  {Address=playa de jacksonville} Por favor
+- Localizar  {Keyword=torre de reunión}  En  {Address=571}   {Address=calle haring}   {Address=57682}   {Address=Upton}  En  {Address=Pa}   {Address=Bulgaria} 
+- Localizar  {Keyword=rex}  En  {Address=496}   {Address=impulsión de madera de borde}   {Address=Courtenay}   {Address=me}   {Address=Nueva Zelanda} 
+- Localizar  {Keyword=rococoa}  En  {Address=w pkwy.}  Y  {Address=carretera de fresas al sur}  En  {Address=homeacre} 
+
+> looking for
+
+- Estoy buscando un  {Keyword=altman electrónica} Cercano
+- Estoy buscando un  {Keyword=Carpintero} por no más de 667 libras cerca
+- Estoy buscando un  {Keyword=camión de remolque} por no más de 10 libras cerca
+- Estoy buscando  {Keyword=restaurantes libaneses} Cercano
+- Estoy buscando lo mejor  {Keyword=asesoramiento financiero} en la ciudad
+- Estoy buscando el bien  {Keyword=Casino} en la ciudad
+- Estoy buscando el bien  {Keyword=Capilla} en la ciudad
+- Estoy buscando el bien  {Keyword=tienda de ropa para niños} en la ciudad
+- Estoy buscando el bien  {Keyword=tienda de computadoras} en la ciudad
+- Estoy buscando el bien  {Keyword=Guesthouse} en la ciudad
+- Estoy buscando el bien  {Keyword=estación de servicio} en la ciudad
+- Estoy buscando el bien  {Keyword=Patinaje} en la ciudad
+- Estoy buscando el bien  {Keyword=stripmall} en la ciudad
+- Estoy buscando el bien  {Keyword=Sastre} en la ciudad
+- Estoy buscando un alto costo  {Keyword=Barbacoas} 
+- Estoy buscando  {Keyword=i t apoyo} en ese lugar
+- Estoy buscando  {Keyword=Núcleos} en la zona
+- Estoy buscando menos caro  {Keyword=restaurantes de comida rápida} en la ciudad por más de 378 dólares
+- Estoy buscando bajo costo  {Keyword=entrega de paquetes} por aquí por unos 255 dólares
+- Estoy buscando más cerca  {Keyword=Tatuajes} en la ciudad
+- Estoy buscando más barato  {Keyword=entrega de paquetes} Aquí
+- Estoy buscando más a buen precio  {Keyword=reproductores de DVD} en esa área por menos de 165 dólares
+- Estoy buscando  {Keyword=Pastel} Aquí
+- Estoy buscando lugares que puedo comprar  {Keyword=mesas nocturnas} 
+- Estoy buscando lugares que puedo  {Keyword=reparar mi ordenador} 
+- Estoy buscando lugares para comprar  {Keyword=Motocicletas} 
+- Estoy buscando  {Keyword=restaurantes de mariscos} en la ciudad
+
+> love
+
+- me encantaría la altamente calificada  {Keyword=Guarderías} Cercano
+- me encantaría  {Address=calle este 90}  Y  {Address=p pl}  En  {Address=Kenmore}   {Address=Florida} 
+- me encantaría  {Address=calle sur c}  Y  {Address=pl. e}  En  {Address=playa a grover}   {Address=Fl} 
+- me encantaría  {Address=unidad de puesta de sol}   {Address=condado de harrison} 
+- me encantaría  {Keyword=dulces tentaciones}  En  {Address=93398} 
+- me encantaría  {Keyword=dulces tentaciones}  En  {Address=lugar de sumner} 
+
+> pick up
+
+- me gustaría recoger un  {Keyword=dk pantalla} en mi área
+- me gustaría recoger un  {Keyword=markel canada} en los alrededores
+- me gustaría recoger un peor  {Keyword=freshii} en mi vecindad
+- me gustaría recoger mal  {Keyword=Quads} en esa ciudad por no más de 120 libras
+- me gustaría recoger las mejores calificaciones  {Keyword=Jengibre} en ese lugar por no más de 295 dólares
+- me gustaría recoger  {Keyword=detalles del coche} 
+- Me gustaría recoger de cerca  {Keyword=rollos de primavera} en la ciudad
+- Me gustaría recoger de cerca  {Keyword=Televisores} cerca por no más de 429 dólares
+- me gustaría recoger lo más costoso  {Keyword=lasaña vegetal} 
+- Me gustaría recoger mierda  {Keyword=Mezcladores} por menos de 406 dólares
+- Me gustaría recoger mierda  {Keyword=Televisores} en la ciudad por más de 282 libras
+- me gustaría recoger  {Keyword=limpieza en seco} Cercano
+- me gustaría recoger más lejos  {Keyword=entrega exprés} en mi área circundante
+- me gustaría recoger más lejos  {Keyword=Televisores} cerca de mí por no más de 143 libras
+- me gustaría recoger menos caro  {Keyword=Televisores} en la ciudad
+- me gustaría recoger la clasificación más baja  {Keyword=máquinas de café} cerca de mi ubicación actual
+- me gustaría recoger mediocre  {Keyword=Barbacoas} en la ciudad
+- me gustaría recoger más de cerca  {Keyword=asesoramiento fiscal} Cercano
+- me gustaría recoger la más económica  {Keyword=anillos de cebolla} en mi área circundante
+- me gustaría recoger más caro  {Keyword=entrega exprés} 
+- me gustaría recoger más caro  {Keyword=Mesas} cerca de mí
+- me gustaría recoger la mayoría mediocre  {Keyword=Baklava} alrededor de mi ubicación
+- me gustaría recoger  {Keyword=Scooters} en la ciudad
+
+> put
+
+- Poner  {Keyword=Aeropostale}   {Address=Winnipeg}   {Address=Ontario} en un mapa
+- Poner  {Keyword=chernobyl npp}   {Address=ainsworth ciudad}   {Address=carolina del sur} en un mapa
+- Poner  {Keyword=pueblo del lago columbia}   {Address=Kitchener}   {Address=Ontario} en un mapa
+- Poner  {Keyword=columbus centro de inscripción de escuelas de la ciudad}   {Address=owen sonido}   {Address=Ontario} en un mapa
+- Poner  {Keyword=dk pantalla}   {Address=clarendon ciudad}   {Address=Kentucky} en un mapa
+- Poner  {Keyword=eaton centro}   {Address=pueblo monroe}   {Address=Sd} en un mapa
+- Poner  {Keyword=Exhale}   {Address=Kitchener}   {Address=Ontario} en un mapa
+- Poner  {Keyword=alimentos italianos de fazoli}   {Address=Trimble} en un mapa
+- Poner  {Keyword=hamburguesa de fraternidad}   {Address=Chelsea} en un mapa
+- Poner  {Keyword=parque harrison}   {Address=sapulpa}   {Address=Pa} en un mapa
+- Poner  {Keyword=niño de tacón}   {Address=ciudad de bernard}   {Address=Nv} en un mapa
+- Poner  {Keyword=cocina de hue}   {Address=sala central} en un mapa
+- Poner  {Keyword=jefferson memorial}   {Address=Healy} en un mapa
+- Poner  {Keyword=Núcleos}   {Address=montrose ghent} en un mapa
+- Poner  {Keyword=leo j. ryan edificio federal}   {Address=algonac} en un mapa
+- Poner  {Keyword=Lowes}   {Address=Ottawa}   {Address=Ontario} en un mapa
+- Poner  {Keyword=crema de losa de mármol}   {Address=isla kiawah} en un mapa
+- Poner  {Keyword=onroute}   {Address=Ankara}   {Address=Ontario} en un mapa
+- Poner  {Keyword=Remax}   {Address=París}   {Address=Ontario} en un mapa
+- Poner  {Keyword=parrilla de macarrones de romano}   {Address=Edgartown} en un mapa
+- Poner  {Keyword=sanraku}   {Address=Horseheads} en un mapa
+- Poner  {Keyword=Metro}   {Address=nuevo siglo} en un mapa
+- Poner  {Keyword=td banco}   {Address=Douglas}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=condado de gage}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=ciudad harrold}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=Hudson}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=kinston ciudad}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=nulato}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=condado de ohio}   {Address=Ontario} en un mapa
+- Poner  {Keyword=td banco}   {Address=pueblo shoreham}   {Address=Ontario} en un mapa
+- Poner  {Keyword=los cooperantes}   {Address=balance del condado marrón}   {Address=Nebraska} en un mapa
+- Poner  {Keyword=las obras}   {Address=ciudad de gas}   {Address=Mt} en un mapa
+- Poner  {Keyword=las obras}   {Address=Tyrone}   {Address=Ny} en un mapa
+- Poner  {Keyword=viaje central}   {Address=ciudad del sur de Jordania}   {Address=Id} en un mapa
+- Poner  {Keyword=Williams}   {Address=Vineland} en un mapa
+- Poner  {Keyword=Ymca}   {Address=Boston}   {Address=Ontario} en un mapa
+- Poner  {Keyword=yogenfruz}   {Address=lago superior} en un mapa
+
+> recommend
+
+- puede recomendar un  {Keyword=palacio de bombardeo} cerca de mi área
+- puede recomendar un  {Keyword=restaurante búlgaro} por aquí por menos de 25 dólares
+- puede recomendar un  {Keyword=granero a granel} en ese país
+- puede recomendar un  {Keyword=tienda de alfombras} por unos 49 dólares por aquí para mí
+- puede recomendar un  {Keyword=tienda de teléfonos celulares} por menos de 916 dólares cerca de mí
+- puede recomendar un más costoso  {Keyword=restaurante saludable} en la ciudad por más de 95 euros
+- ¿puede recomendar un crappiest  {Keyword=comensal familiar} cerca de mi área por debajo de 357 libras
+- ¿puede recomendar un crappiest  {Keyword=belleza real inc} en ese país
+- puede recomendar un  {Keyword=restaurante criollo} aquí por menos de 102 euros
+- ¿puede recomendar un  {Keyword=restaurante indio} en esa ciudad
+- puede recomendar un  {Keyword=restaurante kurdo} en mi vecindad
+- ¿puede recomendar un pésimo  {Keyword=herrero} a mi alrededor para mí
+- puede recomendar un precio bajo  {Keyword=barsa taberna} alrededor de mi ubicación actual
+- puede recomendar un precio más bajo  {Keyword=restaurante kurdo} Cercano
+- puede recomendar un precio más bajo  {Keyword=barra sándwich} Aquí
+- puede recomendar un  {Keyword=Mcdonald} alrededor de mi ubicación actual para mí
+- puede recomendar un  {Keyword=restaurante de Oriente Medio} en esa región por entre 171 y 145 dólares para mí
+- puede recomendar un más querido  {Keyword=merrimack Valley servicios de salud} cerca de mi lugar a mí
+- puede recomendar un sobresaliente  {Keyword=estilos de pelo de la cabeza} en la ciudad para mí
+- puede recomendar un  {Keyword=montaña de azúcar} en las cercanías de mí
+- puede recomendar un  {Keyword=ala salvaje} en la ciudad
+- puede recomendar un  {Keyword=agencia de publicidad} en esa ciudad por más de 375 libras
+- puede recomendar un asequible  {Keyword=escuela de negocios} en las cercanías de mí
+- puede recomendar un asequible  {Keyword=lavado de coches} cerca de mí
+- puede recomendar un  {Keyword=restaurante ecléctico} en la ciudad para mí
+- puede recomendar el asequible  {Keyword=restaurante tailandés} en la ciudad
+- puede recomendar la mejor calificación  {Keyword=salones de tatuajes} en los alrededores por entre 274 y 116 euros
+- puede recomendar el mejor  {Keyword=restaurantes afganos} en esa ciudad por no más de 126 euros
+- puede recomendar el mejor  {Keyword=restaurante italiano} en la ciudad para mí
+- puede recomendar la calificación inferior  {Keyword=restaurantes judíos} en la ciudad por menos de 54 dólares
+- ¿puede recomendar el más crappiest  {Keyword=estadios de fútbol} por aquí por más de 212 libras para mí
+- puede recomendar el lejano  {Keyword=tienda de ropa} a mi alrededor por debajo de 239 libras
+- puede recomendar la más lejos  {Keyword=restaurante saludable} cerca de mi ubicación actual por no más de 472 dólares
+- ¿puede recomendar el más lejano  {Keyword=restaurantes británicos} cerca de mí por menos de 465 libras
+- puede recomendar la más alta calidad  {Keyword=tiendas de variedades} en la ciudad para mí
+- puede recomendar las calificaciones más altas  {Keyword=bar italia} en la ciudad
+- puede recomendar el menos popular  {Keyword=delatour agencia de personal} alrededor de mi área
+- puede recomendar el menos costoso  {Keyword=stripmall} en esta área
+- puede recomendar el mediocre  {Keyword=davidstea} cerca de mi lugar a mí
+- puede recomendar el mediocre  {Keyword=ethiopiques restaurante etíope} en esa área
+- puede recomendar el mediocre  {Keyword=restaurantes orgánicos} por aquí por más de 17 libras para mí
+- puede recomendar el más querido  {Keyword=tienda de bicicletas} cerca de mí para mí
+- puede recomendar el más querido  {Keyword=clubes de golf} en la ciudad por no más de 233 dólares para mí
+- puede recomendar el más popular  {Keyword=Rbc} en esa región
+- puede recomendar el más popular  {Keyword=restaurante vegetariano} en las cercanías
+- puede recomendar el más cercano  {Keyword=tienda de camping} alrededor de mi ubicación para mí
+- puede recomendar a los pobres  {Keyword=bar y salones} en esa región por más de 226 dólares para mí
+- puede recomendar el más caro  {Keyword=uhaul} en esta área para mí
+- puede recomendar lo peor  {Keyword=restaurante judío} en mi vecindad por menos de 235 dólares para mí
+- puede recomendar lo peor  {Keyword=tcby} en los alrededores
+- recomendar una  {Keyword=Atv} por unos 71 euros en mi área
+- recomendar una  {Keyword=Silla} por menos de 21 libras en mi área
+- recomendar una  {Keyword=estación de carga} cerca de mí
+- recomendar un barato  {Keyword=agente de viajes} en las cercanías de mí
+- recomendar una  {Keyword=quesería & delicatessen} Aquí
+- recomendar una  {Keyword=Iglesia} en mi vecindad
+- recomendar un cierre  {Keyword=ruby watchco} en la ciudad
+- recomendar una  {Keyword=Lavavajillas} por menos de 712 dólares en mi área
+- recomendar una  {Keyword=Lavavajillas} por no más de 759 dólares en mi área
+- recomendar una  {Keyword=Lavavajillas} por no más de 5564 euros en mi área
+- recomendar una  {Keyword=Aparador} por más de 55 dólares en mi área
+- recomendar una  {Keyword=reproductor dvd} por alrededor de 8133 libras en mi área
+- recomendar un mejor  {Keyword=restaurante albanés} aquí para mí
+- recomendar una  {Keyword=fresh-co} en la ciudad para mí
+- recomendar una nueva  {Keyword=centro comercial} por aquí
+- recomendar una  {Keyword=restaurante alemán} en las cercanías de mí
+- recomendar una  {Keyword=tienda de regalos} alrededor de mi ubicación por no más de 433 dólares para mí
+- recomendar una  {Keyword=glen j sytnyk - agente inmobiliario} en mi área circundante
+- recomendar una  {Keyword=Corte} por menos de 6373 dólares en mi área
+- recomendar un precio más alto  {Keyword=restaurante de barbacoa} en la ciudad para mí
+- recomendar una  {Keyword=Lámpara} por no más de 9945 libras en mi área
+- recomendar un menos costoso  {Keyword=tienda de antiguedades} en la ciudad por no más de 81 dólares para mí
+- recomendar un más barato  {Keyword=canada un viaje} en la ciudad
+- recomendar un más costoso  {Keyword=espejo de oro} cerca de mí a mí
+- recomendar un precio más justo  {Keyword=a1 limpieza de coches} cerca de mí
+- recomendar un más caro  {Keyword=menchie'slab} en la ciudad para mí
+- recomendar una  {Keyword=Motocicleta} entre 3100 y 7500 libras en mi área
+- recomendar una  {Keyword=ood_goods} por unas 262 libras en mi área
+- recomendar una  {Keyword=ood_goods} por menos de 985 libras en mi área
+- recomendar una  {Keyword=ood_goods} por no más de 10 libras en mi área
+- recomendar una  {Keyword=pho restaurante} por aquí
+- recomendar un pobre  {Keyword=largo john Silver} en la ciudad para mí
+- recomendar una  {Keyword=barra de sonido} por menos de 7676 libras en mi área
+- recomendar una calificación máxima  {Keyword=il panettone comida italiana fina} Aquí
+- recomendar una calificación máxima  {Keyword=paquete de pasatiempos de rata y coleccionables} en la ciudad
+- recomendar una  {Keyword=Academia} en las cercanías de mí
+- recomendar una  {Keyword=restaurante indio} en esa ciudad para mí
+- Recomendar  {Keyword=restaurante de bruno} cerca de mí
+- Recomendar  {Keyword=martes de rubí} en esta área
+- recomendar el más cercano  {Keyword=Resorts} en esa región para mí
+- recomendar el costoso  {Keyword=restaurante indio} en la ciudad para mí
+- recomendar la más lejos  {Keyword=tiendas de sándwiches} en la ciudad por no más de 288 libras
+- recomendar la  {Keyword=tiendas de camping} alrededor de mi ubicación por más de 164 euros
+- recomiendan la  {Keyword=Supermercado} en la ciudad por menos de 356 dólares para mí
+- recomiendan la  {Keyword=Ferretería} alrededor de mi ubicación actual para mí
+- recomendar el alto costo  {Keyword=Pizzerías} en esa área
+- recomendar el alto costo  {Keyword=el restaurante guanaquits} en esa ciudad para mí
+- recomendar el menos popular  {Keyword=Núcleos} aquí para mí
+- recomendar el menos caro  {Keyword=restaurante afgano} en ese lugar por no más de 403 euros para mí
+- recomendar el pésimo  {Keyword=restaurante afgano} en los alrededores por más de 118 dólares para mí
+- recomendar el precio bajo  {Keyword=Clínica} en la ciudad para mí
+- recomendar el bajo costo  {Keyword=softmoc} cerca para mí
+- recomendar el más barato  {Keyword=externalización computronics} en esa región para mí
+- recomendar la peor calidad  {Keyword=bar y parrillas} en mi área circundante por entre 353 y 478 libras
+- recomendar a los más pobres  {Keyword=td grupo financiero bancario} en esa ciudad
+- recomendar la segunda tasa  {Keyword=Masajes} cerca por más de 413 dólares
+- recomendar el mejor valorado  {Keyword=entradas del metro} en las cercanías
+- recomendar la mejor calificación  {Keyword=restaurante clásico} en la ciudad por entre 399 y 325 dólares
+- recomendar la mejor valorada  {Keyword=houston avenue bar y parrilla} en las cercanías
+- recomendar lo peor  {Keyword=Camping} aquí para mí
+
+> search
+
+- Búsqueda  {Keyword=mercado de boston}  en la encrucijada de  {Address=Washington}  Y  {Address=wardsville} cerca por favor
+- Búsqueda  {Keyword=puré de patatas} por menos de 372 libras cerca
+- buscar la mejor calificación  {Keyword=asesoramiento fiscal} cerca de entre 351 y 169 libras
+- Búsqueda  {Keyword=Televisores} por no más de 250 dólares cerca
+- buscar peor  {Keyword=entrega de paquetes} por más de 369 euros cerca
+-  {Keyword=cn torre}  En  {Address=Toronto} buscarlo
+- la intersección de  {Address=hrqeas}  Y  {Address=preum} buscarlo
+
+> see
+
+- por favor vea dónde está  {Keyword=barra de Hollywood}  en la intersección  {Address=avenida whitney}  Y  {Address=avenida de la libertad}   {Address=weaubleau}   {Address=Ky} 
+- por favor vea dónde está  {Keyword=bodega inmobiliaria konzelmann}  En  {Address=calle principal}  Y  {Address=lugar regente}  En  {Address=condado de chittenden}   {Address=Pensilvania} 
+- ver dónde está  {Keyword=tcby}  en la intersección de  {Address=w vis}  Y  {Address=cir marrón} 
+- ver dónde está  {Keyword=tcby}  En  {Address=w 118th blvd q}  Y  {Address=st. 706} Por favor
+- ver dónde está  {Keyword=tcby}  En  {Address=pier 39 exp exp exp salado}  Y  {Address=un bulevar.} 
+- ver dónde está  {Keyword=td banco}  En  {Address=cass lugar}   {Address=wenonah municipio} Por favor
+- ver dónde está  {Keyword=templo de artemisof los efesios}  En  {Address=1721}   {Address=carretera de la iglesia}   {Address=37863}   {Address=ciudad de las tierras altas}   {Address=terranova y labrador}   {Address=Estados Unidos} 
+
+> show
+
+- mostrar un  {Keyword=grandes almacenes}  Cercano  {Keyword=Newgrange} 
+- Mostrar  {Keyword=pizza de cici} cerca entre 240 y 860 dólares
+- Mostrar  {Keyword=asesoramiento financiero} para más de 336 libras cerca
+- muéstrame un  {Keyword=Cafetería} en la ciudad
+- muéstrame un  {Keyword=tienda de artículos para el hogar} lugar cercano
+- muéstrame un  {Keyword=lista de farmacias} en la zona
+- muéstrame un  {Keyword=Taco} lugar cercano
+- mostrarme más barato  {Keyword=Barcos} cerca por no más de 232 dólares
+- A ver  {Keyword=plomería sr rooter}  En  {Address=ciudad de fowler}  Y  {Address=Cardigan} cerca por favor
+- A ver  {Keyword=restaurante de cocina nouvelle} por no más de 23 libras cerca
+- A ver  {Keyword=Scooters} cerca por más de 86 dólares
+- A ver  {Keyword=fideos de sésamo} por entre 229 y 91 dólares cerca
+- Mostrar  {Keyword=jamón de parma} cerca por menos de 17 dólares
+- Mostrar  {Keyword=t.g.i. viernes} cerca entre 320 y 640 libras
+- Mostrar  {Keyword=los cooperantes} cerca por más de 79 euros
+- mostrar la ubicación de  {Keyword=chic-fil-a} cerca de mí
+- mostrar la ubicación de  {Keyword=parque militar nacional de gettysburg} cerca de mí
+- mostrar la ubicación de  {Keyword=crema de losa de mármol} cerca de mí
+- mostrar la ubicación de  {Keyword=cabaña de pizza} cerca de mí
+- mostrar la ubicación de  {Keyword=torre shalom meir} cerca de mí
+- mostrar dónde está  {Keyword=Cisne}  cerca de la intersección de  {Address=calle sherman}  Y  {Address=avenida con vista al mar}   {Address=forestburg} 
+- me encantaría que mostrar más barato  {Keyword=i t apoyo} por más de 167 libras cerca
+- Me gustaría que me mostraras económico  {Keyword=Aparadores} por unos 420 dólares cerca
+- Me gustaría que mostrara mediocre  {Keyword=limpieza en seco} cerca por no más de 434 euros
+- Me encantaría que me mostraras más caro  {Keyword=limpieza en seco} por no más de 309 libras cerca
+- Realmente me gustaría que me mostraras  {Keyword=Scooters} cerca por no más de 58 euros
+- es posible mostrar  {Keyword=Esfinge} Cercano
+- por favor muéstrame  {Address=875}   {Address=nueva avenida utrecht} Cercano
+- por favor, muéstrame el  {Keyword=tienda de cerveza}  en la intersección de  {Address=Hawarden}  Y  {Address=aldea adams} Cercano
+-  {Keyword=albert college}  En  {Address=eglinton este Dr.}  Y  {Address=k vis} muéstrame dónde está
+-  {Keyword=chipotle parrilla mexicana}  En  {Address=o gtwy}  Y  {Address=Yo ave.} muéstrame dónde está
+-  {Keyword=puerta de la ciudad}  En  {Address=51o pl. b}  Y  {Address=curso j} muéstrame dónde está
+- ¿podría mostrar  {Address=715}   {Address=calle de arándanos} en las cercanías
+- ¿podría mostrarme  {Address=686}   {Address=5a calle este} en la ciudad
+-  {Address=Detroit}   {Address=Ontario}   {Address=Canadá} muéstramelo
+-  {Keyword=nando's} muéstramelo
+-  {Keyword=monumento nacional navajo}  En  {Address=833}   {Address=thomas calle}   {Address=condado rico}   {Address=mi} muéstramelo
+- por favor muestre dónde es un  {Keyword=restaurante étnico}  En  {Address=Calle 60}  Y  {Address=avenida greene}   {Address=pueblo de deerfield}   {Address=Minnesota} 
+- mostrarme un alto costo  {Keyword=Televisores} por no más de 219 dólares en los alrededores
+- mostrarme las calificaciones más altas  {Keyword=Curry} en las cercanías por menos de 150 dólares
+- mostrarme las calificaciones más altas  {Keyword=corteza de pizza} en esa región por más de 441 libras
+-  {Address=pueblo de stockville}   {Address=Polonia} muéstrame dónde está
+
+> suggest
+
+- ¿puede sugerir una  {Keyword=taller de reparación de casas} cerca por entre 448 y 500 dólares para mí
+- ¿puede sugerir un más caro  {Keyword=chile} cerca de mí
+- ¿puede sugerir un  {Keyword=tienda de electrodomésticos} cerca por no más de 216 dólares
+- ¿puede sugerir un barato  {Keyword=águila americana} cerca de mí
+- ¿puede sugerir el más barato  {Keyword=restaurantes chinos} cerca por encima de 362 libras para mí
+- ¿puede ssugerir el crappiest  {Keyword=restaurante kosher} cerca por menos de 63 libras
+- ¿puede sugerir el precio más alto  {Keyword=baguette francés bkry de michel} cerca de mí
+- ¿puede sugerir el precio más bajo  {Keyword=club nocturno} cerca de mí
+- sugieren una  {Keyword=alimentos marinos legales} por más de 44 dólares cerca de mí
+- sugieren una  {Keyword=mars bar y restaurante} por más de 3 dólares cerca de mí
+- sugerir un precio más justo  {Keyword=leche de la ciudad & variedad} Cercano
+- sugieren una  {Keyword=restaurante peartree} entre 35 y 75 dólares cerca de mí
+- sugieren un costoso  {Keyword=clase de yoga} cerca de mí a mí
+- Sugerir  {Keyword=pho cuisine} por más de 3722 dólares cerca de mí
+- Sugerir  {Keyword=pho cuisine} por más de 82 libras cerca de mí
+- sugerir lo peor  {Keyword=Shawarma} cerca de mí
+- ¿puede sugerir la  {Keyword=Vidriero} en la ciudad por menos de 121 libras
+- ¿puede sugerir el costo más alto  {Keyword=largo & mcquade} en la ciudad
+- ¿puede sugerir el menos popular  {Keyword=barra de sushi} en ese lugar por entre 483 y 455 dólares
+- ¿puede sugerir lo peor  {Keyword=cabaña de pizza} en la ciudad para mí
+- ¿puede sugerir lo peor  {Keyword=cabaña de pizza} en la ciudad para mí
+- ¿puede sugerir lo peor  {Keyword=edificio richardson} en el área para mí
+- sugieren una  {Keyword=apalla} por más de 44 dólares aquí para mí
+- sugieren una  {Keyword=Cama} por menos de 72 euros en ese lugar para mí
+- sugerir un mejor  {Keyword=tecnologías swyft inc} por aquí
+- sugieren una  {Keyword=Barco} por más de 719 euros en ese lugar para mí
+- sugieren una  {Keyword=Brewpub} aquí por no más de 311 dólares para mí
+- sugieren una  {Keyword=Brewpub} en esa ciudad por entre 447 y 299 dólares para mí
+- sugieren una  {Keyword=alas salvajes de búfalo} en mi área circundante
+- sugerir lo peor  {Keyword=mcdouble} por aquí a mí
+- sugerir lo peor  {Keyword=Salchichas} en las cercanías de mí
+- sugerir lo peor  {Keyword=Envuelve} en los alrededores para mí
+
+> view
+
+- Me encantaría que vieras  {Keyword=poutine} cerca por menos de 44 euros
+- ¿podría ver  {Address=loudonville pueblo}   {Address=España} 
+- por favor vea  {Keyword=parkland kennels west inc}  En  {Address=balance del condado de estill}  Y  {Address=equilibrio del condado de Laclede} 
+- por favor vea  {Keyword=princesa del teatro Wales} Aquí
+- por favor vea  {Keyword=dulces tentaciones}  En  {Address=Sutton}  Y  {Address=Doblar} en las cercanías
+- ¿podría ver  {Address=Weber}  Y  {Address=st de vid} Por favor
+- ¿podría ver  {Keyword=wells fargo center}  En  {Address=439}   {Address=brighton 7th lane}   {Address=pueblo del parque de ciervos}   {Address=Minnesota} 
+- ¿verá lo lejos que se encuentra a la ciudad de  {Address=poco rock} 
+
+> want
+
+- Quiero un  {Keyword=estación de tren} Cercano
+- Quiero un  {Address=y way}  Y  {Address=33o pkwy.}  En  {Address=Madisonville}   {Address=Washington} 
+- Quiero un  {Keyword=yogenfruz}  En  {Address=bulevar michigan al sur}  Y  {Address=blvd. a}  En  {Address=playa de ewa} 
+- Quiero un  {Keyword=yogenfruz}  En  {Address=oeste randolph pkwy.}  Y  {Address=r Dr.} Por favor
+- Quiero un  {Keyword=York minster}  En  {Address=1827}   {Address=hutchinson corte}   {Address=condado de boone}   {Address=Md} 
+- Quiero un  {Keyword=zion parque nacional}  En  {Address=Calle 47}  Y  {Address=lugar columbus} Por favor
+- Quiero un  {Keyword=zoup!}  En  {Address=1497}   {Address=fuerte lugar de la colina}   {Address=harlem ciudad}   {Address=isla de rode}  En  {Address=papua nueva guinea} 
+

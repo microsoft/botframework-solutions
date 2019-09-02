@@ -1,0 +1,388 @@
+## GetDirections
+
+> bring to
+
+- 带我到 {Address=736}   {Address=贾米森巷}   {Address=卡马戈村}   {Address=52132} 
+- 带我到一个 {Keyword=美术馆} 
+- 带我到一个 {Keyword=美术馆} 
+- 带我到 {Keyword=阿扎迪塔} 在 {Address=韦特斯夫夫} 和 {Address=德巴格普姆姆西夫} 
+- 带我到 {Address=吹嘘法院} 
+- 继续前进，带我到 {Address=297}   {Address=政治之地} 在 {Address=点勒贝尔}   {Address=马尼托巴省} 
+- 继续前进，把我带到一个 {Keyword=床和早餐} 上 {Address=主街东}   {Address=诺科米斯} 
+- 继续前进，把我带到一个 {Keyword=马戏团} 
+- 继续前进，把我带到一个 {Keyword=房地产 经纪人} 
+- 继续前进，带我到 {Address=公平街} 
+- 继续前进，带我到 {Address=赫基默法院} 
+-  {Keyword=长城} 在 {Address=1046}   {Address=乔治亚大道}   {Address=本顿县} 带我们到那里
+- 你把我带到 {Address=1218}   {Address=斯基德莫尔巷}   {Address=桂冠县} 
+- 你把我带到 {Address=1549}   {Address=科贝克法院}   {Address=70212}   {Address=安德森市} 在 {Address=马达加斯加} 
+- 你把我带到 {Address=1616}   {Address=第24大道} 在 {Address=绿地县的平衡}   {Address=新不伦瑞克省} 
+- 请带我到 {Address=莫里斯街} 
+- 请带我到交界处 {Address=拉特克利夫市} 和 {Address=里韦斯维尔镇} 靠近我当前的位置
+- 请提出一个 {Keyword=点心餐厅} 在 {Address=东伯勒} 和 {Address=拉姆西市} 在那个城市
+- 请提出一个 {Keyword=公共房屋} 在 {Address=勒弗洛雷} 和 {Address=贝尔佐尼市} 靠近我的地方
+
+> direct/directions
+
+- a {Keyword=火车站} 在交集处 {Address=海狸县的平衡} 和 {Address=阿平县的平衡} 在那个城镇的方向，请
+-  {Keyword=航空邮政} 上 {Address=弗兰克林法院} 在城市，请指导我在那里
+- 实惠 {Keyword=长裤} 在 {Address=麦克卢斯基市} 请指引我到那里
+- 实惠 {Keyword=长裤} 在 {Address=拉莫纳镇} 请指引我到那里
+-  {Keyword=阿克萨清真寺} 在 {Address=1421}   {Address=琳达巷}   {Address=66096}   {Address=沃什本市} 在 {Address=捷克共和国} 请指引我到那里
+-  {Keyword=阿克萨清真寺} 在 {Address=967}   {Address=海军步行}   {Address=52279} 在 {Address=哥伦布村} 给我方向
+-  {Keyword=阿尔罕布拉} 在 {Address=第56街}   {Address=乌因塔} 给我方向
+-  {Keyword=艾伦花园温室} 在 {Address=米利奇维尔} 给我方向
+- 城市 {Address=代尔罗伊村} 给我指路
+- 城市 {Address=埃尔朗格} 方向请
+- 我需要方向 {Keyword=鲍勃·埃文斯} 
+- 你能给我发指示 {Address=贝尔蒙特} 
+- 你能给我发指示 {Address=格兰比} 
+- 你能给我发指示 {Address=古斯塔维亚} 
+- 指导我 {Keyword=诺亚百吉饼} 
+- 指导我 {Keyword=帕内拉面包} 
+- 指导我 {Address=帕克维尔大道} 
+- 指导我 {Address=针橡木驱动器} 
+- 指示我最短的路线 {Address=罗坎维尔} 
+- 指示我最短的路线 {Address=韦恩斯伯勒市} 
+- 指示我最短的路线 {Address=白县} 
+- 方向 2 {Address=杜利街} 
+- 方向 2 {Address=路线 32} 
+- 方向 2 {Keyword=鲁斯快餐} 
+- 说明 {Keyword=麦当劳} 
+- 说明 {Address=弗农山城} 
+- 说明 {Address=牛津路} 
+- 说明 {Keyword=马铃薯皮亚} 
+- 说明 {Address=申尼塔迪大道} 
+- 给我指示 {Address=第29街} 
+- 给我指示 {Address=728}   {Address=大道 c}   {Address=勒勒茨维尔}   {Address=Az}   {Address=危地马拉} 
+- 给我的方向 {Keyword=面包 店} 
+- 给我的方向 {Keyword=日营} 关闭 {Keyword=曼彻斯特维多利亚站} 
+- 给我的方向 {Keyword=甜点餐厅} 
+- 给方向 {Address=1380}   {Address=格兰特街}   {Address=28720}   {Address=埃德纳市}   {Address=加拿大} 
+- 给方向 {Address=1614} 上 {Address=大西洋大道} 
+- 给方向 {Address=第二大道} 
+-  {Address=霍尔特法院} 在我附近给我的方向有
+-  {Address=洪都拉斯} 指导我在那里
+- 我需要方向 {Keyword=邦兰扎牛排馆} 
+- 我需要方向 {Address=布里亚伍德驱动器} 
+- 我需要方向 {Keyword=库尔松街火车站} 在 {Address=dpfw} 和 {Address=兹塞布} 
+- 我需要方向 {Keyword=丹尼的} 
+- 我需要方向 {Keyword=邓金甜甜圈} 
+- 我需要方向 {Address=埃文斯街} 
+- 我需要方向 {Keyword=陀螺} 
+- 导航方向 {Keyword=哥伦布市学校中央招生中心}   {Address=公平景观路} 和 {Address=哥伦布地方} 
+- 导航方向 {Keyword=哥伦布市学校中央招生中心}   {Address=普雷斯顿法院} 和 {Address=罗斯特地方} 
+- 导航方向 {Keyword=哥伦布市学校中央招生中心}   {Address=强奸街} 和 {Address=银行街} 
+- 导航方向 {Keyword=loco 预付费}   {Address=第48街} 和 {Address=木赫尔街} 
+- 请为什么你不给我指示 {Keyword=纽波特塔} 接近交集 {Address=劳顿街} 和 {Address=棕榈法院}   {Address=圣菲利佩镇} 
+- 请指示 2 a {Keyword=公园} 在 {Address=帝国林荫大道} 和 {Address=萨特大道}   {Address=莱耶利镇} 
+- 请指示2 a {Keyword=电器商店} 在交界处 {Address=尼加} 和 {Address=圣费利克斯-德瓦洛瓦} 
+- 请说明 {Keyword=大峡谷} 离十字路口不远 {Address=斯宾塞地方} 和 {Address=前街南} 在 {Address=伯克市}   {Address=特拉华州} 
+- 请说明 {Keyword=甘普的} 在 {Address=马尔瓦内} 和 {Address=萨拉贝里-德谷菲尔德} 
+-  {Keyword=施恩布伦宫} 上 {Address=公平视图地点} 在附近，请你能给我指示它
+- 开始指导我 {Keyword=维多利亚瀑布} 
+- 开始指导我 {Keyword=别墅情绪} 
+- 开始指导我 {Keyword=西敏寺} 
+- 开始方向到 {Keyword=星巴克} 
+-  {Address=斯德哥尔摩} 方向
+- 打开指示我 {Keyword=阿克萨清真寺} 
+- 打开指示我 {Keyword=巴贾克利清真寺} 
+- 打开指示我 {Keyword=切伦-梅鲁} 
+- 交集 {Address=女王} 和 {Address=南市民中心驱动器} 在 {Address=齐巴赫县的平衡} 方向请
+- 交集 {Address=s 高 st} 和 {Address=埃尔布} 在 {Address=半诺尔县平衡} 方向请
+- 交集 {Address=很少见 到 rd} 和 {Address=s 高 st} 在 {Address=麦克法兰} 方向请
+- 什么是方向 {Address=杰克逊市}   {Address=泰国} 请
+- 什么是方向 {Address=湖景驱动器} 在 {Address=征服} , {Address=缅因州} , {Address=朝鲜} 
+- 什么是方向 {Keyword=潘切罗斯墨西哥烤架} 
+- 什么是方向 {Keyword=熊猫快车} 
+- 什么是方向 {Keyword=塔卡考瀑布} 靠近交集 {Address=沙街} 和 {Address=帕尔德加特第一街} 在 {Address=瑞兰高度}   {Address=魁北克} 
+-  {Address=科菲街} 在步行距离内 {Keyword=乌布广场一号} 在 {Address=明天县的平衡} 指导我在那里
+
+> drive
+
+- a {Keyword=面包 店} 接近 {Address=海湾第14街} 和 {Address=路线 44} 在 {Address=巨石城}   {Address=俄勒冈州} 告诉我，我将如何开车到那里，请
+- a {Keyword=面包 店} 把我们开到那里
+-  {Address=拉什县的平衡}   {Address=拉托维亚} 告诉我怎么开车去那里
+-  {Keyword=加拿大战争博物馆} 在 {Address=1512}   {Address=只是法院}   {Address=曼福德} 在 {Address=明尼苏达州} 把我们开到那里
+- 城市 {Address=博伊尔} 开车送我到那里
+- 城市 {Address=海伍德县} 告诉我怎么开车去那里
+- 开车送我到十字路口 {Address=舍费尔街} 和 {Address=沃夫地方} 
+- 开车送我 {Address=下水} 
+- 开车送我 {Address=温莎镇} 使用最快的路径
+- 开车送我 {Address=温斯罗普镇} 
+- 开车送我 {Keyword=扎克斯比的} 
+-  {Keyword=杜拜兰} 在 {Address=694}   {Address=贡宁森法院}   {Address=阿帕拉奇科拉} 在 {Address=魁北克} 把我们开到那里
+-  {Keyword=魔鬼塔} 在 {Address=布赖顿第8名} 和 {Address=杜里耶地方} 在 {Address=佩拉哈奇镇}   {Address=北达科他州} 开车送我们到那里
+-  {Address=德威特大道} 和 {Address=布鲁克巷} 在 {Address=埃特纳自治市} 请开车送我们到那里
+-  {Keyword=丹巴德} 在 {Address=94}   {Address=劳伦斯街}   {Address=94375}   {Address=哈尔克尔克}   {Address=爱达荷州}   {Address=阿鲁巴} 把我们开到那里
+-  {Address=迪克森县} 地图驱动我们到那里
+
+> get
+
+- a {Keyword=度假村} 在 {Address=333}   {Address=海湾32街}   {Address=在}   {Address=劳德希尔市} 我如何到达那里
+- a {Keyword=水上乐园} 在 {Address=356}   {Address=樱桃巷}   {Address=49433}   {Address=麦克登维尔镇}   {Address=体育}   {Address=德国} 教我如何到达那里
+-  {Address=棕色街道} 和 {Address=北边第二街} 请告诉我如何到达那里
+-  {Keyword=船长} 在 {Address=主要街道西} 和 {Address=第49街}   {Address=林 赛}   {Address=新墨西哥州} 请告诉我如何到达那里
+-  {Address=碳耳} 地图显示如何到达那里
+-  {Keyword=卡尔的jr.} 最近 {Address=布赖顿第一露台}   {Address=格洛斯特}   {Address=纽约} 教我如何到达那里
+-  {Keyword=冠军高尔夫球场} 在十字路口 {Address=施韦克茨步行} 和 {Address=威斯敏斯特路} 教我如何到达那里
+-  {Keyword=冠军高尔夫球场} 在十字路口 {Address=核桃大道} 和 {Address=第92街} 教我如何到达那里
+-  {Keyword=克莱斯勒大厦} 在 {Address=155}   {Address=佩恩街}   {Address=马斯格雷夫港}   {Address=50587} 教我如何到达那里
+- 让我 {Address=路线 41} 
+- 让我 {Keyword=罗伊罗杰斯餐厅} 
+- 让我 {Address=莱德街}   {Address=康贝斯镇} 
+- 获得 {Address=沃尔沃斯街} 
+- 获得 {Address=亚马奇切} 
+- 获得 {Keyword=托珀斯比萨} 
+- 我怎样才能得到一个 {Keyword=三明治吧} 
+- 我怎样才能 {Keyword=a1 汽车清洁} 
+- 我怎样才能 {Address=刘易斯县} 
+- 我怎样才能 {Address=马科尼地方} 
+- 我怎样才能 {Address=罗蒙县} 
+- 我需要 {Address=克拉韦特} 
+- 我需要 {Address=丹尼尔森区} 
+- 我需要 {Address=德雷柏} 
+-  {Keyword=罗斯福坎波贝洛国际公园} 上 {Address=岸道车道} 在 {Address=库格鲁克图克} 我怎样才能到达那个地方
+-  {Address=罗森代尔} 地图我如何到达那个地方
+-  {Address=路线 20} 和 {Address=骑士法庭} 我需要去十字路口
+- 我需要去的地方是 {Keyword=船长印刷厂} 在城市
+- 我需要去的地方是 {Keyword=长廊 ii} 上 {Address=横幅第三路} 在附近
+- 我想去的地方是 {Address=1635}   {Address=第17大道}   {Address=米}   {Address=圣文森特和格林纳丁斯} 
+- 我想去的地方是 {Address=1828}   {Address=将放置}   {Address=艾伯塔省} 
+-  {Address=西大街} 和 {Address=机械街} 我需要去十字路口
+
+> go
+
+-  {Address=1286}   {Address=西卡莫尔街}   {Address=伯顿市} 在 {Address=新泽西州} 我怎么能去那里
+-  {Address=93}   {Address=海湾40街}   {Address=71400}   {Address=佩森村}   {Address=朝鲜} 我怎么能去那里
+-  {Address=936}   {Address=霍华德小巷}   {Address=乌尔姆镇} 在 {Address=马里兰} 我怎么能去那里
+-  {Address=950}   {Address=玫瑰木驱动器} 在 {Address=肯莫尔市} 我怎么能去那里
+-  {Address=第99届 fwy} 和 {Address=第三， t} 在 {Address=阿波马托克斯} 我怎么能去那里
+-  {Address=第99个th} 和 {Address=西劳伦斯·茨维} 我怎样才能去那里
+- a {Keyword=面包 店} 在 {Address=1715}   {Address=里弗代尔大道}   {Address=石公园村}   {Address=爱荷华州} 我怎么能去那里
+- a {Keyword=酒吧和烧烤} 不是那么远 {Keyword=富尔顿歌剧院} 我怎么能去那里
+- a {Keyword=酒吧和休息室} 在 {Address=1262}   {Address=申克法院}   {Address=46186}   {Address=自由城市}   {Address=佛罗里达州}   {Address=斯里兰卡} 我怎么能去那里
+- a {Keyword=酒吧和休息室} 在 {Address=633}   {Address=海湾49街}   {Address=劳伦斯县}   {Address=伊利诺伊州} 我怎么能去那里
+- a {Keyword=餐厅} 在 {Address=奥布赖恩的地方} 和 {Address=马尔塔街} 在 {Address=莱斯·布勒斯}   {Address=北卡罗来纳州} 我怎样才能去那里
+- a {Keyword=瑜伽课程} 在 {Address=331}   {Address=北边第五街}   {Address=77187}   {Address=洛根市}   {Address=密苏里州}   {Address=刚果共和国} 我怎么能去那里
+- 实际上开始去 {Keyword=锚客栈} 
+- 实际上开始去 {Keyword=艾尔斯岩} 
+- 实际上开始去 {Keyword=贝莱蒙特大厦} 
+- 实际上开始去 {Keyword=布加勒斯特购物中心} 
+- 实际上打开去 {Keyword=金门大桥} 
+- 实际上打开去 {Keyword=杰弗森拱门} 
+- 实际上打开去 {Keyword=卢浮宫} 
+- 实际上打开去 {Keyword=点洛博斯国家储备} 
+- 城市 {Address=伊登村} 我怎么能去那里
+- 去 2 {Address=1223}   {Address=东二街} 在 {Address=卡里隆}   {Address=亚利桑那州} 
+- 去 2 a {Keyword=公共汽车站} 
+- 去 2 a {Keyword=健身中心} 在交界处 {Address=花园街} 和 {Address=白色大道} 
+- 去 2 a {Keyword=融合餐厅} 
+- 去 2 a {Keyword=车库} 
+-  {Address=吉布斯村} 地图我怎么才能去那里
+-  {Keyword=来自地球的礼物} 上 {Address=} 在城里，请我怎么去那里
+-  {Keyword=哈德里安的墙} 在这里，请我怎么去那里
+- 让我们去一个 {Keyword=君主酒馆} 在 {Address=罗切斯特大道} 和 {Address=杰克逊法院} 
+- 让我们去一个 {Keyword=帕内拉面包} 在 {Address=麦克基弗地方} 和 {Address=约翰逊街} 
+- 让我们去一个 {Keyword=手机商店} 
+- 让我们去一个 {Keyword=罗可可} 在 {Address=林肯大道} 和 {Address=西利街} 
+- 请我们要去一个 {Keyword=阿富汗餐厅} 在 {Address=海沃德街} 和 {Address=昆廷街}   {Address=布鲁克内尔镇}   {Address=密苏里州} 
+- 请我们要去 {Keyword=蒙特拉尔圣母院} 在交集处 {Address=母亲加斯顿林荫大道} 和 {Address=埃尔姆伍德大道}   {Address=斯特吉斯}   {Address=ne} 
+- 开始转到 {Keyword=星巴克} 
+- 开始去
+- 开关去 {Keyword=约克·明斯特} 在 {Address=边缘木城} 
+- 开关去 {Keyword=约克·明斯特} 在 {Address=索特·斯特马里市} 
+- 打开去 {Address=凯奇坎} 
+- 打开去 {Keyword=lds教堂办公楼} 在 {Address=ione 城市} 
+- 打开去 {Keyword=梅西的} 在 {Address=斯蒂芬斯县} 
+- 打开去 {Address=马塔瓦} 
+- 我们要 {Address=路线 41} 
+- 我们要 {Address=斯图维森特大道} 
+- 我们要 {Address=苏伊达姆街} 
+- 我们要去一个 {Keyword=广场} 在 {Address=166}   {Address=布赖顿第7街} 叫 {Keyword=十家餐厅和酒吧} 
+- 我们要去城市 {Address=奇滕登县的平衡} 请
+- 我们要 {Keyword=托雷市长} 在 {Address=w 半诺尔博士} 和 {Address=大学} 
+- 我们要 {Keyword=两倍的交易比萨饼} 
+- 我们要 {Address=维多利亚} 
+
+> guide
+
+-  {Address=92}   {Address=山毛山街} 离不太远 {Keyword=大清真寺的詹恩} 在 {Address=奥利弗县的平衡} 引导我到那里
+-  {Address=巴尔博亚路北} 和 {Address=我.} 请引导我到那里
+-  {Address=巴马科} 位置引导我在那里
+-  {Keyword=中国银行大厦} 在交界处 {Address=金斯伯勒第一步} 和 {Address=比克曼地方} 引导我到那里
+-  {Address=布里亚伍德法院}   {Address=梅塞尔利} 引导我到那里
+-  {Address=布里亚伍德驱动器} 和 {Address=布雷沃特地方} 请引导我到那里
+-  {Address=布赖顿 4 地点} 和 {Address=州法院} 是十字路口指引我
+-  {Keyword=便宜的千斤顶} 在 {Address=鲁特兰县} 和 {Address=平衡的爱县} 在城市，你能指引我在那里
+-  {Keyword=辣椒} 你能指引我到那里吗？
+-  {Keyword=辣椒} 在 {Address=t blvd} 和 {Address=第86大道南} 你能指引我到那里吗？
+-  {Keyword=克里斯梅勒保险经纪人有限公司} 在我周围，你能指引我
+- 城市 {Address=边缘康贝县的平衡} 引导我到那里
+- 引导我
+-  {Address=杨树街} 离不太远 {Keyword=甘蒂亚} 引导我到那里
+-  {Keyword=广告代理} 在交叉点 {Address=卖方堡} 和 {Address=弗雷蒙特县} 你能指引我到那里吗？
+
+> head
+
+- 头到 {Keyword=美容院} 
+- 头到 {Keyword=汽车站} 
+- 头到 {Keyword=复制中心} 
+- 头到 {Keyword=火场潜艇} 不是离那太远 {Keyword=卡萨米拉} 
+- 头到 {Address=山街} 
+- 头到 {Address=凯奇坎网关自治市} 
+- 头到 {Address=湖街} 
+- 头到 {Address=莱莱萨市} 
+- 头到 {Keyword=惠灵顿公爵} 上 {Address=h gtwy} 和 {Address=在。s} 
+- 头到 {Address=杜伦县} 地图
+- 头到 {Keyword=杜蒂公园冬季花园} 在交叉点 {Address=巴贝街} 和 {Address=希科里巷} 请
+- 头到 {Address=花园街} 和 {Address=布赖顿第8名} 是交叉点
+- 头到 {Address=网关 46} 和 {Address=o ave} 是交叉点
+- 头到 {Address=乔治亚大道} 和 {Address=磨坊路} 在 {Address=蓝泉镇} 现在
+- 头到 {Keyword=乔治亚食品} 
+
+> navigate/navigation
+
+-  {Keyword=总是管道和加热有限公司} 在 {Address=利亚德堡} 和 {Address=亚历山大} 围绕我导航请
+- 导航到 {Address=阿盖尔路} 在我的地区
+- 导航到 {Keyword=亚利桑那-索奥拉沙漠博物馆} 在 {Address=1877}   {Address=分割大道}   {Address=豆站城}   {Address=Ga} 在 {Address=毛里塔尼亚} 
+- 导航到 {Address=阿灵顿县} 地图
+- 导航到 {Keyword=阿萨博里} 在 {Address=981} 在 {Address=范西克伦法院} 
+- 导航到 {Keyword=阿萨博里} 在 {Address=韦尔登街} 和 {Address=路线 20}   {Address=库亚霍加高地村} 请
+-  {Address=运河blvd。} 和 {Address=l cswy} 导航我到那里
+-  {Keyword=可以-西部全球位置} 在 {Address=1551}   {Address=第四大道} 在 {Address=圣乔治}   {Address=南达科他州}   {Address=圣文森特和格林纳丁斯} 导航我到那里
+-  {Address=角珊瑚城} 地图导航我到那里
+-  {Keyword=卡佩拉塔} 在 {Address=31}   {Address=富尔曼大道}   {Address=74889}   {Address=雪松县的平衡} 在 {Address=马提尼克岛} 导航我到那里
+-  {Keyword=国会 大厦} 在 {Address=城堡镇} 和 {Address=哥伦布} 导航我到那里
+-  {Address=夏洛特法院房子镇}   {Address=Sc} 启动导航
+-  {Keyword=城堡劳里尔} 在 {Address=1916}   {Address=莫耶尔街} 在 {Address=香港 仔} 启动导航
+- 城市 {Address=洛诺克市} 导航请
+-  {Keyword=城市塔} 在 {Address=856}   {Address=范辛德伦大道}   {Address=凯斯维尔市}   {Address=在} 在导航请
+-  {Address=钟楼路} 和 {Address=e 高贵的 st} 在 {Address=新佩里坎} 导航请
+-  {Keyword=克洛尼小酒馆和布兰吉里} 在 {Address=n 博士} 和 {Address=第 36 路 z} 导航我到那里
+-  {Address=cswy e} 和 {Address=blvd x} 导航我到那里
+-  {Address=哈姆林} 导航请
+-  {Keyword=热棒咖啡厅} 在 {Address=j 90大道东} 和 {Address=第 5 n 路北 f} 导航我到那里
+-  {Address=n fwy} 和 {Address=第六名} 导航我到那里
+- 导航
+- 导航 2 a {Keyword=犹太餐厅} 
+- 导航 2 a {Keyword=比萨 店} 在 {Address=车队步行} 和 {Address=印第安纳地方}   {Address=贝德福德县的平衡}   {Address=Tn} 
+- 导航 2 {Address=坎布里奇驱动器} 
+- 导航 2 {Keyword=卡拉巴的意大利烤架} 在我附近
+- 导航 2 城市 {Address=姆比内萨} 
+- 导航到 {Address=杜蒙特大道} 
+- 导航到 {Address=埃尔科镇} 
+- 导航到 {Address=阿布扎比} 
+- 导航到 {Address=马盖特} 
+- 导航到 {Address=诺达威市} 
+- 请为什么你不导航我到 {Keyword=融合餐厅} 在 {Address=校园路} 和 {Address=劳顿街} 
+- 请为什么你不导航我 {Address=科纳瓦市}   {Address=危地马拉} 
+- 请为什么你不导航到 {Keyword=布加勒斯特购物中心} 在 {Address=多蒂街}   {Address=阿塔拉县} 
+-  {Keyword=圣玛丽亚小说} 在 {Address=1035}   {Address=西利街}   {Address=63052}   {Address=富堡村} 在 {Address=奥地利} 导航我到那里
+- 切换到导航到 {Keyword=健身商店} 
+- 切换到导航到 {Keyword=花匠} 
+- 切换到导航到 {Keyword=法式餐厅} 
+-  {Keyword=终端塔} 在 {Address=b crse} 和 {Address=e expy} 导航我到那里
+-  {Keyword=终端塔} 在 {Address=克拉克县} 启动导航
+-  {Address=特雷尔丘陵}   {Address=印度} 启动导航
+- 你会如何你导航我 {Keyword=维多利亚和朱莉娅的花} 在达科他的地方在汉弗莱市
+-  {Address=兹 blvd。} 和 {Address=bnd 972} 导航我到那里
+
+> point
+
+- 指我的方式 {Address=西德尼地方} 
+- 指我的方式 {Keyword=悉尼塔} 
+- 指我的方式 {Address=特隆} 
+- 指我的方式 {Address=威廉斯堡村} 
+- 点我到 {Keyword=椰子奶油派} 离不太远 {Address=马凯特市} 
+- 点我到 {Keyword=大学公园} 在 {Address=克劳福德大道}   {Address=莱利县的平衡} 
+- 点我到 {Address=哥伦比亚} 和 {Address=大学大道} 请
+- 点我到 {Keyword=哥伦布市中心高中} 在 {Address=第62街} 和 {Address=路线 20} 请
+- 点我到 {Address=隐蔽的街道} 和 {Address=布赖顿第五步} 在 {Address=莱斯·布勒斯} 
+- 点我到 {Keyword=舒适的小猫住宿} 在 {Address=高地景观大道} 和 {Address=桂冠巷} 
+- 点我到 {Keyword=饼干桶} 上 {Address=班布里奇街} 和 {Address=奶油街} 请
+- 点我到 {Address=克劳福德大道} 和 {Address=第7大道} 在 {Address=纽瓦克村} 
+- 点我们 {Keyword=大清真寺的詹恩} 关闭 {Keyword=袋鼠溪农场} 
+- 点我们 {Keyword=长城} 在 {Address=1776}   {Address=烹饪法庭}   {Address=43636}   {Address=闪避城镇}   {Address=莫}   {Address=加纳} 
+- 点我们 {Keyword=长城} 关闭 {Address=凯恩街} 和 {Address=玛格丽特法院}   {Address=伊丹哈市} 请
+- 点我们 {Keyword=格罗斯莫尔国家公园} 在 {Address=第5届} 和 {Address=r ct} 在 {Address=欧文} 
+- 点我们 {Address=格罗夫街} 在 {Address=霍普金斯县的平衡}   {Address=纽约州} 
+- 点我们 {Address=gtwy 38} 和 {Address=埃尔金街西} 是交叉点
+
+> route
+
+- 查找路线
+- 给我免费路线 {Keyword=六英里湖省公园} 
+- 请为什么你不找到一个路径 {Keyword=食品银行} 在 {Address=泰顿县} 和 {Address=绿地县的平衡} 在这一领域
+- 路线我到 {Address=博伊西县的平衡} 
+- 路线我到 {Address=海湾第14街} 
+- 路线我到 {Address=海狸街} 
+- 路线我到 {Keyword=大皮塔} 
+- 路线我到 {Address=布雷肯里奇镇} 
+- 路线我到 {Keyword=基督救世主大教堂} 在 {Address=本杰明} 
+- 路线我到 {Keyword=奶酪蛋糕厂} 
+- 显示我的免费路线 {Address=克利夫兰}   {Address=Ns} 
+- 显示我的免费路线 {Address=海鸥湾}   {Address=马萨诸塞州} 
+- 路由我们到 {Keyword=栖息地 '67} 周围 {Keyword=ids 中心} 
+- 路由我们到 {Keyword=香港时装} 上 {Address=州街} 在 {Address=斯克兰顿}   {Address=日} 
+- 路由我们到 {Keyword=热棒咖啡厅} 在 {Address=第二个pkwy。} 和 {Address=西118 pl} 请
+- 路由我们到 {Keyword=热棒咖啡厅} 在交集处 {Address=98大道东w} 和 {Address=w 第 14 博士} 
+
+> take
+
+-  {Address=长春} 带我去那里，走最风景秀丽的路线
+-  {Address=圭尔夫} 带我去那里，走最风景秀丽的路线
+-  {Address=贵阳} 带我去那里，走最风景秀丽的路线
+-  {Address=庆吉} 带我去那里，走最风景秀丽的路线
+-  {Address=质子站} 带我去那里，走最风景秀丽的路线
+- 走最快的路线 {Address=金斯顿镇} 
+- 走最快的路线 {Address=莫内塔} 
+- 走最快的路线 {Address=奥里斯卡} 
+- 走最短的路线 {Address=埃顿} 
+- 采取交通免费路线 {Address=坎贝尔县的平衡} 
+- 请带我到 {Keyword=学校} 在交叉点 {Address=墓碑城} 和 {Address=基恩} 
+- 请带我去城市 {Address=米尼多卡市} 
+- 请带我去城市 {Address=安装卡罗尔} 
+- 请请为什么不带我去 {Keyword=罗斯福坎波贝洛国际公园} 不是离那太远 {Address=海湾38街} 和 {Address=国王的地方}   {Address=首脑会议县的平衡}   {Address=Ab} 
+- 请什么道路会带我到 {Keyword=英国餐厅} 靠近十字路口 {Address=家园驱动器} 和 {Address=西大街} 在 {Address=默里}   {Address=刘日东} 
+-  {Address=政治之地} 在 {Address=华盛顿} 带我去那里
+-  {Address=阳光大道} 附近 {Keyword=诺克斯堡} 带我去那里
+- 带我去 {Address=格拉诺拉镇} 
+- 带我去 {Address=灰色} 
+- 带我去 {Address=格罗夫敦} 
+- 带我去 {Address=格鲁弗市} 
+- 带我去 {Address=泽兰} 
+- 带我去 {Keyword=泽尔斯}   {Address=国王城} 
+- 带我去 {Keyword=祖普！} 
+- 采取免费施工的方式 {Address=弗雷蒙特县} 
+- 以最快的速度 {Address=工会城市} 
+- 采取最短的方式 {Address=克莱顿镇} 
+-  {Address=向阳} 带我去那里，走最风景秀丽的路线
+- 开始带我去 {Keyword=西埃德蒙顿购物中心} 
+- 打开带我 {Keyword=东林寺} 
+- 打开带我 {Keyword=贾根纳特神庙} 
+
+> way
+
+- 一种方法 {Keyword=斯科尔} 在 {Address=监视器街道} 和 {Address=赫威斯街} 请
+- 一种方法 {Keyword=阿米尔} 在 {Address=北布吕德} 和 {Address=圆环 g} 请
+- 一种方法 {Keyword=阿姆南塔} 关闭 {Address=麦基宾街} 在 {Address=布莱斯峡谷镇}   {Address=佛罗里达} 请
+- 一种方法 {Keyword=阿富汗餐厅} 在 {Address=1103}   {Address=树林的地方} 在 {Address=爱达荷泉城} 
+- 一种方法 {Keyword=阿富汗餐厅} 在 {Address=467}   {Address=亚当斯街}   {Address=26108}   {Address=曼宁顿} 在 {Address=圣文森特和格林纳丁斯} 
+- 一种方法 {Keyword=阿尔巴尼亚餐厅} 在 {Address=第三大道} 和 {Address=布赖顿第五法庭} 在 {Address=河流高度} 请
+- 一种方法 {Keyword=阿尔巴尼亚餐厅} 不是离那太远 {Address=阿拉巴马大道} 在 {Address=莱利}   {Address=格鲁吉亚} 请
+- 一种方法 {Keyword=所有你可以吃自助餐} 上 {Address=夏洛克地方} 
+- 一种方法 {Keyword=艺术商店} 在城市 {Address=内尔森县} 
+- 一种方法 {Keyword=亚洲餐厅} 在 {Address=407}   {Address=第12街}   {Address=阿阿莫斯市}   {Address=肯塔基州}   {Address=我们} 
+- 一种方法 {Keyword=天使坠落} 上 {Address=谢菲尔德大道} 和 {Address=巴亚尔街} 
+- 找到一个 {Keyword=幼儿园} 在去的路上 {Address=同行} 
+- 找到一个 {Keyword=办公室} 在去的路上 {Address=德尔福斯市} 
+- 为我提供建筑自由的方式 {Address=城市} 请
+- 给我一种方法 {Keyword=我的泰国} 在 {Address=304}   {Address=第一街}   {Address=94627} 在 {Address=中途城市} 
+- 给我一种方法 {Address=n 前 st} 和 {Address=北木布吕德} 请
+- 给我一种方法 {Address=n 汉普顿博士} 和 {Address=老亨德森rd} 在 {Address=朋友城} 
+- 找到我们的方法 {Address=奈因} 地图
+- 请给我们找个办法 {Keyword=信号山} 在 {Address=惠特韦尔地方} 和 {Address=阿赫斯特街} 在 {Address=大岭镇} 
+- 请给我们找个办法 {Keyword=托雷·科尔帕特里亚} 关闭 {Address=奥文顿大道} 和 {Address=阿特金斯大道}   {Address=卡弗县} 
+- 找到我们的方法 {Address=普利茅斯街} 和 {Address=夏季街} 在 {Address=米德尔顿市} 请
+

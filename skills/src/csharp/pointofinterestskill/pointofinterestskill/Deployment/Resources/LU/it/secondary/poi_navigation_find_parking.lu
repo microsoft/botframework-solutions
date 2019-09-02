@@ -1,52 +1,53 @@
-## NAVIGATION_FIND_PARKING
+## FindParking
+
 - controllare un garage nella mia zona circostante
-- dirigermi 2 il parcheggio al l'intersezione di  {ADDRESS=Springfield città}  E  {ADDRESS=Disraeli} in quel luogo per favore
-- indicazioni stradali per un parcheggio
-- trovarmi un parcheggio
-- trova il parcheggio più vicino
-- trovare il parcheggio più vicino  {ADDRESS=123 Sesame Street} 
+- indirizzarmi 2 il parcheggio all'incrocio di  {Address=città di Springfield}  e  {Address=disraeli} in quel luogo per favore
+- indicazioni per un parcheggio
+- trovami un parcheggio
+- trovare il parcheggio più vicino
+- trovare il parcheggio più vicino  {Address=123 strada del sesamo} 
 - andare al parcheggio
 - che ne dici di trovare un percorso per un parcheggio
-- Ho bisogno di parcheggiare la  {KEYWORD=Auto} 
-- C'è un parcheggio da  {KEYWORD=Starbucks} 
-- C'è un parcheggio vicino al mio ufficio?
+- ho bisogno di parcheggiare il  {Keyword=automobile} 
+- c'è qualche parcheggio da  {Keyword=Starbucks} 
+- c'è un parcheggio vicino al mio ufficio?
 - cercare un parcheggio
-- Parcheggio di ricerca in  {ADDRESS=Kiron città}   {ADDRESS=Lui} 
-- Mostrami povero il parcheggio sul  {ADDRESS=Mulino corsia} per non più di 16 libbre
-- il garage a  {ADDRESS=Olmo molle}  E  {ADDRESS=Coates città} nella zona ci portano lì
-- quello che è il parcheggio in basso nominale garage nelle mie vicinanze
-- dove è un parcheggio vicino  {KEYWORD=Mcdonalds} 
-- dove si trova il garage più vicino situato
-- trova parcheggio  {KEYWORD=ristorante di pollo} 
-- trova parcheggio  {KEYWORD=ristorante cinese} 
-- trova parcheggio  {KEYWORD=ristorante cambogiano} 
-- trova parcheggio  {KEYWORD=ristorante brasiliano} 
-- trova parcheggio  {KEYWORD=ristorante italiano} 
-- trova parcheggio  {KEYWORD=ristorante indiano} 
-- trova parcheggio  {KEYWORD=ristorante francese} 
-- trova parcheggio  {KEYWORD=ristorante spagnolo} 
-- trova parcheggio  {KEYWORD=Burger Ristorante} 
-- trova parcheggio  {KEYWORD=ristorante Steakhouse} 
-- trova parcheggio  {KEYWORD=ristorante messicano} 
-- trova parcheggio  {KEYWORD=ristorante peruviano} 
-- trova parcheggio  {KEYWORD=ristorante laotiano} 
-- trova parcheggio  {KEYWORD=ristorante tailandese} 
-- trova parcheggio  {KEYWORD=ristorante giapponese} 
-- trova parcheggio  {KEYWORD=ristorante tedesco} 
-- trova parcheggio vicino  {KEYWORD=Ragioniere} 
-- trova parcheggio vicino  {KEYWORD=Aeroporto} 
-- trova parcheggio vicino  {KEYWORD=Acquario} 
-- trova parcheggio vicino  {KEYWORD=Galleria d'arte} 
-- trova parcheggio vicino  {KEYWORD=Noleggio auto posto} 
-- trova parcheggio vicino  {KEYWORD=Bed and Breakfast} 
-- trova parcheggio vicino  {KEYWORD=negozio di birra} 
-- trova parcheggio vicino  {KEYWORD=fermata bus} 
-- trova parcheggio vicino  {KEYWORD=Stazione di ricarica} 
-- trova parcheggio vicino  {KEYWORD=asilo nido bambino centro} 
-- trova parcheggio vicino  {KEYWORD=centro comunitario} 
-- trova parcheggio vicino  {KEYWORD=Minimarket} 
-- trova parcheggio vicino  {KEYWORD=Country Club} 
-- trova parcheggio vicino  {KEYWORD=Dentista} 
-- trova parcheggio vicino  {KEYWORD=Golf} 
-- trova parcheggio vicino  {KEYWORD=Benessere} 
+- cercare parcheggio in  {Address=kiron città}   {Address=ia} 
+- mostrami poveri il garage su  {Address=corsia di fresatura} per non più di 16 libbre
+- il garage a  {Address=molle di olmo}  e  {Address=coates città} nella zona ci portano lì
+- qual è il garage più basso nominale nelle mie vicinanze
+- dove è un parcheggio vicino  {Keyword=Mcdonalds} 
+- dove si trova il garage più vicino
+- trovare parcheggio da  {Keyword=ristorante di pollo} 
+- trovare parcheggio da  {Keyword=ristorante cinese} 
+- trovare parcheggio da  {Keyword=ristorante cambodian} 
+- trovare parcheggio da  {Keyword=ristorante brasiliano} 
+- trovare parcheggio da  {Keyword=ristorante italiano} 
+- trovare parcheggio da  {Keyword=ristorante indiano} 
+- trovare parcheggio da  {Keyword=ristorante francese} 
+- trovare parcheggio da  {Keyword=ristorante spagnolo} 
+- trovare parcheggio da  {Keyword=burger ristorante} 
+- trovare parcheggio da  {Keyword=ristorante steakhouse} 
+- trovare parcheggio da  {Keyword=ristorante messicano} 
+- trovare parcheggio da  {Keyword=ristorante peruviano} 
+- trovare parcheggio da  {Keyword=ristorante laotiano} 
+- trovare parcheggio da  {Keyword=ristorante thai} 
+- trovare parcheggio da  {Keyword=ristorante giapponese} 
+- trovare parcheggio da  {Keyword=ristorante tedesco} 
+- trovare parcheggio vicino  {Keyword=ragioniere} 
+- trovare parcheggio vicino  {Keyword=aeroporto} 
+- trovare parcheggio vicino  {Keyword=acquario} 
+- trovare parcheggio vicino  {Keyword=galleria d'arte} 
+- trovare parcheggio vicino  {Keyword=luogo di noleggio auto} 
+- trovare parcheggio vicino  {Keyword=pensione} 
+- trovare parcheggio vicino  {Keyword=negozio di birra} 
+- trovare parcheggio vicino  {Keyword=fermata d'autobus} 
+- trovare parcheggio vicino  {Keyword=stazione di ricarica} 
+- trovare parcheggio vicino  {Keyword=centro diurni per bambini} 
+- trovare parcheggio vicino  {Keyword=circolo ricreativo} 
+- trovare parcheggio vicino  {Keyword=negozio di generi alimentari e di consumo che rimane aperto fino a tarda ora} 
+- trovare parcheggio vicino  {Keyword=circolo sportivo e ricreativo in campagna} 
+- trovare parcheggio vicino  {Keyword=dentista} 
+- trovare parcheggio vicino  {Keyword=campo da golf} 
+- trovare parcheggio vicino  {Keyword=Benessere} 
 

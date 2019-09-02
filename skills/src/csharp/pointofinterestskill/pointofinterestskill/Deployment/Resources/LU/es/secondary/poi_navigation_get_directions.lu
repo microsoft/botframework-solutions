@@ -1,0 +1,388 @@
+## GetDirections
+
+> bring to
+
+- llevarme a  {Address=736}   {Address=carril de jamison}   {Address=pueblo de camargo}   {Address=52132} 
+- me traen a un  {Keyword=galería de arte} 
+- me traen a un  {Keyword=museo de arte} 
+- llevarme a  {Keyword=torre azadi}  En  {Address=wjtesvrfx}  Y  {Address=dbargpnwmsif} 
+- llevarme a  {Address=corte de bragg} 
+- seguir adelante y llevarme a  {Address=297}   {Address=polhemus lugar}  En  {Address=pointe-lebel}   {Address=Manitoba} 
+- seguir adelante y llevarme a un  {Keyword=alojamiento y desayuno}  En  {Address=calle principal al este}   {Address=Nokomis} 
+- seguir adelante y llevarme a un  {Keyword=Circo} 
+- seguir adelante y llevarme a un  {Keyword=Corredor de bienes raices} 
+- seguir adelante y llevarme a  {Address=calle justa} 
+- seguir adelante y llevarme a  {Address=corte herkimer} 
+-  {Keyword=gran pared}  En  {Address=1046}   {Address=avenida georgia}   {Address=condado de Benton} nos traen allí
+- ¿qué tal si me llevas a  {Address=1218}   {Address=skidmore carril}   {Address=condado de laurel} 
+- ¿qué tal si me llevas a  {Address=1549}   {Address=corte cobek}   {Address=70212}   {Address=anderson ciudad}  En  {Address=Madagascar} 
+- ¿qué tal si me llevas a  {Address=1616}   {Address=24a avenida}  En  {Address=balance del condado de Greene}   {Address=nuevo brunswick} 
+- por favor, tráeme a  {Address=morris street} 
+- por favor, lléveme a la unión de  {Address=ratcliff ciudad}  Y  {Address=ciudad de rivesville} cerca de mi ubicación actual
+- por favor traiga un  {Keyword=dim sum restaurante}  En  {Address=eastborough}  Y  {Address=ciudad ramsey} en esa ciudad
+- por favor traiga un  {Keyword=casa pública}  En  {Address=le flore}  Y  {Address=ciudad belzoni} cerca de mi casa
+
+> direct/directions
+
+- Un  {Keyword=estación de ferrocarril}  en la intersección de  {Address=balance del condado de castor}  Y  {Address=balance del condado de appling} en esas direcciones de la ciudad por favor
+-  {Keyword=Aeropostale}  En  {Address=franklin court} en la ciudad por favor me dirija allí
+- Asequible  {Keyword=pantalones de vestir}  En  {Address=ciudad mcclusky} por favor, dirijame allí
+- Asequible  {Keyword=pantalones de vestir}  En  {Address=ramona ciudad} por favor, dirijame allí
+-  {Keyword=mezquita al-aqsa}  En  {Address=1421}   {Address=linda lane}   {Address=66096}   {Address=washburn ciudad}  En  {Address=República Checa} por favor, dirijame allí
+-  {Keyword=mezquita al-aqsa}  En  {Address=967}   {Address=paseo de la marina}   {Address=52279}  En  {Address=pueblo de columbus} dame instrucciones allí
+-  {Keyword=Alhambra}  En  {Address=Calle 56}   {Address=uintah} dame instrucciones allí
+-  {Keyword=allan jardines conservatorio}  En  {Address=milledgeville} dame instrucciones allí
+- ciudad de  {Address=pueblo dellroy} dame instrucciones
+- ciudad de  {Address=Erlanger} direcciones por favor
+- Necesito direcciones para  {Keyword=bob evans} 
+- ¿podría enviarme las instrucciones a  {Address=Belmont} 
+- ¿podría enviarme las instrucciones a  {Address=Granby} 
+- ¿podría enviarme las instrucciones a  {Address=Gustavia} 
+- dirigirme a  {Keyword=bagels de noé} 
+- dirigirme a  {Keyword=pan panera} 
+- dirigirme a  {Address=avenida parkville} 
+- dirigirme a  {Address=unidad de roble pin} 
+- me dirigen con la ruta más corta a  {Address=rocanville} 
+- me dirigen con la ruta más corta a  {Address=ciudad waynesboro} 
+- me dirigen con la ruta más corta a  {Address=condado blanco} 
+- direcciones 2  {Address=calle dooley} 
+- direcciones 2  {Address=Ruta 32} 
+- direcciones 2  {Keyword=alimentos rápidos rus} 
+- direcciones para  {Keyword=Mcdonald} 
+- direcciones para  {Address=mount vernon ciudad} 
+- direcciones para  {Address=oxford road} 
+- direcciones para  {Keyword=potatopia} 
+- direcciones para  {Address=avenida schenectady} 
+- consígueme direcciones a  {Address=Calle 29} 
+- consígueme direcciones a  {Address=728}   {Address=avenida c}   {Address=leclercville}   {Address=Az}   {Address=Guatemala} 
+- me da direcciones a un  {Keyword=Panadería} 
+- me da direcciones a un  {Keyword=campamento de día}  Cerca  {Keyword=estación de manchester victoria} 
+- me da direcciones a un  {Keyword=restaurante de postres} 
+- dar instrucciones a  {Address=1380}   {Address=conceder la calle}   {Address=28720}   {Address=edna ciudad}   {Address=Canadá} 
+- dar instrucciones a  {Address=1614}  En  {Address=avenida atlántica} 
+- dar instrucciones a  {Address=2a avenida} 
+-  {Address=corte holt} en mi vecindad me dan instrucciones allí
+-  {Address=Honduras} dirigirme allí
+- Necesito direcciones para  {Keyword=asador de bonanza} 
+- Necesito direcciones para  {Address=accionamiento de madera de brezo} 
+- Necesito direcciones para  {Keyword=estación de tren de la calle curzon}  En  {Address=dpfw}  Y  {Address=zxebw} 
+- Necesito direcciones para  {Keyword=denny's} 
+- Necesito direcciones para  {Keyword=dunkin' donuts} 
+- Necesito direcciones para  {Address=evans calle} 
+- Necesito direcciones para  {Keyword=Girocompás} 
+- instrucciones de navegación para  {Keyword=columbus centro de inscripción de escuelas de la ciudad}   {Address=camino fairview}  Y  {Address=lugar columbus} 
+- instrucciones de navegación para  {Keyword=columbus centro de inscripción de escuelas de la ciudad}   {Address=preston corte}  Y  {Address=lugar de rost} 
+- instrucciones de navegación para  {Keyword=columbus centro de inscripción de escuelas de la ciudad}   {Address=calle violal}  Y  {Address=calle bancaria} 
+- instrucciones de navegación para  {Keyword=loco prepago}   {Address=Calle 48}  Y  {Address=calle woodhull} 
+- por favor, ¿por qué no me da instrucciones para  {Keyword=torre de Newport}  cerca de la intersección de  {Address=lawton street}  Y  {Address=pista de palma}   {Address=ciudad de san felipe} 
+- por favor direcciones 2 a  {Keyword=Parque}  En  {Address=imperio bulevar}  Y  {Address=avenida sutter}   {Address=ciudad lyerly} 
+- por favor direcciones 2 un  {Keyword=tienda de electrodomésticos}  en el cruce de  {Address=neoga}  Y  {Address=st-felix-de-valois} 
+- por favor, las direcciones para  {Keyword=gran cañón}  no tan lejos de la intersección  {Address=spencer lugar}  Y  {Address=calle delantera al sur}  En  {Address=burke ciudad}   {Address=Delaware} 
+- por favor, las direcciones para  {Keyword=gump}  En  {Address=mulvane}  Y  {Address=salaberry-de-valleyfield} 
+-  {Keyword=palacio schnbrunn}  En  {Address=fairview lugar} en la vecindad por favor puede darme instrucciones a ella
+- empezar a dirigirme a  {Keyword=victoria cae} 
+- empezar a dirigirme a  {Keyword=villa emo} 
+- empezar a dirigirme a  {Keyword=Westminster} 
+- dirección de inicio a  {Keyword=Starbucks} 
+-  {Address=Estocolmo} Direcciones
+- encender la dirección de mí a  {Keyword=mezquita al-aqsa} 
+- encender la dirección de mí a  {Keyword=mezquita bajrakli} 
+- encender la dirección de mí a  {Keyword=cherun-meru} 
+- la intersección de  {Address=Reina}  Y  {Address=unidad del centro cívico sur}  En  {Address=balance del condado de ziebach} direcciones por favor
+- la intersección de  {Address=s s alto st}  Y  {Address=Erb}  En  {Address=saldo del condado de seminole} direcciones por favor
+- la intersección de  {Address=rara vez visto rd}  Y  {Address=s s alto st}  En  {Address=Mcfarland} direcciones por favor
+- ¿cuáles son las direcciones para  {Address=jackson ciudad}   {Address=Tailandia} Por favor
+- ¿cuáles son las direcciones para  {Address=en coche con vista al lago}  En  {Address=Conquista} ,  {Address=Maine} ,  {Address=corea del Norte} 
+- ¿cuáles son las direcciones para  {Keyword=pancheros parrilla mexicana} 
+- ¿cuáles son las direcciones para  {Keyword=panda express} 
+- ¿cuáles son las direcciones para  {Keyword=takakkaw cae}  cerca de la intersección de  {Address=calle de arenas}  Y  {Address=paerdegat 1a calle}  En  {Address=alturas de ryland}   {Address=Quebec} 
+-  {Address=calle coffey}  a poca distancia de  {Keyword=uob plaza uno}  En  {Address=saldo del condado de morrow} dirigirme allí
+
+> drive
+
+- Un  {Keyword=Panadería}  cerca de  {Address=bay 14th Street}  Y  {Address=Ruta 44}  En  {Address=ciudad de rocas}   {Address=Oregon} dime cómo conduciría allí por favor
+- Un  {Keyword=Panadería} conducirnos allí
+-  {Address=equilibrio del condado de rush}   {Address=Letonia} dime cómo conduciría allí
+-  {Keyword=museo de guerra canadiense}  En  {Address=1512}   {Address=sólo corte}   {Address=mannford}  En  {Address=Minnesota} conducirnos allí
+- ciudad de  {Address=Boyle} llévame allí
+- ciudad de  {Address=condado de haywood} dime cómo conduciría allí
+- me conducen a la intersección de  {Address=calle schaefer}  Y  {Address=warsoff lugar} 
+- conducirme a  {Address=agua} 
+- conducirme a  {Address=windsor ciudad} usando el camino más rápido
+- conducirme a  {Address=ciudad winthrop} 
+- conducirme a  {Keyword=zaxby's} 
+-  {Keyword=Dubailand}  En  {Address=694}   {Address=corte gunnison}   {Address=Apalachicola}  En  {Address=Quebec} conducirnos allí
+-  {Keyword=torre del diablo}  En  {Address=brighton 8o lugar}  Y  {Address=duryea lugar}  En  {Address=ciudad pelahatchie}   {Address=dakota del norte} conducirnos allí por favor
+-  {Address=avenida dewitt}  Y  {Address=brook lane}  En  {Address=municipio de etna} por favor, llévanos allí
+-  {Keyword=dhanbad}  En  {Address=94}   {Address=calle lawrence}   {Address=94375}   {Address=halkirk}   {Address=Idaho}   {Address=Aruba} conducirnos allí
+-  {Address=condado de dickson} mapa nos conduce allí
+
+> get
+
+- Un  {Keyword=Resort}  En  {Address=333}   {Address=bay 32nd Street}   {Address=En}   {Address=ciudad lauderhill} en cómo puedo llegar allí
+- Un  {Keyword=parque acuático}  En  {Address=356}   {Address=carril de cereza}   {Address=49433}   {Address=mcadenville ciudad}   {Address=Pe}   {Address=Alemania} mostrarme cómo llegar allí
+-  {Address=calle marrón}  Y  {Address=2a calle norte} por favor muéstrame cómo llegar allí
+-  {Keyword=capitán d's}  En  {Address=calle principal al oeste}  Y  {Address=Calle 49}   {Address=Lindsay}   {Address=nuevo méxico} por favor muéstrame cómo llegar allí
+-  {Address=carbonear} mapa me muestran cómo llegar allí
+-  {Keyword=carl's jr.}  Más cercano  {Address=brighton 1a terraza}   {Address=Gloucester}   {Address=Ny} mostrarme cómo llegar allí
+-  {Keyword=campeón campo de golf}  en la intersección  {Address=schweikerts caminar}  Y  {Address=carretera de Westminster} mostrarme cómo llegar allí
+-  {Keyword=campeón campo de golf}  en la intersección  {Address=avenida de la nuez}  Y  {Address=Calle 92} mostrarme cómo llegar allí
+-  {Keyword=edificio chrysler}  En  {Address=155}   {Address=calle penn}   {Address=puerto de musgrave}   {Address=50587} mostrarme cómo llegar allí
+- llevarme a  {Address=Ruta 41} 
+- llevarme a  {Keyword=roy rogers restaurantes} 
+- llevarme a  {Address=Calle Ryder}   {Address=combes ciudad} 
+- llegar a  {Address=calle Walworth} 
+- llegar a  {Address=yamachiche} 
+- llegar a  {Keyword=toppers pizza} 
+- ¿cómo puedo llegar a un  {Keyword=barra sándwich} 
+- ¿cómo puedo llegar a  {Keyword=a1 limpieza de coches} 
+- ¿cómo puedo llegar a  {Address=lewis condado} 
+- ¿cómo puedo llegar a  {Address=marconi lugar} 
+- ¿cómo puedo llegar a  {Address=condado monroe} 
+- necesito llegar a  {Address=clavet} 
+- necesito llegar a  {Address=danielson municipio} 
+- necesito llegar a  {Address=Draper} 
+-  {Keyword=Roosevelt campobello parque internacional}  En  {Address=carril de carretera de la costa}  En  {Address=Kugluktuk} ¿cómo puedo llegar a ese lugar
+-  {Address=rosendale} mapa ¿cómo llegar a ese lugar
+-  {Address=Ruta 20}  Y  {Address=corte de caballero} Necesito llegar a la intersección
+- el lugar al que necesito llegar es  {Keyword=capitán de las huellas} en la ciudad
+- el lugar al que necesito llegar es  {Keyword=promenade ii}  En  {Address=bandera 3rd carretera} en las cercanías
+- el lugar al que quiero llegar es  {Address=1635}   {Address=17a avenida}   {Address=mi}   {Address=san Vicente y las granadinas} 
+- el lugar al que quiero llegar es  {Address=1828}   {Address=colocará}   {Address=Alberta} 
+-  {Address=avenida oeste}  Y  {Address=calle mecánica} Necesito llegar a la intersección
+
+> go
+
+-  {Address=1286}   {Address=sycamore street}   {Address=ciudad de burrton}  En  {Address=Nj} ¿cómo puedo ir allí
+-  {Address=93}   {Address=bay 40th Street}   {Address=71400}   {Address=aldea payson}   {Address=corea del Norte} ¿cómo puedo ir allí
+-  {Address=936}   {Address=howard callejón}   {Address=ciudad ulm}  En  {Address=Maryland} ¿cómo puedo ir allí
+-  {Address=950}   {Address=unidad de palo de rosa}  En  {Address=kenmore ciudad} ¿cómo puedo ir allí
+-  {Address=99o fwy}  Y  {Address=rd.t}  En  {Address=Appomattox} ¿cómo puedo ir allí
+-  {Address=99o ter}  Y  {Address=oeste lawrence cswy} ¿cómo puedo ir allí por favor
+- Un  {Keyword=Panadería}  En  {Address=1715}   {Address=avenida riverdale}   {Address=pueblo de parque de piedra}   {Address=Iowa} ¿cómo puedo ir allí
+- Un  {Keyword=bar y parrilla}  no tan lejos de  {Keyword=fulton opera house} ¿cómo puedo ir allí
+- Un  {Keyword=bar y salón}  En  {Address=1262}   {Address=schenck corte}   {Address=46186}   {Address=ciudad freeman}   {Address=Fl}   {Address=sri lanka} ¿cómo puedo ir allí
+- Un  {Keyword=bar y salón}  En  {Address=633}   {Address=bay 49th Street}   {Address=condado de lawrence}   {Address=Illinois} ¿cómo puedo ir allí
+- Un  {Keyword=Restaurante}  En  {Address=o'brien lugar}  Y  {Address=malta calle}  En  {Address=les boules}   {Address=carolina del norte} ¿cómo puedo ir allí por favor
+- Un  {Keyword=clase de yoga}  En  {Address=331}   {Address=5a calle norte}   {Address=77187}   {Address=logan city}   {Address=Missouri}   {Address=república de congo} ¿cómo puedo ir allí
+- en realidad empezar a ir a  {Keyword=anclar posada} 
+- en realidad empezar a ir a  {Keyword=ayers rock} 
+- en realidad empezar a ir a  {Keyword=edificio berlaymont} 
+- en realidad empezar a ir a  {Keyword=centro comercial bucarest} 
+- en realidad, gire a ir a  {Keyword=puente de la puerta dorada} 
+- en realidad, gire a ir a  {Keyword=jefferson arch} 
+- en realidad, gire a ir a  {Keyword=Louvre} 
+- en realidad, gire a ir a  {Keyword=punto lobos reserva estatal} 
+- ciudad de  {Address=eden pueblo} ¿cómo puedo ir allí
+- ir 2  {Address=1223}   {Address=2a calle este}  En  {Address=Carillón}   {Address=Arizona} 
+- ir 2 a  {Keyword=parada de autobús} 
+- ir 2 a  {Keyword=Gimnasio}  en el cruce de  {Address=calle jardín}  Y  {Address=avenida blanca} 
+- ir 2 a  {Keyword=restaurante de fusión} 
+- ir 2 a  {Keyword=Garaje} 
+-  {Address=pueblo gibbs} mapa cómo puedo ir allí
+-  {Keyword=regalos de la tierra}  En  {Address=post corte} en la ciudad por favor, ¿cómo puedo ir allí
+-  {Keyword=muro de Adriano} aquí por favor, ¿cómo puedo ir allí
+- vamos a ir a un  {Keyword=taberna monarca}  En  {Address=avenida rochester}  Y  {Address=corte jackson} 
+- vamos a ir a un  {Keyword=pan panera}  En  {Address=mc keever lugar}  Y  {Address=johnson street} 
+- vamos a ir a un  {Keyword=tienda de teléfonos} 
+- vamos a ir a un  {Keyword=rococoa}  En  {Address=avenida lincoln}  Y  {Address=calle seeley} 
+- por favor vamos a un  {Keyword=restaurante afgano}  En  {Address=calle heyward}  Y  {Address=calle quentin}   {Address=ciudad arroyo}   {Address=Missouri} 
+- por favor vamos a  {Keyword=notre-dame de montral}  en la intersección de  {Address=madre gaston bulevar}  Y  {Address=avenida de elmwood}   {Address=Sturgis}   {Address=Ne} 
+- empezar a ir a  {Keyword=Starbucks} 
+- empezar a ir
+- cambiar a ir a  {Keyword=York minster}  En  {Address=ciudad de edgewood} 
+- cambiar a ir a  {Keyword=York minster}  En  {Address=ste ste. ciudad marie} 
+- gire a ir a  {Address=Ketchikan} 
+- gire a ir a  {Keyword=edificio de oficinas de la iglesia sud}  En  {Address=ione ciudad} 
+- gire a ir a  {Keyword=macy's}  En  {Address=stephens condado} 
+- gire a ir a  {Address=mattawa} 
+- vamos a  {Address=Ruta 41} 
+- vamos a  {Address=avenida stuyvesant} 
+- vamos a  {Address=calle suydam} 
+- vamos a la a  {Keyword=Cuadrado}  En  {Address=166}   {Address=brighton 7th Street}  Llamado  {Keyword=diez restaurantes y enoteca} 
+- vamos a la ciudad de  {Address=equilibrio del condado de chittenden} Por favor
+- vamos a  {Keyword=torre alcalde}  En  {Address=w seminole dr}  Y  {Address=Universidad} 
+- vamos a  {Keyword=dos veces la pizza del trato} 
+- vamos a  {Address=victoria} 
+
+> guide
+
+-  {Address=92}   {Address=calle de haya}  no muy lejos de  {Keyword=gran mezquita de djenn}  En  {Address=equilibrio del condado de Oliver} guiarme allí
+-  {Address=balboa carretera norte}  Y  {Address=Yo ave.} por favor guíame allí
+-  {Address=Bamako} ubicación me guía allí
+-  {Keyword=banco de la torre de China}  en el cruce de  {Address=kingsborough 1a caminata}  Y  {Address=lugar beekman} guiarme allí
+-  {Address=corte de madera de brezo}   {Address=meservey} guiarme allí
+-  {Address=accionamiento de madera de brezo}  Y  {Address=lugar brevoort} por favor guíame allí
+-  {Address=brighton 4 lugar}  Y  {Address=corte cantón} es la guía de intersección me allí
+-  {Keyword=jack barato}  En  {Address=rutland condado}  Y  {Address=equilibrio del condado de amor} en la ciudad puedes guiarme allí
+-  {Keyword=Chile} puedes guiarme allí
+-  {Keyword=chile}  En  {Address=t blvd}  Y  {Address=86o bulevar sur} puedes guiarme allí por favor
+-  {Keyword=chris mellor corredores de seguros ltd} a mi alrededor puedes guiarme allí
+- ciudad de  {Address=equilibrio del condado de edgecombe} guiarme allí
+- guiarme
+-  {Address=calle álanca}  no muy lejos de  {Keyword=ggantija} guiarme allí
+- el  {Keyword=agencia de publicidad}  en la intersección de  {Address=Sellersburg}  Y  {Address=condado de fremont} puedes guiarme allí
+
+> head
+
+- cabeza a un  {Keyword=salón de belleza} 
+- cabeza a un  {Keyword=estación de autobuses} 
+- cabeza a un  {Keyword=centro de copia} 
+- cabeza a  {Keyword=subs de bomberos}  no tan lejos de  {Keyword=casa mila} 
+- cabeza a  {Address=colina de la calle} 
+- cabeza a  {Address=cpuerta de ketchikan municipio} 
+- cabeza a  {Address=calle del lago} 
+- cabeza a  {Address=ciudad de lenexa} 
+- cabeza a  {Keyword=duque de Wellington}  En  {Address=h gtwy}  Y  {Address=En. s} 
+- cabeza a  {Address=condado de durham} Mapa
+- cabeza a  {Keyword=jardines de invierno del parque duthie}  en la intersección de  {Address=calle de la barbacoa}  Y  {Address=calle de nogal} Por favor
+- cabeza a  {Address=calle jardín}  Y  {Address=brighton 8o lugar} es la intersección
+- cabeza a  {Address=puerta de entrada 46}  Y  {Address=o ave} es la intersección
+- cabeza a  {Address=avenida georgia}  Y  {Address=carretera de molino}  En  {Address=blue springs ciudad} Ahora
+- cabeza a  {Keyword=comida georgiana} 
+
+> navigate/navigation
+
+-  {Keyword=siempre fontanería y calefacción ltd}  En  {Address=fuerte mentiroso}  Y  {Address=Alejandría} a mi alrededor la navegación por favor
+- navegar a  {Address=carretera argyle} en mi área
+- navegar a   {Keyword=museo del desierto de arizona-sonora}  En  {Address=1877}   {Address=avenida de división}   {Address=ciudad de la estación de bean}   {Address=Ga}  En  {Address=Mauritania} 
+- navegar a  {Address=condado de arlington} Mapa
+- navegar a  {Keyword=ashabori}  En  {Address=981}  En  {Address=cancha de van siclen} 
+- navegar a  {Keyword=ashabori}  En  {Address=calle weldon}  Y  {Address=Ruta 20}   {Address=cuyahoga alturas pueblo} Por favor
+-  {Address=bulevar canal.}  Y  {Address=l cswy} navegar por mí allí
+-  {Keyword=can-west lugar global}  En  {Address=1551}   {Address=4a avenida}  En  {Address=st. george}   {Address=south dakota}   {Address=san Vicente y las granadinas} navegar por mí allí
+-  {Address=cape coral city} mapa navegar me allí
+-  {Keyword=torre capella}  En  {Address=31}   {Address=avenida furman}   {Address=74889}   {Address=balance del condado de cedro}  En  {Address=Martinica} navegar por mí allí
+-  {Keyword=Capitolio}  En  {Address=ciudad de castleberry}  Y  {Address=Columbus} navegar por mí allí
+-  {Address=charlotte court house ciudad}   {Address=Sc} iniciar la navegación
+-  {Keyword=chateau laurier}  En  {Address=1916}   {Address=calle maujer}  En  {Address=Aberdeen} iniciar la navegación
+- ciudad de  {Address=ciudad de lonoke} navegación por favor
+-  {Keyword=torre de la ciudad}  En  {Address=856}   {Address=avenida van sinderen}   {Address=ciudad de kaysville}   {Address=En} en la navegación por favor
+-  {Address=carretera de la torre del reloj}  Y  {Address=e noble st}  En  {Address=nuevo perlican} navegación por favor
+-  {Keyword=bistró torpe y boulangerie}  En  {Address=n Dr.}  Y  {Address=36a vía z} navegar por mí allí
+-  {Address=cswy e}  Y  {Address=blvd x} navegar por mí allí
+-  {Address=Hamlin} navegación por favor
+-  {Keyword=café barra caliente}  En  {Address=j 90th boulevard este}  Y  {Address=5a n carretera norte f} navegar por mí allí
+-  {Address=n fwy}  Y  {Address=6o lugar} navegar por mí allí
+- Navegar
+- navegar 2 a  {Keyword=restaurante kosher} 
+- navegar 2 a  {Keyword=Pizzería}  En  {Address=paseo de la flota}  Y  {Address=lugar de indiana}   {Address=saldo del condado de bedford}   {Address=Tn} 
+- navegar 2  {Address=cambridge drive} 
+- navegar 2  {Keyword=parrilla italiana de carrabba} en mi vecindad
+- navegar 2 ciudad de  {Address=mbinepsa} 
+- navegar a  {Address=avenida dumont} 
+- navegar a  {Address=ciudad de elko} 
+- navegación a  {Address=abu dhabi} 
+- navegación a  {Address=Margate} 
+- navegación a  {Address=ciudad de nodaway} 
+- por favor, ¿por qué no me navega a un  {Keyword=restaurante de fusión}  En  {Address=carretera del campus}  Y  {Address=lawton street} 
+- por favor, ¿por qué no me navegas a  {Address=ciudad konawa}   {Address=Guatemala} 
+- por favor, ¿por qué no navegar a  {Keyword=centro comercial bucarest}  En  {Address=calle de sencatez}   {Address=condado de attala} 
+-  {Keyword=santa maria novella}  En  {Address=1035}   {Address=calle seeley}   {Address=63052}   {Address=pueblo de richburg}  En  {Address=Austria} navegar por mí allí
+- activar la navegación a un  {Keyword=tienda de fitness} 
+- activar la navegación a un  {Keyword=Florista} 
+- activar la navegación a un  {Keyword=restaurante francés} 
+-  {Keyword=torre terminal}  En  {Address=b crse}  Y  {Address=e expy} navegar por mí allí
+-  {Keyword=torre terminal}  En  {Address=clark condado} iniciar la navegación
+-  {Address=colinas terrell}   {Address=India} iniciar la navegación
+- ¿qué tal si me navegas a  {Keyword=victoria & julia's flowers} en el lugar dakota en la ciudad de Humphrey
+-  {Address=z blvd.}  Y  {Address=bnd 972} navegar por mí allí
+
+> point
+
+- señalarme el camino a  {Address=sidney lugar} 
+- señalarme el camino a  {Keyword=torre sydney} 
+- señalarme el camino a  {Address=teulon} 
+- señalarme el camino a  {Address=pueblo williamsburg} 
+- me señala a  {Keyword=pastel de crema de coco}  no muy lejos de  {Address=ciudad marquette} 
+- me señala a  {Keyword=parque universitario}  En  {Address=avenida crawford}   {Address=equilibrio del condado de Riley} 
+- me señala a  {Address=Columbia}  Y  {Address=avenida universitaria} Por favor
+- me señala a  {Keyword=columbus escuela secundaria del centro de la ciudad}  En  {Address=Calle 62}  Y  {Address=Ruta 20} Por favor
+- me señala a  {Address=calle encubierta}  Y  {Address=brighton 5th walk}  En  {Address=les boules} 
+- me señala a  {Keyword=acogedor alojamiento gatito}  En  {Address=avenida de vista de las tierras altas}  Y  {Address=carril de laurel} 
+- me señala a  {Keyword=barril de galletas}  En  {Address=calle bainbridge}  Y  {Address=calle creamer} Por favor
+- me señala a  {Address=avenida crawford}  Y  {Address=7a avenida}  En  {Address=pueblo de newark} 
+- nos señalan a  {Keyword=gran mezquita de djenn}  cerca  {Keyword=granja de arroyo canguro} 
+- nos señalan a  {Keyword=gran pared}  En  {Address=1776}   {Address=corte de cocina}   {Address=43636}   {Address=esquivar la ciudad}   {Address=Mo}   {Address=Ghana} 
+- nos señalan a  {Keyword=gran pared}  Cerca  {Address=calle kane}  Y  {Address=margaret corte}   {Address=ciudad de idanha} Por favor
+- nos señalan a  {Keyword=parque nacional gros morne}  En  {Address=5o n st.}  Y  {Address=r ct}  En  {Address=Owen} 
+- nos señalan a  {Address=calle arboleda}  En  {Address=equilibrio del condado de Hopkins}   {Address=estado de Nueva York} 
+- nos señalan a  {Address=gtwy 38}  Y  {Address=elgin street west} es la intersección
+
+> route
+
+- encontrar una ruta
+- me dan la ruta gratuita a  {Keyword=parque provincial lago de seis millas} 
+- por favor, ¿por qué no encontrar una ruta a la  {Keyword=banco de alimentos}  En  {Address=condado de Teton}  Y  {Address=balance del condado de Greene} en esta área
+- ruta me a  {Address=equilibrio del condado de boise} 
+- ruta me a  {Address=bay 14th Street} 
+- ruta me a  {Address=calle castor} 
+- ruta me a  {Keyword=gran pita} 
+- ruta me a  {Address=ciudad de breckenridge} 
+- ruta me a  {Keyword=catedral de Cristo el salvador}  En  {Address=Benjamin} 
+- ruta me a  {Keyword=fábrica de tartas de queso} 
+- mostrarme rutas gratuitas de peaje a  {Address=Cleveland}   {Address=Ns} 
+- mostrarme rutas gratuitas de peaje a  {Address=bahía de gaviotas}   {Address=Massachusetts} 
+- rutanos a  {Keyword=hábitat '67}  Alrededor  {Keyword=ids centro} 
+- rutanos a  {Keyword=hong kong modas}  En  {Address=calle estatal}  En  {Address=Scranton}   {Address=Ri} 
+- rutanos a  {Keyword=café barra caliente}  En  {Address=2o pkwy.}  Y  {Address=oeste 118o pl} Por favor
+- rutanos a  {Keyword=café barra caliente}  en la intersección de  {Address=98o bulevar este w}  Y  {Address=w 14th Dr} 
+
+> take
+
+-  {Address=Changchun} llevarme allí con la ruta más pintoresca
+-  {Address=Guelph} llevarme allí con la ruta más pintoresca
+-  {Address=Guiyang} llevarme allí con la ruta más pintoresca
+-  {Address=Gyeonggi} llevarme allí con la ruta más pintoresca
+-  {Address=estación de protones} llevarme allí con la ruta más pintoresca
+- tomar la ruta más rápida para  {Address=ciudad de Kingston} 
+- tomar la ruta más rápida para  {Address=monetta} 
+- tomar la ruta más rápida para  {Address=oriska} 
+- tomar la ruta más corta para  {Address=Eston} 
+- tomar la ruta libre de tráfico para  {Address=balance del condado de Campbell} 
+- por favor lléveme a un  {Keyword=Escuela}  en la intersección de  {Address=ciudad de la lápida}  Y  {Address=Keene} 
+- por favor llévame a la ciudad de  {Address=ciudad minidoka} 
+- por favor llévame a la ciudad de  {Address=montaje carroll} 
+- por favor, ¿por qué no me llevas a  {Keyword=Roosevelt campobello parque internacional}  no tan lejos de  {Address=bay 38th Street}  Y  {Address=reyes lugar}   {Address=equilibrio del condado de la cumbre}   {Address=Ab} 
+- por favor, ¿qué caminos me llevará a un  {Keyword=restaurante británico}  cerca de la intersección  {Address=granja drive}  Y  {Address=avenida oeste}  En  {Address=Murray}   {Address=Yt} 
+-  {Address=polhemus lugar}  En  {Address=Washington} llévame allí
+-  {Address=sunnyside avenue}  Cercano  {Keyword=fuerte knox} llévame allí
+- llevarme a  {Address=ciudad de grainola} 
+- llevarme a  {Address=Gris} 
+- llevarme a  {Address=Grovetown} 
+- llevarme a  {Address=ciudad de gruver} 
+- llevarme a  {Address=Zeeland} 
+- llevarme a  {Keyword=zehrs}   {Address=ciudad rey} 
+- llevarme a  {Keyword=zoup!} 
+- tomar la construcción camino libre para  {Address=condado de fremont} 
+- tomar el camino más rápido para  {Address=ciudad sindical} 
+- tomar el camino más corto para  {Address=ciudad clayton} 
+-  {Address=Xiangyang} llevarme allí con la ruta más pintoresca
+- empezar a llevarme a  {Keyword=west edmonton mall} 
+- gire en llevarme a  {Keyword=templo donglin} 
+- gire en llevarme a  {Keyword=templo jagannath} 
+
+> way
+
+- una manera de  {Keyword=Skool}  En  {Address=monitor calle}  Y  {Address=calle hewes} Por favor
+- una manera de  {Keyword=Amir}  En  {Address=bulevar del norte}  Y  {Address=cir g} Por favor
+- una manera de  {Keyword=torre amsouth}  cerca  {Address=calle mckibbin}  En  {Address=bryce canyon ciudad}   {Address=Florida} Por favor
+- una manera de un  {Keyword=restaurante afgano}  En  {Address=1103}   {Address=bosques lugar}  En  {Address=idaho manantials de la ciudad} 
+- una manera de un  {Keyword=restaurante afgano}  En  {Address=467}   {Address=calle adams}   {Address=26108}   {Address=Mannington}  En  {Address=san Vicente y las granadinas} 
+- una manera de un  {Keyword=restaurante albanés}  En  {Address=3a avenida}  Y  {Address=brighton 5a cancha}  En  {Address=alturas de los ríos} Por favor
+- una manera de un  {Keyword=restaurante albanés}  no tan lejos de  {Address=avenida alabama}  En  {Address=ryley}   {Address=Georgia} Por favor
+- una manera de un  {Keyword=todo lo que se puede comer buffet}  En  {Address=sherlock lugar} 
+- una manera de un  {Keyword=tienda de arte}  en la ciudad de  {Address=condado de nelson} 
+- una manera de un  {Keyword=restaurante asiático}  En  {Address=407}   {Address=Calle 12}   {Address=ciudad anamoose}   {Address=Kentucky}   {Address=Nos} 
+- una manera de  {Keyword=ángel cae}  En  {Address=avenida sheffield}  Y  {Address=calle bayard} 
+- encontrar un  {Keyword=Guardería}  en el camino a  {Address=Compañeros} 
+- encontrar un  {Keyword=Oficina}  en el camino a  {Address=delphos ciudad} 
+- me proporcionan la forma libre de construcción para  {Address=Ciudad} Por favor
+- proporcionarme una manera de  {Keyword=mi tailandés}  En  {Address=304}   {Address=1a calle}   {Address=94627}  En  {Address=ciudad de medio camino} 
+- proporcionarme una manera de  {Address=n frente st}  Y  {Address=northwoods blvd} Por favor
+- proporcionarme una manera de  {Address=n hampton dr}  Y  {Address=viejo henderson rd}  En  {Address=ciudad amiga} 
+- encontrar una manera de  {Address=Nain} Mapa
+- por favor, encontró una manera de  {Keyword=colina de la señal}  En  {Address=whitwell lugar}  Y  {Address=calle amherst}  En  {Address=gran ciudad de la cresta} 
+- por favor, encontró una manera de  {Keyword=torre colpatria}  cerca  {Address=avenida ovington}  Y  {Address=avenida atkins}   {Address=condado de carver} 
+- encontrar una manera de  {Address=calle plymouth}  Y  {Address=calle de verano}  En  {Address=ciudad de Middleton} Por favor
+
