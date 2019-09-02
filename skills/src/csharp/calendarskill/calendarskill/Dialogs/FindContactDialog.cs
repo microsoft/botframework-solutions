@@ -485,7 +485,7 @@ namespace CalendarSkill.Dialogs
                     string pronounType = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].PronounType;
                     string relationship = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].RelationshipName;
                     var personList = new List<PersonModel>();
-                    if (pronounType == "FirstPerson")
+                    if (pronounType == PronounType.FirstPerson)
                     {
                         if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
                         {
@@ -496,7 +496,7 @@ namespace CalendarSkill.Dialogs
                             }
                         }
                     }
-                    else if (pronounType == "ThirdPerson" && state.MeetingInfor.ContactInfor.Contacts.Count > 0)
+                    else if (pronounType == PronounType.ThirdPerson && state.MeetingInfor.ContactInfor.Contacts.Count > 0)
                     {
                         int count = state.MeetingInfor.ContactInfor.Contacts.Count;
                         string prename = state.MeetingInfor.ContactInfor.Contacts[count - 1].UserPrincipalName;
@@ -974,6 +974,12 @@ namespace CalendarSkill.Dialogs
             options.Prompt.Text = GetSelectPromptString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
+        }
+
+        private class PronounType
+        {
+            public const string FirstPerson = "FirstPerson";
+            public const string ThirdPerson = "ThirdPerson";
         }
     }
 }

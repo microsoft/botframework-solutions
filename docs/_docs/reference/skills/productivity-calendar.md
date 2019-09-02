@@ -91,6 +91,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - `Calendars.ReadWrite`
 - `People.Read`    
 - `Contacts.Read`
+- `User.Read.All`
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
