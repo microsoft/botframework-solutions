@@ -56,11 +56,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ResolveContextualInfoResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Responses\DeleteEmail\DeleteEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -162,11 +157,6 @@
     <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.it.json" />
     <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.json" />
     <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.zh.json" />
-    <EmbeddedResource Include="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.de.json" />
-    <EmbeddedResource Include="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.fr.json" />
-    <EmbeddedResource Include="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.it.json" />
-    <EmbeddedResource Include="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.json" />
-    <EmbeddedResource Include="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.zh.json" />
     <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.de.json" />
     <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.es.json" />
     <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.fr.json" />
@@ -197,10 +187,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="Responses\ResolveContextualInfo\ResolveContextualInfoResponses.tt">
-      <LastGenOutput>ResolveContextualInfoResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="Responses\DeleteEmail\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>

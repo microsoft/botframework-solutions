@@ -4,7 +4,7 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace EmailSkill.Responses.ResolveContextualInfo
+namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
 {
     /// <summary>
     /// Contains bot responses.

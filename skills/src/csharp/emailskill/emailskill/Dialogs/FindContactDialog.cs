@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Contextual;
 using EmailSkill.Models;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Services;
@@ -128,7 +127,7 @@ namespace EmailSkill.Dialogs
                 SaveResolvedContextualInfo,
             };
 
-            var resolveContextualInfoDialog = new ResolveContextualInfoDialog(responseManager, conversationState, userState, telemetryClient);
+            var resolveContextualInfoDialog = new ResolveContextualInfoDialog(userState, telemetryClient);
 
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
@@ -488,18 +487,18 @@ namespace EmailSkill.Dialogs
                             return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
                         }
                     }
-                    else if (pronounType == PossessivePronoun.ThirdPerson && state.FindContactInfor.Contacts.Count > 0)
-                    {
-                        int count = state.FindContactInfor.Contacts.Count;
-                        string prename = state.FindContactInfor.Contacts[count - 1].EmailAddress.Name;
+                    //else if (pronounType == PossessivePronoun.ThirdPerson && state.FindContactInfor.Contacts.Count > 0)
+                    //{
+                    //    int count = state.FindContactInfor.Contacts.Count;
+                    //    string prename = state.FindContactInfor.Contacts[count - 1].EmailAddress.Name;
 
-                        // To do
-                        if (!Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
-                        {
-                            var option = new UserInfoOptions() { QueryItem = possessivePronoun };
-                            return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
-                        }
-                    }
+                    //    // To do
+                    //    if (!Regex.IsMatch(relationship, "manager", RegexOptions.IgnoreCase))
+                    //    {
+                    //        var option = new UserInfoOptions() { QueryItem = possessivePronoun };
+                    //        return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
+                    //    }
+                    //}
                 }
 
                 return await sc.NextAsync();

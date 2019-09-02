@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
-using EmailSkill.Contextual;
 using EmailSkill.Dialogs;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.ForwardEmail;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.ReplyEmail;
-using EmailSkill.Responses.ResolveContextualInfo;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
@@ -110,8 +108,7 @@ namespace EmailSkill
                 new ReplyEmailResponses(),
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
-                new ShowEmailResponses(),
-                new ResolveContextualInfoResponses()));
+                new ShowEmailResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();
@@ -121,7 +118,6 @@ namespace EmailSkill
             services.AddTransient<ReplyEmailDialog>();
             services.AddTransient<SendEmailDialog>();
             services.AddTransient<ShowEmailDialog>();
-            services.AddTransient<ResolveContextualInfoDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

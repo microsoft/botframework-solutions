@@ -1,22 +1,14 @@
-﻿using EmailSkill.Models;
-using EmailSkill.Responses.FindContact;
-using EmailSkill.Responses.ResolveContextualInfo;
-using EmailSkill.Services;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Contextual.Dialogs;
+﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EmailSkill.Contextual
+namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
 {
     public class ResolveContextualInfoDialog : ComponentDialog
     {
@@ -24,14 +16,15 @@ namespace EmailSkill.Contextual
         private const string _textPrompt = "TextPrompt";
 
         public ResolveContextualInfoDialog(
-            ResponseManager responseManager,
             UserState userState,
             IBotTelemetryClient telemetryClient)
             : base(nameof(ResolveContextualInfoDialog))
          {
             TelemetryClient = telemetryClient;
 
-            ResponseManager = responseManager;
+            ResponseManager = new ResponseManager(
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new ResolveContextualInfoResponses());
             UserStateAccessor = userState.CreateProperty<UserInfoState>(nameof(UserInfoState));
 
             var getContextualContactName = new WaterfallStep[]

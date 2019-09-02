@@ -22,6 +22,34 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.de.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.es.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.fr.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.it.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.zh.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.de.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.es.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.fr.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.it.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.zh.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
@@ -35,16 +63,28 @@
     <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Contextual\Dialogs\ResolveContextualInfoResponses.tt">
+      <LastGenOutput>ResolveContextualInfoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Responses\SkillResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SkillResponses.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Contextual\Dialogs\ResolveContextualInfoResponses.cs">
+      <DependentUpon>ResolveContextualInfoResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Responses\SkillResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SkillResponses.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 </Project>
