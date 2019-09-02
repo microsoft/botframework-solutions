@@ -9,12 +9,16 @@
   <ItemGroup>
     <Compile Remove="CognitiveModels\**" />
     <Compile Remove="DeploymentScripts\**" />
+    <Compile Remove="Resources\**" />
     <Content Remove="CognitiveModels\**" />
     <Content Remove="DeploymentScripts\**" />
+    <Content Remove="Resources\**" />
     <EmbeddedResource Remove="CognitiveModels\**" />
     <EmbeddedResource Remove="DeploymentScripts\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="CognitiveModels\**" />
     <None Remove="DeploymentScripts\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -181,10 +185,6 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

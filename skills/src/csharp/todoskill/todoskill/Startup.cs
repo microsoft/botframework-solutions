@@ -30,6 +30,7 @@ using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities.ContextualHistory;
 
 namespace ToDoSkill
 {
@@ -60,6 +61,8 @@ namespace ToDoSkill
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
             var provider = services.BuildServiceProvider();
+
+            services.AddSingleton<UserContextResolver>();
 
             // Load settings
             var settings = new BotSettings();

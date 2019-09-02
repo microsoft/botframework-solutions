@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities.ContextualHistory;
 
 namespace ToDoSkill.Adapters
 {
@@ -23,7 +25,10 @@ namespace ToDoSkill.Adapters
             BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager,
-            ResourceExplorer resourceExplorer)
+            ResourceExplorer resourceExplorer,
+            UserState userState,
+            ConversationState convState,
+            UserContextResolver userContextResolver)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -40,6 +45,13 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
+
+            Use(new SkillContextualMiddleware(
+                convState,
+                userState,
+                userContextResolver,
+                nameof(ToDoSkill),
+                new List<string>() { "ShowToDo", "MarkToDo", "DeleteToDo" }));
         }
     }
 }

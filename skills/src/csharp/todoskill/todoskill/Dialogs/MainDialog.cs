@@ -22,6 +22,8 @@ using ToDoSkill.Responses.Main;
 using ToDoSkill.Services;
 using ToDoSkill.Utilities;
 
+using ToDoSkill.Utilities.ContextualHistory;
+
 namespace ToDoSkill.Dialogs
 {
     public class MainDialog : RouterDialog
@@ -31,6 +33,7 @@ namespace ToDoSkill.Dialogs
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+        private UserContextResolver _userContextResolver;
 
         public MainDialog(
             BotSettings settings,
@@ -41,7 +44,8 @@ namespace ToDoSkill.Dialogs
             MarkToDoItemDialog markToDoItemDialog,
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            UserContextResolver userContextResolver)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
@@ -51,6 +55,8 @@ namespace ToDoSkill.Dialogs
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
             _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg");
+
+            _userContextResolver = userContextResolver;
 
             // RegisterDialogs
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
@@ -62,11 +68,16 @@ namespace ToDoSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.ToDoWelcomeMessage}]", null);
-            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+
+            // await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+
+            await _userContextResolver.ShowPreviousQuestion(dc.Context);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            _userContextResolver.SetDialogIndex();
+
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // get current activity locale
