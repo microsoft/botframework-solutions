@@ -1,10 +1,10 @@
-﻿# GetPersonName
+﻿# ContactPrompt
 - ```
-OK, please enter the email of the attendee of your event.
+OK, please enter the name or email address of the person you would like to invite.
 [Suggestions=Help | Cancel]
 ```
 
-# StitchEmailTemplate(contactList, startIndex, endIndex)
+# ContactListTemplate(contactList, startIndex, endIndex)
 - ```
 [adaptivecard
 {
@@ -13,7 +13,7 @@ OK, please enter the email of the attendee of your event.
     "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
     "body": 
     [
-         @{StitchEmail(contactList, startIndex, endIndex)}
+         @{GetContactList(contactList, startIndex, endIndex)}
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0"
@@ -21,7 +21,7 @@ OK, please enter the email of the attendee of your event.
 ]
 ```
 
-# StitchEmail(contactList, startIndex, endIndex)
+# GetContactList(contactList, startIndex, endIndex)
 - @{join(foreach(subArray(contactList, int(startIndex),int(endIndex)), x, SingleContact(x)), ', ')}
 
 # SingleContact(x)
@@ -52,12 +52,12 @@ OK, please enter the email of the attendee of your event.
 
 # ChoicePrompt
 - ```
-Please enter your choice
+Please select the correct contact
 [Suggestions=Next page | Previous page | Select the first one | Select the second one | Select the third one]
 ```
 
 # NoMatches
-- Sorry, We could not find any matches in your contacts. We will use the email address you just entered.
+- Sorry, we could not find any matches in your contacts.
 
 # HelpCreateMeeting
 - [HelpPrefix], you can simply say all the relavent information of the meeting to add it.

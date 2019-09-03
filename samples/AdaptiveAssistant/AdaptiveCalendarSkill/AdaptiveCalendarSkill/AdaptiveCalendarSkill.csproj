@@ -6,6 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dialogs\AcceptCalendarEntry.cs" />
+    <Compile Remove="Dialogs\AddContactDialog.cs" />
+    <Compile Remove="Dialogs\ChangeCalendarEntry.cs" />
+    <Compile Remove="Dialogs\CreateCalendarEntry.cs" />
+    <Compile Remove="Dialogs\DeleteCalendarEntry.cs" />
+    <Compile Remove="Dialogs\FindCalendarEntry.cs" />
+    <Compile Remove="Dialogs\FindCalendarWho.cs" />
+    <Compile Remove="Dialogs\ShowAllMeetingDialog.cs" />
+    <Compile Remove="Dialogs\ShowNextCalendar.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Responses\AcceptCalendarEntry.lg" />
+    <None Remove="Responses\ChangeCalendarEntry.lg" />
+    <None Remove="Responses\DeleteCalendarEntry.lg" />
+    <None Remove="Responses\FindCalendarEntry.lg" />
+    <None Remove="Responses\FindCalendarWho.lg" />
+    <None Remove="Responses\ShowAllMeetingsDialog.lg" />
+    <None Remove="Responses\ShowNextCalendar.lg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.1.2" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />

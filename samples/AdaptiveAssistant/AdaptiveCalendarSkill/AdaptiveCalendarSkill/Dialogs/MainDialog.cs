@@ -17,13 +17,7 @@ namespace AdaptiveCalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             OAuthPromptDialog oauthDialog,
-            CreateCalendarEntry createDialog,
-            FindCalendarEntry findDialog,
-            DeleteCalendarEntry deleteDialog,
-            FindCalendarWho findWhoDialog,
-            AcceptCalendarEntry acceptDialog,
-            ShowNextCalendar showNextDialog,
-            ChangeCalendarEntry changeDialog)
+            CreateEntryDialog createDialog)
             : base(nameof(MainDialog))
         {
             // Create instance of adaptive dialog. 
@@ -45,59 +39,8 @@ namespace AdaptiveCalendarSkill.Dialogs
                     {
                         Actions =
                         {
-                            new SetProperty()
-                            {
-                                Property = "user.CreateCalendarEntry_pageIndex", // 0-based
-                                Value = "0"
-                            },
                             new BeginDialog(createDialog.Id)
                         },
-                        Constraint = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.FindCalendarEntry.ToString())
-                    {
-                        Actions =
-                        {
-                            new SetProperty()
-                            {
-                                Property = "user.ShowAllMeetingDialog_pageIndex",// 0-based
-                                Value = "0"
-                            },
-                            new BeginDialog(findDialog.Id)
-                        },
-                        Constraint = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.DeleteCalendarEntry.ToString())
-                    {
-                        Actions = { new BeginDialog(deleteDialog.Id) },
-                        Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.FindCalendarWho.ToString())
-                    {
-                        Actions =
-                        {
-                             new SetProperty()
-                             {
-                                Property = "user.FindCalendarWho_pageIndex",// 0-based
-                                Value = "0"
-                             },
-                            new BeginDialog(findWhoDialog.Id)
-                        },
-                        Constraint = "turn.dialogevent.value.intents.FindCalendarWho.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.AcceptEventEntry.ToString())
-                    {
-                        Actions = { new BeginDialog(acceptDialog.Id) },
-                        Constraint = "turn.dialogevent.value.intents.AcceptCalendarEntry.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.ShowNextCalendar.ToString()){
-                        Actions = { new BeginDialog(showNextDialog.Id) },
-                        Constraint = "turn.dialogevent.value.intents.ShowNextCalendar.score > 0.5"
-                    },
-                    new OnIntent(CalendarLuis.Intent.ChangeCalendarEntry.ToString())
-                    {
-                        Actions = { new BeginDialog(changeDialog.Id) },
-                        Constraint = "turn.dialogevent.value.intents.ChangeCalendarEntry.score > 0.5"
                     },
 
                     /******************************************************************************/
@@ -124,12 +67,6 @@ namespace AdaptiveCalendarSkill.Dialogs
             AddDialog(adaptiveDialog);
             AddDialog(oauthDialog);
             AddDialog(createDialog);
-            AddDialog(findDialog);
-            AddDialog(deleteDialog);
-            AddDialog(findWhoDialog);
-            AddDialog(acceptDialog);
-            AddDialog(showNextDialog);
-            AddDialog(changeDialog);
 
             /******************************************************************************/
             // The initial child Dialog to run.

@@ -32,9 +32,9 @@ namespace AdaptiveCalendarSkill.Bots
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync($"{exception.Message}");
-                await turnContext.SendActivityAsync($"{exception.StackTrace}");
-                await turnContext.SendActivityAsync("Sorry, something went wrong (skill)!");
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+                await turnContext.SendActivityAsync("Sorry, something went wrong!");
             };
 
             TypeFactory.Configuration = configuration;

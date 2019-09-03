@@ -1,29 +1,40 @@
-# GetSubject
+# SubjectPrompt
 - ```
-OK, please enter the subject of your event.
+What's the meeting title?
 [Suggestions=Help | Cancel]
 ```
 
-# GetFromTime
+# RecipientsListMessage
+- IF: {count(dialog.attendeeEmailList) == 1}
+    - I've added {dialog.attendeeEmailList[0]} to the recipients list.
+- ELSE: 
+    - I've added {join(dialog.attendeeEmailList, ',', 'and')} to the recipients list.
+
+# StartTimePrompt
 - ```
-OK, please enter the start time of your event.
+What time will it start?
 [Suggestions=Help | Cancel]
 ```
 
-# GetToTime
+# EndTimePrompt
 - ```
-OK, please enter the end time of your event.
+When will it end?
 [Suggestions=Help | Cancel]
 ```
 
-# GetLocation
+# LocationPrompt
 - ```
-OK, please enter the location of your event.
+Where will it take place?
 [Suggestions=Help | Cancel]
 ```
 
+# ContentPrompt
+- ```
+What is the meeting content?
+[Suggestions=Help | Cancel]
+```
 
-# CreateCalendarDetailedEntryReadBack
+# MeetingDetailsCard
 - ```
 [adaptivecard
 {
@@ -36,7 +47,7 @@ OK, please enter the location of your event.
                     "type": "TextBlock",
                     "size": "Medium",
                     "weight": "Bolder",
-                    "text": "@{dialog.CreateCalendarEntry_Subject}"
+                    "text": "@{dialog.Subject}"
                 }
             ]
         },
@@ -45,7 +56,7 @@ OK, please enter the location of your event.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{dialog.CreateCalendarEntry_FromTime[0].value} - @{dialog.CreateCalendarEntry_ToTime[0].value}",
+                    "text": "@{dialog.StartTime[0].value} - @{dialog.EndTime[0].value}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -56,9 +67,7 @@ OK, please enter the location of your event.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{if(user.finalContact != null &&
-                        empty(user.finalContact) != true,
-                        user.finalContact,'No Attendee Specified')}",
+                    "text": "",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -69,8 +78,8 @@ OK, please enter the location of your event.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{if(empty(dialog.CreateCalendarEntry_Location) != true,
-                        dialog.CreateCalendarEntry_Location,'dialog.CreateCalendarEntry_Location')}",
+                    "text": "@{if(empty(dialog.Location) != true,
+                        dialog.Location,'dialog.Location')}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -83,8 +92,8 @@ OK, please enter the location of your event.
 ]
 ```
 
-# InformationConfirm
-- Is Your Information Correct?
+# ConfirmDetailsPrompt
+- Is this correct?
 
 # YesOrNo
 - Please Say Yes/No.
@@ -92,9 +101,9 @@ OK, please enter the location of your event.
 # StartOver
 - Sure! let start over!
 
-# CreateCalendarEntryReadBack
+# SuccessMessage
 - ```
-@{HelpPrefix()}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
+@{HelpPrefix()}, I have added @{dialog.Subject} to your calendar list. 
 @{Welcome-Actions()}
 ```
 
@@ -106,13 +115,13 @@ OK, please enter the location of your event.
 - You bet
 - Absolutely
 
-# CreateCalendarEntryFailed
-- Sorry, there could be something wrong about your input. Please check your input. 
+# FailedMessage
+- Sorry, something went wrong trying to create your meeting. Please verify your meeting details. 
 
 # HelpCreateMeeting
 - [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
 
-# CancelCreateMeeting
+# CancelMessage
 - ```
 @{HelpPrefix()}, I've cancelled that.
 @{Welcome-Actions()}

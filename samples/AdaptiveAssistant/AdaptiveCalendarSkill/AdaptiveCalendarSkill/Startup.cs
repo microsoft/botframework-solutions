@@ -97,15 +97,8 @@ namespace AdaptiveCalendarSkill
 
             // Register dialogs
             services.AddTransient<OAuthPromptDialog>();
-            services.AddTransient<AcceptCalendarEntry>();
-            services.AddTransient<AddContactDialog>();
-            services.AddTransient<ChangeCalendarEntry>();
-            services.AddTransient<CreateCalendarEntry>();
-            services.AddTransient<DeleteCalendarEntry>();
-            services.AddTransient<FindCalendarEntry>();
-            services.AddTransient<FindCalendarWho>();
-            services.AddTransient<ShowAllMeetingsDialog>();
-            services.AddTransient<ShowNextCalendar>();
+            services.AddTransient<CreateEntryDialog>();
+            services.AddTransient<GetRecipientsDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters
