@@ -71,7 +71,6 @@ export class RefreshSkill {
                 const argumentValue: string = <string> executionModelByCulture.get(argument);
                 luisgenCommand.push(...[argument, argumentValue]);
             });
-            this.logger.message(luisgenCommand.join(' '));
             await this.runCommand(luisgenCommand, `Executing luisgen for the ${dispatchName} file`);
         } catch (err) {
             throw new Error(`There was an error in the luisgen command:\nCommand: ${luisgenCommand.join(' ')}\n${err}`);

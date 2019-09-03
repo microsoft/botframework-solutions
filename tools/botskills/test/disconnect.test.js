@@ -233,27 +233,6 @@ It should be either 'cs' or 'ts' depending on your assistant's language. Please 
 Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
         });
 
-        it("when the dispatchName is not contained in the Dispatch file", async function () {
-            const configuration = {
-                skillId : "testSkill",
-                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
-                outFolder : "",
-                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
-                languages : "",
-                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
-                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
-                lgLanguage : "cs",
-                logger : this.logger
-            };
-
-            this.disconnector.configuration = configuration;
-            await this.disconnector.disconnectSkill();
-            const warningList = this.logger.getWarning();
-
-            strictEqual(warningList[warningList.length - 1], `The skill ${configuration.skillId} is not present in the Dispatch model.
-Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
-        });
-        
         it("when the noRefresh flag is applied", async function () {
             const configuration = {
                 skillId : "testDispatch",

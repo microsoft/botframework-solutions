@@ -47,10 +47,7 @@ export class DisconnectSkill {
                             .toString());
                     const serviceToRemove: IDispatchService | undefined = dispatchData.services.find((service: IDispatchService): boolean =>
                         service.name === this.configuration.skillId);
-                    if (!serviceToRemove) {
-                        this.logger.warning(`The skill ${this.configuration.skillId} is not present in the Dispatch model.
-Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
-                    } else {
+                    if (serviceToRemove) {
                         dispatchData.serviceIds.splice(
                             dispatchData.serviceIds.findIndex(
                                 (serviceId: string): boolean => serviceId === serviceToRemove.id),
