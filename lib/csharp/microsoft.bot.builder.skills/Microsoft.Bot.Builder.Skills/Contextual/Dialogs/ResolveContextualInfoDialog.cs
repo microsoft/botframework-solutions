@@ -7,13 +7,21 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
+using Microsoft.Recognizers.Text;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using System.Linq;
 
 namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
 {
     public class ResolveContextualInfoDialog : ComponentDialog
     {
         private const string _getContextualContactNameDialog = "GetContextualContactName";
+        private const string _setContextualContactNameDialog = "SetContextualContactName";
+        private const string _confirmContextualContactNameDialog = "ConfirmContextualContactName";
         private const string _textPrompt = "TextPrompt";
+        private const string _confirmPrompt = "ConfirmPrompt";
 
         public ResolveContextualInfoDialog(
             UserState userState,
@@ -30,6 +38,16 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
             var getContextualContactName = new WaterfallStep[]
             {
                 GetInfoFromUser,
+            };
+
+            var confirmContextualContactName = new WaterfallStep[]
+            {
+                ConfirmInfoFromUser,
+                AfterConfirmInfoFromUser,
+            };
+
+            var setContextualContactName = new WaterfallStep[]
+            {
                 PromptIfUnknown,
                 AfterPromptIfUnknown
             };
@@ -37,6 +55,9 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
             // Define the conversation flow using a waterfall model.
             AddDialog(new TextPrompt(_textPrompt));
             AddDialog(new WaterfallDialog(_getContextualContactNameDialog, getContextualContactName) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(_setContextualContactNameDialog, setContextualContactName) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(_confirmContextualContactNameDialog, confirmContextualContactName) { TelemetryClient = telemetryClient });
+            AddDialog(new ConfirmPrompt(_confirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
             InitialDialogId = _getContextualContactNameDialog;
         }
 
@@ -52,12 +73,61 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
                 var userState = await UserStateAccessor.GetAsync(sc.Context, () => new UserInfoState());
                 var result = userState.GetRelationshipContact(option.QueryItem);
 
-                if (string.IsNullOrEmpty(result))
+                if (result == null || result.Count() == 0)
                 {
-                    return await sc.NextAsync();
+                    return await sc.BeginDialogAsync(_setContextualContactNameDialog, option);
                 }
 
-                return await sc.EndDialogAsync(result);
+                option.QueryResult = result;
+
+                return await sc.BeginDialogAsync(_confirmContextualContactNameDialog, option);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ConfirmInfoFromUser(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var option = sc.Options as UserInfoOptions;
+
+                var nameString = string.Join(", ", option.QueryResult.ToArray().Take(option.QueryResult.Count - 1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + option.QueryResult.Last();
+                var prompt = ResponseManager.GetResponse(
+                    ResolveContextualInfoResponses.PromptUserContact,
+                    new StringDictionary()
+                    {
+                        { "Relationship", option.QueryItem.RelationshipName },
+                        { "Contact", nameString },
+                    });
+                return await sc.PromptAsync(_confirmPrompt, new PromptOptions { Prompt = prompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterConfirmInfoFromUser(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                var option = sc.Options as UserInfoOptions;
+                if (confirmResult)
+                {
+                    return await sc.EndDialogAsync(option.QueryResult);
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(_setContextualContactNameDialog, option);
+                }
             }
             catch (Exception ex)
             {
@@ -71,7 +141,13 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(ResolveContextualInfoResponses.PromptUnknownContact);
+                var option = sc.Options as UserInfoOptions;
+                var prompt = ResponseManager.GetResponse(
+                    ResolveContextualInfoResponses.PromptUnknownContact,
+                    new StringDictionary()
+                    {
+                        { "Relationship", option.QueryItem.RelationshipName },
+                    });
 
                 return await sc.PromptAsync(_textPrompt, new PromptOptions { Prompt = prompt });
             }
@@ -94,9 +170,16 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
 
                     var userState = await UserStateAccessor.GetAsync(sc.Context);
                     var option = sc.Options as UserInfoOptions;
-                    userState.SaveRelationshipContact(option.QueryItem, entityInput);
 
-                    return await sc.EndDialogAsync(entityInput);
+                    string[] split = { CommonStrings.And, CommonStrings.Comma };
+                    var nameList = entityInput.Split(split, options: StringSplitOptions.None)
+                        .Select(x => x.Trim())
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .ToList();
+
+                    userState.SaveRelationshipContact(option.QueryItem, nameList);
+
+                    return await sc.EndDialogAsync(nameList);
                 }
 
                 return await sc.EndDialogAsync();

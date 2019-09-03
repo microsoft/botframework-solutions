@@ -541,10 +541,18 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var resolvedContact = sc.Result as string;
+                var resolvedContact = sc.Result as IList<string>;
 
-                var state = await Accessor.GetAsync(sc.Context);
-                state.FindContactInfor.CurrentContactName = resolvedContact;
+                if (resolvedContact.Count() > 0)
+                {
+                    var state = await Accessor.GetAsync(sc.Context);
+                    state.FindContactInfor.CurrentContactName = resolvedContact[0];
+
+                    for (int i = 1; i < resolvedContact.Count(); i++)
+                    {
+                        state.FindContactInfor.ContactsNameList.Insert(state.FindContactInfor.ConfirmContactsNameIndex + i, resolvedContact[i]);
+                    }
+                }
 
                 return await sc.EndDialogAsync();
             }

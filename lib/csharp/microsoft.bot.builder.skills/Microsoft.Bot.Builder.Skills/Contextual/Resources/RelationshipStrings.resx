@@ -117,124 +117,127 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="And" xml:space="preserve">
-    <value>和</value>
+  <data name="Aunt" xml:space="preserve">
+    <value>aunt | aunts</value>
   </data>
-  <data name="At" xml:space="preserve">
-    <value>于</value>
+  <data name="Brother" xml:space="preserve">
+    <value>brother | brothers</value>
   </data>
-  <data name="AtTimeDetailsFormat" xml:space="preserve">
-    <value>{0}于{1}</value>
+  <data name="Brother_In_Law" xml:space="preserve">
+    <value>brother_in_law | brother in law | brother-in-law</value>
   </data>
-  <data name="DaysFormat" xml:space="preserve">
-    <value>{0}天前</value>
+  <data name="Child" xml:space="preserve">
+    <value>child | children | kids</value>
   </data>
-  <data name="DisplayDateFormat" xml:space="preserve">
-    <value>D</value>
+  <data name="Colleague" xml:space="preserve">
+    <value>colleague | colleagues</value>
   </data>
-  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
-    <value>M</value>
+  <data name="Cousin" xml:space="preserve">
+    <value>cousin | cousins</value>
   </data>
-  <data name="DisplayTime" xml:space="preserve">
-    <value>t</value>
+  <data name="Daughter" xml:space="preserve">
+    <value>daughter | daughters</value>
   </data>
-  <data name="NotAvailable" xml:space="preserve">
-    <value>未知</value>
+  <data name="Daughter_In_Law" xml:space="preserve">
+    <value>daughter in law | daughter-in-law</value>
   </data>
-  <data name="Now" xml:space="preserve">
-    <value>刚刚</value>
+  <data name="Family" xml:space="preserve">
+    <value>family</value>
   </data>
-  <data name="Or" xml:space="preserve">
-    <value>或</value>
+  <data name="Father" xml:space="preserve">
+    <value>dad | father</value>
   </data>
-  <data name="RecipientsSummary" xml:space="preserve">
-    <value> + {0} 更多</value>
+  <data name="Father_In_Law" xml:space="preserve">
+    <value>father in law | father-in-law</value>
   </data>
-  <data name="SeparatorFormat" xml:space="preserve">
-    <value>{0}</value>
+  <data name="Friend" xml:space="preserve">
+    <value>friend | friends</value>
   </data>
-  <data name="SpokenDateFormat" xml:space="preserve">
-    <value>D</value>
+  <data name="Grandchild" xml:space="preserve">
+    <value>grandchild | grandchildren</value>
   </data>
-  <data name="SpokenDatePrefix" xml:space="preserve">
-    <value>中。</value>
+  <data name="Granddaughter" xml:space="preserve">
+    <value>granddaughter</value>
   </data>
-  <data name="SpokenTimePrefix_MoreThanOne" xml:space="preserve">
-    <value>到</value>
+  <data name="Grandfather" xml:space="preserve">
+    <value>grandfather | grandpa</value>
   </data>
-  <data name="SpokenTimePrefix_One" xml:space="preserve">
-    <value>进入</value>
+  <data name="Grandmother" xml:space="preserve">
+    <value>grandma | grandmother</value>
   </data>
-  <data name="Today" xml:space="preserve">
-    <value>今天</value>
+  <data name="Grandparent" xml:space="preserve">
+    <value>grandparent | grandparents</value>
   </data>
-  <data name="Tomorrow" xml:space="preserve">
-    <value>明天</value>
+  <data name="Grandson" xml:space="preserve">
+    <value>grandson | grandsons</value>
   </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>昨天</value>
+  <data name="Husband" xml:space="preserve">
+    <value>husband</value>
   </data>
-  <data name="TimeFormatDay" xml:space="preserve">
-    <value>{0}天</value>
+  <data name="Manager" xml:space="preserve">
+    <value>boss | manager</value>
   </data>
-  <data name="TimeFormatDays" xml:space="preserve">
-    <value>{0}天</value>
+  <data name="Mother" xml:space="preserve">
+    <value>mom | mother</value>
   </data>
-  <data name="TimeFormatHour" xml:space="preserve">
-    <value>{0}小时</value>
+  <data name="Mother_in_law" xml:space="preserve">
+    <value>mother_in_law</value>
   </data>
-  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
-    <value />
+  <data name="Neighbor" xml:space="preserve">
+    <value>neighbor | neighbors</value>
   </data>
-  <data name="TimeFormatHours" xml:space="preserve">
-    <value>{0}小时</value>
+  <data name="Nephew" xml:space="preserve">
+    <value>nephew</value>
   </data>
-  <data name="TimeFormatMinute" xml:space="preserve">
-    <value>{0}分钟</value>
+  <data name="Niece" xml:space="preserve">
+    <value>niece</value>
   </data>
-  <data name="TimeFormatMinutes" xml:space="preserve">
-    <value>{0}分钟</value>
+  <data name="Parent" xml:space="preserve">
+    <value>parent | parents</value>
   </data>
-  <data name="AttendeesSummary" xml:space="preserve">
-    <value>+ {0}个其他参会者</value>
+  <data name="Partner" xml:space="preserve">
+    <value>partner</value>
   </data>
-  <data name="DateWithAllDay" xml:space="preserve">
-    <value>{0}全天</value>
+  <data name="Sibling" xml:space="preserve">
+    <value>sibling | siblings</value>
   </data>
-  <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>yyyy-MM-dd</value>
+  <data name="Sister" xml:space="preserve">
+    <value>sister | sisters</value>
   </data>
-  <data name="FirstItem" xml:space="preserve">
-    <value>第一个是{0};</value>
+  <data name="Sister_In_Law" xml:space="preserve">
+    <value>sister in law | sister-in-law</value>
   </data>
-  <data name="More" xml:space="preserve">
-    <value>多</value>
+  <data name="Son" xml:space="preserve">
+    <value>son | sons</value>
   </data>
-  <data name="SecondItem" xml:space="preserve">
-    <value>第二个是{0};</value>
+  <data name="Son_In_Law" xml:space="preserve">
+    <value>son in law | son-in-law</value>
   </data>
-  <data name="ThirdItem" xml:space="preserve">
-    <value>第三个是{0};</value>
+  <data name="Stepfather" xml:space="preserve">
+    <value>stepfather</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>登陆</value>
+  <data name="Stepmother" xml:space="preserve">
+    <value>stepmother</value>
   </data>
-  <data name="LoginDescription" xml:space="preserve">
-    <value>请登陆您的{0}账户</value>
+  <data name="Stepsister" xml:space="preserve">
+    <value>stepsister</value>
   </data>
-  <data name="FourthItem" xml:space="preserve">
-    <value>第四是{0};</value>
+  <data name="Stepson" xml:space="preserve">
+    <value>stepson</value>
   </data>
-  <data name="LastItem" xml:space="preserve">
-    <value>最后是{0};</value>
+  <data name="Step_Daughter" xml:space="preserve">
+    <value>step daughter | step-daughter</value>
   </data>
-  <data name="LatestItem" xml:space="preserve">
-    <value>最新的是{0};</value>
+  <data name="Student" xml:space="preserve">
+    <value>student | students</value>
   </data>
-  <data name="ConfirmSkillSwitch" xml:space="preserve">
-    <value>你确定要切换到{0}吗？</value>
+  <data name="Teacher" xml:space="preserve">
+    <value>teacher | teachers</value>
   </data>
-  <data name="Comma" xml:space="preserve">
-    <value>，</value>
+  <data name="Uncle" xml:space="preserve">
+    <value>uncle | uncles</value>
+  </data>
+  <data name="Wife" xml:space="preserve">
+    <value>wife</value>
   </data>
 </root>

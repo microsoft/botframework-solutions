@@ -2,8 +2,17 @@
   "PromptUnknownContact": {
     "replies": [
       {
-        "text": "Who is your wife?",
-        "speak": "Who is your wife?"
+        "text": "Who is your {Relationship}?",
+        "speak": "Who is your {Relationship}?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "PromptUserContact": {
+    "replies": [
+      {
+        "text": "Your {Relationship} is {Contact}, could you confirm?",
+        "speak": "Your {Relationship} is {Contact}, could you confirm?"
       }
     ],
     "inputHint": "acceptingInput"
