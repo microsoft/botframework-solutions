@@ -2,6 +2,8 @@
   "id": "<%= skillNameCamelCase %>",
   "name": "<%= skillNameCamelCase %>",
   "description": "This is the description of the <%= skillNameCamelCase %>",
+  "endpoint": "",
+  "msaAppId": "",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
