@@ -152,6 +152,16 @@ namespace PointOfInterestSkill.Dialogs
 
                     var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.CurrentLocationSingleSelection : POISharedResponses.CurrentLocationMultipleSelection, containerCard, "Container", cards);
 
+                    if (cards.Count == 1)
+                    {
+                        // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separately
+                        if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                        {
+                            await sc.Context.SendActivityAsync(options.Prompt);
+                            options.Prompt = null;
+                        }
+                    }
+
                     return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
                 }
             }
