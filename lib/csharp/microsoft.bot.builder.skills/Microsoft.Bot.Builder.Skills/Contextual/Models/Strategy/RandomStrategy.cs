@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ToDoSkill.Utilities.ContextualHistory.Models.Strategy
+namespace Microsoft.Bot.Builder.Skills.Contextual.Strategy
 {
     public class RandomStrategy : IReplacementStrategy
     {

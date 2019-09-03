@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ToDoSkill.Utilities.ContextualHistory.Models
+namespace Microsoft.Bot.Builder.Skills.Contextual.Models
 {
     public class PreviousQuestion
     {

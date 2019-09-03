@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using ToDoSkill.Utilities.ContextualHistory.Models;
-using ToDoSkill.Utilities.ContextualHistory.Models.Strategy;
+using Microsoft.Bot.Builder.Skills.Contextual.Models;
+using Microsoft.Bot.Builder.Skills.Contextual.Models.Strategy;
 
-namespace ToDoSkill.Utilities.ContextualHistory
+namespace Microsoft.Bot.Builder.Skills.Contextual
 {
     public class SkillContextualMiddleware : IMiddleware
     {

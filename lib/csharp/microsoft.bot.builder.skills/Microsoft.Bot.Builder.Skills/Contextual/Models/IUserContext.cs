@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ToDoSkill.Utilities.ContextualHistory.Models
+namespace Microsoft.Bot.Builder.Skills.Contextual.Models
 {
     public interface IUserContext
     {

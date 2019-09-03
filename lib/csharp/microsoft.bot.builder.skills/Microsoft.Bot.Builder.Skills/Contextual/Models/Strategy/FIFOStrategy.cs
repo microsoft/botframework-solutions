@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ToDoSkill.Utilities.ContextualHistory.Models.Strategy
+namespace Microsoft.Bot.Builder.Skills.Contextual.Models.Strategy
 {
     public class FIFOStrategy : IReplacementStrategy
     {
