@@ -31,6 +31,7 @@
         public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
+        public const string GetEvents = "GetEvents";
         public const string FindEvent = "FindEvent";
         public const string ChooseEvent = "ChooseEvent";
         public const string UpdateStartTime = "UpdateStartTime";

@@ -47,7 +47,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.ShowTimeRemaining;
         }
 
-        public async Task<DialogTurnResult> CheckTimeRemain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CheckTimeRemain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

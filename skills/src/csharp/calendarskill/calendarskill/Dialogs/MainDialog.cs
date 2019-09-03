@@ -197,22 +197,6 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSemanticAction(ITurnContext context)
-        {
-            var activity = context.Activity;
-            var semanticAction = activity.SemanticAction;
-            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
-            {
-                var timezone = semanticAction.Entities["timezone"];
-                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
-
-                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-
-                // we have a timezone
-                state.UserInfo.Timezone = timezoneObj;
-            }
-        }
-
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
@@ -314,6 +298,22 @@ namespace CalendarSkill.Dialogs
             }
 
             return result;
+        }
+
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+            {
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
+
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
+            }
         }
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)

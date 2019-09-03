@@ -159,52 +159,65 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<DialogTurnResult> SearchEventsWithEntities(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-
-            // search by time without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+            try
             {
-                var searchedMeeting = await CalendarCommonUtil.GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
-                foreach (var item in searchedMeeting)
-                {
-                    if (item.IsCancelled != true)
-                    {
-                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
-                    }
-                }
-            }
+                var state = await Accessor.GetAsync(sc.Context);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-            // search by title without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any() && !string.IsNullOrEmpty(state.MeetingInfor.Title))
-            {
-                var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
-                foreach (var item in searchedMeeting)
+                // search by time without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
-                    if (item.IsCancelled != true)
+                    var searchedMeeting = await CalendarCommonUtil.GetEventsByTime(state.MeetingInfor.StartDate, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                    foreach (var item in searchedMeeting)
                     {
-                        state.ShowMeetingInfor.ShowingMeetings.Add(item);
-                    }
-                }
-            }
-
-            // search next meeting without cancelled meeting
-            if (!state.ShowMeetingInfor.ShowingMeetings.Any())
-            {
-                if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
-                {
-                    var upcomingMeetings = await calendarService.GetUpcomingEventsAsync();
-                    foreach (var item in upcomingMeetings)
-                    {
-                        if (item.IsCancelled != true && (!state.ShowMeetingInfor.ShowingMeetings.Any() || state.ShowMeetingInfor.ShowingMeetings[0].StartTime == item.StartTime))
+                        if (item.IsCancelled != true)
                         {
                             state.ShowMeetingInfor.ShowingMeetings.Add(item);
                         }
                     }
                 }
-            }
 
-            return await sc.NextAsync();
+                // search by title without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any() && !string.IsNullOrEmpty(state.MeetingInfor.Title))
+                {
+                    var searchedMeeting = await calendarService.GetEventsByTitleAsync(state.MeetingInfor.Title);
+                    foreach (var item in searchedMeeting)
+                    {
+                        if (item.IsCancelled != true)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                        }
+                    }
+                }
+
+                // search next meeting without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+                {
+                    if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                    {
+                        var upcomingMeetings = await calendarService.GetUpcomingEventsAsync();
+                        foreach (var item in upcomingMeetings)
+                        {
+                            if (item.IsCancelled != true && (!state.ShowMeetingInfor.ShowingMeetings.Any() || state.ShowMeetingInfor.ShowingMeetings[0].StartTime == item.StartTime))
+                            {
+                                state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            }
+                        }
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         protected async Task<DialogTurnResult> CheckFocusedEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -237,7 +250,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                // can't get conflict flag from api, so lable them here
+                // can't get conflict flag from api, so label them here
                 var state = await Accessor.GetAsync(sc.Context);
                 for (var i = 0; i < state.ShowMeetingInfor.ShowingMeetings.Count - 1; i++)
                 {
@@ -390,6 +403,39 @@ namespace CalendarSkill.Dialogs
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> ChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterGetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+
+                if (sc.Result != null)
+                {
+                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -574,19 +620,6 @@ namespace CalendarSkill.Dialogs
             participantContainerList.Add(participantContainerCard);
 
             return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
-        }
-
-        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state)
-        {
-            return GetCurrentPageMeetings(state, out var firstIndex, out var lastIndex);
-        }
-
-        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state, out int firstIndex, out int lastIndex)
-        {
-            firstIndex = state.ShowMeetingInfor.ShowEventIndex * state.PageSize;
-            var count = Math.Min(state.PageSize, state.ShowMeetingInfor.ShowingMeetings.Count - (state.ShowMeetingInfor.ShowEventIndex * state.PageSize));
-            lastIndex = firstIndex + count;
-            return state.ShowMeetingInfor.ShowingMeetings.GetRange(firstIndex, count);
         }
 
         protected List<EventModel> GetFilteredEvents(CalendarSkillState state, string userInput, string locale, out string showingCardTitle)
@@ -1449,12 +1482,12 @@ namespace CalendarSkill.Dialogs
             return result;
         }
 
-        protected string GetSubjectFromEntity(CalendarLuis._Entities entity)
+        private string GetSubjectFromEntity(CalendarLuis._Entities entity)
         {
             return entity.Subject[0];
         }
 
-        protected List<string> GetAttendeesFromEntity(CalendarLuis._Entities entity, string inputString, List<string> attendees = null)
+        private List<string> GetAttendeesFromEntity(CalendarLuis._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
             {
@@ -1478,7 +1511,7 @@ namespace CalendarSkill.Dialogs
         }
 
         // Workaround until adaptive card renderer in teams is upgraded to v1.2
-        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        private string GetDivergedCardName(ITurnContext turnContext, string card)
         {
             if (Channel.GetChannelId(turnContext) == Channels.Msteams)
             {
@@ -1488,6 +1521,19 @@ namespace CalendarSkill.Dialogs
             {
                 return card;
             }
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state)
+        {
+            return GetCurrentPageMeetings(state, out var firstIndex, out var lastIndex);
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(CalendarSkillState state, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = state.ShowMeetingInfor.ShowEventIndex * state.PageSize;
+            var count = Math.Min(state.PageSize, state.ShowMeetingInfor.ShowingMeetings.Count - (state.ShowMeetingInfor.ShowEventIndex * state.PageSize));
+            lastIndex = firstIndex + count;
+            return state.ShowMeetingInfor.ShowingMeetings.GetRange(firstIndex, count);
         }
 
         private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)

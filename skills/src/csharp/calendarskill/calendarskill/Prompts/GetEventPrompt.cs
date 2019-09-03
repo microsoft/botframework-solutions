@@ -172,32 +172,6 @@ namespace CalendarSkill.Prompts
             return events;
         }
 
-        private bool IsRelativeTime(string userInput, string resolverResult, string timex)
-        {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
-            {
-                return true;
-            }
-
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
-            {
-                return true;
-            }
-
-            if (timex == "PRESENT_REF")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture)
         {
             IList<DateTimeResolution> results = RecognizeDateTime(message, culture);
@@ -224,26 +198,6 @@ namespace CalendarSkill.Prompts
 
             return new List<DateTimeResolution>();
         }
-
-        //private bool ContainsDateTime(IDictionary<string, string> resolution)
-        //{
-        //    if (resolution.TryGetValue("value", out var value))
-        //    {
-        //        try
-        //        {
-        //            var dateTime = DateTime.Parse(value);
-        //            if (dateTime != null)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //        catch
-        //        {
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         private DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
         {

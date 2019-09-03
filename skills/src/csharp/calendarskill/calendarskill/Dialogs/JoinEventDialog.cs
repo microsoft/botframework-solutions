@@ -46,9 +46,15 @@ namespace CalendarSkill.Dialogs
             {
                 SearchEventsWithEntities,
                 GetEvents,
-                AfterGetEventsPrompt,
                 AddConflictFlag,
                 ChooseEvent
+            };
+
+            var getEvents = new WaterfallStep[]
+            {
+                GetEventsPrompt,
+                AfterGetEventsPrompt,
+                CheckValid,
             };
 
             var chooseEvent = new WaterfallStep[]
@@ -58,6 +64,7 @@ namespace CalendarSkill.Dialogs
             };
 
             AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetEvents, getEvents) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindEvent, findEvent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ChooseEvent, chooseEvent) { TelemetryClient = telemetryClient });
 
@@ -105,6 +112,19 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                return await sc.BeginDialogAsync(Actions.GetEvents, sc.Options);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> GetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.ShowMeetingInfor.FocusedEvents.Any())
                 {
@@ -136,36 +156,30 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterGetEventsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CheckValid(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (sc.Result != null)
+                var validEvents = new List<EventModel>();
+                foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
                 {
-                    state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                    if (IsValidJoinTime(state.GetUserTimeZone(), item) && GetDialInNumberFromMeeting(item) != null)
+                    {
+                        validEvents.Add(item);
+                    }
                 }
 
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        public async Task<DialogTurnResult> ChooseEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(Actions.ChooseEvent, sc.Options);
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                state.ShowMeetingInfor.ShowingMeetings = validEvents;
+                if (validEvents.Any())
+                {
+                    return await sc.EndDialogAsync();
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.GetEvents, sc.Options);
+                }
             }
             catch (Exception ex)
             {
@@ -187,11 +201,6 @@ namespace CalendarSkill.Dialogs
                     { "PhoneNumber", phoneNumber },
                 };
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(JoinEventResponses.ConfirmPhoneNumber, responseParams) });
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
