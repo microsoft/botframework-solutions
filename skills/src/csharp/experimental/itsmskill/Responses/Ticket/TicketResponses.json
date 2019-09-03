@@ -2,8 +2,8 @@
   "IfExistingSolve": {
     "replies": [
       {
-        "text": "Page {Page}. Does one of these solve your problem? \"Go forward/previously\" to navigate.",
-        "speak": "Page {Page}. Does one of these solve your problem? \"Go forward/previously\" to navigate."
+        "text": "Page {Page}. Do any of these solve your problem? Go forward/previous to navigate",
+        "speak": "Page {Page}. Do any of these solve your problem? Go forward/previous to navigate"
       }
     ],
     "inputHint": "expectingInput"
@@ -31,8 +31,8 @@
     "suggestedActions": [ "description", "urgency", "no" ],
     "replies": [
       {
-        "text": "What attribute do you want to set for updating? Or \"No\" for no more attribute.",
-        "speak": "What attribute do you want to set for updating? Or \"No\" for no more attribute."
+        "text": "Which attribute do you want to update?",
+        "speak": "Which attribute do you want to update?"
       }
     ],
     "inputHint": "expectingInput"
@@ -49,8 +49,8 @@
   "TicketNoUpdate": {
     "replies": [
       {
-        "text": "You didn't set anything to update. Let me know when you need my help.",
-        "speak": "You didn't set anything to update. Let me know when you need my help."
+        "text": "You didn't provide any changes, let me know when you need my help.",
+        "speak": "You didn't provide any changes, let me know when you need my help."
       }
     ],
     "inputHint": "acceptingInput"

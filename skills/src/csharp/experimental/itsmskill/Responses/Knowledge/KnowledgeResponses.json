@@ -2,8 +2,8 @@
   "IfFindWanted": {
     "replies": [
       {
-        "text": "Page {Page}. Do you find what you want? \"Go forward/previously\" to navigate.",
-        "speak": "Page {Page}. Do you find what you want? \"Go forward/previously\" to navigate."
+        "text": "Page {Page}. Do you find what you want? \"Go forward/previous\" to navigate.",
+        "speak": "Page {Page}. Do you find what you want? \"Go forward/previous\" to navigate."
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "KnowledgeEnd": {
     "replies": [
       {
-        "text": "Page {Page} does not contain anything, try \"Go previously\".",
-        "speak": "Page {Page} does not contain anything, try \"Go previously\"."
+        "text": "Page {Page} does not contain anything, try \"Go previous\".",
+        "speak": "Page {Page} does not contain anything, try \"Go previous\"."
       }
     ],
     "inputHint": "acceptingInput"
@@ -29,8 +29,8 @@
   "KnowledgeShowNone": {
     "replies": [
       {
-        "text": "I'm sorry I can't find any. Let me know when you need my help.",
-        "speak": "I'm sorry I can't find any. Let me know when you need my help."
+        "text": "I'm sorry, I can't find any articles. Let me know if I can help in another way.",
+        "speak": "I'm sorry, I can't find any articles. Let me know if I can help in another way."
       }
     ],
     "inputHint": "acceptingInput"

@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to IT Service Managerment skill! You can view, create or resolve tickets here.",
-        "speak": "Welcome to IT Service Managerment skill! You can view, create or resolve tickets here."
+        "text": "Welcome to the IT Service Management skill! You can view, create or resolve tickets here.",
+        "speak": "Welcome to the IT Service Management skill! You can view, create or resolve tickets here."
       }
     ],
     "suggestedActions": [],

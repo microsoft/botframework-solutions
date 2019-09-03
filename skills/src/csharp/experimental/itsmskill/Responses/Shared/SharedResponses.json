@@ -110,8 +110,8 @@
   "ActionEnded": {
     "replies": [
       {
-        "text": "Let me know if you need my help with something else.",
-        "speak": "Let me know if you need my help with something else."
+        "text": "Let me know if you need my help with anything else.",
+        "speak": "Let me know if you need my help with anything else."
       },
       {
         "text": "I'm here if you need me.",
@@ -157,8 +157,8 @@
   "InputDescription": {
     "replies": [
       {
-        "text": "Please input the description:",
-        "speak": "Please input the description:"
+        "text": "Please provide the description:",
+        "speak": "Please provide the description:"
       }
     ],
     "inputHint": "expectingInput"
@@ -238,8 +238,8 @@
   "InputTicketNumber": {
     "replies": [
       {
-        "text": "Please input the ticket number:",
-        "speak": "Please input the ticket number:"
+        "text": "Please provide the ticket number:",
+        "speak": "Please provide the ticket number:"
       }
     ],
     "inputHint": "expectingInput"
@@ -247,8 +247,8 @@
   "ServiceFailed": {
     "replies": [
       {
-        "text": "Sorry, IT service failed due to {Error}.",
-        "speak": "Sorry, IT service failed due to {Error}."
+        "text": "Sorry, connecting to the IT Service Management service failed due to {Error}.",
+        "speak": "Sorry, connecting to the IT Service Management service failed due to {Error}."
       }
     ],
     "inputHint": "acceptingInput"
