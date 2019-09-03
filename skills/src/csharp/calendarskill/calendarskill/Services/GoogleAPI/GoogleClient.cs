@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Google;
 using Microsoft.Bot.Builder.Skills;
 

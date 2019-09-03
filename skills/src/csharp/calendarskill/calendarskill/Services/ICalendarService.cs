@@ -18,14 +18,14 @@ namespace CalendarSkill.Services
         /// </summary>
         /// <param name="newEvent">event info to create.</param>
         /// <returns>the created meeting.</returns>
-        Task<EventModel> CreateEvent(EventModel newEvent);
+        Task<EventModel> CreateEventAysnc(EventModel newEvent);
 
         /// <summary>
         /// Get the meetings that start time after now. Order by start time.
         /// </summary>
         /// <param name="timeSpan">Timespan to get upcoming event within.</param>
         /// <returns>the meetings list.</returns>
-        Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null);
+        Task<List<EventModel>> GetUpcomingEventsAsync(TimeSpan? timeSpan = null);
 
         /// <summary>
         /// Get the meetings that start time between the two parameters.
@@ -33,48 +33,48 @@ namespace CalendarSkill.Services
         /// <param name="startTime">meeting start time should be after the startTime.</param>
         /// <param name="endTime">meeting start time should be before the endTime.</param>
         /// <returns>the meetings list.</returns>
-        Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime);
+        Task<List<EventModel>> GetEventsByTimeAsync(DateTime startTime, DateTime endTime);
 
         /// <summary>
         /// Get the meetings that start at the startTime.
         /// </summary>
         /// <param name="startTime">meeting start time.</param>
         /// <returns>the meetings list.</returns>
-        Task<List<EventModel>> GetEventsByStartTime(DateTime startTime);
+        Task<List<EventModel>> GetEventsByStartTimeAsync(DateTime startTime);
 
         /// <summary>
         /// Get the meetings with the specified words in the title.
         /// </summary>
         /// <param name="title">the meeting title should contains the title.</param>
         /// <returns>the meetings list.</returns>
-        Task<List<EventModel>> GetEventsByTitle(string title);
+        Task<List<EventModel>> GetEventsByTitleAsync(string title);
 
         /// <summary>
         /// Update the meeting info.
         /// </summary>
         /// <param name="updateEvent">the new meeting info.</param>
         /// <returns>the updated meeting.</returns>
-        Task<EventModel> UpdateEventById(EventModel updateEvent);
+        Task<EventModel> UpdateEventByIdAsync(EventModel updateEvent);
 
         /// <summary>
         /// Delete the meeting by ID.
         /// </summary>
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
-        Task DeleteEventById(string id);
+        Task DeleteEventByIdAsync(string id);
 
         /// <summary>
         /// Decline the meeting by ID.
         /// </summary>
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
-        Task DeclineEventById(string id);
+        Task DeclineEventByIdAsync(string id);
 
         /// <summary>
         /// Accept the meeting by ID.
         /// </summary>
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
-        Task AcceptEventById(string id);
+        Task AcceptEventByIdAsync(string id);
     }
 }
