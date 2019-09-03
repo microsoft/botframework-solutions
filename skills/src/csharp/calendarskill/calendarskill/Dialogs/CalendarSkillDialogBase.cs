@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Prompts;
-using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
@@ -60,7 +59,6 @@ namespace CalendarSkill.Dialogs
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
-            AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
             AddDialog(new TimePrompt(Actions.TimePrompt));
             AddDialog(new GetEventPrompt(Actions.GetEventPrompt));
         }
@@ -220,7 +218,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Actions.FindEvent);
+                    return await sc.BeginDialogAsync(Actions.FindEvent, sc.Options);
                 }
             }
             catch (SkillException ex)
@@ -892,6 +890,7 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.AcceptEventEntry:
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
                             if (entity.Subject != null)
@@ -1319,6 +1318,10 @@ namespace CalendarSkill.Dialogs
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
+                if (mailAddress == null)
+                {
+                    continue;
+                }
 
                 var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
@@ -1341,6 +1344,10 @@ namespace CalendarSkill.Dialogs
             foreach (var user in userList)
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+                if (mailAddress == null)
+                {
+                    continue;
+                }
 
                 var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
@@ -1440,94 +1447,6 @@ namespace CalendarSkill.Dialogs
             }
 
             return result;
-        }
-
-        protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            var pageIndex = state.MeetingInfor.ContactInfor.ShowContactsIndex;
-            var pageSize = 5;
-            var skip = pageSize * pageIndex;
-            var options = new PromptOptions
-            {
-                Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmRecipient),
-            };
-            for (var i = 0; i < personList.Count; i++)
-            {
-                var user = personList[i];
-                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
-
-                var choice = new Choice()
-                {
-                    Value = $"**{user.DisplayName}: {mailAddress}**",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            if (options.Choices.Count == 0)
-            {
-                pageSize = 10;
-            }
-
-            for (var i = 0; i < userList.Count; i++)
-            {
-                var user = userList[i];
-                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
-                var choice = new Choice()
-                {
-                    Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else if (skip >= 10)
-                {
-                    return options;
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            return options;
         }
 
         protected string GetSubjectFromEntity(CalendarLuis._Entities entity)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
@@ -16,7 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
-    public class DeleteCalendarFlowTests : CalendarBotTestBase
+    public class ChangeCalendarStatusFlowTests : CalendarBotTestBase
     {
         [TestInitialize]
         public void SetupLuisService()
@@ -27,7 +26,7 @@ namespace CalendarSkillTest.Flow
                 LuisServices = new Dictionary<string, ITelemetryRecognizer>()
                 {
                     { "General", new MockLuisRecognizer() },
-                    { "Calendar", new MockLuisRecognizer(new DeleteMeetingTestUtterances()) }
+                    { "Calendar", new MockLuisRecognizer(new ChangeMeetingStatusTestUtterances()) }
                 }
             });
         }
@@ -36,7 +35,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDeleteWithStartTimeEntity()
         {
             await this.GetTestFlow()
-                .Send(DeleteMeetingTestUtterances.DeleteMeetingWithStartTime)
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
@@ -50,7 +49,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDeleteWithTitleEntity()
         {
             await this.GetTestFlow()
-                .Send(DeleteMeetingTestUtterances.DeleteMeetingWithTitle)
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
@@ -60,9 +59,46 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarDeleteFromMultipleEvents()
+        {
+            int eventCount = 3;
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
+            await this.GetTestFlow()
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowCalendarList())
+                .Send(GeneralTestUtterances.ChooseOne)
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarAcceptWithStartTimeEntity()
+        {
+            await this.GetTestFlow()
+                .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AcceptEventPrompt())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] DeleteEventPrompt()
         {
             return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
+        }
+
+        private string[] AcceptEventPrompt()
+        {
+            return this.ParseReplies(ChangeEventStatusResponses.EventAccepted, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

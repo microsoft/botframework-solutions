@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Models;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
@@ -43,7 +42,7 @@ namespace CalendarSkillTest.Flow
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -59,7 +58,7 @@ namespace CalendarSkillTest.Flow
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -73,7 +72,7 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -87,7 +86,27 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.UpdateEventPrompt())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarUpdateFromMultipleEvents()
+        {
+            int eventCount = 3;
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
+            await this.GetTestFlow()
+                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
+                .Send(GeneralTestUtterances.ChooseOne)
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send("tomorrow 9 pm")
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -112,6 +131,11 @@ namespace CalendarSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
+        }
+
+        private string[] UpdateEventPrompt()
+        {
+            return this.ParseReplies(UpdateEventResponses.EventUpdated, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

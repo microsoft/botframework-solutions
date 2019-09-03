@@ -76,20 +76,6 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private string[] ShowNoMeetings()
-        {
-            return this.ParseReplies(JoinEventResponses.MeetingNotFound, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowCalendarList()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
         private Action<IActivity> JoinMeetingEvent()
         {
             return activity =>

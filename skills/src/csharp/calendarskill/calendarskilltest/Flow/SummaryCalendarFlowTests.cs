@@ -223,27 +223,6 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private string[] ShowOneMeetingOverviewAgainResponse(string dateTime = "today")
-        {
-            var responseParams = new StringDictionary()
-            {
-                { "DateTime", dateTime }
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams);
-        }
-
-        private string[] ShowOverviewAgainResponse(int count, string dateTime = "today")
-        {
-            var responseParams = new StringDictionary()
-            {
-                { "Count", count.ToString() },
-                { "DateTime", dateTime }
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowMeetingSummaryAgainMessage, responseParams);
-        }
-
         private string[] AskForShowOverviewAgainPrompt(string dateTime = "today")
         {
             var responseParams = new StringDictionary()
@@ -297,15 +276,6 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
         }
 
-        private Action<IActivity> ShowCalendarList()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
         private Action<IActivity> ShowAuth()
         {
             return activity =>
@@ -317,11 +287,6 @@ namespace CalendarSkillTest.Flow
         private string[] ReadOutMorePrompt()
         {
             return this.ParseReplies(SummaryResponses.ReadOutMorePrompt, new StringDictionary());
-        }
-
-        private string[] ReadOutPrompt()
-        {
-            return this.ParseReplies(SummaryResponses.ReadOutPrompt, new StringDictionary());
         }
 
         private string[] AskForOrgnizerActionPrompt(string dateString = "today")

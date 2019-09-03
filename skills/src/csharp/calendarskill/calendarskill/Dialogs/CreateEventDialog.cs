@@ -102,7 +102,7 @@ namespace CalendarSkill.Dialogs
             var showRestParticipants = new WaterfallStep[]
             {
                 ShowRestParticipantsPrompt,
-                ShowRestParticipants,
+                AfterShowRestParticipantsPrompt,
             };
 
             // Define the conversation flow using a waterfall model.
@@ -1061,7 +1061,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ShowRestParticipants(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterShowRestParticipantsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

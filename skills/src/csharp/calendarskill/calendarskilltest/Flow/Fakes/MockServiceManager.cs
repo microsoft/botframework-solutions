@@ -5,6 +5,7 @@ using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.CognitiveServices.ContentModerator.Models;
 using Microsoft.Graph;
 using Moq;
 
@@ -141,6 +142,47 @@ namespace CalendarSkillTest.Flow.Fakes
                     throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
                 }
 
+                var result = new List<PersonModel>();
+                foreach (var item in peoples)
+                {
+                    if (item.DisplayName.Contains(name))
+                    {
+                        result.Add(item);
+                    }
+                }
+
+                return Task.FromResult(result);
+            });
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetOnePeopleEmailsToMultiple(int count)
+        {
+            var peoples = new List<PersonModel>();
+            var addressList = new List<ScoredEmailAddress>();
+
+            for (var i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
+            }
+
+            var people = new Person()
+            {
+                UserPrincipalName = string.Format(Strings.Strings.UserEmailAddress, 0),
+                ScoredEmailAddresses = addressList,
+                DisplayName = Strings.Strings.DefaultUserName,
+            };
+
+            peoples.Add(new PersonModel(people));
+
+            mockUserService.Setup(service => service.GetPeopleAsync(It.IsAny<string>())).Returns((string name) =>
+            {
                 return Task.FromResult(peoples);
             });
             return mockServiceManager.Object;
