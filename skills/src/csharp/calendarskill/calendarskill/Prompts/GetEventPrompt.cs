@@ -109,23 +109,53 @@ namespace CalendarSkill.Prompts
             {
                 foreach (var resolution in dateTimeResolutions)
                 {
+                    if (resolution.Value == null && resolution.Start == null && resolution.End == null)
+                    {
+                        continue;
+                    }
+
+                    var startDateList = new List<DateTime>();
+                    var startTimeList = new List<DateTime>();
+                    var endDateList = new List<DateTime>();
+                    var endTimeList = new List<DateTime>();
+
                     if (resolution.Value == null)
                     {
-                        continue;
-                    }
+                        var startTimeValue = DateTime.Parse(resolution.Start);
+                        var endTimeValue = DateTime.Parse(resolution.End);
+                        if (startTimeValue == null || endTimeValue == null)
+                        {
+                            continue;
+                        }
 
-                    var startTimeValue = DateTime.Parse(resolution.Value);
-                    if (startTimeValue == null)
+                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
+                        endTimeValue = TimeConverter.ConvertLuisLocalToUtc(endTimeValue, userTimeZone);
+
+                        startDateList.Add(startTimeValue);
+                        startTimeList.Add(startTimeValue);
+                        endDateList.Add(endTimeValue);
+                        endTimeList.Add(endTimeValue);
+                    }
+                    else
                     {
-                        continue;
+                        var startTimeValue = DateTime.Parse(resolution.Value);
+                        if (startTimeValue == null)
+                        {
+                            continue;
+                        }
+
+                        var dateTimeConvertType = resolution.Timex;
+
+                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
+                        if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
+                        {
+                            startTimeList.Add(startTimeValue);
+                        }
+
+                        startDateList.Add(startTimeValue);
                     }
 
-                    var dateTimeConvertType = resolution.Timex;
-                    var isRelativeTime = IsRelativeTime(message, dateTimeResolutions[0].Value, dateTimeResolutions[0].Timex);
-                    startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, userTimeZone) : startTimeValue;
-
-                    startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
-                    events = await calendarService.GetEventsByStartTime(startTimeValue);
+                    events = await CalendarCommonUtil.GetEventsByTime(startDateList, startTimeList, endDateList, endTimeList, userTimeZone, calendarService);
                     if (events != null && events.Count > 0)
                     {
                         break;
@@ -138,34 +168,8 @@ namespace CalendarSkill.Prompts
 
         private async Task<IList<EventModel>> GetEventsWithTitle(string title)
         {
-            IList<EventModel> events = await calendarService.GetEventsByTitle(title);
+            IList<EventModel> events = await calendarService.GetEventsByTitleAsync(title);
             return events;
-        }
-
-        private bool IsRelativeTime(string userInput, string resolverResult, string timex)
-        {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
-            {
-                return true;
-            }
-
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
-            {
-                return true;
-            }
-
-            if (timex == "PRESENT_REF")
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture)
@@ -177,7 +181,8 @@ namespace CalendarSkill.Prompts
 
         private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, DateTimeOptions.CalendarMode, userNow);
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
@@ -185,36 +190,13 @@ namespace CalendarSkill.Prompts
                 var values = (List<Dictionary<string, string>>)results[0].Resolution["values"];
                 foreach (var value in values)
                 {
-                    if (ContainsTime(value))
-                    {
-                        result.Add(ReadResolution(value));
-                    }
+                    result.Add(ReadResolution(value));
                 }
 
                 return result;
             }
 
             return new List<DateTimeResolution>();
-        }
-
-        private bool ContainsTime(IDictionary<string, string> resolution)
-        {
-            if (resolution.TryGetValue("value", out var value))
-            {
-                try
-                {
-                    var dateTime = DateTime.Parse(value);
-                    if (dateTime != null)
-                    {
-                        return true;
-                    }
-                }
-                catch
-                {
-                }
-            }
-
-            return false;
         }
 
         private DateTimeResolution ReadResolution(IDictionary<string, string> resolution)

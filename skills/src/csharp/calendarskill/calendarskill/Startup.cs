@@ -116,10 +116,10 @@ namespace CalendarSkill
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<ChangeEventStatusDialog>();
-            services.AddTransient<ConnectToMeetingDialog>();
+            services.AddTransient<JoinEventDialog>();
             services.AddTransient<CreateEventDialog>();
             services.AddTransient<FindContactDialog>();
-            services.AddTransient<SummaryDialog>();
+            services.AddTransient<ShowEventsDialog>();
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();

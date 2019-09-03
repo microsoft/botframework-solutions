@@ -43,5 +43,15 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoMeetingToConnect": {
+    "replies": [
+
+      {
+        "text": "What event would you like to connect? By providing the start time or title I can retrieve your event.",
+        "speak": "What event would you like to connect? By providing the start time or title I can retrieve your event."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

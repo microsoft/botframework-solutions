@@ -46,14 +46,14 @@ namespace CalendarSkillTest.API
             {
                 Id = "create_event"
             };
-            EventModel createResult = await calendarService.CreateEvent(createEvent);
+            EventModel createResult = await calendarService.CreateEventAysnc(createEvent);
             Assert.IsTrue(createEvent.Id == createResult.Id);
         }
 
         [TestMethod]
         public async Task GetUpcomingEventsTest()
         {
-            List<EventModel> events = await calendarService.GetUpcomingEvents();
+            List<EventModel> events = await calendarService.GetUpcomingEventsAsync();
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -62,7 +62,7 @@ namespace CalendarSkillTest.API
         {
             var startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
             var endTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T19:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByTime(startTime, endTime);
+            List<EventModel> events = await calendarService.GetEventsByTimeAsync(startTime, endTime);
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -70,14 +70,14 @@ namespace CalendarSkillTest.API
         public async Task GetEventsByStartTimeTest()
         {
             var startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByStartTime(startTime);
+            List<EventModel> events = await calendarService.GetEventsByStartTimeAsync(startTime);
             Assert.IsTrue(events.Count == 1);
         }
 
         [TestMethod]
         public async Task GetEventsByTitleTest()
         {
-            List<EventModel> events = await calendarService.GetEventsByTitle("test");
+            List<EventModel> events = await calendarService.GetEventsByTitleAsync("test");
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -88,7 +88,7 @@ namespace CalendarSkillTest.API
             {
                 Id = "update_event"
             };
-            EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
+            EventModel updateResult = await calendarService.UpdateEventByIdAsync(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }
 
@@ -96,7 +96,7 @@ namespace CalendarSkillTest.API
         public async Task DeleteEventByIdTest()
         {
             var deleteId = "delete_event";
-            await calendarService.DeleteEventById(deleteId);
+            await calendarService.DeleteEventByIdAsync(deleteId);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace CalendarSkillTest.API
             try
             {
                 var deleteId = "delete_not_exist_event";
-                await calendarService.DeleteEventById(deleteId);
+                await calendarService.DeleteEventByIdAsync(deleteId);
             }
             catch (Exception e)
             {
@@ -122,7 +122,7 @@ namespace CalendarSkillTest.API
             try
             {
                 var deleteId = "Test_Access_Denied";
-                await calendarService.DeleteEventById(deleteId);
+                await calendarService.DeleteEventByIdAsync(deleteId);
             }
             catch (SkillException e)
             {
@@ -137,7 +137,7 @@ namespace CalendarSkillTest.API
         public async Task DeclineEventByIdTest()
         {
             var declineId = "decline_event";
-            await calendarService.DeclineEventById(declineId);
+            await calendarService.DeclineEventByIdAsync(declineId);
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace CalendarSkillTest.API
             try
             {
                 var declineId = "decline_not_exist_event";
-                await calendarService.DeleteEventById(declineId);
+                await calendarService.DeleteEventByIdAsync(declineId);
             }
             catch (Exception e)
             {
@@ -161,7 +161,7 @@ namespace CalendarSkillTest.API
         public async Task AcceptEventByIdTest()
         {
             var acceptId = "accept_event";
-            await calendarService.AcceptEventById(acceptId);
+            await calendarService.AcceptEventByIdAsync(acceptId);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace CalendarSkillTest.API
             try
             {
                 var acceptId = "accept_not_exist_event";
-                await calendarService.AcceptEventById(acceptId);
+                await calendarService.AcceptEventByIdAsync(acceptId);
             }
             catch (Exception e)
             {

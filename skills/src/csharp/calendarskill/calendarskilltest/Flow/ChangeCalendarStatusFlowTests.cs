@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Responses.UpdateEvent;
+using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
-    public class UpdateCalendarFlowTests : CalendarBotTestBase
+    public class ChangeCalendarStatusFlowTests : CalendarBotTestBase
     {
         [TestInitialize]
         public void SetupLuisService()
@@ -26,94 +26,79 @@ namespace CalendarSkillTest.Flow
                 LuisServices = new Dictionary<string, ITelemetryRecognizer>()
                 {
                     { "General", new MockLuisRecognizer() },
-                    { "Calendar", new MockLuisRecognizer(new UpdateMeetingTestUtterances()) }
+                    { "Calendar", new MockLuisRecognizer(new ChangeMeetingStatusTestUtterances()) }
                 }
             });
         }
 
         [TestMethod]
-        public async Task Test_CalendarUpdateWithStartTimeEntity()
+        public async Task Test_CalendarDeleteWithStartTimeEntity()
         {
             await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.UpdateEventPrompt())
+                .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
-        public async Task Test_CalendarUpdateWithTitleEntity()
+        public async Task Test_CalendarDeleteWithTitleEntity()
         {
             await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.UpdateEventPrompt())
+                .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
-        public async Task Test_CalendarUpdateWithMoveEarlierTimeSpan()
-        {
-            await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveEarlierTimeSpan)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowCalendarList())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_CalendarUpdateWithMoveLaterTimeSpan()
-        {
-            await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveLaterTimeSpan)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowCalendarList())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_CalendarUpdateFromMultipleEvents()
+        public async Task Test_CalendarDeleteFromMultipleEvents()
         {
             int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
+                .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.UpdateEventPrompt())
+                .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private string[] AskForNewTimePrompt()
+        [TestMethod]
+        public async Task Test_CalendarAcceptWithStartTimeEntity()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
+            await this.GetTestFlow()
+                .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AcceptEventPrompt())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        private string[] DeleteEventPrompt()
+        {
+            return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
+        }
+
+        private string[] AcceptEventPrompt()
+        {
+            return this.ParseReplies(ChangeEventStatusResponses.EventAccepted, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -131,11 +116,6 @@ namespace CalendarSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
-        }
-
-        private string[] UpdateEventPrompt()
-        {
-            return this.ParseReplies(UpdateEventResponses.EventUpdated, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

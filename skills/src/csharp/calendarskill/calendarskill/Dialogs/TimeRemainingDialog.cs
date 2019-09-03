@@ -47,7 +47,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.ShowTimeRemaining;
         }
 
-        public async Task<DialogTurnResult> CheckTimeRemain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CheckTimeRemain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -59,7 +59,7 @@ namespace CalendarSkill.Dialogs
 
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                var eventList = await calendarService.GetUpcomingEvents();
+                var eventList = await calendarService.GetUpcomingEventsAsync();
                 var nextEventList = new List<EventModel>();
                 foreach (var item in eventList)
                 {

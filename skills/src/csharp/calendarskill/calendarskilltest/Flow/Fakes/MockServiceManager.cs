@@ -5,6 +5,7 @@ using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.CognitiveServices.ContentModerator.Models;
 using Microsoft.Graph;
 using Moq;
 
@@ -27,15 +28,15 @@ namespace CalendarSkillTest.Flow.Fakes
 
             // calendar
             mockCalendarService = new Mock<ICalendarService>();
-            mockCalendarService.Setup(service => service.CreateEvent(It.IsAny<EventModel>())).Returns((EventModel body) => Task.FromResult(body));
-            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.UpdateEventById(It.IsAny<EventModel>())).Returns((EventModel body) => Task.FromResult(body));
-            mockCalendarService.Setup(service => service.DeleteEventById(It.IsAny<string>())).Returns(Task.CompletedTask);
-            mockCalendarService.Setup(service => service.AcceptEventById(It.IsAny<string>())).Returns(Task.CompletedTask);
-            mockCalendarService.Setup(service => service.DeclineEventById(It.IsAny<string>())).Returns(Task.CompletedTask);
+            mockCalendarService.Setup(service => service.CreateEventAysnc(It.IsAny<EventModel>())).Returns((EventModel body) => Task.FromResult(body));
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.UpdateEventByIdAsync(It.IsAny<EventModel>())).Returns((EventModel body) => Task.FromResult(body));
+            mockCalendarService.Setup(service => service.DeleteEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
+            mockCalendarService.Setup(service => service.AcceptEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
+            mockCalendarService.Setup(service => service.DeclineEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
 
             // user
             mockUserService = new Mock<IUserService>();
@@ -75,10 +76,10 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static IServiceManager SetMeetingsToSpecial(List<EventModel> eventList)
         {
-            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
 
@@ -86,10 +87,10 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             var eventList = new List<EventModel>();
 
-            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
 
@@ -98,13 +99,13 @@ namespace CalendarSkillTest.Flow.Fakes
             var eventList = new List<EventModel>();
             for (var i = 0; i < count; i++)
             {
-                eventList.Add(CreateEventModel());
+                eventList.Add(CreateEventModel(suffix: i.ToString()));
             }
 
-            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
 
@@ -141,6 +142,47 @@ namespace CalendarSkillTest.Flow.Fakes
                     throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
                 }
 
+                var result = new List<PersonModel>();
+                foreach (var item in peoples)
+                {
+                    if (item.DisplayName.Contains(name))
+                    {
+                        result.Add(item);
+                    }
+                }
+
+                return Task.FromResult(result);
+            });
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetOnePeopleEmailsToMultiple(int count)
+        {
+            var peoples = new List<PersonModel>();
+            var addressList = new List<ScoredEmailAddress>();
+
+            for (var i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
+            }
+
+            var people = new Person()
+            {
+                UserPrincipalName = string.Format(Strings.Strings.UserEmailAddress, 0),
+                ScoredEmailAddresses = addressList,
+                DisplayName = Strings.Strings.DefaultUserName,
+            };
+
+            peoples.Add(new PersonModel(people));
+
+            mockUserService.Setup(service => service.GetPeopleAsync(It.IsAny<string>())).Returns((string name) =>
+            {
                 return Task.FromResult(peoples);
             });
             return mockServiceManager.Object;
@@ -148,10 +190,10 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static IServiceManager SetAllToDefault()
         {
-            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
-            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(BuildinEvents));
             mockUserService.Setup(service => service.GetPeopleAsync(It.IsAny<string>())).Returns((string name) =>
             {
                 if (name == Strings.Strings.ThrowErrorAccessDenied)
@@ -181,7 +223,8 @@ namespace CalendarSkillTest.Flow.Fakes
             DateTime? endDateTime = null,
             string locationString = null,
             bool isOrganizer = true,
-            bool isCancelled = false)
+            bool isCancelled = false,
+            string suffix = "")
         {
             var attendees = new List<Attendee>();
 
@@ -203,19 +246,19 @@ namespace CalendarSkillTest.Flow.Fakes
                     EmailAddress = new EmailAddress
                     {
                         Address = Strings.Strings.DefaultUserEmail,
-                        Name = Strings.Strings.DefaultUserName,
+                        Name = Strings.Strings.DefaultUserName + suffix,
                     },
                     Type = AttendeeType.Required,
                 });
             }
 
             // Event Name
-            eventName = eventName ?? Strings.Strings.DefaultEventName;
+            eventName = eventName ?? (Strings.Strings.DefaultEventName + suffix);
 
             // Event body
             var body = new ItemBody
             {
-                Content = content ?? Strings.Strings.DefaultContent,
+                Content = content ?? (Strings.Strings.DefaultContent + suffix),
                 ContentType = BodyType.Text,
             };
 
@@ -248,7 +291,7 @@ namespace CalendarSkillTest.Flow.Fakes
             // Event location
             var location = new Location
             {
-                DisplayName = locationString ?? Strings.Strings.DefaultLocation,
+                DisplayName = locationString ?? (Strings.Strings.DefaultLocation + suffix),
             };
 
             // Add the event.
