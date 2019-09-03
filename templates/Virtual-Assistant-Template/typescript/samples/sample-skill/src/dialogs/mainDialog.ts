@@ -11,7 +11,7 @@ import {
     RecognizerResult,
     // SemanticAction,
     StatePropertyAccessor,
-    TurnContext} from 'botbuilder';
+    TurnContext } from 'botbuilder';
 import { LuisRecognizer, LuisRecognizerTelemetryClient } from 'botbuilder-ai';
 import {
     Dialog,
@@ -255,6 +255,7 @@ export class MainDialog extends RouterDialog {
         // {
         //    var location = semanticAction.Entities["location"];
         //    var locationObj = location.Properties["location"].ToString();
+        //    // Add to your local state
         //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
         //    state.CurrentCoordinates = locationObj;
         // }

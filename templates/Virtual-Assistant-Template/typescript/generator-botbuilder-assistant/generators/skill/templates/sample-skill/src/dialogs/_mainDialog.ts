@@ -249,7 +249,7 @@ export class MainDialog extends RouterDialog {
     protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
         // Example of populating local state with data passed through semanticAction out of Activity
         // const activity: Activity = context.activity;
-        // const semanticAction: SemanticAction | undefined  = activity.semanticAction;
+        // const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
         // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
         // {
