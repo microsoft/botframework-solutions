@@ -1,10 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Actions;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -20,7 +24,10 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ConversationState convState,
+            UserState userState,
+            UserContextResolver userContextResolver)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -36,6 +43,17 @@ namespace ToDoSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+
+            var savePreviousQuestion = new SavePreviousQuestion(
+                convState,
+                userState,
+                userContextResolver,
+                nameof(ToDoSkill),
+                new List<string> { "ShowToDo", "MarkToDo" });
+
+            var skillContextualMiddleware = new SkillContextualMiddleware();
+            skillContextualMiddleware.Register(savePreviousQuestion.BeforeTurnAction, savePreviousQuestion.AfterTurnAction);
+            Use(skillContextualMiddleware);
         }
     }
 }
