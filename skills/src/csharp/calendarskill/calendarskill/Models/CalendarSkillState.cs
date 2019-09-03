@@ -220,9 +220,6 @@ namespace CalendarSkill.Models
 
             public List<CustomizedPerson> UnconfirmedContact { get; set; } = new List<CustomizedPerson>();
 
-            // todo: move
-            public bool FirstRetryInFindContact { get; set; }
-
             public CustomizedPerson ConfirmedContact { get; set; } = new CustomizedPerson();
 
             public int ShowContactsIndex { get; set; } = 0;
@@ -237,8 +234,6 @@ namespace CalendarSkill.Models
                 ConfirmContactsNameIndex = 0;
                 ShowContactsIndex = 0;
                 UnconfirmedContact.Clear();
-                // todo: remove?
-                FirstRetryInFindContact = true;
                 ConfirmedContact = new CustomizedPerson();
             }
         }

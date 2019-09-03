@@ -340,8 +340,6 @@ namespace CalendarSkill.Dialogs
                 var name = confirmedPerson.DisplayName;
 
                 // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                state.MeetingInfor.ContactInfor.FirstRetryInFindContact = true;
-
                 if (!(sc.Result is bool) || (bool)sc.Result)
                 {
                     var attendee = new EventModel.Attendee
@@ -396,7 +394,7 @@ namespace CalendarSkill.Dialogs
                 // if not initialize ask user for attendee
                 if (options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    if (state.MeetingInfor.ContactInfor.FirstRetryInFindContact)
+                    if (options.FirstRetry)
                     {
                         return await sc.PromptAsync(
                             Actions.Prompt,
@@ -406,7 +404,7 @@ namespace CalendarSkill.Dialogs
                                     FindContactResponses.UserNotFound,
                                     new StringDictionary()
                                     {
-                                    { "UserName", currentRecipientName }
+                                        { "UserName", currentRecipientName }
                                     })
                             });
                     }
@@ -416,8 +414,8 @@ namespace CalendarSkill.Dialogs
                             FindContactResponses.UserNotFoundAgain,
                             new StringDictionary()
                             {
-                            { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
-                            { "UserName", currentRecipientName }
+                                { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
+                                { "UserName", currentRecipientName }
                             }));
                         state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
                         return await sc.EndDialogAsync();
@@ -542,6 +540,11 @@ namespace CalendarSkill.Dialogs
 
                 if (unionList.Count == 0)
                 {
+                    if (!(options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.Initialize))
+                    {
+                        options.FirstRetry = false;
+                    }
+
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
                     return await sc.ReplaceDialogAsync(Actions.UpdateName, options);
                 }
