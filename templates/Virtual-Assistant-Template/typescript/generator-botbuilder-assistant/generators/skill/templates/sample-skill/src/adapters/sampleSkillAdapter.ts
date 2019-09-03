@@ -49,6 +49,6 @@ export class SampleSkillAdapter extends SkillHttpBotAdapter {
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
         this.use(new AutoSaveStateMiddleware(conversationState, userState));
-        this.use(new SkillMiddleware(conversationState, skillContextAccessor, dialogStateAccessor));
+        this.use(new SkillMiddleware(conversationState, dialogStateAccessor));
     }
 }

@@ -8,7 +8,10 @@ using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Dialogs
@@ -57,9 +60,29 @@ namespace HospitalitySkill.Dialogs
             // didn't order, prompt if 1 menu type not identified
             if (convState.FoodList.Count == 0 && string.IsNullOrWhiteSpace(menu?[0][0]) && menu?.Length != 1)
             {
+                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt).Text;
+
+
+                var actions = new List<CardAction>()
+                    {
+                       new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
+                       new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
+                };
+
+                var activity = MessageFactory.SuggestedActions(actions, prompt);
+
+                // create hero card instead when channel does not support suggested actions
+                if (!Channel.SupportsSuggestedActions(sc.Context.Activity.ChannelId))
+                {
+                    var hero = new HeroCard(buttons: actions);
+                    activity = MessageFactory.Attachment(hero.ToAttachment(), prompt);
+                }
+
                 return await sc.PromptAsync(DialogIds.MenuPrompt, new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt),
+                    Prompt = (Activity)activity,
                     RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu)
                 });
             }
@@ -93,11 +116,19 @@ namespace HospitalitySkill.Dialogs
                 List<Card> menuItems = new List<Card>();
                 foreach (var item in menu.Items)
                 {
-                    menuItems.Add(new Card("MenuItemCard", item));
+                    var cardName = GetCardName(sc.Context, "MenuItemCard");
+
+                    // workaround for webchat not supporting hidden items on cards
+                    if (Channel.GetChannelId(sc.Context) == Channels.Webchat)
+                    {
+                        cardName += ".1.0";
+                    }
+
+                    menuItems.Add(new Card(cardName, item));
                 }
 
                 // show menu card
-                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("MenuCard", menu), null, "items", menuItems));
+                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(sc.Context, "MenuCard"), menu), null, "items", menuItems));
 
                 // prompt for order
                 return await sc.PromptAsync(DialogIds.FoodOrderPrompt, new PromptOptions()
@@ -153,10 +184,17 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> ConfirmOrderPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            return await sc.PromptAsync(DialogIds.ConfirmOrder, new PromptOptions()
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+
+            if (convState.FoodList.Count > 0)
             {
-                Prompt = ResponseManager.GetResponse(RoomServiceResponses.ConfirmOrder)
-            });
+                return await sc.PromptAsync(DialogIds.ConfirmOrder, new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(RoomServiceResponses.ConfirmOrder)
+                });
+            }
+
+            return await sc.NextAsync(false);
         }
 
         private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -205,7 +243,7 @@ namespace HospitalitySkill.Dialogs
                     SpecialRequest = foodRequest.SpecialRequest == null ? null : foodRequest.SpecialRequest[0]
                 };
 
-                foodItems.Add(new Card("FoodItemCard", foodItemData));
+                foodItems.Add(new Card(GetCardName(turnContext, "FoodItemCard"), foodItemData));
 
                 // add up bill
                 totalFoodOrder.BillTotal += foodItemData.Price * foodItemData.Quantity;
@@ -219,7 +257,7 @@ namespace HospitalitySkill.Dialogs
 
             if (convState.FoodList.Count > 0)
             {
-                await turnContext.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("FoodOrderCard", totalFoodOrder), null, "items", foodItems));
+                await turnContext.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(turnContext, "FoodOrderCard"), totalFoodOrder), null, "items", foodItems));
             }
         }
 

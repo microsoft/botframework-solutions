@@ -7,30 +7,26 @@ namespace PointOfInterestSkill.Services
 {
     public class ServiceManager : IServiceManager
     {
-        private int radiusInt = 25000;
-        private int limitSizeInt = 3;
+        private readonly int radiusInt = 25000;
+        private readonly int limitSizeInt = 3;
+        private readonly int routeLimitInt = 1;
 
         public IGeoSpatialService InitMapsService(BotSettings settings, string locale = "en")
         {
-            var clientId = settings.FoursquareClientId;
-            var clientSecret = settings.FoursquareClientSecret;
-            var radius = settings.Radius;
-            var limitSize = settings.LimitSize;
+            (int radius, int limit, int routeLimit) = GetSettings(settings);
 
-            var clientIdStr = clientId;
-            var clientSecretStr = clientSecret;
-            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
-            limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
+            var clientIdStr = settings.FoursquareClientId;
+            var clientSecretStr = settings.FoursquareClientSecret;
 
             if (!string.IsNullOrEmpty(clientIdStr) && !string.IsNullOrEmpty(clientSecretStr))
             {
-                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, radiusInt, limitSizeInt, locale).Result;
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, radius, limit, routeLimit, locale).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(settings);
 
-                return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, radius, limit, routeLimit, locale).Result;
             }
         }
 
@@ -38,19 +34,16 @@ namespace PointOfInterestSkill.Services
         /// Gets the supported GeoSpatialService for route directions.
         /// Azure Maps is the only supported provider.
         /// </summary>
-        /// <param name="services">The SkillConfigurationBase services.</param>
+        /// <param name="settings">The BotSettings class.</param>
         /// <param name="locale">The user's locale.</param>
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitRoutingMapsService(BotSettings settings, string locale = "en")
         {
-            var radius = settings.Radius;
-            var limitSize = settings.LimitSize;
-            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
-            limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
+            (int radius, int limit, int routeLimit) = GetSettings(settings);
 
             var key = GetAzureMapsKey(settings);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radius, limit, routeLimit, locale).Result;
         }
 
         /// <summary>
@@ -62,12 +55,11 @@ namespace PointOfInterestSkill.Services
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitAddressMapsService(BotSettings settings, string locale = "en-us")
         {
-            var radius = settings.Radius;
-            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
+            (int radius, int limit, int routeLimit) = GetSettings(settings);
 
             var key = GetAzureMapsKey(settings);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radius, limit, routeLimit, locale).Result;
         }
 
         /// <summary>
@@ -86,6 +78,31 @@ namespace PointOfInterestSkill.Services
             {
                 return key;
             }
+        }
+
+        /// <summary>
+        /// Return settings or default.
+        /// </summary>
+        /// <param name="settings">Settings.</param>
+        /// <returns>Radius, limit, route limit.</returns>
+        private (int, int, int) GetSettings(BotSettings settings)
+        {
+            if (!int.TryParse(settings.Radius, out int radius))
+            {
+                radius = radiusInt;
+            }
+
+            if (!int.TryParse(settings.LimitSize, out int limit))
+            {
+                limit = limitSizeInt;
+            }
+
+            if (!int.TryParse(settings.RouteLimit, out int routeLimit))
+            {
+                routeLimit = routeLimitInt;
+            }
+
+            return (radius, limit, routeLimit);
         }
     }
 }

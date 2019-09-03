@@ -181,13 +181,13 @@ namespace HospitalitySkill.Dialogs
                         Quantity = itemRequest.number == null ? 1 : (int)itemRequest.number[0]
                     };
 
-                    roomItems.Add(new Card("RoomItemCard", roomItem));
+                    roomItems.Add(new Card(GetCardName(sc.Context, "RoomItemCard"), roomItem));
                 }
 
                 await _hotelService.RequestItems(convState.ItemList);
 
                 // if at least one item was available send this card reply
-                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card("RequestItemCard"), null, "items", roomItems));
+                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(sc.Context, "RequestItemCard")), null, "items", roomItems));
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(RequestItemResponses.ItemsRequested));
             }
 

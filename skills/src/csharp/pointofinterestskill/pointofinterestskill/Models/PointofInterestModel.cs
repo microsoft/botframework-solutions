@@ -52,13 +52,17 @@ namespace PointOfInterestSkill.Models
             : Category;
             CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
 
-            if (Provider == null)
+            Provider = new SortedSet<string> { AzureMaps };
+
+            // TODO for better display. English style now.
+            if (Name == null && Address != null)
             {
-                Provider = new SortedSet<string> { AzureMaps };
+                AddressAlternative = new string[] { azureMapsPoi.Address.StreetName, azureMapsPoi.Address.CountrySecondarySubdivision, azureMapsPoi.Address.CountrySubdivisionName, azureMapsPoi.Address.CountryCodeISO3 }.Aggregate((source, acc) => string.IsNullOrEmpty(source) ? acc : (string.IsNullOrEmpty(acc) ? source : $"{source}, {acc}"));
             }
-            else
+
+            if (Category == null)
             {
-                Provider.Add(AzureMaps);
+                Category = azureMapsPoi.ResultType;
             }
         }
 
@@ -102,14 +106,7 @@ namespace PointOfInterestSkill.Models
                 : Category;
             CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
 
-            if (Provider == null)
-            {
-                Provider = new SortedSet<string> { Foursquare };
-            }
-            else
-            {
-                Provider.Add(Foursquare);
-            }
+            Provider = new SortedSet<string> { Foursquare };
         }
 
         /// <summary>
@@ -147,6 +144,14 @@ namespace PointOfInterestSkill.Models
         /// The formatted address of this point of interest.
         /// </value>
         public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets an alternative address when use address as name.
+        /// </summary>
+        /// <value>
+        /// The alternative address.
+        /// </value>
+        public string AddressAlternative { get; set; }
 
         /// <summary>
         /// Gets or sets the formatted address of the point of interest
@@ -313,6 +318,11 @@ namespace PointOfInterestSkill.Models
 
                 return availableDetailsString.ToString();
             }
+        }
+
+        public string GenerateProviderDisplayText()
+        {
+            return string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", Provider.Aggregate((j, k) => j + " & " + k));
         }
     }
 }

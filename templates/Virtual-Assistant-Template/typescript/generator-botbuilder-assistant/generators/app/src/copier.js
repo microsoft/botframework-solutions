@@ -5,32 +5,40 @@
 "use strict";
 const { join } = require(`path`);
 const templateFiles = new Map();
+const deploymentTemplateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let ignoredLanguages = [];
-
 class Copier {
   // Constructor
   constructor(generator) {
     this.generator = generator;
   }
 
-  // Copy the template ignoring the templates files, those that starts with _ character
-  copyIgnoringTemplateFiles(srcFolder, dstFolder) {
+  // Copy the template ignoring the templates files
+  copyTemplate(srcFolder, dstFolder) {
     this.generator.fs.copy(
       this.generator.templatePath(srcFolder),
       this.generator.destinationPath(dstFolder),
       {
         globOptions: {
-          ignore: ["**/_*.*", ...ignoredLanguages]
+          ignore: [...ignoredLanguages]
         }
       }
     );
   }
 
-  // Copy the templates files passing the attributes of the new assistant
+  // Copy the templates files passing the attributes of the new assistant and remove the files starting with character "_"
   copyTemplateFiles(srcFolder, dstFolder, newAssistant) {
     this.loadTemplatesFiles(newAssistant);
     templateFiles.forEach((dstFile, srcFile) => {
+      this.generator.fs.copyTpl(
+        this.generator.templatePath(srcFolder, srcFile),
+        this.generator.destinationPath(dstFolder, dstFile),
+        newAssistant
+      );
+      this.generator.fs.delete(join(dstFolder, srcFile));
+    });
+    deploymentTemplateFiles.forEach((dstFile, srcFile) => {
       this.generator.fs.copyTpl(
         this.generator.templatePath(srcFolder, srcFile),
         this.generator.destinationPath(dstFolder, dstFile),
@@ -51,15 +59,11 @@ class Copier {
 
     // Add the paths of the deployment languages
     languages.forEach(language => {
-      templateFiles.set(
+      deploymentTemplateFiles.set(
         join(`deployment`, `resources`, `LU`, language),
         join(`deployment`, `resources`, `LU`, language)
       );
-      templateFiles.set(
-        join(`deployment`, `resources`, `QnA`, language),
-        join(`deployment`, `resources`, `QnA`, language)
-      );
-      templateFiles.set(
+      deploymentTemplateFiles.set(
         join(`deployment`, `resources`, `QnA`, language),
         join(`deployment`, `resources`, `QnA`, language)
       );

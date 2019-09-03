@@ -10,23 +10,35 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
+    "suffix": {
+      "type": "string",
+      "defaultValue": "[take(uniqueString(resourceGroup().id), 7)]"
+    },
     "microsoftAppId": {
       "type": "string"
     },
     "microsoftAppPassword": {
       "type": "string"
     },
+    "useCosmosDb": {
+      "type": "bool",
+      "defaultValue": true
+    },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[toLower(parameters('name'))]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+    },
+    "useStorage": {
+      "type": "bool",
+      "defaultValue": true
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "[toLower(parameters('name'))]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "appServicePlanName": {
       "type": "string",
-      "defaultValue": "[parameters('name')]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "appServicePlanSku": {
       "type": "object",
@@ -37,27 +49,31 @@
     },
     "appInsightsName": {
       "type": "string",
-      "defaultValue": "[parameters('name')]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "westus2"
+      "defaultValue": "[resourceGroup().location]"
     },
     "botWebAppName": {
       "type": "string",
-      "defaultValue": "[parameters('name')]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "botServiceName": {
       "type": "string",
-      "defaultValue": "[parameters('name')]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "botServiceSku": {
       "type": "string",
       "defaultValue": "S1"
     },
+    "useContentModerator": {
+      "type": "bool",
+      "defaultValue": true
+    },
     "contentModeratorName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-cm')]"
+      "defaultValue": "[concat(parameters('name'), '-cm-', parameters('suffix'))]"
     },
     "contentModeratorSku": {
       "type": "string",
@@ -69,7 +85,7 @@
     },
     "luisServiceName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis')]"
+      "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
     },
     "luisServiceSku": {
       "type": "string",
@@ -81,7 +97,7 @@
     },
     "qnaMakerServiceName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-qna')]"
+      "defaultValue": "[concat(parameters('name'), '-qna-', parameters('suffix'))]"
     },
     "qnaMakerServiceSku": {
       "type": "string",
@@ -93,7 +109,7 @@
     },
     "qnaMakerSearchName": {
       "type": "string",
-      "defaultValue": "[toLower(concat(parameters('name'), '-search'))]"
+      "defaultValue": "[concat(parameters('name'), '-search-', parameters('suffix'))]"
     },
     "qnaMakerSearchSku": {
       "type": "string",
@@ -101,12 +117,16 @@
     },
     "qnaMakerWebAppName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-qnahost')]"
+      "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
     }
   },
   "variables": {
-    "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]",
-    "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
+    "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+    "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
+    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
+    "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
+    "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
+    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
   },
   "resources": [
     {
@@ -127,7 +147,7 @@
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "kind": "GlobalDocumentDB",
       "apiVersion": "2015-04-08",
-      "name": "[parameters('cosmosDbName')]",
+      "name": "[variables('cosmosDbAccountName')]",
       "location": "[parameters('location')]",
       "properties": {
         "databaseAccountOfferType": "Standard",
@@ -137,18 +157,20 @@
             "failoverPriority": 0
           }
         ]
-      }
+      },
+      "condition": "[parameters('useCosmosDb')]"
     },
     {
       "comments": "storage account",
       "type": "Microsoft.Storage/storageAccounts",
       "kind": "StorageV2",
       "apiVersion": "2018-07-01",
-      "name": "[variables('cleanStorageAccountName')]",
+      "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "Standard_LRS"
-      }
+      },
+      "condition": "[parameters('useStorage')]"
     },
     {
       "comments": "app service plan",
@@ -174,7 +196,7 @@
       "comments": "bot web app",
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-02-01",
-      "name": "[parameters('botWebAppName')]",
+      "name": "[variables('botWebAppName')]",
       "location": "[parameters('location')]",
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
@@ -235,7 +257,8 @@
       "location": "[parameters('contentModeratorLocation')]",
       "sku": {
         "name": "[parameters('contentModeratorSku')]"
-      }
+      },
+      "condition": "[parameters('useContentModerator')]"
     },
     {
       "comments": "Cognitive service key for all LUIS apps.",
@@ -249,7 +272,7 @@
       }
     },
     {
-      "comments": "Cognitive service key for all QnA Maker knowledgebases.",
+      "comments": "Cognitive service key for all QnA Maker knowledgeBases.",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
@@ -260,12 +283,12 @@
       },
       "properties": {
         "apiProperties": {
-          "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('qnaMakerWebAppName'))).hostNames[0])]"
+          "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/Sites', parameters('qnaMakerWebAppName'))]",
-        "[resourceId('Microsoft.Search/searchServices/', parameters('qnaMakerSearchName'))]",
+        "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
+        "[resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName'))]",
         "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
       ]
     },
@@ -273,7 +296,7 @@
       "comments": "Search service for QnA Maker service.",
       "type": "Microsoft.Search/searchServices",
       "apiVersion": "2015-08-19",
-      "name": "[parameters('qnaMakerSearchName')]",
+      "name": "[variables('qnaMakerSearchName')]",
       "location": "[parameters('qnaServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerSearchSku')]"
@@ -288,11 +311,11 @@
       "comments": "Web app for QnA Maker service.",
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
-      "name": "[parameters('qnaMakerWebAppName')]",
+      "name": "[variables('qnaMakerWebAppName')]",
       "location": "[parameters('qnaServiceLocation')]",
       "properties": {
         "enabled": true,
-        "name": "[parameters('qnaMakerWebAppName')]",
+        "name": "[variables('qnaMakerWebAppName')]",
         "hostingEnvironment": "",
         "serverFarmId": "[concat('/subscriptions/', subscription().id,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]",
         "siteConfig": {
@@ -312,18 +335,18 @@
           "name": "appsettings",
           "type": "config",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('qnaMakerWebAppName'))]",
+            "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
             "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]",
-            "[resourceId('Microsoft.Search/searchServices/', parameters('qnaMakerSearchName'))]"
+            "[resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName'))]"
           ],
           "properties": {
-            "AzureSearchName": "[parameters('qnaMakerSearchName')]",
-            "AzureSearchAdminKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices/', parameters('qnaMakerSearchName')), '2015-08-19').primaryKey]",
-            "UserAppInsightsKey": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').InstrumentationKey]",
+            "AzureSearchName": "[variables('qnaMakerSearchName')]",
+            "AzureSearchAdminKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName')), '2015-08-19').primaryKey]",
+            "UserAppInsightsKey": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').instrumentationKey]",
             "UserAppInsightsName": "[parameters('appInsightsName')]",
             "UserAppInsightsAppId": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').AppId]",
-            "PrimaryEndpointKey": "[concat(parameters('qnaMakerWebAppName'), '-PrimaryEndpointKey')]",
-            "SecondaryEndpointKey": "[concat(parameters('qnaMakerWebAppName'), '-SecondaryEndpointKey')]",
+            "PrimaryEndpointKey": "[concat(variables('qnaMakerWebAppName'), '-PrimaryEndpointKey')]",
+            "SecondaryEndpointKey": "[concat(variables('qnaMakerWebAppName'), '-SecondaryEndpointKey')]",
             "DefaultAnswer": "No good match found in KB.",
             "QNAMAKER_EXTENSION_VERSION": "latest"
           }
@@ -332,25 +355,28 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[variables('botWebAppName')]"
+    },
     "appInsights": {
       "type": "object",
       "value": {
-        "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
-        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]"
       }
     },
-    "storage": {
+    "blobStorage": {
       "type": "object",
       "value": {
-        "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
+        "connectionString": "[if(parameters('useStorage'), concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net'), '')]",
         "container": "transcripts"
       }
     },
     "cosmosDb": {
       "type": "object",
       "value": {
-        "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-        "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+        "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
+        "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
         "databaseId": "botstate-db",
         "collectionId": "botstate-collection"
       }
@@ -358,20 +384,22 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
+        "region": "[parameters('luisServiceLocation')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },
     "qnaMaker": {
       "type": "object",
       "value": {
-        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('qnaMakerWebAppName'))).hostNames[0])]",
+        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('qnaMakerServiceName')),'2017-04-18').key1]"
       }
     },
     "contentModerator": {
       "type": "object",
       "value": {
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('contentModeratorName')),'2017-04-18').key1]"
+        "key": "[if(parameters('useContentModerator'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('contentModeratorName')),'2017-04-18').key1, '')]"
       }
     }
   }

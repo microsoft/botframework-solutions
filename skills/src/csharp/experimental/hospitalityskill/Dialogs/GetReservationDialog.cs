@@ -42,7 +42,7 @@ namespace HospitalitySkill.Dialogs
             cardData.Title = string.Format(HospitalityStrings.ReservationDetails);
 
             // send card with reservation details
-            var reply = ResponseManager.GetCardResponse(GetReservationResponses.ShowReservationDetails, new Card("ReservationDetails", cardData), null);
+            var reply = ResponseManager.GetCardResponse(GetReservationResponses.ShowReservationDetails, new Card(GetCardName(sc.Context, "ReservationDetails"), cardData), null);
             await sc.Context.SendActivityAsync(reply);
             return await sc.EndDialogAsync();
         }

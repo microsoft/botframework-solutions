@@ -10,23 +10,35 @@
         "type": "string",
         "defaultValue": "[resourceGroup().location]"
       },
+      "suffix": {
+        "type": "string",
+        "defaultValue": "[take(uniqueString(resourceGroup().id), 7)]"
+      },
       "microsoftAppId": {
         "type": "string"
       },
       "microsoftAppPassword": {
         "type": "string"
       },
+      "useCosmosDb": {
+        "type": "bool",
+        "defaultValue": true
+      },
       "cosmosDbName": {
         "type": "string",
-        "defaultValue": "[toLower(parameters('name'))]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+      },
+      "useStorage": {
+        "type": "bool",
+        "defaultValue": true
       },
       "storageAccountName": {
         "type": "string",
-        "defaultValue": "[toLower(parameters('name'))]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
       },
       "appServicePlanName": {
         "type": "string",
-        "defaultValue": "[parameters('name')]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
       },
       "appServicePlanSku": {
         "type": "object",
@@ -37,19 +49,19 @@
       },
       "appInsightsName": {
         "type": "string",
-        "defaultValue": "[parameters('name')]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
       },
       "appInsightsLocation": {
         "type": "string",
-        "defaultValue": "westus2"
+        "defaultValue": "[resourceGroup().location]"
       },
       "botWebAppName": {
         "type": "string",
-        "defaultValue": "[parameters('name')]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
       },
       "botServiceName": {
         "type": "string",
-        "defaultValue": "[parameters('name')]"
+        "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
       },
       "botServiceSku": {
         "type": "string",
@@ -57,7 +69,7 @@
       },
       "luisServiceName": {
         "type": "string",
-        "defaultValue": "[concat(parameters('name'), '-luis')]"
+        "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
       },
       "luisServiceSku": {
         "type": "string",
@@ -69,8 +81,10 @@
       }
     },
     "variables": {
-      "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]",
-      "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
+      "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+      "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
+      "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
+      "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
     },
     "resources": [
       {
@@ -91,7 +105,7 @@
         "type": "Microsoft.DocumentDB/databaseAccounts",
         "kind": "GlobalDocumentDB",
         "apiVersion": "2015-04-08",
-        "name": "[parameters('cosmosDbName')]",
+        "name": "[variables('cosmosDbAccountName')]",
         "location": "[parameters('location')]",
         "properties": {
           "databaseAccountOfferType": "Standard",
@@ -101,18 +115,20 @@
               "failoverPriority": 0
             }
           ]
-        }
-      },
+        },
+        "condition": "[parameters('useCosmosDb')]"
+      },    
       {
         "comments": "storage account",
         "type": "Microsoft.Storage/storageAccounts",
         "kind": "StorageV2",
         "apiVersion": "2018-07-01",
-        "name": "[variables('cleanStorageAccountName')]",
+        "name": "[variables('storageAccountName')]",
         "location": "[parameters('location')]",
         "sku": {
           "name": "Standard_LRS"
-        }
+        },
+        "condition": "[parameters('useStorage')]"
       },
       {
         "comments": "app service plan",
@@ -138,7 +154,7 @@
         "comments": "bot web app",
         "type": "Microsoft.Web/sites",
         "apiVersion": "2018-02-01",
-        "name": "[parameters('botWebAppName')]",
+        "name": "[variables('botWebAppName')]",
         "location": "[parameters('location')]",
         "properties": {
           "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
@@ -185,7 +201,7 @@
           "displayName": "[parameters('botServiceName')]",
           "endpoint": "[variables('botEndpoint')]",
           "msaAppId": "[parameters('microsoftAppId')]",
-          "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
+          "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]",
           "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
         }
       },
@@ -202,25 +218,28 @@
       }
     ],
     "outputs": {
+      "botWebAppName": {
+        "type": "string",
+        "value": "[variables('botWebAppName')]"
+      },
       "appInsights": {
         "type": "object",
         "value": {
-          "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
-          "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+          "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]"
         }
       },
-      "storage": {
+      "blobStorage": {
         "type": "object",
         "value": {
-          "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
+          "connectionString": "[if(parameters('useStorage'), concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net'), '')]",
           "container": "transcripts"
         }
       },
       "cosmosDb": {
         "type": "object",
         "value": {
-          "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-          "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+          "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
+          "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
           "databaseId": "botstate-db",
           "collectionId": "botstate-collection"
         }
@@ -228,6 +247,8 @@
       "luis": {
         "type": "object",
         "value": {
+          "accountName": "[parameters('luisServiceName')]",
+          "region": "[parameters('luisServiceLocation')]",
           "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
         }
       }
