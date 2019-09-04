@@ -24,6 +24,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
@@ -574,6 +575,18 @@ namespace CalendarSkill.Dialogs
 
                 if (!isBeginDialog)
                 {
+                    if (entity.RelationshipName != null)
+                    {
+                        state.MeetingInfor.CreateHasDetail = true;
+                        state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                        if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                        {
+                            state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                        }
+
+                        state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
+                    }
+
                     return;
                 }
 
@@ -599,7 +612,12 @@ namespace CalendarSkill.Dialogs
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
                                 state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
-                                state.MeetingInfor.ContactInfor.ContactsNameList = AddRelatedEntityIntoAttendees(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict, state.MeetingInfor.ContactInfor.ContactsNameList);
+                                if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                                {
+                                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                                }
+
+                                state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
                             }
 
                             if (entity.FromDate != null)
@@ -724,6 +742,18 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
+                            if (entity.RelationshipName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                                {
+                                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                                }
+
+                                state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
+                            }
+
                             break;
                         }
 
@@ -813,6 +843,18 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
+                            if (entity.RelationshipName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                                {
+                                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                                }
+
+                                state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
+                            }
+
                             break;
                         }
 
@@ -881,6 +923,18 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
+                            if (entity.RelationshipName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                                {
+                                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                                }
+
+                                state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
+                            }
+
                             state.ShowMeetingInfor.AskParameterContent = luisResult.Text;
 
                             break;
@@ -943,6 +997,18 @@ namespace CalendarSkill.Dialogs
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = entity._instance.Subject[0].Text;
+                            }
+
+                            if (entity.RelationshipName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
+                                {
+                                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                                }
+
+                                state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
                             }
 
                             break;
@@ -1376,40 +1442,31 @@ namespace CalendarSkill.Dialogs
 
             int index = 0;
             var rawRelationships = entity._instance.RelationshipName;
-            foreach (var relationship in rawRelationships)
+            var rawPronouns = entity._instance.PossessivePronoun;
+            if (rawRelationships != null && rawPronouns != null)
             {
-                string relationshipName = relationship.Text;
-                var rawPronouns = entity._instance.PossecivePronoun;
-                for (int i = 0; i < entity.PossecivePronoun.Length; i++)
+                foreach (var relationship in rawRelationships)
                 {
-                    string pronounType = entity.PossecivePronoun[i][0];
-                    string pronounName = rawPronouns[i].Text;
-                    if (Regex.IsMatch(inputString, pronounName + "( )?" + relationshipName, RegexOptions.IgnoreCase))
+                    string relationshipName = relationship.Text;
+                    for (int i = 0; i < entity.PossessivePronoun.Length; i++)
                     {
-                        var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
-                        entities.Add(originalName, new CalendarSkillState.RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName }) ;
+                        string pronounType = entity.PossessivePronoun[i][0];
+                        string pronounName = rawPronouns[i].Text;
+                        if (relationship.EndIndex > rawPronouns[i].StartIndex)
+                        {
+                            var originalName = inputString.Substring(rawPronouns[i].StartIndex, relationship.EndIndex - rawPronouns[i].StartIndex);
+                            if (Regex.IsMatch(originalName, "^" + pronounName + "( )?" + relationshipName + "$", RegexOptions.IgnoreCase) && !entities.ContainsKey(originalName))
+                            {
+                                entities.Add(originalName, new CalendarSkillState.RelatedEntityInfo { PronounType = pronounType, RelationshipName = relationshipName });
+                            }
+                        }
                     }
-                }
 
-                index++;
+                    index++;
+                }
             }
 
             return entities;
-        }
-
-        protected List<string> AddRelatedEntityIntoAttendees(Dictionary<string, CalendarSkillState.RelatedEntityInfo> entities, List<string> attendees = null)
-        {
-            if (attendees == null)
-            {
-                attendees = new List<string>();
-            }
-
-            foreach(var entity in entities)
-            {
-                attendees.Add(entity.Key);
-            }
-
-            return attendees;
         }
 
         // Workaround until adaptive card renderer in teams is upgraded to v1.2

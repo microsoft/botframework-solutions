@@ -100,14 +100,9 @@ namespace CalendarSkill.Services.MSGraphAPI
 
                 return null;
             }
-            catch (ServiceException ex)
+            catch (ServiceException)
             {
-                if (ex.Error.Code == "Request_ResourceNotFound")
-                {
-                    return null;
-                }
-
-                throw GraphClient.HandleGraphAPIException(ex);
+                return null;
             }
         }
 
@@ -134,14 +129,9 @@ namespace CalendarSkill.Services.MSGraphAPI
 
                 return null;
             }
-            catch (ServiceException ex)
+            catch (ServiceException)
             {
-                if (ex.Error.Code == "Request_ResourceNotFound")
-                {
-                    return null;
-                }
-
-                throw GraphClient.HandleGraphAPIException(ex);
+                return null;
             }
         }
 
