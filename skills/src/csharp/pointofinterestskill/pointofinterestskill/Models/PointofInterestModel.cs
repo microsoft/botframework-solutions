@@ -50,8 +50,7 @@ namespace PointOfInterestSkill.Models
             Category = (azureMapsPoi.Poi?.Classifications != null)
             ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Classifications.FirstOrDefault().Names.FirstOrDefault().NameProperty)
             : Category;
-            CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
-
+            Phone = azureMapsPoi.Poi?.Phone;
             Provider = new SortedSet<string> { AzureMaps };
 
             // TODO for better display. English style now.
@@ -104,8 +103,7 @@ namespace PointOfInterestSkill.Models
             Category = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.First().ShortName
                 : Category;
-            CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
-
+            Phone = foursquarePoi.Contact?.Phone;
             Provider = new SortedSet<string> { Foursquare };
         }
 
@@ -269,6 +267,22 @@ namespace PointOfInterestSkill.Models
         public string Speak { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw string for speak when it is decorated. Could be used as choice value.
+        /// </summary>
+        /// <value>
+        /// The raw speak string.
+        /// </value>
+        public string RawSpeak { get; set; }
+
+        /// <summary>
+        /// Gets or sets phone.
+        /// </summary>
+        /// <value>
+        /// Phone.
+        /// </value>
+        public string Phone { get; set; }
+
+        /// <summary>
         /// Gets or sets the text to submit.
         /// </summary>
         /// <value>
@@ -283,6 +297,12 @@ namespace PointOfInterestSkill.Models
         /// The text to submit.
         /// </value>
         public string CardTitle { get; set; }
+
+        public string ActionCall { get; set; }
+
+        public string ActionShowDirections { get; set; }
+
+        public string ActionStartNavigation { get; set; }
 
         /// <summary>
         /// Gets the formatted string for available details.

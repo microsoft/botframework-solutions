@@ -106,15 +106,16 @@ namespace PointOfInterestSkill
                 new RouteResponses(),
                 new POISharedResponses()));
 
-			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<CancelRouteDialog>();
-			services.AddTransient<FindParkingDialog>();
-			services.AddTransient<FindPointOfInterestDialog>();
-			services.AddTransient<RouteDialog>();
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<CancelRouteDialog>();
+            services.AddTransient<FindParkingDialog>();
+            services.AddTransient<FindPointOfInterestDialog>();
+            services.AddTransient<RouteDialog>();
+            services.AddTransient<GetDirectionsDialog>();
 
-			// Configure adapters
-			services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            // Configure adapters
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, POISkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
 

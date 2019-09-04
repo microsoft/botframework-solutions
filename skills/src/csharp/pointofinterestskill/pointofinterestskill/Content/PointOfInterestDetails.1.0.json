@@ -1,9 +1,10 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "PointOfInterestDetailsWithRouteCard",
+  "id": "PointOfInterestDetailsCard",
   "body": [
     {
       "type": "Container",
+      "bleed": true,
       "items": [
         {
           "type": "ColumnSet",
@@ -95,66 +96,6 @@
       "separator": true,
       "items": [
         {
-          "type": "ColumnSet",
-          "separator": true,
-          "columns": [
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "size": "Medium",
-                  "color": "default",
-                  "text": "{TravelTime}"
-                }
-              ],
-              "width": 20
-            },
-            {
-              "type": "Column",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Left",
-                  "text": "{DelayStatus}"
-                },
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Left",
-                  "color": "default",
-                  "text": "**ETA** {ETA}"
-                }
-              ],
-              "width": 60
-            },
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "size": "Medium",
-                  "color": "default",
-                  "text": "{Distance}"
-                }
-              ],
-              "width": 20
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "Container",
-      "separator": true,
-      "items": [
-        {
           "type": "TextBlock",
           "horizontalAlignment": "Right",
           "size": "Small",
@@ -164,7 +105,29 @@
       ]
     }
   ],
+  // https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/cards/cards-actions
+  // messageBack is treated as event now
   "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{ActionCall}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionCall}"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{ActionShowDirections}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionShowDirections}"
+        }
+      }
+    },
     {
       "type": "Action.Submit",
       "title": "{ActionStartNavigation}",

@@ -14,11 +14,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
+using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
@@ -28,6 +30,12 @@ namespace PointOfInterestSkill.Dialogs
 {
     public class PointOfInterestDialogBase : ComponentDialog
     {
+        public enum OpenDefaultAppType
+        {
+            Telephone,
+            Map,
+        }
+
         // Constants
         // TODO consider other languages
         private static readonly Dictionary<string, string> SpeakDefaults = new Dictionary<string, string>()
@@ -72,9 +80,9 @@ namespace PointOfInterestSkill.Dialogs
             _httpContext = httpContext;
 
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
-            AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
             AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.None });
+            AddDialog(new ChoicePrompt(Actions.SelectActionPrompt) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
@@ -88,12 +96,20 @@ namespace PointOfInterestSkill.Dialogs
 
         protected ResponseManager ResponseManager { get; set; }
 
-        public static Activity CreateOpenDefaultAppReply(Activity activity, PointOfInterestModel destination)
+        public static Activity CreateOpenDefaultAppReply(Activity activity, PointOfInterestModel destination, OpenDefaultAppType type)
         {
             var replyEvent = activity.CreateReply();
             replyEvent.Type = ActivityTypes.Event;
             replyEvent.Name = "OpenDefaultApp";
-            replyEvent.Value = new OpenDefaultApp() { MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}" };
+
+            var value = new OpenDefaultApp();
+            switch (type)
+            {
+                case OpenDefaultAppType.Map: value.MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}"; break;
+                case OpenDefaultAppType.Telephone: value.TelUri = destination.Phone; break;
+            }
+
+            replyEvent.Value = value;
             return replyEvent;
         }
 
@@ -127,24 +143,27 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
                     await sc.Context.SendActivityAsync(replyMessage);
+
+                    return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    if (cards.Count == 1)
-                    {
-                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-                    }
-
                     var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, service);
 
                     var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.CurrentLocationSingleSelection : POISharedResponses.CurrentLocationMultipleSelection, containerCard, "Container", cards);
 
+                    if (cards.Count == 1)
+                    {
+                        // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separately
+                        if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                        {
+                            await sc.Context.SendActivityAsync(options.Prompt);
+                            options.Prompt = null;
+                        }
+                    }
+
                     return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
                 }
-
-                state.ClearLuisResults();
-
-                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -269,24 +288,22 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
                     await sc.Context.SendActivityAsync(replyMessage);
+
+                    return await sc.EndDialogAsync();
+                }
+                else if (cards.Count == 1)
+                {
+                    // only to indicate it is only one result
+                    return await sc.NextAsync(true);
                 }
                 else
                 {
-                    if (cards.Count == 1)
-                    {
-                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-                    }
-
                     var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
 
-                    var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
+                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
 
-                    return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
-
-                state.ClearLuisResults();
-
-                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -312,23 +329,18 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     var userSelectIndex = 0;
 
+                    string promptResponse = null;
+
                     if (sc.Result is bool)
                     {
-                        // If true, update the destination state. If false, end dialog.
-                        if ((bool)sc.Result)
-                        {
-                            state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
-                            state.LastFoundPointOfInterests = null;
-                        }
-                        else
-                        {
-                            await sc.Context.SendActivityAsync(defaultReplyMessage);
-
-                            return await sc.EndDialogAsync();
-                        }
+                        // promptResponse = POISharedResponses.SingleLocationFound;
+                        state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
+                        state.LastFoundPointOfInterests = null;
                     }
                     else if (sc.Result is FoundChoice)
                     {
+                        // promptResponse = FindPointOfInterestResponses.PointOfInterestDetails;
+
                         // Update the destination state with user choice.
                         userSelectIndex = (sc.Result as FoundChoice).Index;
 
@@ -336,14 +348,45 @@ namespace PointOfInterestSkill.Dialogs
                         state.LastFoundPointOfInterests = null;
                     }
 
-                    if (sc.ActiveDialog.Id.Equals(Actions.FindAlongRoute) || sc.ActiveDialog.Id.Equals(Actions.FindPointOfInterestBeforeRoute))
+                    var options = new PromptOptions()
                     {
-                        return await sc.NextAsync();
+                        Choices = new List<Choice>()
+                    };
+
+                    if (!string.IsNullOrEmpty(state.Destination.Phone))
+                    {
+                        options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.CALL });
+                    }
+
+                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.SHOW_DIRECTIONS });
+                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.START_NAVIGATION });
+
+                    var mapsService = ServiceManager.InitMapsService(Settings, sc.Context.Activity.Locale);
+                    state.Destination = await mapsService.GetPointOfInterestDetailsAsync(state.Destination, ImageSize.DetailsWidth, ImageSize.DetailsHeight);
+
+                    state.Destination.ProviderDisplayText = state.Destination.GenerateProviderDisplayText();
+
+                    state.Destination.CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
+                    state.Destination.ActionCall = PointOfInterestSharedStrings.CALL;
+                    state.Destination.ActionShowDirections = PointOfInterestSharedStrings.SHOW_DIRECTIONS;
+                    state.Destination.ActionStartNavigation = PointOfInterestSharedStrings.START_NAVIGATION;
+
+                    var card = new Card
+                    {
+                        Name = GetDivergedCardName(sc.Context, string.IsNullOrEmpty(state.Destination.Phone) ? "PointOfInterestDetailsNoCall" : "PointOfInterestDetails"),
+                        Data = state.Destination,
+                    };
+
+                    if (promptResponse == null)
+                    {
+                        options.Prompt = ResponseManager.GetCardResponse(card);
                     }
                     else
                     {
-                        return await sc.ReplaceDialogAsync(nameof(RouteDialog));
+                        options.Prompt = ResponseManager.GetCardResponse(promptResponse, card, null);
                     }
+
+                    return await sc.PromptAsync(Actions.SelectActionPrompt, options);
                 }
 
                 await sc.Context.SendActivityAsync(defaultReplyMessage);
@@ -355,6 +398,41 @@ namespace PointOfInterestSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        protected async Task<DialogTurnResult> ProcessPointOfInterestAction(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            var choice = sc.Result as FoundChoice;
+            int choiceIndex = choice.Index;
+
+            // TODO skip call button
+            if (string.IsNullOrEmpty(state.Destination.Phone))
+            {
+                choiceIndex += 1;
+            }
+
+            if (choiceIndex == 0)
+            {
+                if (SupportOpenDefaultAppReply(sc.Context))
+                {
+                    await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Telephone));
+                }
+            }
+            else if (choiceIndex == 1)
+            {
+                return await sc.ReplaceDialogAsync(nameof(RouteDialog));
+            }
+            else if (choiceIndex == 2)
+            {
+                if (SupportOpenDefaultAppReply(sc.Context))
+                {
+                    await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Map));
+                }
+            }
+
+            return await sc.NextAsync();
         }
 
         protected async Task<Card> GetContainerCard(ITurnContext context, string name, LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestList, IGeoSpatialService service)
@@ -382,6 +460,7 @@ namespace PointOfInterestSkill.Dialogs
 
         /// <summary>
         /// Gets ChoicePrompt options with a formatted display name if there are identical locations.
+        /// Handle the special yes no case when cards has only one.
         /// </summary>
         /// <param name="prompt">Prompt string.</param>
         /// <param name="containerCard">Container card.</param>
@@ -399,45 +478,35 @@ namespace PointOfInterestSkill.Dialogs
 
             for (var i = 0; i < pointOfInterestList.Count; ++i)
             {
-                var item = pointOfInterestList[i].Name;
                 var address = pointOfInterestList[i].Address;
 
                 var synonyms = new List<string>()
-                    {
-                        item,
-                        address,
-                        (i + 1).ToString(),
-                    };
-
-                var suggestedActionValue = item;
-
-                // Use response resource to get formatted name if multiple have the same name
-                if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
                 {
-                    var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
-                    var promptReplacements = new StringDictionary
-                        {
-                            { "Name", item },
-                            { "Address", address },
-                        };
-                    suggestedActionValue = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
-                }
+                    address,
+                };
 
                 var choice = new Choice()
                 {
-                    Value = suggestedActionValue,
+                    // Use speak first for SpeechUtility.ListToSpeechReadyString
+                    Value = pointOfInterestList[i].Speak,
                     Synonyms = synonyms,
                 };
                 options.Choices.Add(choice);
 
-                pointOfInterestList[i].SubmitText = suggestedActionValue;
+                pointOfInterestList[i].SubmitText = pointOfInterestList[i].RawSpeak;
+            }
+
+            if (cards.Count == 1)
+            {
+                pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
             }
 
             options.Prompt = ResponseManager.GetCardResponse(prompt, containerCard, null, container, cards);
 
-            if (cards.Count >= 2)
+            // Restore Value to SubmitText
+            for (var i = 0; i < pointOfInterestList.Count; ++i)
             {
-                options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Enumeration, 5));
+                options.Choices[i].Value = pointOfInterestList[i].RawSpeak;
             }
 
             return options;
@@ -464,7 +533,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 for (var i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i], ImageSize.DetailWidth, ImageSize.DetailHeight);
+                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i], ImageSize.OverviewItemWidth, ImageSize.OverviewItemHeight);
 
                     // Increase by one to avoid zero based options to the user which are confusing
                     pointOfInterestList[i].Index = i + 1;
@@ -480,7 +549,11 @@ namespace PointOfInterestSkill.Dialogs
                         pointOfInterestList[i].Name = pointOfInterestList[i].Address;
                         pointOfInterestList[i].Address = pointOfInterestList[i].AddressAlternative;
                     }
+                }
 
+                // Loop again as name may have changed
+                for (var i = 0; i < pointOfInterestList.Count; i++)
+                {
                     // If multiple points of interest share the same name, use their combined name & address as the speak property.
                     // Otherwise, just use the name.
                     if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
@@ -492,10 +565,18 @@ namespace PointOfInterestSkill.Dialogs
                             { "Address", $"<say-as interpret-as='address'>{WebUtility.HtmlEncode(pointOfInterestList[i].AddressForSpeak)}</say-as>" },
                         };
                         pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Speak;
+
+                        promptReplacements = new StringDictionary
+                        {
+                            { "Name", pointOfInterestList[i].Name },
+                            { "Address", pointOfInterestList[i].AddressForSpeak },
+                        };
+                        pointOfInterestList[i].RawSpeak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Speak;
                     }
                     else
                     {
                         pointOfInterestList[i].Speak = WebUtility.HtmlEncode(pointOfInterestList[i].Name);
+                        pointOfInterestList[i].RawSpeak = pointOfInterestList[i].Name;
                     }
                 }
 
@@ -648,6 +729,7 @@ namespace PointOfInterestSkill.Dialogs
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = destination.GenerateProviderDisplayText(),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
+                        ActionStartNavigation = PointOfInterestSharedStrings.START,
                         CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
 
@@ -733,6 +815,12 @@ namespace PointOfInterestSkill.Dialogs
             return ChoiceDefaults[culture];
         }
 
+        // workaround. if connect skill directly to teams, the following response does not work.
+        protected bool SupportOpenDefaultAppReply(ITurnContext turnContext)
+        {
+            return turnContext.Adapter is IRemoteUserTokenProvider || Channel.GetChannelId(turnContext) != Channels.Msteams;
+        }
+
         private string GetCardImageUri(string imagePath)
         {
             // If we are in local mode we leverage the HttpContext to get the current path to the image assets
@@ -762,8 +850,10 @@ namespace PointOfInterestSkill.Dialogs
             public const int RouteHeight = 240;
             public const int OverviewWidth = 440;
             public const int OverviewHeight = 150;
-            public const int DetailWidth = 240;
-            public const int DetailHeight = 240;
+            public const int OverviewItemWidth = 240;
+            public const int OverviewItemHeight = 240;
+            public const int DetailsWidth = 440;
+            public const int DetailsHeight = 240;
         }
     }
 }

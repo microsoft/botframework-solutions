@@ -12,5 +12,6 @@ namespace PointOfInterestSkill.Responses.FindPointOfInterest
     public class FindPointOfInterestResponses : IResponseIdCollection
     {
         // Generated accessors
+        public const string PointOfInterestDetails = "PointOfInterestDetails";
     }
 }
