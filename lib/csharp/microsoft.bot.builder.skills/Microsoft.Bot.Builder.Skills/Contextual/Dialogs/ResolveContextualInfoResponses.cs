@@ -13,5 +13,6 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
     {
         // Generated accessors
         public const string PromptUnknownContact = "PromptUnknownContact";
+        public const string PromptUserContact = "PromptUserContact";
     }
 }
