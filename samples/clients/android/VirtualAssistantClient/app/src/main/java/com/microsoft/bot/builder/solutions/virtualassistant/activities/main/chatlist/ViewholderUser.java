@@ -12,7 +12,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewholderUser extends RecyclerView.ViewHolder {
+public class ViewHolderUser extends RecyclerView.ViewHolder {
 
     // CONSTANTS
     private static final String LOGTAG = "ChatViewholder";
@@ -24,7 +24,7 @@ public class ViewholderUser extends RecyclerView.ViewHolder {
     // STATE
     private View view;
 
-    public ViewholderUser(@NonNull View itemView) {
+    public ViewHolderUser(@NonNull View itemView) {
         super(itemView);
         view = itemView;
         ButterKnife.bind(this, view);
@@ -33,7 +33,7 @@ public class ViewholderUser extends RecyclerView.ViewHolder {
     /**
      * bind the layout with the data
      */
-    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, Integer userBubbleCol, Integer userTextCol) {
+    void bind(@NonNull ChatModel chatModel, Integer userBubbleCol, Integer userTextCol) {
         textMessage.setText(chatModel.userRequest);
         if (userBubbleCol != null) cardUserChat.setCardBackgroundColor(userBubbleCol);
         if (userTextCol != null) textMessage.setTextColor(userTextCol);

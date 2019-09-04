@@ -41,9 +41,9 @@ import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.Action;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
@@ -70,9 +70,14 @@ import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+import io.adaptivecards.objectmodel.ActionType;
+import io.adaptivecards.objectmodel.BaseActionElement;
+import io.adaptivecards.objectmodel.BaseCardElement;
+import io.adaptivecards.renderer.RenderedAdaptiveCard;
+import io.adaptivecards.renderer.actionhandler.ICardActionHandler;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ICardActionHandler, ActionsViewholder.OnClickListener {
 
     // VIEWS
     @BindView(R.id.root_container) RelativeLayout uiContainer;
@@ -491,7 +496,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
 
-                    chatAdapter.addBotResponse(botConnectorActivity, this, this);
+                    chatAdapter.addBotResponse(botConnectorActivity);
                     // make the chat list scroll automatically after adding a bot response
                     chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
 
@@ -525,20 +530,6 @@ public class MainActivity extends BaseActivity
         }
         catch(IOException e) {
             Log.e(LOGTAG, "IOexception " + e.getMessage());
-        }
-    }
-
-    // concrete implementation of ViewholderBot.OnClickListener
-    @Override
-    public void adaptiveCardClick(int position, String clickData) {
-        if (clickData != null) {
-            try {
-                speechServiceBinder.stopAnyTTS();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            sendTextMessage(clickData);
-            sfxManager.playEarconProcessing();
         }
     }
 
@@ -603,5 +594,35 @@ public class MainActivity extends BaseActivity
             e.printStackTrace();
         }
 
+    }
+
+    // adaptive card action handlers
+    @Override
+    public void onAction(BaseActionElement baseActionElement, RenderedAdaptiveCard renderedAdaptiveCard) {
+        ActionType actionType = baseActionElement.GetElementType();
+        if (actionType == ActionType.Submit) { // only Action.Submit supported for now
+            // cannot get "data" field from action directly, so we need to serialize it first
+            String jsonString = baseActionElement.Serialize();
+            Action action = new Gson().fromJson(jsonString, Action.class);
+            if (action != null && action.data != null) {
+                try {
+                    speechServiceBinder.stopAnyTTS();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                sendTextMessage(action.data);
+                sfxManager.playEarconProcessing();
+            }
+        }
+    }
+
+    // required method of ICardActionHandler, not implemented yet
+    @Override
+    public void onMediaPlay(BaseCardElement baseCardElement, RenderedAdaptiveCard renderedAdaptiveCard) {
+    }
+
+    // required method of ICardActionHandler, not implemented yet
+    @Override
+    public void onMediaStop(BaseCardElement baseCardElement, RenderedAdaptiveCard renderedAdaptiveCard) {
     }
 }
