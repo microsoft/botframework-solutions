@@ -18,9 +18,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             int maxStoredQuestion = 7,
             ReplacementStrategy replacementStrategy = ReplacementStrategy.FIFO)
         {
-            SkillStateAccessor = convState.CreateProperty<dynamic>(string.Format("{0}State", skillName));
-            QuestionAccessor = userState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", skillName));
+            UserState = userState;
+            ConversationState = convState;
             UserContextResolver = userContextResolver;
+            SkillName = skillName;
             IntentFilter = filter;
             MaxStoredQuestion = maxStoredQuestion;
             Strategy = replacementStrategy;
@@ -34,19 +35,17 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             {
                 await SavePreviousQuestionAsync(turnContext);
             };
-
-            uu = userState;
         }
-
-        private UserState uu;
 
         private static int DialogIndex { get; set; } = -1;
 
-        private IStatePropertyAccessor<dynamic> SkillStateAccessor { get; set; }
+        private UserState UserState { get; set; }
 
-        private IStatePropertyAccessor<List<PreviousQuestion>> QuestionAccessor { get; set; }
+        private ConversationState ConversationState { get; set; }
 
         private UserContextResolver UserContextResolver { get; set; }
+
+        private string SkillName { get; set; }
 
         private List<string> IntentFilter { get; set; }
 
@@ -56,58 +55,64 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private void InitPreviousQuestion(ITurnContext turnContext)
         {
-            turnContext.TurnState.Add(QuestionAccessor);
+            var questionAccessor = UserState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", SkillName));
+            turnContext.TurnState.Add(questionAccessor);
         }
 
         private async Task SavePreviousQuestionAsync(ITurnContext turnContext)
         {
             try
             {
-                var userState = await SkillStateAccessor.GetAsync(turnContext);
-                string utterance = userState.LuisResult.Text;
-                string intent = userState.LuisResult.TopIntent().Item1.ToString();
-                DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
-
+                var newQuestion = await AbstractPreviousQuestionItemsAsync(turnContext);
                 if (IsTriggerIntent())
                 {
-                    await ExecuteSavePreviousQuestionAsync(turnContext, utterance, intent, timeStamp);
+                    await ExecuteSavePreviousQuestionAsync(turnContext, newQuestion);
                 }
+
+                await UserState.SaveChangesAsync(turnContext);
             }
             catch
             {
             }
         }
 
-        private async Task ExecuteSavePreviousQuestionAsync(
-            ITurnContext turnContext,
-            string utterance,
-            string intent,
-            DateTimeOffset timeStamp = default(DateTimeOffset))
+        private async Task<PreviousQuestion> AbstractPreviousQuestionItemsAsync(ITurnContext turnContext)
         {
-            if (utterance == null || intent == null || timeStamp == null)
+            var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+            var skillState = await skillStateAccessor.GetAsync(turnContext);
+            string utterance = skillState.LuisResult.Text;
+            string intent = skillState.LuisResult.TopIntent().Item1.ToString();
+            DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
+
+            return new PreviousQuestion()
+            {
+                Utterance = utterance,
+                Intent = intent,
+                TimeStamp = timeStamp,
+            };
+        }
+
+        private async Task ExecuteSavePreviousQuestionAsync(ITurnContext turnContext, PreviousQuestion newQuestion)
+        {
+            if (newQuestion == null)
             {
                 return;
             }
-
-            var question = new PreviousQuestion();
-            question.Utterance = utterance;
-            question.Intent = intent;
-            question.TimeStamp = timeStamp;
 
             // Don't save this intent.
-            if (!IntentFilter.Contains(intent))
+            if (!IntentFilter.Contains(newQuestion.Intent))
             {
                 return;
             }
 
-            var questionAccessor = turnContext.TurnState.Get<IStatePropertyAccessor<List<PreviousQuestion>>>();
+            var questionAccessor = UserState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", SkillName));
             var previousQuestions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
 
             // If already exists, refresh timestamp.
-            var duplicateQuestion = previousQuestions.Where(x => x.Utterance == utterance).ToList();
+            var duplicateQuestion = previousQuestions.Where(x => x.Utterance == newQuestion.Utterance).ToList();
             if (duplicateQuestion != null && duplicateQuestion.Count > 0)
             {
-                duplicateQuestion[0].TimeStamp = timeStamp;
+                duplicateQuestion[0].TimeStamp = newQuestion.TimeStamp;
                 return;
             }
 
@@ -115,17 +120,12 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             if (previousQuestions.Count == MaxStoredQuestion)
             {
                 var strategy = GetStrategy(Strategy);
-                strategy.Replace(previousQuestions, question);
+                strategy.Replace(previousQuestions, newQuestion);
             }
             else
             {
-                previousQuestions.Add(question);
+                previousQuestions.Add(newQuestion);
             }
-
-
-            var t = uu.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", "ToDoSkill"));
-            var tt = t.GetAsync(turnContext);
-            var ttt = 6;
         }
 
         private IReplacementStrategy<PreviousQuestion> GetStrategy(ReplacementStrategy replacementStrategy)
