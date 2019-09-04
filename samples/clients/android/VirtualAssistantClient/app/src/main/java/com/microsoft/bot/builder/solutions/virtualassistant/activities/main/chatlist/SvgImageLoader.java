@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 
 import com.pixplicity.sharp.Sharp;
 
@@ -37,13 +38,12 @@ public class SvgImageLoader implements IResourceResolver
     {
         Bitmap bitmap;
         if (uri.startsWith("data:image/svg")) {
-            String svgString = AdaptiveBase64Util.ExtractDataFromUri(uri);
-            CharVector chars = AdaptiveBase64Util.Decode(svgString);
-            StringBuilder sb = new StringBuilder();
-            for (Character ch : chars){
-                sb.append(ch);
-            }
-            String decodedSvgString  = sb.toString();
+            // unescape CR/LF in base64 URI
+            String dataUri = AdaptiveBase64Util.ExtractDataFromUri(uri)
+                    .replaceAll("%0D", "\r")
+                    .replaceAll("%0A", "\n");
+            byte[] decodedByteArray = Base64.decode(dataUri, Base64.NO_WRAP);
+            String decodedSvgString = new String(decodedByteArray);
             Sharp sharp = Sharp.loadString(decodedSvgString);
             Drawable drawable = sharp.getDrawable();
             bitmap = drawableToBitmap(drawable, maxWidth);
