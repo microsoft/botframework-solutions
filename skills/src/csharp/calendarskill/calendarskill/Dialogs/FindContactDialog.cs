@@ -1,4 +1,4 @@
-﻿using System;
+﻿                                                                                                                                                                                                                                                                                                                                          using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -410,15 +410,18 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            FindContactResponses.UserNotFoundAgain,
-                            new StringDictionary()
+                        return await sc.PromptAsync(
+                            Actions.Prompt,
+                            new PromptOptions
                             {
-                                { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
-                                { "UserName", currentRecipientName }
-                            }));
-                        state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
-                        return await sc.EndDialogAsync();
+                                Prompt = ResponseManager.GetResponse(
+                                    FindContactResponses.UserNotFoundAgain,
+                                    new StringDictionary()
+                                    {
+                                        { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
+                                        { "UserName", currentRecipientName }
+                                    })
+                            });
                     }
                 }
 
