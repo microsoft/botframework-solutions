@@ -32,16 +32,16 @@ namespace Microsoft.Bot.Builder.Skills
 
         public IActivityHandler SkillWebSocketBotAdapter { get; set; }
 
-        public async override Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger = null, object context = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Bot == null)
             {
-                throw new ArgumentNullException(nameof(Bot));
+                throw new NullReferenceException($"The {nameof(Bot)} property is not set.");
             }
 
             if (SkillWebSocketBotAdapter == null)
             {
-                throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
+                throw new NullReferenceException($"The {nameof(SkillWebSocketBotAdapter)} property is not set.");
             }
 
             var response = new StreamingResponse();
@@ -55,19 +55,21 @@ namespace Microsoft.Bot.Builder.Skills
                 return response;
             }
 
-            if (request.Streams.Where(x => x.ContentType != "application/json; charset=utf-8").Any())
+            if (request.Streams.Any(x => x.ContentType != "application/json; charset=utf-8"))
             {
                 response.StatusCode = (int)HttpStatusCode.NotAcceptable;
                 return response;
             }
 
-            Activity activity = null;
+            Activity activity;
 
             try
             {
                 activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
             }
+#pragma warning disable CA1031 // Do not catch general exception types (disabling it, used to log the exception before returning it)
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 _botTelemetryClient.TrackException(ex);
 
@@ -80,7 +82,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             // verify if caller id is the same as the appid in the claims
             var appIdClaim = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
-            if (!activity.CallerId.Equals(appIdClaim))
+            if (!activity.CallerId.Equals(appIdClaim, StringComparison.InvariantCulture))
             {
                 response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return response;
@@ -88,29 +90,31 @@ namespace Microsoft.Bot.Builder.Skills
 
             try
             {
-                var cancellationTokenSource = new CancellationTokenSource();
-                _stopWatch.Start();
-                var invokeResponse = await this.SkillWebSocketBotAdapter.ProcessActivityAsync(activity, new BotCallbackHandler(this.Bot.OnTurnAsync), cancellationTokenSource.Token).ConfigureAwait(false);
-                _stopWatch.Stop();
-
-                _botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
+                using (var cancellationTokenSource = new CancellationTokenSource())
                 {
-                    { "Latency", _stopWatch.ElapsedMilliseconds },
-                });
+                    _stopWatch.Start();
+                    var invokeResponse = await SkillWebSocketBotAdapter.ProcessActivityAsync(activity, Bot.OnTurnAsync, cancellationTokenSource.Token).ConfigureAwait(false);
+                    _stopWatch.Stop();
 
-                // trigger cancel token after activity is handled. this will stop the typing indicator
-                cancellationTokenSource.Cancel();
-
-                if (invokeResponse == null)
-                {
-                    response.StatusCode = (int)HttpStatusCode.OK;
-                }
-                else
-                {
-                    response.StatusCode = invokeResponse.Status;
-                    if (invokeResponse.Body != null)
+                    _botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
                     {
-                        response.SetBody(invokeResponse.Body);
+                        { "Latency", _stopWatch.ElapsedMilliseconds },
+                    });
+
+                    // trigger cancel token after activity is handled. this will stop the typing indicator
+                    cancellationTokenSource.Cancel();
+
+                    if (invokeResponse == null)
+                    {
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        response.StatusCode = invokeResponse.Status;
+                        if (invokeResponse.Body != null)
+                        {
+                            response.SetBody(invokeResponse.Body);
+                        }
                     }
                 }
             }
@@ -123,11 +127,14 @@ namespace Microsoft.Bot.Builder.Skills
 
                 return response;
             }
+#pragma warning disable CA1031 // Do not catch general exception types (disabling it, used to log the exception before returning it)
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 _botTelemetryClient.TrackException(ex);
 
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.SetBody(ex.Message);
             }
 
             return response;

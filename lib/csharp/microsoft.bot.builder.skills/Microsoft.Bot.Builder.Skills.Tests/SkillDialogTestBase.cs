@@ -50,8 +50,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
-                var dc = await Dialogs.CreateContextAsync(context);
-                var userState = await SkillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+                var dc = await Dialogs.CreateContextAsync(context, token);
+                var userState = await SkillContextAccessor.GetAsync(dc.Context, () => new SkillContext(), token);
 
                 // If we have SkillContext data to populate
                 if (slots != null)
@@ -65,12 +65,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
                 if (dc.ActiveDialog != null)
                 {
-                    var result = await dc.ContinueDialogAsync();
+                    var result = await dc.ContinueDialogAsync(token);
                 }
                 else
                 {
                     // ActionID lets the SkillDialog know which action to call
-                    await dc.BeginDialogAsync(skillManifest.Id, actionId);
+                    await dc.BeginDialogAsync(skillManifest.Id, actionId, token);
 
                     // We don't continue as we don't care about the message being sent
                     // just the initial instantiation, we need to send a message within tests

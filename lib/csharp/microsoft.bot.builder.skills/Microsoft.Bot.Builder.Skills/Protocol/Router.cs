@@ -21,26 +21,26 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
         public RouteContext Route(ReceiveRequest request)
         {
             var found = true;
-            string path = request.Path;
+            var path = request.Path;
             if (Uri.IsWellFormedUriString(path, UriKind.Absolute))
             {
                 var uri = new Uri(path);
                 path = uri.AbsolutePath;
             }
 
-            if (path.StartsWith("/"))
+            if (path.StartsWith("/", StringComparison.InvariantCultureIgnoreCase))
             {
                 path = path.Substring(1);
             }
 
             var parts = path.Split('/');
 
-            if (_root.TryGetNext(request.Verb, out TrieNode current))
+            if (_root.TryGetNext(request.Verb, out var current))
             {
                 var routeData = new ExpandoObject() as IDictionary<string, object>;
                 foreach (var part in parts)
                 {
-                    if (current.TryGetNext(part, out TrieNode next))
+                    if (current.TryGetNext(part, out var next))
                     {
                         // found an exact match, keep going
                         current = next;
@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
             foreach (var route in _routes)
             {
                 var path = route.Path;
-                if (path.StartsWith("/"))
+                if (path.StartsWith("/", StringComparison.InvariantCultureIgnoreCase))
                 {
                     path = path.Substring(1);
                 }
@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
                 var parts = path.Split('/');
 
                 var methodNode = _root.Add(route.Method.ToUpperInvariant());
-                TrieNode current = methodNode;
+                var current = methodNode;
                 foreach (var part in parts)
                 {
                     current = current.Add(part);
@@ -118,19 +118,19 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
                 Next = new Dictionary<string, TrieNode>();
             }
 
-            public string Value { get; private set; }
+            public string Value { get; }
 
-            public bool IsVariable { get; private set; }
+            public bool IsVariable { get; }
 
-            public string VariableName { get; private set; }
+            public string VariableName { get; }
 
             public RouteAction Action { get; set; }
 
-            public IDictionary<string, TrieNode> Next { get; set; }
+            public IDictionary<string, TrieNode> Next { get; }
 
             public TrieNode Add(string value)
             {
-                if (!Next.TryGetValue(value, out TrieNode next))
+                if (!Next.TryGetValue(value, out var next))
                 {
                     next = new TrieNode(value);
                     Next.Add(value, next);

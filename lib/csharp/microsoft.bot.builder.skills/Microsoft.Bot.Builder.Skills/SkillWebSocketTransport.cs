@@ -14,7 +14,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable (disable, streamingTransportClient is passed in, we assume the owner will dispose it but let's revie later just in case)'
     public class SkillWebSocketTransport : ISkillTransport
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private IStreamingTransportClient _streamingTransportClient;
         private readonly IBotTelemetryClient _botTelemetryClient;
@@ -45,32 +47,32 @@ namespace Microsoft.Bot.Builder.Skills
 
             // acquire AAD token
             MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
-            var token = await serviceClientCredentials.GetTokenAsync();
+            var token = await serviceClientCredentials.GetTokenAsync().ConfigureAwait(false);
 
             // put AAD token in the header
-            var headers = new Dictionary<string, string>();
-            headers.Add("Authorization", $"Bearer {token}");
+            var headers = new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } };
 
-            await _streamingTransportClient.ConnectAsync(headers);
+            await _streamingTransportClient.ConnectAsync(headers).ConfigureAwait(false);
 
             // populate call id for auth purpose
             activity.CallerId = serviceClientCredentials.MicrosoftAppId;
 
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
-            activity.Recipient.Id = skillManifest.MSAappId;
+            activity.Recipient.Id = skillManifest.MsaAppId;
 
             // Serialize the activity and POST to the Skill endpoint
-            var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
-            var request = StreamingRequest.CreatePost(string.Empty, body);
-
-            // set back recipient id to make things consistent
-            activity.Recipient.Id = recipientId;
-
             var stopWatch = new System.Diagnostics.Stopwatch();
-            stopWatch.Start();
-            await _streamingTransportClient.SendAsync(request);
-            stopWatch.Stop();
+            using (var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson))
+            {
+                var request = StreamingRequest.CreatePost(string.Empty, body);
+
+                // set back recipient id to make things consistent
+                activity.Recipient.Id = recipientId;
+                stopWatch.Start();
+                await _streamingTransportClient.SendAsync(request).ConfigureAwait(false);
+                stopWatch.Stop();
+            }
 
             _botTelemetryClient.TrackEvent(
                 "SkillWebSocketTurnLatency",
@@ -86,12 +88,7 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         public void Disconnect()
-        {
-            if (_streamingTransportClient != null)
-            {
-                _streamingTransportClient.Disconnect();
-            }
-        }
+            => _streamingTransportClient?.Disconnect();
 
         private string EnsureWebSocketUrl(string url)
         {
@@ -107,11 +104,11 @@ namespace Microsoft.Bot.Builder.Skills
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var wssPrefix = "wss://";
 
-            if (url.StartsWith(httpPrefix))
+            if (url.StartsWith(httpPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 return url.Replace(httpPrefix, wsPrefix);
             }
-            else if (url.StartsWith(httpsPrefix))
+            else if (url.StartsWith(httpsPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 return url.Replace(httpsPrefix, wssPrefix);
             }

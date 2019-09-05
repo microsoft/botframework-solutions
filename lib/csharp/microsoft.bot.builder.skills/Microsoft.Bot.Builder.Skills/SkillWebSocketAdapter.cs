@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.Skills
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
             _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
+            _authenticationProvider = new MSJwtAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
             _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
 
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Skills
                 return;
             }
 
-            var claimsIdentity = await _authenticator.Authenticate(httpRequest, httpResponse);
+            var claimsIdentity = await _authenticator.Authenticate(httpRequest, httpResponse).ConfigureAwait(false);
 
             await CreateWebSocketConnectionAsync(claimsIdentity, httpRequest.HttpContext, bot).ConfigureAwait(false);
         }

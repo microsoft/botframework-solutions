@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -103,7 +104,7 @@ namespace Microsoft.Bot.Builder.Skills
                 var activity = activities[index];
                 if (string.IsNullOrWhiteSpace(activity.Id))
                 {
-                    activity.Id = Guid.NewGuid().ToString("n");
+                    activity.Id = Guid.NewGuid().ToString("n", CultureInfo.InvariantCulture);
                 }
 
                 var response = default(ResourceResponse);
@@ -298,7 +299,7 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 _botTelemetryClient.TrackException(ex);
 
-                throw ex;
+                throw;
             }
 
             return default(T);

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Net.Http;
-using System.Text;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Protocol;
+using Microsoft.Bot.Builder.Skills.Resources;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
@@ -16,20 +16,21 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillCallingRequestHandler : RequestHandler
     {
         private readonly Router _router;
-        private readonly ITurnContext _turnContext;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private readonly ISkillProtocolHandler _skillProtocolHandler;
 
         public SkillCallingRequestHandler(
             ITurnContext turnContext,
             IBotTelemetryClient botTelemetryClient,
             ISkillProtocolHandler skillProtocolHandler)
         {
-            _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
-            _botTelemetryClient = botTelemetryClient;
-            _skillProtocolHandler = skillProtocolHandler;
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
 
-            var routes = new RouteTemplate[]
+            _botTelemetryClient = botTelemetryClient;
+
+            var routes = new[]
             {
                 new RouteTemplate()
                 {
@@ -45,58 +46,51 @@ namespace Microsoft.Bot.Builder.Skills
                                 {
                                     if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
                                     {
-                                        if (_skillProtocolHandler != null)
+                                        if (skillProtocolHandler != null)
                                         {
-                                            await _skillProtocolHandler.HandleTokenRequest(activity);
+                                            await skillProtocolHandler.HandleTokenRequest(activity).ConfigureAwait(false);
 
                                             return new ResourceResponse();
                                         }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
-                                        }
+
+                                        throw new ArgumentNullException(nameof(skillProtocolHandler), CommonStrings.MissingSkillProtocolHandler);
                                     }
-                                    else if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
-                                    {
-                                        if (_skillProtocolHandler != null)
-                                        {
-                                            await _skillProtocolHandler.HandleFallback(activity);
 
+                                    if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
+                                    {
+                                        if (skillProtocolHandler != null)
+                                        {
+                                            await skillProtocolHandler.HandleFallback(activity).ConfigureAwait(false);
                                             return new ResourceResponse();
                                         }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("FallbackRequestHandler", "Skill is asking for fallback but there is no handler on the calling side!");
-                                        }
+
+                                        throw new ArgumentNullException(nameof(skillProtocolHandler), CommonStrings.MissingSkillProtocolHandler);
                                     }
-                                    else if (activity.Type == ActivityTypes.EndOfConversation)
+
+                                    if (activity.Type == ActivityTypes.EndOfConversation)
                                     {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
-                                        if (_skillProtocolHandler != null)
+                                        var result = await turnContext.SendActivityAsync(activity).ConfigureAwait(false);
+                                        if (skillProtocolHandler != null)
                                         {
-                                            await _skillProtocolHandler.HandleEndOfConversation(activity);
+                                            await skillProtocolHandler.HandleEndOfConversation(activity).ConfigureAwait(false);
 
                                             return new ResourceResponse();
                                         }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("HandoffActivityHandler", "Skill is sending handoff activity but there's no handler on the calling side!");
-                                        }
+
+                                        throw new ArgumentNullException(nameof(skillProtocolHandler), CommonStrings.MissingSkillProtocolHandler);
                                     }
                                     else
                                     {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
+                                        var result = await turnContext.SendActivityAsync(activity).ConfigureAwait(false);
                                         return result;
                                     }
                                 }
-                                else
-                                {
-                                    throw new Exception("Error deserializing activity response!");
-                                }
+
+                                throw new Exception("Error deserializing activity response!");
                             },
                     },
                 },
-                new RouteTemplate()
+                new RouteTemplate
                 {
                     Method = "PUT",
                     Path = "/activities/{activityId}",
@@ -106,12 +100,12 @@ namespace Microsoft.Bot.Builder.Skills
                             async (request, routeData) =>
                             {
                                 var activity = request.ReadBodyAsJson<Activity>();
-                                var result = await _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
+                                var result = await turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
                                 return result;
                             },
                     },
                 },
-                new RouteTemplate()
+                new RouteTemplate
                 {
                     Method = "DELETE",
                     Path = "/activities/{activityId}",
@@ -120,7 +114,7 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId).ConfigureAwait(false);
+                                var result = await turnContext.DeleteActivityAsync(routeData.activityId).ConfigureAwait(false);
                                 return result;
                             },
                     },
@@ -138,18 +132,24 @@ namespace Microsoft.Bot.Builder.Skills
                 try
                 {
                     var responseBody = await routeContext.Action.Action(request, routeContext.RouteData).ConfigureAwait(false);
-                    return StreamingResponse.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
+                    var response = new StreamingResponse { StatusCode = (int)HttpStatusCode.OK };
+                    string content = JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings);
+                    response.SetBody(content);
+                    return response;
                 }
+#pragma warning disable CA1031 // Do not catch general exception types (disable, using exception data to populate the response.
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     _botTelemetryClient.TrackException(ex);
-                    return StreamingResponse.InternalServerError();
+                    var response = new StreamingResponse { StatusCode = (int)HttpStatusCode.InternalServerError };
+                    var content = JsonConvert.SerializeObject(ex, SerializationSettings.DefaultSerializationSettings);
+                    response.SetBody(content);
+                    return response;
                 }
             }
-            else
-            {
-                return StreamingResponse.NotFound();
-            }
+
+            return StreamingResponse.NotFound();
         }
     }
 }

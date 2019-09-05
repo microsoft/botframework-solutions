@@ -1,7 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +13,7 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -37,9 +40,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // Initialise the Calendar LUIS model mock configuration
             _botSettings.CognitiveModels = new Dictionary<string, BotSettingsBase.CognitiveModelConfiguration>();
             var cogModelConfig = new BotSettingsBase.CognitiveModelConfiguration();
-            cogModelConfig.LanguageModels = new List<Configuration.LuisService>();
+            cogModelConfig.LanguageModels = new List<LuisService>();
 
-            var luisModel = new Configuration.LuisService();
+            var luisModel = new LuisService();
             luisModel.AuthoringKey = "AUTHORINGKEY";
             luisModel.Id = "Calendar";
             luisModel.Name = "Calendar";
@@ -65,7 +68,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task DeserializeValidManifestFile()
         {
-            using (StreamReader sr = new StreamReader("manifestTemplate.json"))
+            using (var sr = new StreamReader("manifestTemplate.json"))
             {
                 var manifestBody = await sr.ReadToEndAsync();
                 JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
@@ -76,7 +79,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [ExpectedException(typeof(JsonSerializationException))]
         public async Task DeserializeInvalidManifestFile()
         {
-            using (StreamReader sr = new StreamReader(@".\TestData\malformedManifestTemplate.json"))
+            using (var sr = new StreamReader(@".\TestData\malformedManifestTemplate.json"))
             {
                 var manifestBody = await sr.ReadToEndAsync();
                 JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
@@ -86,12 +89,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task TestIsSkillHelper()
         {
-            using (StreamReader sr = new StreamReader(@".\manifestTemplate.json"))
+            using (var sr = new StreamReader(@".\manifestTemplate.json"))
             {
-                string manifestBody = await sr.ReadToEndAsync();
+                var manifestBody = await sr.ReadToEndAsync();
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
 
-                List<SkillManifest> skillManifests = new List<SkillManifest>();
+                var skillManifests = new List<SkillManifest>();
                 skillManifests.Add(skillManifest);
 
                 Assert.IsNotNull(SkillRouter.IsSkill(skillManifests, "calendarSkill/createEvent"));
@@ -117,20 +120,20 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             await controller.SkillManifest(false);
 
             // MemoryStream has been closed so we read the buffer directly
-            byte[] buf = ms.GetBuffer();
-            string jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
+            var buf = ms.GetBuffer();
+            var jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
 
             try
             {
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
 
-                string skillUriBase = $"{controller.ControllerContext.HttpContext.Request.Scheme}://{controller.ControllerContext.HttpContext.Request.Host}";
+                var skillUriBase = $"{controller.ControllerContext.HttpContext.Request.Scheme}://{controller.ControllerContext.HttpContext.Request.Host}";
 
                 Assert.IsTrue(
                     skillManifest.Endpoint.ToString() == $"{skillUriBase}/api/skill/messages",
                     "Skill Manifest endpoint not set correctly");
 
-                Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
+                Assert.IsTrue(skillManifest.MsaAppId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
 
                 Assert.IsTrue(skillManifest.IconUrl.ToString().StartsWith(skillUriBase), "Skill Manifest iconUrl not set correctly");
             }
@@ -149,11 +152,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestRequestInlineTriggerUtterances()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
+            var luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+                .Respond("application/json", luisResponse);
 
             var controller = CreateMockSkillController();
 
@@ -165,23 +168,23 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             await controller.SkillManifest(true);
 
             // MemoryStream has been closed so we read the buffer directly
-            byte[] buf = ms.GetBuffer();
-            string jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
+            var buf = ms.GetBuffer();
+            var jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
 
             try
             {
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
 
-                Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
+                Assert.IsTrue(skillManifest.MsaAppId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
 
                 // Ensure each of the registered actions has triggering utterances added
-                for (int i = 0; i < 7; ++i)
+                for (var i = 0; i < 7; ++i)
                 {
                     // If the trigger is an event we don't expect utterances
                     if (skillManifest.Actions[i].Definition.Triggers.Events == null)
                     {
                         Assert.IsTrue(
-                            skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Length > 0,
+                            skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Count > 0,
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation.");
 
                         // Validate DE, FR has been added too.
@@ -210,11 +213,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestMissingIntent()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
+            var luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+                .Respond("application/json", luisResponse);
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
             var controller = CreateMockSkillController(@".\TestData\manifestInvalidIntent.json");
@@ -227,8 +230,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             await controller.SkillManifest(true);
 
             // MemoryStream has been closed so we read the buffer directly
-            byte[] buf = ms.GetBuffer();
-            string jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
+            var buf = ms.GetBuffer();
+            var jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
 
             try
             {
@@ -252,11 +255,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestMissingModel()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
+            var luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+                .Respond("application/json", luisResponse);
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
             var controller = CreateMockSkillController(@".\TestData\manifestInvalidLUISModel.json");
@@ -269,8 +272,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             await controller.SkillManifest(true);
 
             // MemoryStream has been closed so we read the buffer directly
-            byte[] buf = ms.GetBuffer();
-            string jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
+            var buf = ms.GetBuffer();
+            var jsonResponse = Encoding.UTF8.GetString(buf, 0, buf.Length);
 
             try
             {

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
 {
@@ -11,6 +12,6 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public string Locale { get; set; }
 
         [JsonProperty(PropertyName = "source")]
-        public string[] Source { get; set; }
+        public List<string> Source { get; } = new List<string>();
     }
 }

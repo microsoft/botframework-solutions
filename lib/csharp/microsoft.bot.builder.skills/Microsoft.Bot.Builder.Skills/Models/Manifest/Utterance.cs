@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
 {
@@ -7,7 +8,7 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
     /// </summary>
     public class Utterance
     {
-        public Utterance(string locale, string[] text)
+        public Utterance(string locale, List<string> text)
         {
             Locale = locale;
             Text = text;
@@ -17,6 +18,6 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public string Locale { get; set; }
 
         [JsonProperty(PropertyName = "text")]
-        public string[] Text { get; set; }
+        public List<string> Text { get; }
     }
 }

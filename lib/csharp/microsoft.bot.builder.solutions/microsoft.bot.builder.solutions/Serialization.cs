@@ -13,7 +13,6 @@ namespace Microsoft.Bot.Builder.Solutions
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             NullValueHandling = NullValueHandling.Ignore,
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
             Converters = new List<JsonConverter>
             {
                 new Iso8601TimeSpanConverter(),

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
@@ -18,10 +21,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     [TestClass]
     public class SkillDialogSlotFillingTests : SkillDialogTestBase
     {
-        private List<SkillManifest> _skillManifests = new List<SkillManifest>();
-        private IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
-		private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
-		private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly MockSkillTransport _mockSkillTransport = new MockSkillTransport();
+        private readonly IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
+        private readonly List<SkillManifest> _skillManifests = new List<SkillManifest>();
 
         [TestInitialize]
         public void AddSkills()
@@ -34,8 +37,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "testSkill/testAction"));
 
             // Simple skill, with one slot (param1)
-            var slots = new List<Slot>();
-            slots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
+            var slots = new List<Slot>
+            {
+                new Slot("param1", new List<string>() { "string" }),
+            };
             _skillManifests.Add(ManifestUtilities.CreateSkill(
                 "testskillwithslots",
                 "testskillwithslots",
@@ -44,10 +49,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 slots));
 
             // Simple skill, with two actions and multiple slots
-            var multiParamSlots = new List<Slot>();
-            multiParamSlots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
-            multiParamSlots.Add(new Slot { Name = "param2", Types = new List<string>() { "string" } });
-            multiParamSlots.Add(new Slot { Name = "param3", Types = new List<string>() { "string" } });
+            var multiParamSlots = new List<Slot>
+            {
+                new Slot("param1", new List<string>() { "string" }),
+                new Slot("param2", new List<string>() { "string" }),
+                new Slot("param3", new List<string>() { "string" }),
+            };
 
             var multiActionSkill = ManifestUtilities.CreateSkill(
                 "testskillwithmultipleactionsandslots",
@@ -77,75 +84,89 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
-			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
-                  .Send("hello")
-                  .StartTestAsync();
+            var skillManifest = _skillManifests.Single(s => s.Name == "testskillwithslots");
+            var testFlow = GetTestFlow(skillManifest, "testSkill/testActionWithSlots", slots);
+            await testFlow
+                .Send("hello")
+                .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
-		}
+            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
+        }
 
-		/// <summary>
-		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
-		/// This test has extra data in the SkillContext "memory" which should not be sent across.
-		/// </summary>
-		/// <returns>Task.</returns>
-		[TestMethod]
+        /// <summary>
+        /// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+        /// This test has extra data in the SkillContext "memory" which should not be sent across.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
         public async Task SkillInvocationWithSlotsTestExtraItems()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
-			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
-                  .Send("hello")
-                  .StartTestAsync();
+            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
+                .Send("hello")
+                .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
-		}
+            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
+        }
 
-		/// <summary>
-		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
-		/// This doesn't pass an action so "global" slot filling is used.
-		/// </summary>
-		/// <returns>Task.</returns>
-		[TestMethod]
+        /// <summary>
+        /// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+        /// This doesn't pass an action so "global" slot filling is used.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
         public async Task SkillInvocationNoActionPassed()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
             // Not passing action to test the "global" slot filling behaviour
-            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
-                  .Send("hello")
-                  .StartTestAsync();
+            await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
+                .Send("hello")
+                .StartTestAsync();
 
             _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
         }
     }
 }

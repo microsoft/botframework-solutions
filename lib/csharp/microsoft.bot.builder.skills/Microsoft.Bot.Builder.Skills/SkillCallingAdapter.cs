@@ -10,9 +10,9 @@ namespace Microsoft.Bot.Builder.Skills
 {
     public class SkillCallingAdapter : BotAdapter, IRemoteDialogCancellation
     {
-        private ISkillTransport _skillTransport;
-        private SkillManifest _skillManifest;
-        private IServiceClientCredentials _serviceClientCredentials;
+        private readonly ISkillTransport _skillTransport;
+        private readonly SkillManifest _skillManifest;
+        private readonly IServiceClientCredentials _serviceClientCredentials;
 
         public SkillCallingAdapter(
             SkillManifest skillManifest,
@@ -28,9 +28,7 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         public override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)
         {
@@ -41,17 +39,15 @@ namespace Microsoft.Bot.Builder.Skills
 
             // we do not support passing multiple activities now for one turn so just pick the first activity
             var activity = activities[0];
-            await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, turnContext, activity);
+            await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, turnContext, activity).ConfigureAwait(false);
 
             _skillTransport.Disconnect();
 
-            return new ResourceResponse[] { };
+            return Array.Empty<ResourceResponse>();
         }
 
         public override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext)
         {
@@ -60,7 +56,7 @@ namespace Microsoft.Bot.Builder.Skills
             cancelRemoteDialogEvent.Type = ActivityTypes.Event;
             cancelRemoteDialogEvent.Name = SkillEvents.CancelAllSkillDialogsEventName;
 
-            await _skillTransport.ForwardToSkillAsync(skillManifest, serviceClientCredentials, turnContext, cancelRemoteDialogEvent);
+            await _skillTransport.ForwardToSkillAsync(skillManifest, serviceClientCredentials, turnContext, cancelRemoteDialogEvent).ConfigureAwait(false);
         }
     }
 }

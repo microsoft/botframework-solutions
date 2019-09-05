@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,15 +26,15 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillDialog : ComponentDialog, ISkillProtocolHandler
     {
         private readonly MultiProviderAuthDialog _authDialog;
-        private IServiceClientCredentials _serviceClientCredentials;
-        private UserState _userState;
-        private SkillCallingAdapter _skillCallingAdapter;
-        private SkillManifest _skillManifest;
-
-        private Activity _endOfConversationActivity;
         private DialogContext _dialogContext;
 
-        private ISkillIntentRecognizer _skillIntentRecognizer;
+        private Activity _endOfConversationActivity;
+        private readonly IServiceClientCredentials _serviceClientCredentials;
+        private readonly SkillCallingAdapter _skillCallingAdapter;
+
+        private readonly ISkillIntentRecognizer _skillIntentRecognizer;
+        private readonly SkillManifest _skillManifest;
+        private readonly UserState _userState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -53,7 +57,7 @@ namespace Microsoft.Bot.Builder.Skills
             ISkillIntentRecognizer skillIntentRecognizer = null)
             : base(skillManifest.Id)
         {
-            _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
+            _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _userState = userState;
             _skillIntentRecognizer = skillIntentRecognizer;
@@ -75,61 +79,16 @@ namespace Microsoft.Bot.Builder.Skills
             AddDialog(new ConfirmPrompt(DialogIds.ConfirmSkillSwitchPrompt));
         }
 
-        public async Task<DialogTurnResult> ConfirmIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
-            {
-                var newIntentName = skillSwitchConfirmOption.TargetIntent;
-                var intentResponse = string.Format(CommonStrings.ConfirmSkillSwitch, newIntentName);
-                return await sc.PromptAsync(DialogIds.ConfirmSkillSwitchPrompt, new PromptOptions()
-                {
-                    Prompt = new Activity(type: ActivityTypes.Message, text: intentResponse, speak: intentResponse),
-                });
-            }
-
-            return await sc.NextAsync();
-        }
-
-        public async Task<DialogTurnResult> FinishIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
-            {
-                // Do skill switching
-                if (sc.Result is bool result && result)
-                {
-                    // 1) End remote skill dialog
-                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context);
-
-                    // 2) Reset user input
-                    sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
-                    sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
-
-                    // 3) End dialog
-                    return await sc.EndDialogAsync(true);
-                }
-
-                // Cancel skill switching
-                else
-                {
-                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.FallbackHandledEvent);
-                    return await sc.EndDialogAsync(dialogResult);
-                }
-            }
-
-            // We should never go here
-            return await sc.EndDialogAsync();
-        }
-
-        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
+        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
         {
             if (reason == DialogReason.CancelCalled)
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
-                await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
+                await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext).ConfigureAwait(false);
             }
 
-            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
         }
 
         public Task HandleEndOfConversation(Activity activity)
@@ -142,7 +101,7 @@ namespace Microsoft.Bot.Builder.Skills
         public async Task HandleTokenRequest(Activity activity)
         {
             // Send trace to emulator
-            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill")).GetAwaiter().GetResult();
+            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "<--Received a Token Request from a skill")).GetAwaiter().GetResult();
 
             var result = _dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
 
@@ -157,15 +116,15 @@ namespace Microsoft.Bot.Builder.Skills
                     tokenEvent.Value = tokenResponse;
                     tokenEvent.SemanticAction = activity.SemanticAction;
 
-                    await ForwardToSkillAsync(_dialogContext, tokenEvent);
+                    await ForwardToSkillAsync(_dialogContext, tokenEvent).ConfigureAwait(false);
                 }
                 else
                 {
                     // cancel remote skill dialog if AuthDialog is cancelled
-                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context);
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context).ConfigureAwait(false);
 
-                    await _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user."));
-                    await _dialogContext.EndDialogAsync();
+                    await _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user.")).ConfigureAwait(false);
+                    await _dialogContext.EndDialogAsync().ConfigureAwait(false);
                 }
             }
         }
@@ -173,18 +132,18 @@ namespace Microsoft.Bot.Builder.Skills
         public async Task HandleFallback(Activity activity)
         {
             // Send trace to emulator
-            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
+            _dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "<--Received a fallback request from a skill")).GetAwaiter().GetResult();
 
             // if skillIntentRecognizer specified, run the recognizer
-            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
+            if (_skillIntentRecognizer?.RecognizeSkillIntentAsync != null)
             {
-                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(_dialogContext);
+                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(_dialogContext).ConfigureAwait(false);
 
                 // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
                 // if the result is the same as the current intent, re-send it to the current skill
                 // if the result is empty which means no intent, re-send it to the current skill
                 if (recognizedSkillManifestRecognized != null
-                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
+                    && !string.Equals(recognizedSkillManifestRecognized, Id, StringComparison.InvariantCulture))
                 {
                     if (_skillIntentRecognizer.ConfirmIntentSwitch)
                     {
@@ -195,11 +154,11 @@ namespace Microsoft.Bot.Builder.Skills
                             UserInputActivity = _dialogContext.Context.Activity,
                         };
 
-                        await _dialogContext.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options);
+                        await _dialogContext.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options).ConfigureAwait(false);
                     }
 
-                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context);
-                    await _dialogContext.EndDialogAsync(recognizedSkillManifestRecognized);
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, _dialogContext.Context).ConfigureAwait(false);
+                    await _dialogContext.EndDialogAsync(recognizedSkillManifestRecognized).ConfigureAwait(false);
                 }
             }
         }
@@ -211,15 +170,15 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="options">options.</param>
         /// <param name="cancellationToken">cancellation token.</param>
         /// <returns>dialog turn result.</returns>
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
             var slots = new Dictionary<string, JObject>();
 
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
+            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext(), cancellationToken).ConfigureAwait(false);
 
-            var dialogOptions = options != null ? options as SkillDialogOption : null;
+            var dialogOptions = options as SkillDialogOption;
             var actionName = dialogOptions?.Action;
 
             var activity = innerDc.Context.Activity;
@@ -246,7 +205,7 @@ namespace Microsoft.Bot.Builder.Skills
                         if (action.Definition.Slots != null && skillContext.Count > 0)
                         {
                             // Match Slots to Skill Context
-                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext).ConfigureAwait(false);
                         }
                     }
                     else
@@ -264,7 +223,7 @@ namespace Microsoft.Bot.Builder.Skills
                     if (skillSlots != null)
                     {
                         // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext).ConfigureAwait(false);
                     }
                 }
 
@@ -276,12 +235,12 @@ namespace Microsoft.Bot.Builder.Skills
                 activity.SemanticAction = semanticAction;
             }
 
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
+            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."), cancellationToken).ConfigureAwait(false);
 
             // set dialogContext for callback to use
             _dialogContext = innerDc;
 
-            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
 
             return dialogResult;
         }
@@ -299,14 +258,14 @@ namespace Microsoft.Bot.Builder.Skills
             if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
             {
                 // Handle magic code auth
-                var result = await innerDc.ContinueDialogAsync(cancellationToken);
+                var result = await innerDc.ContinueDialogAsync(cancellationToken).ConfigureAwait(false);
 
                 // forward the token response to the skill
-                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
+                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse response)
                 {
                     activity.Type = ActivityTypes.Event;
                     activity.Name = TokenEvents.TokenResponseEventName;
-                    activity.Value = result.Result as ProviderTokenResponse;
+                    activity.Value = response;
                 }
                 else
                 {
@@ -316,7 +275,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             if (innerDc.ActiveDialog?.Id == DialogIds.ConfirmSkillSwitchPrompt)
             {
-                var result = await base.OnContinueDialogAsync(innerDc, cancellationToken);
+                var result = await base.OnContinueDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
 
                 if (result.Status != DialogTurnStatus.Complete)
                 {
@@ -324,7 +283,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
                 {
-                    // SkillDialog only truely end when confirm skill switch.
+                    // SkillDialog only truly end when confirm skill switch.
                     if (result.Result is bool dispatchResult && dispatchResult)
                     {
                         // Restart and redispatch
@@ -344,7 +303,7 @@ namespace Microsoft.Bot.Builder.Skills
             // set dialogContext for callback to use
             _dialogContext = innerDc;
 
-            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
 
             return dialogResult;
         }
@@ -352,24 +311,24 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Map Skill slots to what we have in SkillContext.
         /// </summary>
-        /// <param name="innerDc">Dialog Contect.</param>
+        /// <param name="innerDc">Dialog Context.</param>
         /// <param name="actionSlots">The Slots within an Action.</param>
         /// <param name="skillContext">Calling Bot's SkillContext.</param>
         /// <returns>A filtered SkillContext for the Skill.</returns>
         private async Task<SkillContext> MatchSkillContextToSlots(DialogContext innerDc, List<Slot> actionSlots, SkillContext skillContext)
         {
-            SkillContext slots = new SkillContext();
+            var slots = new SkillContext();
             if (actionSlots != null)
             {
-                foreach (Slot slot in actionSlots)
+                foreach (var slot in actionSlots)
                 {
                     // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (skillContext.TryGetValue(slot.Name, out JObject slotValue))
+                    if (skillContext.TryGetValue(slot.Name, out var slotValue))
                     {
                         slots.Add(slot.Name, slotValue);
 
                         // Send trace to emulator
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the Skill."));
+                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the Skill.")).ConfigureAwait(false);
                     }
                 }
             }
@@ -387,7 +346,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                await _skillCallingAdapter.SendActivitiesAsync(innerDc.Context, new Activity[] { activity }, default(CancellationToken));
+                await _skillCallingAdapter.SendActivitiesAsync(innerDc.Context, new[] { activity }, default(CancellationToken)).ConfigureAwait(false);
 
                 if (_endOfConversationActivity == null)
                 {
@@ -395,20 +354,68 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
                 {
-                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await innerDc.EndDialogAsync(activity.SemanticAction?.Entities);
+                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot.")).ConfigureAwait(false);
+                    return await innerDc.EndDialogAsync(activity.SemanticAction?.Entities).ConfigureAwait(false);
                 }
             }
             catch
             {
                 // Something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
                 // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-                await innerDc.EndDialogAsync();
+                await innerDc.EndDialogAsync().ConfigureAwait(false);
                 throw;
             }
         }
 
-        private class DialogIds
+        private async Task<DialogTurnResult> ConfirmIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
+            {
+                var newIntentName = skillSwitchConfirmOption.TargetIntent;
+                var intentResponse = string.Format(CultureInfo.InvariantCulture, CommonStrings.ConfirmSkillSwitch, newIntentName);
+                return await sc.PromptAsync(
+                    DialogIds.ConfirmSkillSwitchPrompt,
+                    new PromptOptions
+                    {
+                        Prompt = new Activity(type: ActivityTypes.Message, text: intentResponse, speak: intentResponse),
+                    },
+                    cancellationToken).ConfigureAwait(false);
+            }
+
+            return await sc.NextAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task<DialogTurnResult> FinishIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
+            {
+                // Do skill switching
+                if (sc.Result is bool result && result)
+                {
+                    // 1) End remote skill dialog
+                    await _skillCallingAdapter.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context).ConfigureAwait(false);
+
+                    // 2) Reset user input
+                    sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
+                    sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
+
+                    // 3) End dialog
+                    return await sc.EndDialogAsync(true, cancellationToken).ConfigureAwait(false);
+                }
+
+                // Cancel skill switching
+                else
+                {
+                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.FallbackHandledEvent).ConfigureAwait(false);
+                    return await sc.EndDialogAsync(dialogResult, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            // We should never go here
+            return await sc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+
+        private static class DialogIds
         {
             public const string ConfirmSkillSwitchPrompt = "confirmSkillSwitchPrompt";
             public const string ConfirmSkillSwitchFlow = "confirmSkillSwitchFlow";
