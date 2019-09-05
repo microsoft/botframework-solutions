@@ -18,6 +18,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -89,11 +90,17 @@ namespace VirtualAssistantSample
                 return new BotStateSet(userState, conversationState);
             });
 
+            // Configure responses
+
+            services.AddSingleton(sp => new ResponseManager(
+                settings.CognitiveModels.Select(l => l.Key).ToArray()));
+
             // Register dialogs
             services.AddTransient<CancelDialog>();
             services.AddTransient<EscalateDialog>();
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
+            services.AddTransient<SummaryDialog>();
 
             // Register skill dialogs
             services.AddTransient(sp =>

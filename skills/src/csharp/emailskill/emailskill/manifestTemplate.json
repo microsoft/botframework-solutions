@@ -20,7 +20,7 @@
       "id": "emailskill_sendEmail",
       "definition": {
         "description": "Send an email",
-        "slots": [ ],
+        "slots": [],
         "triggers": {
           "utteranceSources": [
             {
@@ -99,6 +99,27 @@
               "source": [
                 "Email#Delete"
               ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "emailskill_summary",
+      "definition": {
+        "description": "Retrieve a summary of emails through an event invocation.",
+        "slots": [
+          {
+            "name": "timezone",
+            "types": [
+              "string"
+            ]
+          }
+        ],
+        "triggers": {
+          "events": [
+            {
+              "name": "summaryEvent"
             }
           ]
         }

@@ -110,6 +110,7 @@ namespace ToDoSkill
             services.AddTransient<DeleteToDoItemDialog>();
             services.AddTransient<MarkToDoItemDialog>();
             services.AddTransient<ShowToDoItemDialog>();
+            services.AddTransient<ToDoSummaryDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

@@ -162,7 +162,7 @@
       }
     },
     {
-      "id": "calendarskill_summary",
+      "id": "calendarskill_showEvent",
       "definition": {
         "description": "Find an upcoming event",
 				"slots": [

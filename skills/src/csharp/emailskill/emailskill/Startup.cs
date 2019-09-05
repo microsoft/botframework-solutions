@@ -117,6 +117,7 @@ namespace EmailSkill
             services.AddTransient<ReplyEmailDialog>();
             services.AddTransient<SendEmailDialog>();
             services.AddTransient<ShowEmailDialog>();
+            services.AddTransient<EmailSummaryDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

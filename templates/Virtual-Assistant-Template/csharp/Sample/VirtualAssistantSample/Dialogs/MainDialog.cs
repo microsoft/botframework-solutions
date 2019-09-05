@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Feedback;
@@ -39,6 +40,7 @@ namespace VirtualAssistantSample.Dialogs
             OnboardingDialog onboardingDialog,
             EscalateDialog escalateDialog,
             CancelDialog cancelDialog,
+            SummaryDialog summaryDialog,
             List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient,
             UserState userState)
@@ -53,6 +55,7 @@ namespace VirtualAssistantSample.Dialogs
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
             AddDialog(cancelDialog);
+            AddDialog(summaryDialog);
 
             foreach (var skillDialog in skillDialogs)
             {
@@ -190,7 +193,7 @@ namespace VirtualAssistantSample.Dialogs
             // Check if there was an action submitted from intro card
             var value = dc.Context.Activity.Value;
 
-            if (value.GetType() == typeof(JObject))
+            if (value?.GetType() == typeof(JObject))
             {
                 var submit = JObject.Parse(value.ToString());
                 if (value != null && (string)submit["action"] == "startOnboarding")
@@ -255,6 +258,13 @@ namespace VirtualAssistantSample.Dialogs
                             await _skillContextAccessor.SetAsync(dc.Context, skillContext);
 
                             forward = false;
+                            break;
+                        }
+
+                    case Events.SummaryEvent:
+                        {
+                            forward = false;
+                            await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
@@ -395,6 +405,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string TimezoneEvent = "VA.Timezone";
             public const string LocationEvent = "VA.Location";
+            public const string SummaryEvent = "VA.Summary";
         }
     }
 }

@@ -39,6 +39,7 @@ namespace ToDoSkill.Dialogs
             MarkToDoItemDialog markToDoItemDialog,
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
+            ToDoSummaryDialog toDoSummaryDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -53,6 +54,7 @@ namespace ToDoSkill.Dialogs
             AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
             AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
+            AddDialog(toDoSummaryDialog ?? throw new ArgumentNullException(nameof(toDoSummaryDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -176,10 +178,18 @@ namespace ToDoSkill.Dialogs
                         {
                             var response = dc.Context.Activity.CreateReply();
                             response.Type = ActivityTypes.Handoff;
+                            response.SemanticAction = result.Result as SemanticAction;
 
                             await dc.Context.SendActivityAsync(response);
                         }
 
+                        break;
+                    }
+
+                case Events.SummaryEvent:
+                    {
+                        var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+                        await dc.BeginDialogAsync(nameof(ToDoSummaryDialog));
                         break;
                     }
             }
@@ -309,6 +319,11 @@ namespace ToDoSkill.Dialogs
                     }
                 }
             }
+        }
+
+        private class Events
+        {
+            public const string SummaryEvent = "VA.Summary";
         }
     }
 }
