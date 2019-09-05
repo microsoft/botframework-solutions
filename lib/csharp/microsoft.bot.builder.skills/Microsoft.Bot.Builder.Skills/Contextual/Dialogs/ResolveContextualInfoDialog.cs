@@ -23,11 +23,15 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
         private const string _textPrompt = "TextPrompt";
         private const string _confirmPrompt = "ConfirmPrompt";
 
+        public IContextResolver ContextResolver { get; set; }
+
         public ResolveContextualInfoDialog(
             UserState userState,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IContextResolver contextResolver = null)
             : base(nameof(ResolveContextualInfoDialog))
          {
+            ContextResolver = contextResolver;
             TelemetryClient = telemetryClient;
 
             ResponseManager = new ResponseManager(
@@ -71,7 +75,8 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
             {
                 var option = sc.Options as UserInfoOptions;
                 var userState = await UserStateAccessor.GetAsync(sc.Context, () => new UserInfoState());
-                var result = userState.GetRelationshipContact(option.QueryItem);
+                var contextResolver = new UserContextResolver(userState, ContextResolver);
+                var result = await contextResolver.GetResolvedContactAsync(option.QueryItem);
 
                 if (result == null || result.Count() == 0)
                 {
