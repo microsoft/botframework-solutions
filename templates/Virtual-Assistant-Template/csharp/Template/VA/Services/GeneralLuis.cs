@@ -14,8 +14,7 @@ namespace Luis
     {
         public string Text;
         public string AlteredText;
-        public enum Intent
-        {
+        public enum Intent {
             Cancel,
             Confirm,
             Escalate,

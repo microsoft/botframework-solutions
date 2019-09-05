@@ -4,7 +4,7 @@
 namespace $safeprojectname$.Models
 {
     public class AssistantState
-{
+    {
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -12,5 +12,5 @@ namespace $safeprojectname$.Models
         public string Location { get; set; }
 
         public Luis.GeneralLuis GeneralLuisResult { get; set; }
-}
+    }
 }
