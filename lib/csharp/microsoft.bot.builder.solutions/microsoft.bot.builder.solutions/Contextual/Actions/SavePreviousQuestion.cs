@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
         public SavePreviousQuestion(
             ConversationState convState,
             UserState userState,
-            UserContextResolver userContextResolver,
+            UserContextManager userContextResolver,
             string skillName,
             List<string> filter = null,
             int maxStoredQuestion = 7,
@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private ConversationState ConversationState { get; set; }
 
-        private UserContextResolver UserContextResolver { get; set; }
+        private UserContextManager UserContextResolver { get; set; }
 
         private string SkillName { get; set; }
 
@@ -146,9 +146,9 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private bool IsTriggerIntent()
         {
-            if (DialogIndex != UserContextResolver.DialogIndex)
+            if (DialogIndex != UserContextManager.DialogIndex)
             {
-                DialogIndex = UserContextResolver.DialogIndex;
+                DialogIndex = UserContextManager.DialogIndex;
                 return true;
             }
             else

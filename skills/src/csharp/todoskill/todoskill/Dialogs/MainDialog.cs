@@ -31,7 +31,7 @@ namespace ToDoSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-        private UserContextResolver _userContextResolver;
+        private UserContextManager _userContextResolver;
 
         public MainDialog(
             BotSettings settings,
@@ -43,7 +43,7 @@ namespace ToDoSkill.Dialogs
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
             IBotTelemetryClient telemetryClient,
-            UserContextResolver userContextResolver)
+            UserContextManager userContextResolver)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;

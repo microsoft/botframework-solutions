@@ -6,20 +6,20 @@ using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
-    public class UserContextResolver
+    public class UserContextManager
     {
         private IContextResolver _contextResolver;
         private UserStateContextResolver _userStateContextResolver;
 
-        public static int DialogIndex { get; set; } = 0;
-
-        internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
-
-        public UserContextResolver(UserInfoState userInfo, IContextResolver contextResolver = null)
+        public UserContextManager(UserInfoState userInfo, IContextResolver contextResolver = null)
         {
             _contextResolver = contextResolver;
             _userStateContextResolver = new UserStateContextResolver(userInfo);
         }
+
+        public static int DialogIndex { get; set; } = 0;
+
+        internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {

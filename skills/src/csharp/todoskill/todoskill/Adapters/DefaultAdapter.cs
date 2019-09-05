@@ -27,7 +27,7 @@ namespace ToDoSkill.Adapters
             ResponseManager responseManager,
             ConversationState convState,
             UserState userState,
-            UserContextResolver userContextResolver)
+            UserContextManager userContextResolver)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
