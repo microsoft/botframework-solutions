@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Skills
                     var requestPath = $"/activities/{activity.Id}";
                     var request = StreamingRequest.CreatePost(requestPath);
 
-                    // set callerId to empty so it's not sending over the wire
+                    // set callerId to empty so it's not sent over the wire
                     activity.CallerId = null;
 
                     request.SetBody(activity);
@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Builder.Skills
             var requestPath = $"/activities/{activity.Id}";
             var request = StreamingRequest.CreatePut(requestPath);
 
-            // set callerId to empty so it's not sending over the wire
+            // set callerId to empty so it's not sent over the wire
             activity.CallerId = null;
 
             request.SetBody(activity);
