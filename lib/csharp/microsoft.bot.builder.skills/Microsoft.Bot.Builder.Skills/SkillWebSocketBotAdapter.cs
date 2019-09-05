@@ -126,6 +126,10 @@ namespace Microsoft.Bot.Builder.Skills
                 {
                     var requestPath = $"/activities/{activity.Id}";
                     var request = StreamingRequest.CreatePost(requestPath);
+
+                    // set callerId to empty so it's not sending over the wire
+                    activity.CallerId = null;
+
                     request.SetBody(activity);
 
                     _botTelemetryClient.TrackTrace($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, null);
@@ -173,6 +177,10 @@ namespace Microsoft.Bot.Builder.Skills
         {
             var requestPath = $"/activities/{activity.Id}";
             var request = StreamingRequest.CreatePut(requestPath);
+
+            // set callerId to empty so it's not sending over the wire
+            activity.CallerId = null;
+
             request.SetBody(activity);
 
             var response = default(ResourceResponse);
