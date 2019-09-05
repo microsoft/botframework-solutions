@@ -8,7 +8,7 @@ import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
-import { ICognitiveModelFile, IConnectConfiguration } from './models';
+import { IAppSetting, ICognitiveModel, IConnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {

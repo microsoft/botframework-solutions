@@ -4,14 +4,13 @@
  */
 
 export {
-    IAppSettingOauthConnection,
     IAppShowReplyUrl,
     IAzureAuthSetting,
     IOauthConnection,
     IResourceAccess,
     IScopeManifest } from './authentication';
-export { ICognitiveModelFile } from './cognitiveFile';
 export { IAppSetting } from './appSetting';
+export { ICognitiveModel } from './cognitiveModel';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';
 export { IUpdateConfiguration } from './updateConfiguration';
