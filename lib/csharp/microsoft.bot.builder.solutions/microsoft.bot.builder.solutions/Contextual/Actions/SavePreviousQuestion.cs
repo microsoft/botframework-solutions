@@ -26,9 +26,9 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             MaxStoredQuestion = maxStoredQuestion;
             Strategy = replacementStrategy;
 
-            BeforeTurnAction = turnContext =>
+            BeforeTurnAction = async turnContext =>
             {
-                InitPreviousQuestion(turnContext);
+                await InitPreviousQuestion(turnContext);
             };
 
             AfterTurnAction = async turnContext =>
@@ -53,10 +53,11 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private ReplacementStrategy Strategy { get; set; }
 
-        private void InitPreviousQuestion(ITurnContext turnContext)
+        private async Task InitPreviousQuestion(ITurnContext turnContext)
         {
             var questionAccessor = UserState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", SkillName));
-            turnContext.TurnState.Add(questionAccessor);
+            var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
+            UserContextResolver.PreviousQuestions = questions;
         }
 
         private async Task SavePreviousQuestionAsync(ITurnContext turnContext)

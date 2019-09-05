@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         public static int DialogIndex { get; set; } = 0;
 
-        public IUserContext UserContext { get; set; }
+        internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
 
         public UserContextResolver(UserInfoState userInfo, IContextResolver contextResolver = null)
         {
@@ -45,19 +45,14 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public async Task ShowPreviousQuestion(ITurnContext turnContext)
+        public List<PreviousQuestion> GetPreviousQuestions()
         {
-            var questionAccessor = turnContext.TurnState.Get<IStatePropertyAccessor<List<PreviousQuestion>>>();
-            var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
-            var actions = questions.Select(x => x.Utterance).ToList();
-            var activity = MessageFactory.SuggestedActions(actions);
-            await turnContext.SendActivityAsync(activity);
+            return PreviousQuestions;
         }
 
         public async Task ClearPreviousQuestions(ITurnContext turnContext)
         {
-            var questionAccessor = turnContext.TurnState.Get<IStatePropertyAccessor<List<PreviousQuestion>>>();
-            await questionAccessor.DeleteAsync(turnContext);
+            PreviousQuestions.Clear();
         }
     }
 }
