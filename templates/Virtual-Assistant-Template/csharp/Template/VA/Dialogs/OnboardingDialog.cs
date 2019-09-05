@@ -17,8 +17,8 @@ namespace $safeprojectname$.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private static OnboardingResponses _responder = new OnboardingResponses();
-        private IStatePropertyAccessor<OnboardingState> _accessor;
-        private OnboardingState _state;
+        private IStatePropertyAccessor<AssistantState> _accessor;
+        private AssistantState _state;
         private BotServices _services;
 
         public OnboardingDialog(
@@ -27,7 +27,7 @@ namespace $safeprojectname$.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _accessor = userState.CreateProperty<AssistantState>(nameof(AssistantState));
             InitialDialogId = nameof(OnboardingDialog);
             _services = botServices;
 
@@ -46,7 +46,7 @@ namespace $safeprojectname$.Dialogs
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
 
             if (!string.IsNullOrEmpty(_state.Name))
             {
@@ -63,23 +63,19 @@ namespace $safeprojectname$.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var name = _state.Name;
-            if (string.IsNullOrEmpty(name))
+            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
+            var name = _state.Name = (string)sc.Result;
+
+            var luisResult = _state.GeneralLuisResult;
+            if (luisResult != null && luisResult.TopIntent().intent == GeneralLuis.Intent.ExtractName)
             {
-                name = _state.Name = (string)sc.Result;
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
-                cognitiveModels.LuisServices.TryGetValue("Onboarding", out var luisService);
-                if (luisService != null)
+                if (luisResult.Entities.PersonName_Any != null)
                 {
-                    var luisResult = await luisService.RecognizeAsync<OnboardingLuis>(sc.Context, cancellationToken);
-                    var intent = luisResult.TopIntent().intent;
-                    var score = luisResult.TopIntent().score;
-                    if (intent == OnboardingLuis.Intent.NameExtraction && score > 0.5 && luisResult.Entities.personName != null)
-                    {
-                        name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
-                    }
+                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.PersonName_Any[0]);
+                }
+                else if (luisResult.Entities.personName != null)
+                {
+                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
                 }
             }
 
