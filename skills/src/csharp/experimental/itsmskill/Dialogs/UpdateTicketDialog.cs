@@ -88,7 +88,7 @@ namespace ITSMSkill.Dialogs
 
             if (sb.Length == 0)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdateNone));
+                // await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowUpdateNone));
             }
             else
             {
