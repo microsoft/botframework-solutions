@@ -31,6 +31,12 @@
     <None Remove="Authentication\AuthenticationResponses.it.json" />
     <None Remove="Authentication\AuthenticationResponses.json" />
     <None Remove="Authentication\AuthenticationResponses.zh.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.de.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.es.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.fr.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.it.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.json" />
+    <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +46,24 @@
     <EmbeddedResource Include="Authentication\AuthenticationResponses.it.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.zh.json" />
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.de.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.es.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.fr.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.it.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.zh.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +93,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AuthenticationResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Contextual\Dialogs\ResolveContextualInfoResponses.cs">
+      <DependentUpon>ResolveContextualInfoResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Contextual\Resources\RelationshipStrings.Designer.cs">
+      <DependentUpon>RelationshipStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -77,6 +111,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Contextual\Resources\RelationshipStrings.resx">
+      <LastGenOutput>RelationshipStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\CommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
@@ -88,6 +126,10 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Contextual\Dialogs\ResolveContextualInfoResponses.tt">
+      <LastGenOutput>ResolveContextualInfoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
 

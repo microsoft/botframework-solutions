@@ -1232,17 +1232,17 @@ $PREBUILT:ordinal
 
 > # List entities
 
-$PossecivePronoun:FirstPerson=
+$PossessivePronoun:FirstPerson=
 - mon
 - notre
 - mien
 - notre propre
 
-$PossecivePronoun:SecondPerson=
+$PossessivePronoun:SecondPerson=
 - ton
 - votre propre
 
-$PossecivePronoun:ThirdPerson=
+$PossessivePronoun:ThirdPerson=
 - son
 - son
 - leur

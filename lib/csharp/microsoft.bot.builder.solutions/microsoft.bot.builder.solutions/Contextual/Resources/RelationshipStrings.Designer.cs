@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Resources {
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Skills.Contextual.Resources.RelationshipStrings", typeof(RelationshipStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Solutions.Contextual.Resources.RelationshipStrings", typeof(RelationshipStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

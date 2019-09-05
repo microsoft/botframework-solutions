@@ -156,5 +156,17 @@ namespace EmailSkillTest.Flow.Fakes
 
             return contacts;
         }
+
+        public async Task<PersonModel> GetMyManagerAsync()
+        {
+            var user = new PersonModel();
+            return user;
+        }
+
+        public async Task<PersonModel> GetManagerAsync(string name)
+        {
+            var user = new PersonModel();
+            return user;
+        }
     }
 }

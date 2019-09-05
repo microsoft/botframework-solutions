@@ -4,7 +4,7 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 {
     /// <summary>
     /// Contains bot responses.

@@ -1,57 +1,30 @@
-﻿namespace Microsoft.Bot.Builder.Skills.Contextual.Models
+﻿using Microsoft.Bot.Builder.Solutions.Contextual.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 {
-    using Microsoft.Bot.Builder.Skills.Contextual.Resources;
-    using Microsoft.Bot.Builder.Solutions.Resources;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    public class UserInfoState
+    public class UserRelationship
     {
-        public string Address { get; set; }
+        public UserRelationshipType RelationshipType { get; set; }
 
-        public IDictionary<string, IList<string>> RelativeContacts;
+        public string RelationshipName { get; set; }
 
-        public UserInfoState()
+        public UserRelationship(UserRelationshipType relationshipType)
         {
-            RelativeContacts = new Dictionary<string, IList<string>>();
+            this.RelationshipType = relationshipType;
+            this.RelationshipName = relationshipType.ToString();
         }
 
-        public void Clear()
+        public UserRelationship(string relationshipType)
         {
-            RelativeContacts.Clear();
+            this.RelationshipType = UserRelationshipType.Unknown;
+            this.RelationshipName = relationshipType;
         }
 
-        public IList<string> GetRelationshipContact(RelatedEntityInfo relatedEntityInfo)
-        {
-            if (relatedEntityInfo.PronounType == PossessivePronoun.FirstPerson)
-            {
-                var relationshipType = GetRelationshipType(relatedEntityInfo.RelationshipName);
-
-                IList<string> relationshipContactName;
-                if (RelativeContacts.TryGetValue(relationshipType.RelationshipName, out relationshipContactName))
-                {
-                    return relationshipContactName;
-                }
-            }
-
-            return null;
-        }
-
-        public void SaveRelationshipContact(RelatedEntityInfo relatedEntityInfo, IList<string> result)
-        {
-            var relationshipType = GetRelationshipType(relatedEntityInfo.RelationshipName);
-
-            if (RelativeContacts.ContainsKey(relationshipType.RelationshipName))
-            {
-                RelativeContacts[relationshipType.RelationshipName] = result;
-            }
-            else
-            {
-                RelativeContacts.Add(relationshipType.RelationshipName, result);
-            }
-        }
-
-        private UserRelationship GetRelationshipType(string relationship)
+        public static UserRelationship GetRelationshipType(string relationship)
         {
             var result = new UserRelationship(relationship);
 
@@ -240,5 +213,51 @@
 
             return isRelationship;
         }
+    }
+
+    public enum UserRelationshipType
+    {
+        Unknown,
+        Aunt,
+        Brother,
+        Brother_In_Law,
+        Child,
+        Colleague,
+        Cousin,
+        Daughter,
+        Daughter_In_Law,
+        Family,
+        Father,
+        Father_In_Law,
+        Friend,
+        Grandchild,
+        Granddaughter,
+        Grandfather,
+        Grandmother,
+        Grandparent,
+        Grandson,
+        Husband,
+        Manager,
+        Mother,
+        Mother_in_law,
+        Neighbor,
+        Nephew,
+        Niece,
+        Parent,
+        Partner,
+        Sibling,
+        Sister,
+        Sister_In_Law,
+        Son,
+        Son_In_Law,
+        Step_Daughter,
+        Stepfather,
+        Stepmother,
+        Stepsister,
+        Stepson,
+        Student,
+        Teacher,
+        Uncle,
+        Wife
     }
 }
