@@ -44,7 +44,7 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var savePreviousQuestion = new SavePreviousQuestion(
+            var savePreviousQuestion = new SavePreviousInput(
                 convState,
                 userState,
                 userContextResolver,
@@ -52,7 +52,7 @@ namespace ToDoSkill.Adapters
                 new List<string> { "ShowToDo", "MarkToDo" });
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(savePreviousQuestion.BeforeTurnAction, savePreviousQuestion.AfterTurnAction);
+            skillContextualMiddleware.Register(savePreviousQuestion);
             Use(skillContextualMiddleware);
         }
     }

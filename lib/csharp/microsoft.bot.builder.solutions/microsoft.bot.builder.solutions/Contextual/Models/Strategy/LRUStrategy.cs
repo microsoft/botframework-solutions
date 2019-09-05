@@ -15,10 +15,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy
         {
             public int Compare(T x, T y)
             {
-                if (typeof(T) == typeof(PreviousQuestion))
+                if (typeof(T) == typeof(PreviousInput))
                 {
-                    var itemX = x as PreviousQuestion;
-                    var itemY = y as PreviousQuestion;
+                    var itemX = x as PreviousInput;
+                    var itemY = y as PreviousInput;
                     return itemX.TimeStamp.CompareTo(itemY.TimeStamp);
                 }
                 else
