@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// </remarks>
     public abstract class SkillConnector
     {
-        public SkillConnector(ISkillProtocolHandler skillProtocolHandler)
+        public SkillConnector(ISkillTransport skillTransport, ISkillProtocolHandler skillProtocolHandler)
         {
         }
 
