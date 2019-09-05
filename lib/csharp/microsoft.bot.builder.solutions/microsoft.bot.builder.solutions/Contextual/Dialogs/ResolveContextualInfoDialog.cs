@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
             {
                 var option = sc.Options as UserInfoOptions;
                 var userState = await UserStateAccessor.GetAsync(sc.Context, () => new UserInfoState());
-                var contextResolver = new UserContextResolver(userState, ContextResolver);
+                var contextResolver = new UserContextManager(userState, ContextResolver);
                 var result = await contextResolver.GetResolvedContactAsync(option.QueryItem);
 
                 if (result == null || result.Count() == 0)

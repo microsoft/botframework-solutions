@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -30,7 +31,7 @@ namespace ToDoSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-        private UserContextResolver _userContextResolver;
+        private UserContextManager _userContextResolver;
 
         public MainDialog(
             BotSettings settings,
@@ -42,7 +43,7 @@ namespace ToDoSkill.Dialogs
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
             IBotTelemetryClient telemetryClient,
-            UserContextResolver userContextResolver)
+            UserContextManager userContextResolver)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
@@ -61,7 +62,10 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _userContextResolver.ShowPreviousQuestion(dc.Context);
+            var questions = _userContextResolver.GetPreviousQuestions();
+            var actions = questions.Select(x => x.Utterance).ToList();
+            var activity = MessageFactory.SuggestedActions(actions);
+            await dc.Context.SendActivityAsync(activity);
 
             //await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
         }

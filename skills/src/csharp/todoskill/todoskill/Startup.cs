@@ -125,7 +125,7 @@ namespace ToDoSkill
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
 
-            services.AddSingleton<UserContextResolver>();
+            services.AddSingleton<UserContextManager>();
 
             services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
         }

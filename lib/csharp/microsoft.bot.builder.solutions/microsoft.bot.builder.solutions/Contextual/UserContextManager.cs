@@ -6,20 +6,20 @@ using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
-    public class UserContextResolver
+    public class UserContextManager
     {
         private IContextResolver _contextResolver;
         private UserStateContextResolver _userStateContextResolver;
 
-        public static int DialogIndex { get; set; } = 0;
-
-        public IUserContext UserContext { get; set; }
-
-        public UserContextResolver(UserInfoState userInfo, IContextResolver contextResolver = null)
+        public UserContextManager(UserInfoState userInfo, IContextResolver contextResolver = null)
         {
             _contextResolver = contextResolver;
             _userStateContextResolver = new UserStateContextResolver(userInfo);
         }
+
+        public static int DialogIndex { get; set; } = 0;
+
+        internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {
@@ -45,19 +45,14 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public async Task ShowPreviousQuestion(ITurnContext turnContext)
+        public List<PreviousQuestion> GetPreviousQuestions()
         {
-            var questionAccessor = turnContext.TurnState.Get<IStatePropertyAccessor<List<PreviousQuestion>>>();
-            var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
-            var actions = questions.Select(x => x.Utterance).ToList();
-            var activity = MessageFactory.SuggestedActions(actions);
-            await turnContext.SendActivityAsync(activity);
+            return PreviousQuestions;
         }
 
         public async Task ClearPreviousQuestions(ITurnContext turnContext)
         {
-            var questionAccessor = turnContext.TurnState.Get<IStatePropertyAccessor<List<PreviousQuestion>>>();
-            await questionAccessor.DeleteAsync(turnContext);
+            PreviousQuestions.Clear();
         }
     }
 }
