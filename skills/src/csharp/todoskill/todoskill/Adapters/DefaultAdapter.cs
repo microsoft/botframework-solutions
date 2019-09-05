@@ -44,7 +44,7 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var savePreviousQuestion = new SavePreviousInput(
+            var savePreviousQuestion = new SavePreviousInputAction(
                 convState,
                 userState,
                 userContextResolver,

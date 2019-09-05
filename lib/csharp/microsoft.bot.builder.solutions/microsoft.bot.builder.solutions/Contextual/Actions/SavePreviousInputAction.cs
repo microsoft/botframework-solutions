@@ -7,9 +7,9 @@ using Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class SavePreviousInput : ISkillContextualAction
+    public class SavePreviousInputAction : ISkillContextualAction
     {
-        public SavePreviousInput(
+        public SavePreviousInputAction(
             ConversationState convState,
             UserState userState,
             UserContextManager userContextResolver,
