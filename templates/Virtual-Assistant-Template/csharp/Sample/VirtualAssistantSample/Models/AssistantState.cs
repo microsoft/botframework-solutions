@@ -3,7 +3,7 @@
 
 namespace VirtualAssistantSample.Models
 {
-    public class OnboardingState
+    public class AssistantState
     {
         public string Name { get; set; }
 

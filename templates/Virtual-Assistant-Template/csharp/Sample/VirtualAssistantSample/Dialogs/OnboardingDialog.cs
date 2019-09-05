@@ -17,8 +17,8 @@ namespace VirtualAssistantSample.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private static OnboardingResponses _responder = new OnboardingResponses();
-        private IStatePropertyAccessor<OnboardingState> _accessor;
-        private OnboardingState _state;
+        private IStatePropertyAccessor<AssistantState> _accessor;
+        private AssistantState _state;
         private BotServices _services;
 
         public OnboardingDialog(
@@ -27,7 +27,7 @@ namespace VirtualAssistantSample.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _accessor = userState.CreateProperty<AssistantState>(nameof(AssistantState));
             InitialDialogId = nameof(OnboardingDialog);
             _services = botServices;
 
@@ -46,7 +46,7 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
 
             if (!string.IsNullOrEmpty(_state.Name))
             {
@@ -63,7 +63,7 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
             var name = _state.Name = (string)sc.Result;
 
             var luisResult = _state.GeneralLuisResult;
