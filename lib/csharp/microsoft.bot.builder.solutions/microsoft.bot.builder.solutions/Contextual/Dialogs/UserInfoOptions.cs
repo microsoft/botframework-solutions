@@ -1,7 +1,7 @@
-﻿using Microsoft.Bot.Builder.Skills.Contextual.Models;
+﻿using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using System.Collections.Generic;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 {
     public class UserInfoOptions
     {

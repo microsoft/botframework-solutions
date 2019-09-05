@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Models
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 {
     public class UserHistoryInfo
     {

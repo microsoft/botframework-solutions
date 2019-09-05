@@ -5,7 +5,7 @@ using EmailSkill.Responses.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Contextual.Models;
+using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Graph;
 
 namespace EmailSkill.Models

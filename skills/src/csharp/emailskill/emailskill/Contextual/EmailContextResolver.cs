@@ -1,8 +1,8 @@
 ﻿using EmailSkill.Models;
 using EmailSkill.Services;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Contextual;
-using Microsoft.Bot.Builder.Skills.Contextual.Models;
+using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

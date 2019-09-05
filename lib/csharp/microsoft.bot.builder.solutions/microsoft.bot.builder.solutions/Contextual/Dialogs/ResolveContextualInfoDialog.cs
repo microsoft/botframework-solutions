@@ -1,5 +1,5 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Contextual.Models;
+using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
@@ -13,7 +13,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using System.Linq;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 {
     public class ResolveContextualInfoDialog : ComponentDialog
     {
@@ -101,7 +101,10 @@ namespace Microsoft.Bot.Builder.Skills.Contextual.Dialogs
             {
                 var option = sc.Options as UserInfoOptions;
 
-                var nameString = string.Join(", ", option.QueryResult.ToArray().Take(option.QueryResult.Count - 1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + option.QueryResult.Last();
+                var nameString = option.QueryResult.Count > 1 ?
+                    string.Join(", ", option.QueryResult.ToArray().Take(option.QueryResult.Count - 1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + option.QueryResult.Last():
+                    option.QueryResult[0];
+
                 var prompt = ResponseManager.GetResponse(
                     ResolveContextualInfoResponses.PromptUserContact,
                     new StringDictionary()

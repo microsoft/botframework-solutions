@@ -1,10 +1,10 @@
-﻿using Microsoft.Bot.Builder.Skills.Contextual.Resources;
+﻿using Microsoft.Bot.Builder.Solutions.Contextual.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual.Models
+namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 {
     public class UserRelationship
     {

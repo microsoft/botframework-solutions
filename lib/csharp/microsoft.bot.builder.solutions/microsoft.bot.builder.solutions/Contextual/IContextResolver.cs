@@ -1,10 +1,10 @@
-﻿using Microsoft.Bot.Builder.Skills.Contextual.Models;
+﻿using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Skills.Contextual
+namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
     public interface IContextResolver
     {

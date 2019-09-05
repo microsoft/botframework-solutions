@@ -1,6 +1,6 @@
-﻿namespace Microsoft.Bot.Builder.Skills.Contextual.Models
+﻿namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 {
-    using Microsoft.Bot.Builder.Skills.Contextual.Resources;
+    using Microsoft.Bot.Builder.Solutions.Contextual.Resources;
     using Microsoft.Bot.Builder.Solutions.Resources;
     using System.Collections.Generic;
     using System.Linq;

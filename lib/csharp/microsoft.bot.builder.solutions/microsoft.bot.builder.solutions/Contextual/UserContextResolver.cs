@@ -8,9 +8,37 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
     public class UserContextResolver
     {
+        private IContextResolver _contextResolver;
+        private UserStateContextResolver _userStateContextResolver;
+
         public static int DialogIndex { get; set; } = 0;
 
         public IUserContext UserContext { get; set; }
+
+        public UserContextResolver(UserInfoState userInfo, IContextResolver contextResolver = null)
+        {
+            _contextResolver = contextResolver;
+            _userStateContextResolver = new UserStateContextResolver(userInfo);
+        }
+
+        public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
+        {
+            // Take result as following priority:
+            // 1. Injection context resolver
+            if (_contextResolver != null)
+            {
+                var resolvedContact = await _contextResolver.GetResolvedContactAsync(relatedEntityInfo);
+
+                if (resolvedContact != null)
+                {
+                    return resolvedContact;
+                }
+            }
+
+            // 2. User state context resolver
+            var resolvedUserStateContact = await _userStateContextResolver.GetResolvedContactAsync(relatedEntityInfo);
+            return resolvedUserStateContact;
+        }
 
         public void SetDialogIndex()
         {
