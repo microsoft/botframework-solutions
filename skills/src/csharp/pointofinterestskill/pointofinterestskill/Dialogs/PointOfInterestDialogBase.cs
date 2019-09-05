@@ -106,7 +106,7 @@ namespace PointOfInterestSkill.Dialogs
             switch (type)
             {
                 case OpenDefaultAppType.Map: value.MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}"; break;
-                case OpenDefaultAppType.Telephone: value.TelUri = destination.Phone; break;
+                case OpenDefaultAppType.Telephone: value.TelephoneUri = destination.Phone; break;
             }
 
             replyEvent.Value = value;
