@@ -17,7 +17,7 @@ order: 12
 
 ## Overview
 
-[Experimental Skills](https://aka.ms/bfexperimentalskills) are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started.
+These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started.
 
 These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
 
@@ -39,7 +39,7 @@ The Experimental Skills require the following dependencies for end to end operat
 
 ### Bing Search Skill
 
-The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/bingsearchskill) provides a simple Skill that integrates with the [Bing Search cognitive service](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/).
+The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/bingsearchskill) provides a simple Skill that integrates with the [Bing Search Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/).
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
