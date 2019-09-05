@@ -4,6 +4,8 @@ using EmailSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Actions;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -33,6 +35,9 @@ namespace EmailSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            var skillContextualMiddleware = new SkillContextualMiddleware();
+            skillContextualMiddleware.Register(new GetSentimentAction());
+            Use(skillContextualMiddleware);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Bot.Builder.Solutions.Contextual.Actions;
+using Microsoft.Bot.Builder.Solutions.Contextual.Services;
+using Microsoft.Bot.Schema;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,15 +29,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             }
         }
 
-        /// <summary>
-        /// 2 actions: one excuted before await next() and another excuted after.
-        /// </summary>
-        /// <param name="beforeTurnAction">beforeTurnAction.</param>
-        /// <param name="afterTurnAction">afterTurnAction.</param>
-        public void Register(Action<ITurnContext> beforeTurnAction, Action<ITurnContext> afterTurnAction)
+        public void Register(ISkillContextualActions actions)
         {
-            BeforeTurnActions.Add(beforeTurnAction);
-            AfterTurnActions.Add(afterTurnAction);
+            BeforeTurnActions.Add(actions.BeforeTurnAction);
+            AfterTurnActions.Add(actions.AfterTurnAction);
         }
     }
 }

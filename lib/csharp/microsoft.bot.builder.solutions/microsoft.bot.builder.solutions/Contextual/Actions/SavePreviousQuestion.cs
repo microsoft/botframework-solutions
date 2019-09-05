@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class SavePreviousQuestion : SkillContextualActionsBase
+    public class SavePreviousQuestion : ISkillContextualActions
     {
         public SavePreviousQuestion(
             ConversationState convState,
