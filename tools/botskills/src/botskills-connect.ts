@@ -146,7 +146,6 @@ cognitiveModelsFile = cognitiveModelsFilePath;
 
 // language validation
 language = args.language || 'en-us';
-language = language;
 const languageCode: string = (language.split('-'))[0];
 
 // luisFolder validation
@@ -170,7 +169,7 @@ if (!args.dispatchName) {
 // End of arguments validation
 
 // Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
-const configuration: Partial<IConnectConfiguration> = {
+const configuration: IConnectConfiguration = {
     botName: botName,
     localManifest: localManifest,
     remoteManifest: remoteManifest,
@@ -189,4 +188,4 @@ const configuration: Partial<IConnectConfiguration> = {
     logger: logger
 };
 
-new ConnectSkill(logger).connectSkill(<IConnectConfiguration> configuration);
+new ConnectSkill(logger).connectSkill(configuration);
