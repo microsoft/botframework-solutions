@@ -8,7 +8,7 @@ import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { UpdateSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
-import { ICognitiveModelFile, IUpdateConfiguration } from './models';
+import { IAppSetting, ICognitiveModel, IUpdateConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -31,12 +31,11 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills update')
     .description('Update a specific skill from your assistant bot.')
-    .option('-b, --botName <name>', 'Name of your assistant bot')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
+    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
     .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
@@ -57,8 +56,24 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-logger.isVerbose = args.verbose;
+const skillId: string = '';
+let botName: string = '';
+let localManifest: string;
+let remoteManifest: string;
 let noRefresh: boolean = false;
+let dispatchName: string;
+let language: string;
+let luisFolder: string;
+let dispatchFolder: string;
+let outFolder: string;
+let lgOutFolder: string;
+let skillsFile: string = '';
+let resourceGroup: string = '';
+let appSettingsFile: string;
+let cognitiveModelsFile: string;
+let lgLanguage: string;
+
+logger.isVerbose = args.verbose;
 
 // Validation of arguments
 // cs and ts validation
@@ -71,7 +86,7 @@ if (csAndTsValidationResult) {
     process.exit(1);
 }
 
-const projectLanguage: string = args.cs ? 'cs' : 'ts';
+lgLanguage = args.cs ? 'cs' : 'ts';
 
 // noRefresh validation
 if (args.noRefresh) {
@@ -92,23 +107,15 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
     process.exit(1);
 }
 
-// Initialize an instance of IUpdateConfiguration to send the needed arguments to the updateSkill function
-const configuration: Partial<IUpdateConfiguration> = {
-    botName: args.botName,
-    localManifest: args.localManifest,
-    remoteManifest: args.remoteManifest,
-    noRefresh: noRefresh,
-    logger: logger,
-    lgLanguage: projectLanguage
-};
+localManifest = args.localManifest;
+remoteManifest = args.remoteManifest;
 
 // outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
-const outFolder: string = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
-configuration.outFolder = outFolder;
+outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
 // skillsFile validation
 if (!args.skillsFile) {
-    configuration.skillsFile = join(configuration.outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
+    skillsFile = join(outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
 } else if (extname(args.skillsFile) !== '.json') {
     logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
@@ -119,44 +126,68 @@ if (!args.skillsFile) {
             Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
-    configuration.skillsFile = skillsFilePath;
+    skillsFile = skillsFilePath;
 }
 
-// resourceGroup validation
-configuration.resourceGroup = args.resourceGroup || configuration.botName;
-
 // appSettingsFile validation
-configuration.appSettingsFile = args.appSettingsFile || join(configuration.outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
+appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
+
+if (appSettingsFile !== undefined) {
+    const appSettings: IAppSetting = JSON.parse(readFileSync(appSettingsFile, 'UTF8'));
+    botName = appSettings.botWebAppName;
+    resourceGroup = appSettings.resourceGroupName;
+} else {
+    logger.error(`The 'appSettings' file doesn't exist`);
+    process.exit(1);
+}
 
 // cognitiveModelsFile validation
-const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(configuration.outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
-configuration.cognitiveModelsFile = cognitiveModelsFilePath;
+const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
+cognitiveModelsFile = cognitiveModelsFilePath;
 
 // language validation
-const language: string = args.language || 'en-us';
-configuration.language = language;
+language = args.language || 'en-us';
 const languageCode: string = (language.split('-'))[0];
 
 // luisFolder validation
-configuration.luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(configuration.outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
+luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
 
 // dispatchFolder validation
-configuration.dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
+dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
 // lgOutFolder validation
-configuration.lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services') : 'Services'));
 
 // dispatchName validation
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
-    const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
-    configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
+    const cognitiveModels: ICognitiveModel = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
+    dispatchName = cognitiveModels.cognitiveModels[languageCode].dispatchModel.name;
 } else {
-    configuration.dispatchName = args.dispatchName;
+    dispatchName = args.dispatchName;
 }
-
-configuration.logger = logger;
 
 // End of arguments validation
 
-new UpdateSkill(logger).updateSkill(<IUpdateConfiguration> configuration);
+// Initialize an instance of IUpdateConfiguration to send the needed arguments to the updateSkill function
+const configuration: IUpdateConfiguration = {
+    skillId: skillId,
+    botName: botName,
+    localManifest: localManifest,
+    remoteManifest: remoteManifest,
+    noRefresh: noRefresh,
+    dispatchName: dispatchName,
+    language: language,
+    luisFolder: luisFolder,
+    dispatchFolder: dispatchFolder,
+    outFolder: outFolder,
+    lgOutFolder: lgOutFolder,
+    skillsFile: skillsFile,
+    resourceGroup: resourceGroup,
+    appSettingsFile: appSettingsFile,
+    cognitiveModelsFile: cognitiveModelsFile,
+    lgLanguage: lgLanguage,
+    logger: logger
+};
+
+new UpdateSkill(logger).updateSkill(configuration);
