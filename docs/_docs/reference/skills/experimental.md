@@ -86,6 +86,34 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/virtual-assistant/hospita
 
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
+## IT Service Management Skill
+
+The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+
+To test this skill, one should setup the following:
+
+* Create a ServiceNow instance in [Developers](https://developer.servicenow.com/app.do#!/instance) and update the serviceNowUrl of appsettings.json: `"serviceNowUrl": "https://YOUR_INSTANCE_NAME.service-now.com"`
+* Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
+    - In System Web Services/Scripted REST APIs, click New to create an API
+    - In API's Resources, click New to add a resource
+    - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
+    - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
+* Set up endpoint by [this document](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients) for Client id and Client secret to be used in the following OAuth Connection
+    - Redirect URL is https://token.botframework.com/.auth/web/redirect
+* Add an OAuth Connection in the Settings of Web App Bot named 'ServiceNow' with Service Provider 'Generic Oauth 2'
+    - Authorization URL as https://instance.service-now.com/oauth_auth.do
+    - Token URL, Refresh URL as https://instance.service-now.com/oauth_token.do
+    - No Scopes are needed
+    - Click Test Connection to verify
+
+To test this skill in VA, one should setup the following:
+
+* Add https://botbuilder.myget.org/F/aitemplates/api/v3/index.json as NuGet package source
+* Update VA's Microsoft.Bot.Builder.Solutions and Microsoft.Bot.Builder.Skills to 4.6.0-daily27 as this skill
+* Add VA's appId to AppsWhitelist of SimpleWhitelistAuthenticationProvider under Utilities
+* Add OAuth Connection as skill
+* The remaining steps are same as normal skills
+
 ## Experimental Skill Deployment
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.

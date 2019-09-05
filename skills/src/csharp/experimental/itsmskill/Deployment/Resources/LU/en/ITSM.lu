@@ -1,0 +1,57 @@
+﻿[Ticket Create](./Ticket/Create.lu)
+[Ticket Update](./Ticket/Update.lu)
+[Ticket Show](./Ticket/Show.lu)
+[Ticket Close](./Ticket/Close.lu)
+[Knowledge Show](./Knowledge/Show.lu)
+
+# None
+> from chitchat
+- Good morning
+- Hi
+- Hello
+- Heya
+- Hi there!
+- Hey
+- Bye
+- See you later
+- Till we meet again
+- Later
+- Later alligator
+- Goodbye
+
+> # Entity definitions
+
+$TicketDescription:simple
+
+$CloseReason:simple
+
+> # List entities
+
+$AttributeType:urgency=
+
+$AttributeType:description=
+
+$AttributeType:state=
+
+$UrgencyLevel:low=
+
+$UrgencyLevel:medium=
+
+$UrgencyLevel:high=
+- urgent
+
+$TicketState:new=
+
+$TicketState:inprogress=
+- in progress
+
+$TicketState:onhold=
+- on hold
+
+$TicketState:resolved=
+
+$TicketState:closed=
+
+$TicketState:canceled=
+
+$TicketNumber:/INC[0-9]{7}/
