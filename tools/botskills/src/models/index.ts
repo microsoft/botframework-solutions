@@ -11,6 +11,7 @@ export {
     IResourceAccess,
     IScopeManifest } from './authentication';
 export { ICognitiveModelFile } from './cognitiveFile';
+export { IAppSetting } from './appSetting';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';
 export { IUpdateConfiguration } from './updateConfiguration';

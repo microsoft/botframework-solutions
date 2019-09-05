@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { ILogger } from '../logger';
 import {
-    IAppSettingOauthConnection,
+    IAppSetting,
     IAppShowReplyUrl,
     IAuthenticationConnection,
     IAzureAuthSetting,
@@ -164,7 +164,7 @@ export class AuthenticationUtils {
 
                     // update appsettings.json
                     logger.message('Updating appsettings.json ...');
-                    const appSettings: IAppSettingOauthConnection = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+                    const appSettings: IAppSetting = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
 
                     // check for and remove existing aad connections
                     if (appSettings.oauthConnections) {
