@@ -19,8 +19,6 @@ namespace CalendarSkill.Models
 
             public string[] Aliases { get; set; }
 
-            public Country[] Countries { get; set; }
-
             public Names Names { get; set; }
 
             public Referencetime ReferenceTime { get; set; }
@@ -65,13 +63,6 @@ namespace CalendarSkill.Models
             public float Latitude { get; set; }
 
             public float Longitude { get; set; }
-        }
-
-        public class Country
-        {
-            public string Name { get; set; }
-
-            public string Code { get; set; }
         }
 
         public class Timetransition
