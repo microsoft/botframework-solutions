@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -52,7 +53,7 @@ namespace SkillSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-              services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var provider = services.BuildServiceProvider();
 
@@ -107,6 +108,9 @@ namespace SkillSample
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
+
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhiteListAuthProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
