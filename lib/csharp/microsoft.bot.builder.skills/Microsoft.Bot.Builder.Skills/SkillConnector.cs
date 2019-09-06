@@ -12,7 +12,9 @@ namespace Microsoft.Bot.Builder.Skills
     /// </remarks>
     public abstract class SkillConnector
     {
-        public SkillConnector(ISkillTransport skillTransport, ISkillProtocolHandler skillProtocolHandler)
+#pragma warning disable CA1801 // Remove unused parameter (disabling for now, need to talk to ted about having these parameter in the base class)
+        protected SkillConnector(ISkillTransport skillTransport, ISkillProtocolHandler skillProtocolHandler)
+#pragma warning restore CA1801 // Remove unused parameter
         {
         }
 

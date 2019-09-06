@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
@@ -15,7 +16,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable (disable, streamingTransportClient is passed in, we assume the owner will dispose it but let's revie later just in case)'
     public class SkillWebSocketTransport : ISkillTransport
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private IStreamingTransportClient _streamingTransportClient;
         private readonly IBotTelemetryClient _botTelemetryClient;
@@ -29,7 +32,7 @@ namespace Microsoft.Bot.Builder.Skills
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
+        public async Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null, CancellationToken cancellationToken = default)
         {
             if (_streamingTransportClient == null)
             {
@@ -39,36 +42,37 @@ namespace Microsoft.Bot.Builder.Skills
                     new SkillCallingRequestHandler(
                         turnContext,
                         _botTelemetryClient,
-                        GetTokenCallback(turnContext, tokenRequestHandler),
-                        GetFallbackCallback(turnContext, fallbackHandler),
+                        GetTokenCallback(tokenRequestHandler),
+                        GetFallbackCallback(fallbackHandler),
                         GetHandoffActivityCallback()));
             }
 
             // acquire AAD token
             MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
-            var token = await serviceClientCredentials.GetTokenAsync();
+            var token = await serviceClientCredentials.GetTokenAsync().ConfigureAwait(false);
 
             // put AAD token in the header
-            var headers = new Dictionary<string, string>();
-            headers.Add("Authorization", $"Bearer {token}");
+            var headers = new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } };
 
-            await _streamingTransportClient.ConnectAsync(headers);
+            await _streamingTransportClient.ConnectAsync(headers).ConfigureAwait(false);
 
             // set recipient to the skill
             var recipientId = activity.Recipient.Id;
-            activity.Recipient.Id = skillManifest.MSAappId;
+            activity.Recipient.Id = skillManifest.MsaAppId;
 
             // Serialize the activity and POST to the Skill endpoint
-            var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
-            var request = StreamingRequest.CreatePost(string.Empty, body);
-
-            // set back recipient id to make things consistent
-            activity.Recipient.Id = recipientId;
-
             var stopWatch = new System.Diagnostics.Stopwatch();
-            stopWatch.Start();
-            await _streamingTransportClient.SendAsync(request);
-            stopWatch.Stop();
+            using (var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson))
+            {
+                var request = StreamingRequest.CreatePost(string.Empty, body);
+
+                // set back recipient id to make things consistent
+                activity.Recipient.Id = recipientId;
+
+                stopWatch.Start();
+                await _streamingTransportClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                stopWatch.Stop();
+            }
 
             _botTelemetryClient.TrackEvent(
                 "SkillWebSocketTurnLatency",
@@ -85,47 +89,36 @@ namespace Microsoft.Bot.Builder.Skills
             return _handoffActivity;
         }
 
-        public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext)
+        public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
             var cancelRemoteDialogEvent = turnContext.Activity.CreateReply();
 
             cancelRemoteDialogEvent.Type = ActivityTypes.Event;
             cancelRemoteDialogEvent.Name = SkillEvents.CancelAllSkillDialogsEventName;
 
-            await ForwardToSkillAsync(skillManifest, appCredentials, turnContext, cancelRemoteDialogEvent);
+            await ForwardToSkillAsync(skillManifest, appCredentials, turnContext, cancelRemoteDialogEvent, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         public void Disconnect()
-        {
-            if (_streamingTransportClient != null)
-            {
-                _streamingTransportClient.Disconnect();
-            }
-        }
+            => _streamingTransportClient?.Disconnect();
 
-        private Action<Activity> GetTokenCallback(ITurnContext turnContext, Action<Activity> tokenRequestHandler)
-        {
-            return (activity) =>
+        private Action<Activity> GetTokenCallback(Action<Activity> tokenRequestHandler)
+            => (activity) =>
             {
                 tokenRequestHandler?.Invoke(activity);
             };
-        }
 
-        private Action<Activity> GetFallbackCallback(ITurnContext turnContext, Action<Activity> fallbackEventHandler)
-        {
-            return (activity) =>
+        private Action<Activity> GetFallbackCallback(Action<Activity> fallbackEventHandler)
+            => (activity) =>
             {
                 fallbackEventHandler?.Invoke(activity);
             };
-        }
 
         private Action<Activity> GetHandoffActivityCallback()
-        {
-            return (activity) =>
+            => (activity) =>
             {
                 _handoffActivity = activity;
             };
-        }
 
         private string EnsureWebSocketUrl(string url)
         {
@@ -141,11 +134,12 @@ namespace Microsoft.Bot.Builder.Skills
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var wssPrefix = "wss://";
 
-            if (url.StartsWith(httpPrefix))
+            if (url.StartsWith(httpPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 return url.Replace(httpPrefix, wsPrefix);
             }
-            else if (url.StartsWith(httpsPrefix))
+
+            if (url.StartsWith(httpsPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 return url.Replace(httpsPrefix, wssPrefix);
             }

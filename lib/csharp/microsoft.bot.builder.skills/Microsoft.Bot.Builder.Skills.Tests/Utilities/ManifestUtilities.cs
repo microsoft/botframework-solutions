@@ -13,7 +13,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
                 Name = name,
                 Id = id,
                 Endpoint = new Uri(endpoint),
-                Actions = new List<Models.Manifest.Action>(),
             };
 
             var action = new Models.Manifest.Action
@@ -25,7 +24,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
             // Provide slots if we have them
             if (slots != null)
             {
-                action.Definition.Slots = slots;
+                action.Definition.Slots.AddRange(slots);
             }
 
             skillManifest.Actions.Add(action);
@@ -39,7 +38,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
 
             action.Id = id;
             action.Definition = new ActionDefinition();
-            action.Definition.Slots = slots;
+            action.Definition.Slots.AddRange(slots);
 
             return action;
         }

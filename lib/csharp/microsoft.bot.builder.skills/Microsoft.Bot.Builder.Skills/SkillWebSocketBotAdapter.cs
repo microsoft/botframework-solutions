@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Microsoft.Bot.Builder.Skills
 {
     /// <summary>
     /// This adapter is responsible for processing incoming activity from a bot-to-bot call over websocket transport.
-    /// It'll performa the following tasks:
+    /// It'll perform the following tasks:
     /// 1. Process the incoming activity by calling into pipeline.
     /// 2. Implement BotAdapter protocol. Each method will send the activity back to calling bot using websocket.
     /// </summary>
@@ -103,7 +104,7 @@ namespace Microsoft.Bot.Builder.Skills
                 var activity = activities[index];
                 if (string.IsNullOrWhiteSpace(activity.Id))
                 {
-                    activity.Id = Guid.NewGuid().ToString("n");
+                    activity.Id = Guid.NewGuid().ToString("n", CultureInfo.InvariantCulture);
                 }
 
                 var response = default(ResourceResponse);
@@ -139,7 +140,7 @@ namespace Microsoft.Bot.Builder.Skills
                     try
                     {
                         stopWatch.Start();
-                        response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
+                        response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
                         stopWatch.Stop();
                     }
                     catch (Exception ex)
@@ -153,7 +154,7 @@ namespace Microsoft.Bot.Builder.Skills
                     });
                 }
 
-                // If No response is set, then defult to a "simple" response. This can't really be done
+                // If No response is set, then default to a "simple" response. This can't really be done
                 // above, as there are cases where the ReplyTo/SendTo methods will also return null
                 // (See below) so the check has to happen here.
 
@@ -183,7 +184,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             request.SetBody(activity);
 
-            var response = default(ResourceResponse);
+            ResourceResponse response;
 
             _botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
 
@@ -244,7 +245,7 @@ namespace Microsoft.Bot.Builder.Skills
             EnsureActivitySemanticAction(turnContext, response);
 
             // Send the tokens/request Event
-            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
+            await SendActivitiesAsync(turnContext, new[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -258,12 +259,12 @@ namespace Microsoft.Bot.Builder.Skills
             EnsureActivitySemanticAction(turnContext, response);
 
             // Send the fallback Event
-            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
+            await SendActivitiesAsync(turnContext, new[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
         private void EnsureActivitySemanticAction(ITurnContext turnContext, Activity activity)
         {
-            if (activity == null || turnContext == null || turnContext.Activity == null)
+            if (activity == null || turnContext?.Activity == null)
             {
                 return;
             }
@@ -291,12 +292,11 @@ namespace Microsoft.Bot.Builder.Skills
             }
         }
 
-        private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
+        private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellationToken = default)
         {
             try
             {
-                var serverResponse = await this.Server.SendAsync(request, cancellation).ConfigureAwait(false);
-
+                var serverResponse = await Server.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 if (serverResponse.StatusCode == (int)HttpStatusCode.OK)
                 {
                     return serverResponse.ReadBodyAsJson<T>();
@@ -305,8 +305,7 @@ namespace Microsoft.Bot.Builder.Skills
             catch (Exception ex)
             {
                 _botTelemetryClient.TrackException(ex);
-
-                throw ex;
+                throw;
             }
 
             return default(T);

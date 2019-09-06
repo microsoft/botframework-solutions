@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -9,13 +12,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Microsoft.Bot.Builder.Skills.Auth
 {
-    public class MsJWTAuthenticationProvider : IAuthenticationProvider
+    public class MSJwtAuthenticationProvider : IAuthenticationProvider
     {
-        private static OpenIdConnectConfiguration openIdConfig;
+        private static OpenIdConnectConfiguration _openIdConfig;
         private readonly string _microsoftAppId;
         private readonly string _openIdMetadataUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration";
 
-        public MsJWTAuthenticationProvider(string microsoftAppId, string openIdMetadataUrl = null)
+        public MSJwtAuthenticationProvider(string microsoftAppId, string openIdMetadataUrl = null)
         {
             _microsoftAppId = !string.IsNullOrWhiteSpace(microsoftAppId) ? microsoftAppId : throw new ArgumentNullException(nameof(microsoftAppId));
             if (!string.IsNullOrWhiteSpace(openIdMetadataUrl))
@@ -24,30 +27,27 @@ namespace Microsoft.Bot.Builder.Skills.Auth
             }
 
             var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(_openIdMetadataUrl, new OpenIdConnectConfigurationRetriever());
-            openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).GetAwaiter().GetResult();
+            _openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
         public ClaimsIdentity Authenticate(string authHeader)
         {
-            try
+            if (authHeader == null)
             {
-                var validationParameters =
-                    new TokenValidationParameters
-                    {
-                        ValidateIssuer = false, // do not validate issuer
-                        ValidAudiences = new[] { _microsoftAppId },
-                        IssuerSigningKeys = openIdConfig.SigningKeys,
-                    };
-
-                var handler = new JwtSecurityTokenHandler();
-                var user = handler.ValidateToken(authHeader.Replace("Bearer ", string.Empty), validationParameters, out var validatedToken);
-
-                return user.Identities.OfType<ClaimsIdentity>().FirstOrDefault();
+                throw new ArgumentNullException(nameof(authHeader));
             }
-            catch
+
+            var validationParameters = new TokenValidationParameters
             {
-                return null;
-            }
+                ValidateIssuer = false, // do not validate issuer
+                ValidAudiences = new[] { _microsoftAppId },
+                IssuerSigningKeys = _openIdConfig.SigningKeys,
+            };
+
+            var handler = new JwtSecurityTokenHandler();
+            var user = handler.ValidateToken(authHeader.Replace("Bearer ", string.Empty), validationParameters, out _);
+
+            return user.Identities.FirstOrDefault();
         }
     }
 }

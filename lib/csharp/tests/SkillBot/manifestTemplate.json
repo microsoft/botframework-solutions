@@ -1,0 +1,26 @@
+{
+  "id": "SkillBot",
+  "name": "SkillBot",
+  "description": "",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "SkillBot_Sample",
+      "definition": {
+        "description": "Sample Skill action with no slots",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "SkillBot#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

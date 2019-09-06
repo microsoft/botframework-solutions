@@ -7,6 +7,6 @@ namespace Microsoft.Bot.Builder.Skills.Models
     {
         public SkillManifest SkillManifest { get; set; }
 
-        public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
     }
 }

@@ -101,5 +101,14 @@
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
+  
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1054" Action="None" /> <!-- UriParametersShouldNotBeStrings -->
+    <Rule Id="CA1056" Action="None" /> <!-- UriPropertiesShouldNotBeStrings -->
+    <Rule Id="CA1062" Action="None" /> <!-- ValidateArgumentsOfPublicMethods (TODO: remove later once I fix other issues-->
+  </Rules>
 
+  <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
+    <Rule Id="CA1303" Action="None" /> <!-- DoNotPassLiteralsAsLocalizedParameters -->
+  </Rules>
 </RuleSet>

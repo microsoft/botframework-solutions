@@ -25,9 +25,6 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
-        private readonly BotSettingsBase _botSettingsBase;
-        private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
         private readonly Stopwatch _stopWatch;
 
@@ -38,10 +35,18 @@ namespace Microsoft.Bot.Builder.Skills
             IBotTelemetryClient botTelemetryClient = null)
         {
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
-            _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
-            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
-            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            if (botSettingsBase == null)
+            {
+                throw new ArgumentNullException(nameof(botSettingsBase));
+            }
+
+            if (whitelistAuthenticationProvider == null)
+            {
+                throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            }
+
+            var authenticationProvider = new MSJwtAuthenticationProvider(botSettingsBase.MicrosoftAppId);
+            _authenticator = new Authenticator(authenticationProvider, whitelistAuthenticationProvider);
 
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
             _stopWatch = new Stopwatch();
@@ -67,11 +72,11 @@ namespace Microsoft.Bot.Builder.Skills
             if (!httpRequest.HttpContext.WebSockets.IsWebSocketRequest)
             {
                 httpResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                await httpResponse.WriteAsync("Upgrade to WebSocket required.").ConfigureAwait(false);
+                await httpResponse.WriteAsync("Upgrade to WebSocket required.", cancellationToken: cancellationToken).ConfigureAwait(false);
                 return;
             }
 
-            var claimsIdentity = await _authenticator.Authenticate(httpRequest, httpResponse);
+            var claimsIdentity = await _authenticator.Authenticate(httpRequest, httpResponse).ConfigureAwait(false);
 
             await CreateWebSocketConnectionAsync(claimsIdentity, httpRequest.HttpContext, bot).ConfigureAwait(false);
         }

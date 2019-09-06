@@ -23,27 +23,28 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
         private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
-        private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
-        private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
+        private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create();
 
-        public SkillController(
+        protected SkillController(
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
             SkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
         {
-            _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
+            _bot = bot ?? throw new ArgumentNullException(nameof(bot));
             _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
-            _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            _skillWebSocketAdapter = skillWebSocketAdapter;
+            _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(botFrameworkHttpAdapter));
+            if (whitelistAuthenticationProvider == null)
+            {
+                throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            }
 
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
-            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            _skillWebSocketAdapter = skillWebSocketAdapter;
+            var authenticationProvider = new MSJwtAuthenticationProvider(_botSettings.MicrosoftAppId);
+            _authenticator = new Authenticator(authenticationProvider, whitelistAuthenticationProvider);
         }
 
         // Each skill provides a template manifest file which we use to fill in the dynamic elements.
@@ -59,9 +60,7 @@ namespace Microsoft.Bot.Builder.Skills
         [Route("api/messages")]
         [HttpPost]
         public async Task BotMessage()
-        {
-            await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot);
-        }
+            => await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot).ConfigureAwait(false);
 
         /// <summary>
         /// This API is the endpoint the bot exposes as skill.
@@ -73,7 +72,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             if (_skillWebSocketAdapter != null)
             {
-                await _skillWebSocketAdapter.ProcessAsync(Request, Response, _bot);
+                await _skillWebSocketAdapter.ProcessAsync(Request, Response, _bot).ConfigureAwait(false);
             }
             else
             {
@@ -94,10 +93,9 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                string skillUriBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-
-                SkillManifestGenerator manifestGenerator = new SkillManifestGenerator(HttpClient);
-                var skillManifest = await manifestGenerator.GenerateManifest(ManifestTemplateFilename, _botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances);
+                var skillUriBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+                var manifestGenerator = new SkillManifestGenerator(HttpClient);
+                var skillManifest = await manifestGenerator.GenerateManifest(ManifestTemplateFilename, _botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances).ConfigureAwait(false);
 
                 Response.ContentType = "application/json";
                 Response.StatusCode = 200;
@@ -110,7 +108,9 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
-            catch (Exception e)
+#pragma warning disable CA1031 // Do not catch general exception types (disabling it, used to log the exception before returning it)
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Response.ContentType = "application/json";
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Skills
                 {
                     using (var jsonWriter = new JsonTextWriter(writer))
                     {
-                        _jsonSerializer.Serialize(jsonWriter, e.Message);
+                        _jsonSerializer.Serialize(jsonWriter, ex.Message);
                     }
                 }
             }
@@ -134,8 +134,6 @@ namespace Microsoft.Bot.Builder.Skills
         [Route("api/skill/ping")]
         [HttpGet]
         public async Task SkillPing()
-        {
-            await _authenticator.Authenticate(Request, Response);
-        }
+            => await _authenticator.Authenticate(Request, Response).ConfigureAwait(false);
     }
 }
