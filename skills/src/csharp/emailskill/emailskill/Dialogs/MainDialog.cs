@@ -80,7 +80,7 @@ namespace EmailSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Email", out var luisService);
@@ -172,7 +172,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
