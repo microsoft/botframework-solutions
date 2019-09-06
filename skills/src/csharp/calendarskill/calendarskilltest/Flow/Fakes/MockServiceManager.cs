@@ -153,6 +153,10 @@ namespace CalendarSkillTest.Flow.Fakes
 
                 return Task.FromResult(result);
             });
+            mockUserService.Setup(service => service.GetUserAsync(It.IsAny<string>())).Returns((string name) =>
+            {
+                return Task.FromResult(new List<PersonModel>());
+            });
             return mockServiceManager.Object;
         }
 

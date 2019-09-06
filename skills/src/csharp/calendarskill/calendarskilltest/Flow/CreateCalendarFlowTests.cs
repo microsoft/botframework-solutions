@@ -417,6 +417,49 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarCreateWithWrongContactName()
+        {
+            var peopleCount = 3;
+            ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
+            var testRecipient = string.Format(Strings.Strings.UserName, 0);
+            var testEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send("wrong name")
+                .AssertReplyOneOf(UserNotFoundPrompt("wrong name"))
+                .Send("wrong name")
+                .AssertReplyOneOf(UserNotFoundAgainPrompt("wrong name"))
+                .Send(string.Format(Strings.Strings.UserName, 0))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt(testRecipient, testEmailAddress))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(testRecipient, testEmailAddress))
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForLocationPrompt())
+                .Send(Strings.Strings.DefaultLocation)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarCreateWithOneContactMultipleEmails()
         {
             ServiceManager = MockServiceManager.SetOnePeopleEmailsToMultiple(3);
@@ -1005,6 +1048,22 @@ namespace CalendarSkillTest.Flow
             }
 
             return resultString;
+        }
+
+        private string[] UserNotFoundPrompt(string userName)
+        {
+            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
+        }
+
+        private string[] UserNotFoundAgainPrompt(string userName)
+        {
+            return ParseReplies(
+                FindContactResponses.UserNotFoundAgain,
+                new StringDictionary()
+                {
+                    { "source", "Outlook" },
+                    { "UserName", userName }
+                });
         }
     }
 }
