@@ -15,7 +15,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -33,8 +32,7 @@ namespace EmailSkill.Dialogs
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
-        private IStatePropertyAccessor<EmailSkillState> _emailStateAccessor;
-        private IStatePropertyAccessor<UserInfoState> _userStateAccessor;
+        private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
 
         public MainDialog(
             BotSettings settings,
@@ -56,8 +54,7 @@ namespace EmailSkill.Dialogs
             _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
-            _emailStateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
-            _userStateAccessor = _conversationState.CreateProperty<UserInfoState>(nameof(UserInfoState));
+            _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
             AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
@@ -76,7 +73,7 @@ namespace EmailSkill.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _emailStateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -185,7 +182,7 @@ namespace EmailSkill.Dialogs
                 if (skillContext.ContainsKey("timezone"))
                 {
                     var timezone = skillContext["timezone"];
-                    var state = await _emailStateAccessor.GetAsync(context, () => new EmailSkillState());
+                    var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
                     var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
 
                     // we have a timezone
@@ -245,7 +242,7 @@ namespace EmailSkill.Dialogs
 
                 // Update state with email luis result and entities
                 var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
-                var state = await _emailStateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 
                 // check luis intent
