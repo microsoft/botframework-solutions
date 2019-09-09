@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
         public SavePreviousInputAction(
             ConversationState convState,
             UserState userState,
-            UserContextManager userContextResolver,
+            UserContextManager userContextManager,
             string skillName,
             List<string> filter = null,
             int maxStoredQuestion = 7,
@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
         {
             UserState = userState;
             ConversationState = convState;
-            UserContextResolver = userContextResolver;
+            UserContextManager = userContextManager;
             SkillName = skillName;
             IntentFilter = filter;
             MaxStoredQuestion = maxStoredQuestion;
@@ -28,12 +28,12 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
             BeforeTurnAction = async turnContext =>
             {
-                await InitPreviousQuestion(turnContext);
+                await InitPreviousInput(turnContext);
             };
 
             AfterTurnAction = async turnContext =>
             {
-                await SavePreviousQuestionAsync(turnContext);
+                await SavePreviousInputAsync(turnContext);
             };
         }
 
@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private ConversationState ConversationState { get; set; }
 
-        private UserContextManager UserContextResolver { get; set; }
+        private UserContextManager UserContextManager { get; set; }
 
         private string SkillName { get; set; }
 
@@ -53,55 +53,113 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private ReplacementStrategy Strategy { get; set; }
 
-        private async Task InitPreviousQuestion(ITurnContext turnContext)
+        private async Task InitPreviousInput(ITurnContext turnContext)
         {
             var questionAccessor = UserState.CreateProperty<List<PreviousInput>>(string.Format("{0}Questions", SkillName));
             var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousInput>());
-            UserContextResolver.PreviousQuestions = questions;
+            UserContextManager.PreviousQuestions = questions;
         }
 
-        private async Task SavePreviousQuestionAsync(ITurnContext turnContext)
+        private async Task SavePreviousInputAsync(ITurnContext turnContext)
+        {
+            if (IsTriggerIntent())
+            {
+                await SavePreviousQuestionAsync(turnContext);
+            }
+
+            await SavePreviousContact(turnContext);
+
+            await UserState.SaveChangesAsync(turnContext);
+        }
+
+        private async Task<string> AbstractEmailPreviousContactAsync(ITurnContext turnContext)
         {
             try
             {
-                var newQuestion = await AbstractPreviousQuestionItemsAsync(turnContext);
-                if (IsTriggerIntent())
-                {
-                    await ExecuteSavePreviousQuestionAsync(turnContext, newQuestion);
-                }
-
-                await UserState.SaveChangesAsync(turnContext);
+                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+                var skillState = await skillStateAccessor.GetAsync(turnContext);
+                var contacts = skillState.FindContactInfor.Contacts;
+                return ((IEnumerable<dynamic>)contacts).Last().EmailAddress.Name;
             }
             catch
             {
+                return null;
+            }
+        }
+
+        private async Task<string> AbstractCalendarPreviousContactAsync(ITurnContext turnContext)
+        {
+            try
+            {
+                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+                var skillState = await skillStateAccessor.GetAsync(turnContext);
+                var contacts = skillState.MeetingInfor.ContactInfor.Contacts;
+                return ((IEnumerable<dynamic>)contacts).Last().DisplayName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // ToDo: this method only for email and calendar now.
+        private async Task SavePreviousContact(ITurnContext turnContext)
+        {
+            string contact = null;
+            switch (SkillName)
+            {
+                case "EmailSkill":
+                    contact = await AbstractEmailPreviousContactAsync(turnContext);
+                    break;
+                case "CalendarSkill":
+                    contact = await AbstractCalendarPreviousContactAsync(turnContext);
+                    break;
+            }
+
+            if (contact != null)
+            {
+                if (UserContextManager.PreviousContacts.Contains(contact))
+                {
+                    UserContextManager.PreviousContacts.Remove(contact);
+                }
+
+                UserContextManager.PreviousContacts.Add(contact);
             }
         }
 
         private async Task<PreviousInput> AbstractPreviousQuestionItemsAsync(ITurnContext turnContext)
         {
-            var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
-            var skillState = await skillStateAccessor.GetAsync(turnContext);
-            string utterance = skillState.LuisResult.Text;
-            string intent = skillState.LuisResult.TopIntent().Item1.ToString();
-            DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
-
-            return new PreviousInput()
+            try
             {
-                Utterance = utterance,
-                Intent = intent,
-                TimeStamp = timeStamp,
-            };
+                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+                var skillState = await skillStateAccessor.GetAsync(turnContext);
+                string utterance = skillState.LuisResult.Text;
+                string intent = skillState.LuisResult.TopIntent().Item1.ToString();
+                DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
+
+                return new PreviousInput()
+                {
+                    Utterance = utterance,
+                    Intent = intent,
+                    TimeStamp = timeStamp,
+                };
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        private async Task ExecuteSavePreviousQuestionAsync(ITurnContext turnContext, PreviousInput newQuestion)
+        private async Task SavePreviousQuestionAsync(ITurnContext turnContext)
         {
+            PreviousInput newQuestion = await AbstractPreviousQuestionItemsAsync(turnContext);
             if (newQuestion == null)
             {
                 return;
             }
 
             // Don't save this intent.
-            if (!IntentFilter.Contains(newQuestion.Intent))
+            if (IntentFilter == null || !IntentFilter.Contains(newQuestion.Intent))
             {
                 return;
             }

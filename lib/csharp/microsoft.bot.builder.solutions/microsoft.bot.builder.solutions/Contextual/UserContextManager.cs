@@ -14,12 +14,14 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
         public UserContextManager(UserInfoState userInfo, IContextResolver contextResolver = null)
         {
             _contextResolver = contextResolver;
-            _userStateContextResolver = new UserStateContextResolver(userInfo);
+            _userStateContextResolver = new UserStateContextResolver(userInfo, PreviousContacts);
         }
 
         public static int DialogIndex { get; set; } = 0;
 
         internal List<PreviousInput> PreviousQuestions { get; set; } = new List<PreviousInput>();
+
+        internal List<string> PreviousContacts { get; set; } = new List<string>();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {

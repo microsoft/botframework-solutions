@@ -13,6 +13,7 @@ using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Contextual;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -30,7 +31,8 @@ namespace EmailSkill.Dialogs
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
+            MicrosoftAppCredentials appCredentials,
+            UserContextManager userContextManager)
             : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
@@ -79,7 +81,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSubject, updateSubject) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateContent, updateContent) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, userContextManager));
             AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             InitialDialogId = Actions.Send;

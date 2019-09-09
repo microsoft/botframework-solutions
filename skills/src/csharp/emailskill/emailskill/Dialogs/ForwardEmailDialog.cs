@@ -10,6 +10,7 @@ using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Contextual;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -27,8 +28,9 @@ namespace EmailSkill.Dialogs
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            MicrosoftAppCredentials appCredential,
+            UserContextManager userContextManager)
+            : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredential)
         {
             TelemetryClient = telemetryClient;
 
@@ -72,7 +74,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, userContextManager));
             InitialDialogId = Actions.Forward;
         }
 

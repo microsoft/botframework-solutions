@@ -23,16 +23,20 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
         private const string _textPrompt = "TextPrompt";
         private const string _confirmPrompt = "ConfirmPrompt";
 
+        public UserContextManager UserContextManager { get; set; }
+
         public IContextResolver ContextResolver { get; set; }
 
         public ResolveContextualInfoDialog(
             UserState userState,
             IBotTelemetryClient telemetryClient,
+            UserContextManager userContextManager,
             IContextResolver contextResolver = null)
             : base(nameof(ResolveContextualInfoDialog))
-         {
+        {
             ContextResolver = contextResolver;
             TelemetryClient = telemetryClient;
+            UserContextManager = userContextManager;
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
@@ -75,8 +79,8 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
             {
                 var option = sc.Options as UserInfoOptions;
                 var userState = await UserStateAccessor.GetAsync(sc.Context, () => new UserInfoState());
-                var contextResolver = new UserContextManager(userState, ContextResolver);
-                var result = await contextResolver.GetResolvedContactAsync(option.QueryItem);
+
+                var result = await UserContextManager.GetResolvedContactAsync(option.QueryItem);
 
                 if (result == null || result.Count() == 0)
                 {
@@ -102,7 +106,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
                 var option = sc.Options as UserInfoOptions;
 
                 var nameString = option.QueryResult.Count > 1 ?
-                    string.Join(", ", option.QueryResult.ToArray().Take(option.QueryResult.Count - 1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + option.QueryResult.Last():
+                    string.Join(", ", option.QueryResult.ToArray().Take(option.QueryResult.Count - 1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + option.QueryResult.Last() :
                     option.QueryResult[0];
 
                 var prompt = ResponseManager.GetResponse(

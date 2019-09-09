@@ -27,7 +27,7 @@ namespace ToDoSkill.Adapters
             ResponseManager responseManager,
             ConversationState convState,
             UserState userState,
-            UserContextManager userContextResolver)
+            UserContextManager userContextManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -44,15 +44,15 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var savePreviousQuestion = new SavePreviousInputAction(
+            var savePreviousInputAction = new SavePreviousInputAction(
                 convState,
                 userState,
-                userContextResolver,
+                userContextManager,
                 nameof(ToDoSkill),
                 new List<string> { "ShowToDo", "MarkToDo" });
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(savePreviousQuestion);
+            skillContextualMiddleware.Register(savePreviousInputAction);
             Use(skillContextualMiddleware);
         }
     }
