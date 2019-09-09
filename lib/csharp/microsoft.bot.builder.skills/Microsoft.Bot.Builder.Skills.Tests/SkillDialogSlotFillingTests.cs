@@ -18,10 +18,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     [TestClass]
     public class SkillDialogSlotFillingTests : SkillDialogTestBase
     {
-        private List<SkillManifest> _skillManifests = new List<SkillManifest>();
-        private IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
-		private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
-		private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly List<SkillManifest> _skillManifests = new List<SkillManifest>();
+        private readonly IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
+		private readonly MockSkillTransport _mockSkillTransport = new MockSkillTransport();
+		private readonly IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
 
         [TestInitialize]
         public void AddSkills()
@@ -34,8 +34,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "testSkill/testAction"));
 
             // Simple skill, with one slot (param1)
-            var slots = new List<Slot>();
-            slots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
+            var slots = new List<Slot>
+            {
+                new Slot("param1", new List<string>() { "string" }),
+            };
             _skillManifests.Add(ManifestUtilities.CreateSkill(
                 "testskillwithslots",
                 "testskillwithslots",
@@ -44,10 +46,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 slots));
 
             // Simple skill, with two actions and multiple slots
-            var multiParamSlots = new List<Slot>();
-            multiParamSlots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
-            multiParamSlots.Add(new Slot { Name = "param2", Types = new List<string>() { "string" } });
-            multiParamSlots.Add(new Slot { Name = "param3", Types = new List<string>() { "string" } });
+            var multiParamSlots = new List<Slot>
+            {
+                new Slot("param1", new List<string>() { "string" }),
+                new Slot("param2", new List<string>() { "string" }),
+                new Slot("param3", new List<string>() { "string" }),
+            };
 
             var multiActionSkill = ManifestUtilities.CreateSkill(
                 "testskillwithmultipleactionsandslots",
@@ -81,7 +85,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
 			slots.Add("param1", JObject.FromObject(entity));
 
-			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
+			await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
                   .Send("hello")
                   .StartTestAsync();
 
@@ -108,7 +112,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
 			slots.Add("param1", JObject.FromObject(entity));
 
-			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
+            var skillManifest = _skillManifests.Single(s => s.Name == "testskillwithslots");
+            await GetTestFlow(skillManifest, "testSkill/testActionWithSlots", slots)
                   .Send("hello")
                   .StartTestAsync();
 
@@ -136,7 +141,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			slots.Add("param1", JObject.FromObject(entity));
 
             // Not passing action to test the "global" slot filling behaviour
-            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
+            await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
                   .Send("hello")
                   .StartTestAsync();
 

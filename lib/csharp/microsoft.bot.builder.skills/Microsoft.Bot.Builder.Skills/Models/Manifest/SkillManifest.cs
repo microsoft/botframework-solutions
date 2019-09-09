@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -14,7 +17,7 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public string Id { get; set; }
 
         [JsonProperty(PropertyName = "msaAppId")]
-        public string MSAappId { get; set; }
+        public string MsaAppId { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -29,9 +32,9 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public Uri IconUrl { get; set; }
 
         [JsonProperty(PropertyName = "authenticationConnections")]
-        public AuthenticationConnection[] AuthenticationConnections { get; set; }
+        public List<AuthenticationConnection> AuthenticationConnections { get; } = new List<AuthenticationConnection>();
 
         [JsonProperty(PropertyName = "actions")]
-        public List<Action> Actions { get; set; } = new List<Action>();
+        public List<Action> Actions { get; } = new List<Action>();
     }
 }

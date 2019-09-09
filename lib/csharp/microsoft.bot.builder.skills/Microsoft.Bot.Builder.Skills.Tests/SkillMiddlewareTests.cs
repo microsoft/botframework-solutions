@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			};
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
+                .Use(new SkillMiddleware(_conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {

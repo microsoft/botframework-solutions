@@ -6,6 +6,6 @@ namespace Microsoft.Bot.Builder.Skills
     {
         public string Action { get; set; }
 
-        public IDictionary<string, object> Slots { get; set; }
+        public IDictionary<string, object> Slots { get; } = new Dictionary<string, object>();
     }
 }

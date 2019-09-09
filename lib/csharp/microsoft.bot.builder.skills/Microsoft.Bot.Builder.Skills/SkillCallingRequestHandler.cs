@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Net.Http;
-using System.Text;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Protocol;
@@ -14,7 +13,6 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillCallingRequestHandler : RequestHandler
     {
         private readonly Router _router;
-        private readonly ITurnContext _turnContext;
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly ISkillHandoffResponseHandler _skillHandoffResponseHandler;
         private readonly ISkillResponseHandler _skillResponseHandler;
@@ -28,7 +26,7 @@ namespace Microsoft.Bot.Builder.Skills
             _skillResponseHandler = skillResponseHandler;
             _skillHandoffResponseHandler = skillHandoffResponseHandler ?? throw new ArgumentNullException(nameof(skillHandoffResponseHandler));
 
-            var routes = new RouteTemplate[]
+            var routes = new[]
             {
                 new RouteTemplate()
                 {
@@ -49,21 +47,19 @@ namespace Microsoft.Bot.Builder.Skills
 
                                     if (_skillResponseHandler != null)
                                     {
-                                        return await _skillResponseHandler.SendActivityAsync(activity);
+                                        return await _skillResponseHandler.SendActivityAsync(activity).ConfigureAwait(false);
                                     }
                                     else
                                     {
                                         return new ResourceResponse();
                                     }
                                 }
-                                else
-                                {
-                                    throw new Exception("Error deserializing activity response!");
-                                }
+
+                                throw new Exception("Error deserializing activity response!");
                             },
                     },
                 },
-                new RouteTemplate()
+                new RouteTemplate
                 {
                     Method = "PUT",
                     Path = "/activities/{activityId}",
@@ -75,7 +71,7 @@ namespace Microsoft.Bot.Builder.Skills
                                 var activity = request.ReadBodyAsJson<Activity>();
                                 if (_skillResponseHandler != null)
                                 {
-                                    return await _skillResponseHandler.UpdateActivityAsync(activity);
+                                    return await _skillResponseHandler.UpdateActivityAsync(activity).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -84,7 +80,7 @@ namespace Microsoft.Bot.Builder.Skills
                             },
                     },
                 },
-                new RouteTemplate()
+                new RouteTemplate
                 {
                     Method = "DELETE",
                     Path = "/activities/{activityId}",
@@ -117,18 +113,24 @@ namespace Microsoft.Bot.Builder.Skills
                 try
                 {
                     var responseBody = await routeContext.Action.Action(request, routeContext.RouteData).ConfigureAwait(false);
-                    return StreamingResponse.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
+                    var response = new StreamingResponse { StatusCode = (int)HttpStatusCode.OK };
+                    string content = JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings);
+                    response.SetBody(content);
+                    return response;
                 }
+#pragma warning disable CA1031 // Do not catch general exception types (disable, using exception data to populate the response.
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     _botTelemetryClient.TrackException(ex);
-                    return StreamingResponse.InternalServerError();
+                    var response = new StreamingResponse { StatusCode = (int)HttpStatusCode.InternalServerError };
+                    var content = JsonConvert.SerializeObject(ex, SerializationSettings.DefaultSerializationSettings);
+                    response.SetBody(content);
+                    return response;
                 }
             }
-            else
-            {
-                return StreamingResponse.NotFound();
-            }
+
+            return StreamingResponse.NotFound();
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Microsoft.Bot.Builder.Skills
 
         public async Task HandleTokenRequest(DialogContext dialogContext, Activity activity)
         {
-            var tokenResponse = await _skillProtocolHandler.HandleTokenRequest(activity);
+            var tokenResponse = await _skillProtocolHandler.HandleTokenRequest(activity).ConfigureAwait(false);
 
             if (tokenResponse != null)
             {
@@ -72,20 +72,20 @@ namespace Microsoft.Bot.Builder.Skills
                 activity.Name = TokenEvents.TokenResponseEventName;
                 activity.Value = tokenResponse;
 
-                await ForwardToSkillAsync(dialogContext, activity);
+                await ForwardToSkillAsync(dialogContext, activity).ConfigureAwait(false);
             }
         }
 
-        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
+        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
         {
             if (reason == DialogReason.CancelCalled)
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
-                await _skillConnector.CancelRemoteDialogsAsync();
+                await _skillConnector.CancelRemoteDialogsAsync().ConfigureAwait(false);
             }
 
-            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -98,11 +98,11 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="options">options.</param>
         /// <param name="cancellationToken">cancellation token.</param>
         /// <returns>dialog turn result.</returns>
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
             var slots = new Dictionary<string, JObject>();
 
-            var dialogOptions = options != null ? options as SkillDialogOption : null;
+            var dialogOptions = options as SkillDialogOption;
             var actionName = dialogOptions?.Action;
             var actionSlots = dialogOptions?.Slots;
 
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Skills
                         if (action.Definition.Slots != null && actionSlots != null && actionSlots.Count > 0)
                         {
                             // Match Slots to slots passed within DialogOption
-                            slots = await MatchSkillSlots(innerDc, action.Definition.Slots, actionSlots);
+                            slots = await MatchSkillSlots(innerDc, action.Definition.Slots, actionSlots, cancellationToken).ConfigureAwait(false);
                         }
                     }
                     else
@@ -148,7 +148,7 @@ namespace Microsoft.Bot.Builder.Skills
                     if (skillSlots != null)
                     {
                         // Match Slots to slots passed within DialogOption
-                        slots = await MatchSkillSlots(innerDc, skillSlots.ToList(), actionSlots);
+                        slots = await MatchSkillSlots(innerDc, skillSlots.ToList(), actionSlots, cancellationToken).ConfigureAwait(false);
                     }
                 }
 
@@ -160,9 +160,9 @@ namespace Microsoft.Bot.Builder.Skills
                 activity.SemanticAction = semanticAction;
             }
 
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
+            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."), cancellationToken).ConfigureAwait(false);
 
-            return await ForwardToSkillAsync(innerDc, activity);
+            return await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -171,21 +171,21 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="innerDc">Inner Dialog Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>DialogTurnResult.</returns>
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity;
 
             if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
             {
                 // Handle magic code auth
-                var result = await innerDc.ContinueDialogAsync(cancellationToken);
+                var result = await innerDc.ContinueDialogAsync(cancellationToken).ConfigureAwait(false);
 
                 // forward the token response to the skill
-                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
+                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse response)
                 {
                     activity.Type = ActivityTypes.Event;
                     activity.Name = TokenEvents.TokenResponseEventName;
-                    activity.Value = result.Result as ProviderTokenResponse;
+                    activity.Value = response;
                 }
                 else
                 {
@@ -193,17 +193,18 @@ namespace Microsoft.Bot.Builder.Skills
                 }
             }
 
-            return await ForwardToSkillAsync(innerDc, activity);
+            return await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Map Skill slots to what we have in the dictionary that's passed within SkillDialogOption.
         /// </summary>
-        /// <param name="innerDc">Dialog Contect.</param>
+        /// <param name="innerDc">Dialog Context.</param>
         /// <param name="actionSlotsDefinition">The slots within an Action.</param>
         /// <param name="actionSlotsValues">The slots passed within SkillDialogOption.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Matched dictionary for slots of the Skill.</returns>
-        private async Task<Dictionary<string, JObject>> MatchSkillSlots(DialogContext innerDc, List<Slot> actionSlotsDefinition, IDictionary<string, object> actionSlotsValues)
+        private async Task<Dictionary<string, JObject>> MatchSkillSlots(DialogContext innerDc, List<Slot> actionSlotsDefinition, IDictionary<string, object> actionSlotsValues, CancellationToken cancellationToken)
         {
             var slots = new Dictionary<string, JObject>();
             if (actionSlotsDefinition != null)
@@ -211,12 +212,12 @@ namespace Microsoft.Bot.Builder.Skills
                 foreach (var slot in actionSlotsDefinition)
                 {
                     // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (actionSlotsValues.TryGetValue(slot.Name, out object slotValue))
+                    if (actionSlotsValues.TryGetValue(slot.Name, out var slotValue))
                     {
                         slots.Add(slot.Name, JObject.FromObject(slotValue));
 
                         // Send trace to emulator
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot and passing to the Skill."));
+                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot and passing to the Skill."), cancellationToken).ConfigureAwait(false);
                     }
                 }
             }
@@ -234,12 +235,12 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var response = await _skillConnector.ForwardToSkillAsync(activity, this);
+                var response = await _skillConnector.ForwardToSkillAsync(activity, this).ConfigureAwait(false);
 
                 if (response != null && response.Type == ActivityTypes.Handoff)
                 {
-                    await dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
-                    return await dialogContext.EndDialogAsync(response.SemanticAction?.Entities);
+                    await dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot.")).ConfigureAwait(false);
+                    return await dialogContext.EndDialogAsync(response.SemanticAction?.Entities).ConfigureAwait(false);
                 }
                 else
                 {
@@ -250,7 +251,7 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 // Something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
                 // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-                await dialogContext.EndDialogAsync();
+                await dialogContext.EndDialogAsync().ConfigureAwait(false);
                 throw;
             }
         }

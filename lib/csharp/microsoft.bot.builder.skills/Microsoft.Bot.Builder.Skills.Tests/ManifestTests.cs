@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                     skillManifest.Endpoint.ToString() == $"{skillUriBase}/api/skill/messages",
                     "Skill Manifest endpoint not set correctly");
 
-                Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
+                Assert.IsTrue(skillManifest.MsaAppId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
 
                 Assert.IsTrue(skillManifest.IconUrl.ToString().StartsWith(skillUriBase), "Skill Manifest iconUrl not set correctly");
             }
@@ -172,7 +172,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             {
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
 
-                Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
+                Assert.IsTrue(skillManifest.MsaAppId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
 
                 // Ensure each of the registered actions has triggering utterances added
                 for (int i = 0; i < 7; ++i)
@@ -181,7 +181,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                     if (skillManifest.Actions[i].Definition.Triggers.Events == null)
                     {
                         Assert.IsTrue(
-                            skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Length > 0,
+                            skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Count > 0,
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation.");
 
                         // Validate DE, FR has been added too.

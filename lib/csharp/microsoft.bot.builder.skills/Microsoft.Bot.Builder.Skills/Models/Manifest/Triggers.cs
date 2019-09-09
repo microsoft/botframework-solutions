@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
@@ -9,12 +12,12 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
     public class Triggers
     {
         [JsonProperty(PropertyName = "utterances")]
-        public List<Utterance> Utterances { get; set; }
+        public List<Utterance> Utterances { get; } = new List<Utterance>();
 
         [JsonProperty(PropertyName = "utteranceSources")]
-        public List<UtteranceSource> UtteranceSources { get; set; }
+        public List<UtteranceSource> UtteranceSources { get; } = new List<UtteranceSource>();
 
         [JsonProperty(PropertyName = "events")]
-        public List<Event> Events { get; set; }
+        public List<Event> Events { get; } = new List<Event>();
     }
 }

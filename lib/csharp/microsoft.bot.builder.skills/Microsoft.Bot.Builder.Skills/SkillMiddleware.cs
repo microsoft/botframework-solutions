@@ -11,18 +11,16 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillMiddleware : IMiddleware
     {
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private IStatePropertyAccessor<DialogState> _dialogState;
+        private readonly ConversationState _conversationState;
+        private readonly IStatePropertyAccessor<DialogState> _dialogState;
 
-        public SkillMiddleware(UserState userState, ConversationState conversationState, IStatePropertyAccessor<DialogState> dialogState)
+        public SkillMiddleware(ConversationState conversationState, IStatePropertyAccessor<DialogState> dialogState)
         {
-            _userState = userState;
             _conversationState = conversationState;
             _dialogState = dialogState;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default)
         {
             var activity = turnContext.Activity;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -30,12 +28,12 @@ namespace Microsoft.Bot.Builder.Skills
                 if (activity.Name == SkillEvents.CancelAllSkillDialogsEventName)
                 {
                     // when skill receives a CancelAllSkillDialogsEvent, clear the dialog stack and short-circuit
-                    var currentConversation = await _dialogState.GetAsync(turnContext, () => new DialogState());
+                    var currentConversation = await _dialogState.GetAsync(turnContext, () => new DialogState(), cancellationToken).ConfigureAwait(false);
 					if (currentConversation.DialogStack != null)
 					{
 						currentConversation.DialogStack.Clear();
-						await _dialogState.SetAsync(turnContext, currentConversation);
-						await _conversationState.SaveChangesAsync(turnContext, true);
+						await _dialogState.SetAsync(turnContext, currentConversation, cancellationToken).ConfigureAwait(false);
+						await _conversationState.SaveChangesAsync(turnContext, true, cancellationToken).ConfigureAwait(false);
 					}
 
                     return;
