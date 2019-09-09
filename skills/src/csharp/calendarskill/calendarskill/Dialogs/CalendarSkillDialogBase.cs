@@ -858,7 +858,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToDate != null)
+                            if (entity.ToDate != null && !state.MeetingInfor.EndDate.Any())
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -887,7 +887,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToTime != null)
+                            if (entity.ToTime != null && !state.MeetingInfor.EndTime.Any())
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -923,9 +923,16 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.ConnectToMeeting:
+                    case CalendarLuis.Intent.TimeRemaining:
                     case CalendarLuis.Intent.AcceptEventEntry:
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
+                            if (entity.OrderReference != null)
+                            {
+                                state.MeetingInfor.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = GetSubjectFromEntity(entity);
@@ -1084,7 +1091,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToDate != null)
+                            if (entity.ToDate != null && !state.MeetingInfor.EndDate.Any())
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -1110,7 +1117,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToTime != null)
+                            if (entity.ToTime != null && !state.MeetingInfor.EndTime.Any())
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -1121,68 +1128,6 @@ namespace CalendarSkill.Dialogs
                             }
 
                             state.ShowMeetingInfor.AskParameterContent = luisResult.Text;
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.ConnectToMeeting:
-                    case CalendarLuis.Intent.TimeRemaining:
-                        {
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.MeetingInfor.StartDate = date;
-                                }
-                            }
-
-                            if (entity.ToDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.MeetingInfor.EndDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.MeetingInfor.StartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.MeetingInfor.EndTime = time;
-                                }
-                            }
-
-                            if (entity.ToTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (time != null)
-                                {
-                                    state.MeetingInfor.EndTime = time;
-                                }
-                            }
-
-                            if (entity.OrderReference != null)
-                            {
-                                state.MeetingInfor.OrderReference = GetOrderReferenceFromEntity(entity);
-                            }
-
-                            if (entity.Subject != null)
-                            {
-                                state.MeetingInfor.Title = entity._instance.Subject[0].Text;
-                            }
 
                             break;
                         }
@@ -1675,6 +1620,7 @@ namespace CalendarSkill.Dialogs
 
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
+            // if isStart is false, will only get the end time of a timerange
             var culture = local ?? English;
             var results = RecognizeDateTime(time, culture, false);
             var dateTimeResults = new List<DateTime>();
