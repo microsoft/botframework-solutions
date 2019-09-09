@@ -62,7 +62,6 @@ namespace HospitalitySkill.Dialogs
             {
                 var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt).Text;
 
-
                 var actions = new List<CardAction>()
                     {
                        new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
