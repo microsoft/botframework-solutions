@@ -19,7 +19,10 @@ namespace EmailSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ConversationState convState,
+            UserState userState,
+            UserContextManager userContextManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -35,8 +38,17 @@ namespace EmailSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+
             var skillContextualMiddleware = new SkillContextualMiddleware();
             skillContextualMiddleware.Register(new GetSentimentAction());
+
+            var savePreviousInputAction = new SavePreviousInputAction(
+              convState,
+              userState,
+              userContextManager,
+              nameof(EmailSkill));
+            skillContextualMiddleware.Register(savePreviousInputAction);
+
             Use(skillContextualMiddleware);
         }
     }

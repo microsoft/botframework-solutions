@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Contextual;
 using Microsoft.Bot.Builder.Solutions.Contextual.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -39,7 +40,8 @@ namespace EmailSkill.Dialogs
              ConversationState conversationState,
              UserState userState,
              IServiceManager serviceManager,
-             IBotTelemetryClient telemetryClient)
+             IBotTelemetryClient telemetryClient,
+             UserContextManager userContextManager)
              : base(nameof(FindContactDialog))
         {
             TelemetryClient = telemetryClient;
@@ -129,7 +131,7 @@ namespace EmailSkill.Dialogs
                 SaveResolvedContextualInfo,
             };
 
-            _resolveContextualInfoDialog = new ResolveContextualInfoDialog(userState, telemetryClient);
+            _resolveContextualInfoDialog = new ResolveContextualInfoDialog(userState, telemetryClient, userContextManager);
 
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
