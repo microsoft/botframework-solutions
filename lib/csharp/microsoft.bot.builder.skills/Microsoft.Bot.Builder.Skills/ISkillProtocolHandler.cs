@@ -1,26 +1,17 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.UserAuth;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
 {
-    /// <summary>
-    /// This interface defines functions needed to properly handle the skill protocol on the Calling bot side.
-    /// </summary>
     public interface ISkillProtocolHandler
     {
-        /// <summary>
-        /// Handler to call when receive an activity with type Handoff.
-        /// </summary>
-        /// <param name="activity">Handoff activity.</param>
-        /// <returns>Task.</returns>
-        Task HandleHandoff(Activity activity);
-
         /// <summary>
         /// Handler to call when received an event type activity with name tokens/request.
         /// </summary>
         /// <param name="activity">TokenRequest activity.</param>
         /// <returns>Task.</returns>
-        Task HandleTokenRequest(Activity activity);
+        Task<ProviderTokenResponse> HandleTokenRequest(Activity activity);
 
         /// <summary>
         /// Handler to call when received an event type activity with name skill/fallbackrequest.

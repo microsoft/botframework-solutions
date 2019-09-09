@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -12,15 +13,22 @@ namespace Microsoft.Bot.Builder.Skills
     /// </remarks>
     public abstract class SkillConnector
     {
-        public SkillConnector(ISkillTransport skillTransport, ISkillProtocolHandler skillProtocolHandler)
+        public SkillConnector(SkillConnectionConfiguration skillConnectionConfiguration, ISkillTransport skillTransport)
         {
         }
 
         /// <summary>
         /// Forward incoming request to the skill.
         /// </summary>
-        /// <param name="skillConnectionConfiguration">Skill Connection Configuration.</param>
+        /// <param name="activity">Activity object to forward.</param>
+        /// <param name="skillResponseHandler">Handler that handles response back from skill.</param>
+        /// <returns>Response activity of the forwarded activity to the skill.</returns>
+        public abstract Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler);
+
+        /// <summary>
+        /// Cancel the remote skill dialogs on the stack.
+        /// </summary>
         /// <returns>Task.</returns>
-        public abstract Task ForwardToSkillAsync(SkillConnectionConfiguration skillConnectionConfiguration);
+        public abstract Task CancelRemoteDialogsAsync();
     }
 }

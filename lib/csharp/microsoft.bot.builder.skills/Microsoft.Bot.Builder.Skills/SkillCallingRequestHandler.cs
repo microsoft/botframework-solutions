@@ -3,9 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Protocol;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Extensions.Logging;
@@ -18,22 +16,17 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly Router _router;
         private readonly ITurnContext _turnContext;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private readonly Action<Activity> _tokenRequestHandler;
-        private readonly Action<Activity> _fallbackRequestHandler;
-        private readonly Action<Activity> _handoffActivityHandler;
+        private readonly ISkillHandoffResponseHandler _skillHandoffResponseHandler;
+        private readonly ISkillResponseHandler _skillResponseHandler;
 
         public SkillCallingRequestHandler(
-            ITurnContext turnContext,
             IBotTelemetryClient botTelemetryClient,
-            Action<Activity> tokenRequestHandler = null,
-            Action<Activity> fallbackRequestHandler = null,
-            Action<Activity> handoffActivityHandler = null)
+            ISkillHandoffResponseHandler skillHandoffResponseHandler,
+            ISkillResponseHandler skillResponseHandler)
         {
-            _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
             _botTelemetryClient = botTelemetryClient;
-            _tokenRequestHandler = tokenRequestHandler;
-            _fallbackRequestHandler = fallbackRequestHandler;
-            _handoffActivityHandler = handoffActivityHandler;
+            _skillResponseHandler = skillResponseHandler;
+            _skillHandoffResponseHandler = skillHandoffResponseHandler ?? throw new ArgumentNullException(nameof(skillHandoffResponseHandler));
 
             var routes = new RouteTemplate[]
             {
@@ -49,50 +42,18 @@ namespace Microsoft.Bot.Builder.Skills
                                 var activity = request.ReadBodyAsJson<Activity>();
                                 if (activity != null)
                                 {
-                                    if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
+                                    if (activity.Type == ActivityTypes.Handoff)
                                     {
-                                        if (_tokenRequestHandler != null)
-                                        {
-                                            _tokenRequestHandler(activity);
-
-                                            return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
-                                        }
+                                        _skillHandoffResponseHandler.HandleHandoffResponse(activity);
                                     }
-                                    else if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
-                                    {
-                                        if (_fallbackRequestHandler != null)
-                                        {
-                                            _fallbackRequestHandler(activity);
 
-                                             return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("FallbackRequestHandler", "Skill is asking for fallback but there is no handler on the calling side!");
-                                        }
-                                    }
-                                    else if (activity.Type == ActivityTypes.Handoff)
+                                    if (_skillResponseHandler != null)
                                     {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
-                                        if (_handoffActivityHandler != null)
-                                        {
-                                            _handoffActivityHandler(activity);
-
-                                            return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("HandoffActivityHandler", "Skill is sending handoff activity but there's no handler on the calling side!");
-                                        }
+                                        return await _skillResponseHandler.SendActivityAsync(activity);
                                     }
                                     else
                                     {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
-                                        return result;
+                                        return new ResourceResponse();
                                     }
                                 }
                                 else
@@ -112,8 +73,14 @@ namespace Microsoft.Bot.Builder.Skills
                             async (request, routeData) =>
                             {
                                 var activity = request.ReadBodyAsJson<Activity>();
-                                var result = await _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
-                                return result;
+                                if (_skillResponseHandler != null)
+                                {
+                                    return await _skillResponseHandler.UpdateActivityAsync(activity);
+                                }
+                                else
+                                {
+                                    return new ResourceResponse();
+                                }
                             },
                     },
                 },
@@ -126,8 +93,14 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId).ConfigureAwait(false);
-                                return result;
+                                if (_skillResponseHandler != null)
+                                {
+                                    return await _skillResponseHandler.DeleteActivityAsync(routeData.activityId);
+                                }
+                                else
+                                {
+                                    return new ResourceResponse();
+                                }
                             },
                     },
                 },
