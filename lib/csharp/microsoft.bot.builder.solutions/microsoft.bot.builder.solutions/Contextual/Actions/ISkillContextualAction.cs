@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class ISkillContextualActions
+    public class ISkillContextualAction
     {
         public Action<ITurnContext> BeforeTurnAction { get; set; } = (turncontext) => { };
 

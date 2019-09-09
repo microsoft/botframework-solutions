@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         public static int DialogIndex { get; set; } = 0;
 
-        internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
+        internal List<PreviousInput> PreviousQuestions { get; set; } = new List<PreviousInput>();
 
         internal List<string> PreviousContacts { get; set; } = new List<string>();
 
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public List<PreviousQuestion> GetPreviousQuestions()
+        public List<PreviousInput> GetPreviousQuestions()
         {
             return PreviousQuestions;
         }

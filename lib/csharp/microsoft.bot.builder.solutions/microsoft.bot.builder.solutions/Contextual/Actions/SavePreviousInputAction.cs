@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class SavePreviousInputAction : ISkillContextualActions
+    public class SavePreviousInputAction : ISkillContextualAction
     {
         public SavePreviousInputAction(
             ConversationState convState,
@@ -55,8 +55,8 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private async Task InitPreviousInput(ITurnContext turnContext)
         {
-            var questionAccessor = UserState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", SkillName));
-            var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
+            var questionAccessor = UserState.CreateProperty<List<PreviousInput>>(string.Format("{0}Questions", SkillName));
+            var questions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousInput>());
             UserContextManager.PreviousQuestions = questions;
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             }
         }
 
-        private async Task<PreviousQuestion> AbstractPreviousQuestionItemsAsync(ITurnContext turnContext)
+        private async Task<PreviousInput> AbstractPreviousQuestionItemsAsync(ITurnContext turnContext)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
                 string intent = skillState.LuisResult.TopIntent().Item1.ToString();
                 DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
 
-                return new PreviousQuestion()
+                return new PreviousInput()
                 {
                     Utterance = utterance,
                     Intent = intent,
@@ -152,7 +152,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private async Task SavePreviousQuestionAsync(ITurnContext turnContext)
         {
-            PreviousQuestion newQuestion = await AbstractPreviousQuestionItemsAsync(turnContext);
+            PreviousInput newQuestion = await AbstractPreviousQuestionItemsAsync(turnContext);
             if (newQuestion == null)
             {
                 return;
@@ -164,8 +164,8 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
                 return;
             }
 
-            var questionAccessor = UserState.CreateProperty<List<PreviousQuestion>>(string.Format("{0}Questions", SkillName));
-            var previousQuestions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousQuestion>());
+            var questionAccessor = UserState.CreateProperty<List<PreviousInput>>(string.Format("{0}Questions", SkillName));
+            var previousQuestions = await questionAccessor.GetAsync(turnContext, () => new List<PreviousInput>());
 
             // If already exists, refresh timestamp.
             var duplicateQuestion = previousQuestions.Where(x => x.Utterance == newQuestion.Utterance).ToList();
@@ -187,18 +187,18 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             }
         }
 
-        private IReplacementStrategy<PreviousQuestion> GetStrategy(ReplacementStrategy replacementStrategy)
+        private IReplacementStrategy<PreviousInput> GetStrategy(ReplacementStrategy replacementStrategy)
         {
             switch (replacementStrategy)
             {
                 case ReplacementStrategy.FIFO:
-                    return new FIFOStrategy<PreviousQuestion>();
+                    return new FIFOStrategy<PreviousInput>();
                 case ReplacementStrategy.LRU:
-                    return new LRUStrategy<PreviousQuestion>();
+                    return new LRUStrategy<PreviousInput>();
                 case ReplacementStrategy.Random:
-                    return new RandomStrategy<PreviousQuestion>();
+                    return new RandomStrategy<PreviousInput>();
                 default:
-                    return new FIFOStrategy<PreviousQuestion>();
+                    return new FIFOStrategy<PreviousInput>();
             }
         }
 

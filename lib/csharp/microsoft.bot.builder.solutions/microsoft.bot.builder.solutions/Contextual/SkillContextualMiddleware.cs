@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             }
         }
 
-        public void Register(ISkillContextualActions actions)
+        public void Register(ISkillContextualAction actions)
         {
             BeforeTurnActions.Add(actions.BeforeTurnAction);
             AfterTurnActions.Add(actions.AfterTurnAction);

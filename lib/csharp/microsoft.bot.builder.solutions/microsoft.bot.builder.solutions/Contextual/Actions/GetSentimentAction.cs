@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class GetSentimentAction : ISkillContextualActions
+    public class GetSentimentAction : ISkillContextualAction
     {
         public GetSentimentAction()
         {
