@@ -23,6 +23,13 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
+# Check for existing deployment files
+if (-not (Test-Path (Join-Path $projFolder '.web.config'))) {
+
+	# Add needed deployment files for az
+	az bot prepare-deploy --code-dir $projFolder --lang Typescript --output json | Out-Null
+}
+
 # Check for existing deployment configuration
 if (-not (Test-Path (Join-Path $projFolder '.deployment'))) {
 
@@ -35,8 +42,13 @@ $zipPath = $(Join-Path $projFolder 'code.zip')
 if (Test-Path $zipPath) {
 	Remove-Item $zipPath -Force | Out-Null
 }
-if($?) 
-{  
+if($?)
+{
+	# Install dependencies locally
+	Invoke-Expression "npm install"
+
+	# Build the project
+	Invoke-Expression "npm run build"
 	# Compress source code
 	Get-ChildItem -Path "$($projFolder)" -Exclude @("node_modules", "test", "deployment") | Compress-Archive -DestinationPath "$($zipPath)" -Force | Out-Null
 
