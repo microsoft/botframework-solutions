@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System.Linq;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
@@ -26,7 +25,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -134,13 +132,6 @@ namespace CalendarSkill
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
-
-            services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
-        }
-
-        public class SimpleWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
-        {
-            HashSet<string> IWhitelistAuthenticationProvider.AppsWhitelist => new HashSet<string> { };
         }
 
         /// <summary>

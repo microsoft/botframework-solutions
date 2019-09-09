@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Contextual;
 using EmailSkill.Models;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Services;
@@ -15,8 +13,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Contextual.Dialogs;
-using Microsoft.Bot.Builder.Skills.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -30,14 +26,12 @@ namespace EmailSkill.Dialogs
     public class FindContactDialog : ComponentDialog
     {
         public static readonly int MaxAcceptContactsNum = 20;
-        private ResolveContextualInfoDialog _resolveContextualInfoDialog;
 
         public FindContactDialog(
              BotSettings settings,
              BotServices services,
              ResponseManager responseManager,
              ConversationState conversationState,
-             UserState userState,
              IServiceManager serviceManager,
              IBotTelemetryClient telemetryClient)
              : base(nameof(FindContactDialog))
@@ -46,8 +40,7 @@ namespace EmailSkill.Dialogs
             Services = services;
             ResponseManager = responseManager;
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
-            UserStateAccessor = userState.CreateProperty<UserInfoState>(nameof(UserInfoState));
-
+            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
@@ -93,8 +86,6 @@ namespace EmailSkill.Dialogs
                 // if called by itself when can not find the last input, it will ask back or end this one when multiple try.
                 UpdateUserName,
 
-                ResolveContext,
-
                 // check if email. add email direct into attendee and set state.ConfirmedPerson null.
                 // if not, search for the attendee.
                 // if got multiple persons, call selectPerson. use replace
@@ -123,14 +114,6 @@ namespace EmailSkill.Dialogs
                 AfterAddMoreUserPrompt
             };
 
-            var resolveContextualContact = new WaterfallStep[]
-            {
-                ResolveContextualInfo,
-                SaveResolvedContextualInfo,
-            };
-
-            _resolveContextualInfoDialog = new ResolveContextualInfoDialog(userState, telemetryClient);
-
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new WaterfallDialog(FindContactAction.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
@@ -141,8 +124,6 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(FindContactAction.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
             AddDialog(new ChoicePrompt(FindContactAction.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new WaterfallDialog(FindContactAction.AddMoreContactsPrompt, addMoreContactsPrompt) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(FindContactAction.ResolveContext, resolveContextualContact) { TelemetryClient = telemetryClient });
-            AddDialog(_resolveContextualInfoDialog);
             InitialDialogId = FindContactAction.ConfirmNameList;
         }
 
@@ -152,7 +133,7 @@ namespace EmailSkill.Dialogs
 
         protected IStatePropertyAccessor<EmailSkillState> Accessor { get; set; }
 
-        protected IStatePropertyAccessor<UserInfoState> UserStateAccessor { get; set; }
+        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
 
@@ -459,7 +440,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ResolveContext(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -474,106 +455,7 @@ namespace EmailSkill.Dialogs
                 }
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
-                if (!string.IsNullOrEmpty(currentRecipientName) && state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
-                {
-                    var possessivePronoun = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName];
-                    var pronounType = possessivePronoun.PronounType;
-                    var relationship = possessivePronoun.RelationshipName;
-                    var personList = new List<PersonModel>();
-
-                    var option = new UserInfoOptions() { QueryItem = possessivePronoun };
-                    _resolveContextualInfoDialog.ContextResolver = new EmailContextResolver(state, sc, ServiceManager);
-                    return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (SkillException skillEx)
-            {
-                await HandleDialogExceptions(sc, skillEx);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        public async Task<DialogTurnResult> ResolveContextualInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(nameof(ResolveContextualInfoDialog), sc.Options, cancellationToken);
-            }
-            catch (SkillException skillEx)
-            {
-                await HandleDialogExceptions(sc, skillEx);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        public async Task<DialogTurnResult> SaveResolvedContextualInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var resolvedContact = sc.Result as IList<string>;
-
-                if (resolvedContact.Count() > 0)
-                {
-                    var state = await Accessor.GetAsync(sc.Context);
-                    state.FindContactInfor.CurrentContactName = resolvedContact[0];
-
-                    for (int i = 1; i < resolvedContact.Count(); i++)
-                    {
-                        state.FindContactInfor.ContactsNameList.Insert(state.FindContactInfor.ConfirmContactsNameIndex + i, resolvedContact[i]);
-                    }
-                }
-
-                return await sc.EndDialogAsync();
-            }
-            catch (SkillException skillEx)
-            {
-                await HandleDialogExceptions(sc, skillEx);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                //var userInput = sc.Result as string;
-                //var state = await Accessor.GetAsync(sc.Context);
-                var options = (FindContactDialogOptions)sc.Options;
-
-                //if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
-                //{
-                //    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
-                //    return await sc.EndDialogAsync();
-                //}
-
-                //var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
-                //state.FindContactInfor.CurrentContactName = currentRecipientName;
-
-                var state = await Accessor.GetAsync(sc.Context);
-                var currentRecipientName = state.FindContactInfor.CurrentContactName;
+                state.FindContactInfor.CurrentContactName = currentRecipientName;
 
                 // if it's an email, add to attendee and keep the state.ConfirmedPerson null
                 if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
