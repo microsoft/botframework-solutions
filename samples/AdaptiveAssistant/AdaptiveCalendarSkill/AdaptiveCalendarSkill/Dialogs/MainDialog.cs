@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
-using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 
 /// <summary>
 /// This dialog is the lowest level of all dialogs. 
@@ -35,7 +35,7 @@ namespace AdaptiveCalendarSkill.Dialogs
 
                     /******************************************************************************/
                     // place to add new dialog
-                    new OnIntent(CalendarLuis.Intent.CreateCalendarEntry.ToString())
+                    new OnIntent("ScheduleMeeting")
                     {
                         Actions =
                         {

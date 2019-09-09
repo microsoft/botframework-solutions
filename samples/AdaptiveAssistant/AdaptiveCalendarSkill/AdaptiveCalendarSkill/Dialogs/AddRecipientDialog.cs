@@ -8,9 +8,11 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Expressions.Parser;
-using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.CodeAnalysis.CodeStyle;
 using Microsoft.Graph;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -52,11 +54,10 @@ namespace AdaptiveCalendarSkill.Dialogs
                                     // add email to attendeeEmailList
                                     new EditArray()
                                     {
-                                        ArrayProperty = "dialog.attendeeEmailList",
+                                        ArrayProperty = "conversation.recipients",
                                         ChangeType = EditArray.ArrayChangeType.Push,
                                         Value = "dialog.contactName"
                                     },
-                                    new SendActivity("I've added {dialog.emailAddress} to the recipients list."),
                                 },
                                 ElseActions =
                                 {
@@ -110,7 +111,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     },
                                                     new EditArray()
                                                     {
-                                                        ArrayProperty = "dialog.attendeeEmailList",
+                                                        ArrayProperty = "conversation.recipients",
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },
@@ -134,7 +135,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     },
                                                     new EditArray()
                                                     {
-                                                        ArrayProperty = "dialog.attendeeEmailList",
+                                                        ArrayProperty = "conversation.recipients",
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },
@@ -154,18 +155,26 @@ namespace AdaptiveCalendarSkill.Dialogs
                             new ConfirmInput()
                             {
                                 Property = "dialog.addAnotherContact",
-                                Prompt = new ActivityTemplate("Do you want to add another contact?")
+                                Prompt = new ActivityTemplate("Do you want to add another contact?"),
                             },
                             new SetProperty()
                             {
-                                Property = "dialog.attendeeListString",
-                                Value = "join(dialog.attendeeEmailList, ',')"
+                                Property = "dialog.recipientString",
+                                Value = "join(conversation.recipients, ',')"
                             },
                             new IfCondition()
                             {
                                 Condition = "dialog.addAnotherContact == true",
                                 Actions = { new RepeatDialog() },
-                                ElseActions = { new EndDialog("dialog.attendeeListString") }
+                                ElseActions = {
+                                    // clear conversation state
+                                    new SetProperty()
+                                    {
+                                        Property = "conversation.recipients",
+                                        Value = "null"
+                                    },
+                                    new EndDialog("dialog.recipientString")
+                                }
                             }
                         }
                     },

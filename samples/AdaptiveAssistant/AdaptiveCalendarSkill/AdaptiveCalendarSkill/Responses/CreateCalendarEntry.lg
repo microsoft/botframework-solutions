@@ -5,20 +5,38 @@ What's the meeting title?
 ```
 
 # RecipientsListMessage
-- IF: {count(dialog.attendeeEmailList) == 1}
-    - I've added {dialog.attendeeEmailList[0]} to the recipients list.
+- IF: {count(dialog.recipients) == 1}
+    - I've added {dialog.recipients[0]} to the recipients list.
 - ELSE: 
-    - I've added {join(dialog.attendeeEmailList, ',', 'and')} to the recipients list.
+    - I've added {join(dialog.recipients, ', ', ' and ')} to the recipients list.
+
+# StartDatePrompt
+- ```
+What date?
+[Suggestions=Help | Cancel]
+```
 
 # StartTimePrompt
 - ```
-What time will it start?
+When is the meeting?
+[Suggestions=Help | Cancel]
+```
+
+# DurationPrompt
+- ```
+How long is the meeting?
+[Suggestions=Help | Cancel]
+```
+
+# EndDatePrompt
+- ```
+What date will it end?
 [Suggestions=Help | Cancel]
 ```
 
 # EndTimePrompt
 - ```
-When will it end?
+When time will it end?
 [Suggestions=Help | Cancel]
 ```
 
@@ -34,6 +52,14 @@ What is the meeting content?
 [Suggestions=Help | Cancel]
 ```
 
+
+# ConfirmDetailsPrompt
+- ```
+Is this correct?
+@{ MeetingDetailsCard() }
+```
+
+
 # MeetingDetailsCard
 - ```
 [adaptivecard
@@ -47,7 +73,7 @@ What is the meeting content?
                     "type": "TextBlock",
                     "size": "Medium",
                     "weight": "Bolder",
-                    "text": "@{dialog.Subject}"
+                    "text": "@{dialog.title}"
                 }
             ]
         },
@@ -56,7 +82,7 @@ What is the meeting content?
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{dialog.StartTime[0].value} - @{dialog.EndTime[0].value}",
+                    "text": "@{dialog.startTime[0].value} - @{dialog.endTime[0].value}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -78,8 +104,8 @@ What is the meeting content?
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{if(empty(dialog.Location) != true,
-                        dialog.Location,'dialog.Location')}",
+                    "text": "@{if(empty(dialog.location) != true,
+                        dialog.location,'dialog.location')}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -92,9 +118,6 @@ What is the meeting content?
 ]
 ```
 
-# ConfirmDetailsPrompt
-- Is this correct?
-
 # YesOrNo
 - Please Say Yes/No.
 
@@ -103,7 +126,7 @@ What is the meeting content?
 
 # SuccessMessage
 - ```
-@{HelpPrefix()}, I have added @{dialog.Subject} to your calendar list. 
+@{HelpPrefix()}, I have added @{dialog.title} to your calendar list. 
 @{Welcome-Actions()}
 ```
 
