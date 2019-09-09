@@ -234,7 +234,4 @@
   <data name="ConfirmSkillSwitch" xml:space="preserve">
     <value>你确定要切换到{0}吗？</value>
   </data>
-  <data name="Comma" xml:space="preserve">
-    <value>，</value>
-  </data>
 </root>
