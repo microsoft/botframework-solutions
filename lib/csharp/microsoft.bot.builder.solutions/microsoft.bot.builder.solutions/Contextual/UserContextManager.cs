@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
-using Microsoft.Graph;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
@@ -22,7 +21,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         internal List<PreviousQuestion> PreviousQuestions { get; set; } = new List<PreviousQuestion>();
 
-        internal List<Recipient> PreviousContacts { get; set; } = new List<Recipient>();
+        internal List<string> PreviousContacts { get; set; } = new List<string>();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {

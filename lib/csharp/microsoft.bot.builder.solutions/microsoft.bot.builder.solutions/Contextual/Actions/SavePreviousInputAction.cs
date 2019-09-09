@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy;
-using Microsoft.Graph;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
@@ -73,13 +72,14 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             await UserState.SaveChangesAsync(turnContext);
         }
 
-        private async Task<List<Recipient>> AbstractPreviousContactAsync(ITurnContext turnContext)
+        private async Task<string> AbstractEmailPreviousContactAsync(ITurnContext turnContext)
         {
             try
             {
                 var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
                 var skillState = await skillStateAccessor.GetAsync(turnContext);
-                return skillState.FindContactInfor.Contacts as List<Recipient>;
+                var contacts = skillState.FindContactInfor.Contacts;
+                return ((IEnumerable<dynamic>)contacts).Last().EmailAddress.Name;
             }
             catch
             {
@@ -87,20 +87,43 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             }
         }
 
-        // ToDo: this method only for email now.
+        private async Task<string> AbstractCalendarPreviousContactAsync(ITurnContext turnContext)
+        {
+            try
+            {
+                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+                var skillState = await skillStateAccessor.GetAsync(turnContext);
+                var contacts = skillState.MeetingInfor.ContactInfor.Contacts;
+                return ((IEnumerable<dynamic>)contacts).Last().DisplayName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // ToDo: this method only for email and calendar now.
         private async Task SavePreviousContact(ITurnContext turnContext)
         {
-            var contacts = await AbstractPreviousContactAsync(turnContext);
-            if (contacts != null)
+            string contact = null;
+            switch (SkillName)
             {
-                foreach (var contact in contacts)
+                case "EmailSkill":
+                    contact = await AbstractEmailPreviousContactAsync(turnContext);
+                    break;
+                case "CalendarSkill":
+                    contact = await AbstractCalendarPreviousContactAsync(turnContext);
+                    break;
+            }
+
+            if (contact != null)
+            {
+                if (UserContextManager.PreviousContacts.Contains(contact))
                 {
-                    // already exist same email address.
-                    if (UserContextManager.PreviousContacts.Where(x => x.EmailAddress.Address == contact.EmailAddress.Address).Count() == 0)
-                    {
-                        UserContextManager.PreviousContacts.Add(contact);
-                    }
+                    UserContextManager.PreviousContacts.Remove(contact);
                 }
+
+                UserContextManager.PreviousContacts.Add(contact);
             }
         }
 

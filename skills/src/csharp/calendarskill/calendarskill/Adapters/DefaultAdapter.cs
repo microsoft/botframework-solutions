@@ -4,6 +4,8 @@ using CalendarSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Actions;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -17,7 +19,10 @@ namespace CalendarSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ConversationState convState,
+            UserState userState,
+            UserContextManager userContextManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -33,6 +38,17 @@ namespace CalendarSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+
+            var skillContextualMiddleware = new SkillContextualMiddleware();
+
+            var savePreviousInputAction = new SavePreviousInputAction(
+              convState,
+              userState,
+              userContextManager,
+              nameof(CalendarSkill));
+            skillContextualMiddleware.Register(savePreviousInputAction);
+
+            Use(skillContextualMiddleware);
         }
     }
 }

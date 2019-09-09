@@ -28,6 +28,8 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -136,6 +138,9 @@ namespace CalendarSkill
             services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
+
+            services.AddSingleton<UserInfoState>();
+            services.AddSingleton<UserContextManager>();
         }
 
         public class SimpleWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider

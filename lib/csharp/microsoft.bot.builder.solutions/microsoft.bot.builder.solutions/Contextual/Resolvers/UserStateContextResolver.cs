@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Contextual;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
-using Microsoft.Graph;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
     public class UserStateContextResolver : IContextResolver
     {
         private UserInfoState _userInfoState;
-        private List<Recipient> _previousContact;
+        private List<string> _previousContact;
 
-        public UserStateContextResolver(UserInfoState userInfo, List<Recipient> previousContact)
+        public UserStateContextResolver(UserInfoState userInfo, List<string> previousContact)
         {
             _userInfoState = userInfo;
             _previousContact = previousContact;
@@ -40,7 +39,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             return null;
         }
 
-        public async Task<Recipient> GetAnaphoraResolution(string pron)
+        public async Task<string> GetAnaphoraResolution(string pron)
         {
             if (pron == PossessivePronoun.ThirdPerson)
             {
