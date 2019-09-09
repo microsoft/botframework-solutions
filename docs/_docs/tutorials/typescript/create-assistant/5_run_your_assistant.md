@@ -20,6 +20,8 @@ When deployment is complete, you can run your Virtual Assistant through the foll
 
 4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
 
+> **Note**: If you password has any JSON reserved characters (backslash, quote, etc.), they must be properly escaped to connect to your bot.
+
     ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbotmodal.png)
 
 5. Congratulations, you've built and run your first Virtual Assistant!
