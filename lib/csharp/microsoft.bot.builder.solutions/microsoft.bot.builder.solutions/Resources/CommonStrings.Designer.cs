@@ -97,15 +97,6 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ,.
-        /// </summary>
-        public static string Comma {
-            get {
-                return ResourceManager.GetString("Comma", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure to switch to {0}?.
         /// </summary>
         public static string ConfirmSkillSwitch {
