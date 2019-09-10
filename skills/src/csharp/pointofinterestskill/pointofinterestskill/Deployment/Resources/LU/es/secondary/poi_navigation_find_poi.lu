@@ -82,7 +82,7 @@
 - Comprobar  {Keyword=pan naan} en la ciudad por no más de 317 libras
 - Comprobar  {Keyword=la fosa de la pita}  En  {Address=jackson Street} 
 
-- Monitor
+> display
 
 - pantalla de cierre  {Keyword=entrega de paquetes} cerca por más de 431 euros
 - pantalla muy lejos  {Keyword=i t apoyo} cerca por no más de 129 euros
@@ -202,6 +202,40 @@
 - consígueme  {Keyword=comida bielorrusa} 
 - consígueme  {Keyword=buta palacio} 
 - consígueme  {Keyword=Camboya} 
+
+> get to
+
+- Un  {Keyword=Resort}  En  {Address=333}   {Address=bay 32nd Street}   {Address=En}   {Address=ciudad lauderhill} en cómo puedo llegar allí
+- Un  {Keyword=parque acuático}  En  {Address=356}   {Address=carril de cereza}   {Address=49433}   {Address=mcadenville ciudad}   {Address=Pe}   {Address=Alemania} mostrarme cómo llegar allí
+-  {Address=calle marrón}  Y  {Address=2a calle norte} por favor muéstrame cómo llegar allí
+-  {Keyword=capitán d's}  En  {Address=calle principal al oeste}  Y  {Address=Calle 49}   {Address=Lindsay}   {Address=nuevo méxico} por favor muéstrame cómo llegar allí
+-  {Address=carbonear} mapa me muestran cómo llegar allí
+-  {Keyword=carl's jr.}  Más cercano  {Address=brighton 1a terraza}   {Address=Gloucester}   {Address=Ny} mostrarme cómo llegar allí
+-  {Keyword=campeón campo de golf}  en la intersección  {Address=schweikerts caminar}  Y  {Address=carretera de Westminster} mostrarme cómo llegar allí
+-  {Keyword=campeón campo de golf}  en la intersección  {Address=avenida de la nuez}  Y  {Address=Calle 92} mostrarme cómo llegar allí
+-  {Keyword=edificio chrysler}  En  {Address=155}   {Address=calle penn}   {Address=puerto de musgrave}   {Address=50587} mostrarme cómo llegar allí
+- llevarme a  {Address=Ruta 41} 
+- llevarme a  {Keyword=roy rogers restaurantes} 
+- llevarme a  {Address=Calle Ryder}   {Address=combes ciudad} 
+- llegar a  {Address=calle Walworth} 
+- llegar a  {Address=yamachiche} 
+- llegar a  {Keyword=toppers pizza} 
+- ¿cómo puedo llegar a un  {Keyword=barra sándwich} 
+- ¿cómo puedo llegar a  {Keyword=a1 limpieza de coches} 
+- ¿cómo puedo llegar a  {Address=lewis condado} 
+- ¿cómo puedo llegar a  {Address=marconi lugar} 
+- ¿cómo puedo llegar a  {Address=condado monroe} 
+- necesito llegar a  {Address=clavet} 
+- necesito llegar a  {Address=danielson municipio} 
+- necesito llegar a  {Address=Draper} 
+-  {Keyword=Roosevelt campobello parque internacional}  En  {Address=carril de carretera de la costa}  En  {Address=Kugluktuk} ¿cómo puedo llegar a ese lugar
+-  {Address=rosendale} mapa ¿cómo llegar a ese lugar
+-  {Address=Ruta 20}  Y  {Address=corte de caballero} Necesito llegar a la intersección
+- el lugar al que necesito llegar es  {Keyword=capitán de las huellas} en la ciudad
+- el lugar al que necesito llegar es  {Keyword=promenade ii}  En  {Address=bandera 3rd carretera} en las cercanías
+- el lugar al que quiero llegar es  {Address=1635}   {Address=17a avenida}   {Address=mi}   {Address=san Vicente y las granadinas} 
+- el lugar al que quiero llegar es  {Address=1828}   {Address=colocará}   {Address=Alberta} 
+-  {Address=avenida oeste}  Y  {Address=calle mecánica} Necesito llegar a la intersección
 
 > locate
 

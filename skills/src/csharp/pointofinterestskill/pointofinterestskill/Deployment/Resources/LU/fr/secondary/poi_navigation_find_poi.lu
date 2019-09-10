@@ -82,7 +82,7 @@
 - vérifier  {Keyword=pain naan} en ville pour pas plus de 317 livres
 - vérifier  {Keyword=la fosse pita}  sur  {Address=rue jackson} 
 
-- exposition
+> display
 
 - afficher à proximité  {Keyword=livraison de colis} à proximité pour plus de 431 euros
 - afficher loin  {Keyword=i t soutien} à proximité pour pas plus de 129 euros
@@ -202,6 +202,40 @@
 - m'obtenir  {Keyword=nourriture biélorusse} 
 - m'obtenir  {Keyword=palais buta} 
 - m'obtenir  {Keyword=Cambodgien} 
+
+> get to
+
+- un  {Keyword=lieu de villégiature}  à  {Address=333}   {Address=baie 32e rue}   {Address=dans}   {Address=Ville de lauderhill} dans la façon dont puis-je y arriver
+- un  {Keyword=parc aquatique}  à  {Address=356}   {Address=voie de cerise}   {Address=49433}   {Address=ville de mcadenville}   {Address=Pe}   {Address=Allemagne} montrez-moi comment y arriver
+-  {Address=rue brune}  et  {Address=2ème rue nord} s'il vous plaît me montrer comment y arriver
+-  {Keyword=capitaine d'un}  à  {Address=rue principale ouest}  et  {Address=49ème rue}   {Address=Lindsay}   {Address=nouveau mexique} s'il vous plaît me montrer comment y arriver
+-  {Address=Carbonear} carte me montrer comment y arriver
+-  {Keyword=carl jr.}  Plus  {Address=brighton 1ère terrasse}   {Address=Gloucester}   {Address=Ny} montrez-moi comment y arriver
+-  {Keyword=parcours de golf des champions}  à l'intersection  {Address=schweikerts marche}  et  {Address=route de westminster} montrez-moi comment y arriver
+-  {Keyword=parcours de golf des champions}  à l'intersection  {Address=avenue noyer}  et  {Address=92e rue} montrez-moi comment y arriver
+-  {Keyword=chrysler bâtiment}  à  {Address=155}   {Address=rue penn}   {Address=port de musgrave}   {Address=50587} montrez-moi comment y arriver
+- m'amener à  {Address=route 41} 
+- m'amener à  {Keyword=restaurants roy rogers} 
+- m'amener à  {Address=rue ryder}   {Address=combes ville} 
+- atteindre  {Address=rue Walworth} 
+- atteindre  {Address=yamachiche yamachiche} 
+- atteindre  {Keyword=toppers pizza} 
+- comment puis-je arriver à un  {Keyword=sandwicherie} 
+- comment puis-je arriver à  {Keyword=a1 nettoyage de voiture} 
+- comment puis-je arriver à  {Address=comté de lewis} 
+- comment puis-je arriver à  {Address=lieu marconi} 
+- comment puis-je arriver à  {Address=comté de monroe} 
+- J'ai besoin d'arriver à  {Address=Clavet} 
+- J'ai besoin d'arriver à  {Address=danielson arrondissement} 
+- J'ai besoin d'arriver à  {Address=Draper} 
+-  {Keyword=roosevelt campobello parc international}  sur  {Address=voie de la route à terre}  dans  {Address=Kugluktuk} comment puis-je arriver à cet endroit
+-  {Address=rosendale (en)} carte comment puis-je arriver à cet endroit
+-  {Address=route 20}  et  {Address=cour de chevalier} J'ai besoin d'aller à l'intersection
+- l'endroit où j'ai besoin d'aller est  {Keyword=imprimeries capitaine} en ville
+- l'endroit où j'ai besoin d'aller est  {Keyword=promenade ii}  sur  {Address=bannière 3e route} alentours
+- l'endroit où je veux aller est  {Address=1635}   {Address=17e avenue}   {Address=Mi}   {Address=st vincent et les grenadines} 
+- l'endroit où je veux aller est  {Address=1828}   {Address=placera}   {Address=Alberta} 
+-  {Address=avenue ouest}  et  {Address=rue mécanique} J'ai besoin d'aller à l'intersection
 
 > locate
 

@@ -82,7 +82,7 @@
 - check {Keyword=naan bread} in town for not more than 317 pounds
 - check {Keyword=the pita pit} on {Address=jackson street}
 
-- display
+> display
 
 - display close {Keyword=package delivery} nearby for over 431 euros
 - display far {Keyword=i t support} nearby for not more than 129 euros
@@ -202,6 +202,40 @@
 - get me {Keyword=belarusan food}
 - get me {Keyword=buta palace}
 - get me {Keyword=cambodian}
+
+> get to
+
+- a {Keyword=resort} at {Address=333} {Address=bay 32nd street} {Address=in} {Address=lauderhill city} in how do i get there
+- a {Keyword=water park} at {Address=356} {Address=cherry lane} {Address=49433} {Address=mcadenville town} {Address=pe} {Address=germany} show me how to get there
+- {Address=brown street} and {Address=2nd street north} please show me how to get there
+- {Keyword=captain d's} at {Address=main street west} and {Address=49th street} {Address=lindsay} {Address=new mexico} please show me how to get there
+- {Address=carbonear} map show me how to get there
+- {Keyword=carl's jr.} closest {Address=brighton 1st terrace} {Address=gloucester} {Address=ny} show me how to get there
+- {Keyword=champions golf course} at the intersection {Address=schweikerts walk} and {Address=westminster road} show me how to get there
+- {Keyword=champions golf course} at the intersection {Address=walnut avenue} and {Address=92nd street} show me how to get there
+- {Keyword=chrysler building} at {Address=155} {Address=penn street} {Address=musgrave harbour} {Address=50587} show me how to get there
+- get me to {Address=route 41}
+- get me to {Keyword=roy rogers restaurants}
+- get me to {Address=ryder street} {Address=combes town}
+- get to {Address=walworth street}
+- get to {Address=yamachiche}
+- get to {Keyword=toppers pizza}
+- how can i get to a {Keyword=sandwich bar}
+- how can i get to {Keyword=a1 car cleaning}
+- how can i get to {Address=lewis county}
+- how can i get to {Address=marconi place}
+- how can i get to {Address=monroe county}
+- i need to get to {Address=clavet}
+- i need to get to {Address=danielson borough}
+- i need to get to {Address=draper}
+- {Keyword=roosevelt campobello international park} on {Address=shore road lane} in {Address=kugluktuk} how do i get to that place
+- {Address=rosendale} map how do i get to that place
+- {Address=route 20} and {Address=knight court} i need to get to the intersection
+- the place i need to get to is {Keyword=captain printworks} in city
+- the place i need to get to is {Keyword=promenade ii} on {Address=banner 3rd road} in the vicinity
+- the place i want to get to is {Address=1635} {Address=17th avenue} {Address=mi} {Address=st vincent and the grenadines}
+- the place i want to get to is {Address=1828} {Address=will place} {Address=alberta}
+- {Address=west avenue} and {Address=mechanic street} i need to get to the intersection
 
 > locate
 

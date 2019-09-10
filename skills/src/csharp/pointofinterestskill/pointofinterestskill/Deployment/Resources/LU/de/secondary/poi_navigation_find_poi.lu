@@ -82,7 +82,7 @@
 - prüfen  {Keyword=naan Brot} in der Stadt für nicht mehr als 317 Pfund
 - prüfen  {Keyword=die Pita-Grube}  auf  {Address=jackson straße} 
 
-- ausstellen
+> display
 
 - Anzeige schließen  {Keyword=Paketzustellung} in der Nähe für über 431 Euro
 - Anzeige weit  {Keyword=i t Unterstützung} in der Nähe für nicht mehr als 129 Euro
@@ -202,6 +202,40 @@
 - holt mich  {Keyword=belarusan eisern} 
 - holt mich  {Keyword=Buta-Palast} 
 - holt mich  {Keyword=Kambodschanischen} 
+
+> get to
+
+- pro  {Keyword=zuflucht nehmen zu}  an  {Address=333}   {Address=Bucht 32. Straße}   {Address=in}   {Address=lauderhill Stadt} in wie komme ich dorthin
+- pro  {Keyword=Wasserpark}  an  {Address=356}   {Address=Kirschstraße}   {Address=49433}   {Address=mcadenville}   {Address=Pe}   {Address=Deutschland} zeigen Sie mir, wie man dorthin kommt
+-  {Address=braune Straße}  und  {Address=2. Straße Nord} bitte zeigen Sie mir, wie man dorthin kommt
+-  {Keyword=Captain d es}  an  {Address=Hauptstraße West}  und  {Address=49. Straße}   {Address=Lindsay}   {Address=new mexico} bitte zeigen Sie mir, wie man dorthin kommt
+-  {Address=Carbonear} Karte zeigt mir, wie man dorthin kommt
+-  {Keyword=carl es jr.}  Nächste  {Address=brighton 1. Terrasse}   {Address=Gloucester}   {Address=Ny} zeigen Sie mir, wie man dorthin kommt
+-  {Keyword=Champions Golfplatz}  an der Kreuzung  {Address=schweikerts gehen}  und  {Address=Westminster Road} zeigen Sie mir, wie man dorthin kommt
+-  {Keyword=Champions Golfplatz}  an der Kreuzung  {Address=Walnussallee}  und  {Address=92. Straße} zeigen Sie mir, wie man dorthin kommt
+-  {Keyword=Chrysler-Gebäude}  an  {Address=155}   {Address=penn straße}   {Address=musgrave Hafen}   {Address=50587} zeigen Sie mir, wie man dorthin kommt
+- holt mich zu  {Address=Route 41} 
+- holt mich zu  {Keyword=restaurants roy rogers} 
+- holt mich zu  {Address=Ryder Straße}   {Address=combes Stadt} 
+- kommen zu  {Address=walworth street} 
+- kommen zu  {Address=yamachiche} 
+- kommen zu  {Keyword=Topper s pizza} 
+- wie kann ich zu einem  {Keyword=snackbar} 
+- wie kann ich zu bekommen  {Keyword=a1 Autoreinigung} 
+- wie kann ich zu bekommen  {Address=lewis} 
+- wie kann ich zu bekommen  {Address=marconi platz} 
+- wie kann ich zu bekommen  {Address=Monroe} 
+- ich muss zu bekommen  {Address=clavet} 
+- ich muss zu bekommen  {Address=danielson} 
+- ich muss zu bekommen  {Address=Draper} 
+-  {Keyword=roosevelt campobello internationaler Park}  auf  {Address=Uferfahrbahn}  in  {Address=kugluktuk} wie komme ich an diesen Ort
+-  {Address=rosendale} Karte, wie komme ich zu diesem Ort
+-  {Address=Route 20}  und  {Address=Ritterhof} ich muss an die Kreuzung
+- der Ort, an den ich gelangen muss, ist  {Keyword=Kapitän Druckwerke} in der Stadt
+- der Ort, an den ich gelangen muss, ist  {Keyword=Promenade ii}  auf  {Address=Banner 3. Straße} in der Nähe
+- der Ort, an den ich gelangen möchte, ist  {Address=1635}   {Address=17. Allee}   {Address=mi}   {Address=st vincent und die Grenadinen} 
+- der Ort, an den ich gelangen möchte, ist  {Address=1828}   {Address=wird}   {Address=Alberta} 
+-  {Address=Westallee}  und  {Address=mechanische Straße} ich muss an die Kreuzung
 
 > locate
 
