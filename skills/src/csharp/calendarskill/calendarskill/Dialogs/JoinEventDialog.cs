@@ -111,6 +111,7 @@ namespace CalendarSkill.Dialogs
             {
                 return meetingLink.GetAttributeValue("href", null);
             }
+
             return null;
         }
 
@@ -185,7 +186,7 @@ namespace CalendarSkill.Dialogs
                 var validEvents = new List<EventModel>();
                 foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
                 {
-                    if (IsValidJoinTime(state.GetUserTimeZone(), item) && (GetDialInNumberFromMeeting(item) != null || GetTeamsMeetingLinkFromMeeting(item) != null))
+                    if (IsValidJoinTime(state.GetUserTimeZone(), item) && (GetDialInNumberFromMeeting(item) != null || item.OnlineMeetingUrl != null || GetTeamsMeetingLinkFromMeeting(item) != null))
                     {
                         validEvents.Add(item);
                     }
