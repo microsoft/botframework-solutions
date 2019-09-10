@@ -29,57 +29,77 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private string SkillName { get; set; }
 
+        private string Contact;
+
         private async Task CacheCoreferenceResolutionInformation(ITurnContext turnContext)
         {
-            string contact = null;
-            switch (SkillName)
+            Contact = null;
+            await AbstractPreviousContactAsync(turnContext);
+            if (Contact != null)
             {
-                case "EmailSkill":
-                    contact = await AbstractEmailPreviousContactAsync(turnContext);
-                    break;
-                case "CalendarSkill":
-                    contact = await AbstractCalendarPreviousContactAsync(turnContext);
-                    break;
-            }
-
-            if (contact != null)
-            {
-                if (UserContextManager.PreviousContacts.Contains(contact))
+                if (UserContextManager.PreviousContacts.Contains(Contact))
                 {
-                    UserContextManager.PreviousContacts.Remove(contact);
+                    UserContextManager.PreviousContacts.Remove(Contact);
                 }
 
-                UserContextManager.PreviousContacts.Add(contact);
+                UserContextManager.PreviousContacts.Add(Contact);
             }
         }
 
-        private async Task<string> AbstractEmailPreviousContactAsync(ITurnContext turnContext)
+        private async Task AbstractPreviousContactAsync(ITurnContext turnContext)
         {
             try
             {
-                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
+                var skillStateAccessor = ConversationState.CreateProperty<object>(string.Format("{0}State", SkillName));
                 var skillState = await skillStateAccessor.GetAsync(turnContext);
-                var contacts = skillState.FindContactInfor.Contacts;
-                return ((IEnumerable<dynamic>)contacts).Last().EmailAddress.Name;
+                ScanPropertiesRecursively(skillState);
             }
             catch
             {
-                return null;
             }
         }
 
-        private async Task<string> AbstractCalendarPreviousContactAsync(ITurnContext turnContext)
+        private void ScanPropertiesRecursively(object propValue, int depth = 0)
         {
-            try
+            // Because many models exist circular reference, this limit can prevent infinite loop.
+            if (propValue == null || depth > 7)
             {
-                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
-                var skillState = await skillStateAccessor.GetAsync(turnContext);
-                var contacts = skillState.MeetingInfor.ContactInfor.Contacts;
-                return ((IEnumerable<dynamic>)contacts).Last().DisplayName;
+                return;
             }
-            catch
+
+            var childProps = propValue.GetType().GetProperties().Where(x => !x.GetIndexParameters().Any());
+            foreach (var prop in childProps)
             {
-                return null;
+                var name = prop.Name;
+                var value = prop.GetValue(propValue);
+                if (name == "Contacts")
+                {
+                    try
+                    {
+                        var lastContact = ((IEnumerable<dynamic>)value).Last();
+                        if (lastContact.DisplayName != null)
+                        {
+                            Contact = lastContact.DisplayName;
+                        }
+                    }
+                    catch
+                    {
+                    }
+
+                    try
+                    {
+                        var lastContact = ((IEnumerable<dynamic>)value).Last();
+                        if (lastContact.EmailAddress.Name != null)
+                        {
+                            Contact = lastContact.EmailAddress.Name;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                ScanPropertiesRecursively(value, depth + 1);
             }
         }
     }
