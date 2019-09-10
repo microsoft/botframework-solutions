@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 
 namespace CalendarSkill.Dialogs
 {
@@ -94,6 +95,25 @@ namespace CalendarSkill.Dialogs
             return number.InnerText.Replace(telToken, string.Empty);
         }
 
+        private string GetTeamsMeetingLinkFromMeeting(EventModel eventModel)
+        {
+            if (string.IsNullOrEmpty(eventModel.Content))
+            {
+                return null;
+            }
+
+            var body = eventModel.Content;
+            var doc = new HtmlDocument();
+            doc.LoadHtml(body);
+
+            var meetingLink = doc.DocumentNode.SelectSingleNode("//a[contains(string(), 'Join')][contains(string(), 'Microsoft')][contains(string(), 'Teams')][contains(string(), 'Meeting')]");
+            if (meetingLink != null)
+            {
+                return meetingLink.GetAttributeValue("href", null);
+            }
+            return null;
+        }
+
         private bool IsValidJoinTime(TimeZoneInfo userTimeZone, EventModel e)
         {
             var startTime = TimeZoneInfo.ConvertTime(e.StartTime, TimeZoneInfo.Utc, userTimeZone);
@@ -165,7 +185,7 @@ namespace CalendarSkill.Dialogs
                 var validEvents = new List<EventModel>();
                 foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
                 {
-                    if (IsValidJoinTime(state.GetUserTimeZone(), item) && GetDialInNumberFromMeeting(item) != null)
+                    if (IsValidJoinTime(state.GetUserTimeZone(), item) && (GetDialInNumberFromMeeting(item) != null || GetTeamsMeetingLinkFromMeeting(item) != null))
                     {
                         validEvents.Add(item);
                     }
@@ -196,11 +216,16 @@ namespace CalendarSkill.Dialogs
 
                 var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
                 var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
+                var meetingLink = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent);
                 var responseParams = new StringDictionary()
                 {
                     { "PhoneNumber", phoneNumber },
+                    { "MeetingLink", meetingLink }
                 };
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(JoinEventResponses.ConfirmPhoneNumber, responseParams) });
+
+                var responseName = phoneNumber == null ? JoinEventResponses.ConfirmMeetingLink : JoinEventResponses.ConfirmPhoneNumber;
+
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(responseName, responseParams) });
             }
             catch (Exception ex)
             {
@@ -222,8 +247,13 @@ namespace CalendarSkill.Dialogs
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
-                        replyEvent.Name = "JoinEvent.DialInNumber";
-                        replyEvent.Value = GetDialInNumberFromMeeting(selectedEvent);
+                        replyEvent.Name = "OpenDefaultApp";
+                        var eventJoinLink = new EventJoinLink
+                        {
+                            MeetingUri = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent),
+                            TelephoneUri = GetDialInNumberFromMeeting(selectedEvent)
+                        };
+                        replyEvent.Value = JsonConvert.SerializeObject(eventJoinLink);
                         await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
                     }
                     else

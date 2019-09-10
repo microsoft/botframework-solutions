@@ -35,6 +35,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ConfirmMeetingLink": {
+    "replies": [
+      {
+        "text": "Here is the link I am about to join: {MeetingLink}. Please be aware that charges may apply. Do you want to proceed?",
+        "speak": "Here is the link I am about to join: {MeetingLink}. Please be aware that charges may apply. Do you want to proceed?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "JoinMeeting": {
     "replies": [
       {
