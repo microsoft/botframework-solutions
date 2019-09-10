@@ -15,10 +15,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Models.Strategy
         {
             public int Compare(T x, T y)
             {
-                if (typeof(T) == typeof(PreviousInput))
+                if (typeof(T) == typeof(PreviousTriggerIntent))
                 {
-                    var itemX = x as PreviousInput;
-                    var itemY = y as PreviousInput;
+                    var itemX = x as PreviousTriggerIntent;
+                    var itemY = y as PreviousTriggerIntent;
                     return itemX.TimeStamp.CompareTo(itemY.TimeStamp);
                 }
                 else

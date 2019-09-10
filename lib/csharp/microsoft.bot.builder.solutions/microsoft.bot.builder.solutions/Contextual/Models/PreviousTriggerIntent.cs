@@ -2,7 +2,7 @@
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 {
-    public class PreviousInput
+    public class PreviousTriggerIntent
     {
         public string Utterance { get; set; }
 

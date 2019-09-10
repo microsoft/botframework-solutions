@@ -44,15 +44,16 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var savePreviousInputAction = new SavePreviousInputAction(
+            var skillContextualMiddleware = new SkillContextualMiddleware();
+
+            var cachePreviousTriggerIntentAction = new CachePreviousTriggerIntentAction(
                 convState,
                 userState,
                 userContextManager,
                 nameof(ToDoSkill),
                 new List<string> { "ShowToDo", "MarkToDo" });
+            skillContextualMiddleware.Register(cachePreviousTriggerIntentAction);
 
-            var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(savePreviousInputAction);
             Use(skillContextualMiddleware);
         }
     }
