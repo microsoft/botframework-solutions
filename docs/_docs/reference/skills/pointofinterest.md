@@ -139,7 +139,6 @@ The following Configuration entries are required to be passed to the Skill and a
 - `AzureMapsKey`
 - `FoursquareClientId` *(optional)*
 - `FoursquareClientSecret` *(optional)*
-- `ImageAssetLocation`
 - `Radius` *(in meters)*
 - `LimitSize`
 
@@ -163,16 +162,10 @@ The following Configuration entries are required to be passed to the Skill and a
     "FoursquareClientId": "YOUR_FOURSQUARE_CLIENT_ID",
     "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET",
     "Radius": "SEARCH_RADIUS_FROM_LOCATION",
-    "ImageAssetLocation": "http://www.contoso.com/images/",
     "LimitSize": "POI_SEARCH_LIMIT"
     }
 }
 ```
-
-### Image Assets
-
-In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot/images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property.
-If you skip this step, Adaptive Cards will not render with images correctly.
 
 ### Deploying the Skill
 

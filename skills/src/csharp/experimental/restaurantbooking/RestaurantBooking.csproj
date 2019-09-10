@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\CuisineChoiceCard.1.0.json" />
+    <Content Remove="Content\CuisineChoiceCard.json" />
+    <Content Remove="Content\ReservationConfirmationCard.json" />
+    <Content Remove="Content\ReservationConfirmCard.json" />
+    <Content Remove="Content\RestaurantChoiceCard.1.0.json" />
+    <Content Remove="Content\RestaurantChoiceCard.json" />
     <Content Remove="Responses\Main\RestaurantBookingMainResponses.de.json" />
     <Content Remove="Responses\Main\RestaurantBookingMainResponses.es.json" />
     <Content Remove="Responses\Main\RestaurantBookingMainResponses.fr.json" />
@@ -22,15 +28,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\CuisineChoiceCard.1.0.json" />
+    <EmbeddedResource Include="Content\CuisineChoiceCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\RestaurantChoiceCard.1.0.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.fr.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.it.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.zh.json" />
     <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Content\CusineChoiceCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\ReservationConfirmationCard.json">

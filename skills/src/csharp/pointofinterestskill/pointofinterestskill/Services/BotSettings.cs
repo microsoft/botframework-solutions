@@ -12,8 +12,6 @@ namespace PointOfInterestSkill.Services
 
         public string Radius { get; set; }
 
-        public string ImageAssetLocation { get; set; }
-
         public string LimitSize { get; set; }
 
         public string RouteLimit { get; set; }

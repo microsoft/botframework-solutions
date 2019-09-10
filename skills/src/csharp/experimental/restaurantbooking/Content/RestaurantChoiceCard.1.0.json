@@ -1,4 +1,4 @@
-{
+  {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
@@ -54,12 +54,7 @@
           "text": "{Location}",
           "horizontalAlignment": "center"
         }
-      ],
-      "selectAction": {
-        "type": "Action.Submit",
-        "title": "Submit action",
-        "data": "{Name}"
-      }
+      ]
     }
   ]
 }
