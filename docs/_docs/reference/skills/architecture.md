@@ -48,38 +48,7 @@ All communication between a Virtual Assistant and a Skill is performed through a
 
 The `SkillManifest` provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill.
 
- A `skill/begin` event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event. This event contains a `SkillContext` object that contains matched Slot information, if the Virtual Assistant has populated matching data into it's SkillContext object then it's retrieved and passed across to the Skill.
-
- For example, if there is a `Location` data item in Virtual Assistant SkillContext object and the Skill being invoked has a `Location` slot it will be matched and passed.
-
-An example of a `skill/begin` event is shown below:
-
- ```json
-{
-    "type": "event",
-    "channelId": "test",
-    "from": {
-        "id": "user1",
-        "name": "User1"
-    },
-    "conversation": {
-        "id": "Conversation1"
-    },
-    "recipient": {
-        "id": "bot",
-        "name": "Bot"
-    },
-    "value": {
-        "param1": "TEST",
-        "param2": "TEST2"
-    },
-    "name": "skill/begin"
-}
- ```
-
-This dialog remains active on the Virtual Assistant's `DialogStack`, ensuring that subsequent utterances are routed to your Skill.
-
-When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the Virtual Assistant.
+When a skill wants to terminate an ongoing dialog, it sends back an activity with `Handoff` type to signal the completion of the current dialog. 
 
 See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthentication) section for information on how Bot->Skill invocation is secured.
 
@@ -87,7 +56,7 @@ See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthenticat
 
 The `SkillMiddleware` is used by each Skill and is configured automatically if you use the Skill Template.
 
-The middleware consumes the `skill/begin` event and populates SkillContext on the Skill side making slots available.
+The middleware consumes the `skill/cancelallskilldialogs` event and when receives it on the skill side, it will help clear out the active dialog stack on the skill side. This is extremely useful in interruptions such as when user says `Cancel` the VA can send this event and the skill will be able to cancel the active dialog.
 
 ## Interrupting Active Skills
 
