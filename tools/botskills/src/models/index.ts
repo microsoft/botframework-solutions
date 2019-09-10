@@ -3,13 +3,13 @@
  * Licensed under the MIT License.
  */
 
+export { IAppSetting } from './appSetting';
 export {
     IAppShowReplyUrl,
     IAzureAuthSetting,
     IOauthConnection,
     IResourceAccess,
     IScopeManifest } from './authentication';
-export { IAppSetting } from './appSetting';
 export { ICognitiveModel } from './cognitiveModel';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';

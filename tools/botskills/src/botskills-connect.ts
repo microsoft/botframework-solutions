@@ -109,7 +109,7 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
 localManifest = args.localManifest;
 remoteManifest = args.remoteManifest;
 
-// outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
+// outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
 // skillsFile validation

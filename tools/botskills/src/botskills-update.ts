@@ -110,7 +110,7 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
 localManifest = args.localManifest;
 remoteManifest = args.remoteManifest;
 
-// outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
+// outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
 // skillsFile validation
@@ -132,8 +132,10 @@ if (!args.skillsFile) {
 // appSettingsFile validation
 appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
 
+// validate the existence of the appsettings file
 if (appSettingsFile !== undefined) {
     const appSettings: IAppSetting = JSON.parse(readFileSync(appSettingsFile, 'UTF8'));
+    // use botWebAppName and resourceGroupName properties from appsettings file
     botName = appSettings.botWebAppName;
     resourceGroup = appSettings.resourceGroupName;
 } else {

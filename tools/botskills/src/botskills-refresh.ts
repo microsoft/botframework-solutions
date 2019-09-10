@@ -76,7 +76,7 @@ lgLanguage = args.cs ? 'cs' : 'ts';
 language = args.language || 'en-us';
 const languageCode: string = (language.split('-'))[0];
 
-// outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
+// outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
 // cognitiveModelsFile validation
