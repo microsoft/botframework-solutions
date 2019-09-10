@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
@@ -24,18 +25,18 @@ namespace Microsoft.Bot.Builder.Skills
             _skillTransport = skillTransport ?? throw new ArgumentNullException(nameof(skillTransport));
         }
 
-        public async override Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler)
+        public async override Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
         {
-            var response = await _skillTransport.ForwardToSkillAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, activity, skillResponseHandler);
+            var response = await _skillTransport.ForwardToSkillAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, activity, skillResponseHandler, cancellationToken).ConfigureAwait(false);
 
             _skillTransport.Disconnect();
 
             return response;
         }
 
-        public async override Task CancelRemoteDialogsAsync()
+        public async override Task CancelRemoteDialogsAsync(CancellationToken cancellationToken = default)
         {
-            await _skillTransport.CancelRemoteDialogsAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials);
+            await _skillTransport.CancelRemoteDialogsAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, cancellationToken).ConfigureAwait(false);
         }
     }
 }

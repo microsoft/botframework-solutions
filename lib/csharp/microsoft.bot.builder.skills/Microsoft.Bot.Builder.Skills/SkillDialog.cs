@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
-                await _skillConnector.CancelRemoteDialogsAsync().ConfigureAwait(false);
+                await _skillConnector.CancelRemoteDialogsAsync(cancellationToken).ConfigureAwait(false);
             }
 
             await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."), cancellationToken).ConfigureAwait(false);
 
-            return await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
+            return await ForwardToSkillAsync(innerDc, activity, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -230,12 +230,13 @@ namespace Microsoft.Bot.Builder.Skills
         /// </summary>
         /// <param name="dialogContext">Dialog context.</param>
         /// <param name="activity">Activity.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>DialogTurnResult.</returns>
-        private async Task<DialogTurnResult> ForwardToSkillAsync(DialogContext dialogContext, Activity activity)
+        private async Task<DialogTurnResult> ForwardToSkillAsync(DialogContext dialogContext, Activity activity, CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await _skillConnector.ForwardToSkillAsync(activity, this).ConfigureAwait(false);
+                var response = await _skillConnector.ForwardToSkillAsync(activity, this, cancellationToken).ConfigureAwait(false);
 
                 if (response != null && response.Type == ActivityTypes.Handoff)
                 {

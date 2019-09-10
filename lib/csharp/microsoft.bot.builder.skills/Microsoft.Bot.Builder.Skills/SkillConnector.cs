@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
 
@@ -24,13 +25,15 @@ namespace Microsoft.Bot.Builder.Skills
         /// </summary>
         /// <param name="activity">Activity object to forward.</param>
         /// <param name="skillResponseHandler">Handler that handles response back from skill.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Response activity of the forwarded activity to the skill.</returns>
-        public abstract Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler);
+        public abstract Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Cancel the remote skill dialogs on the stack.
         /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task.</returns>
-        public abstract Task CancelRemoteDialogsAsync();
+        public abstract Task CancelRemoteDialogsAsync(CancellationToken cancellationToken = default);
     }
 }
