@@ -40,14 +40,12 @@ namespace EmailSkill.Adapters
             Use(new EventDebuggerMiddleware());
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(new GetSentimentAction());
 
-            var savePreviousInputAction = new SavePreviousInputAction(
-              convState,
-              userState,
-              userContextManager,
-              nameof(EmailSkill));
-            skillContextualMiddleware.Register(savePreviousInputAction);
+            var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
+                convState,
+                userContextManager,
+                nameof(EmailSkill));
+            skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);
         }

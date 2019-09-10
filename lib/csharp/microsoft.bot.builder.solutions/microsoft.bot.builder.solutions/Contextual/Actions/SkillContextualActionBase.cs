@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class ISkillContextualAction
+    public class SkillContextualActionBase
     {
         public Action<ITurnContext> BeforeTurnAction { get; set; } = (turncontext) => { };
 

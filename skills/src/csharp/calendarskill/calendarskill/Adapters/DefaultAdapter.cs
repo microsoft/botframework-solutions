@@ -41,12 +41,11 @@ namespace CalendarSkill.Adapters
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
 
-            var savePreviousInputAction = new SavePreviousInputAction(
-              convState,
-              userState,
-              userContextManager,
-              nameof(CalendarSkill));
-            skillContextualMiddleware.Register(savePreviousInputAction);
+            var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
+                convState,
+                userContextManager,
+                nameof(CalendarSkill));
+            skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);
         }

@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         public static int DialogIndex { get; set; } = 0;
 
-        internal List<PreviousInput> PreviousQuestions { get; set; } = new List<PreviousInput>();
+        internal List<PreviousTriggerIntent> PreviousTriggerIntents { get; set; } = new List<PreviousTriggerIntent>();
 
         internal List<string> PreviousContacts { get; set; } = new List<string>();
 
@@ -47,14 +47,14 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public List<PreviousInput> GetPreviousQuestions()
+        public List<PreviousTriggerIntent> GetPreviousQuestions()
         {
-            return PreviousQuestions;
+            return PreviousTriggerIntents;
         }
 
         public async Task ClearPreviousQuestions(ITurnContext turnContext)
         {
-            PreviousQuestions.Clear();
+            PreviousTriggerIntents.Clear();
         }
     }
 }
