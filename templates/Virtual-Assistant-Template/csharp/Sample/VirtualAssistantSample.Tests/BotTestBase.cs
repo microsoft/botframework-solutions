@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,7 +75,8 @@ namespace VirtualAssistantSample.Tests
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>();
+            var adapter = sp.GetService<TestAdapter>()
+                .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
