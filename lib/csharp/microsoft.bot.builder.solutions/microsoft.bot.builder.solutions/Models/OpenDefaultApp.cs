@@ -3,7 +3,7 @@
 
 namespace Microsoft.Bot.Builder.Solutions.Models
 {
-    class OpenDefaultApp
+    public class OpenDefaultApp
     {
         public string MeetingUri { get; set; }
 
