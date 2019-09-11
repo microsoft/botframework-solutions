@@ -72,8 +72,6 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                                                 break;
                                             }
 
-                                            await CompleteAsync(innerDc).ConfigureAwait(false);
-
                                             // End active dialog
                                             await innerDc.EndDialogAsync().ConfigureAwait(false);
                                             break;
@@ -84,6 +82,12 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                                             break;
                                         }
                                 }
+                            }
+
+                            // If the active dialog was ended on this turn (either on single-turn dialog, or on continueDialogAsync) run CompleteAsync method.
+                            if (innerDc.ActiveDialog == null)
+                            {
+                                await CompleteAsync(innerDc).ConfigureAwait(false);
                             }
 
                             break;

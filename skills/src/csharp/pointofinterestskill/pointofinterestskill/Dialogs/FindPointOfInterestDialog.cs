@@ -40,6 +40,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 GetPointOfInterestLocations,
                 ProcessPointOfInterestSelection,
+                ProcessPointOfInterestAction,
             };
 
             // Define the conversation flow using a waterfall model.

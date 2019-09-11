@@ -1,0 +1,2449 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "07efb980-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:00:28-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-08-29T21:00:28.823Z",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User"
+    },
+    "locale": "en-US",
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do.",
+    "inputHint": "acceptingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Extend Your Stay",
+          "value": "Can I extend my stay?"
+        },
+        {
+          "type": "imBack",
+          "title": "Find Local Events",
+          "value": "Find me something to do nearby"
+        },
+        {
+          "type": "imBack",
+          "title": "Recent News",
+          "value": "What's the news?"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "NewUserGreeting",
+          "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do.",
+          "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "size": "stretch",
+                  "url": "data:image/png;base64,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"
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAb8AAAIpCAYAAAAyxDaxAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAg5SURBVHhe7dUxAcAgEMDAp6pxiSS64CJ3SyRkzT53ACDkewWADPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwBiZn6z1waYNbhEmwAAAABJRU5ErkJggg==",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "id": "title",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "light",
+                  "text": "Hi, I'm **your** Hospitality Assistant",
+                  "wrap": true,
+                  "spacing": "medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "body",
+                  "size": "medium",
+                  "color": "light",
+                  "text": "Now that I'm up and running, explore the links here to learn what I can do.",
+                  "wrap": true
+                }
+              ],
+              "spacing": "none"
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": "/event:{\"Name\": \"VA.Location\", \"Value\": \"47.639620,-122.130610\"}",
+              "title": "Send location"
+            },
+            {
+              "type": "Action.Submit",
+              "data": "I want to order room service",
+              "title": "Room service"
+            },
+            {
+              "type": "Action.Submit",
+              "data": "What's the weather today?",
+              "title": "Today's weather"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "07efb980-caa0-11e9-8be7-794c558b5c5c",
+    "id": "087cde50-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:00:29-07:00",
+    "timestamp": "2019-08-29T21:00:29.749Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "08ac04a0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:00:30-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-08-29T21:00:30.058Z",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User"
+    },
+    "locale": "en-US",
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "text": "Hi how are you today?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112471137lnu5zjqjq88"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:01:13.643Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:13-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:13.933Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Hi how are you today?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.05948191
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Hi how are you today?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.05948191
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "22d2cfd0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:13-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:14.124Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Hi how are you today?",
+        "alteredText": null,
+        "intents": {
+          "q_Chitchat": {
+            "score": 0.99955
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Hi how are you today?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_Chitchat",
+          "score": 0.99955
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "22eff4c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:14-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "23327c00-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:14-07:00",
+    "timestamp": "2019-08-29T21:01:14.560Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:01:13.643+00:00",
+        "localTimestamp": "2019-08-29T14:01:13-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "Hi how are you today?",
+        "entities": [
+          {
+            "type": "ClientCapabilities",
+            "requiresBotState": true,
+            "supportsListening": true,
+            "supportsTts": true
+          }
+        ],
+        "channelData": {
+          "clientActivityID": "1567112471137lnu5zjqjq88"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "How are you",
+            "How are you today",
+            "How are things",
+            "How are you doing",
+            "How's your day"
+          ],
+          "answer": "Great, thanks.",
+          "score": 0.8574,
+          "metadata": [],
+          "source": "custom editorial",
+          "id": 203
+        }
+      ],
+      "knowledgeBaseId": "3d57715e-9c7c-4efc-a06b-5e6a51856ff5",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "23977f60-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:15-07:00",
+    "timestamp": "2019-08-29T21:01:15.222Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "Great, thanks.",
+    "speak": "Great, thanks.",
+    "inputHint": "acceptingInput",
+    "replyToId": "22a68fb0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "23afe960-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:15-07:00",
+    "timestamp": "2019-08-29T21:01:15.382Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "What's the wifi password?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112491014zm0gnhaxek"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:01:31.020Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:31-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:31.272Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What's the wifi password?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.105798021
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What's the wifi password?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.105798021
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2d288880-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:31-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:31.439Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What's the wifi password?",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9435981
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What's the wifi password?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9435981
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2d4203f0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:31-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "2d723bb0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:31-07:00",
+    "timestamp": "2019-08-29T21:01:31.755Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:01:31.02+00:00",
+        "localTimestamp": "2019-08-29T14:01:31-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "What's the wifi password?",
+        "channelData": {
+          "clientActivityID": "1567112491014zm0gnhaxek"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "What's the wifi password?",
+            "Do you have wifi?",
+            "What is the wifi?",
+            "Is there wifi",
+            "How can I get on the internet"
+          ],
+          "answer": "The Wi-Fi network name is Hotel_WiFi and the password is hotelsummer2019.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 3
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "2d9b4780-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:32-07:00",
+    "timestamp": "2019-08-29T21:01:32.024Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "The Wi-Fi network name is Hotel_WiFi and the password is hotelsummer2019.",
+    "speak": "The Wi-Fi network name is Hotel_WiFi and the password is hotelsummer2019.",
+    "inputHint": "acceptingInput",
+    "replyToId": "2d0214c0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "2db3d890-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:32-07:00",
+    "timestamp": "2019-08-29T21:01:32.185Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Where is the pool",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112499046hruscsotsww"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:01:39.056Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:39-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:39.223Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Where is the pool",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.0393109359
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Where is the pool",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.0393109359
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "31e5c270-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:39-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:39.387Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Where is the pool",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9979298
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Where is the pool",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9979298
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "31fec8b0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:39-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "id": "3232d100-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:39-07:00",
+    "timestamp": "2019-08-29T21:01:39.728Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:01:39.056+00:00",
+        "localTimestamp": "2019-08-29T14:01:39-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "Where is the pool",
+        "channelData": {
+          "clientActivityID": "1567112499046hruscsotsww"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "Is there a pool?",
+            "Where is the pool?",
+            "When is the pool open?",
+            "does this hotel have a pool",
+            "I want to swim",
+            "Please tell me where is the swimming pool"
+          ],
+          "answer": "We have a seasonal outdoor pool on the 1st floor that is open Monday-Sunday from 7:00am to 11:00pm.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 8
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "32674e80-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:40-07:00",
+    "timestamp": "2019-08-29T21:01:40.072Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "We have a seasonal outdoor pool on the 1st floor that is open Monday-Sunday from 7:00am to 11:00pm.",
+    "speak": "We have a seasonal outdoor pool on the 1st floor that is open Monday-Sunday from 7:00am to 11:00pm.",
+    "inputHint": "acceptingInput",
+    "replyToId": "31cc4700-caa0-11e9-8be7-794c558b5c5c",
+    "id": "328054c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:40-07:00",
+    "timestamp": "2019-08-29T21:01:40.236Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Are there towels at the pool?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15671125073579rhua11bqk6"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:01:47.362Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:47-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:47.660Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Are there towels at the pool?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.09516763
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Are there towels at the pool?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.09516763
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "36ed24c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:47-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:47.828Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Are there towels at the pool?",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9258488
+          }
+        },
+        "entities": {
+          "$instance": {
+            "Item": [
+              {
+                "startIndex": 10,
+                "endIndex": 16,
+                "text": "towels",
+                "type": "Item",
+                "score": 0.878418
+              }
+            ]
+          },
+          "Item": [
+            "towels"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Are there towels at the pool?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9258488
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "towels",
+            "type": "Item",
+            "startIndex": 10,
+            "endIndex": 15,
+            "score": 0.878418
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3706c740-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:47-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "id": "37381070-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:48-07:00",
+    "timestamp": "2019-08-29T21:01:48.151Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:01:47.362+00:00",
+        "localTimestamp": "2019-08-29T14:01:47-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "Are there towels at the pool?",
+        "channelData": {
+          "clientActivityID": "15671125073579rhua11bqk6"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "Pool amenities",
+            "Is the pool heated?",
+            "Are there towels at the pool?",
+            "What amenities does the pool have?"
+          ],
+          "answer": "The pool is heated and towels are provided.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 10
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "3752c460-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:48-07:00",
+    "timestamp": "2019-08-29T21:01:48.326Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "The pool is heated and towels are provided.",
+    "speak": "The pool is heated and towels are provided.",
+    "inputHint": "acceptingInput",
+    "replyToId": "36bfac20-caa0-11e9-8be7-794c558b5c5c",
+    "id": "376b7c80-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:48-07:00",
+    "timestamp": "2019-08-29T21:01:48.488Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Do you have a gym?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112512802pk31ixe2b3a"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:01:52.813Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:52-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:52.961Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Do you have a gym?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.0505596958
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Do you have a gym?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.0505596958
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3a160310-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:52-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:01:53.141Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Do you have a gym?",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9736072
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Do you have a gym?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9736072
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3a317a50-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:53-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "3a62c380-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:53-07:00",
+    "timestamp": "2019-08-29T21:01:53.464Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:01:52.813+00:00",
+        "localTimestamp": "2019-08-29T14:01:52-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "Do you have a gym?",
+        "channelData": {
+          "clientActivityID": "1567112512802pk31ixe2b3a"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "Where is the gym?",
+            "Is there a gym?",
+            "Where is the fitness center?",
+            "When is the fitness center open",
+            "What hours is the gym open",
+            "Where is the gymnasium?"
+          ],
+          "answer": "Our fitness center is located on the 2nd floor, and is open 24 hours, 7 days a week. ",
+          "score": 0.98,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 1
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "3a8fc6f0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:53-07:00",
+    "timestamp": "2019-08-29T21:01:53.759Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "Our fitness center is located on the 2nd floor, and is open 24 hours, 7 days a week. ",
+    "speak": "Our fitness center is located on the 2nd floor, and is open 24 hours, 7 days a week. ",
+    "inputHint": "acceptingInput",
+    "replyToId": "39ff6dd0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "3aa96970-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:01:53-07:00",
+    "timestamp": "2019-08-29T21:01:53.927Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "What equipment does the gym have",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112522294r3c6qosvbxm"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:02:02.300Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:02-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:02.492Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What equipment does the gym have",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.134518832
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What equipment does the gym have",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.134518832
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3fc453c0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:02-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:02.665Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What equipment does the gym have",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9893108
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What equipment does the gym have",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9893108
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3fdeb990-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:02-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "400a0f50-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:02-07:00",
+    "timestamp": "2019-08-29T21:02:02.949Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:02:02.3+00:00",
+        "localTimestamp": "2019-08-29T14:02:02-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "What equipment does the gym have",
+        "channelData": {
+          "clientActivityID": "1567112522294r3c6qosvbxm"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "gym amenities",
+            "What amenities does the gym have?",
+            "What equipment does the gym have?",
+            "What gym equipment is there?"
+          ],
+          "answer": "Our 24-hour fitness center has a variety of cardiovascular equipment. Towels, water, and headphones are also provided.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 12
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "40281ea0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:03-07:00",
+    "timestamp": "2019-08-29T21:02:03.146Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "Our 24-hour fitness center has a variety of cardiovascular equipment. Towels, water, and headphones are also provided.",
+    "speak": "Our 24-hour fitness center has a variety of cardiovascular equipment. Towels, water, and headphones are also provided.",
+    "inputHint": "acceptingInput",
+    "replyToId": "3fa707c0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "403fec60-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:03-07:00",
+    "timestamp": "2019-08-29T21:02:03.302Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "How often is my room cleaned?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112532511zw2pbysaox"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:02:12.526Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:12-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:12.728Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "How often is my room cleaned?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.101071954
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "How often is my room cleaned?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.101071954
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "45de3780-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:12-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:12.927Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "How often is my room cleaned?",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9570126
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "How often is my room cleaned?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9570126
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "45fc94f0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:12-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "46455dc0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:13-07:00",
+    "timestamp": "2019-08-29T21:02:13.404Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:02:12.526+00:00",
+        "localTimestamp": "2019-08-29T14:02:12-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "How often is my room cleaned?",
+        "channelData": {
+          "clientActivityID": "1567112532511zw2pbysaox"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "Is there housekeeping",
+            "How often is my room cleaned",
+            "When do I get housekeeping services"
+          ],
+          "answer": "There is a daily housekeeping service for all rooms.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 20
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "46955280-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:13-07:00",
+    "timestamp": "2019-08-29T21:02:13.928Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "There is a daily housekeeping service for all rooms.",
+    "speak": "There is a daily housekeeping service for all rooms.",
+    "inputHint": "acceptingInput",
+    "replyToId": "45bf64e0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "46ae31b0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:14-07:00",
+    "timestamp": "2019-08-29T21:02:14.091Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "How can I get my clothes dry cleaned?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112548479masvylnilub"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:02:28.494Z",
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:28-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:28.800Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "How can I get my clothes dry cleaned?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.151769072
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "How can I get my clothes dry cleaned?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.151769072
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "4f729c00-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:28-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:02:28.972Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "How can I get my clothes dry cleaned?",
+        "alteredText": null,
+        "intents": {
+          "q_hotel_FAQ": {
+            "score": 0.9786737
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "How can I get my clothes dry cleaned?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "q_hotel_FAQ",
+          "score": 0.9786737
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "4f8cdac0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:28-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "4fbdfce0-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:29-07:00",
+    "timestamp": "2019-08-29T21:02:29.294Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "replyToId": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "label": "QnAMaker Trace",
+    "valueType": "https://www.qnamaker.ai/schemas/trace",
+    "value": {
+      "message": {
+        "type": "message",
+        "id": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+        "timestamp": "2019-08-29T21:02:28.494+00:00",
+        "localTimestamp": "2019-08-29T14:02:28-07:00",
+        "serviceUrl": "https://1cfdeac6.ngrok.io",
+        "channelId": "emulator",
+        "from": {
+          "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+          "name": "User",
+          "role": "user"
+        },
+        "conversation": {
+          "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+        },
+        "recipient": {
+          "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+          "name": "Bot",
+          "role": "bot"
+        },
+        "textFormat": "plain",
+        "locale": "en-US",
+        "text": "How can I get my clothes dry cleaned?",
+        "channelData": {
+          "clientActivityID": "1567112548479masvylnilub"
+        }
+      },
+      "queryResults": [
+        {
+          "questions": [
+            "Do you have a dry-cleaning service?",
+            "Can I get something dry cleaned",
+            "Is there dry cleaning?",
+            "How can I get my clothes dry cleaned?"
+          ],
+          "answer": "For valet dry-cleaning, please fill out the dry-cleaning form in your closet and put your clothing in the provided bag. Same day service is provided if your clothing is dropped off at the front desk before 9:00am.",
+          "score": 1,
+          "metadata": [],
+          "source": "Editorial",
+          "id": 19
+        }
+      ],
+      "knowledgeBaseId": "afc3902e-edd8-439d-b812-bab711ae4f12",
+      "scoreThreshold": 0.3,
+      "top": 1,
+      "strictFilters": [],
+      "metadataBoost": []
+    },
+    "name": "QnAMaker",
+    "id": "4fee0d90-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:29-07:00",
+    "timestamp": "2019-08-29T21:02:29.609Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "07ebc1e1-caa0-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "ea0090b7-f115-4df5-9f42-cc978c09289d",
+      "role": "user"
+    },
+    "text": "For valet dry-cleaning, please fill out the dry-cleaning form in your closet and put your clothing in the provided bag. Same day service is provided if your clothing is dropped off at the front desk before 9:00am.",
+    "speak": "For valet dry-cleaning, please fill out the dry-cleaning form in your closet and put your clothing in the provided bag. Same day service is provided if your clothing is dropped off at the front desk before 9:00am.",
+    "inputHint": "acceptingInput",
+    "replyToId": "4f43eae0-caa0-11e9-8be7-794c558b5c5c",
+    "id": "50065080-caa0-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:02:29-07:00",
+    "timestamp": "2019-08-29T21:02:29.768Z",
+    "locale": "en-US"
+  }
+]

@@ -17,19 +17,19 @@
                   "spacing": "None",
                   "size": "Medium",
                   "weight": "Bolder",
-                  "color": "Dark",
+                  "color": "default",
                   "text": "{Name}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Dark",
+                  "color": "default",
                   "text": "{AvailableDetails}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Dark",
+                  "color": "default",
                   "text": "{Address}",
                   "maxLines": 1,
                   "wrap": true
@@ -37,7 +37,7 @@
                 {
                   "type": "TextBlock",
                   "spacing": "None",
-                  "color": "Dark",
+                  "color": "default",
                   "text": "{Hours}",
                   "wrap": true
                 }

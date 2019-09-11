@@ -12,8 +12,6 @@ namespace PointOfInterestSkillTests.Flow.Utterances
     {
         public static double TopIntentScore { get; } = 0.9;
 
-        public static string ActiveLocationEvent { get; } = $"/event:{{ \"Name\": \"ActiveLocation\", \"Value\": \"{ContextStrings.MicrosoftWay}\",\"Text\":\"{RouteFromXToYUtterances.FindRoute}\" }}";
-
         public static string LocationEvent { get; } = "/event:{ \"Name\": \"Location\", \"Value\": \"47.639620,-122.130610\" }";
 
         public static string OptionOne { get; } = "option 1";
@@ -23,6 +21,12 @@ namespace PointOfInterestSkillTests.Flow.Utterances
         public static string Yes { get; } = "yes";
 
         public static string No { get; } = "no";
+
+        public static string Call { get; } = "call";
+
+        public static string ShowDirections { get; } = "show directions";
+
+        public static string StartNavigation { get; } = "start navigation";
 
         public void AddManager(BaseTestUtterances utterances)
         {

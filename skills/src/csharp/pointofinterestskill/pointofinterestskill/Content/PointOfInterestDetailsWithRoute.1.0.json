@@ -50,7 +50,7 @@
           "spacing": "None",
           "size": "Medium",
           "weight": "Bolder",
-          "color": "Accent",
+          "color": "default",
           "text": "{Name}"
         },
         {
@@ -85,7 +85,6 @@
       "items": [
         {
           "type": "Image",
-          "size": "auto",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }
@@ -163,6 +162,18 @@
           "text": "{ProviderDisplayText}"
         }
       ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{ActionStartNavigation}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionStartNavigation}"
+        }
+      }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

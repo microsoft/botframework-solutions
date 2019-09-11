@@ -46,6 +46,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 GetParkingInterestPoints,
                 ProcessPointOfInterestSelection,
+                ProcessPointOfInterestAction,
             };
 
             // Define the conversation flow using a waterfall model.
@@ -138,18 +139,18 @@ namespace PointOfInterestSkill.Dialogs
                     await sc.Context.SendActivityAsync(replyMessage);
                     return await sc.EndDialogAsync();
                 }
+                else if (cards.Count == 1)
+                {
+                    // only to indicate it is only one result
+                    return await sc.NextAsync(true);
+                }
                 else
                 {
-                    if (cards.Count == 1)
-                    {
-                        pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-                    }
-
                     var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
 
-                    var options = GetPointOfInterestPrompt(cards.Count == 1 ? POISharedResponses.PromptToGetRoute : POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
+                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
 
-                    return await sc.PromptAsync(cards.Count == 1 ? Actions.ConfirmPrompt : Actions.SelectPointOfInterestPrompt, options);
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
             }
             catch (Exception ex)

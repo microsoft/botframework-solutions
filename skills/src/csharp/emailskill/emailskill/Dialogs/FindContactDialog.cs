@@ -411,22 +411,24 @@ namespace EmailSkill.Dialogs
                                     FindContactResponses.UserNotFound,
                                     new StringDictionary()
                                     {
-                                    { "UserName", currentRecipientName }
+                                        { "UserName", currentRecipientName }
                                     })
                             });
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            FindContactResponses.UserNotFoundAgain,
-                            new StringDictionary()
+                        return await sc.PromptAsync(
+                            FindContactAction.Prompt,
+                            new PromptOptions
                             {
-                            { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" },
-                            { "UserName", currentRecipientName }
-                            }));
-                        state.FindContactInfor.FirstRetryInFindContact = true;
-                        state.FindContactInfor.CurrentContactName = string.Empty;
-                        return await sc.EndDialogAsync();
+                                Prompt = ResponseManager.GetResponse(
+                                    FindContactResponses.UserNotFoundAgain,
+                                    new StringDictionary()
+                                    {
+                                        { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" },
+                                        { "UserName", currentRecipientName }
+                                    })
+                            });
                     }
                 }
 
@@ -786,6 +788,10 @@ namespace EmailSkill.Dialogs
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
+                if (mailAddress == null || !Util.IsEmail(mailAddress))
+                {
+                    continue;
+                }
 
                 var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
@@ -808,6 +814,10 @@ namespace EmailSkill.Dialogs
             foreach (var user in userList)
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+                if (mailAddress == null || !Util.IsEmail(mailAddress))
+                {
+                    continue;
+                }
 
                 var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)

@@ -61,6 +61,15 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call.
+        /// </summary>
+        public static string CALL {
+            get {
+                return ResourceManager.GetString("CALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location services.
         /// </summary>
         public static string CARD_TITLE {
@@ -187,11 +196,29 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show directions.
+        /// </summary>
+        public static string SHOW_DIRECTIONS {
+            get {
+                return ResourceManager.GetString("SHOW_DIRECTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string START {
             get {
                 return ResourceManager.GetString("START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start navigation.
+        /// </summary>
+        public static string START_NAVIGATION {
+            get {
+                return ResourceManager.GetString("START_NAVIGATION", resourceCulture);
             }
         }
         

@@ -1351,7 +1351,7 @@ namespace CalendarSkill.Dialogs
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
-                if (mailAddress == null)
+                if (mailAddress == null || !IsEmail(mailAddress))
                 {
                     continue;
                 }
@@ -1377,7 +1377,7 @@ namespace CalendarSkill.Dialogs
             foreach (var user in userList)
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
-                if (mailAddress == null)
+                if (mailAddress == null || !IsEmail(mailAddress))
                 {
                     continue;
                 }

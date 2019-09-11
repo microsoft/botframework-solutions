@@ -105,9 +105,9 @@ namespace HospitalitySkill.Dialogs
             if (userState.CheckedOut)
             {
                 var tokens = new StringDictionary
-            {
-                { "Email", userState.Email },
-            };
+                {
+                    { "Email", userState.Email },
+                };
 
                 // TODO process request to send email receipt
                 // checked out confirmation message
