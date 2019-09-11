@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -148,10 +147,10 @@ namespace SkillSample.Dialogs
                 // Get luis service for current locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var localeConfig = Services.CognitiveModelSets[locale];
-                var luisService = localeConfig.LuisServices["Skill"];
+                var luisService = localeConfig.LuisServices["SkillSample"];
 
                 // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<SkillLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<SkillSampleLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
             }
         }

@@ -5,6 +5,7 @@ using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
@@ -19,6 +20,7 @@ namespace $safeprojectname$.Bots
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
@@ -36,6 +38,7 @@ namespace $safeprojectname$.Bots
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
         }
