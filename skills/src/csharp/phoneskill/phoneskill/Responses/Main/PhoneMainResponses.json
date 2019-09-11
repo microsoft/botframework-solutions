@@ -1,0 +1,83 @@
+{
+  "WelcomeMessage": {
+    "replies": [
+      {
+        "text": "Welcome to the Phone Skill! You can ask me to start phone calls for you.",
+        "speak": "Welcome to the Phone Skill! You can ask me to start phone calls for you."
+      }
+    ],
+    "suggestedActions": [],
+    "inputHint": "acceptingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "You can ask me to call a phone number or one of your contacts.",
+        "speak": "You can ask me to call a phone number or one of your contacts."
+      }
+    ],
+    "suggestedActions": [],
+    "inputHint": "acceptingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "Hi!",
+        "speak": "Hi!"
+      },
+      {
+        "text": "Hi there!",
+        "speak": "Hi there!"
+      },
+      {
+        "text": "Hello!",
+        "speak": "Hello!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GoodbyeMessage": {
+    "replies": [
+      {
+        "text": "Goodbye!",
+        "speak": "Goodbye!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "Your sign out was successful.",
+        "speak": "Your sign out was successful."
+      },
+      {
+        "text": "You have successfully signed out.",
+        "speak": "You have successfully signed out."
+      },
+      {
+        "text": "You have been logged out.",
+        "speak": "You have been logged out."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "This feature is not yet available in this skill. Please try asking something else.",
+        "speak": "This feature is not yet available in this skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "Ok, let's start over.",
+        "speak": "Ok, let's start over."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
