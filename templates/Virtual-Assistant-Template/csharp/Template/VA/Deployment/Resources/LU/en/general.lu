@@ -158,12 +158,14 @@
 - some help
 - who can help me
 
+
 ## Logout
-- signout
 - forget me
-- sign out
-- logout
 - log out
+- logout
+- sign out
+- signout
+
 
 ## None
 - all of them
@@ -519,3 +521,7 @@ $PREBUILT:ordinal
 
 
 > # List entities
+
+> # RegEx entities
+
+
