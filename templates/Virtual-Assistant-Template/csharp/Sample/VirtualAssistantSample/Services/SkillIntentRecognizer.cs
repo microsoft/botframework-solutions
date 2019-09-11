@@ -5,20 +5,25 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
-using VirtualAssistantSample.Services;
 
-namespace VirtualAssistantSample
+namespace VirtualAssistantSample.Services
 {
     public class SkillIntentRecognizer : ISkillIntentRecognizer
     {
         private BotServices _services;
         private BotSettings _settings;
-        private bool _confirmIntentSwitch = true;
 
         public SkillIntentRecognizer(BotServices services, BotSettings settings)
         {
             _services = services;
             _settings = settings;
+        }
+
+        public bool ConfirmIntentSwitch { get; } = true;
+
+        public Func<DialogContext, Task<string>> RecognizeSkillIntentAsync
+        {
+            get { return RecognizeSkillIntentAsyncFunc; }
         }
 
         public async Task<string> RecognizeSkillIntentAsyncFunc(DialogContext dc)
@@ -51,9 +56,5 @@ namespace VirtualAssistantSample
 
             return null;
         }
-
-        public Func<DialogContext, Task<string>> RecognizeSkillIntentAsync { get { return RecognizeSkillIntentAsyncFunc; } }
-
-        public bool ConfirmIntentSwitch { get { return _confirmIntentSwitch; } }
     }
 }
