@@ -40,9 +40,9 @@ The following scenarios are currently supported by the Skill:
   - _Would you cancel my route?_
   - _On second thought, forget going to the airport_
 
-## Language Model
+## Language Understanding
 
-LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
+LUIS models are provided in `.LU` file format to support the scenarios used in this Skill.
 
 |Supported Languages|
 |-|
@@ -70,41 +70,6 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |KEYWORD| Simple entity matching point of interest keywords and categories |
 |ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
 |number| Prebuilt entity|
-
-## Event Responses
-
-The Point of Interest Skill surfaces a users request to navigate to a new destination through an event returned to the client. The event is called `ActiveRoute.Directions" has contains a series of Points for the Route along with a summary of the route information. A simplified example is shown below
-
-```json
-{
-  "name": "ActiveRoute.Directions",
-  "type": "event",
-  "value": [
-    {
-      "points": [
-        {
-          "latitude": 47.64056,
-          "longitude": -122.129372
-        },
-        {
-          "latitude": 47.64053,
-          "longitude": -122.129387
-        },
-
-        ...
-
-      ],
-      "summary": {
-        "arrivalTime": "2018-09-18T04:17:25Z",
-        "departureTime": "2018-09-18T03:54:35Z",
-        "lengthInMeters": 20742,
-        "trafficDelayInSeconds": 0,
-        "travelTimeInSeconds": 1370
-      }
-    }
-  ]
-}
-```
 
 ## Configuration
 
@@ -186,3 +151,19 @@ The following Configuration entries are required to be passed to the Skill and a
     `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
 
 You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts) page.
+
+
+## Event Activity integration
+
+This Skill supports an outgoing `OpenDefaultApp` Event Activity that provides a Geo URI for chat clients to determine how to handle navigation to a user's selected point of interest.
+The [Virtual Assistant Client (Android) sample]({{ site.baseurl }}/howto/samples/vaclient_android/) demonstrates how a client may navigate to a destination using a user's preferred map application.
+
+```json
+{ 
+   "type":"event",
+   "name":"OpenDefaultApp",
+   "value":{ 
+      "GeoUri":"geo:{LONGITUDE},{LATITUDE}"
+   }
+}
+```
