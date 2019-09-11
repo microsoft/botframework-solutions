@@ -77,8 +77,32 @@ namespace CalendarSkillTest.Flow.Fakes
         public static IServiceManager SetMeetingsToSpecial(List<EventModel> eventList)
         {
             mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
-            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns((DateTime startTime, DateTime endTime) =>
+            {
+                var result = new List<EventModel>();
+                foreach (var item in eventList)
+                {
+                    if (item.StartTime >= startTime && item.StartTime <= endTime)
+                    {
+                        result.Add(item);
+                    }
+                }
+
+                return Task.FromResult(result);
+            });
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns((DateTime startTime) =>
+            {
+                var result = new List<EventModel>();
+                foreach (var item in eventList)
+                {
+                    if (item.StartTime == startTime)
+                    {
+                        result.Add(item);
+                    }
+                }
+
+                return Task.FromResult(result);
+            });
             mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
