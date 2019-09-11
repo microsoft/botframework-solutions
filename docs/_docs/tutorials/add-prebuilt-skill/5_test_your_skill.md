@@ -19,4 +19,5 @@ Refer to the documentation page in the table below for an example question that 
 |[To Do Skill]({{site.baseurl}}/reference/skills/productivity-todo)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
 |[Point of Interest Skill]({{site.baseurl}}/reference/skills/pointofinterest)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
 |[Automotive Skill]({{site.baseurl}}/reference/skills/automotive)|Industry-vertical Skill for showcasing enabling car feature control.|
+|[Phone Skill]({{site.baseurl}}/reference/skills/phone)|Make phone calls. Powered by Microsoft Graph and Google.|
 |[Experimental Skills]({{site.baseurl}}/reference/skills/experimental)|News, Search, Restaurant Booking and Weather.|

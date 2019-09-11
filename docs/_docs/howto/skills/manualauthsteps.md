@@ -8,7 +8,7 @@ order: 3
 
 # {{ page.title }}
 
-If you wish to make use of the Calendar, Email and Task Skills standalone to the Virtual Assistant (local mode) you need to configure an Authentication Connection enabling use of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
+If you wish to make use of the Calendar, Email, Phone, and Task Skills standalone to the Virtual Assistant (local mode) you need to configure an Authentication Connection enabling use of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
 > These steps are not required if you plan to use the productivity skills as part of the Virtual Assistant, these steps are performed automatically when you add a Skill to your assistant.
 
