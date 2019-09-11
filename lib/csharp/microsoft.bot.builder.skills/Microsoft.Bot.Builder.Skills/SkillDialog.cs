@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -7,7 +10,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
 
@@ -16,12 +18,11 @@ namespace Microsoft.Bot.Builder.Skills
     /// <summary>
     /// The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
     /// </summary>
-    public class SkillDialog : ComponentDialog, ISkillResponseHandler
+    public class SkillDialog : ComponentDialog
     {
         private readonly SkillConnector _skillConnector;
-        private readonly SkillConnectionConfiguration _skillConnectionConfiguration;
-        private readonly ISkillProtocolHandler _skillProtocolHandler;
         private readonly SkillManifest _skillManifest;
+        private readonly ISkillProtocolHandler _skillProtocolHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -36,30 +37,9 @@ namespace Microsoft.Bot.Builder.Skills
             IBotTelemetryClient telemetryClient)
             : base(skillConnectionConfiguration.SkillManifest.Id)
         {
-            _skillConnectionConfiguration = skillConnectionConfiguration ?? throw new ArgumentNullException(nameof(skillConnectionConfiguration));
             _skillProtocolHandler = skillProtocolHandler;
-            _skillManifest = _skillConnectionConfiguration.SkillManifest;
-            _skillConnector = new BotFrameworkSkillConnector(_skillConnectionConfiguration, new SkillWebSocketTransport(telemetryClient));
-        }
-
-        public Task HandleTokenRequest(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResourceResponse> SendActivityAsync(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResourceResponse> UpdateActivityAsync(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteActivityAsync(string activityId)
-        {
-            throw new NotImplementedException();
+            _skillManifest = skillConnectionConfiguration.SkillManifest;
+            _skillConnector = new BotFrameworkSkillConnector(skillConnectionConfiguration, new SkillWebSocketTransport(telemetryClient));
         }
 
         public async Task HandleTokenRequest(DialogContext dialogContext, Activity activity)
@@ -82,7 +62,7 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
-                await _skillConnector.CancelRemoteDialogsAsync(cancellationToken).ConfigureAwait(false);
+                await _skillConnector.CancelRemoteDialogsAsync(turnContext, cancellationToken).ConfigureAwait(false);
             }
 
             await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
@@ -175,25 +155,24 @@ namespace Microsoft.Bot.Builder.Skills
         {
             var activity = innerDc.Context.Activity;
 
-            if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
-            {
-                // Handle magic code auth
-                var result = await innerDc.ContinueDialogAsync(cancellationToken).ConfigureAwait(false);
-
-                // forward the token response to the skill
-                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse response)
-                {
-                    activity.Type = ActivityTypes.Event;
-                    activity.Name = TokenEvents.TokenResponseEventName;
-                    activity.Value = response;
-                }
-                else
-                {
-                    return result;
-                }
-            }
-
-            return await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
+            // TODO: GG commenting for now, will fix that later once I figure out what to do with _authDialog
+            // if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
+            // {
+            //    // Handle magic code auth
+            //    var result = await innerDc.ContinueDialogAsync(cancellationToken).ConfigureAwait(false);
+            //    // forward the token response to the skill
+            //    if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse response)
+            //    {
+            //        activity.Type = ActivityTypes.Event;
+            //        activity.Name = TokenEvents.TokenResponseEventName;
+            //        activity.Value = response;
+            //    }
+            //    else
+            //    {
+            //        return result;
+            //    }
+            // }
+            return await ForwardToSkillAsync(innerDc, activity, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -236,23 +215,21 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var response = await _skillConnector.ForwardToSkillAsync(activity, this, cancellationToken).ConfigureAwait(false);
+                var response = await _skillConnector.ForwardToSkillAsync(dialogContext.Context, activity, cancellationToken).ConfigureAwait(false);
 
                 if (response != null && response.Type == ActivityTypes.Handoff)
                 {
-                    await dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot.")).ConfigureAwait(false);
-                    return await dialogContext.EndDialogAsync(response.SemanticAction?.Entities).ConfigureAwait(false);
+                    await dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."), cancellationToken).ConfigureAwait(false);
+                    return await dialogContext.EndDialogAsync(response.SemanticAction?.Entities, cancellationToken).ConfigureAwait(false);
                 }
-                else
-                {
-                    return new DialogTurnResult(DialogTurnStatus.Waiting);
-                }
+
+                return new DialogTurnResult(DialogTurnStatus.Waiting);
             }
             catch
             {
                 // Something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
                 // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-                await dialogContext.EndDialogAsync().ConfigureAwait(false);
+                await dialogContext.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                 throw;
             }
         }

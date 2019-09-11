@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Skills.Tests.Utilities;
@@ -18,10 +22,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     [TestClass]
     public class SkillDialogSlotFillingTests : SkillDialogTestBase
     {
-        private readonly List<SkillManifest> _skillManifests = new List<SkillManifest>();
+        private readonly IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly MockSkillTransport _mockSkillTransport = new MockSkillTransport();
         private readonly IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
-		private readonly MockSkillTransport _mockSkillTransport = new MockSkillTransport();
-		private readonly IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly List<SkillManifest> _skillManifests = new List<SkillManifest>();
 
         [TestInitialize]
         public void AddSkills()
@@ -67,7 +71,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // the SkillDialog to know which action is invoked and identify the slots as appropriate.
             foreach (var skill in _skillManifests)
             {
-                Dialogs.Add(new SkillDialogTest(skill, _mockServiceClientCredentials, _mockTelemetryClient, UserState, _mockSkillTransport));
+                var skillConnectorConfiguration = new SkillConnectionConfiguration()
+                {
+                    SkillManifest = skill,
+                    ServiceClientCredentials = _mockServiceClientCredentials,
+                };
+                Dialogs.Add(new SkillDialogTest(skillConnectorConfiguration, null, _mockTelemetryClient));
             }
         }
 
@@ -81,76 +90,88 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
-			await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
-                  .Send("hello")
-                  .StartTestAsync();
+            await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
+                .Send("hello")
+                .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
-		}
+            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
+        }
 
-		/// <summary>
-		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
-		/// This test has extra data in the SkillContext "memory" which should not be sent across.
-		/// </summary>
-		/// <returns>Task.</returns>
-		[TestMethod]
+        /// <summary>
+        /// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+        /// This test has extra data in the SkillContext "memory" which should not be sent across.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
         public async Task SkillInvocationWithSlotsTestExtraItems()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
             var skillManifest = _skillManifests.Single(s => s.Name == "testskillwithslots");
             await GetTestFlow(skillManifest, "testSkill/testActionWithSlots", slots)
-                  .Send("hello")
-                  .StartTestAsync();
+                .Send("hello")
+                .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
-		}
+            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
+        }
 
-		/// <summary>
-		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
-		/// This doesn't pass an action so "global" slot filling is used.
-		/// </summary>
-		/// <returns>Task.</returns>
-		[TestMethod]
+        /// <summary>
+        /// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+        /// This doesn't pass an action so "global" slot filling is used.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
         public async Task SkillInvocationNoActionPassed()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-			var slots = new SkillContext();
-			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
-			slots.Add("param1", JObject.FromObject(entity));
+            var slots = new SkillContext();
+            dynamic entity = new
+            {
+                key1 = "TEST1",
+                key2 = "TEST2",
+            };
+            slots.Add("param1", JObject.FromObject(entity));
 
             // Not passing action to test the "global" slot filling behaviour
             await GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
-                  .Send("hello")
-                  .StartTestAsync();
+                .Send("hello")
+                .StartTestAsync();
 
             _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
-			{
-				var semanticAction = activity.SemanticAction;
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
-				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
-			});
+            {
+                var semanticAction = activity.SemanticAction;
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+                Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+            });
         }
     }
 }

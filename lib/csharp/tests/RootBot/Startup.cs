@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.StreamingExtensions;
@@ -105,7 +106,14 @@ namespace RootBot
                 {
                     var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MsaAppId);
-                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, authDialog));
+                    var skillConnectorConfiguration = new SkillConnectionConfiguration()
+                    {
+                        SkillManifest = skill,
+                        ServiceClientCredentials = credentials,
+                    };
+
+                    // TODO: GG we don't have a protocol handler yet, so I am passing null for now.
+                    skillDialogs.Add(new SkillDialog(skillConnectorConfiguration, null, telemetryClient));
                 }
 
                 return skillDialogs;

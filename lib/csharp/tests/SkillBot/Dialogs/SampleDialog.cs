@@ -45,7 +45,7 @@ namespace SkillBot.Dialogs
             // var intent = state.BotLuisResult.TopIntent().intent;
             // var entities = state.BotLuisResult.Entities;
             var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
-            return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
+            return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -56,17 +56,15 @@ namespace SkillBot.Dialogs
             };
 
             var response = ResponseManager.GetResponse(SampleResponses.HaveNameMessage, tokens);
-            await stepContext.Context.SendActivityAsync(response);
+            await stepContext.Context.SendActivityAsync(response, cancellationToken);
 
-            return await stepContext.NextAsync();
+            return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
 
         private Task<DialogTurnResult> End(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            return stepContext.EndDialogAsync();
-        }
+            => stepContext.EndDialogAsync(cancellationToken: cancellationToken);
 
-        private class DialogIds
+        private static class DialogIds
         {
             public const string NamePrompt = "namePrompt";
         }

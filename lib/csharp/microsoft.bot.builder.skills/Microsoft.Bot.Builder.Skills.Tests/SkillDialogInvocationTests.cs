@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Skills.Tests.Utilities;
@@ -13,10 +17,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     [TestClass]
     public class SkillDialogInvocationTests : SkillDialogTestBase
     {
+        private readonly IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
+        private readonly MockSkillTransport _mockSkillTransport = new MockSkillTransport();
+        private readonly IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
         private SkillManifest _skillManifest;
-        private IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
-		private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
-		private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
 
         [TestInitialize]
         public void AddSkillManifest()
@@ -28,17 +32,18 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "https://testskill.tempuri.org/api/skill",
                 "testSkill/testAction");
 
-			// Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-			Dialogs.Add(new SkillDialogTest(
-				_skillManifest,
-				_mockServiceClientCredentials,
-				_mockTelemetryClient,
-				UserState,
-				_mockSkillTransport));
+            var skillConnectorConfiguration = new SkillConnectionConfiguration()
+            {
+                SkillManifest = _skillManifest,
+                ServiceClientCredentials = _mockServiceClientCredentials,
+            };
+
+            // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
+            Dialogs.Add(new SkillDialogTest(skillConnectorConfiguration, null, _mockTelemetryClient));
         }
 
         /// <summary>
-        /// Create a SkillDialog and send a mesage triggering a call to the remote skill through the injected transport.
+        /// Create a SkillDialog and send a message triggering a call to the remote skill through the injected transport.
         /// This ensures the SkillDialog is handling the SkillManifest and calling the skill correctly.
         /// </summary>
         /// <returns>Task.</returns>
@@ -46,8 +51,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         public async Task InvokeSkillDialog()
         {
             await this.GetTestFlow(_skillManifest, "testSkill/testAction", null)
-                  .Send("hello")
-                  .StartTestAsync();
+                .Send("hello")
+                .StartTestAsync();
 
             try
             {

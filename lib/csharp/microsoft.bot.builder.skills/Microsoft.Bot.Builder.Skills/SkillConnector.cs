@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -12,28 +14,29 @@ namespace Microsoft.Bot.Builder.Skills
     /// Its responsibility is to forward a incoming request to the skill and handle
     /// the responses based on Skill Protocol.
     /// </remarks>
-    public abstract class SkillConnector
+    public abstract class SkillConnector : ISkillResponseHandler
     {
-#pragma warning disable CA1801 // Remove unused parameter (disabling for now, need to talk to ted about having these parameter in the base class)
-        public SkillConnector(SkillConnectionConfiguration skillConnectionConfiguration, ISkillTransport skillTransport)
-#pragma warning restore CA1801 // Remove unused parameter
-        {
-        }
-
         /// <summary>
         /// Forward incoming request to the skill.
         /// </summary>
+        /// <param name="context">The <see cref="TurnContext"/> for the activity.</param>
         /// <param name="activity">Activity object to forward.</param>
-        /// <param name="skillResponseHandler">Handler that handles response back from skill.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Response activity of the forwarded activity to the skill.</returns>
-        public abstract Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default);
+        public abstract Task<Activity> ForwardToSkillAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Cancel the remote skill dialogs on the stack.
         /// </summary>
+        /// <param name="turnContext">The turn context instance.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task.</returns>
-        public abstract Task CancelRemoteDialogsAsync(CancellationToken cancellationToken = default);
+        public abstract Task CancelRemoteDialogsAsync(ITurnContext turnContext, CancellationToken cancellationToken = default);
+
+        public abstract Task<ResourceResponse> SendActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default);
+
+        public abstract Task<ResourceResponse> UpdateActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default);
+
+        public abstract Task DeleteActivityAsync(ITurnContext context, string activityId, CancellationToken cancellationToken = default);
     }
 }

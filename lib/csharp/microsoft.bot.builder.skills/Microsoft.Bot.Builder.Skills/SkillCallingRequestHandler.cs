@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,19 +15,16 @@ namespace Microsoft.Bot.Builder.Skills
 {
     public class SkillCallingRequestHandler : RequestHandler
     {
-        private readonly Router _router;
         private readonly IBotTelemetryClient _botTelemetryClient;
-        private readonly ISkillHandoffResponseHandler _skillHandoffResponseHandler;
-        private readonly ISkillResponseHandler _skillResponseHandler;
+        private readonly Router _router;
 
-        public SkillCallingRequestHandler(
-            IBotTelemetryClient botTelemetryClient,
-            ISkillHandoffResponseHandler skillHandoffResponseHandler,
-            ISkillResponseHandler skillResponseHandler)
+        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, ISkillHandoffResponseHandler skillHandoffResponseHandler, ISkillResponseHandler skillResponseHandler)
         {
             _botTelemetryClient = botTelemetryClient;
-            _skillResponseHandler = skillResponseHandler;
-            _skillHandoffResponseHandler = skillHandoffResponseHandler ?? throw new ArgumentNullException(nameof(skillHandoffResponseHandler));
+            if (skillHandoffResponseHandler == null)
+            {
+                throw new ArgumentNullException(nameof(skillHandoffResponseHandler));
+            }
 
             var routes = new[]
             {
@@ -42,17 +42,15 @@ namespace Microsoft.Bot.Builder.Skills
                                 {
                                     if (activity.Type == ActivityTypes.Handoff)
                                     {
-                                        _skillHandoffResponseHandler.HandleHandoffResponse(activity);
+                                        skillHandoffResponseHandler.HandleHandoffResponse(activity);
                                     }
 
-                                    if (_skillResponseHandler != null)
+                                    if (skillResponseHandler != null)
                                     {
-                                        return await _skillResponseHandler.SendActivityAsync(activity).ConfigureAwait(false);
+                                        return await skillResponseHandler.SendActivityAsync(turnContext, activity).ConfigureAwait(false);
                                     }
-                                    else
-                                    {
-                                        return new ResourceResponse();
-                                    }
+
+                                    return new ResourceResponse();
                                 }
 
                                 throw new Exception("Error deserializing activity response!");
@@ -69,14 +67,12 @@ namespace Microsoft.Bot.Builder.Skills
                             async (request, routeData) =>
                             {
                                 var activity = request.ReadBodyAsJson<Activity>();
-                                if (_skillResponseHandler != null)
+                                if (skillResponseHandler != null)
                                 {
-                                    return await _skillResponseHandler.UpdateActivityAsync(activity).ConfigureAwait(false);
+                                    return await skillResponseHandler.UpdateActivityAsync(turnContext, activity).ConfigureAwait(false);
                                 }
-                                else
-                                {
-                                    return new ResourceResponse();
-                                }
+
+                                return new ResourceResponse();
                             },
                     },
                 },
@@ -89,14 +85,12 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                if (_skillResponseHandler != null)
+                                if (skillResponseHandler != null)
                                 {
-                                    return await _skillResponseHandler.DeleteActivityAsync(routeData.activityId);
+                                    return await skillResponseHandler.DeleteActivityAsync(turnContext, routeData.activityId);
                                 }
-                                else
-                                {
-                                    return new ResourceResponse();
-                                }
+
+                                return new ResourceResponse();
                             },
                     },
                 },

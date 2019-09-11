@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
@@ -16,27 +19,34 @@ namespace Microsoft.Bot.Builder.Skills
     public class BotFrameworkSkillConnector : SkillConnector
     {
         private readonly SkillConnectionConfiguration _skillConnectionConfiguration;
-        private readonly ISkillTransport _skillTransport;
+        private readonly SkillTransport _skillTransport;
 
-        public BotFrameworkSkillConnector(SkillConnectionConfiguration skillConnectionConfiguration, ISkillTransport skillTransport)
-            : base(skillConnectionConfiguration, skillTransport)
+        public BotFrameworkSkillConnector(SkillConnectionConfiguration skillConnectionConfiguration, SkillTransport skillTransport)
         {
             _skillConnectionConfiguration = skillConnectionConfiguration ?? throw new ArgumentNullException(nameof(skillConnectionConfiguration));
             _skillTransport = skillTransport ?? throw new ArgumentNullException(nameof(skillTransport));
         }
 
-        public async override Task<Activity> ForwardToSkillAsync(Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
+        public override async Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken = default)
         {
-            var response = await _skillTransport.ForwardToSkillAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, activity, skillResponseHandler, cancellationToken).ConfigureAwait(false);
-
+            var response = await _skillTransport.ForwardToSkillAsync(turnContext, _skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, activity, this, cancellationToken).ConfigureAwait(false);
             _skillTransport.Disconnect();
-
             return response;
         }
 
-        public async override Task CancelRemoteDialogsAsync(CancellationToken cancellationToken = default)
+        public override async Task CancelRemoteDialogsAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+            => await _skillTransport.CancelRemoteDialogsAsync(turnContext, _skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, cancellationToken).ConfigureAwait(false);
+
+        public override async Task<ResourceResponse> SendActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default)
         {
-            await _skillTransport.CancelRemoteDialogsAsync(_skillConnectionConfiguration.SkillManifest, _skillConnectionConfiguration.ServiceClientCredentials, cancellationToken).ConfigureAwait(false);
+            await context.SendActivityAsync(activity, cancellationToken).ConfigureAwait(false);
+            return new ResourceResponse(activity.Id);
         }
+
+        public override Task<ResourceResponse> UpdateActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
+
+        public override Task DeleteActivityAsync(ITurnContext context, string activityId, CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
     }
 }

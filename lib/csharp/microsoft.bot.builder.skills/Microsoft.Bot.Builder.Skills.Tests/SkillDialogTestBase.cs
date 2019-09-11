@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             Services.AddSingleton(new BotSettingsBase());
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-			Services.AddSingleton<ISkillTransport, SkillWebSocketTransport>();
+			Services.AddSingleton<SkillTransport, SkillWebSocketTransport>();
         }
 
         public TestFlow GetTestFlow(SkillManifest skillManifest, string actionId, Dictionary<string, JObject> slots)

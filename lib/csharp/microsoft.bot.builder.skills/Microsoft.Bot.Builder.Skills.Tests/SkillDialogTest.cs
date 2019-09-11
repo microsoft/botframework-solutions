@@ -1,13 +1,15 @@
-﻿using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Builder.Skills.Models;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
     // Extended implementation of SkillDialog for test purposes that enables us to mock the HttpClient
     internal class SkillDialogTest : SkillDialog
     {
-        public SkillDialogTest(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, IBotTelemetryClient telemetryClient, UserState userState, ISkillTransport skillTransport = null)
-            : base(skillManifest, serviceClientCredentials, telemetryClient, null, null, skillTransport)
+        public SkillDialogTest(SkillConnectionConfiguration skillConnectionConfiguration, ISkillProtocolHandler skillProtocolHandler, IBotTelemetryClient telemetryClient)
+            : base(skillConnectionConfiguration, skillProtocolHandler, telemetryClient)
         {
         }
     }

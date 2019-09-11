@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -13,36 +17,36 @@ using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Bot.StreamingExtensions.Transport;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 using Newtonsoft.Json;
+using Activity = Microsoft.Bot.Schema.Activity;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+    // TODO: GG refactor this class to fix this warming. Probably create an overload that takes what's needed to create the streamingClient and implement IDispose for the case where the class creates the client.
 #pragma warning disable CA1001 // Types that own disposable fields should be disposable (disable, streamingTransportClient is passed in, we assume the owner will dispose it but let's revie later just in case)'
-    public class SkillWebSocketTransport : ISkillTransport, ISkillHandoffResponseHandler
+    public class SkillWebSocketTransport : SkillTransport, ISkillHandoffResponseHandler
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
-        private IStreamingTransportClient _streamingTransportClient;
         private readonly IBotTelemetryClient _botTelemetryClient;
         private Activity _handoffActivity;
+        private IStreamingTransportClient _streamingTransportClient;
 
-        public SkillWebSocketTransport(
-            IBotTelemetryClient botTelemetryClient,
-            IStreamingTransportClient streamingTransportClient = null)
+        public SkillWebSocketTransport(IBotTelemetryClient botTelemetryClient, IStreamingTransportClient streamingTransportClient = null)
         {
             _botTelemetryClient = botTelemetryClient;
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
+        public void HandleHandoffResponse(Activity activity)
+            => _handoffActivity = activity;
+
+        public override async Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
         {
             if (_streamingTransportClient == null)
             {
                 // establish websocket connection
                 _streamingTransportClient = new WebSocketClient(
                     EnsureWebSocketUrl(skillManifest.Endpoint.ToString()),
-                    new SkillCallingRequestHandler(
-                        _botTelemetryClient,
-                        this,
-                        skillResponseHandler));
+                    new SkillCallingRequestHandler(turnContext, _botTelemetryClient, this, skillResponseHandler));
             }
 
             // acquire AAD token
@@ -59,7 +63,7 @@ namespace Microsoft.Bot.Builder.Skills
             activity.Recipient.Id = skillManifest.MsaAppId;
 
             // Serialize the activity and POST to the Skill endpoint
-            var stopWatch = new System.Diagnostics.Stopwatch();
+            var stopWatch = new Stopwatch();
             using (var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson))
             {
                 var request = StreamingRequest.CreatePost(string.Empty, body);
@@ -87,23 +91,17 @@ namespace Microsoft.Bot.Builder.Skills
             return _handoffActivity;
         }
 
-        public async Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, CancellationToken cancellationToken = default)
+        public override async Task CancelRemoteDialogsAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials appCredentials, CancellationToken cancellationToken = default)
         {
             var cancelRemoteDialogEvent = Activity.CreateEventActivity();
-
             cancelRemoteDialogEvent.Type = ActivityTypes.Event;
             cancelRemoteDialogEvent.Name = SkillEvents.CancelAllSkillDialogsEventName;
 
-            await ForwardToSkillAsync(skillManifest, appCredentials, cancelRemoteDialogEvent as Activity, null, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await ForwardToSkillAsync(turnContext, skillManifest, appCredentials, cancelRemoteDialogEvent as Activity, null, cancellationToken).ConfigureAwait(false);
         }
 
-        public void Disconnect()
+        public override void Disconnect()
             => _streamingTransportClient?.Disconnect();
-
-        public void HandleHandoffResponse(Activity activity)
-        {
-            _handoffActivity = activity;
-        }
 
         private string EnsureWebSocketUrl(string url)
         {
@@ -112,21 +110,17 @@ namespace Microsoft.Bot.Builder.Skills
                 throw new ArgumentNullException(nameof(url), "url is empty!");
             }
 
-            var httpPrefix = "http://";
-            var httpsPrefix = "https://";
-#pragma warning disable SA1305 // Field names should not use Hungarian notation
-            var wsPrefix = "ws://";
-#pragma warning restore SA1305 // Field names should not use Hungarian notation
-            var wssPrefix = "wss://";
+            const string httpPrefix = "http://";
+            const string httpsPrefix = "https://";
 
             if (url.StartsWith(httpPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
-                return url.Replace(httpPrefix, wsPrefix);
+                return url.Replace(httpPrefix, "ws://");
             }
 
             if (url.StartsWith(httpsPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
-                return url.Replace(httpsPrefix, wssPrefix);
+                return url.Replace(httpsPrefix, "wss://");
             }
 
             return url;

@@ -1,14 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
 {
     public interface ISkillResponseHandler
     {
-        Task<ResourceResponse> SendActivityAsync(Activity activity);
+        Task<ResourceResponse> SendActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default);
 
-        Task<ResourceResponse> UpdateActivityAsync(Activity activity);
+        Task<ResourceResponse> UpdateActivityAsync(ITurnContext context, Activity activity, CancellationToken cancellationToken = default);
 
-        Task DeleteActivityAsync(string activityId);
+        Task DeleteActivityAsync(ITurnContext context, string activityId, CancellationToken cancellationToken = default);
     }
 }
