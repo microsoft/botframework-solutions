@@ -6,7 +6,7 @@ using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 
-namespace VirtualAssistantSample.Services
+namespace $safeprojectname$.Services
 {
     public class SkillIntentRecognizer : ISkillIntentRecognizer
     {

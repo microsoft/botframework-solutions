@@ -1,32 +1,21 @@
 {
-  "id": "",
-  "name": "",
+  "id": "SkillSample",
+  "name": "SkillSample",
   "description": "",
   "iconUrl": "",
-  "authenticationConnections": [
-    {
-      "id": "",
-      "serviceProviderId": "",
-      "scopes": ""
-    }
-  ],
+  "authenticationConnections": [],
   "actions": [
     {
-      "id": "",
+      "id": "SkillSample_Sample",
       "definition": {
-        "description": "",
-        "slots": [
-          {
-            "name": "",
-            "types": [ "string" ]
-          }
-        ],
+        "description": "Sample Skill action with no slots",
+        "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luisModel#intent"
+                "SkillSample#Sample"
               ]
             }
           ]

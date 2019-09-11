@@ -9,7 +9,7 @@ namespace SkillSample.Models
     {
         public string Token { get; set; }
 
-        public SkillLuis LuisResult { get; set; }
+        public SkillSampleLuis LuisResult { get; set; }
 
         public void Clear()
         {

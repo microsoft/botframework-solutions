@@ -10,14 +10,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public partial class DispatchLuis: IRecognizerConvert
+    public partial class DispatchLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            l_General, 
-            q_Chitchat, 
-            q_Faq, 
+        public enum Intent
+        {
+            l_General,
+            q_Chitchat,
+            q_Faq,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

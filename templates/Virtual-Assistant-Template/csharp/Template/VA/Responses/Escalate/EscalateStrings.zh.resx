@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CALL_NOW" xml:space="preserve">
+    <value>现在打电话</value>
+  </data>
+  <data name="OPEN_TEAMS" xml:space="preserve">
+    <value>打开Teams</value>
+  </data>
   <data name="PHONE_INFO" xml:space="preserve">
-    <value>我们的代理商在 1 (800) 555-1234 时提供全天候服务。</value>
+    <value>我们的客服在 1 (800) 555-1234 提供全天候服务。</value>
   </data>
 </root>
