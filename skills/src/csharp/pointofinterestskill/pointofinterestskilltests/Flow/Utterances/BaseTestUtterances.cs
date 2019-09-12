@@ -65,8 +65,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
 
             poiIntent.Entities = new _Entities
             {
-                KEYWORD = keyword,
-                POI_TYPE = poiType
+                Keyword = keyword,
+                PoiDescription = poiType
             };
 
             return poiIntent;

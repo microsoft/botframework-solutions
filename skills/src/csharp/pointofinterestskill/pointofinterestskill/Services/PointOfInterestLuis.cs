@@ -20,10 +20,9 @@ namespace Luis
 
         public enum Intent {
             None, 
-            NAVIGATION_CANCEL_ROUTE, 
-            NAVIGATION_FIND_POINTOFINTEREST, 
-            NAVIGATION_ROUTE_FROM_X_TO_Y, 
-            NAVIGATION_FIND_PARKING
+            FindPointOfInterest, 
+            GetDirections, 
+            FindParking
         };
         [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
@@ -31,9 +30,9 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
-            public string[] ADDRESS;
+            public string[] Address;
 
-            public string[] KEYWORD;
+            public string[] Keyword;
 
             // Built-in entities
             public GeographyV2[] geographyV2;
@@ -41,17 +40,17 @@ namespace Luis
             public double[] number;
 
             // Lists
-            public string[][] POI_TYPE;
+            public string[][] PoiDescription;
 
-            public string[][] ROUTE_TYPE;
+            public string[][] RouteDescription;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] ADDRESS;
-                public InstanceData[] KEYWORD;
-                public InstanceData[] POI_TYPE;
-                public InstanceData[] ROUTE_TYPE;
+                public InstanceData[] Address;
+                public InstanceData[] Keyword;
+                public InstanceData[] PoiDescription;
+                public InstanceData[] RouteDescription;
                 public InstanceData[] geographyV2;
                 public InstanceData[] number;
             }

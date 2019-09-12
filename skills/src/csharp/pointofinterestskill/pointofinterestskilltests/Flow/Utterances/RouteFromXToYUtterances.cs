@@ -8,9 +8,9 @@ namespace PointOfInterestSkillTests.Flow.Utterances
     {
         public RouteFromXToYUtterances()
         {
-            this.Add(FindRoute, CreateIntent(FindRoute, PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y));
-            this.Add(GetToMicrosoft, CreateIntent(GetToMicrosoft, PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, keyword: new string[] { ContextStrings.MicrosoftCorporation }));
-            this.Add(GetToNearestPharmacy, CreateIntent(GetToNearestPharmacy, PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, keyword: new string[] { ContextStrings.Pharmacy }, poiType: new string[][] { new string[] { GeoSpatialServiceTypes.PoiType.Nearest } }));
+            this.Add(FindRoute, CreateIntent(FindRoute, PointOfInterestLuis.Intent.GetDirections));
+            this.Add(GetToMicrosoft, CreateIntent(GetToMicrosoft, PointOfInterestLuis.Intent.GetDirections, keyword: new string[] { ContextStrings.MicrosoftCorporation }));
+            this.Add(GetToNearestPharmacy, CreateIntent(GetToNearestPharmacy, PointOfInterestLuis.Intent.GetDirections, keyword: new string[] { ContextStrings.Pharmacy }, poiType: new string[][] { new string[] { GeoSpatialServiceTypes.PoiType.Nearest } }));
         }
 
         public static string FindRoute { get; } = "find a route";
