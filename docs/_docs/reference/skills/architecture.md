@@ -48,7 +48,7 @@ All communication between a Virtual Assistant and a Skill is performed through a
 
 The `SkillManifest` provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill.
 
-When a skill wants to terminate an ongoing dialog, it sends back an activity with `Handoff` type to signal the completion of the current dialog. 
+When a Skill wants to terminate an ongoing dialog, it sends back an Activity with `Handoff` type to signal the completion of the current dialog. 
 
 See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthentication) section for information on how Bot->Skill invocation is secured.
 
@@ -56,7 +56,7 @@ See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthenticat
 
 The `SkillMiddleware` is used by each Skill and is configured automatically if you use the Skill Template.
 
-The middleware consumes the `skill/cancelallskilldialogs` event and when receives it on the skill side, it will help clear out the active dialog stack on the skill side. This is extremely useful in interruptions such as when user says `Cancel` the VA can send this event and the skill will be able to cancel the active dialog.
+The middleware consumes the `skill/cancelallskilldialogs` event, when the Skill receives it it clears out the active dialog stack on that active Skill. This is useful in interruptions - i.e. if a user asks to cancel, a Virtual Assistant can send this event to the Skill and cancel the active dialog.
 
 ## Interrupting Active Skills
 
