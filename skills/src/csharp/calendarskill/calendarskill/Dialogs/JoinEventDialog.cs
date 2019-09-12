@@ -249,7 +249,7 @@ namespace CalendarSkill.Dialogs
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
                         replyEvent.Name = "OpenDefaultApp";
-                        var eventJoinLink = new EventJoinLink
+                        var eventJoinLink = new OpenDefaultApp
                         {
                             MeetingUri = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent),
                             TelephoneUri = GetDialInNumberFromMeeting(selectedEvent)

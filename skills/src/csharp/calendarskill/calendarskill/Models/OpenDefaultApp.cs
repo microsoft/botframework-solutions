@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CalendarSkill.Models
 {
-    public class EventJoinLink
+    public class OpenDefaultApp
     {
         public string MeetingUri { get; set; }
 
