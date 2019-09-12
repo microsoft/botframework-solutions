@@ -40,7 +40,7 @@ The `MicrosoftAppCredentialsEx` class provided within the Microsoft.Bot.Builder.
 
 ## Whitelist Authentication
 
-After the JWT token is verified, skill bot needs to verify if the request comes from a bot that's previously included in a whitelist. This is needed as we believe a skill needs to have knowledge of the callers and give permission to a caller bot explicitly instead of any bot is able to call a skill without the skill developer's knowledge. This level of authorization is enabled by default as well, making sure a skill is well protected from public access. Skill developer needs to do the following to implement the whitelisting mechanism:
+After the JWT token is verified, the SKill bot needs to verify if the request comes from a bot that's previously included in a whitelist. A Skill needs to have knowledge of it's callers and give permissions to that bot explicitly instead of any bot that could call the Skill. This level of authorization is enabled by default as well, making sure a Skill is well protected from public access. Developers need to do the following to implement the Whitelist mechanism:
 
 Declare a class `WhiteListAuthProvider` in the bot service project that implements the interface `IWhitelistAuthenticationProvider`
 
@@ -57,16 +57,16 @@ public HashSet<string> AppsWhitelist
 }
 ```
 
-By adding the microsoft app id of the Virtual Assistant that's calling the skill into the property AppsWhitelist, you are allowing the bot that's associated with that app id to invoke your skill.
+By adding the Microsoft App id of the Virtual Assistant that's calling the Skill into the property AppsWhitelist, you are allowing the bot that's associated with that app id to invoke your skill.
 
-In startup.cs, register a singleton of the interface with this class
+In `Startup.cs`, register a singleton of the interface with this class
 
 ```csharp
 // Register WhiteListAuthProvider
 services.AddSingleton<IWhitelistAuthenticationProvider, WhiteListAuthProvider>();
 ```
 
-In BotController.cs that derives from SkillController, add the class as a new parameter to the constructor
+In `BotController.cs` (derived from the `SkillController`, add the class as a new parameter to the constructor
 
 ```csharp
 public BotController(
@@ -76,8 +76,7 @@ public BotController(
     SkillWebSocketAdapter skillWebSocketAdapter,
     IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
     : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, whitelistAuthenticationProvider)
-{
-}
+{}
 ```
 
-With all these changes in place, you're enabling your skill to allow bots to invoke it as long as the bot's microsoft app id is included in the whitelist.
+With all these changes in place, you're enabling your Skill to allow bots to invoke it as long as the bot's Microsoft App id is included in the whitelist.
