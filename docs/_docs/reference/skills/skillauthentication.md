@@ -8,11 +8,13 @@ order: 4
 
 # {{ page.title }}
 
-A skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication:
+A Skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication:
 
 ## JWT Authentication
 
-Virtual Assistant needs to include an Authorization header in the request. This is needed as a skill needs to verify that the request comes from a properly registered bot service, and that the request was intended for the skill. Because every bot service is a microsoft app, we can leverage AAD to obtain JWT token as well as verification
+The Virtual Assistant needs to include an Authorization header in the request. 
+
+This is needed as a Skill needs to verify that the request comes from a properly registered bot service, and that the request was intended for the skill. Because every bot service is a Microsoft app, we can leverage AAD to obtain JWT token as well as verification
 
 ![Skill Authentication Flow]({{site.baseurl}}/assets/images/virtualassistant-skillauthentication.png)
 
