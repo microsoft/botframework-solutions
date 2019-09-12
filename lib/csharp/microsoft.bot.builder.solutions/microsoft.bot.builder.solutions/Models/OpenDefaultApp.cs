@@ -8,5 +8,9 @@ namespace Microsoft.Bot.Builder.Solutions.Models
         public string MeetingUri { get; set; }
 
         public string TelephoneUri { get; set; }
+
+        public string MapUri { get; set; }
+
+        public string MusicUri { get; set; }
     }
 }
