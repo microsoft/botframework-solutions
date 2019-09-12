@@ -164,7 +164,6 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="SkillIntentRecognizer.cs">SkillIntentRecognizer.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
         <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
