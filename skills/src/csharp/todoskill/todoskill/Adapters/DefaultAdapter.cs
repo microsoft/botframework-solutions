@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
 
@@ -44,14 +45,21 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var skillContextualMiddleware = new SkillContextualMiddleware();
-
+            var skillStateAccessor = convState.CreateProperty<dynamic>(nameof(ToDoSkillState));
+            var triggerIntentAbstractor = new ConversationstateAbstractor(
+                skillStateAccessor,
+                new List<string>()
+                {
+                    "LuisResult.Text",
+                    "LuisResult.TopIntent().intent.ToString()",
+                });
             var cachePreviousTriggerIntentAction = new CachePreviousTriggerIntentAction(
-                convState,
+                triggerIntentAbstractor,
                 userState,
                 userContextManager,
-                nameof(ToDoSkill),
                 new List<string> { "ShowToDo", "MarkToDo" });
+
+            var skillContextualMiddleware = new SkillContextualMiddleware();
             skillContextualMiddleware.Register(cachePreviousTriggerIntentAction);
 
             Use(skillContextualMiddleware);

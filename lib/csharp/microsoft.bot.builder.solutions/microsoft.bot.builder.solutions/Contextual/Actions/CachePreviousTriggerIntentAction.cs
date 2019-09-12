@@ -10,18 +10,16 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
     public class CachePreviousTriggerIntentAction : SkillContextualActionBase
     {
         public CachePreviousTriggerIntentAction(
-            ConversationState convState,
+            ConversationstateAbstractor conversationstateAbstractor,
             UserState userState,
             UserContextManager userContextManager,
-            string skillName,
             List<string> filter = null,
             int maxStoredQuestion = 7,
             ReplacementStrategy replacementStrategy = ReplacementStrategy.FIFO)
         {
+            ConversationstateAbstractor = conversationstateAbstractor;
             UserState = userState;
-            ConversationState = convState;
             UserContextManager = userContextManager;
-            SkillName = skillName;
             IntentFilter = filter;
             MaxStoredQuestion = maxStoredQuestion;
             Strategy = replacementStrategy;
@@ -39,13 +37,11 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private static int DialogIndex { get; set; } = -1;
 
+        private ConversationstateAbstractor ConversationstateAbstractor { get; set; }
+
         private UserState UserState { get; set; }
 
-        private ConversationState ConversationState { get; set; }
-
         private UserContextManager UserContextManager { get; set; }
-
-        private string SkillName { get; set; }
 
         private List<string> IntentFilter { get; set; }
 
@@ -55,7 +51,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private async Task InitPreviousTriggerIntent(ITurnContext turnContext)
         {
-            var triggerIntentsAccessor = UserState.CreateProperty<List<PreviousTriggerIntent>>(string.Format("{0}Questions", SkillName));
+            var triggerIntentsAccessor = UserState.CreateProperty<List<PreviousTriggerIntent>>("PreviousTriggerIntent");
             var triggerIntents = await triggerIntentsAccessor.GetAsync(turnContext, () => new List<PreviousTriggerIntent>());
             UserContextManager.PreviousTriggerIntents = triggerIntents;
         }
@@ -74,17 +70,12 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
         {
             try
             {
-                var skillStateAccessor = ConversationState.CreateProperty<dynamic>(string.Format("{0}State", SkillName));
-                var skillState = await skillStateAccessor.GetAsync(turnContext);
-                string utterance = skillState.LuisResult.Text;
-                string intent = skillState.LuisResult.TopIntent().Item1.ToString();
-                DateTimeOffset timeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset();
-
+                var properties = await ConversationstateAbstractor.AbstractTargetPropertiesAsync(turnContext);
                 return new PreviousTriggerIntent()
                 {
-                    Utterance = utterance,
-                    Intent = intent,
-                    TimeStamp = timeStamp,
+                    Utterance = properties[0],
+                    Intent = properties[1],
+                    TimeStamp = turnContext.Activity.Timestamp ?? new DateTimeOffset(),
                 };
             }
             catch
@@ -107,7 +98,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
                 return;
             }
 
-            var triggerIntentsAccessor = UserState.CreateProperty<List<PreviousTriggerIntent>>(string.Format("{0}Questions", SkillName));
+            var triggerIntentsAccessor = UserState.CreateProperty<List<PreviousTriggerIntent>>("PreviousTriggerIntent");
             var triggerIntents = await triggerIntentsAccessor.GetAsync(turnContext, () => new List<PreviousTriggerIntent>());
 
             // If already exists, refresh timestamp.

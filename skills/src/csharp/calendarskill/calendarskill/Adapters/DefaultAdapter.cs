@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using CalendarSkill.Models;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder;
@@ -39,12 +41,19 @@ namespace CalendarSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var skillContextualMiddleware = new SkillContextualMiddleware();
+            var skillStateAccessor = convState.CreateProperty<dynamic>(nameof(CalendarSkillState));
+            var lastestContactAbstractor = new ConversationstateAbstractor(
+                skillStateAccessor,
+                new List<string>()
+                {
+                    "MeetingInfor.ContactInfor.Contacts.Last().DisplayName",
+                });
 
             var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
-                convState,
-                userContextManager,
-                nameof(CalendarSkill));
+                lastestContactAbstractor,
+                userContextManager);
+
+            var skillContextualMiddleware = new SkillContextualMiddleware();
             skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);

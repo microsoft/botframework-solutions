@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using Microsoft.Bot.Builder;
@@ -21,7 +23,6 @@ namespace EmailSkill.Adapters
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager,
             ConversationState convState,
-            UserState userState,
             UserContextManager userContextManager)
             : base(credentialProvider)
         {
@@ -39,12 +40,19 @@ namespace EmailSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
-            var skillContextualMiddleware = new SkillContextualMiddleware();
+            var skillStateAccessor = convState.CreateProperty<dynamic>(nameof(EmailSkillState));
+            var lastestContactAbstractor = new ConversationstateAbstractor(
+                skillStateAccessor,
+                new List<string>()
+                {
+                    "FindContactInfor.Contacts.Last().EmailAddress.Name",
+                });
 
             var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
-                convState,
-                userContextManager,
-                nameof(EmailSkill));
+                lastestContactAbstractor,
+                userContextManager);
+
+            var skillContextualMiddleware = new SkillContextualMiddleware();
             skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);
