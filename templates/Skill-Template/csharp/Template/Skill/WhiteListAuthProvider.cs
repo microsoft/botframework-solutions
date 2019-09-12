@@ -20,7 +20,7 @@ namespace $safeprojectname$
             // the parent bot's microsoft app id to the list
             var section = configuration.GetSection($"skillAuthenticationWhitelist");
             var appsList = section.Get<string[]>();
-            AppsWhitelist = new HashSet<string>(appsList);
+            AppsWhitelist = appsList != null ? new HashSet<string>(appsList) : null;
         }
 
         public HashSet<string> AppsWhitelist { get; }
