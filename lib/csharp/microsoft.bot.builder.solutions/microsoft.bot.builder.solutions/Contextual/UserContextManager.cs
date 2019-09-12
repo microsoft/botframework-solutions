@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public List<PreviousTriggerIntent> GetPreviousQuestions()
+        public List<PreviousTriggerIntent> GetPreviousTriggerIntents()
         {
             return PreviousTriggerIntents;
         }

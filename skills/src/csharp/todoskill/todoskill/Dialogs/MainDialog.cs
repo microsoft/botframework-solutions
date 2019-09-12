@@ -62,7 +62,7 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var questions = _userContextResolver.GetPreviousQuestions();
+            var questions = _userContextResolver.GetPreviousTriggerIntents();
             var actions = questions.Select(x => x.Utterance).ToList();
             var activity = MessageFactory.SuggestedActions(actions);
             await dc.Context.SendActivityAsync(activity);

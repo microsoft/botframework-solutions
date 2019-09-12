@@ -17,6 +17,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Contextual;
+using Microsoft.Bot.Builder.Solutions.Contextual.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
@@ -125,6 +126,7 @@ namespace ToDoSkill
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
 
+            services.AddSingleton<UserInfoState>();
             services.AddSingleton<UserContextManager>();
 
             services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());

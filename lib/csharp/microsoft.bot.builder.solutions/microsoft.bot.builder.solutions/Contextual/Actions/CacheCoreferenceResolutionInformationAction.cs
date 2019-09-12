@@ -9,13 +9,11 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
     public class CacheCoreferenceResolutionInformationAction : SkillContextualActionBase
     {
         public CacheCoreferenceResolutionInformationAction(
-            ConversationState convState,
-            UserContextManager userContextManager,
-            string skillName)
+            ConversationstateAbstractor conversationstateAbstractor,
+            UserContextManager userContextManager)
         {
-            ConversationState = convState;
+            ConversationstateAbstractor = conversationstateAbstractor;
             UserContextManager = userContextManager;
-            SkillName = skillName;
 
             AfterTurnAction = async turnContext =>
             {
@@ -23,83 +21,34 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
             };
         }
 
-        private ConversationState ConversationState { get; set; }
+        private ConversationstateAbstractor ConversationstateAbstractor { get; set; }
 
         private UserContextManager UserContextManager { get; set; }
 
-        private string SkillName { get; set; }
-
-        private string Contact;
-
         private async Task CacheCoreferenceResolutionInformation(ITurnContext turnContext)
         {
-            Contact = null;
-            await AbstractPreviousContactAsync(turnContext);
-            if (Contact != null)
+            string latestContact = await AbstractLatestContactAsync(turnContext);
+            if (latestContact != null)
             {
-                if (UserContextManager.PreviousContacts.Contains(Contact))
+                if (UserContextManager.PreviousContacts.Contains(latestContact))
                 {
-                    UserContextManager.PreviousContacts.Remove(Contact);
+                    UserContextManager.PreviousContacts.Remove(latestContact);
                 }
 
-                UserContextManager.PreviousContacts.Add(Contact);
+                UserContextManager.PreviousContacts.Add(latestContact);
             }
         }
 
-        private async Task AbstractPreviousContactAsync(ITurnContext turnContext)
+        private async Task<string> AbstractLatestContactAsync(ITurnContext turnContext)
         {
             try
             {
-                var skillStateAccessor = ConversationState.CreateProperty<object>(string.Format("{0}State", SkillName));
-                var skillState = await skillStateAccessor.GetAsync(turnContext);
-                ScanPropertiesRecursively(skillState);
+                var properties = await ConversationstateAbstractor.AbstractTargetPropertiesAsync(turnContext);
+                return properties[0];
             }
             catch
             {
-            }
-        }
-
-        private void ScanPropertiesRecursively(object propValue, int depth = 0)
-        {
-            // Because many models exist circular reference, this limit can prevent infinite loop.
-            if (propValue == null || depth > 7)
-            {
-                return;
-            }
-
-            var childProps = propValue.GetType().GetProperties().Where(x => !x.GetIndexParameters().Any());
-            foreach (var prop in childProps)
-            {
-                var name = prop.Name;
-                var value = prop.GetValue(propValue);
-                if (name == "Contacts")
-                {
-                    try
-                    {
-                        var lastContact = ((IEnumerable<dynamic>)value).Last();
-                        if (lastContact.DisplayName != null)
-                        {
-                            Contact = lastContact.DisplayName;
-                        }
-                    }
-                    catch
-                    {
-                    }
-
-                    try
-                    {
-                        var lastContact = ((IEnumerable<dynamic>)value).Last();
-                        if (lastContact.EmailAddress.Name != null)
-                        {
-                            Contact = lastContact.EmailAddress.Name;
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-
-                ScanPropertiesRecursively(value, depth + 1);
+                return null;
             }
         }
     }
