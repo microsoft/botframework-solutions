@@ -26,8 +26,6 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     // Android Support
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -42,8 +40,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     // for adaptive card rendering, see https://mvnrepository.com/artifact/io.adaptivecards/adaptivecards-android
-    implementation 'io.adaptivecards:adaptivecards-android:1.2.1'
     implementation 'com.pixplicity.sharp:library:1.1.0'
+    implementation 'io.adaptivecards:adaptivecards-android:1.2.1'
 
     // JSON
     implementation "com.google.code.gson:gson:2.8.4"
@@ -63,4 +61,7 @@ dependencies {
 
     // for a nice color picker
     implementation "com.github.skydoves:colorpickerview:2.0.1"
+
+    // android lifecycle extension
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 }
