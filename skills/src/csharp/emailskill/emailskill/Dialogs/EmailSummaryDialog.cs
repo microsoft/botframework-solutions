@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
-using EmailSkill.Models;
-using EmailSkill.Responses.Shared;
-using EmailSkill.Responses.ShowEmail;
+using EmailSkill.Responses.EmailSummary;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -19,8 +14,6 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyModel.Resolution;
-using Microsoft.Graph;
 using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Dialogs
@@ -39,19 +32,19 @@ namespace EmailSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var summaryDialog = new WaterfallStep[]
+            var getEmails = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetSummary
+                GetEmails
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog("summaryDialog", summaryDialog) { TelemetryClient = telemetryClient });
-            InitialDialogId = "summaryDialog";
+            AddDialog(new WaterfallDialog(Actions.GetEmails, getEmails) { TelemetryClient = telemetryClient });
+            InitialDialogId = Actions.GetEmails;
         }
 
-        protected async Task<DialogTurnResult> GetSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetEmails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -62,20 +55,15 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync(true);
                 }
 
+                TimeZoneInfo userTimeZone = state.GetUserTimeZone();
+                var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userTimeZone);
+                state.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(new DateTime(searchDate.Year, searchDate.Month, searchDate.Day), userTimeZone);
+                state.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59), userTimeZone);
                 var (messages, totalCount, importantCount) = await GetMessagesAsync(sc);
 
-                // Get display messages
-                var displayMessages = new List<Message>();
-                var startIndex = 0;
-                for (var i = startIndex; i < messages.Count(); i++)
-                {
-                    displayMessages.Add(messages[i]);
-                }
-
-                SemanticAction semanticAction = new SemanticAction("summary", new Dictionary<string, Microsoft.Bot.Schema.Entity>());
-
+                SemanticAction semanticAction = new SemanticAction(EmailSummaryStrings.EMAIL_SUMMARY_RESPONSE_NAME, new Dictionary<string, Microsoft.Bot.Schema.Entity>());
                 var items = new JArray();
-                foreach (var message in displayMessages)
+                foreach (var message in messages)
                 {
                     items.Add(JObject.FromObject(new
                     {
@@ -92,12 +80,12 @@ namespace EmailSkill.Dialogs
 
                 var obj = JObject.FromObject(new
                 {
-                    name = "EmailSkill.EmailSummary",
+                    name = EmailSummaryStrings.EMAIL_SUMMARY_SHOW_NAME,
                     totalCount = totalCount,
                     items = items
                 });
 
-                semanticAction.Entities.Add("summary", new Microsoft.Bot.Schema.Entity { Properties = obj });
+                semanticAction.Entities.Add(EmailSummaryStrings.EMAIL_SUMMARY_ENTITY_NAME, new Microsoft.Bot.Schema.Entity { Properties = obj });
                 semanticAction.State = SemanticActionStates.Done;
 
                 state.Clear();

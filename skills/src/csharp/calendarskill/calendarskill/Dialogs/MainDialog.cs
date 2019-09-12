@@ -247,6 +247,7 @@ namespace CalendarSkill.Dialogs
                 case Events.SummaryEvent:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+                        await PopulateStateFromSemanticAction(dc.Context);
                         await dc.BeginDialogAsync(nameof(CalendarSummaryDialog));
                         break;
                     }
@@ -383,7 +384,7 @@ namespace CalendarSkill.Dialogs
         private class Events
         {
             public const string DeviceStart = "DeviceStart";
-            public const string SummaryEvent = "VA.Summary";
+            public const string SummaryEvent = "SummaryEvent";
         }
     }
 }

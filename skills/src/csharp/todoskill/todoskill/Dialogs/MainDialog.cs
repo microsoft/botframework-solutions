@@ -323,7 +323,7 @@ namespace ToDoSkill.Dialogs
 
         private class Events
         {
-            public const string SummaryEvent = "VA.Summary";
+            public const string SummaryEvent = "summaryEvent";
         }
     }
 }

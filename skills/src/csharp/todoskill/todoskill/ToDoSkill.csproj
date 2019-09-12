@@ -126,12 +126,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowToDoResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\ToDoSummary\ToDoSummaryStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoSummaryStrings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Responses\Shared\ToDoStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ToDoStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Responses\ToDoSummary\ToDoSummaryStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToDoSummaryStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

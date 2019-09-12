@@ -173,6 +173,22 @@ namespace EmailSkill.Dialogs
             }
         }
 
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+            {
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
+
+                var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
+
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
+            }
+        }
+
         private async Task PopulateStateFromSkillContext(ITurnContext context)
         {
             // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
@@ -234,6 +250,7 @@ namespace EmailSkill.Dialogs
                 case Events.SummaryEvent:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+                        await PopulateStateFromSemanticAction(dc.Context);
                         await dc.BeginDialogAsync(nameof(EmailSummaryDialog));
                         break;
                     }
@@ -348,7 +365,7 @@ namespace EmailSkill.Dialogs
 
         private class Events
         {
-            public const string SummaryEvent = "VA.Summary";
+            public const string SummaryEvent = "SummaryEvent";
         }
     }
 }

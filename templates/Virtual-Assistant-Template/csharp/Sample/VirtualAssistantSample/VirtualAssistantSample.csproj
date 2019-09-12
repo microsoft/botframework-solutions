@@ -69,6 +69,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Responses\Summary\SummaryStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SummaryStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -91,6 +95,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>OnboardingStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Summary\SummaryStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SummaryStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 

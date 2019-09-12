@@ -139,19 +139,6 @@
       "id": "EventItemContainer",
       "type": "Container",
       "items": []
-    },
-    {
-      "type": "Container",
-      "separator": true,
-      "items": [
-        {
-          "type": "TextBlock",
-          "horizontalAlignment": "Right",
-          "size": "Small",
-          "color": "Dark",
-          "text": "{Provider}"
-        }
-      ]
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

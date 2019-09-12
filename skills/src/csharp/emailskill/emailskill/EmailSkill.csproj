@@ -63,6 +63,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\EmailSummary\EmailSummaryStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailSummaryStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Responses\FindContact\FindContactResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -222,6 +227,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <EmbeddedResource Update="Responses\EmailSummary\EmailSummaryStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailSummaryStrings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Update="Responses\Shared\EmailCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EmailCommonStrings.Designer.cs</LastGenOutput>

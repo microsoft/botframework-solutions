@@ -49,5 +49,7 @@
         public const string FallbackEventPrompt = "fallbackEventPrompt";
 
         public const string RetryUnknown = "retryUnknown";
+
+        public const string GetEmails = "getEmails";
     }
 }

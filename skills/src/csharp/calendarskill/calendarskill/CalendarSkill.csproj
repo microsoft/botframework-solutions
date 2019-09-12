@@ -204,6 +204,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\CalendarSummary\CalendarSummaryStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarSummaryStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Responses\ChangeEventStatus\ChangeEventStatusResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -313,6 +318,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Responses\CalendarSummary\CalendarSummaryStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalendarSummaryStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Responses\Shared\CalendarCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>

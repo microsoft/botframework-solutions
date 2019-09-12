@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
-using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
-using ToDoSkill.Responses.ShowToDo;
+using ToDoSkill.Responses.ToDoSummary;
 using ToDoSkill.Services;
 using ToDoSkill.Utilities;
 
@@ -37,21 +33,21 @@ namespace ToDoSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var summaryDialog = new WaterfallStep[]
+            var getToDos = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetSummary
+                GetToDos
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog("summaryDialog", summaryDialog) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetToDos, getToDos) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = "summaryDialog";
+            InitialDialogId = Actions.GetToDos;
         }
 
-        protected async Task<DialogTurnResult> GetSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetToDos(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -60,7 +56,7 @@ namespace ToDoSkill.Dialogs
                 var service = await InitListTypeIds(sc);
                 var results = await service.GetTasksAsync(state.ListType);
 
-                SemanticAction semanticAction = new SemanticAction("summary", new Dictionary<string, Entity>());
+                SemanticAction semanticAction = new SemanticAction(ToDoSummaryStrings.TODO_SUMMARY_RESPONSE_NAME, new Dictionary<string, Entity>());
 
                 var items = new JArray();
                 var totalCount = results.Count;
@@ -74,12 +70,12 @@ namespace ToDoSkill.Dialogs
 
                 var obj = JObject.FromObject(new
                 {
-                    name = "ToDoSkill.MeetingSummary",
+                    name = ToDoSummaryStrings.TODO_SUMMARY_SHOW_NAME,
                     totalCount = totalCount,
                     items = items
                 });
 
-                semanticAction.Entities.Add("summary", new Entity { Properties = obj });
+                semanticAction.Entities.Add(ToDoSummaryStrings.TODO_SUMMARY_ENTITY_NAME, new Entity { Properties = obj });
                 semanticAction.State = SemanticActionStates.Done;
 
                 state.Clear();

@@ -55,5 +55,7 @@
         public const string CollectGoBackToStartConfirmation = "collectGoBackToStartConfirmation";
 
         public const string CollectRepeatFirstPageConfirmation = "collectRepeatFirstPageConfirmation";
+
+        public const string GetToDos = "getToDos";
     }
 }

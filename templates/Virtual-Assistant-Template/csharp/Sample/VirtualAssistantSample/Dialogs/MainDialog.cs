@@ -28,6 +28,7 @@ namespace VirtualAssistantSample.Dialogs
     {
         private const string Location = "location";
         private const string TimeZone = "timezone";
+        private const string StartDate = "startdate";
         private BotSettings _settings;
         private BotServices _services;
         private MainResponses _responder = new MainResponses();
@@ -263,8 +264,8 @@ namespace VirtualAssistantSample.Dialogs
 
                     case Events.SummaryEvent:
                         {
-                            forward = false;
                             await dc.BeginDialogAsync(nameof(SummaryDialog));
+                            forward = true;
                             break;
                         }
 
@@ -287,7 +288,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 var result = await dc.ContinueDialogAsync();
 
-                if (result.Status == DialogTurnStatus.Complete)
+                if (result.Status != DialogTurnStatus.Waiting)
                 {
                     await CompleteAsync(dc);
                 }
@@ -405,7 +406,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string TimezoneEvent = "VA.Timezone";
             public const string LocationEvent = "VA.Location";
-            public const string SummaryEvent = "VA.Summary";
+            public const string SummaryEvent = "SummaryEvent";
         }
     }
 }

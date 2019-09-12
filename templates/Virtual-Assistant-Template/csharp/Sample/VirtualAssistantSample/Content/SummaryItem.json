@@ -44,13 +44,6 @@
                   "color": "Dark",
                   "text": "{Title}",
                   "isSubtle": "{IsSubtle}"
-                },
-                {
-                  "type": "TextBlock",
-                  "spacing": "None",
-                  "color": "Accent",
-                  "text": "{Location}",
-                  "isSubtle": "{IsSubtle}"
                 }
               ],
               "width": 80

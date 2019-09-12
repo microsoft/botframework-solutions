@@ -10,8 +10,6 @@ namespace VirtualAssistantSample.Models
 
         public string Title { get; set; }
 
-        public string Location { get; set; }
-
         public string Indicator { get; set; }
 
         public bool IsSubtle { get; set; }

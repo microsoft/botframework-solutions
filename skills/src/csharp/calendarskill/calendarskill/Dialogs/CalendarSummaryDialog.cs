@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
+using CalendarSkill.Responses.CalendarSummary;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Newtonsoft.Json.Linq;
-using static CalendarSkill.Models.DialogOptions.ShowMeetingsDialogOptions;
-using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
@@ -32,8 +23,6 @@ namespace CalendarSkill.Dialogs
            BotServices services,
            ResponseManager responseManager,
            ConversationState conversationState,
-           UpdateEventDialog updateEventDialog,
-           ChangeEventStatusDialog changeEventStatusDialog,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient,
            MicrosoftAppCredentials appCredentials)
@@ -41,22 +30,22 @@ namespace CalendarSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var summaryDialog = new WaterfallStep[]
+            var getMeetings = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetSummary
+                GetMeetings
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog("summaryDialog", summaryDialog) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetMeetings, getMeetings) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = "summaryDialog";
+            InitialDialogId = Actions.GetMeetings;
 
         }
 
-        protected async Task<DialogTurnResult> GetSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetMeetings(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -77,17 +66,16 @@ namespace CalendarSkill.Dialogs
 
                 var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
                 var searchedEvents = new List<EventModel>();
-                var searchTodayMeeting = SearchesTodayMeeting(state);
 
                 foreach (var item in results)
                 {
-                    if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
+                    if (item.StartTime >= DateTime.UtcNow)
                     {
                         searchedEvents.Add(item);
                     }
                 }
 
-                SemanticAction semanticAction = new SemanticAction("summary", new Dictionary<string, Entity>());
+                SemanticAction semanticAction = new SemanticAction("calendar_summary", new Dictionary<string, Entity>());
 
                 var items = new JArray();
                 var totalCount = searchedEvents.Count();
@@ -105,12 +93,12 @@ namespace CalendarSkill.Dialogs
 
                 var obj = JObject.FromObject(new
                 {
-                    name = "CalendarSkill.MeetingSummary",
+                    name = CalendarSummaryStrings.MEETING_SUMMARY_SHOW_NAME,
                     totalCount = totalCount,
                     items = items
                 });
 
-                semanticAction.Entities.Add("summary", new Entity { Properties = obj });
+                semanticAction.Entities.Add("CalendarSkill.MeetingSummary", new Entity { Properties = obj });
                 semanticAction.State = SemanticActionStates.Done;
 
                 state.Clear();
@@ -121,22 +109,6 @@ namespace CalendarSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
-        }
-
-        private bool SearchesTodayMeeting(CalendarSkillState state)
-        {
-            var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
-            var searchDate = userNow;
-
-            if (state.MeetingInfor.StartDate.Any())
-            {
-                searchDate = state.MeetingInfor.StartDate.Last();
-            }
-
-            return !state.MeetingInfor.StartTime.Any() &&
-                !state.MeetingInfor.EndDate.Any() &&
-                !state.MeetingInfor.EndTime.Any() &&
-                EventModel.IsSameDate(searchDate, userNow);
         }
     }
 }
