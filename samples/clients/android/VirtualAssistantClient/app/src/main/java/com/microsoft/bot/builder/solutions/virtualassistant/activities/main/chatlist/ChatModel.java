@@ -13,4 +13,17 @@ public class ChatModel {
     public ChatModel(String userRequest) {
         this.userRequest = userRequest;
     }
+
+    public boolean isBotMessage() {
+        return this.userRequest == null;
+    }
+
+    public boolean hasAttachments() {
+        if (this.botConnectorActivity != null) {
+            if (this.botConnectorActivity.getAttachments() != null) {
+                return this.botConnectorActivity.getAttachments().size() > 0;
+            }
+        }
+        return false;
+    }
 }

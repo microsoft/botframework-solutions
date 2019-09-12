@@ -33,13 +33,7 @@ namespace AutomotiveSkillTest.Flow
         {
             // Initialize service collection
             Services = new ServiceCollection();
-            Services.AddSingleton(new BotSettings()
-            {
-                Properties = new Dictionary<string, string>()
-                {
-                    { "ImageAssetLocation", ImageAssetLocation }
-                }
-            });
+            Services.AddSingleton(new BotSettings());
 
             Services.AddSingleton(new BotServices()
             {

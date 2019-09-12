@@ -106,7 +106,7 @@ namespace PointOfInterestSkill.Dialogs
             switch (type)
             {
                 case OpenDefaultAppType.Map: value.MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}"; break;
-                case OpenDefaultAppType.Telephone: value.TelUri = destination.Phone; break;
+                case OpenDefaultAppType.Telephone: value.TelephoneUri = destination.Phone; break;
             }
 
             replyEvent.Value = value;
@@ -823,25 +823,8 @@ namespace PointOfInterestSkill.Dialogs
 
         private string GetCardImageUri(string imagePath)
         {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            if (_httpContext != null)
-            {
-                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-                return $"{serverUrl}/images/{imagePath}";
-            }
-            else
-            {
-                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                var imageUriStr = Settings.ImageAssetLocation;
-                if (string.IsNullOrWhiteSpace(imageUriStr))
-                {
-                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
-                }
-                else
-                {
-                    return $"{imageUriStr}/{imagePath}";
-                }
-            }
+            var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            return $"{serverUrl}/images/{imagePath}";
         }
 
         private class ImageSize

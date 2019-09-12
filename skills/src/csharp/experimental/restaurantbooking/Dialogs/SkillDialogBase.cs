@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
@@ -219,6 +221,19 @@ namespace RestaurantBooking.Dialogs
             catch
             {
                 // put log here
+            }
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
             }
         }
     }

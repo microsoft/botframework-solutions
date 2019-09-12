@@ -316,7 +316,7 @@ namespace PointOfInterestSkillTests.Flow
                 }
                 else if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Telephone)
                 {
-                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelUri));
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelephoneUri));
                 }
             };
         }

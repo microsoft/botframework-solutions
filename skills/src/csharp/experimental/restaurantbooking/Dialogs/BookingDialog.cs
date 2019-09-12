@@ -145,13 +145,13 @@ namespace RestaurantBooking.Dialogs
             foreach (var foodType in foodTypes)
             {
                 cards.Add(new Card(
-                    "CusineChoiceCard",
-                    new CusineChoiceCardData
+                    GetDivergedCardName(sc.Context, "CuisineChoiceCard"),
+                    new CuisineChoiceCardData
                     {
                         ImageUrl = foodType.ImageUrl,
                         ImageSize = AdaptiveImageSize.Stretch,
                         ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                        Cusine = foodType.TypeName,
+                        Cuisine = foodType.TypeName,
                     }));
 
                 options.Choices.Add(new Choice(foodType.TypeName));
@@ -490,7 +490,7 @@ namespace RestaurantBooking.Dialogs
             foreach (var restaurant in restaurants)
             {
                 cards.Add(new Card(
-                   "RestaurantChoiceCard",
+                   GetDivergedCardName(sc.Context, "RestaurantChoiceCard"),
                    new RestaurantChoiceCardData
                    {
                        ImageUrl = restaurant.PictureUrl,
