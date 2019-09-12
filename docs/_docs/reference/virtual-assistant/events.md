@@ -78,6 +78,7 @@ You can request to remove all user state and unlink accounts by passing the **VA
 To be tightly integrated with a user's messaging client, a Virtual Assistant needs to send events back to the client application.
 The **OpenDefaultApp** example event is used in conjunction with the [Virtual Assistant Client (Android) sample)]({{ site.baseurl }}/howto/samples/vaclient_android/) to demonstrate samples of using metadata
 
+**Activity payload**
 ```json
 { 
    "type":"event",

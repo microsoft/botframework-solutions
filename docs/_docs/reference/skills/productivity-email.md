@@ -14,15 +14,11 @@ order: 9
 
 * 
 {:toc}
+
 ## Overview
-The Email Skill provides Email related capabilities to a Virtual Assistant.
-The most common scenarios have been implemented in this beta release, with additional scenarios in development.
+The Email Skill provides email related capabilities to a Virtual Assistant.
 
-## Supported Sources
-
-> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
-
-## Supported Scenarios
+## Supported scenarios
 
 The following scenarios are currently supported by the Skill:
 
@@ -57,34 +53,7 @@ The following scenarios are currently supported by the Skill:
   - *The third search result please*
   - *Open this one*
 
-## Skill Deployment
-
-The Email Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.
-
-### Authentication Connection Settings
-
-If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
-- `User.ReadBasic.All`
-- `Mail.ReadWrite`
-- `Mail.Send`
-- `People.Read`
-- `Contacts.Read`
-
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
-
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
-
-## Language Model
+## Language Understanding (LUIS)
 
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
@@ -136,8 +105,33 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
 
-### Example Skill Manifest
+## Configuration
+### Deployment
+Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
-```
-TBC
-```
+### Supported content providers
+> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
+To use Google account skill you need follow these steps:
+1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
+2. Create an OAuth connection setting in your Web App Bot.
+    - Connection name: `googleapi`
+    - Service Provider: `Google`
+    - Client id and secret are generated in step 1
+    - Scopes: `https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts`.
+3. Add the connection name, client id, secret and scopes in the `appsetting.json` file.
+
+### Authentication connection Settings
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+- `User.ReadBasic.All`
+- `Mail.ReadWrite`
+- `Mail.Send`
+- `People.Read`
+- `Contacts.Read`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
+
+## Events
+Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or timezone.

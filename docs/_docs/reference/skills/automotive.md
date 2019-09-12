@@ -26,7 +26,7 @@ Unlike the Productivity and PoI skills that are integrated into existing service
 
 To enable testing and simulation any action identified is surfaced to the calling application as an event, this can easily be seen within the Bot Framework Emulator and will be wired up into the Web Test harness available as part of the Virtual Assistant solution.
 
-## Supported Scenarios
+## Supported scenarios
 
 At this time, changes to vehicle settings are supported through the `VEHICLE_SETTINGS_CHANGE` and `VEHICLE_SETTINGS_DECLARATIVE` intents. The former enables questions such as "change the temperature to 21 degrees" whereas the latter intent enables scenarios such as "I'm feeling cold" which require additional processing steps.
 
@@ -61,7 +61,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 ![ Automotive Skill Transcript Example]({{site.baseurl}}/assets/images/skills-auto-transcript.png)
 
-## Language Model
+## Language Understanding (LUIS)
 
 LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English with other languages to follow.
 
@@ -72,59 +72,15 @@ The following Top Level intents are available with the main `settings` LUIS mode
 
 In addition there are two supporting LUIS models `settings_name` and `settings_value`, these are used for disambiguation scenarios to clarify setting names and values where the initial utterance doesn't provide clear information.
 
-## Event Responses
-
-The Automotive Skill surfaces setting changes for testing purposes through an event returned to the client. This enables easy testing and simulation, all events are prefixed with `AutomotiveSkill.`. The below event is generated as a response to `I'm feeling cold`
-
-```json
-{
-  "name": "AutomotiveSkill.Temperature",
-  "type": "event",
-  "value": [
-    {
-      "Key": "valueingform",
-      "Value": "Increasing"
-    },
-    {
-      "Key": "settingname",
-      "Value": "Temperature"
-    }
-  ]
-}
-```
-
 ## Configuration
+### Deployment
+Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
-### Authentication Connection Settings
+### Authentication connection settings
 
 > No Authentication is required for this skill
 
-### Skill Parameters
-
-> No Parameters are required for this skill
-
-### Example Skill Registration Entry
-
-```json
-{
-    "type": "skill",
-    "id": "automotiveSkill",
-    "name": "automotiveSkill",
-    "assembly": "AutomotiveSkill.AutomotiveSkill, AutomotiveSkill, Version=1.0.0.0, Culture=neutral",
-    "dispatchIntent": "l_Automotive",
-    "supportedProviders": [],
-    "luisServiceIds": [
-      "settings",
-      "settings_name",
-      "settings_value",
-      "general"
-    ],
-    "parameters": []
-    ]
-}
-```
-
-### Customizing Vehicle Settings
+### Customizing vehicle settings
 
 Available vehicle settings are defined in a supporting metadata file which you can find in this location:  `automotiveskill/Dialogs/VehicleSettings/Resources/available_settings.yaml`.
 
@@ -259,3 +215,25 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
     ![Add My Skill Image]({{site.baseurl}}/assets/images/skills_maindialogupdate.jpg)
 
 6. Add a project reference from your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
+
+7. In order for Adaptive Cards to render images associated with the Automotive skill you will need to take the Image assets located in the `wwwroot/images` folder of the Automotive skill and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration `ImageAssetLocation` property. If you skip this step, Adaptive Cards will not render with images correctly.
+
+## Events
+The Automotive Skill surfaces setting changes for testing purposes through an event returned to the client. This enables easy testing and simulation, all events are prefixed with `AutomotiveSkill.`. The below event is generated as a response to `I'm feeling cold`
+
+```json
+{
+  "name": "AutomotiveSkill.Temperature",
+  "type": "event",
+  "value": [
+    {
+      "Key": "valueingform",
+      "Value": "Increasing"
+    },
+    {
+      "Key": "settingname",
+      "Value": "Temperature"
+    }
+  ]
+}
+```
