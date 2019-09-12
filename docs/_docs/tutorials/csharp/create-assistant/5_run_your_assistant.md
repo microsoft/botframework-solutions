@@ -25,7 +25,7 @@ When deployment is complete, you can run your Virtual Assistant debugging throug
 
 4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
 
-> **Note**: If you password has any JSON reserved characters (backslash, quote, etc.), they must be properly escaped to connect to your bot.
+> **Note**: If you password has any JSON reserved characters (backslash, quote, etc.), the deployment scripts automatically escape them when populating `appsettings.json`. These must be removed before using tools like the [Bot Framework Emulator](https://aka.ms/botframeworkemulator) to connect to your bot.
 
     ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbotmodal.png)
 
