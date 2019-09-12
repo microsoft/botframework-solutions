@@ -26,6 +26,7 @@ namespace ITSMSkill.Responses.Ticket
         public const string TicketShow = "TicketShow";
         public const string TicketEnd = "TicketEnd";
         public const string TicketShowNone = "TicketShowNone";
+        public const string TicketFindNone = "TicketFindNone";
         public const string TicketDuplicateNumber = "TicketDuplicateNumber";
         public const string TicketTarget = "TicketTarget";
         public const string TicketAlreadyClosed = "TicketAlreadyClosed";

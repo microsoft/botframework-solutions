@@ -2,8 +2,8 @@
   "IfExistingSolve": {
     "replies": [
       {
-        "text": "Page {Page}. Do any of these solve your problem? Go forward/previous to navigate",
-        "speak": "Page {Page}. Do any of these solve your problem? Go forward/previous to navigate"
+        "text": "Page {Page}. Do any of these solve your problem? \"Go forward/previous\" to navigate",
+        "speak": "Page {Page}. Do any of these solve your problem? \"Go forward/previous\" to navigate"
       }
     ],
     "inputHint": "expectingInput"
@@ -105,8 +105,8 @@
   "TicketShow": {
     "replies": [
       {
-        "text": "Page {Page}. Do you want to see more search results? Try \"Go forward/previously\".",
-        "speak": "Page {Page}. Do you want to see more search results? Try \"Go forward/previously\"."
+        "text": "Page {Page}. Do you want to update constraints to search again? \"Go forward/previous\" to navigate",
+        "speak": "Page {Page}. Do you want to update constraints to search again? \"Go forward/previous\" to navigate"
       }
     ],
     "inputHint": "acceptingInput"
@@ -114,13 +114,22 @@
   "TicketEnd": {
     "replies": [
       {
-        "text": "Page {Page} does not contain anything, try \"Go previously\".",
-        "speak": "Page {Page} does not contain anything, try \"Go previously\"."
+        "text": "Page {Page} does not contain anything, try \"Go previous\".",
+        "speak": "Page {Page} does not contain anything, try \"Go previous\"."
       }
     ],
     "inputHint": "acceptingInput"
   },
   "TicketShowNone": {
+    "replies": [
+      {
+        "text": "I'm sorry I can't find any. Do you want to update constraints to search again?",
+        "speak": "I'm sorry I can't find any. Do you want to update constraints to search again?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "TicketFindNone": {
     "replies": [
       {
         "text": "I'm sorry I can't find any. Let me know when you need my help.",
