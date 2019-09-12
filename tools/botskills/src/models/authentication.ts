@@ -40,12 +40,6 @@ export interface IAzureAuthSetting {
     type: string;
 }
 
-export interface IAppSettingOauthConnection {
-    oauthConnections: IOauthConnection[];
-    microsoftAppId: string;
-    microsoftAppPassword: string;
-}
-
 export interface IOauthConnection {
     name: string;
     provider: string;

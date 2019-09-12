@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-export interface ICognitiveModelFile {
+export interface ICognitiveModel {
     cognitiveModels: {
         [key: string]: {
             dispatchModel: {
