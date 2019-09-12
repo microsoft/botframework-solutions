@@ -1,9 +1,9 @@
-  {
+{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
   "speak": "{Speak}",
-  "id": "CusineChoiceCard",
+  "id": "CuisineChoiceCard",
   "body": [
     {
       "type": "Container",
@@ -24,7 +24,7 @@
           "items": [
             {
               "type": "TextBlock",
-              "text": "{Cusine}",
+              "text": "{Cuisine}",
               "wrap": true,
               "size": "default"
             }
@@ -34,9 +34,7 @@
       "selectAction": {
         "type": "Action.Submit",
         "title": "Submit action",
-        "data": {
-          "selectedItem": "{Cusine}"
-        }
+        "data": "{Cuisine}"
       }
     }
   ]

@@ -120,10 +120,7 @@ The Automotive Skill surfaces setting changes for testing purposes through an ev
       "general"
     ],
     "parameters": []
-    ],
-    "configuration": {
-       "ImageAssetLocation": "http://tempuri.org"
-     }
+    ]
 }
 ```
 
@@ -262,5 +259,3 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
     ![Add My Skill Image]({{site.baseurl}}/assets/images/skills_maindialogupdate.jpg)
 
 6. Add a project reference from your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
-
-7. In order for Adaptive Cards to render images associated with the Automotive skill you will need to take the Image assets located in the `wwwroot/images` folder of the Automotive skill and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration `ImageAssetLocation` property. If you skip this step, Adaptive Cards will not render with images correctly.

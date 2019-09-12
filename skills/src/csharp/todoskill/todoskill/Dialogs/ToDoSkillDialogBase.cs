@@ -760,27 +760,8 @@ namespace ToDoSkill.Dialogs
 
         private string GetImageUri(string imagePath)
         {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            if (_httpContext != null)
-            {
-                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-                return $"{serverUrl}/images/{imagePath}";
-            }
-            else
-            {
-                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                _settings.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
-
-                var imageUriStr = imageUri;
-                if (string.IsNullOrWhiteSpace(imageUriStr))
-                {
-                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
-                }
-                else
-                {
-                    return $"{imageUriStr}/{imagePath}";
-                }
-            }
+            var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            return $"{serverUrl}/images/{imagePath}";
         }
     }
 }
