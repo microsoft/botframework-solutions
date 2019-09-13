@@ -1,4 +1,4 @@
-![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
+![Bot Framework Solutions](https://raw.githubusercontent.com/microsoft/botframework-solutions/master/docs/assets/images/bot_framework_solutions_header.png)
 
 # Enterprise Notifications
 
@@ -29,7 +29,7 @@ Configuration of the sample is covered in this [configuration page](Configuratio
 
 The following diagram depicts the proposed notification Architecture which is used by this sample:
 
-![Enterprise Notification System Architecture](/docs/media/sample-notification-system-architecture.png)
+![Enterprise Notification System Architecture](https://raw.githubusercontent.com/microsoft/botframework-solutions/master/docs/assets/images/sample-notification-system-architecture.png)
 
 ### Event Producer
 
