@@ -89,7 +89,7 @@ export interface IContentModeratorConfiguration {
 }
 
 export interface ICosmosDbConfiguration {
-    authkey: string;
+    authKey: string;
     collectionId: string;
     cosmosDBEndpoint: string;
     databaseId: string;
