@@ -843,15 +843,14 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
                                     state.MeetingInfor.StartDate = date;
                                 }
 
-                                // get end date from time range
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
@@ -859,10 +858,10 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToDate != null)
+                            if (entity.ToDate != null && !state.MeetingInfor.EndDate.Any())
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
@@ -873,14 +872,14 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromTime != null)
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
                                     state.MeetingInfor.StartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
@@ -888,10 +887,10 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.ToTime != null)
+                            if (entity.ToTime != null && !state.MeetingInfor.EndTime.Any())
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (time != null)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
@@ -942,13 +941,13 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.StartDate = date;
                                 }
 
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.EndDate = date;
@@ -958,13 +957,13 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromTime != null)
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.StartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.EndTime = time;
@@ -984,13 +983,13 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.StartDate = date;
                                 }
 
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.EndDate = date;
@@ -1000,29 +999,23 @@ namespace CalendarSkill.Dialogs
                             if (entity.ToDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
                                     state.UpdateMeetingInfor.NewStartDate = date;
-                                }
-
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
-                                if (date != null)
-                                {
-                                    state.UpdateMeetingInfor.NewEndDate = date;
                                 }
                             }
 
                             if (entity.FromTime != null)
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.StartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.EndTime = time;
@@ -1032,13 +1025,13 @@ namespace CalendarSkill.Dialogs
                             if (entity.ToTime != null)
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.UpdateMeetingInfor.NewStartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.UpdateMeetingInfor.NewEndTime = time;
@@ -1084,24 +1077,24 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.StartDate = date;
                                     state.MeetingInfor.StartDateString = dateString;
                                 }
 
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.MeetingInfor.EndDate = date;
                                 }
                             }
 
-                            if (entity.ToDate != null)
+                            if (entity.ToDate != null && !state.MeetingInfor.EndDate.Any())
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
                                     state.MeetingInfor.EndDate = date;
@@ -1111,23 +1104,23 @@ namespace CalendarSkill.Dialogs
                             if (entity.FromTime != null)
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.StartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.MeetingInfor.EndTime = time;
                                 }
                             }
 
-                            if (entity.ToTime != null)
+                            if (entity.ToTime != null && !state.MeetingInfor.EndTime.Any())
                             {
                                 var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (time != null)
                                 {
                                     state.MeetingInfor.EndTime = time;
@@ -1581,9 +1574,8 @@ namespace CalendarSkill.Dialogs
             return inputString.Substring(data.StartIndex, data.EndIndex - data.StartIndex);
         }
 
-        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone, bool isStart, bool isTargetTimeRange)
+        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
-            // if isTargetTimeRange is true, will only parse the time range
             var culture = local ?? English;
             var results = RecognizeDateTime(date, culture, true);
             var dateTimeResults = new List<DateTime>();
@@ -1593,7 +1585,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (result.Value != null)
                     {
-                        if (isTargetTimeRange)
+                        if (!isStart)
                         {
                             break;
                         }
@@ -1626,9 +1618,9 @@ namespace CalendarSkill.Dialogs
             return dateTimeResults;
         }
 
-        private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart, bool isTargetTimeRange)
+        private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
-            // if isTargetTimeRange is true, will only parse the time range
+            // if isStart is false, will only get the end time of a timerange
             var culture = local ?? English;
             var results = RecognizeDateTime(time, culture, false);
             var dateTimeResults = new List<DateTime>();
@@ -1638,7 +1630,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (result.Value != null)
                     {
-                        if (isTargetTimeRange)
+                        if (!isStart)
                         {
                             break;
                         }

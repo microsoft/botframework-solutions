@@ -13,10 +13,6 @@ namespace CalendarSkillTest.Flow.Utterances
             this.Add(FindMeetingByTimeRange, GetBaseFindMeetingIntent(
                 FindMeetingByTimeRange,
                 fromDate: new string[] { "next week" }));
-            this.Add(FindMeetingByTimeframe, GetBaseFindMeetingIntent(
-                FindMeetingByTimeframe,
-                fromTime: new string[] { "this afternoon" },
-                toTime: new string[] { "this afternoon" }));
             this.Add(FindMeetingByStartTime, GetBaseFindMeetingIntent(
                 FindMeetingByStartTime,
                 fromDate: new string[] { "tomorrow" },
@@ -36,8 +32,6 @@ namespace CalendarSkillTest.Flow.Utterances
         public static string BaseFindMeeting { get; } = "What should I do today";
 
         public static string FindMeetingByTimeRange { get; } = "What's on my schedule next week";
-
-        public static string FindMeetingByTimeframe { get; } = "What's on my schedule this afternoon";
 
         public static string FindMeetingByStartTime { get; } = "What are my meetings at tomorrow 6 pm";
 
