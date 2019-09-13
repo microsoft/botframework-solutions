@@ -1,7 +1,7 @@
 {
     "name": "sample-skill",
     "version": "1.0.0",
-    "description": "Please refer to the [Skill Template documentation](http://aka.ms/virtualassistantdocs) for deployment and customization instructions.",
+    "description": "",
     "author": "",
     "license": "MIT",
     "main": "lib/index.js",
