@@ -75,6 +75,6 @@ The assistant is responsible for surfacing the message received from the Event H
 
 ### Adaptive Cards and Web Dashboards
 
-When Notification Handler handles events emitted from Azure Event Hub, it can persist the events into a user data store. 
+When the Notification Handler handles events emitted from the Azure Event Hub, it can if required, persist the events into a user data store. 
 
-This would enable user/system administrator to look at the events later on from a Web Dashboard where AdaptiveCards and other Web components can be used to render them to provide companion experiences to the assistant. This part is not included in the sample implementation at the time.
+This would companion experiences (e.g. Web page dashboard) where these notifications could be rendered in addition to the assistant. This part is not included in the sample implementation at the time.
