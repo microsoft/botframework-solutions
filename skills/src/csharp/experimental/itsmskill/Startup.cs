@@ -120,9 +120,11 @@ namespace ITSMSkill
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
 
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
+
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
-
             services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
         }
 
