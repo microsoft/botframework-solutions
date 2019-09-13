@@ -46,9 +46,9 @@ namespace Microsoft.Bot.Builder.Skills.Auth
 
             var appIdClaimName = AuthHelpers.GetAppIdClaimName(claimsIdentity);
             var appId = claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
-            if (_whitelistAuthenticationProvider.AppsWhitelist == null
-                || _whitelistAuthenticationProvider.AppsWhitelist.Count == 0
-                || !_whitelistAuthenticationProvider.AppsWhitelist.Contains(appId))
+            if (_whitelistAuthenticationProvider.AppsWhitelist != null
+                && _whitelistAuthenticationProvider.AppsWhitelist.Count > 0
+                && !_whitelistAuthenticationProvider.AppsWhitelist.Contains(appId))
             {
                 httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
                 await httpResponse.WriteAsync("Skill could not allow access from calling bot.").ConfigureAwait(false);
