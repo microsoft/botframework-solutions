@@ -39,6 +39,7 @@ namespace Microsoft.Bot.Builder.Skills
         public void HandleHandoffResponse(Activity activity)
             => _handoffActivity = activity;
 
+        // TODO: get just turnContext, activity, (optional) callback for interception.
         public override async Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
         {
             if (_streamingTransportClient == null)
@@ -91,6 +92,7 @@ namespace Microsoft.Bot.Builder.Skills
             return _handoffActivity;
         }
 
+        // TODO: look into moving this up the stack (this should be just pipe)
         public override async Task CancelRemoteDialogsAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials appCredentials, CancellationToken cancellationToken = default)
         {
             var cancelRemoteDialogEvent = Activity.CreateEventActivity();

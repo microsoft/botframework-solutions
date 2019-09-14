@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+    // This is like the activityhandler but on the receiving end.
     public class SkillCallingRequestHandler : RequestHandler
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
