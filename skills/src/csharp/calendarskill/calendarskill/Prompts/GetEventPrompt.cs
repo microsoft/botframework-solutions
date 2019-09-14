@@ -76,7 +76,7 @@ namespace CalendarSkill.Prompts
             {
                 var message = turnContext.Activity.AsMessageActivity();
                 var culture = turnContext.Activity.Locale ?? DefaultLocale ?? English;
-                var date = GetTimeFromMessage(message.Text, culture);
+                var date = GetTimeFromMessage(message.Text, culture, userTimeZone);
                 if (date.Count > 0)
                 {
                     // input is a time

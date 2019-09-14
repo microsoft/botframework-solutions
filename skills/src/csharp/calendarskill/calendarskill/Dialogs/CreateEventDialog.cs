@@ -759,6 +759,7 @@ namespace CalendarSkill.Dialogs
                         Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
                         RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
                         NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeNoSkip),
+                        TimeZone = state.GetUserTimeZone()
                     }, cancellationToken);
                 }
                 else
