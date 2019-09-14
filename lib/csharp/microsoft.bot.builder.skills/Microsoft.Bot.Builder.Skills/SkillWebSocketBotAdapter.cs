@@ -4,14 +4,14 @@ using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Models;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Activity = Microsoft.Bot.Schema.Activity;
 using Diagnostics = System.Diagnostics;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
     /// This adapter is responsible for processing incoming activity from a bot-to-bot call over websocket transport.

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace RootBot.Services
 {

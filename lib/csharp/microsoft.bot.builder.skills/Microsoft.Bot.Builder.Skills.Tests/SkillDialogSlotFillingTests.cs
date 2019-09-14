@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Skills.Tests.Mocks;
-using Microsoft.Bot.Builder.Skills.Tests.Utilities;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks;
+using Microsoft.Bot.Builder.Solutions.Skills.Tests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Builder.Skills.Tests
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 {
     /// <summary>
     /// Test basic invocation of Skills that have slots configured and ensure the slots are filled as expected.

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Skills.Models
+﻿namespace Microsoft.Bot.Builder.Solutions.Skills.Models
 {
     public static class SkillEvents
     {

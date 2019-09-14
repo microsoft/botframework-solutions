@@ -4,10 +4,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
     /// BotFrameworkSkillConnector that inherits from the base SkillConnector.

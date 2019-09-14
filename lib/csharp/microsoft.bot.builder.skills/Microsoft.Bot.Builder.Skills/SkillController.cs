@@ -8,11 +8,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
     /// This is the default Controller that contains APIs for handling

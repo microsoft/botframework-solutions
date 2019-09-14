@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 
-namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {
     public class MockWhitelistAuthenticationProvider : IWhitelistAuthenticationProvider
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {
     public class MockBot : IBot
     {

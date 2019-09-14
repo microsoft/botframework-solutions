@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Skills.Tests.Mocks;
-using Microsoft.Bot.Builder.Skills.Tests.Utilities;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks;
+using Microsoft.Bot.Builder.Solutions.Skills.Tests.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Builder.Skills.Tests
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 {
     /// <summary>
     /// Test basic invocation of Skills through the SkillDialog.

@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
     /// The Skill middleware is responsible for processing Skill mode specifics, for example the skillBegin event used to signal the start of a skill conversation.

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     // TODO: Remove this and use the ActivityHandler from the SDK (Gabo)
     public interface IActivityHandler

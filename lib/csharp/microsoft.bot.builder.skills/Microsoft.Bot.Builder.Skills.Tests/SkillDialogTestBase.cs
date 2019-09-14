@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Builder.Skills.Tests
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 {
     [TestClass]
     public class SkillDialogTestBase : BotTestBase

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills.Models.Manifest
+namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
 {
     /// <summary>
     /// The SkillManifest class models the Skill Manifest which is used to express the capabilities

@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
@@ -19,7 +19,7 @@ using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 using Newtonsoft.Json;
 using Activity = Microsoft.Bot.Schema.Activity;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     // TODO: GG refactor this class to fix this warming. Probably create an overload that takes what's needed to create the streamingClient and implement IDispose for the case where the class creates the client.
 #pragma warning disable CA1001 // Types that own disposable fields should be disposable (disable, streamingTransportClient is passed in, we assume the owner will dispose it but let's revie later just in case)'

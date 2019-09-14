@@ -1,9 +1,8 @@
 ﻿using System.Net.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 
-namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {
     public class MockSkillController : SkillController
     {

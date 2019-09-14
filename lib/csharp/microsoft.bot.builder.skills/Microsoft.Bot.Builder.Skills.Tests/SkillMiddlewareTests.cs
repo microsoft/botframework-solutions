@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Builder.Skills.Tests
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 {
     [TestClass]
     public class SkillMiddlewareTests

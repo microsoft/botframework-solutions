@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public class SkillException : Exception
     {

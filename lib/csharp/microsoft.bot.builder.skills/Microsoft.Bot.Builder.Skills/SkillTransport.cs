@@ -3,11 +3,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public abstract class SkillTransport
     {

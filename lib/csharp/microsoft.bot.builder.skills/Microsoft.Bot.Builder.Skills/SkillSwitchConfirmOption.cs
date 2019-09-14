@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public class SkillSwitchConfirmOption
     {

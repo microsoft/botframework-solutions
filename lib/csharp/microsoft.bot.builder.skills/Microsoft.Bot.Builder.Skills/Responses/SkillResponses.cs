@@ -4,7 +4,7 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace Microsoft.Bot.Builder.Skills.Responses
+namespace Microsoft.Bot.Builder.Solutions.Skills.Responses
 {
     /// <summary>
     /// Contains bot responses.

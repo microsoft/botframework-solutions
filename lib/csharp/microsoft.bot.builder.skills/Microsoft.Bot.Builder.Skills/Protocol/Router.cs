@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using Microsoft.Bot.StreamingExtensions;
 
-namespace Microsoft.Bot.Builder.Skills.Protocol
+namespace Microsoft.Bot.Builder.Solutions.Skills.Protocol
 {
     public class Router
     {

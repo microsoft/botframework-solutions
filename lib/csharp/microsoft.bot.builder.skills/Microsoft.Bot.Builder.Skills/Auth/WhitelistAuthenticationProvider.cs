@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.Bot.Builder.Skills.Auth
+namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     /// <summary>
     /// Loads the apps whitelist from settings.

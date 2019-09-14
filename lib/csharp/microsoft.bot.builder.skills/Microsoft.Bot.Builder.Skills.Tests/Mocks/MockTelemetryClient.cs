@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {
     public class MockTelemetryClient : IBotTelemetryClient
     {

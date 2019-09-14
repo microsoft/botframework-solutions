@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills.Models.Manifest
+namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
 {
     /// <summary>
     /// Describes an Authentication connection that a Skill requires for operation.

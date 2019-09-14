@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Microsoft.Bot.Builder.Skills.Auth
+namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public interface IAuthenticationProvider
     {

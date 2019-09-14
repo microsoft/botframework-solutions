@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Microsoft.Bot.Builder.Skills.UserAuth
+﻿namespace Microsoft.Bot.Builder.Solutions.Skills.UserAuth
 {
     public enum OAuthProvider
     {

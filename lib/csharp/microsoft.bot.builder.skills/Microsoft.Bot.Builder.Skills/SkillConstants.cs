@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Skills
+﻿namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public static class SkillConstants
     {

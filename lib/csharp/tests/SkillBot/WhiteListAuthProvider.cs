@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Extensions.Configuration;
 
 namespace SkillBot

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.UserAuth;
+using Microsoft.Bot.Builder.Solutions.Skills.UserAuth;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public interface ISkillProtocolHandler
     {

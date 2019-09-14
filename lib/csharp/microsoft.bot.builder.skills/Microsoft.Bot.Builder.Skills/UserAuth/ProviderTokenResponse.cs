@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills.UserAuth
+namespace Microsoft.Bot.Builder.Solutions.Skills.UserAuth
 {
     public class ProviderTokenResponse
     {

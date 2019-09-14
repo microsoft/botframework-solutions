@@ -3,9 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     public class SlotEqualityComparer : IEqualityComparer<Slot>
     {

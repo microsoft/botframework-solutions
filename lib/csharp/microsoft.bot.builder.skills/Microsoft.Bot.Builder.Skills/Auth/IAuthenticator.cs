@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Microsoft.Bot.Builder.Skills.Auth
+namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public interface IAuthenticator
     {

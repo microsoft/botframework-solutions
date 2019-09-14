@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microsoft.Bot.Builder.Skills.Auth
+namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public interface IWhitelistAuthenticationProvider
     {

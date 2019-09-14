@@ -4,11 +4,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
+namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {
     public class MockSkillTransport : SkillTransport
     {

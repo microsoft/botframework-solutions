@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Builder.Skills.Resources {
+namespace Microsoft.Bot.Builder.Solutions.Skills.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Builder.Skills.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Skills.Resources.CommonStrings", typeof(CommonStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Solutions.Skills.Resources.CommonStrings", typeof(CommonStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

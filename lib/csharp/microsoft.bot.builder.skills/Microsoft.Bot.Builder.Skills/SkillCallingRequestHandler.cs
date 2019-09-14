@@ -5,13 +5,13 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Protocol;
+using Microsoft.Bot.Builder.Solutions.Skills.Protocol;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     // This is like the activityhandler but on the receiving end.
     public class SkillCallingRequestHandler : RequestHandler

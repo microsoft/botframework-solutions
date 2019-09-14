@@ -5,15 +5,14 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Activity = Microsoft.Bot.Schema.Activity;
 using Diagnostics = System.Diagnostics;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     internal class SkillWebSocketRequestHandler : RequestHandler
     {

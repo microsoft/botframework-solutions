@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills.Models.Manifest
+namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
 {
     public class Action
     {

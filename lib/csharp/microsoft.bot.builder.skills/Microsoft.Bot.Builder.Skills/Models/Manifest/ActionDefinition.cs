@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Skills.Models.Manifest
+namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
 {
     /// <summary>
     /// Definition of a Manifest Action. Describes how an action is trigger and any slots (parameters) it accepts.

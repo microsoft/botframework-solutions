@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
-namespace Microsoft.Bot.Builder.Skills.Models
+namespace Microsoft.Bot.Builder.Solutions.Skills.Models
 {
     public class SkillDialogOptions
     {

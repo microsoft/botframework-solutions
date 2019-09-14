@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Skills.Auth
+namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public interface IServiceClientCredentials
     {
