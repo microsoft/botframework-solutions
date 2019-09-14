@@ -78,7 +78,6 @@ namespace BingSearchSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<BingSearchSkillLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -88,7 +87,7 @@ namespace BingSearchSkill.Dialogs
                     case BingSearchSkillLuis.Intent.SearchMovieInfo:
                     case BingSearchSkillLuis.Intent.None:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SearchDialog));
+                            await dc.BeginDialogAsync(nameof(SearchDialog));
                             break;
                         }
 
@@ -96,14 +95,8 @@ namespace BingSearchSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

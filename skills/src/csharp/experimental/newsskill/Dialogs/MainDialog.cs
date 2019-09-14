@@ -70,7 +70,6 @@ namespace NewsSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
@@ -82,7 +81,7 @@ namespace NewsSkill.Dialogs
                     case NewsLuis.Intent.TrendingArticles:
                         {
                             // send articles in response
-                            turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
+                            await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
                             break;
                         }
 
@@ -90,14 +89,14 @@ namespace NewsSkill.Dialogs
                     case NewsLuis.Intent.ShowFavoriteTopics:
                         {
                             // send favorite news categories
-                            turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
+                            await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
                             break;
                         }
 
                     case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
-                            turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
+                            await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
@@ -105,8 +104,6 @@ namespace NewsSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
@@ -114,15 +111,8 @@ namespace NewsSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync("This feature is not yet implemented in this skill.");
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
