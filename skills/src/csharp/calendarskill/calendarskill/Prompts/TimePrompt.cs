@@ -38,7 +38,7 @@ namespace CalendarSkill.Prompts
 
             if (!(options is TimePromptOptions))
             {
-                throw new Exception(nameof(options) + " should be GetEventOptions");
+                throw new Exception(nameof(options) + " should be TimePromptOptions");
             }
 
             if (isRetry && options.RetryPrompt != null)

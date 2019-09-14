@@ -10,7 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Builder.Dialogs.Tests
+namespace CalendarSkillTest.Prompt
 {
     [TestClass]
     public class DatePromptTests

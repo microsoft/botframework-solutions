@@ -629,7 +629,7 @@ namespace CalendarSkill.Dialogs
             showingCardTitle = null;
 
             // filter meetings with start time
-            var timeResult = RecognizeDateTime(userInput, locale, false);
+            var timeResult = RecognizeDateTime(userInput, locale, state.GetUserTimeZone(), false);
             if (filteredMeetingList.Count <= 0 && timeResult != null)
             {
                 foreach (var result in timeResult)
@@ -767,33 +767,6 @@ namespace CalendarSkill.Dialogs
             return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
         }
 
-        protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
-        {
-            var userInputLower = userInput.ToLower();
-            if (userInputLower.Contains(CalendarCommonStrings.Ago) ||
-                userInputLower.Contains(CalendarCommonStrings.Before) ||
-                userInputLower.Contains(CalendarCommonStrings.Later) ||
-                userInputLower.Contains(CalendarCommonStrings.Next))
-            {
-                return true;
-            }
-
-            if (userInputLower.Contains(CalendarCommonStrings.TodayLower) ||
-                userInputLower.Contains(CalendarCommonStrings.Now) ||
-                userInputLower.Contains(CalendarCommonStrings.YesterdayLower) ||
-                userInputLower.Contains(CalendarCommonStrings.TomorrowLower))
-            {
-                return true;
-            }
-
-            if (timex == "PRESENT_REF")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, bool isBeginDialog)
         {
             try
@@ -901,7 +874,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.Duration != null)
                             {
-                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
+                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (duration != -1)
                                 {
                                     state.MeetingInfor.CreateHasDetail = true;
@@ -1047,12 +1020,12 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.MoveEarlierTimeSpan != null)
                             {
-                                state.UpdateMeetingInfor.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveEarlierTimeSpan[0], dc.Context.Activity.Locale, false);
+                                state.UpdateMeetingInfor.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveEarlierTimeSpan[0], dc.Context.Activity.Locale, false, state.GetUserTimeZone());
                             }
 
                             if (entity.MoveLaterTimeSpan != null)
                             {
-                                state.UpdateMeetingInfor.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true);
+                                state.UpdateMeetingInfor.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true, state.GetUserTimeZone());
                             }
 
                             if (entity.datetime != null)
@@ -1159,9 +1132,10 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, bool convertToDate = true)
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, TimeZoneInfo userTimeZone, bool convertToDate = true)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, options: DateTimeOptions.CalendarMode);
+            var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
+            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, DateTimeOptions.CalendarMode, userNow);
 
             if (results.Count > 0)
             {
@@ -1529,10 +1503,10 @@ namespace CalendarSkill.Dialogs
             return eventItemList;
         }
 
-        private int GetDurationFromEntity(CalendarLuis._Entities entity, string local)
+        private int GetDurationFromEntity(CalendarLuis._Entities entity, string local, TimeZoneInfo userTimeZone)
         {
             var culture = local ?? English;
-            var result = RecognizeDateTime(entity.Duration[0], culture);
+            var result = RecognizeDateTime(entity.Duration[0], culture, userTimeZone);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1544,10 +1518,10 @@ namespace CalendarSkill.Dialogs
             return -1;
         }
 
-        private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later)
+        private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later, TimeZoneInfo userTimeZone)
         {
             var culture = local ?? English;
-            var result = RecognizeDateTime(timeSpan, culture);
+            var result = RecognizeDateTime(timeSpan, culture, userTimeZone);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1585,7 +1559,7 @@ namespace CalendarSkill.Dialogs
         {
             // if isTargetTimeRange is true, will only parse the time range
             var culture = local ?? English;
-            var results = RecognizeDateTime(date, culture, true);
+            var results = RecognizeDateTime(date, culture, userTimeZone, true);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1603,8 +1577,7 @@ namespace CalendarSkill.Dialogs
 
                         if (dateTime != null)
                         {
-                            var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
-                            dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                            dateTimeResults.Add(dateTime);
                         }
                     }
                     else
@@ -1630,7 +1603,7 @@ namespace CalendarSkill.Dialogs
         {
             // if isTargetTimeRange is true, will only parse the time range
             var culture = local ?? English;
-            var results = RecognizeDateTime(time, culture, false);
+            var results = RecognizeDateTime(time, culture, userTimeZone, false);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1648,8 +1621,7 @@ namespace CalendarSkill.Dialogs
 
                         if (dateTime != null)
                         {
-                            var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
-                            dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                            dateTimeResults.Add(dateTime);
                         }
                     }
                     else

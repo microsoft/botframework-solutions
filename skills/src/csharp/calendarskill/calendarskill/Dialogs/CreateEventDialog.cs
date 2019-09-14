@@ -8,10 +8,12 @@ using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Options;
 using CalendarSkill.Prompts;
+using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
+using Google.Apis.People.v1.Data;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -670,10 +672,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DatePromptForCreate, new PromptOptions
+                return await sc.PromptAsync(Actions.DatePromptForCreate, new DatePromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate),
                     RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDateRetry),
+                    TimeZone = state.GetUserTimeZone()
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -718,25 +721,12 @@ namespace CalendarSkill.Dialogs
 
                                 if (dateTime != null)
                                 {
-                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
                                     if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
                                     {
-                                        state.MeetingInfor.StartTime.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()));
+                                        state.MeetingInfor.StartTime.Add(dateTime);
                                     }
 
-                                    // Workaround as DateTimePrompt only return as local time
-                                    if (isRelativeTime)
-                                    {
-                                        dateTime = new DateTime(
-                                            dateTime.Year,
-                                            dateTime.Month,
-                                            dateTime.Day,
-                                            DateTime.Now.Hour,
-                                            DateTime.Now.Minute,
-                                            DateTime.Now.Second);
-                                    }
-
-                                    state.MeetingInfor.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                    state.MeetingInfor.StartDate.Add(dateTime);
                                 }
                             }
                             catch (FormatException ex)
@@ -764,7 +754,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (!state.MeetingInfor.StartTime.Any())
                 {
-                    return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
+                    return await sc.PromptAsync(Actions.TimePromptForCreate, new TimePromptOptions
                     {
                         Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
                         RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
@@ -803,8 +793,7 @@ namespace CalendarSkill.Dialogs
 
                                 if (dateTime != null)
                                 {
-                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
-                                    state.MeetingInfor.StartTime.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                    state.MeetingInfor.StartTime.Add(dateTime);
                                 }
                             }
                             catch (FormatException ex)
