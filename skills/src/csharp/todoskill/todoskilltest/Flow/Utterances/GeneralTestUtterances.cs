@@ -29,6 +29,8 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string ReadMore { get; } = "read more";
 
+        public static string UnknownIntent { get; } = "what's the weather?";
+
         public General GetBaseNoneIntent()
         {
             return GetGeneralIntent();

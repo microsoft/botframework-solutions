@@ -80,7 +80,6 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -89,19 +88,19 @@ namespace ToDoSkill.Dialogs
                 {
                     case ToDoLuis.Intent.AddToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
+                            await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
                             break;
                         }
 
                     case ToDoLuis.Intent.MarkToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
+                            await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
                             break;
                         }
 
                     case ToDoLuis.Intent.DeleteToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
+                            await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
                             break;
                         }
 
@@ -109,7 +108,7 @@ namespace ToDoSkill.Dialogs
                     case ToDoLuis.Intent.ShowPreviousPage:
                     case ToDoLuis.Intent.ShowToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
+                            await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             break;
                         }
 
@@ -118,13 +117,12 @@ namespace ToDoSkill.Dialogs
                             if (generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
+                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             }
                             else
                             {
                                 // No intent was identified, send confused message
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -134,15 +132,8 @@ namespace ToDoSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

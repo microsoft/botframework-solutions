@@ -73,8 +73,6 @@ namespace PhoneSkill.Dialogs
             else
             {
                 var skillOptions = new PhoneSkillDialogOptions();
-
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<PhoneLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -82,7 +80,7 @@ namespace PhoneSkill.Dialogs
                 {
                     case PhoneLuis.Intent.OutgoingCall:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(OutgoingCallDialog), skillOptions);
+                            await dc.BeginDialogAsync(nameof(OutgoingCallDialog), skillOptions);
                             break;
                         }
 
@@ -90,8 +88,6 @@ namespace PhoneSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneSharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
@@ -99,15 +95,8 @@ namespace PhoneSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -115,7 +104,7 @@ namespace PhoneSkill.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            response.Type = ActivityTypes.Handoff;
 
             await dc.Context.SendActivityAsync(response);
 

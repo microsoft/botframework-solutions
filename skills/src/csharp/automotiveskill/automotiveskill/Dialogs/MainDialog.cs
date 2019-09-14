@@ -14,8 +14,8 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
@@ -73,7 +73,6 @@ namespace AutomotiveSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<Luis.SettingsLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -87,30 +86,21 @@ namespace AutomotiveSkill.Dialogs
                     case SettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
                     case SettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(VehicleSettingsDialog));
+                            await dc.BeginDialogAsync(nameof(VehicleSettingsDialog));
                             break;
                         }
 
                     case SettingsLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
                     default:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
