@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Microsoft.Bot.Builder.Skills</AssemblyName>
+    <AssemblyName>Microsoft.Bot.Builder.Solutions.Skills</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
