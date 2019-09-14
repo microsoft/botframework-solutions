@@ -341,34 +341,36 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> UpdateSelectedAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            if (state.AttributeType == AttributeType.Description)
+            var attribute = state.AttributeType;
+            state.AttributeType = AttributeType.None;
+            if (attribute == AttributeType.Description)
             {
                 state.TicketDescription = null;
                 return await sc.BeginDialogAsync(Actions.SetDescription);
             }
-            else if (state.AttributeType == AttributeType.Urgency)
+            else if (attribute == AttributeType.Urgency)
             {
                 state.UrgencyLevel = UrgencyLevel.None;
                 return await sc.BeginDialogAsync(Actions.SetUrgency);
             }
-            else if (state.AttributeType == AttributeType.Id)
+            else if (attribute == AttributeType.Id)
             {
                 state.Id = null;
                 return await sc.BeginDialogAsync(Actions.SetId);
             }
-            else if (state.AttributeType == AttributeType.State)
+            else if (attribute == AttributeType.State)
             {
                 state.TicketState = TicketState.None;
                 return await sc.BeginDialogAsync(Actions.SetState);
             }
-            else if (state.AttributeType == AttributeType.Number)
+            else if (attribute == AttributeType.Number)
             {
                 state.TicketNumber = null;
                 return await sc.BeginDialogAsync(Actions.SetNumber);
             }
             else
             {
-                throw new Exception($"Invalid AttributeType: {state.AttributeType}");
+                throw new Exception($"Invalid AttributeType: {attribute}");
             }
         }
 
@@ -506,7 +508,7 @@ namespace ITSMSkill.Dialogs
 
             if (result.Tickets == null || result.Tickets.Length == 0)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketShowNone));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketFindNone));
                 return await sc.CancelAllDialogsAsync();
             }
 

@@ -1,52 +1,53 @@
-## NAVIGATION_FIND_PARKING
-- vérifier un garage de stationnement dans mes environs
-- me diriger 2 le parking à l'intersection de  {ADDRESS=ville de Springfield}  Et  {ADDRESS=Disraeli} dans ce lieu s'il vous plaît
-- directions pour un terrain de stationnement
-- me trouver un parking
+## FindParking
+
+- vérifier un garage de stationnement dans ma région environnante
+- diriger 2 le parking à l'intersection de  {Address=ville de springfield}  et  {Address=Disraeli} dans cet endroit s'il vous plaît
+- directions pour un parking
+- trouvez-moi un parking
 - trouver le parking le plus proche
-- trouver le parking le plus proche en  {ADDRESS=123 Sesame Street} 
-- aller sur le parking
+- trouver le parking le plus proche par  {Address=123, rue sésame} 
+- aller au parking
 - que diriez-vous de trouver un itinéraire vers un parking
-- J'ai besoin de garer le  {KEYWORD=Voiture} 
-- y at-il un parking par  {KEYWORD=Starbucks} 
+- J'ai besoin de garer le  {Keyword=voiture} 
+- y at-il un parking par  {Keyword=Starbucks} 
 - y a-t-il un parking près de mon bureau?
-- Rechercher un parking
-- Rechercher un parking dans  {ADDRESS=ville de Kiron}   {ADDRESS=Il} 
-- Montrez-moi pauvre le garage de stationnement sur  {ADDRESS=ruelle de moulin} pour pas plus de 16 livres
-- le garage de stationnement à  {ADDRESS=ressorts d'orme}  Et  {ADDRESS=Coates ville} dans la région nous amène là
-- Quel est le garage de stationnement coté inférieur dans mon voisinage
-- où est un parking près  {KEYWORD=Mcdonalds} 
-- où se trouve le garage de stationnement le plus proche situé
-- trouver un parking par  {KEYWORD=restaurant de poulet} 
-- trouver un parking par  {KEYWORD=restaurant chinois} 
-- trouver un parking par  {KEYWORD=restaurant cambodgien} 
-- trouver un parking par  {KEYWORD=Restaurant brésilien} 
-- trouver un parking par  {KEYWORD=restaurant italien} 
-- trouver un parking par  {KEYWORD=Restaurant Indien} 
-- trouver un parking par  {KEYWORD=Français Restaurant} 
-- trouver un parking par  {KEYWORD=Restaurant espagnol} 
-- trouver un parking par  {KEYWORD=restaurant Burger} 
-- trouver un parking par  {KEYWORD=Restaurant Steakhouse} 
-- trouver un parking par  {KEYWORD=restaurant mexicain} 
-- trouver un parking par  {KEYWORD=Restaurant péruvien} 
-- trouver un parking par  {KEYWORD=restaurant laotien} 
-- trouver un parking par  {KEYWORD=restaurant thaï} 
-- trouver un parking par  {KEYWORD=restaurant japonais} 
-- trouver un parking par  {KEYWORD=restaurant allemand} 
-- trouver un parking à proximité  {KEYWORD=Comptable} 
-- trouver un parking à proximité  {KEYWORD=Aéroport} 
-- trouver un parking à proximité  {KEYWORD=Aquarium} 
-- trouver un parking à proximité  {KEYWORD=Galerie d'art} 
-- trouver un parking à proximité  {KEYWORD=lieu de location automatique} 
-- trouver un parking à proximité  {KEYWORD=Chambres d'hotes} 
-- trouver un parking à proximité  {KEYWORD=magasin de bière} 
-- trouver un parking à proximité  {KEYWORD=arrêt de bus} 
-- trouver un parking à proximité  {KEYWORD=station de recharge} 
-- trouver un parking à proximité  {KEYWORD=garderie enfant} 
-- trouver un parking à proximité  {KEYWORD=Centre communautaire} 
-- trouver un parking à proximité  {KEYWORD=Dépanneur} 
-- trouver un parking à proximité  {KEYWORD=Country Club} 
-- trouver un parking à proximité  {KEYWORD=Dentiste} 
-- trouver un parking à proximité  {KEYWORD=Golf} 
-- trouver un parking à proximité  {KEYWORD=Club de santé} 
+- chercher un parking
+- station de stationnement de recherche dans  {Address=ville de kiron}   {Address=ia (en)} 
+- montrez-moi pauvre le garage de stationnement sur  {Address=voie de moulin} pour pas plus de 16 livres
+- le parking à  {Address=ressorts d'orme}  et  {Address=ville coates} dans la régi on nous y amener
+- ce qui est le garage de stationnement classé en bas dans mon voisinage
+- où est un parking près de  {Keyword=Mcdonalds} 
+- où se trouve le garage de stationnement le plus proche
+- trouver un parking par  {Keyword=restaurant de poulet} 
+- trouver un parking par  {Keyword=restaurant chinois} 
+- trouver un parking par  {Keyword=restaurant cambodgien} 
+- trouver un parking par  {Keyword=restaurant brésilien} 
+- trouver un parking par  {Keyword=restaurant italien} 
+- trouver un parking par  {Keyword=restaurant indien} 
+- trouver un parking par  {Keyword=français restaurant} 
+- trouver un parking par  {Keyword=restaurant espagnol} 
+- trouver un parking par  {Keyword=restaurant burger} 
+- trouver un parking par  {Keyword=restaurant steakhouse} 
+- trouver un parking par  {Keyword=restaurant mexicain} 
+- trouver un parking par  {Keyword=restaurant péruvien} 
+- trouver un parking par  {Keyword=restaurant laotien} 
+- trouver un parking par  {Keyword=restaurant thai} 
+- trouver un parking par  {Keyword=restaurant japonais} 
+- trouver un parking par  {Keyword=restaurant allemand} 
+- trouver un parking à proximité  {Keyword=comptable} 
+- trouver un parking à proximité  {Keyword=aéroport} 
+- trouver un parking à proximité  {Keyword=aquarium} 
+- trouver un parking à proximité  {Keyword=musée} 
+- trouver un parking à proximité  {Keyword=lieu de location d'automobiles} 
+- trouver un parking à proximité  {Keyword=chambre} 
+- trouver un parking à proximité  {Keyword=magasin de bière} 
+- trouver un parking à proximité  {Keyword=arrêt de bus} 
+- trouver un parking à proximité  {Keyword=station de recharge} 
+- trouver un parking à proximité  {Keyword=garderie pour enfants} 
+- trouver un parking à proximité  {Keyword=foyer} 
+- trouver un parking à proximité  {Keyword=commerce de proximité} 
+- trouver un parking à proximité  {Keyword=club} 
+- trouver un parking à proximité  {Keyword=dentiste} 
+- trouver un parking à proximité  {Keyword=terrain} 
+- trouver un parking à proximité  {Keyword=club} 
 

@@ -1,8 +1,9 @@
-﻿[Ticket Create](./Ticket/Create.lu)
-[Ticket Update](./Ticket/Update.lu)
-[Ticket Show](./Ticket/Show.lu)
-[Ticket Close](./Ticket/Close.lu)
-[Knowledge Show](./Knowledge/Show.lu)
+﻿[Ticket Create](./TicketCreate.lu)
+[Ticket Update](./TicketUpdate.lu)
+[Ticket Show](./TicketShow.lu)
+[Ticket Close](./TicketClose.lu)
+[Knowledge Show](./KnowledgeShow.lu)
+
 
 # None
 > from chitchat
@@ -19,28 +20,52 @@
 - Later alligator
 - Goodbye
 
+
 > # Entity definitions
 
 $TicketDescription:simple
 
 $CloseReason:simple
 
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+$ticket_phrase:phraseList interchangeable
+- incident, incidents, issue, issues, ticket, tickets
+
+$ticket_create_phrase:phraseList interchangeable
+- add, added, create, created, open, opened, raise, raised
+
+$ticket_show_phrase:phraseList interchangeable
+- check, explore, search, see, show, view
+
+
 > # List entities
 
 $AttributeType:urgency=
+- urgency
 
 $AttributeType:description=
+- description
 
 $AttributeType:state=
+- state
 
 $UrgencyLevel:low=
+- low
 
 $UrgencyLevel:medium=
+- medium
 
 $UrgencyLevel:high=
+- high
 - urgent
 
 $TicketState:new=
+- new
 
 $TicketState:inprogress=
 - in progress
@@ -49,9 +74,15 @@ $TicketState:onhold=
 - on hold
 
 $TicketState:resolved=
+- resolved
 
 $TicketState:closed=
+- closed
 
 $TicketState:canceled=
+- canceled
+
+
+> # Regex entities
 
 $TicketNumber:/INC[0-9]{7}/

@@ -99,19 +99,19 @@ namespace PointOfInterestSkill.Dialogs
                 // switch on General intents
                 switch (intent)
                 {
-                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLuis.Intent.GetDirections:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLuis.Intent.FindPointOfInterest:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
+                    case PointOfInterestLuis.Intent.FindParking:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
@@ -322,14 +322,14 @@ namespace PointOfInterestSkill.Dialogs
 
                     var entities = luisResult.Entities;
 
-                    if (entities.KEYWORD != null)
+                    if (entities.Keyword != null)
                     {
-                        state.Keyword = string.Join(" ", entities.KEYWORD);
+                        state.Keyword = string.Join(" ", entities.Keyword);
                     }
 
-                    if (entities.ADDRESS != null)
+                    if (entities.Address != null)
                     {
-                        state.Address = string.Join(" ", entities.ADDRESS);
+                        state.Address = string.Join(" ", entities.Address);
                     }
                     else
                     {
@@ -347,16 +347,18 @@ namespace PointOfInterestSkill.Dialogs
                         }
                     }
 
-                    if (entities.ROUTE_TYPE != null)
+                    // TODO only first is used now
+                    if (entities.RouteDescription != null)
                     {
-                        state.RouteType = entities.ROUTE_TYPE[0][0];
+                        state.RouteType = entities.RouteDescription[0][0];
                     }
 
-                    if (entities.POI_TYPE != null)
+                    if (entities.PoiDescription != null)
                     {
-                        state.PoiType = entities.POI_TYPE[0][0];
+                        state.PoiType = entities.PoiDescription[0][0];
                     }
 
+                    // TODO unused
                     if (entities.number != null)
                     {
                         try

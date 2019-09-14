@@ -11,9 +11,9 @@ import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioOutputStream;
-import com.microsoft.cognitiveservices.speech.dialog.BotConnectorActivity;
-import com.microsoft.cognitiveservices.speech.dialog.BotConnectorConfig;
-import com.microsoft.cognitiveservices.speech.dialog.SpeechBotConnector;
+import com.microsoft.cognitiveservices.speech.dialog.Activity;
+import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConfig;
+import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConnector;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import client.model.Activity;
 import client.model.ActivityTypes;
 import client.model.CardAction;
 import client.model.ChannelAccount;
@@ -52,7 +51,7 @@ public class SpeechSdk {
 
     // STATE
     private MicrophoneStream microphoneStream;
-    private SpeechBotConnector botConnector;
+    private DialogServiceConnector botConnector;
     private Synthesizer synthesizer;
     private Gson gson;
     private ChannelAccount from_user;
@@ -143,7 +142,7 @@ public class SpeechSdk {
         AudioConfig audioInput = null;
         if (haveRecordAudioPermission) audioInput = AudioConfig.fromDefaultMicrophoneInput();//AudioConfig.fromStreamInput(createMicrophoneStream());
 
-        BotConnectorConfig botConfig = BotConnectorConfig.fromSecretKey(
+        DialogServiceConfig botConfig = DialogServiceConfig.fromBotSecret(
                 configuration.botId,
                 configuration.serviceKey,
                 configuration.serviceRegion);
@@ -155,7 +154,7 @@ public class SpeechSdk {
         botConfig.setProperty("DeviceGeometry", "Linear4");
         botConfig.setProperty("SelectedGeometry", "Linear4");
         botConfig.setProperty("CARBON-INTERNAL-PmaDumpAudioToFilePrefix", localLogDirectory +"/pma");
-        botConnector = new SpeechBotConnector(botConfig, audioInput);
+        botConnector = new DialogServiceConnector(botConfig, audioInput);
 
         botConnector.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
             final String recognizedSpeech = speechRecognitionResultEventArgs.getResult().getText();
@@ -329,13 +328,13 @@ public class SpeechSdk {
         LogInfo("sendActivityMessageAsync\n" + chars);
         if (botConnector != null) {
 
-            final Activity activityTemplate = new Activity();
+            final client.model.Activity activityTemplate = new client.model.Activity();
             activityTemplate.text((String)chars);
             activityTemplate.type(ActivityTypes.MESSAGE);
             if (from_user != null) activityTemplate.setFrom(from_user);
 
             final String activityJson = gson.toJson(activityTemplate);
-            BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
+            Activity activity = Activity.fromSerializedActivity(activityJson);
 
             final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
@@ -350,11 +349,11 @@ public class SpeechSdk {
      */
     public void sendLocationEvent(String latitude, String longitude) {
         String coordinates = latitude + "," + longitude;
-        Activity activityTemplate = createEventActivity("VA.Location", null, coordinates);
+        client.model.Activity activityTemplate = createEventActivity("VA.Location", null, coordinates);
         if (from_user != null) activityTemplate.setFrom(from_user);
 
         final String activityJson = gson.toJson(activityTemplate);
-        BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
+        Activity activity = Activity.fromSerializedActivity(activityJson);
 
         final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
@@ -368,10 +367,10 @@ public class SpeechSdk {
      * Send the VA.TimeZone event to the bot
      */
     private void sendTimeZoneEvent(TimeZone tz) {
-        Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
+        client.model.Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
 
         final String activityJson = gson.toJson(activityTemplate);
-        BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
+        Activity activity = Activity.fromSerializedActivity(activityJson);
 
         final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
@@ -417,14 +416,14 @@ public class SpeechSdk {
 //        "value":""
         if (botConnector != null) {
 
-            final Activity activityTemplate = new Activity();
+            final client.model.Activity activityTemplate = new client.model.Activity();
             activityTemplate.name("startConversation");
             activityTemplate.type(ActivityTypes.EVENT);
             if (from_user != null) activityTemplate.setFrom(from_user);
             activityTemplate.setValue("");
 
             final String activityJson = gson.toJson(activityTemplate);
-            BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
+            Activity activity = Activity.fromSerializedActivity(activityJson);
 
             final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
@@ -436,8 +435,8 @@ public class SpeechSdk {
     /*
      * Create Event Activity with inputs: name, channel data, and value
      */
-    private Activity createEventActivity(String eventname, Object channelData, Object value) {
-        Activity activity = new Activity();
+    private client.model.Activity createEventActivity(String eventname, Object channelData, Object value) {
+        client.model.Activity activity = new client.model.Activity();
         activity.setType(ActivityTypes.EVENT);
         activity.setLocale(configuration.locale);
         if (from_user != null) activity.setFrom(from_user);

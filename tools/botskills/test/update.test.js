@@ -62,7 +62,7 @@ describe("The update command", function () {
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The Skill doesn't exist in the Assistant, run 'botskills connect --botName ${config.botName} --localManifest "${config.localManifest}" --luisFolder "${config.luisFolder}" --${config.lgLanguage}'`);
+Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localManifest "${config.localManifest}" --luisFolder "${config.luisFolder}" --${config.lgLanguage}'`);
         });
 
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {

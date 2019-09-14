@@ -81,7 +81,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 ? `--localManifest "${configuration.localManifest}"`
                 : `--remoteManifest "${configuration.remoteManifest}"`;
                 // tslint:disable: max-line-length
-                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect --botName ${configuration.botName} ${manifestParameter} --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
+                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${manifestParameter} --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
             }
 
             return true;

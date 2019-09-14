@@ -52,7 +52,6 @@ namespace PointOfInterestSkillTests.Flow
                                 { "General", new Fakes.MockGeneralLuisRecognizer() },
                                 {
                                     "PointOfInterest", new Fakes.MockPointOfInterestLuisRecognizer(
-                                    new CancelRouteUtterances(),
                                     new FindParkingUtterances(),
                                     new FindPointOfInterestUtterances(),
                                     new RouteFromXToYUtterances())

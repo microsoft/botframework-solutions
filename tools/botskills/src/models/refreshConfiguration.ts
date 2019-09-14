@@ -9,7 +9,6 @@ export interface IRefreshConfiguration {
     dispatchName: string;
     dispatchFolder: string;
     language: string;
-    luisFolder: string;
     lgLanguage: string;
     outFolder: string;
     lgOutFolder: string;

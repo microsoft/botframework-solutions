@@ -350,8 +350,8 @@ public class SpeechService extends Service {
         builder.setWhen(System.currentTimeMillis());
 
         // Icon
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        Bitmap largeIconBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.drawable.ic_va);
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_va);
         builder.setLargeIcon(largeIconBitmap);
 
         // Set notification priority

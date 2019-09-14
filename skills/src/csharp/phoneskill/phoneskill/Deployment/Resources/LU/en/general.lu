@@ -1,0 +1,307 @@
+> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- hi
+- hello
+- good morning
+- good evening
+- hello bot
+- hiya
+- how are you
+- how are you today
+- hey
+
+# Help
+- help
+- help me
+- help please
+- i'm stuck
+- i don't understand
+- what can I say
+- what can you help me with
+- what can you do
+- what do i do now
+- why doesn't this work
+- can you help me
+
+# Cancel
+- stop
+- abort
+- cancel
+- disregard
+- don't
+- don't do it
+- don't do that
+- i would like to cancel
+- never mind
+- please stop
+- exit
+
+# Restart
+- can i do that again
+- i need to change something
+- restart
+- start over
+- undo
+
+# Escalate
+- can i talk to a person
+- i want to talk to a human
+- talk to a human
+- transfer me please
+- contact support
+
+# Next
+- advance
+- go forward
+- go to next
+- next
+- next item
+- show next
+- could you show the next one
+- i need to go to the next one
+- go to the next one please
+- move to the next one
+- go on
+- go to the next page
+- move forward
+- move on
+- move on next
+- next one
+- next please
+- show me next
+- show me the next
+- show the next
+- show the next one
+- the next phone
+
+# Previous
+- go back
+- last one
+- previous one
+- the last one
+- old one
+- last
+- back to the last one
+- bring the previous one
+- come to the last
+- go to previous
+- go to the last one
+- move back
+- previous
+- show me previous
+- previous one please
+- the previous one
+- what is the previous
+
+# Goodbye
+- good night
+- goodbye
+- bye
+- ok thanks
+- ok bye
+- that's it thanks
+
+# Logout
+- signout
+- forget me
+- sign out
+- logout
+- log out
+
+# None
+- my water bottle is green
+- turtles like to swim in the ocean
+- paper planes in the sky
+- 2nd alternative
+- 5 1 9 9 9 8 2 6 7 9
+- 519 998 2679
+- ackerman
+- alfnu klcvxao
+- all of them
+- alternative one
+- andre sibemiana
+- andrew
+- andrew on his mobile
+- at home
+- at work
+- bowls which
+- brother
+- business
+- but widow lead on
+- call +1 (455) 295-9721
+- call a number for me
+- call akgu hosdji zaner on business phone
+- call alvaro alfonso de miranda nieto
+- call an international number
+- call andrew
+- call fjkhgalkf
+- call grandpa
+- call heidi
+- call her on her business number
+- call him on his work number
+- call jessica butler johnson
+- call melissa kellgren perry
+- call my mom
+- call neil degrasse tyson
+- call phil stewart cell
+- call pop give
+- call simona de boteiro perreira please
+- call someone
+- call the 1st one
+- call the business number of my brother
+- call them on their home phone number
+- call to shi feng li's home number
+- call two two four five seven zero nine
+- child
+- choice one
+- choose djkghlfkj
+- choose my aunt
+- choose number four
+- choose the mobile phone
+- choose zero one one eight nine nine nine eight eight one nine nine nine one one nine seven two five three
+- contact andrew on his mobile number
+- contact sunday not funny
+- copy full
+- dad
+- dial
+- dial 519 998 2679
+- dial jane
+- dial my grandma
+- dial nine five seven four four three one six zero two
+- dial yellow ride
+- ditha
+- dvnaph
+- fgausdf
+- gale less rebuild
+- get andrew on the line
+- get fiddle end up on the line
+- get hglkjdsgh on the line
+- get me fynn on the phone
+- get me my sister on the phone
+- go for ldfkskj
+- go for the 5th item
+- go for the one labelled mobile
+- granting said from
+- gusty of during
+- her mobile number
+- his cell phone
+- home
+- i mean my cousin
+- i mean qrmlbzn
+- i meant akgu hosdji zaner
+- i meant melissa kellgren perry
+- i meant the last one
+- i need to call 0118 999 88199 9119 725 3
+- i need to contact john
+- i need to get my father on the phone
+- i want fiddle end up
+- i want sergey
+- i want the one at home
+- i want the one labelled oksana savchenko
+- i want the third item on the list
+- i want to call iygdbkj please
+- i want to call my dad
+- i want to phone heidi
+- i want to place a call to mohamed el noubi at home
+- i would like to call bob please
+- i would like to call when all of it
+- i'd like to call jenny
+- i'd like to contact gonzalo gonzales at work
+- i'll take bob miller
+- i'll take the fifth one
+- it's the first person
+- it's the first phone number
+- item 3 please
+- item one
+- jones
+- julie halox
+- last item on this list
+- latter with
+- let's call bob miller
+- let's call the mobile phone for ivan gazinsky
+- let's call xavier's house
+- let's contact break in stone
+- let's go for slavo
+- let's go with jenny
+- let's go with option five
+- let's go with the home phone
+- let's make a call to oliver work
+- let's try number 1
+- let's try yellow ride
+- loubelle shami
+- make a call
+- make a call to 453 954 3871
+- make a call to riavi loubelle shami's mobile phone number
+- make a call to under vase boring
+- mbvnb dsjhaf
+- mobile
+- my grandpa
+- my mom
+- nathwani
+- nibling
+- nine five seven four four three one six zero two
+- none of them
+- number 2
+- on mobile
+- option one
+- option two
+- paul bjebyn
+- phone 207 534 5987
+- phone call to yvonne
+- phone felipe joao de almeida
+- phone four one two five zero zero eight one nine six
+- phone one of my contacts
+- phone plus four nine seven one one six three six zero five two zero
+- phone ruth on her cell phone
+- phone slavo on mobile
+- phone the landline of oskana savchenko
+- pick choice 5
+- pick kjagfks
+- pick mohamed el noubi
+- place a call
+- place a call to a number
+- place a call to linda
+- pop give
+- qkfvhskt pnvx
+- qppodrx
+- riavi
+- sanjay
+- second contact
+- second number
+- select jessica butler johnson
+- select plus four nine seven one one six three six zero five two zero
+- select sunday not funny
+- select the business one please
+- select the second one
+- shindig bin over please
+- smith
+- storm later holds
+- strike aid thus
+- the 1st one
+- the 3rd one you mentioned
+- the cell phone please
+- the first one
+- the last one
+- the number two two four five seven zero nine
+- the one called ghislain
+- the one called simona de boteiro perreira
+- the one that says + 1 ( 455 ) 295 - 9721
+- the one that says shi feng li
+- the one that says work
+- their landline
+- try number 4
+- try ruth
+- try the mobile one
+- try with the 4th thing
+- tryvnw
+- under vase boring
+- valakrishna
+- version add out
+- work
+- xavier please
+
+> PhraseList

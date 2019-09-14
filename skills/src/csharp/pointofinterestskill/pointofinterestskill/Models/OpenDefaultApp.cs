@@ -9,6 +9,6 @@ namespace PointOfInterestSkill.Models
     {
         public string MapsUri { get; set; }
 
-        public string TelUri { get; set; }
+        public string TelephoneUri { get; set; }
     }
 }

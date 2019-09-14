@@ -9,7 +9,7 @@ Param(
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
-	[switch] $useDispatch,
+	[switch] $useDispatch = $false,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -297,4 +297,4 @@ foreach ($language in $languageArr)
 }
 
 # Write out config to file
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json" )
+$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $outFolder "cognitivemodels.json" )

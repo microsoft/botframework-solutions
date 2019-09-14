@@ -33,7 +33,7 @@ namespace SkillSample.Services
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    set.DispatchService = new LuisRecognizer(dispatchApp);
+                    set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
                 }
 
                 if (config.LanguageModels != null)
@@ -41,7 +41,7 @@ namespace SkillSample.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
                     }
                 }
 

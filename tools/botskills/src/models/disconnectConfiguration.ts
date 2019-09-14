@@ -12,7 +12,6 @@ export interface IDisconnectConfiguration {
     noRefresh: boolean;
     cognitiveModelsFile: string;
     language: string;
-    luisFolder: string;
     dispatchFolder: string;
     lgOutFolder: string;
     dispatchName: string;

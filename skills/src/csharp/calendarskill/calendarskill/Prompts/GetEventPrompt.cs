@@ -76,7 +76,7 @@ namespace CalendarSkill.Prompts
             {
                 var message = turnContext.Activity.AsMessageActivity();
                 var culture = turnContext.Activity.Locale ?? DefaultLocale ?? English;
-                var date = GetTimeFromMessage(message.Text, culture);
+                var date = GetTimeFromMessage(message.Text, culture, userTimeZone);
                 if (date.Count > 0)
                 {
                     // input is a time
@@ -172,14 +172,14 @@ namespace CalendarSkill.Prompts
             return events;
         }
 
-        private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture)
+        private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture, TimeZoneInfo userTimeZone)
         {
-            IList<DateTimeResolution> results = RecognizeDateTime(message, culture);
+            IList<DateTimeResolution> results = RecognizeDateTime(message, culture, userTimeZone);
 
             return results;
         }
 
-        private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, TimeZoneInfo userTimeZone)
         {
             var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
             var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, DateTimeOptions.CalendarMode, userNow);

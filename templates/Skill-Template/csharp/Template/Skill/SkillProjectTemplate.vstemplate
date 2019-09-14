@@ -71,7 +71,7 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">luis_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">qna_functions.ps1</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
@@ -131,6 +131,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="WhiteListAuthProvider.cs">WhiteListAuthProvider.cs</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

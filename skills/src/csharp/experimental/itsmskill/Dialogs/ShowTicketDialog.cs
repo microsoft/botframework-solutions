@@ -38,18 +38,19 @@ namespace ITSMSkill.Dialogs
         {
             var showTicket = new WaterfallStep[]
             {
-                ShowAttributeLoop,
-                ShowTicketLoop
+                ShowConstraints,
+                BeginShowTicketLoop,
+                BeginShowAttributeLoop,
+                LoopShowTicket,
             };
 
             var showAttribute = new WaterfallStep[]
             {
-                ShowConstraints,
                 CheckAttribute,
                 InputAttribute,
                 SetAttribute,
                 UpdateSelectedAttribute,
-                ShowLoop
+                LoopShowAttribute,
             };
 
             var showTicketLoop = new WaterfallStep[]
@@ -75,12 +76,12 @@ namespace ITSMSkill.Dialogs
             InputAttributePrompt = Actions.ShowAttributePrompt;
         }
 
-        protected async Task<DialogTurnResult> ShowAttributeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> BeginShowAttributeLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Actions.ShowAttribute);
         }
 
-        protected async Task<DialogTurnResult> ShowTicketLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> BeginShowTicketLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             state.PageIndex = -1;
@@ -118,7 +119,7 @@ namespace ITSMSkill.Dialogs
 
             if (sb.Length == 0)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowConstraintNone));
+                // await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowConstraintNone));
             }
             else
             {
@@ -133,7 +134,12 @@ namespace ITSMSkill.Dialogs
             return await sc.NextAsync();
         }
 
-        protected async Task<DialogTurnResult> ShowLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> LoopShowTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.ReplaceDialogAsync(Actions.ShowTicket);
+        }
+
+        protected async Task<DialogTurnResult> LoopShowAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.ReplaceDialogAsync(Actions.ShowAttribute);
         }
@@ -173,8 +179,12 @@ namespace ITSMSkill.Dialogs
             {
                 if (firstDisplay)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketShowNone));
-                    return await sc.EndDialogAsync();
+                    var options = new PromptOptions()
+                    {
+                        Prompt = ResponseManager.GetResponse(TicketResponses.TicketShowNone)
+                    };
+
+                    return await sc.PromptAsync(Actions.NavigateYesNoPrompt, options);
                 }
                 else
                 {
@@ -188,7 +198,7 @@ namespace ITSMSkill.Dialogs
                         Prompt = ResponseManager.GetResponse(TicketResponses.TicketEnd, token)
                     };
 
-                    return await sc.PromptAsync(Actions.NavigateNoPrompt, options);
+                    return await sc.PromptAsync(Actions.NavigateYesNoPrompt, options);
                 }
             }
             else
@@ -220,7 +230,7 @@ namespace ITSMSkill.Dialogs
                     options.Prompt = null;
                 }
 
-                return await sc.PromptAsync(Actions.NavigateNoPrompt, options);
+                return await sc.PromptAsync(Actions.NavigateYesNoPrompt, options);
             }
         }
 
@@ -231,6 +241,10 @@ namespace ITSMSkill.Dialogs
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
                 return await sc.CancelAllDialogsAsync();
+            }
+            else if (intent == GeneralLuis.Intent.Confirm)
+            {
+                return await sc.EndDialogAsync();
             }
             else if (intent == GeneralLuis.Intent.ShowNext)
             {
