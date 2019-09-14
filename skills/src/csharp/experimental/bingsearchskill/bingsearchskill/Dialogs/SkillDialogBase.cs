@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using BingSearchSkill.Models;
+using BingSearchSkill.Responses.Shared;
+using BingSearchSkill.Services;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
-using BingSearchSkill.Models;
-using BingSearchSkill.Services;
-using Luis;
-using BingSearchSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Skills;
-using System.Collections.Generic;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 namespace BingSearchSkill.Dialogs
 {

@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using BingSearchSkill.Models;
+using BingSearchSkill.Responses.Main;
+using BingSearchSkill.Responses.Shared;
+using BingSearchSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -16,10 +20,6 @@ using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using BingSearchSkill.Models;
-using BingSearchSkill.Responses.Main;
-using BingSearchSkill.Services;
-using BingSearchSkill.Responses.Shared;
 
 namespace BingSearchSkill.Dialogs
 {
