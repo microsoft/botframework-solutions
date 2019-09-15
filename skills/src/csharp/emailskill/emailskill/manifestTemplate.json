@@ -119,7 +119,7 @@
         "triggers": {
           "events": [
             {
-              "name": "summaryEvent"
+              "name": "SummaryEvent"
             }
           ]
         }
