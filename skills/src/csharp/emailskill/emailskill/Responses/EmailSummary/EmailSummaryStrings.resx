@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EMAIL_SUMMARY_ENTITY_NAME" xml:space="preserve">
-    <value>EmailSkill.EmailSummary</value>
-  </data>
-  <data name="EMAIL_SUMMARY_RESPONSE_NAME" xml:space="preserve">
-    <value>Email.Summary</value>
-  </data>
   <data name="EMAIL_SUMMARY_SHOW_NAME" xml:space="preserve">
     <value>Emails</value>
   </data>

@@ -61,24 +61,6 @@ namespace ToDoSkill.Responses.ToDoSummary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ToDoSkill.ToDoSummary.
-        /// </summary>
-        public static string TODO_SUMMARY_ENTITY_NAME {
-            get {
-                return ResourceManager.GetString("TODO_SUMMARY_ENTITY_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ToDo.Summary.
-        /// </summary>
-        public static string TODO_SUMMARY_RESPONSE_NAME {
-            get {
-                return ResourceManager.GetString("TODO_SUMMARY_RESPONSE_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ToDos.
         /// </summary>
         public static string TODO_SUMMARY_SHOW_NAME {

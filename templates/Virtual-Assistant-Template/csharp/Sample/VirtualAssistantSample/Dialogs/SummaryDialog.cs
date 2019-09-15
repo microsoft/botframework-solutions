@@ -100,7 +100,6 @@ namespace VirtualAssistantSample.Dialogs
                     if (actionID != null)
                     {
                         _state.SummaryInfos.Add(new SummaryState.SummaryInfo() { ActionIds = actionID, SkillIds = skill.Id, SkillResults = null });
-                        break;
                     }
                 }
 

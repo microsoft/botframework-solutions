@@ -61,24 +61,6 @@ namespace EmailSkill.Responses.EmailSummary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EmailSkill.EmailSummary.
-        /// </summary>
-        public static string EMAIL_SUMMARY_ENTITY_NAME {
-            get {
-                return ResourceManager.GetString("EMAIL_SUMMARY_ENTITY_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Email.Summary.
-        /// </summary>
-        public static string EMAIL_SUMMARY_RESPONSE_NAME {
-            get {
-                return ResourceManager.GetString("EMAIL_SUMMARY_RESPONSE_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Emails.
         /// </summary>
         public static string EMAIL_SUMMARY_SHOW_NAME {

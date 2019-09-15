@@ -56,7 +56,7 @@ namespace ToDoSkill.Dialogs
                 var service = await InitListTypeIds(sc);
                 var results = await service.GetTasksAsync(state.ListType);
 
-                SemanticAction semanticAction = new SemanticAction(ToDoSummaryStrings.TODO_SUMMARY_RESPONSE_NAME, new Dictionary<string, Entity>());
+                SemanticAction semanticAction = new SemanticAction("todo_summary", new Dictionary<string, Entity>());
 
                 var items = new JArray();
                 var totalCount = results.Count;
@@ -75,7 +75,7 @@ namespace ToDoSkill.Dialogs
                     items = items
                 });
 
-                semanticAction.Entities.Add(ToDoSummaryStrings.TODO_SUMMARY_ENTITY_NAME, new Entity { Properties = obj });
+                semanticAction.Entities.Add("ToDoSkill.ToDoSummary", new Entity { Properties = obj });
                 semanticAction.State = SemanticActionStates.Done;
 
                 state.Clear();

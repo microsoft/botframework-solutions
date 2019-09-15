@@ -61,7 +61,7 @@ namespace EmailSkill.Dialogs
                 state.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59), userTimeZone);
                 var (messages, totalCount, importantCount) = await GetMessagesAsync(sc);
 
-                SemanticAction semanticAction = new SemanticAction(EmailSummaryStrings.EMAIL_SUMMARY_RESPONSE_NAME, new Dictionary<string, Microsoft.Bot.Schema.Entity>());
+                SemanticAction semanticAction = new SemanticAction("email_summary", new Dictionary<string, Microsoft.Bot.Schema.Entity>());
                 var items = new JArray();
                 foreach (var message in messages)
                 {
@@ -85,7 +85,7 @@ namespace EmailSkill.Dialogs
                     items = items
                 });
 
-                semanticAction.Entities.Add(EmailSummaryStrings.EMAIL_SUMMARY_ENTITY_NAME, new Microsoft.Bot.Schema.Entity { Properties = obj });
+                semanticAction.Entities.Add("EmailSkill.EmailSummary", new Microsoft.Bot.Schema.Entity { Properties = obj });
                 semanticAction.State = SemanticActionStates.Done;
 
                 state.Clear();
