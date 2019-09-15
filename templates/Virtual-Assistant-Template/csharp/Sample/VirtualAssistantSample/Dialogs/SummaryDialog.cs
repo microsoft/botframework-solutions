@@ -76,23 +76,6 @@ namespace VirtualAssistantSample.Dialogs
             {
                 _state = await _summaryStateAccessor.GetAsync(sc.Context, () => new SummaryState());
                 _state.Init();
-                /*
-                var TimeZone = "timezone";
-                var timezone = "Pacific Standard Time";
-                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-                var timeZoneObj = new JObject();
-                timeZoneObj.Add(TimeZone, JToken.FromObject(tz));
-
-                _skillContext = await _skillContextAccessor.GetAsync(sc.Context, () => new SkillContext());
-                if (_skillContext.ContainsKey(TimeZone))
-                {
-                    _skillContext[TimeZone] = timeZoneObj;
-                }
-                else
-                {
-                    _skillContext.Add(TimeZone, timeZoneObj);
-                }
-                */
 
                 foreach (var skill in _settings.Skills)
                 {

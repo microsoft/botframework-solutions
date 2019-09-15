@@ -48,7 +48,7 @@ namespace CalendarSkill.Dialogs
             ShowEventsDialog summaryDialog,
             UpdateEventDialog updateEventDialog,
             CalendarSummaryDialog calendarSummaryDialog,
-            ConnectToMeetingDialog connectToMeetingDialog,
+            JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
