@@ -112,6 +112,7 @@ namespace EmailSkillTest.Flow
             Services.AddTransient<ReplyEmailDialog>();
             Services.AddTransient<SendEmailDialog>();
             Services.AddTransient<ShowEmailDialog>();
+            Services.AddTransient<EmailSummaryDialog>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;

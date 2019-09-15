@@ -108,7 +108,8 @@ namespace ToDoSkillTest.Flow
 			Services.AddTransient<DeleteToDoItemDialog>();
 			Services.AddTransient<MarkToDoItemDialog>();
 			Services.AddTransient<ShowToDoItemDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<ToDoSummaryDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public Activity GetAuthResponse()

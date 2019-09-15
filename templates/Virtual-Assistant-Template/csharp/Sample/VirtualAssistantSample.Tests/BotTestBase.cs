@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,8 @@ namespace VirtualAssistantSample.Tests
     public class BotTestBase
     {
         public IServiceCollection Services { get; set; }
+
+        public ResponseManager ResponseManager { get; set; }
 
         [TestInitialize]
         public virtual void Initialize()
@@ -63,10 +66,15 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
+            ResponseManager = new ResponseManager(
+                new string[] { "en", "de", "es", "fr", "it", "zh" });
+
+            Services.AddSingleton(ResponseManager);
             Services.AddTransient<CancelDialog>();
             Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
+            Services.AddTransient<SummaryDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();

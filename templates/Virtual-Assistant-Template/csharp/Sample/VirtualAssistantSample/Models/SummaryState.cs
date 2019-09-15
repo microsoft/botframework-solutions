@@ -18,6 +18,15 @@ namespace VirtualAssistantSample.Models
 
         public int TotalShowEventCount { get; set; } = 0;
 
+        public void Init()
+        {
+            SkillIndex = 0;
+            SummaryInfos = new List<SummaryInfo>();
+            TotalEventCount = 0;
+            TotalEventKinds = 0;
+            TotalShowEventCount = 0;
+        }
+
         public class SummaryInfo
         {
             public Dictionary<string, Entity> SkillResults { get; set; }

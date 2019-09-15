@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.CalendarSummary;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -64,7 +65,7 @@ namespace CalendarSkill.Dialogs
                     searchDate = state.MeetingInfor.StartDate.Last();
                 }
 
-                var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
+                var results = await CalendarCommonUtil.GetEventsByTime(new List<DateTime>() { searchDate }, state.MeetingInfor.StartTime, state.MeetingInfor.EndDate, state.MeetingInfor.EndTime, state.GetUserTimeZone(), calendarService);
                 var searchedEvents = new List<EventModel>();
 
                 foreach (var item in results)

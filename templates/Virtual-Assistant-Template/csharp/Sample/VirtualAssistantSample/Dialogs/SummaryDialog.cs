@@ -75,9 +75,7 @@ namespace VirtualAssistantSample.Dialogs
             try
             {
                 _state = await _summaryStateAccessor.GetAsync(sc.Context, () => new SummaryState());
-                _state.SummaryInfos = new List<SummaryState.SummaryInfo>();
-                _state.SkillIndex = 0;
-
+                _state.Init();
                 /*
                 var TimeZone = "timezone";
                 var timezone = "Pacific Standard Time";
@@ -98,7 +96,7 @@ namespace VirtualAssistantSample.Dialogs
 
                 foreach (var skill in _settings.Skills)
                 {
-                    var actionID = skill.Actions.SingleOrDefault(a => a.Definition.Triggers.Events != null && a.Definition.Triggers.Events.Any(e => e.Name == SummaryEvent.name))?.Id;
+                    var actionID = skill.Actions.SingleOrDefault(a => a.Definition.Triggers.Events != null && a.Definition.Triggers.Events.Any(e => e.Name == SummaryEvent.Name))?.Id;
                     if (actionID != null)
                     {
                         _state.SummaryInfos.Add(new SummaryState.SummaryInfo() { ActionIds = actionID, SkillIds = skill.Id, SkillResults = null });
@@ -162,22 +160,15 @@ namespace VirtualAssistantSample.Dialogs
             {
                 _state = await _summaryStateAccessor.GetAsync(sc.Context);
 
-                if (_state.SummaryInfos.Count > 0)
+                var eventItemList = new List<Card>();
+                foreach (var infos in _state.SummaryInfos)
                 {
-                    var eventItemList = new List<Card>();
-                    foreach (var infos in _state.SummaryInfos)
-                    {
-                        eventItemList = await GetSummaryResult(sc.Context, infos.SkillResults, eventItemList);
-                    }
+                    eventItemList = await GetSummaryResult(sc.Context, infos.SkillResults, eventItemList);
+                }
 
-                    var overviewCard = GetSummaryCard(_state.TotalShowEventCount, _state.TotalEventCount, _state.TotalEventKinds);
-                    await sc.Context.SendActivityAsync(_responseManager.GetCardResponse(null, overviewCard, null, "EventItemContainer", eventItemList));
-                    return await sc.EndDialogAsync(true);
-                }
-                else
-                {
-                    return new DialogTurnResult(DialogTurnStatus.Complete);
-                }
+                var overviewCard = GetSummaryCard(_state.TotalShowEventCount, _state.TotalEventCount, _state.TotalEventKinds);
+                await sc.Context.SendActivityAsync(_responseManager.GetCardResponse(null, overviewCard, null, "EventItemContainer", eventItemList));
+                return await sc.EndDialogAsync(true);
             }
             catch
             {
@@ -263,7 +254,7 @@ namespace VirtualAssistantSample.Dialogs
 
         private class SummaryEvent
         {
-            public const string name = "SummaryEvent";
+            public const string Name = "SummaryEvent";
         }
     }
 }
