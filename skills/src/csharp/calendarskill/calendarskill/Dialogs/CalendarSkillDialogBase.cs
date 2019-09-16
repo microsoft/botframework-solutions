@@ -24,8 +24,6 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
@@ -797,7 +795,7 @@ namespace CalendarSkill.Dialogs
                     if (entity.RelationshipName != null)
                     {
                         state.MeetingInfor.CreateHasDetail = true;
-                        state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                        state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
                         if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                         {
                             state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -830,7 +828,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -973,7 +971,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1080,7 +1078,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1160,7 +1158,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text, state.MeetingInfor.ContactInfor.RelatedEntityInfoDict);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1514,12 +1512,9 @@ namespace CalendarSkill.Dialogs
             return attendees;
         }
 
-        protected Dictionary<string, CalendarSkillState.RelatedEntityInfo> GetRelatedEntityFromRelationship(CalendarLuis._Entities entity, string inputString, Dictionary<string, CalendarSkillState.RelatedEntityInfo> entities = null )
+        private Dictionary<string, CalendarSkillState.RelatedEntityInfo> GetRelatedEntityFromRelationship(CalendarLuis._Entities entity, string inputString)
         {
-            if (entities == null)
-            {
-                entities = new Dictionary<string, CalendarSkillState.RelatedEntityInfo>();
-            }
+            var entities = new Dictionary<string, CalendarSkillState.RelatedEntityInfo>();
 
             int index = 0;
             var rawRelationships = entity._instance.RelationshipName;
