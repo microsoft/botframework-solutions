@@ -30,6 +30,8 @@ namespace VirtualAssistant.Adapters
                 telemetryClient.TrackException(exception);
             };
 
+            // Uncomment and fill in the following line to use ContentModerator
+            // Use(new ContentModeratorMiddleware(settings.ContentModerator.Key, "<yourCMRegion>"));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());

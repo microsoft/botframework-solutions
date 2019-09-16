@@ -145,7 +145,7 @@ There is a known issue in the `Botskills` CLI tool during the command's executio
 
 Example of the `connect` command with a trailing backslash in the `luisFolder` argument:
 ``` bash
-botskills connect --localManifest "<YOUR_LOCAL_MANIFEST_FILE>" --luisFolder "<YOUR_LUIS_FOLDER_PATH>/" --ts
+botskills connect --botName "<YOUR_VA_NAME>" --localManifest "<YOUR_LOCAL_MANIFEST_FILE>" --luisFolder "<YOUR_LUIS_FOLDER_PATH>/" --ts
 ```
 
 So, to avoid this, it's highly recommended to use `PowerShell 6` to execute the CLI tool commands. Also, you can remove the trailing backslash of the argument.

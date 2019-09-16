@@ -174,29 +174,6 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarSummaryByTimeframe()
-        {
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 14, 0, 0);
-            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
-            this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
-            {
-                MockServiceManager.CreateEventModel(
-                    startDateTime: startTime,
-                    endDateTime: startTime.AddHours(1))
-            });
-
-            await this.GetTestFlow()
-                .Send(FindMeetingTestUtterances.FindMeetingByTimeframe)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt(startTimeString: "at 2:00 PM"))
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Test_CalendarSummaryByStartTime()
         {
             await this.GetTestFlow()
@@ -256,15 +233,15 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.AskForShowOverview, responseParams);
         }
 
-        private string[] FoundOneEventPrompt(string dateString = "today", string startTimeString = "at 6:00 PM")
+        private string[] FoundOneEventPrompt(string dateTime = "today")
         {
             var responseParams = new StringDictionary()
             {
                 { "Count", "1" },
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
-                { "DateTime", dateString },
-                { "EventTime1", startTimeString },
+                { "DateTime", dateTime },
+                { "EventTime1", "at 6:00 PM" },
                 { "Participants1", Strings.Strings.DefaultUserName }
             };
 

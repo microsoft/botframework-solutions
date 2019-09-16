@@ -110,7 +110,7 @@ namespace SkillSample
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Register WhiteListAuthProvider
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhiteListAuthProvider>();
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();

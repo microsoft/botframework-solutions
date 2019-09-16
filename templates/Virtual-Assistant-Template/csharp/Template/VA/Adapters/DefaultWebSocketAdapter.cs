@@ -29,7 +29,8 @@ namespace $safeprojectname$.Adapters
                 await turnContext.SendActivityAsync(MainStrings.ERROR);
                 telemetryClient.TrackException(exception);
             };
-
+            // Uncomment and fill in the following line to use Content Moderator
+            // Use(new ContentModeratorMiddleware(settings.ContentModerator.Key, "<yourCMRegion>"));
             // Uncomment the following line for local development without Azure Storage
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));

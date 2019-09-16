@@ -27,6 +27,7 @@ using BingSearchSkill.Responses.Search;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using BingSearchSkill.Adapters;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace BingSearchSkill
 {
@@ -104,6 +105,9 @@ namespace BingSearchSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
+
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

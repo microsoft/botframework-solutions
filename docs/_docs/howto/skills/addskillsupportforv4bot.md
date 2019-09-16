@@ -164,12 +164,10 @@ var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
 if (identifiedSkill != null)
 {
-    // We have identiifed a skill so initialize the skill connection with the target skill
+    // We have identified a skill so initialize the skill connection with the target skill
     // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-    await dc.BeginDialogAsync(identifiedSkill.Id, intent);
-
     // Pass the activity we have
-    var result = await dc.ContinueDialogAsync();
+    var result = await dc.BeginDialogAsync(identifiedSkill.Id, intent);
 
     if (result.Status == DialogTurnStatus.Complete)
     {
@@ -198,12 +196,10 @@ Add the following code after your Dispatcher has executed passing the registered
 // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
 const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
 if (identifiedSkill !== undefined) {
-    // We have identiifed a skill so initialize the skill connection with the target skill
+    // We have identified a skill so initialize the skill connection with the target skill
     // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-    await dc.beginDialog(identifiedSkill.id);
-
     // Pass the activity we have
-    const result: DialogTurnResult = await dc.continueDialog();
+    const result: DialogTurnResult = await dc.beginDialog(identifiedSkill.id);
 
     if (result.status === DialogTurnStatus.complete) {
         await this.complete(dc);
