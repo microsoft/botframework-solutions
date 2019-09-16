@@ -5,6 +5,11 @@
     <UserSecretsId>dce3ac16-dce5-4fd3-b97a-0f23791e65fc</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Content\MovieCard.1.0.json" />
     <Content Remove="Content\MovieCard.json" />
@@ -75,8 +80,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-rc4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-rc4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />
