@@ -125,7 +125,6 @@ namespace ITSMSkill
 
             // Configure bot
               services.AddTransient<IBot, DialogBot<MainDialog>>();
-              services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
