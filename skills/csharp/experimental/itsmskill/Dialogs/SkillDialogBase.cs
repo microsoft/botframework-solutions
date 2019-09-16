@@ -694,6 +694,19 @@ namespace ITSMSkill.Dialogs
             }
 
             var management = ServiceManager.CreateManagement(Settings, state.Token);
+
+            var countResult = await management.CountKnowledge(state.TicketDescription);
+
+            if (!countResult.Success)
+            {
+                return await SendServiceErrorAndCancel(sc, countResult);
+            }
+
+            // adjust PageIndex
+            int maxPage = Math.Max(0, (countResult.Knowledges.Length - 1) / Settings.LimitSize);
+            state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
+
+            // TODO handle consistency with count
             var result = await management.SearchKnowledge(state.TicketDescription, state.PageIndex);
 
             if (!result.Success)
@@ -714,6 +727,7 @@ namespace ITSMSkill.Dialogs
                 }
                 else
                 {
+                    // it is unlikely to happen now
                     var token = new StringDictionary()
                     {
                         { "Page", (state.PageIndex + 1).ToString() }
@@ -741,7 +755,8 @@ namespace ITSMSkill.Dialogs
 
                 var token = new StringDictionary()
                 {
-                    { "Page", (state.PageIndex + 1).ToString() }
+                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
+                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
                 };
 
                 var options = new PromptOptions()
@@ -844,6 +859,29 @@ namespace ITSMSkill.Dialogs
             };
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
             return await sc.CancelAllDialogsAsync();
+        }
+
+        protected string GetNavigateString(int page, int maxPage)
+        {
+            if (page == 0)
+            {
+                if (maxPage == 0)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return SharedStrings.GoForward;
+                }
+            }
+            else if (page == maxPage)
+            {
+                return SharedStrings.GoPrevious;
+            }
+            else
+            {
+                return SharedStrings.GoBoth;
+            }
         }
 
         protected TicketCard ConvertTicket(Ticket ticket)

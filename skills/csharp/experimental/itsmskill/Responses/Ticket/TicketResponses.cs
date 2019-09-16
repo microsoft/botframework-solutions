@@ -12,7 +12,6 @@ namespace ITSMSkill.Responses.Ticket
     public class TicketResponses : IResponseIdCollection
     {
         // Generated accessors
-        public const string IfExistingSolve = "IfExistingSolve";
         public const string TicketCreated = "TicketCreated";
         public const string ConfirmUpdateAttribute = "ConfirmUpdateAttribute";
         public const string UpdateAttribute = "UpdateAttribute";

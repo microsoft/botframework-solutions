@@ -1,13 +1,4 @@
 {
-  "IfExistingSolve": {
-    "replies": [
-      {
-        "text": "Page {Page}. Do any of these solve your problem? \"Go forward/previous\" to navigate",
-        "speak": "Page {Page}. Do any of these solve your problem? \"Go forward/previous\" to navigate"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "TicketCreated": {
     "replies": [
       {
@@ -67,8 +58,8 @@
   "ShowConstraints": {
     "replies": [
       {
-        "text": "You have the following constraints on search:\n{Attributes}",
-        "speak": "You have the following constraints on search:\n{Attributes}"
+        "text": "You have the following constraints on search:\r\n{Attributes}",
+        "speak": "You have the following constraints on search:\r\n{Attributes}"
       }
     ],
     "inputHint": "igoringInput"
@@ -85,8 +76,8 @@
   "ShowUpdates": {
     "replies": [
       {
-        "text": "You have the following to update:\n{Attributes}",
-        "speak": "You have the following to update:\n{Attributes}"
+        "text": "You have the following to update:\r\n{Attributes}",
+        "speak": "You have the following to update:\r\n{Attributes}"
       }
     ],
     "inputHint": "igoringInput"
@@ -105,8 +96,8 @@
   "TicketShow": {
     "replies": [
       {
-        "text": "Page {Page}. Do you want to update constraints to search again? \"Go forward/previous\" to navigate",
-        "speak": "Page {Page}. Do you want to update constraints to search again? \"Go forward/previous\" to navigate"
+        "text": "Page {Page}. Do you want to update constraints to search again? {Navigate}",
+        "speak": "Page {Page}. Do you want to update constraints to search again? {Navigate}"
       }
     ],
     "inputHint": "acceptingInput"

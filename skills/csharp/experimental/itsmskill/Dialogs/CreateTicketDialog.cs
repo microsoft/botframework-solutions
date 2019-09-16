@@ -63,7 +63,7 @@ namespace ITSMSkill.Dialogs
             // intended null
             // ShowKnowledgeNoResponse
             ShowKnowledgeEndResponse = KnowledgeResponses.KnowledgeEnd;
-            ShowKnowledgeResponse = TicketResponses.IfExistingSolve;
+            ShowKnowledgeResponse = KnowledgeResponses.IfExistingSolve;
             ShowKnowledgePrompt = Actions.NavigateYesNoPrompt;
             KnowledgeHelpLoop = Actions.DisplayExisting;
         }

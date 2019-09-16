@@ -183,4 +183,13 @@
   <data name="OpenKnowledge" xml:space="preserve">
     <value>Open Article</value>
   </data>
+  <data name="GoBoth" xml:space="preserve">
+    <value>"Go forward/previous" to navigate.</value>
+  </data>
+  <data name="GoForward" xml:space="preserve">
+    <value>"Go forward" to navigate.</value>
+  </data>
+  <data name="GoPrevious" xml:space="preserve">
+    <value>"Go previous" to navigate.</value>
+  </data>
 </root>

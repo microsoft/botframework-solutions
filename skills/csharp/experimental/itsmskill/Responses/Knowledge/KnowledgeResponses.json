@@ -1,9 +1,18 @@
 {
+  "IfExistingSolve": {
+    "replies": [
+      {
+        "text": "Page {Page}. Do any of these solve your problem? {Navigate}",
+        "speak": "Page {Page}. Do any of these solve your problem? {Navigate}"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "IfFindWanted": {
     "replies": [
       {
-        "text": "Page {Page}. Do you find what you want? \"Go forward/previous\" to navigate.",
-        "speak": "Page {Page}. Do you find what you want? \"Go forward/previous\" to navigate."
+        "text": "Page {Page}. Do you find what you want? {Navigate}",
+        "speak": "Page {Page}. Do you find what you want? {Navigate}"
       }
     ],
     "inputHint": "expectingInput"
