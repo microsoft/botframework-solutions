@@ -18,8 +18,7 @@ namespace VirtualAssistantSample.Tests
         {
             await GetTestFlow()
                 .Send(this.SendSummaryEvent())
-                .AssertReply(activity => 
-                Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
         }
 

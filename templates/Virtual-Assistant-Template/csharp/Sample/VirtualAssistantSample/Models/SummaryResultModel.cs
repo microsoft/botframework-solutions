@@ -14,7 +14,7 @@ namespace VirtualAssistantSample.Models
         [JsonProperty("totalCount")]
         public int TotalCount { get; set; }
 
-        [JsonProperty("items")] 
+        [JsonProperty("items")]
         public List<Item> Items { get; set; }
 
         public class Item

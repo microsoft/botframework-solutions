@@ -28,7 +28,6 @@ namespace VirtualAssistantSample.Dialogs
     {
         private const string Location = "location";
         private const string TimeZone = "timezone";
-        private const string StartDate = "startdate";
         private BotSettings _settings;
         private BotServices _services;
         private MainResponses _responder = new MainResponses();
