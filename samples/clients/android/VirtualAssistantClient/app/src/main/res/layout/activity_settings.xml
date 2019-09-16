@@ -20,22 +20,29 @@
             android:layout_margin="8dp"
             android:orientation="vertical" >
 
-            <!-- SERVICE KEY -->
+            <TextView
+                style="@style/TextView.GroupLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/configuration_general" />
+
+            <!-- SPEECH SERVICE SUBSCRIPTION KEY -->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/service_key_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="@string/configuration_service_key_hint">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/service_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- SERVICE REGION -->
+            <!-- SPEECH SERVICE SUBSCRIPTION KEY REGION -->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/service_region_layout"
                 android:layout_width="match_parent"
@@ -51,7 +58,7 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- BOT ID -->
+            <!-- DIRECT LINE SPEECH SECRET KEY -->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/bot_id_layout"
                 android:layout_width="match_parent"
@@ -63,7 +70,7 @@
                     android:id="@+id/bot_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -104,6 +111,7 @@
                 android:id="@+id/history_linecount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="@string/configuration_chat_history_line_count">
 
                 <android.support.design.widget.TextInputEditText
@@ -114,25 +122,113 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- TIMEZONE -->
+            <!-- TIMEZONE & LOCATION -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/configuration_timezone"/>
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatSpinner
-                    style="@style/Widget.AppCompat.Spinner.Underlined"
-                    android:id="@+id/spinner_timezone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_timezone"/>
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spinner_timezone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_location_event"/>
+
+                    <EditText
+                        android:id="@+id/edit_time_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:singleLine="true"
+                        android:focusable="false"
+                        android:longClickable="false"/>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_send_gps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_location_send"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextView.GroupLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/configuration_appearance" />
+
+            <!-- SHOW FULL CONVERSATION & ENABLE DARK MODE SWITCHES-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_show_full_conversation" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_show_full_conversation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_enable_dark_mode" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_enable_dark_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -140,62 +236,79 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/configuration_bot_color"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <View
-                    android:id="@+id/color_picker_bot"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/shape_rect_round_corners_white"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_bot_color"/>
 
-                <EditText
-                    android:id="@+id/edit_color_picked_bot"
-                    android:layout_width="150dp"
+                    <View
+                        android:id="@+id/color_picker_bot"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/shape_rect_round_corners_white"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                    <EditText
+                        android:id="@+id/edit_color_picked_bot"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:inputType="text"
+                        android:digits="abcdefABCDEF0123456789"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:inputType="text"
-                    android:digits="abcdefABCDEF0123456789"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configuration_user_color"/>
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_user_color"/>
 
-                <View
-                    android:id="@+id/color_picker_user"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/shape_rect_round_corners_white"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    <View
+                        android:id="@+id/color_picker_user"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/shape_rect_round_corners_white"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
-                <EditText
-                    android:id="@+id/edit_color_picked_user"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:digits="abcdefABCDEF0123456789"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"/>
+                    <EditText
+                        android:id="@+id/edit_color_picked_user"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:digits="abcdefABCDEF0123456789"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -203,62 +316,79 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/configuration_bot_text_color"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <View
-                    android:id="@+id/color_picker_bot_text"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/shape_rect_round_corners_white"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_bot_text_color"/>
 
-                <EditText
-                    android:id="@+id/edit_color_picked_bot_text"
-                    android:layout_width="150dp"
+                    <View
+                        android:id="@+id/color_picker_bot_text"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/shape_rect_round_corners_white"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                    <EditText
+                        android:id="@+id/edit_color_picked_bot_text"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:inputType="text"
+                        android:digits="abcdefABCDEF0123456789"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:inputType="text"
-                    android:digits="abcdefABCDEF0123456789"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configuration_user_text_color"/>
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_user_text_color"/>
 
-                <View
-                    android:id="@+id/color_picker_user_text"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/shape_rect_round_corners_white"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    <View
+                        android:id="@+id/color_picker_user_text"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/shape_rect_round_corners_white"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
-                <EditText
-                    android:id="@+id/edit_color_picked_user_text"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:digits="abcdefABCDEF0123456789"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"/>
+                    <EditText
+                        android:id="@+id/edit_color_picked_user_text"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:digits="abcdefABCDEF0123456789"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -266,7 +396,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:visibility="gone">
@@ -283,40 +413,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical" />
-
-            </LinearLayout>
-
-            <!-- When location was sent -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    style="@style/TextView.InputLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configuration_location_event"/>
-
-                <!-- READ-ONLY Edit Text -->
-                <EditText
-                    android:id="@+id/edit_time_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:singleLine="true"
-                    android:focusable="false"
-                    android:longClickable="false"/>
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_send_gps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configuration_location_send"/>
 
             </LinearLayout>
 
@@ -348,10 +444,10 @@
         <android.support.design.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button"
             android:theme="@style/Theme.MaterialComponents.Light"
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ok"/>
+            android:text="@string/save"/>
 
     </LinearLayout>
 

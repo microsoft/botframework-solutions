@@ -272,6 +272,8 @@ public class SpeechService extends Service {
             configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
             configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
             configuration.keyword = DefaultConfiguration.KEYWORD;
+            configuration.showFullConversation = true;
+            configuration.enableDarkMode = false;
             configurationManager.setConfiguration(configuration);
         }
     }

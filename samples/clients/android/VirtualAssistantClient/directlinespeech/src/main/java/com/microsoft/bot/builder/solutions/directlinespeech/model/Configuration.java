@@ -57,6 +57,13 @@ public class Configuration {
     @Expose
     public String keyword;
 
+    @SerializedName("show_full_conversation")
+    @Expose
+    public Boolean showFullConversation;
+
+    @SerializedName("enable_dark_mode")
+    @Expose
+    public Boolean enableDarkMode;
 
     public boolean isEmpty(){
         return serviceKey==null&&
@@ -71,6 +78,8 @@ public class Configuration {
                 colorBubbleUser==null&&
                 colorTextBot==null&&
                 colorTextUser==null&&
-                keyword==null;
+                keyword==null&&
+                showFullConversation==null&&
+                enableDarkMode==null;
     }
 }

@@ -17,6 +17,7 @@
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
         android:layout_above="@+id/text_push_to_talk"
+        android:tint="@android:color/white"
         android:src="@drawable/ic_mic"/>
 
     <TextView

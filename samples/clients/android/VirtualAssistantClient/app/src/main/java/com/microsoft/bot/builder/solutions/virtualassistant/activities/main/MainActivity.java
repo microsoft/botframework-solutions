@@ -87,26 +87,26 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.textinput) TextInputEditText textInput;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
-    @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.mic_image) ImageView micImage;
     @BindView(R.id.kbd_image) ImageView kbdImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
     @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
+    @BindView(R.id.nav_menu_set_as_default_assistant) TextView setDefaultAssistant;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
     private static final String LOGTAG = "MainActivity";
+    private static final int REQUEST_CODE_SETTINGS = 256;
 
     // STATE
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
-    private boolean showFullConversation;
     private Handler handler;
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
+    private boolean enableDarkMode;
     private boolean enableKws;
     private boolean isExpandedTextInput;
     private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
@@ -124,9 +124,6 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
-        switchShowFullConversation.setChecked(showFullConversation);
-        switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         enableKws = getBooleanSharedPref(SHARED_PREF_ENABLE_KWS);
         switchEnableKws.setChecked(enableKws);
 
@@ -163,6 +160,9 @@ public class MainActivity extends BaseActivity
         // assign animation
         animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
 
+        // load configurations from shared preferences
+        loadConfiguration();
+
         isCreated = true;//keep this as last line in onCreate()
     }
 
@@ -174,16 +174,6 @@ public class MainActivity extends BaseActivity
         if (speechServiceBinder == null) {
             handler.post(this::doBindService);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        final Configuration configuration = configurationManager.getConfiguration();
-        chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
-        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
-        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
-        chatAdapter.setShowFullConversation(showFullConversation);
     }
 
     // Unregister EventBus messages and SpeechService
@@ -280,17 +270,14 @@ public class MainActivity extends BaseActivity
         try {
 
             switch (id) {
-                case R.id.nav_menu_configuration:
-                    startActivity(SettingsActivity.getNewIntent(this));
+                case R.id.nav_menu_settings:
+                    startActivityForResult(SettingsActivity.getNewIntent(this), REQUEST_CODE_SETTINGS);
                     break;
-                case R.id.nav_menu_reset_bot:
+                case R.id.nav_menu_restart_conversation:
                     speechServiceBinder.resetBot();
                     chatAdapter.resetChat();
                     suggActionsAdapter.clear();
                     speechServiceBinder.clearSuggestedActions();
-                    break;
-                case R.id.nav_menu_show_assistant_settings:
-                    startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
                     break;
             }
 
@@ -301,6 +288,22 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
+            loadConfiguration();
+        }
+    }
+
+    private void loadConfiguration() {
+        Configuration configuration = configurationManager.getConfiguration();
+        setDarkMode(configuration.enableDarkMode == null ? false : configuration.enableDarkMode);
+        chatAdapter.setShowFullConversation(configuration.showFullConversation == null ? false : configuration.showFullConversation);
+        chatAdapter.setChatItemHistoryCount(configuration.historyLinecount == null ? 1 : configuration.historyLinecount);
+        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
+        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
     }
 
     private void showListeningAnimation(){
@@ -336,6 +339,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @OnClick(R.id.nav_menu_set_as_default_assistant)
+    public void onClickSetDefaultAssistant() {
+        startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+    }
+
     @OnCheckedChanged(R.id.switch_enable_kws)
     public void onCheckedChangedEnableKws(CompoundButton button, boolean checked){
         if (isCreated) {
@@ -355,18 +363,10 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @OnCheckedChanged(R.id.switch_show_full_conversation)
-    public void OnCheckedChangedShowFullConversation(CompoundButton button, boolean checked){
-        if (isCreated) {
-            showFullConversation = checked;
-            putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
-            chatAdapter.setShowFullConversation(showFullConversation);
-        }
-    }
+    public void setDarkMode(boolean enabled){
+        if (enableDarkMode != enabled) {
+            enableDarkMode = enabled;
 
-    @OnCheckedChanged(R.id.switch_night_mode)
-    public void OnCheckedChangedEnableNightMode(CompoundButton button, boolean checked){
-        if (isCreated) {
             // OutOfMemoryError can occur, try to free as many objects as possible 1st
             // note: the assistant animation might need to be unloaded prior to switching night mode
             sfxManager.reset();
@@ -374,8 +374,7 @@ public class MainActivity extends BaseActivity
             System.gc();
 
             // now proceed with the night mode switch
-            putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
-            AppCompatDelegate.setDefaultNightMode(checked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(enabled ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
             getDelegate().applyDayNight();
 
             // re-init SFX manager

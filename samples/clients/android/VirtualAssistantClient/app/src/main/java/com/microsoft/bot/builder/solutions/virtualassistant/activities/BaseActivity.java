@@ -37,8 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final Integer PERMISSION_REQUEST_RECORD_AUDIO = 101;
     private static final Integer PERMISSION_REQUEST_FINE_LOCATION = 102;
     public static final String SHARED_PREFS_NAME = "my_shared_prefs";
-    protected static final String SHARED_PREF_SHOW_FULL_CONVERSATION = "SHARED_PREF_SHOW_FULL_CONVERSATION";
-    public static final String SHARED_PREF_DARK_MODE = "SHARED_PREF_DARK_MODE";
     protected static final String SHARED_PREF_ENABLE_KWS = "SHARED_PREF_ENABLE_KWS";
 
     // STATE

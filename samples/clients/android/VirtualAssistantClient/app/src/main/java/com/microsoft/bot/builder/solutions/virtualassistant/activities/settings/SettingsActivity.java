@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,6 +36,7 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
@@ -63,6 +65,8 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.edit_color_picked_bot_text) EditText colorPickedBotTextEditText;
     @BindView(R.id.edit_color_picked_user_text) EditText colorPickedUserTextEditText;
     @BindView(R.id.edit_time_text) EditText gpsSentTimeEditText;
+    @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
+    @BindView(R.id.switch_enable_dark_mode) SwitchCompat switchEnableDarkMode;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_settings;
@@ -139,6 +143,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedBot, updatedColor);
+            colorBubbleBot = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -149,6 +154,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedUser, updatedColor);
+            colorBubbleUser = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -159,6 +165,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedBotText, updatedColor);
+            colorTextBot = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -169,6 +176,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedUserText, updatedColor);
+            colorTextUser = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -234,6 +242,20 @@ public class SettingsActivity extends BaseActivity {
         builder.show();
     }
 
+    @OnCheckedChanged(R.id.switch_show_full_conversation)
+    public void onChangeShowFullConversation(boolean checked) {
+        if (configuration != null) {
+            configuration.showFullConversation = checked;
+        }
+    }
+
+    @OnCheckedChanged(R.id.switch_enable_dark_mode)
+    public void onChangeEnableDarkMode(boolean checked) {
+        if (configuration != null) {
+            configuration.enableDarkMode = checked;
+        }
+    }
+
     @OnClick(R.id.btn_send_gps)
     public void onClickSendGps() {
         try {
@@ -245,13 +267,15 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.btn_cancel)
     public void onClickCancel() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 
-    @OnClick(R.id.btn_ok)
-    public void onClickOk() {
+    @OnClick(R.id.btn_save)
+    public void onClickSave() {
         saveConfiguration();// must save updated config first
         initializeAndConnect();// re-init service to make it read updated config
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -262,7 +286,6 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initTimezoneAdapter() {
-
         //populate spinner with all timezones
         String[] idArray = TimeZone.getAvailableIDs();
         tzAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, idArray);
@@ -337,7 +360,15 @@ public class SettingsActivity extends BaseActivity {
             // gps sent time
             showGpsLocationSentDate();
 
+            // show full conversation
+            if (configuration.showFullConversation != null) {
+                switchShowFullConversation.setChecked(configuration.showFullConversation);
+            }
 
+            // enable dark mode
+            if (configuration.enableDarkMode != null) {
+                switchEnableDarkMode.setChecked(configuration.enableDarkMode);
+            }
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
         }
