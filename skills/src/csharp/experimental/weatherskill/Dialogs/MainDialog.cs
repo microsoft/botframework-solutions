@@ -81,7 +81,6 @@ namespace WeatherSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<WeatherSkillLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -89,7 +88,7 @@ namespace WeatherSkill.Dialogs
                 {
                     case WeatherSkillLuis.Intent.GetForecast:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ForecastDialog));
+                            await dc.BeginDialogAsync(nameof(ForecastDialog));
                             break;
                         }
 
@@ -97,7 +96,6 @@ namespace WeatherSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -105,14 +103,8 @@ namespace WeatherSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

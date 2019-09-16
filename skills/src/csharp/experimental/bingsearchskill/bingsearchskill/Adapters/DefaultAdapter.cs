@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
+using BingSearchSkill.Responses.Shared;
+using BingSearchSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -8,9 +11,6 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using BingSearchSkill.Responses.Shared;
-using BingSearchSkill.Services;
-using System.Globalization;
 
 namespace BingSearchSkill.Bots
 {

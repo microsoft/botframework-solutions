@@ -75,7 +75,6 @@ namespace EventSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<EventLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -84,7 +83,7 @@ namespace EventSkill.Dialogs
                     case EventLuis.Intent.FindEvents:
                         {
                             // searching for local events
-                            turnResult = await dc.BeginDialogAsync(nameof(FindEventsDialog));
+                            await dc.BeginDialogAsync(nameof(FindEventsDialog));
                             break;
                         }
 
@@ -92,7 +91,6 @@ namespace EventSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -100,14 +98,8 @@ namespace EventSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

@@ -1,33 +1,33 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
+using BingSearchSkill.Adapters;
+using BingSearchSkill.Bots;
+using BingSearchSkill.Dialogs;
+using BingSearchSkill.Responses.Main;
+using BingSearchSkill.Responses.Search;
+using BingSearchSkill.Responses.Shared;
+using BingSearchSkill.Services;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder.BotFramework;
-using BingSearchSkill.Bots;
-using Microsoft.AspNetCore.Mvc;
-using BingSearchSkill.Dialogs;
-using BingSearchSkill.Services;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using System.Linq;
-using BingSearchSkill.Responses.Main;
-using BingSearchSkill.Responses.Shared;
-using BingSearchSkill.Responses.Search;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions;
-using BingSearchSkill.Adapters;
-using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace BingSearchSkill
 {

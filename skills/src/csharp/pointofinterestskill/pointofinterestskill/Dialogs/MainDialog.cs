@@ -86,7 +86,6 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -101,42 +100,33 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     case PointOfInterestLuis.Intent.GetDirections:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
+                            await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
                             break;
                         }
 
                     case PointOfInterestLuis.Intent.FindPointOfInterest:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
+                            await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
                     case PointOfInterestLuis.Intent.FindParking:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
+                            await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
                     case PointOfInterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
                     default:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

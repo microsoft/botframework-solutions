@@ -77,7 +77,6 @@ namespace MusicSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<MusicSkillLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -85,7 +84,7 @@ namespace MusicSkill.Dialogs
                 {
                     case MusicSkillLuis.Intent.PlayMusic:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(PlayMusicDialog));
+                            await dc.BeginDialogAsync(nameof(PlayMusicDialog));
                             break;
                         }
 
@@ -93,7 +92,6 @@ namespace MusicSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -101,14 +99,8 @@ namespace MusicSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

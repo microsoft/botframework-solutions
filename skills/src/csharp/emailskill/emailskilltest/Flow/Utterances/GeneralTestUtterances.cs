@@ -31,6 +31,8 @@ namespace EmailSkillTest.Flow.Utterances
 
         public static string No { get; } = "No";
 
+        public static string UnknownIntent { get; } = "What's the weather?";
+
         public General GetBaseNoneIntent()
         {
             var generalIntent = new General
