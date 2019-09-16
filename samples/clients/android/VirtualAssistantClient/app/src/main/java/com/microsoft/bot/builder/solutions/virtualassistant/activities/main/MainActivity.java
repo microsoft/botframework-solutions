@@ -254,6 +254,15 @@ public class MainActivity extends BaseActivity
             if (!enabled && enableKws) {
                 switchEnableKws.setChecked(false);
             }
+
+            if (launchedAsAssistant) {
+                launchedAsAssistant = false;
+                try {
+                    speechServiceBinder.listenOnceAsync();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         try {
