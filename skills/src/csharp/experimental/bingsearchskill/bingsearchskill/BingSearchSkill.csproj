@@ -5,11 +5,6 @@
     <UserSecretsId>dce3ac16-dce5-4fd3-b97a-0f23791e65fc</UserSecretsId>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
   <ItemGroup>
     <Content Remove="Content\MovieCard.1.0.json" />
     <Content Remove="Content\MovieCard.json" />
