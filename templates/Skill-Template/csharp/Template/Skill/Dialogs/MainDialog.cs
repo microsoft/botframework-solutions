@@ -76,7 +76,6 @@ namespace $safeprojectname$.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<$safeprojectname$Luis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -84,7 +83,7 @@ namespace $safeprojectname$.Dialogs
                 {
                     case $safeprojectname$Luis.Intent.Sample:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog));
+                            await dc.BeginDialogAsync(nameof(SampleDialog));
                             break;
                         }
 
@@ -92,7 +91,6 @@ namespace $safeprojectname$.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -100,14 +98,8 @@ namespace $safeprojectname$.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
