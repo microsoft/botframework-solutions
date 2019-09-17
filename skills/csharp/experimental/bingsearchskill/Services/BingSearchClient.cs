@@ -54,10 +54,10 @@ namespace BingSearchSkill.Services
             }
         }
 
-        public async Task<List<SearchResultModel>> GetSearchResult(string query, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
+        public async Task<List<SearchResultModel>> GetSearchResult(string query, string locale, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
         {
             var results = new List<SearchResultModel>();
-            var answerSearchResult = await GetAnswerSearchResult(query);
+            var answerSearchResult = await GetAnswerSearchResult(query, locale);
             if (answerSearchResult != null)
             {
                 results.Add(answerSearchResult);
@@ -114,11 +114,11 @@ namespace BingSearchSkill.Services
             }
         }
 
-        private async Task<SearchResultModel> GetAnswerSearchResult(string query)
+        private async Task<SearchResultModel> GetAnswerSearchResult(string query, string locale)
         {
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _bingAnswerSearchKey);
-            var responseString = await httpClient.GetStringAsync($"https://api.labs.cognitive.microsoft.com/answerSearch/v7.0/search?q={query}&mkt=en-us");
+            var responseString = await httpClient.GetStringAsync($"https://api.labs.cognitive.microsoft.com/answerSearch/v7.0/search?q={query}&mkt={locale}");
             var responseJson = JToken.Parse(responseString);
             var factsJson = responseJson["facts"];
             if (factsJson != null)

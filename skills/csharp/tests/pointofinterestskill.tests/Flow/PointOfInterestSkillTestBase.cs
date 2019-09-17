@@ -35,10 +35,7 @@ namespace PointOfInterestSkill.Tests.Flow
             Services = new ServiceCollection();
             Services.AddSingleton(new BotSettings()
             {
-                Properties = new Dictionary<string, string>()
-                {
-                    { "AzureMapsKey", MockData.Key }
-                }
+                AzureMapsKey = MockData.Key
             });
             Services.AddSingleton(new BotServices()
             {

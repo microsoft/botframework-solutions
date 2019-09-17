@@ -79,7 +79,8 @@ namespace BingSearchSkill.Dialogs
             var bingSearchKey = Settings.BingSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var bingAnswerSearchKey = Settings.BingAnswerSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var client = new BingSearchClient(bingSearchKey, bingAnswerSearchKey);
-            var entitiesResult = await client.GetSearchResult(state.SearchEntityName, state.SearchEntityType);
+            // https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/cognitive-services/Labs/Answer-Search/overview.md
+            var entitiesResult = await client.GetSearchResult(state.SearchEntityName, "en-us", state.SearchEntityType);
 
             Activity prompt = null;
             if (entitiesResult != null && entitiesResult.Count > 0)

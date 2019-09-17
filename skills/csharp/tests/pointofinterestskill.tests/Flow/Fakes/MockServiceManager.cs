@@ -13,13 +13,10 @@ namespace PointOfInterestSkill.Tests.API.Fakes
             mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
         }
 
-        public IGeoSpatialService InitMapsService(BotSettings services, string locale = "en-us")
+        public IGeoSpatialService InitMapsService(BotSettings settings, string locale = "en-us")
         {
-            services.Properties.TryGetValue("FoursquareClientId", out var clientId);
-            services.Properties.TryGetValue("FoursquareClientSecret", out var clientSecret);
-
-            var clientIdStr = (string)clientId;
-            var clientSecretStr = (string)clientSecret;
+            var clientIdStr = settings.FoursquareClientId;
+            var clientSecretStr = settings.FoursquareClientSecret;
 
             if (clientIdStr != null && clientSecretStr != null)
             {
@@ -27,7 +24,7 @@ namespace PointOfInterestSkill.Tests.API.Fakes
             }
             else
             {
-                var key = GetAzureMapsKey(services);
+                var key = GetAzureMapsKey(settings);
 
                 return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, MockData.RouteLimit, locale, mockClient).Result;
             }
@@ -47,11 +44,9 @@ namespace PointOfInterestSkill.Tests.API.Fakes
             return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, MockData.RouteLimit, locale, mockClient).Result;
         }
 
-        protected string GetAzureMapsKey(BotSettings services)
+        protected string GetAzureMapsKey(BotSettings settings)
         {
-            services.Properties.TryGetValue("AzureMapsKey", out var key);
-
-            var keyStr = (string)key;
+            var keyStr = settings.AzureMapsKey;
             if (string.IsNullOrWhiteSpace(keyStr))
             {
                 throw new Exception("Could not get the required Azure Maps key. Please make sure your settings are correctly configured.");
