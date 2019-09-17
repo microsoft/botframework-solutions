@@ -40,7 +40,7 @@ The `MicrosoftAppCredentialsEx` class provided within the Microsoft.Bot.Builder.
 
 ## Whitelist Authentication
 
-After the JWT token is verified, the SKill bot needs to verify if the request comes from a bot that's previously included in a whitelist. A Skill needs to have knowledge of it's callers and give permissions to that bot explicitly instead of any bot that could call the Skill. This level of authorization is enabled by default as well, making sure a Skill is well protected from public access. Developers need to do the following to implement the Whitelist mechanism:
+After the JWT token is verified, the Skill bot needs to verify if the request comes from a bot that's previously included in a whitelist. A Skill needs to have knowledge of it's callers and give permissions to that bot explicitly instead of any bot that could call the Skill. This level of authorization is enabled by default as well, making sure a Skill is well protected from public access. Developers need to do the following to implement the Whitelist mechanism:
 
 Declare a class `WhiteListAuthProvider` in the bot service project that implements the interface `IWhitelistAuthenticationProvider`
 
