@@ -7,6 +7,13 @@ order: 4
 ---
 
 # {{ page.title }}
+{:.no_toc}
+
+## In this reference
+{:.no_toc}
+
+* 
+{:toc}
 
 A Skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication:
 
