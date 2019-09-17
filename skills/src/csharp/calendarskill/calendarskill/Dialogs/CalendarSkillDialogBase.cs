@@ -780,14 +780,18 @@ namespace CalendarSkill.Dialogs
                 if (generalLuisResult.Entities.ordinal != null)
                 {
                     var value = generalLuisResult.Entities.ordinal[0];
-                    var num = int.Parse(value.ToString());
-                    state.ShowMeetingInfor.UserSelectIndex = num - 1;
+                    if (int.TryParse(value.ToString(), out var num))
+                    {
+                        state.ShowMeetingInfor.UserSelectIndex = num - 1;
+                    }
                 }
                 else if (generalLuisResult.Entities.number != null)
                 {
                     var value = generalLuisResult.Entities.number[0];
-                    var num = int.Parse(value.ToString());
-                    state.ShowMeetingInfor.UserSelectIndex = num - 1;
+                    if (int.TryParse(value.ToString(), out var num))
+                    {
+                        state.ShowMeetingInfor.UserSelectIndex = num - 1;
+                    }
                 }
 
                 if (!isBeginDialog)
