@@ -85,6 +85,7 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/
 ### Authentication connection settings
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 - `Notes.ReadWrite` 
+- `User.Read`
 - `User.ReadBasic.All`
 - `Tasks.ReadWrite`
 
