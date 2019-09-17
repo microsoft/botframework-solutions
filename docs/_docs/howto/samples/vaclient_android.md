@@ -24,6 +24,8 @@ order: 1
 1. [Enable speech]({{ site.baseurl }}/tutorials/enable-speech/1_intro) on your new Virtual Assistant, which enables you to retrieve a
     - [Microsoft Speech Cognitive Service subscription key]({{ site.baseurl }}/tutorials/enable-speech/2_create_speech_instance/)
     - [Add the Direct Line Speech channel to your Assistant]({{ site.baseurl }}/tutorials/enable-speech/3_add_speech_channel/)
+    
+1. [Download](https://aka.ms/virtualassistantclient) the Virtual Assistant Client (Android) app source code.
 
 ## Overview
 ![Virtual Assistant Client (Android) overview diagram]({{ site.baseurl }}/assets/images/virtualassistantclient-android-overview.png)
