@@ -42,6 +42,8 @@ namespace CalendarSkillTest.Flow
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -58,6 +60,8 @@ namespace CalendarSkillTest.Flow
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -72,6 +76,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -86,6 +92,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -106,6 +114,8 @@ namespace CalendarSkillTest.Flow
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.UpdateEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();

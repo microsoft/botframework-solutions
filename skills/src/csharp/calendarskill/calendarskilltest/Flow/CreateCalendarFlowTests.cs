@@ -50,6 +50,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -69,6 +71,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -79,6 +83,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -115,6 +121,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -125,6 +133,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -155,8 +165,10 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(ShowCalendarList())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -167,6 +179,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -199,6 +213,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -214,6 +230,8 @@ namespace CalendarSkillTest.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -243,6 +261,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -250,6 +270,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -260,6 +282,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -292,6 +316,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -302,6 +328,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -334,6 +362,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -348,6 +378,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
@@ -365,6 +397,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -390,6 +424,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowContactsList(recipientDict))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDupDict))
@@ -411,6 +447,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -431,10 +469,16 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send("wrong name")
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(UserNotFoundPrompt("wrong name"))
                 .Send("wrong name")
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(UserNotFoundAgainPrompt("wrong name"))
                 .Send(string.Format(Strings.Strings.UserName, 0))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt(testRecipient, testEmailAddress))
@@ -454,6 +498,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -470,6 +516,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailsList(Strings.Strings.DefaultUserName))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserName, string.Format(Strings.Strings.UserEmailAddress, 0)))
@@ -489,6 +537,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -507,6 +557,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -524,6 +576,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -534,6 +588,8 @@ namespace CalendarSkillTest.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
@@ -555,6 +611,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -573,6 +631,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -586,6 +646,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -604,6 +666,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -621,6 +685,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -639,6 +705,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -656,6 +724,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -670,6 +740,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
@@ -687,6 +759,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -701,6 +775,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.ThrowErrorAccessDenied)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(BotErrorResponse())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -721,6 +797,8 @@ namespace CalendarSkillTest.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 0))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 0) },
@@ -731,6 +809,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 1))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 1) },
@@ -741,6 +821,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 2))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 2) },
@@ -751,6 +833,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 3))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 3) },
@@ -761,6 +845,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 4))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 4) },
@@ -771,6 +857,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 5))
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "UserName", string.Format(Strings.Strings.UserName, 5) },
@@ -797,6 +885,8 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(RestParticipantsResponse(6))
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();

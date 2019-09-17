@@ -56,6 +56,8 @@ namespace CalendarSkill.Dialogs
                 ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
                 AfterConfirmBeforeCreatePrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 CreateEvent,
             };
 
