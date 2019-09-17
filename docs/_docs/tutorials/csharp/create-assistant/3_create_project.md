@@ -27,7 +27,7 @@ order: 3
     | - Controllers                        // API Controllers
         | - BotController.cs                   // API Controller for api/messages endpoint
     | - Deployment                         // Files for deployment and provisioning
-        | - Resources                          // Resources for deployment and provisioning
+        | - Resources                          // Resources for deployment and provisioning. May be excluded from source control.
             | - LU                                 // Files for deploying LUIS language models
                 | - General.lu                         // General language model (e.g. Cancel, Help, Escalate, etc.)
             | - QnA                                // Files for deploying QnA Maker knowledgebases
@@ -73,3 +73,4 @@ order: 3
     | - skills.json                        // Configuration for connected skills
     | - Program.cs                         // Default Program.cs file
     | - Startup.cs                         // Initializes dependencies
+
