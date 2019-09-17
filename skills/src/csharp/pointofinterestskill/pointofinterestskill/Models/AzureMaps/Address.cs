@@ -65,11 +65,11 @@ namespace PointOfInterestSkill.Models
 
         /// <summary>
         /// Gets or sets a string specifying the populated place for the address.
-        /// This typically refers to a city, but may refer to a suburb or a neighborhood in certain countries.
+        /// This typically refers to a city, but may refer to a suburb or a neighborhood in certain countries or regions.
         /// </summary>
         /// <value>
         /// A string specifying the populated place for the address.
-        /// This typically refers to a city, but may refer to a suburb or a neighborhood in certain countries.
+        /// This typically refers to a city, but may refer to a suburb or a neighborhood in certain countries or regions.
         /// </value>
         [JsonProperty(PropertyName = "locality")]
         public string Locality { get; set; }
