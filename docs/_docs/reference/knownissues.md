@@ -16,11 +16,7 @@ order: 2
 
 ## My Microsoft App Registration could not be automatically provisioned
 
-Some users might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, create your own Azure Active Directory App through [this](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview) part of the Azure portal.
-
-- Click `New Registration`
-- Provide a name
-- Select `Accounts in any organizational directory`
+Some users might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, [create and register an Azure AD application](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp%2Cbot-oauth#create-and-register-an-azure-ad-application).
 
 Once created, retrieve the `Application (ClientId)` and create a new client secret on the `Certificates & secrets` pane
 
