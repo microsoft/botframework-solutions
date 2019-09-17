@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -107,6 +108,7 @@ public class MainActivity extends BaseActivity
     private Gson gson;
     private SfxManager sfxManager;
     private boolean enableDarkMode;
+    private boolean keepScreenOn;
     private boolean enableKws;
     private boolean isExpandedTextInput;
     private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
@@ -174,6 +176,20 @@ public class MainActivity extends BaseActivity
         if (speechServiceBinder == null) {
             handler.post(this::doBindService);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (keepScreenOn) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // to keep screen on
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // to disable keeping screen on
     }
 
     // Unregister EventBus messages and SpeechService
@@ -309,6 +325,7 @@ public class MainActivity extends BaseActivity
     private void loadConfiguration() {
         Configuration configuration = configurationManager.getConfiguration();
         setDarkMode(configuration.enableDarkMode == null ? false : configuration.enableDarkMode);
+        keepScreenOn = configuration.keepScreenOn == null ? false : configuration.keepScreenOn;
         chatAdapter.setShowFullConversation(configuration.showFullConversation == null ? false : configuration.showFullConversation);
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount == null ? 1 : configuration.historyLinecount);
         chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);

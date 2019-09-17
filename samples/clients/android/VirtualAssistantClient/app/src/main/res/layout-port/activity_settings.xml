@@ -221,6 +221,26 @@
 
             </LinearLayout>
 
+            <!-- KEEP SCREEN ON SWITCH -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_keep_screen_on" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_keep_screen_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <!-- COLOR CHAT-BUBBLE BACKGROUND -->
             <LinearLayout
                 android:layout_width="match_parent"

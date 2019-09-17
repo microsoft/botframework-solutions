@@ -55,6 +55,7 @@
     <string name="configuration_appearance">Appearance</string>
     <string name="configuration_show_full_conversation">Show full conversation</string>
     <string name="configuration_enable_dark_mode">Enable dark mode</string>
+    <string name="configuration_keep_screen_on">Keep screen on</string>
 
     <!-- WIDGETS -->
     <string name="widget_push_to_talk">Talk</string>

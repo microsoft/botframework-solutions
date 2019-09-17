@@ -187,7 +187,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/configuration_appearance" />
 
-            <!-- SHOW FULL CONVERSATION & ENABLE DARK MODE SWITCHES-->
+            <!-- SHOW FULL CONVERSATION & ENABLE DARK MODE & KEEP SCREEN ON SWITCHES-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -225,6 +225,24 @@
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_enable_dark_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/TextView.InputLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_keep_screen_on" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_keep_screen_on"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

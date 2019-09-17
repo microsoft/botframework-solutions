@@ -65,6 +65,10 @@ public class Configuration {
     @Expose
     public Boolean enableDarkMode;
 
+    @SerializedName("keep_screen_on")
+    @Expose
+    public Boolean keepScreenOn;
+
     public boolean isEmpty(){
         return serviceKey==null&&
                 serviceRegion==null&&
@@ -80,6 +84,7 @@ public class Configuration {
                 colorTextUser==null&&
                 keyword==null&&
                 showFullConversation==null&&
-                enableDarkMode==null;
+                enableDarkMode==null&&
+                keepScreenOn==null;
     }
 }

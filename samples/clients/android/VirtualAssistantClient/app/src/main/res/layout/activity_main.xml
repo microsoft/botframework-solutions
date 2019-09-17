@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="end"
-    tools:context=".activities.main.MainActivity"
-    android:keepScreenOn="true">
+    tools:context=".activities.main.MainActivity">
 
     <RelativeLayout
         style="@style/BackgroundStyle"

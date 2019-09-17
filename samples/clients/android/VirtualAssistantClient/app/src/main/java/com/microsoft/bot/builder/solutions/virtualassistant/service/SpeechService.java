@@ -274,6 +274,7 @@ public class SpeechService extends Service {
             configuration.keyword = DefaultConfiguration.KEYWORD;
             configuration.showFullConversation = true;
             configuration.enableDarkMode = false;
+            configuration.keepScreenOn = true;
             configurationManager.setConfiguration(configuration);
         }
     }

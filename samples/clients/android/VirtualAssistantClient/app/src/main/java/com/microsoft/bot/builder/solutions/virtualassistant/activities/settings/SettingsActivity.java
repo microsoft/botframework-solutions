@@ -67,6 +67,7 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.edit_time_text) EditText gpsSentTimeEditText;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
     @BindView(R.id.switch_enable_dark_mode) SwitchCompat switchEnableDarkMode;
+    @BindView(R.id.switch_keep_screen_on) SwitchCompat switchKeepScreenOn;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_settings;
@@ -256,6 +257,13 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
+    @OnCheckedChanged(R.id.switch_keep_screen_on)
+    public void onChangeKeepScreenOn(boolean checked) {
+        if (configuration != null) {
+            configuration.keepScreenOn = checked;
+        }
+    }
+
     @OnClick(R.id.btn_send_gps)
     public void onClickSendGps() {
         try {
@@ -368,6 +376,11 @@ public class SettingsActivity extends BaseActivity {
             // enable dark mode
             if (configuration.enableDarkMode != null) {
                 switchEnableDarkMode.setChecked(configuration.enableDarkMode);
+            }
+
+            // keep screen on
+            if (configuration.keepScreenOn != null) {
+                switchKeepScreenOn.setChecked(configuration.keepScreenOn);
             }
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
