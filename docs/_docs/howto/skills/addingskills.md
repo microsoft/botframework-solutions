@@ -55,7 +55,7 @@ The `--luisFolder` parameter can be used to point the Skill CLI at the source LU
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
 ```
 
-See the [Skill CLI documentation]({{site.baseurl}}/reference/botskills) for detailed CLI documentation.
+See the [Skill CLI documentation]({{site.baseurl}}/reference/skills/botskills) for detailed CLI documentation.
 
 ## Manual Authentication Connection configuration
 
@@ -85,7 +85,7 @@ botskills:
 botskills disconnect --skillId SKILL_ID
 ```
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation]({{site.baseurl}}/reference/botskills) on this command.
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation]({{site.baseurl}}/reference/skills/botskills) on this command.
 
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
