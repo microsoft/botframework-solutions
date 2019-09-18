@@ -16,7 +16,7 @@ namespace assistant_SimpleSpeechApp
 
         private const string channelSecret = "YourChannelSecret"; // Your channel secret
         private string speechSubscriptionKey = "YourSpeechSubscriptionKey"; // Your subscription key
-        private const string region = "westus2"; // Your subscription service region. Note: only 'westus2' is currently supported
+        private const string region = "westus2"; // Your subscription service region. Note: review https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/regions#voice-first-virtual-assistants for supported regions
 
         private enum NotifyType
         {
