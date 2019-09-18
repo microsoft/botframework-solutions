@@ -48,12 +48,12 @@ namespace EmailSkill.Adapters
                     "FindContactInfor.Contacts.Last().EmailAddress.Name",
                 });
 
-            var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
+            var cacheCoreferenceResolutionInformationAction = new CacheAnaphoraResolutionInformationAction(
                 lastestContactAbstractor,
                 userContextManager);
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
+            skillContextualMiddleware.RegisterAction(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);
         }

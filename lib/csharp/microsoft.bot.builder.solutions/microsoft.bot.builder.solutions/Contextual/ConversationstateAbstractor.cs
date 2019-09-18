@@ -129,7 +129,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
                         }
                     }
 
-                    // If this method returns a ValueTuple. Need to cache it's alias.
+                    // If this method returns a ValueTuple. Need to cache its alias.
                     if (!IsEmptyObject(subObj) && subObj.GetType().Name.Contains("ValueTuple"))
                     {
                         ValueTupleElementAlias = mInfo.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>().TransformNames;
@@ -154,6 +154,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
                     }
 
                     return subObj;
+
                 default:
                     return null;
             }
@@ -191,28 +192,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         private bool IsEmptyObject(object obj)
         {
-            // If it's value type, we treat it's not empty.
-            try
-            {
-                Type type = obj.GetType();
-                if (type.IsValueType)
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-            }
-
-            // If it's reference type.
-            if (obj == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return obj == null;
         }
 
     }

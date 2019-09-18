@@ -6,18 +6,23 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 {
-    public class CacheCoreferenceResolutionInformationAction : SkillContextualActionBase
+    public class CacheAnaphoraResolutionInformationAction : SkillContextualActionBase
     {
-        public CacheCoreferenceResolutionInformationAction(
+        public CacheAnaphoraResolutionInformationAction(
             ConversationstateAbstractor conversationstateAbstractor,
             UserContextManager userContextManager)
         {
             ConversationstateAbstractor = conversationstateAbstractor;
             UserContextManager = userContextManager;
 
+            BeforeTurnAction = turnContext =>
+            {
+                CacheText(turnContext);
+            };
+
             AfterTurnAction = async turnContext =>
             {
-                await CacheCoreferenceResolutionInformation(turnContext);
+                await CacheLatestContact(turnContext);
             };
         }
 
@@ -25,17 +30,22 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Actions
 
         private UserContextManager UserContextManager { get; set; }
 
-        private async Task CacheCoreferenceResolutionInformation(ITurnContext turnContext)
+        private void CacheText(ITurnContext turnContext)
+        {
+            UserContextManager.AnaphoraResolutionState.Text = turnContext.Activity.Text;
+        }
+
+        private async Task CacheLatestContact(ITurnContext turnContext)
         {
             string latestContact = await AbstractLatestContactAsync(turnContext);
             if (latestContact != null)
             {
-                if (UserContextManager.PreviousContacts.Contains(latestContact))
+                if (UserContextManager.AnaphoraResolutionState.PreviousContacts.Contains(latestContact))
                 {
-                    UserContextManager.PreviousContacts.Remove(latestContact);
+                    UserContextManager.AnaphoraResolutionState.PreviousContacts.Remove(latestContact);
                 }
 
-                UserContextManager.PreviousContacts.Add(latestContact);
+                UserContextManager.AnaphoraResolutionState.PreviousContacts.Add(latestContact);
             }
         }
 

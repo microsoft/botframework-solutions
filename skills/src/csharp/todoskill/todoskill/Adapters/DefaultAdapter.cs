@@ -60,7 +60,7 @@ namespace ToDoSkill.Adapters
                 new List<string> { "ShowToDo", "MarkToDo" });
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(cachePreviousTriggerIntentAction);
+            skillContextualMiddleware.RegisterAction(cachePreviousTriggerIntentAction);
 
             Use(skillContextualMiddleware);
         }

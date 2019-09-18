@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Contextual;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
+using Microsoft.Bot.Builder.Solutions.Contextual.Rules;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
     public class UserStateContextResolver : IContextResolver
     {
         private UserInfoState _userInfoState;
-        private List<string> _previousContact;
+        private List<IRule> _rules = new List<IRule>();
 
-        public UserStateContextResolver(UserInfoState userInfo, List<string> previousContact)
+        public UserStateContextResolver(UserInfoState userInfo)
         {
             _userInfoState = userInfo;
-            _previousContact = previousContact;
         }
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
@@ -33,20 +33,34 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             }
             else
             {
-                GetAnaphoraResolution(PossessivePronoun.ThirdPerson);
             }
 
             return null;
         }
 
-        public async Task<string> GetAnaphoraResolution(string pron)
+        // ToDo: Put these two parts in base class?
+        public async Task<string> ExcuteARRules(AnaphoraResolutionState anaphoraResolutionState)
         {
-            if (pron == PossessivePronoun.ThirdPerson)
+            foreach (var rule in _rules)
             {
-                return _previousContact.Last();
+                var name = await rule.GetAnaphoraResolutionResultAsync(anaphoraResolutionState);
+                if (!string.IsNullOrEmpty(name))
+                {
+                    return name;
+                }
             }
 
             return null;
+        }
+
+        public void RegisterARRule(IRule rule)
+        {
+            _rules.Add(rule);
+        }
+
+        public List<string> GetPreviousTriggerIntents(List<PreviousTriggerIntent> previousTriggerIntents)
+        {
+            return previousTriggerIntents.Select(x => x.Utterance).ToList();
         }
     }
 }
