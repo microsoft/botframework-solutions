@@ -33,7 +33,10 @@ import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
 import * as restify from 'restify';
-import { DefaultAdapter } from './adapters/defaultAdapter';
+
+import {
+    DefaultAdapter,
+    DefaultWebSocketAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
 import { DialogBot } from './bots/dialogBot';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
@@ -45,6 +48,19 @@ import { IOnboardingState } from './models/onboardingState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 import { skills as skillsRaw } from './skills.json';
+
+// Extends get definitions to be compatible with ServerUpgradeResponse in handlers
+declare module 'restify' {
+    export type RequestHandlerWebSocketType = (req: Request, res: ServerUpgradeResponse, next: Next) => any;
+
+    // eslint-disable-next-line @typescript-eslint/interface-name-prefix, @typescript-eslint/tslint/config
+    export interface Server {
+        get(
+            opts: string,
+            ...handlers: RequestHandlerWebSocketType[]
+        ): Route | boolean;
+    }
+}
 
 // Configure internationalization and default locale
 // tslint:disable-next-line: no-floating-promises
@@ -91,7 +107,13 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
 
-const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
+if (botSettings.microsoftAppId === undefined) {
+    throw new Error('The microsoftAppId is undefined');
+}
+if (botSettings.microsoftAppPassword === undefined) {
+    throw new Error('The microsostAppPassword is undefined');
+}
+const adapterSettings: BotFrameworkAdapterSettings = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
@@ -122,7 +144,8 @@ const adapter: DefaultAdapter = new DefaultAdapter(
     userState,
     conversationState
 );
-// const webSocketEnabledHttpAdapter: webSocketEnabledHttpAdapter = (botsettings, adapter))
+
+let webSocketAdapter: DefaultWebSocketAdapter;
 
 let bot: DialogBot<Dialog>;
 try {
@@ -158,12 +181,19 @@ try {
     );
 
     bot = new DialogBot(conversationState, telemetryClient, mainDialog);
+    webSocketAdapter = new DefaultWebSocketAdapter(
+        bot,
+        botSettings,
+        telemetryClient
+    );
 } catch (err) {
     throw err;
 }
 
 // Create server
-const server: restify.Server = restify.createServer();
+const server: restify.Server = restify.createServer({
+    handleUpgrades: true
+});
 
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
@@ -182,8 +212,27 @@ server.listen(process.env.port || process.env.PORT || '3979', (): void => {
 
 // Listen for incoming requests
 server.post('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
+
     // Route received a request to adapter for processing
+    // Configure adapters
+    // DefaultAdapter is for all regular channels that use Http transport
     await adapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+        // route to bot activity handler.
+        await bot.run(turnContext);
+    });
+});
+
+// Listen for incoming requests
+server.get('/api/messages', async (req: restify.Request, res: restify.ServerUpgradeResponse, next: restify.Next): Promise<void> => {
+    if (res.claimUpgrade === undefined) {
+        next(new Error('Connection must upgrade for WebSockets'));
+
+        return;
+    }
+    const resUpgrade: restify.ServerUpgradeResponse = res.claimUpgrade();
+    await webSocketAdapter.connectWebSocket(req, resUpgrade, adapterSettings);
+    // DefaultWebSocketAdapter is for directline speech channel
+    await webSocketAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.
         await bot.run(turnContext);
     });
