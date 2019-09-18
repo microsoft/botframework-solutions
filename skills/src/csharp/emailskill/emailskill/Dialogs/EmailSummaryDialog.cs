@@ -32,19 +32,19 @@ namespace EmailSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var getEmails = new WaterfallStep[]
+            var getEmailSummary = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetEmails
+                GetEmailSummary
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetEmails, getEmails) { TelemetryClient = telemetryClient });
-            InitialDialogId = Actions.GetEmails;
+            AddDialog(new WaterfallDialog(Actions.GetEmailSummary, getEmailSummary) { TelemetryClient = telemetryClient });
+            InitialDialogId = Actions.GetEmailSummary;
         }
 
-        protected async Task<DialogTurnResult> GetEmails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetEmailSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

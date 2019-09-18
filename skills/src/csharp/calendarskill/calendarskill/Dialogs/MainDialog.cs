@@ -22,7 +22,6 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace CalendarSkill.Dialogs
 {

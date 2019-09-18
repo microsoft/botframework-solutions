@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EVENT_COUNT_PROMPT" xml:space="preserve">
-    <value>number of event</value>
+    <value>número de evento</value>
   </data>
   <data name="EVENT_KINDS_PROMPT" xml:space="preserve">
-    <value>kinds of event</value>
+    <value>tipo de evento</value>
   </data>
   <data name="ITEM_CARD_NAME_DEFAULT" xml:space="preserve">
-    <value>Events:</value>
+    <value>Eventos:</value>
   </data>
   <data name="SUMMARY_CARD_NAME" xml:space="preserve">
-    <value>SummaryCard</value>
+    <value>Tarjeta resumen</value>
   </data>
   <data name="SUMMARY_CARD_TITLE" xml:space="preserve">
-    <value>Your day today</value>
+    <value>Tu dia hoy</value>
   </data>
   <data name="SUMMARY_ITEM_NAME" xml:space="preserve">
     <value>SummaryItem</value>

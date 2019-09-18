@@ -106,15 +106,6 @@ namespace VirtualAssistantSample.Responses.Summary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark.
-        /// </summary>
-        public static string SUMMARY_ITEM_COLOR {
-            get {
-                return ResourceManager.GetString("SUMMARY_ITEM_COLOR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to SummaryItem.
         /// </summary>
         public static string SUMMARY_ITEM_NAME {

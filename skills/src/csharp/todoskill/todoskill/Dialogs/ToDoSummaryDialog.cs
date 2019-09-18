@@ -33,21 +33,21 @@ namespace ToDoSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var getToDos = new WaterfallStep[]
+            var getToDoSummary = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetToDos
+                GetToDoSummary
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetToDos, getToDos) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetToDoSummary, getToDoSummary) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Actions.GetToDos;
+            InitialDialogId = Actions.GetToDoSummary;
         }
 
-        protected async Task<DialogTurnResult> GetToDos(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetToDoSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

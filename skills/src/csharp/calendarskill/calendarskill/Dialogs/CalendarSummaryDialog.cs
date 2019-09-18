@@ -31,22 +31,22 @@ namespace CalendarSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var getMeetings = new WaterfallStep[]
+            var getMeetingSummary = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                GetMeetings
+                GetMeetingSummary
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetMeetings, getMeetings) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetMeetingSummary, getMeetingSummary) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Actions.GetMeetings;
+            InitialDialogId = Actions.GetMeetingSummary;
 
         }
 
-        protected async Task<DialogTurnResult> GetMeetings(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetMeetingSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

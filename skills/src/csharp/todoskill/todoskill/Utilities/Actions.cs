@@ -56,6 +56,6 @@
 
         public const string CollectRepeatFirstPageConfirmation = "collectRepeatFirstPageConfirmation";
 
-        public const string GetToDos = "getToDos";
+        public const string GetToDoSummary = "getToDoSummary";
     }
 }

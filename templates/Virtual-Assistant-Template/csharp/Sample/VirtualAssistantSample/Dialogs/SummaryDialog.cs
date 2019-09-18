@@ -1,21 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using VirtualAssistantSample.Models;
-using VirtualAssistantSample.Services;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.AspNetCore.Authentication;
 using VirtualAssistantSample.Responses.Summary;
+using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -201,7 +198,7 @@ namespace VirtualAssistantSample.Dialogs
                 Data = new SummaryItemCardData
                 {
                     Head = name,
-                    HeadColor = SummaryStrings.SUMMARY_ITEM_COLOR,
+                    HeadColor = "Dark",
                     Title = title,
                     Indicator = indicator,
                     IsSubtle = true

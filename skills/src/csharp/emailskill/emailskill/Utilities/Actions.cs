@@ -50,6 +50,6 @@
 
         public const string RetryUnknown = "retryUnknown";
 
-        public const string GetEmails = "getEmails";
+        public const string GetEmailSummary = "getEmailSummary";
     }
 }
