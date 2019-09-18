@@ -49,12 +49,12 @@ namespace CalendarSkill.Adapters
                     "MeetingInfor.ContactInfor.Contacts.Last().DisplayName",
                 });
 
-            var cacheCoreferenceResolutionInformationAction = new CacheCoreferenceResolutionInformationAction(
+            var cacheCoreferenceResolutionInformationAction = new CacheAnaphoraResolutionInformationAction(
                 lastestContactAbstractor,
                 userContextManager);
 
             var skillContextualMiddleware = new SkillContextualMiddleware();
-            skillContextualMiddleware.Register(cacheCoreferenceResolutionInformationAction);
+            skillContextualMiddleware.RegisterAction(cacheCoreferenceResolutionInformationAction);
 
             Use(skillContextualMiddleware);
         }

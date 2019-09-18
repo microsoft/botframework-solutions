@@ -31,7 +31,7 @@ namespace ToDoSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-        private UserContextManager _userContextResolver;
+        private UserContextManager _userContextManager;
 
         public MainDialog(
             BotSettings settings,
@@ -43,7 +43,7 @@ namespace ToDoSkill.Dialogs
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
             IBotTelemetryClient telemetryClient,
-            UserContextManager userContextResolver)
+            UserContextManager userContextManager)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
@@ -51,7 +51,7 @@ namespace ToDoSkill.Dialogs
             _responseManager = responseManager;
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
-            _userContextResolver = userContextResolver;
+            _userContextManager = userContextManager;
 
             // RegisterDialogs
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
@@ -62,9 +62,7 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var questions = _userContextResolver.GetPreviousTriggerIntents();
-            var actions = questions.Select(x => x.Utterance).ToList();
-            var activity = MessageFactory.SuggestedActions(actions);
+            var activity = MessageFactory.SuggestedActions(_userContextManager.GetPreviousTriggerIntents());
             await dc.Context.SendActivityAsync(activity);
 
             //await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
@@ -72,7 +70,7 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            _userContextResolver.SetDialogIndex();
+            _userContextManager.SetDialogIndex();
 
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 

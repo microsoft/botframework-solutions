@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Contextual.Models;
+using Microsoft.Bot.Builder.Solutions.Contextual.Rules;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual
 {
@@ -14,14 +15,16 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
         public UserContextManager(UserInfoState userInfo, IContextResolver contextResolver = null)
         {
             _contextResolver = contextResolver;
-            _userStateContextResolver = new UserStateContextResolver(userInfo, PreviousContacts);
+            _userStateContextResolver = new UserStateContextResolver(userInfo);
+            _userStateContextResolver.RegisterARRule(new StanfordNLPRule());
+            _userStateContextResolver.RegisterARRule(new CacheRule());
         }
 
         public static int DialogIndex { get; set; } = 0;
 
         internal List<PreviousTriggerIntent> PreviousTriggerIntents { get; set; } = new List<PreviousTriggerIntent>();
 
-        internal List<string> PreviousContacts { get; set; } = new List<string>();
+        internal AnaphoraResolutionState AnaphoraResolutionState { get; set; } = new AnaphoraResolutionState();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {
@@ -37,6 +40,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
                 }
             }
 
+            // just for testing rules...
+            AnaphoraResolutionState.Pron = relatedEntityInfo.PronounType;
+            string name = await _userStateContextResolver.ExcuteARRules(AnaphoraResolutionState);
+
             // 2. User state context resolver
             var resolvedUserStateContact = await _userStateContextResolver.GetResolvedContactAsync(relatedEntityInfo);
             return resolvedUserStateContact;
@@ -47,14 +54,9 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
             DialogIndex++;
         }
 
-        public List<PreviousTriggerIntent> GetPreviousTriggerIntents()
+        public List<string> GetPreviousTriggerIntents()
         {
-            return PreviousTriggerIntents;
-        }
-
-        public async Task ClearPreviousQuestions(ITurnContext turnContext)
-        {
-            PreviousTriggerIntents.Clear();
+            return _userStateContextResolver.GetPreviousTriggerIntents(PreviousTriggerIntents);
         }
     }
 }
