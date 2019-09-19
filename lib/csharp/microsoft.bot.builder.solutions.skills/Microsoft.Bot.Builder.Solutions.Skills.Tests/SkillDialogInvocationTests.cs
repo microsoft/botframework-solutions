@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
@@ -34,7 +36,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 
             var skillConnectorConfiguration = new SkillConnectionConfiguration()
             {
-                SkillManifest = _skillManifest,
+                SkillOptions = _skillManifest,
                 ServiceClientCredentials = _mockServiceClientCredentials,
             };
 

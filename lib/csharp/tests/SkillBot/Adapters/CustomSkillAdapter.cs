@@ -17,7 +17,6 @@ namespace SkillBot.Adapters
     {
         public CustomSkillAdapter(
             BotSettings settings,
-            UserState userState,
             ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)

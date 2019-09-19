@@ -4,8 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
@@ -14,23 +13,21 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
     {
         private Activity _activityForwarded;
 
-        public override Task CancelRemoteDialogsAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, CancellationToken cancellationToken = default)
-            => Task.CompletedTask;
-
-        public override void Disconnect()
-        {
-        }
-
-        public override Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, Activity activity, ISkillResponseHandler skillResponseHandler, CancellationToken cancellationToken = default)
-        {
-            _activityForwarded = activity;
-            return Task.FromResult<Activity>(null);
-        }
-
         public bool CheckIfSkillInvoked()
             => _activityForwarded != null;
 
         public void VerifyActivityForwardedCorrectly(Action<Activity> assertion)
             => assertion(_activityForwarded);
+
+        public override Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
+        {
+            _activityForwarded = activity;
+            return Task.FromResult<Activity>(null);
+        }
+
+        public override Task CancelRemoteDialogsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Bot.Builder.Skills;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
@@ -11,20 +12,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
     /// The SkillManifest class models the Skill Manifest which is used to express the capabilities
     /// of a skill and used to drive Skill configuration and orchestration.
     /// </summary>
-    public class SkillManifest
+    public class SkillManifest : SkillOptions
     {
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
-
-        [JsonProperty(PropertyName = "msaAppId")]
-        public string MsaAppId { get; set; }
-
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
-        [JsonProperty(PropertyName = "endpoint")]
-        public Uri Endpoint { get; set; }
-
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 

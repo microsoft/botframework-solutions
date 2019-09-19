@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
@@ -108,7 +109,7 @@ namespace RootBot
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MsaAppId);
                     var skillConnectorConfiguration = new SkillConnectionConfiguration()
                     {
-                        SkillManifest = skill,
+                        SkillOptions = skill,
                         ServiceClientCredentials = credentials,
                     };
 

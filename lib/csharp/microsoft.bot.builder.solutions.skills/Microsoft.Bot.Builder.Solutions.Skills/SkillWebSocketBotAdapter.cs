@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.StreamingExtensions;
@@ -281,7 +282,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     activity.SemanticAction = turnContext.Activity.SemanticAction;
                 }
 
-                if (activity.Type == ActivityTypes.Handoff)
+                if (activity.Type == ActivityTypes.EndOfConversation)
                 {
                     activity.SemanticAction.State = SkillConstants.SkillDone;
                 }

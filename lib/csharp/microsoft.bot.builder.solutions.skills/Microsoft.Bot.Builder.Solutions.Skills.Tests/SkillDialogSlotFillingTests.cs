@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
@@ -73,7 +75,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
             {
                 var skillConnectorConfiguration = new SkillConnectionConfiguration()
                 {
-                    SkillManifest = skill,
+                    SkillOptions = skill,
                     ServiceClientCredentials = _mockServiceClientCredentials,
                 };
                 Dialogs.Add(new SkillDialogTest(skillConnectorConfiguration, null, _mockTelemetryClient));

@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Integration;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
@@ -34,11 +35,19 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             SkillConnectionConfiguration skillConnectionConfiguration,
             ISkillProtocolHandler skillProtocolHandler,
             IBotTelemetryClient telemetryClient)
-            : base(skillConnectionConfiguration.SkillManifest.Id)
+            : base(skillConnectionConfiguration.SkillOptions.Id)
         {
             _skillProtocolHandler = skillProtocolHandler;
-            _skillManifest = skillConnectionConfiguration.SkillManifest;
-            _skillConnector = new BotFrameworkSkillConnector(skillConnectionConfiguration, new SkillWebSocketTransport(telemetryClient));
+
+            // TODO: Fix this once i get the connector working
+            _skillManifest = new SkillManifest()
+            {
+                Id = skillConnectionConfiguration.SkillOptions.Id,
+                MsaAppId = skillConnectionConfiguration.SkillOptions.MsaAppId,
+                Name = skillConnectionConfiguration.SkillOptions.Name,
+                Endpoint = skillConnectionConfiguration.SkillOptions.Endpoint,
+            };
+            _skillConnector = new BotFrameworkSkillConnector(new SkillWebSocketTransport(telemetryClient, skillConnectionConfiguration.SkillOptions, skillConnectionConfiguration.ServiceClientCredentials));
         }
 
         public async Task HandleTokenRequest(DialogContext dialogContext, Activity activity)
@@ -214,9 +223,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         {
             try
             {
-                var response = await _skillConnector.ForwardToSkillAsync(dialogContext.Context, activity, cancellationToken).ConfigureAwait(false);
+                var response = await _skillConnector.ForwardActivityAsync(dialogContext.Context, activity, cancellationToken).ConfigureAwait(false);
 
-                if (response != null && response.Type == ActivityTypes.Handoff)
+                if (response != null && response.Type == ActivityTypes.EndOfConversation)
                 {
                     await dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."), cancellationToken).ConfigureAwait(false);
                     return await dialogContext.EndDialogAsync(response.SemanticAction?.Entities, cancellationToken).ConfigureAwait(false);
