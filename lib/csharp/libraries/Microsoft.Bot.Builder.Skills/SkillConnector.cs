@@ -16,6 +16,8 @@ namespace Microsoft.Bot.Builder.Skills
     /// </remarks>
     public abstract class SkillConnector
     {
+        // TODO: add delegate for interception.
+
         /// <summary>
         /// Forward incoming request to the skill.
         /// </summary>

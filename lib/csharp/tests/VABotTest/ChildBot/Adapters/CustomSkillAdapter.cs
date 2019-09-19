@@ -10,16 +10,19 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 namespace ChildBot.Adapters
 {
     public class CustomSkillAdapter : SkillWebSocketBotAdapter
     {
         public CustomSkillAdapter(
+            IConfiguration configuration,
             BotSettings settings,
             ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
+            : base(configuration, null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {

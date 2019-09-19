@@ -11,8 +11,10 @@ using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.StreamingExtensions.Transport;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
-namespace Microsoft.Bot.Builder.Solutions.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted
 {
+    // TODO: leaving this here for now because I need to understand auth, to be removed later.
+
     /// <summary>
     /// This adapter is responsible for accepting a bot-to-bot call over websocket transport.
     /// It'll perform the following tasks:
@@ -86,9 +88,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             var handler = new SkillWebSocketRequestHandler(claimsIdentity, _botTelemetryClient);
             var server = new WebSocketServer(socket, handler);
             server.Disconnected += Server_Disconnected;
-            _skillWebSocketBotAdapter.Server = server;
             handler.Bot = bot;
-            handler.SkillWebSocketBotAdapter = _skillWebSocketBotAdapter;
+
+            // handler.SkillWebSocketBotAdapter = _skillWebSocketBotAdapter;
 
             _botTelemetryClient.TrackTrace("Starting listening on websocket", Severity.Information, null);
             _stopWatch.Start();

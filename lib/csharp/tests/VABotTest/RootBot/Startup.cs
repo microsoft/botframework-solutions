@@ -106,7 +106,9 @@ namespace RootBot
                 foreach (var skill in settings.Skills)
                 {
                     var authDialog = BuildAuthDialog(skill, settings, appCredentials);
-                    var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MsaAppId);
+
+                    // TODO: we use the same password for the skill for now, we will need this sorted out for S2S auth
+                    var credentials = new SkillAppCredentials(skill.MsaAppId, settings.MicrosoftAppPassword, "https://api.botframework.com");
                     var skillConnectorConfiguration = new SkillConnectionConfiguration()
                     {
                         SkillOptions = skill,

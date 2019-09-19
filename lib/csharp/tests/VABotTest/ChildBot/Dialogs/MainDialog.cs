@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted;
 using Microsoft.Bot.Schema;
 
 namespace ChildBot.Dialogs

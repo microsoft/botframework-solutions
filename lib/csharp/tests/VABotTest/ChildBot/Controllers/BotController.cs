@@ -17,9 +17,8 @@ namespace ChildBot.Controllers
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
-            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, whitelistAuthenticationProvider)
+            : base(bot, botSettings, botFrameworkHttpAdapter, whitelistAuthenticationProvider)
         {
         }
     }

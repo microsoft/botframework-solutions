@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;

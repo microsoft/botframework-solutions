@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks;
+using Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -292,7 +293,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
             var skillWebSocketAdapter = sp.GetService<SkillWebSocketAdapter>();
             var whitelistAuthenticationProvider = sp.GetService<IWhitelistAuthenticationProvider>();
             var bot = sp.GetService<IBot>();
-            var controller = new MockSkillController(bot, _botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, whitelistAuthenticationProvider, _mockHttp.ToHttpClient(), manifestFileOverride);
+            var controller = new MockSkillController(bot, _botSettings, botFrameworkHttpAdapter, whitelistAuthenticationProvider, _mockHttp.ToHttpClient(), manifestFileOverride);
 
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext();

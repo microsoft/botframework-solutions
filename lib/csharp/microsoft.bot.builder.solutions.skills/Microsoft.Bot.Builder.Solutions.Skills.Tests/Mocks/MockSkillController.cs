@@ -10,11 +10,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
             HttpClient httpClient,
             string manifestFileOverride = null)
-            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, whitelistAuthenticationProvider)
+            : base(bot, botSettings, botFrameworkHttpAdapter, whitelistAuthenticationProvider)
         {
 			HttpClient = httpClient;
 

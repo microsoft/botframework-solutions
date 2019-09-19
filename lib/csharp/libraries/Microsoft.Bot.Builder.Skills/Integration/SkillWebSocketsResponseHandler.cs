@@ -41,7 +41,6 @@ namespace Microsoft.Bot.Builder.Skills.Integration
                                 if (activity.Type == ActivityTypes.EndOfConversation)
                                 {
                                     _endOfConversationActivity = activity;
-                                    return new ResourceResponse(activity.Id);
                                 }
 
                                 return await OnSendActivityAsync(turnContext, activity, cancellationToken).ConfigureAwait(false);

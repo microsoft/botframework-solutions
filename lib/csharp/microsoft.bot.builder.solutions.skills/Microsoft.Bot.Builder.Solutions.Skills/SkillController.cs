@@ -19,10 +19,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// </summary>
     public abstract class SkillController : ControllerBase
     {
+        private readonly IAuthenticator _authenticator;
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
-        private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
-        private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create();
 
@@ -30,7 +29,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
         {
             _bot = bot ?? throw new ArgumentNullException(nameof(bot));
@@ -41,7 +39,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             }
 
-            _skillWebSocketAdapter = skillWebSocketAdapter;
             var authenticationProvider = new MSJwtAuthenticationProvider(_botSettings.MicrosoftAppId);
             _authenticator = new Authenticator(authenticationProvider, whitelistAuthenticationProvider);
         }
@@ -58,25 +55,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         /// <returns>Task.</returns>
         [Route("api/messages")]
         [HttpPost]
-        public async Task BotMessage()
-            => await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot).ConfigureAwait(false);
-
-        /// <summary>
-        /// This API is the endpoint the bot exposes as skill.
-        /// </summary>
-        /// <returns>Task.</returns>
-        [Route("api/skill/messages")]
         [HttpGet]
-        public async Task SkillMessageWebSocket()
+        public async Task BotMessage()
         {
-            if (_skillWebSocketAdapter != null)
-            {
-                await _skillWebSocketAdapter.ProcessAsync(Request, Response, _bot).ConfigureAwait(false);
-            }
-            else
-            {
-                Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
-            }
+            await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot).ConfigureAwait(false);
         }
 
         /// <summary>

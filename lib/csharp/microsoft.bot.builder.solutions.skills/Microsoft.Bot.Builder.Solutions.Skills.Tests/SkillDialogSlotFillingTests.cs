@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Solutions.Skills.Tests.Utilities;
+using Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;

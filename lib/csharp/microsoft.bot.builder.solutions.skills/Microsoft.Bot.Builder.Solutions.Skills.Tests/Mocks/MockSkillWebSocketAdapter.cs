@@ -1,4 +1,5 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Tests.Mocks
 {

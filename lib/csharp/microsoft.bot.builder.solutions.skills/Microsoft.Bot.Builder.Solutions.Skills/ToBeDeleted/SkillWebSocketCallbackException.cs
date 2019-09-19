@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.Bot.Builder.Solutions.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted
 {
     public class SkillWebSocketCallbackException : Exception
     {

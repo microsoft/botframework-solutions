@@ -20,7 +20,6 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
@@ -107,9 +106,8 @@ namespace ChildBot
             services.AddTransient<MainDialog>();
 
             // Configure adapters
-            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
+            // services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
+            services.AddTransient<IBotFrameworkHttpAdapter, CustomSkillAdapter>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();

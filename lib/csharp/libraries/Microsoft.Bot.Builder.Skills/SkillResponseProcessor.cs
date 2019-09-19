@@ -7,6 +7,8 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+    // TODO: Look at the BF SendActivitiesHandler for this
+
     /// <summary>
     /// A callback delegate for activities returned from a skill.
     /// </summary>

@@ -22,6 +22,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ToBeDeleted\IActivityHandler.cs" />
+    <Compile Remove="ToBeDeleted\SkillWebSocketAdapter.cs" />
+    <Compile Remove="ToBeDeleted\SkillWebSocketCallbackException.cs" />
+    <Compile Remove="ToBeDeleted\SkillWebSocketRequestHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />

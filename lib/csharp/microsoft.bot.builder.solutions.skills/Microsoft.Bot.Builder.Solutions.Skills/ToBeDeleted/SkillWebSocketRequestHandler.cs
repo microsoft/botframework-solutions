@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Activity = Microsoft.Bot.Schema.Activity;
 using Diagnostics = System.Diagnostics;
 
-namespace Microsoft.Bot.Builder.Solutions.Skills
+namespace Microsoft.Bot.Builder.Solutions.Skills.ToBeDeleted
 {
     internal class SkillWebSocketRequestHandler : RequestHandler
     {
