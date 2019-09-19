@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
@@ -62,13 +64,13 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
                     }
                 }
 
-                if (found && current.Action != null)
+                if (found && current.ActionAsync != null)
                 {
                     return new RouteContext()
                     {
                         Request = request,
                         RouteData = routeData,
-                        Action = current.Action,
+                        ActionAsync = current.ActionAsync,
                     };
                 }
             }
@@ -95,12 +97,12 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
                     current = current.Add(part);
                 }
 
-                if (current.Action != null)
+                if (current.ActionAsync != null)
                 {
                     throw new InvalidOperationException("Route already exists");
                 }
 
-                current.Action = route.Action;
+                current.ActionAsync = route.ActionAsync;
             }
         }
 
@@ -124,7 +126,7 @@ namespace Microsoft.Bot.Builder.Skills.Protocol
 
             public string VariableName { get; }
 
-            public RouteAction Action { get; set; }
+            public RouteAction ActionAsync { get; set; }
 
             public IDictionary<string, TrieNode> Next { get; }
 

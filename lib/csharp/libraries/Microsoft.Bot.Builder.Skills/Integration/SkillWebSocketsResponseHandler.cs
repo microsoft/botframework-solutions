@@ -32,51 +32,41 @@ namespace Microsoft.Bot.Builder.Skills.Integration
                 {
                     Method = "POST",
                     Path = "/activities/{activityId}",
-                    Action = new RouteAction()
-                    {
-                        Action =
-                            async (request, routeData, cancellationToken) =>
+                    ActionAsync = async (request, routeData, cancellationToken) =>
+                        {
+                            var activity = request.ReadBodyAsJson<Activity>();
+                            if (activity != null)
                             {
-                                var activity = request.ReadBodyAsJson<Activity>();
-                                if (activity != null)
+                                // Store the end of conversation activity.
+                                if (activity.Type == ActivityTypes.EndOfConversation)
                                 {
-                                    // Store the end of conversation activity.
-                                    if (activity.Type == ActivityTypes.EndOfConversation)
-                                    {
-                                        _endOfConversationActivity = activity;
-                                        return new ResourceResponse(activity.Id);
-                                    }
-
-                                    return await OnSendActivityAsync(turnContext, activity, cancellationToken).ConfigureAwait(false);
+                                    _endOfConversationActivity = activity;
+                                    return new ResourceResponse(activity.Id);
                                 }
 
-                                throw new Exception("Error deserializing activity response!");
-                            },
-                    },
+                                return await OnSendActivityAsync(turnContext, activity, cancellationToken).ConfigureAwait(false);
+                            }
+
+                            throw new Exception("Error deserializing activity response!");
+                        },
                 },
                 new RouteTemplate
                 {
                     Method = "PUT",
                     Path = "/activities/{activityId}",
-                    Action = new RouteAction
+                    ActionAsync = async (request, routeData, cancellationToken) =>
                     {
-                        Action = async (request, routeData, cancellationToken) =>
-                        {
-                            var activity = request.ReadBodyAsJson<Activity>();
-                            return await OnUpdateActivityAsync(turnContext, activity, cancellationToken).ConfigureAwait(false);
-                        },
+                        var activity = request.ReadBodyAsJson<Activity>();
+                        return await OnUpdateActivityAsync(turnContext, activity, cancellationToken).ConfigureAwait(false);
                     },
                 },
                 new RouteTemplate
                 {
                     Method = "DELETE",
                     Path = "/activities/{activityId}",
-                    Action = new RouteAction
+                    ActionAsync = async (request, routeData, cancellationToken) =>
                     {
-                        Action = async (request, routeData, cancellationToken) =>
-                        {
-                            return await OnDeleteActivityAsync(turnContext, routeData.activityId, cancellationToken);
-                        },
+                        return await OnDeleteActivityAsync(turnContext, routeData.activityId, cancellationToken);
                     },
                 },
             };
@@ -95,7 +85,7 @@ namespace Microsoft.Bot.Builder.Skills.Integration
 
             try
             {
-                var responseBody = await routeContext.Action.Action(request, routeContext.RouteData, cancellationToken).ConfigureAwait(false);
+                var responseBody = await routeContext.ActionAsync(request, routeContext.RouteData, cancellationToken).ConfigureAwait(false);
                 var response = new StreamingResponse { StatusCode = (int)HttpStatusCode.OK };
                 string content = JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings);
                 response.SetBody(content);
