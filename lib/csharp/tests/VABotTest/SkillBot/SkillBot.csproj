@@ -79,8 +79,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\microsoft.bot.builder.solutions.skills\Microsoft.Bot.Builder.Solutions.Skills\Microsoft.Bot.Builder.Solutions.Skills.csproj" />
-    <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+    <ProjectReference Include="..\..\..\microsoft.bot.builder.solutions.skills\Microsoft.Bot.Builder.Solutions.Skills\Microsoft.Bot.Builder.Solutions.Skills.csproj" />
+    <ProjectReference Include="..\..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
