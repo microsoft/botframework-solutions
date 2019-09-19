@@ -30,8 +30,8 @@ namespace NewsSkill.Responses.Main
                 { Greeting, (context, data) => MainStrings.GREETING },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
-                { MarketPrompt, (context, data) => "What country do you want to search in?" },
-                { MarketRetryPrompt, (context, data) => "Couldn't find that country. What country do you want to search in?" }
+                { MarketPrompt, (context, data) => "What country or region do you want to search in?" },
+                { MarketRetryPrompt, (context, data) => "Couldn't find that country or region. What country or region do you want to search in?" }
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },

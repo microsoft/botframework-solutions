@@ -533,7 +533,7 @@ $.validator.addMethod( "giroaccountNL", function( value, element ) {
 
 /**
  * IBAN is the international bank account number.
- * It has a country - specific format, that is checked here too
+ * It has a country/Region - specific format, that is checked here too
  *
  * Validation is case-insensitive. Please make sure to normalize input yourself.
  */
@@ -562,7 +562,7 @@ $.validator.addMethod( "iban", function( value, element ) {
 		return false;
 	}
 
-	// Check the country code and find the country specific format
+	// Check the country code and find the country/region specific format
 	countrycode = iban.substring( 0, 2 );
 	bbancountrypatterns = {
 		"AL": "\\d{8}[\\dA-Z]{16}",
@@ -633,17 +633,17 @@ $.validator.addMethod( "iban", function( value, element ) {
 
 	bbanpattern = bbancountrypatterns[ countrycode ];
 
-	// As new countries will start using IBAN in the
+	// As new countries or regions will start using IBAN in the
 	// future, we only check if the countrycode is known.
 	// This prevents false negatives, while almost all
 	// false positives introduced by this, will be caught
 	// by the checksum validation below anyway.
 	// Strict checking should return FALSE for unknown
-	// countries.
+	// countries or regions.
 	if ( typeof bbanpattern !== "undefined" ) {
 		ibanregexp = new RegExp( "^[A-Z]{2}\\d{2}" + bbanpattern + "$", "" );
 		if ( !( ibanregexp.test( iban ) ) ) {
-			return false; // Invalid country specific format
+			return false; // Invalid country/region specific format
 		}
 	}
 
