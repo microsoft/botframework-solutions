@@ -14,6 +14,8 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -22,6 +24,9 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -33,6 +38,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.SfxManager;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.PlayStoreUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotResponse;
@@ -79,6 +85,8 @@ public class SpeechService extends Service {
     private Gson gson;
     private boolean shouldListenAgain;
     private boolean previousRequestWasTyped;
+    private View animationView;
+    private SfxManager sfxManager;
 
     // CONSTRUCTOR
     public SpeechService() {
@@ -251,6 +259,26 @@ public class SpeechService extends Service {
                 speechSdk.sendLocationEvent(locLat, locLon);
             }
         });
+
+        // Initialize listening animation view
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT);
+
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        View animationContainer = inflater.inflate(R.layout.assistant_overlay, null);
+        wm.addView(animationContainer, params);
+        animationView = animationContainer.findViewById(R.id.animated_assistant);
+
+        // Initialize SFX manager
+        sfxManager = new SfxManager();
+        sfxManager.initialize(this);
     }
 
     private void setUpConfiguration(){
@@ -283,6 +311,7 @@ public class SpeechService extends Service {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        stopListening();
     }
 
     @Override
@@ -303,11 +332,7 @@ public class SpeechService extends Service {
                     stopForegroundService();
                     break;
                 case ACTION_START_LISTENING:
-                    Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_LONG).show();
-
-                    if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
-                    speechSdk.connectAsync();
-                    speechSdk.listenOnceAsync();
+                    startListening();
                     break;
             }
         }
@@ -423,6 +448,7 @@ public class SpeechService extends Service {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRequestTimeout(RequestTimeout event) {
         broadcastTimeout(event);
+        stopListening();
     }
 
     // EventBus: the user spoke and the app recognized intermediate speech
@@ -435,6 +461,7 @@ public class SpeechService extends Service {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
         updateBotRequestWidget(event.recognized_speech);
+        stopListening();
     }
 
     // EventBus: received a response from Bot
@@ -597,5 +624,21 @@ public class SpeechService extends Service {
         ComponentName thisWidget = new ComponentName(context, WidgetBotRequest.class);
         remoteViews.setTextViewText(R.id.appwidget_text, text);
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+    }
+
+    private void startListening() {
+        Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_LONG).show();
+        if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
+        speechSdk.connectAsync();
+        speechSdk.listenOnceAsync();
+        animationView.setVisibility(View.VISIBLE);
+        ((AnimationDrawable)animationView.getBackground()).start();
+        sfxManager.playEarconListening();
+    }
+
+    private void stopListening() {
+        ((AnimationDrawable)animationView.getBackground()).stop();
+        animationView.setVisibility(View.GONE);
+        sfxManager.playEarconDoneListening();
     }
 }

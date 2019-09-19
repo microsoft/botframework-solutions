@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -46,7 +47,6 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chat
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -99,12 +99,12 @@ public class MainActivity extends BaseActivity
     private static final int CONTENT_VIEW = R.layout.activity_main;
     private static final String LOGTAG = "MainActivity";
     private static final int REQUEST_CODE_SETTINGS = 256;
+    private static final int REQUEST_CODE_OVERLAY_PERMISSION = 255;
 
     // STATE
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
     private Handler handler;
-    private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
     private boolean enableDarkMode;
@@ -146,15 +146,6 @@ public class MainActivity extends BaseActivity
 
         // make media volume the default
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        // check if this activity was launched as an assistant
-        Intent intent = getIntent();
-        if (intent != null) {
-            String originator = intent.getStringExtra(VoiceInteractionActivity.KEY_ORIGINATOR);
-            if (originator != null && originator.equals(VoiceInteractionActivity.KEY_VALUE)) {
-                launchedAsAssistant = true;//this flag can now be used, i.e. to automatically start microphone recording
-            }
-        }
 
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
@@ -270,15 +261,6 @@ public class MainActivity extends BaseActivity
             if (!enabled && enableKws) {
                 switchEnableKws.setChecked(false);
             }
-
-            if (launchedAsAssistant) {
-                launchedAsAssistant = false;
-                try {
-                    speechServiceBinder.listenOnceAsync();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         try {
@@ -319,6 +301,10 @@ public class MainActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
             loadConfiguration();
+        } else if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
+            if (Settings.canDrawOverlays(this)) {
+                startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+            }
         }
     }
 
@@ -367,7 +353,13 @@ public class MainActivity extends BaseActivity
 
     @OnClick(R.id.nav_menu_set_as_default_assistant)
     public void onClickSetDefaultAssistant() {
-        startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+        if (Settings.canDrawOverlays(this)) {
+            startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+        } else {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_CODE_OVERLAY_PERMISSION);
+        }
     }
 
     @OnCheckedChanged(R.id.switch_enable_kws)
