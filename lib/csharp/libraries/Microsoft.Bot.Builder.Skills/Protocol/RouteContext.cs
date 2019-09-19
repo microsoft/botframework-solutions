@@ -5,7 +5,7 @@ using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {
-    public class RouteContext
+    internal class RouteContext
     {
         public ReceiveRequest Request { get; set; }
 

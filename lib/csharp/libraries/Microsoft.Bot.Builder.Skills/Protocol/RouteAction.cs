@@ -8,7 +8,7 @@ using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {
-    public class RouteAction
+    internal class RouteAction
     {
         public Func<ReceiveRequest, dynamic, CancellationToken, Task<object>> Action { get; set; }
     }

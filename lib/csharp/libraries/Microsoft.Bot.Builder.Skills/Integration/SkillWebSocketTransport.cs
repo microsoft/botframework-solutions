@@ -38,61 +38,22 @@ namespace Microsoft.Bot.Builder.Skills.Integration
         // TODO: get just turnContext, activity, (optional) callback for interception.
         public override async Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
         {
-            var skillWebSocketsRequestHandler = new SkillWebSocketsResponseHandler(turnContext, _botTelemetryClient);
+            var responseHandler = new SkillWebSocketsResponseHandler(turnContext, _botTelemetryClient);
             try
             {
                 if (_streamingTransportClient == null)
                 {
-                    _streamingTransportClient = CreateWebSocketClient(skillWebSocketsRequestHandler);
+                    _streamingTransportClient = CreateWebSocketClient(responseHandler);
                 }
 
-                // acquire AAD token
-                var token = await _serviceClientCredentials.GetTokenAsync().ConfigureAwait(false);
-
-                // put AAD token in the header
-                var authHeaders = new Dictionary<string, string>()
-                {
-                    { "authorization", $"Bearer {token}" },
-                    { "channelid", activity.ChannelId },
-                };
-
-                await _streamingTransportClient.ConnectAsync(authHeaders).ConfigureAwait(false);
-
-                // set recipient to the skill
-                var recipientId = activity.Recipient.Id;
-                activity.Recipient.Id = _skillOptions.MsaAppId;
-
-                var stopWatch = new Stopwatch();
-
-                // Serialize the activity and POST to the Skill endpoint
-                using (var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson))
-                {
-                    var request = StreamingRequest.CreatePost(_skillOptions.Endpoint.AbsolutePath, body);
-
-                    // set back recipient id to make things consistent
-                    activity.Recipient.Id = recipientId;
-
-                    stopWatch.Start();
-                    await _streamingTransportClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-                    stopWatch.Stop();
-                }
-
-                _botTelemetryClient.TrackEvent(
-                    "SkillWebSocketTurnLatency",
-                    new Dictionary<string, string>
-                    {
-                        { "SkillName", _skillOptions.Name },
-                        { "SkillEndpoint", _skillOptions.Endpoint.ToString() },
-                    },
-                    new Dictionary<string, double>
-                    {
-                        { "Latency", stopWatch.ElapsedMilliseconds },
-                    });
+                await ConnectAsync(activity.ChannelId).ConfigureAwait(false);
+                await SendActivityAsync(activity, cancellationToken).ConfigureAwait(false);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
+                // TODO: figure out the right way of rising exceptions.
                 Console.Write(ex.ToString());
                 throw;
             }
@@ -104,8 +65,7 @@ namespace Microsoft.Bot.Builder.Skills.Integration
                 }
             }
 
-            // TODO: figure out how we return handoff
-            return skillWebSocketsRequestHandler.GetEndOfConversationActivity();
+            return responseHandler.GetEndOfConversationActivity();
         }
 
         // TODO: look into moving this up the stack (this should be just pipe)
@@ -141,7 +101,56 @@ namespace Microsoft.Bot.Builder.Skills.Integration
             return url;
         }
 
-        private IStreamingTransportClient CreateWebSocketClient(SkillWebSocketsResponseHandler responseHandler)
+        private async Task SendActivityAsync(Activity activity, CancellationToken cancellationToken)
+        {
+            // set recipient to the skill
+            var recipientId = activity.Recipient.Id;
+            activity.Recipient.Id = _skillOptions.MsaAppId;
+
+            var stopWatch = new Stopwatch();
+
+            // Serialize the activity and POST to the Skill endpoint
+            using (var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson))
+            {
+                var request = StreamingRequest.CreatePost(_skillOptions.Endpoint.AbsolutePath, body);
+
+                // set back recipient id to make things consistent
+                activity.Recipient.Id = recipientId;
+
+                stopWatch.Start();
+                await _streamingTransportClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                stopWatch.Stop();
+            }
+
+            _botTelemetryClient.TrackEvent(
+                "SkillWebSocketTurnLatency",
+                new Dictionary<string, string>
+                {
+                    { "SkillName", _skillOptions.Name },
+                    { "SkillEndpoint", _skillOptions.Endpoint.ToString() },
+                },
+                new Dictionary<string, double>
+                {
+                    { "Latency", stopWatch.ElapsedMilliseconds },
+                });
+        }
+
+        private async Task ConnectAsync(string channelId)
+        {
+            // acquire AAD token
+            var token = await _serviceClientCredentials.GetTokenAsync().ConfigureAwait(false);
+
+            // put AAD token in the header
+            var authHeaders = new Dictionary<string, string>()
+            {
+                { "authorization", $"Bearer {token}" },
+                { "channelid", channelId },
+            };
+
+            await _streamingTransportClient.ConnectAsync(authHeaders).ConfigureAwait(false);
+        }
+
+        private IStreamingTransportClient CreateWebSocketClient(RequestHandler responseHandler)
         {
             return new WebSocketClient(
                 EnsureWebSocketUrl(_skillOptions.Endpoint.ToString()),

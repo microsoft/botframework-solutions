@@ -9,7 +9,7 @@ using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {
-    public class Router
+    internal class Router
     {
         private readonly TrieNode _root;
         private readonly IEnumerable<RouteTemplate> _routes;

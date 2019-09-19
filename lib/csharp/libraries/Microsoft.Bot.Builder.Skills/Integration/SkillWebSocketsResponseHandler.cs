@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Skills.Integration
     /// <summary>
     /// Handles the websocket responses returned by a remote skill.
     /// </summary>
-    public class SkillWebSocketsResponseHandler : RequestHandler, ISkillResponseHandler
+    internal class SkillWebSocketsResponseHandler : RequestHandler, ISkillResponseHandler
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly Router _router;

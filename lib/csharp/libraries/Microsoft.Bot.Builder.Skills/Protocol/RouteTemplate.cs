@@ -3,7 +3,7 @@
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {
-    public class RouteTemplate
+    internal class RouteTemplate
     {
         public string Method { get; set; }
 
