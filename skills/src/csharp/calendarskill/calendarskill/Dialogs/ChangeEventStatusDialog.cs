@@ -133,10 +133,6 @@ namespace CalendarSkill.Dialogs
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventAccepted));
                     }
                 }
-                else
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
-                }
 
                 if (options.SubFlowMode)
                 {
