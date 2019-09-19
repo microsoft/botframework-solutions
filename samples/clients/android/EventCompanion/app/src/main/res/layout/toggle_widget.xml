@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_rect_round_corners_dark" android:clickable="true"
+                android:focusable="true" android:id="@+id/widget_toggle">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true" android:id="@+id/widget_main">
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="47dp"
+                android:id="@+id/widget_icon"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="center_horizontal" app:srcCompat="@mipmap/ic_launcher"/>
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="8dp" app:srcCompat="@drawable/shape_rect_round_corners"
+                android:src="@drawable/shape_rect_round_corners"
+                android:id="@+id/widget_indicator"
+                android:layout_marginTop="6dp" android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <TextView
+            android:id="@+id/widget_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label"
+            android:textColor="#ffffff"
+            android:textStyle="bold|italic"
+            android:contentDescription="@string/widget_toggle"
+            android:layout_gravity="center_horizontal" android:layout_below="@id/widget_main"
+            android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

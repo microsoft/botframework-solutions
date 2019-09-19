@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.Responses.CancelRoute;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PointOfInterestSkill.Dialogs;
+using PointOfInterestSkill.Models;
+using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkillTests.Flow.Strings;
@@ -26,29 +30,10 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.FindNearestPoi)
-                .AssertReply(SingleLocationFound())
-                .Send(BaseTestUtterances.Yes)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
-                .AssertReply(CheckForEvent())
-                .AssertReply(CompleteDialog())
-                .StartTestAsync();
-        }
-
-        /// <summary>
-        /// Find points of interest nearby and get directions to one by event.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [TestMethod]
-        public async Task RouteToPointOfInterestByEventTest()
-        {
-            await GetTestFlow()
-                .Send(BaseTestUtterances.LocationEvent)
-                .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
-                .Send(BaseTestUtterances.ActiveLocationEvent)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -64,10 +49,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -83,10 +70,50 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(ContextStrings.MicrosoftWay)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find points of interest nearby then call.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RouteToPointOfInterestThenCallTest()
+        {
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionTwo)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.Call)
+                .AssertReply(CheckForEvent(PointOfInterestDialogBase.OpenDefaultAppType.Telephone))
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find points of interest nearby then start navigation.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RouteToPointOfInterestThenStartNavigationTest()
+        {
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -102,32 +129,13 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionTwo)
-                .AssertReply(MultipleRoutesFound())
-                .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertStartsWith(POISharedResponses.MultipleRoutesFound, new string[] { CardStrings.Route, CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
-                .AssertReply(CompleteDialog())
-                .StartTestAsync();
-        }
-
-        /// <summary>
-        /// Find points of interest nearby, attempt to cancel and succeed.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [TestMethod]
-        public async Task CancelRouteSuccessTest()
-        {
-            await GetTestFlow()
-                .Send(BaseTestUtterances.LocationEvent)
-                .Send(FindPointOfInterestUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
-                .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
-                .AssertReply(CheckForEvent())
-                .Send(CancelRouteUtterances.CancelRoute)
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
@@ -142,10 +150,12 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearby)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -161,10 +171,10 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearest)
-                .AssertReply(SingleLocationFound())
-                .Send(BaseTestUtterances.Yes)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
@@ -180,168 +190,102 @@ namespace PointOfInterestSkillTests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearAddress)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(SingleRouteFound())
-                .AssertReply(SendingRouteDetails())
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
         /// <summary>
-        /// Asserts bot response of MultipleLocationsFound.
+        /// Get directions.
         /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> MultipleLocationsFound()
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task GetDirectionsTest()
         {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                Assert.IsTrue(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()).Any((reply) =>
-                {
-                    return messageActivity.Text.StartsWith(reply);
-                }));
-            };
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(RouteFromXToYUtterances.GetToMicrosoft)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Asserts bot response of PointOfInterestSelection.
+        /// Get directions to some nearest place.
         /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> PointOfInterestSelection()
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task GetDirectionsToNearestTest()
+        {
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(RouteFromXToYUtterances.GetToNearestPharmacy)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        private Action<IActivity> AssertStartsWith(string response, IList<string> cardIds)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                int index = messageActivity.Text.IndexOf("\n");
-                if (index > 0)
+                if (response == null)
                 {
-                    messageActivity.Text = messageActivity.Text.Substring(0, index);
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
+                {
+                    Assert.IsTrue(ParseReplies(response, new StringDictionary()).Any((reply) =>
+                    {
+                        return messageActivity.Text.StartsWith(reply);
+                    }));
                 }
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.PointOfInterestSelection, new StringDictionary()), messageActivity.Text);
+                AssertSameId(messageActivity, cardIds);
             };
         }
 
-        /// <summary>
-        /// Asserts bot response of SingleLocationFound.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> SingleLocationFound()
+        private Action<IActivity> AssertContains(string response, IList<string> cardIds)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                Assert.IsTrue(ParseReplies(POISharedResponses.PromptToGetRoute, new StringDictionary()).Any((reply) =>
+                if (response == null)
                 {
-                    return messageActivity.Text.StartsWith(reply);
-                }));
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of SingleRouteFound.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> SingleRouteFound()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of MultipleRoutesFound.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> MultipleRoutesFound()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                Assert.IsTrue(ParseReplies(POISharedResponses.MultipleRoutesFound, new StringDictionary()).Any((reply) =>
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
                 {
-                    return messageActivity.Text.StartsWith(reply);
-                }));
+                    CollectionAssert.Contains(ParseReplies(response, new StringDictionary()), messageActivity.Text);
+                }
+
+                AssertSameId(messageActivity, cardIds);
             };
         }
 
-        /// <summary>
-        /// Asserts bot response of PromptToStartRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> PromptToStartRoute()
+        private void AssertSameId(IMessageActivity activity, IList<string> cardIds = null)
         {
-            return activity =>
+            if (cardIds == null)
             {
-                var messageActivity = activity.AsMessageActivity();
+                return;
+            }
 
-                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute, new StringDictionary()), messageActivity.Speak);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of AskAboutRouteLater.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> AskAboutRouteLater()
-        {
-            return activity =>
+            for (int i = 0; i < cardIds.Count; ++i)
             {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(RouteResponses.AskAboutRouteLater, new StringDictionary()), messageActivity.Speak);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of SendingRouteDetails.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> SendingRouteDetails()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(RouteResponses.SendingRouteDetails, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of CannotCancelActiveRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CannotCancelActiveRoute()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CannotCancelActiveRoute, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
-        /// Asserts bot response of CancelActiveRoute.
-        /// </summary>
-        /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CancelActiveRoute()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CancelActiveRoute, new StringDictionary()), messageActivity.Text);
-            };
+                var card = activity.Attachments[i].Content as JObject;
+                Assert.AreEqual(card["id"], cardIds[i]);
+            }
         }
 
         /// <summary>
@@ -352,8 +296,7 @@ namespace PointOfInterestSkillTests.Flow
         {
             return activity =>
             {
-                var endOfConversationActivity = activity.AsEndOfConversationActivity();
-                Assert.AreEqual(endOfConversationActivity.Type, ActivityTypes.EndOfConversation);
+                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
             };
         }
 
@@ -361,12 +304,20 @@ namespace PointOfInterestSkillTests.Flow
         /// Asserts bot response of Event Activity.
         /// </summary>
         /// <returns>Returns an Action with IActivity object.</returns>
-        private Action<IActivity> CheckForEvent()
+        private Action<IActivity> CheckForEvent(PointOfInterestDialogBase.OpenDefaultAppType openDefaultAppType = PointOfInterestDialogBase.OpenDefaultAppType.Map)
         {
             return activity =>
             {
-                var eventReceived = activity.AsEventActivity();
+                var eventReceived = activity.AsEventActivity()?.Value as OpenDefaultApp;
                 Assert.IsNotNull(eventReceived, "Activity received is not an Event as expected");
+                if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Map)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.MapsUri));
+                }
+                else if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Telephone)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelephoneUri));
+                }
             };
         }
     }

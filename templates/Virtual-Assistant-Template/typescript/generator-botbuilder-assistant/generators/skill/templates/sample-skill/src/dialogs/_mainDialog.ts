@@ -9,6 +9,7 @@ import {
     BotFrameworkAdapter,
     BotTelemetryClient,
     RecognizerResult,
+    // SemanticAction,
     StatePropertyAccessor,
     TurnContext } from 'botbuilder';
 import { LuisRecognizer, LuisRecognizerTelemetryClient } from 'botbuilder-ai';
@@ -74,6 +75,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
+        // const locale: string = i18next.language;
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
     }
 
@@ -83,7 +85,7 @@ export class MainDialog extends RouterDialog {
         const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
 
         // Populate state from SkillContext slots as required
-        await this.populateStateFromSkillContext(dc.context);
+        await this.populateStateFromSemanticAction(dc.context);
         if (localeConfig === undefined) {
             throw new Error('There is no cognitiveModels for the locale');
         }
@@ -129,7 +131,7 @@ export class MainDialog extends RouterDialog {
 
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
-        response.type = ActivityTypes.EndOfConversation;
+        response.type = ActivityTypes.Handoff;
         await dc.context.sendActivity(response);
         await dc.endDialog(result);
     }
@@ -152,7 +154,7 @@ export class MainDialog extends RouterDialog {
                 // If the dialog completed when we sent the token, end the skill conversation
                 if (result.status !== DialogTurnStatus.waiting) {
                     const response: Activity = ActivityExtensions.createReply(dc.context.activity);
-                    response.type = ActivityTypes.EndOfConversation;
+                    response.type = ActivityTypes.Handoff;
 
                     await dc.context.sendActivity(response);
                 }
@@ -244,19 +246,18 @@ export class MainDialog extends RouterDialog {
         return InterruptionAction.StartedDialog;
     }
 
-    protected async populateStateFromSkillContext(context: TurnContext): Promise<void> {
-        // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-        // and make available in local state as appropriate.
-        const skillContext: SkillContext | undefined = await this.contextAccessor.get(context);
+    protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
+        // Example of populating local state with data passed through semanticAction out of Activity
+        // const activity: Activity = context.activity;
+        // const semanticAction: SemanticAction | undefined  = activity.semanticAction;
 
-        if (skillContext !== undefined) {
-            // Example of populating local state with data passed through Skill Context
-            //if (skillContext.ContainsKey("Location"))
-            //{
-            //    // Add to your local state
-            //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-            //    state.Location = skillContext["Location"];
-            //}
-        }
+        // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+        // {
+        //    var location = semanticAction.Entities["location"];
+        //    var locationObj = location.Properties["location"].ToString();
+        //    // Add to your local state
+        //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+        //    state.CurrentCoordinates = locationObj;
+        // }
     }
 }

@@ -110,6 +110,9 @@ namespace AutomotiveSkill
             services.AddTransient<SkillWebSocketBotAdapter, AutomotiveSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
 
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
+
             // Configure bot
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();

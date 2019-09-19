@@ -42,6 +42,7 @@ namespace PointOfInterestSkill.Dialogs
             CancelRouteDialog cancelRouteDialog,
             FindPointOfInterestDialog findPointOfInterestDialog,
             FindParkingDialog findParkingDialog,
+            GetDirectionsDialog getDirectionsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -59,6 +60,7 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
             AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
             AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
+            AddDialog(getDirectionsDialog ?? throw new ArgumentNullException(nameof(getDirectionsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -84,64 +86,47 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 if (intent != PointOfInterestLuis.Intent.None)
                 {
                     var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
-                    state.LuisResult = result;
-                    await DigestLuisResult(dc, state.LuisResult);
+                    await DigestLuisResult(dc, result);
                 }
 
                 // switch on General intents
                 switch (intent)
                 {
-                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLuis.Intent.GetDirections:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(RouteDialog));
+                            await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case PointOfInterestLuis.Intent.FindPointOfInterest:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog));
+                            await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLuis.Intent.FindParking:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
-                            break;
-                        }
-
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
+                            await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
                     case PointOfInterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
                     default:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -152,7 +137,7 @@ namespace PointOfInterestSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -192,47 +177,6 @@ namespace PointOfInterestSkill.Dialogs
 
                         break;
                     }
-
-                case Events.ActiveLocation:
-                    {
-                        var activeLocationName = dc.Context.Activity.Value.ToString();
-
-                        // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                        var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
-                        if (activeLocation != null)
-                        {
-                            state.Destination = activeLocation;
-                            state.LastFoundPointOfInterests = null;
-                        }
-
-                        // Activity should have text to trigger next intent, update Type & Route again
-                        if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
-                        {
-                            // since route is on highest level, cancel all before calling it
-                            await dc.CancelAllDialogsAsync();
-                            dc.Context.Activity.Type = ActivityTypes.Message;
-                            await RouteAsync(dc);
-                        }
-
-                        break;
-                    }
-
-                case Events.ActiveRoute:
-                    {
-                        int.TryParse(dc.Context.Activity.Value.ToString(), out var routeId);
-                        var activeRoute = state.FoundRoutes[routeId];
-                        if (activeRoute != null)
-                        {
-                            state.ActiveRoute = activeRoute;
-                            state.FoundRoutes = null;
-                        }
-
-                        var replyMessage = _responseManager.GetResponse(RouteResponses.SendingRouteDetails);
-                        await dc.Context.SendActivityAsync(replyMessage);
-
-                        await dc.Context.SendActivityAsync(PointOfInterestDialogBase.CreateOpenDefaultAppReply(dc.Context.Activity, state.Destination));
-                        break;
-                    }
             }
         }
 
@@ -256,27 +200,30 @@ namespace PointOfInterestSkill.Dialogs
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    var topIntent = luisResult.TopIntent().intent;
+                    var topIntent = luisResult.TopIntent();
 
-                    switch (topIntent)
+                    if (topIntent.score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        switch (topIntent.intent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -360,18 +307,19 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (luisResult != null)
                 {
-                    state.ClearLuisResults();
+                    state.Clear();
+                    state.LuisResult = luisResult;
 
                     var entities = luisResult.Entities;
 
-                    if (entities.KEYWORD != null)
+                    if (entities.Keyword != null)
                     {
-                        state.Keyword = string.Join(" ", entities.KEYWORD);
+                        state.Keyword = string.Join(" ", entities.Keyword);
                     }
 
-                    if (entities.ADDRESS != null)
+                    if (entities.Address != null)
                     {
-                        state.Address = string.Join(" ", entities.ADDRESS);
+                        state.Address = string.Join(" ", entities.Address);
                     }
                     else
                     {
@@ -389,16 +337,18 @@ namespace PointOfInterestSkill.Dialogs
                         }
                     }
 
-                    if (entities.ROUTE_TYPE != null)
+                    // TODO only first is used now
+                    if (entities.RouteDescription != null)
                     {
-                        state.RouteType = entities.ROUTE_TYPE[0][0];
+                        state.RouteType = entities.RouteDescription[0][0];
                     }
 
-                    if (entities.POI_TYPE != null)
+                    if (entities.PoiDescription != null)
                     {
-                        state.PoiType = entities.POI_TYPE[0][0];
+                        state.PoiType = entities.PoiDescription[0][0];
                     }
 
+                    // TODO unused
                     if (entities.number != null)
                     {
                         try
@@ -424,8 +374,6 @@ namespace PointOfInterestSkill.Dialogs
 
         public class Events
         {
-            public const string ActiveLocation = "ActiveLocation";
-            public const string ActiveRoute = "ActiveRoute";
             public const string Location = "Location";
         }
     }

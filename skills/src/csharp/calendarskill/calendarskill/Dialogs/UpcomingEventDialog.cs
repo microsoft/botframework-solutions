@@ -57,7 +57,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.ShowUpcomingMeeting;
         }
 
-        public async Task<DialogTurnResult> QueueUpcomingEventWorker(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> QueueUpcomingEventWorker(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

@@ -16,7 +16,7 @@ namespace NewsSkill.Responses.TrendingArticles
         {
             ["default"] = new TemplateIdMap
             {
-                { MarketPrompt, (context, data) => "What country are you in?" },
+                { MarketPrompt, (context, data) => "What country or region are you in?" },
                 { ShowArticles, (context, data) => ShowArticleCards(context, data) }
             },
             ["en"] = new TemplateIdMap { },

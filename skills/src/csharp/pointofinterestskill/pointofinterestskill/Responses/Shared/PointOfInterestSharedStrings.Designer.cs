@@ -19,7 +19,7 @@ namespace PointOfInterestSkill.Responses.Shared {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class PointOfInterestSharedStrings {
@@ -57,6 +57,15 @@ namespace PointOfInterestSkill.Responses.Shared {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call.
+        /// </summary>
+        public static string CALL {
+            get {
+                return ResourceManager.GetString("CALL", resourceCulture);
             }
         }
         
@@ -187,11 +196,38 @@ namespace PointOfInterestSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show directions.
+        /// </summary>
+        public static string SHOW_DIRECTIONS {
+            get {
+                return ResourceManager.GetString("SHOW_DIRECTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string START {
             get {
                 return ResourceManager.GetString("START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start navigation.
+        /// </summary>
+        public static string START_NAVIGATION {
+            get {
+                return ResourceManager.GetString("START_NAVIGATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You.
+        /// </summary>
+        public static string YOU {
+            get {
+                return ResourceManager.GetString("YOU", resourceCulture);
             }
         }
     }

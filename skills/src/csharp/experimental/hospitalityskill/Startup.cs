@@ -11,6 +11,7 @@ using HospitalitySkill.Responses.GetReservation;
 using HospitalitySkill.Responses.LateCheckOut;
 using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.RequestItem;
+using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
 using Microsoft.ApplicationInsights;
@@ -24,6 +25,7 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -106,7 +108,8 @@ namespace HospitalitySkill
                 new LateCheckOutResponses(),
                 new ExtendStayResponses(),
                 new GetReservationResponses(),
-                new RequestItemResponses()));
+                new RequestItemResponses(),
+                new RoomServiceResponses()));
 
             // Register dialogs
             services.AddTransient<CheckOutDialog>();
@@ -114,12 +117,16 @@ namespace HospitalitySkill
             services.AddTransient<ExtendStayDialog>();
             services.AddTransient<GetReservationDialog>();
             services.AddTransient<RequestItemDialog>();
+            services.AddTransient<RoomServiceDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, HospitalitySkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
+
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

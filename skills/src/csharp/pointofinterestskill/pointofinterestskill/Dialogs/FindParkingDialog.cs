@@ -46,6 +46,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 GetParkingInterestPoints,
                 ProcessPointOfInterestSelection,
+                ProcessPointOfInterestAction,
             };
 
             // Define the conversation flow using a waterfall model.
@@ -84,8 +85,6 @@ namespace PointOfInterestSkill.Dialogs
         /// <returns>DialogTurnResult.</returns>
         protected async Task<DialogTurnResult> RouteToFindFindParkingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-
             return await sc.ReplaceDialogAsync(Actions.FindParking);
         }
 
@@ -142,32 +141,14 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
-                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
-
-                    var options = new PromptOptions
-                    {
-                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
-                    };
-
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
-
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
+                    // only to indicate it is only one result
+                    return await sc.NextAsync(true);
                 }
                 else
                 {
-                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
+                    var containerCard = await GetContainerCard(sc.Context, "PointOfInterestOverviewContainer", state.CurrentCoordinates, pointOfInterestList, addressMapsService);
 
-                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                    {
-                        await sc.Context.SendActivityAsync(options.Prompt);
-                        options.Prompt = null;
-                    }
+                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, containerCard, "Container", cards);
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }

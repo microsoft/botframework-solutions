@@ -1,3 +1,3 @@
-# Skill Deployment
+# Bing Search Skill
 
-Please refer to the [Skill Template documentation](http://aka.ms/virtualassistantdocs) for deployment and customization instructions.
+[Learn more](https://aka.ms/bfexperimentalskills) about how to deploy and test the Bing Search Skill.

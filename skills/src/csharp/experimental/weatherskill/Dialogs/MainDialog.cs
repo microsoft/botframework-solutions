@@ -81,7 +81,6 @@ namespace WeatherSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<WeatherSkillLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -89,7 +88,7 @@ namespace WeatherSkill.Dialogs
                 {
                     case WeatherSkillLuis.Intent.GetForecast:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ForecastDialog));
+                            await dc.BeginDialogAsync(nameof(ForecastDialog));
                             break;
                         }
 
@@ -97,7 +96,6 @@ namespace WeatherSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -105,14 +103,8 @@ namespace WeatherSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -123,7 +115,7 @@ namespace WeatherSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -156,7 +148,7 @@ namespace WeatherSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }
@@ -260,18 +252,15 @@ namespace WeatherSkill.Dialogs
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
+            // Populating local state with data passed through semanticAction out of Activity
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
             {
-                // Example of populating local state with data passed through Skill Context
-                // if (skillContext.ContainsKey("Location"))
-                // {
-                //    // Add to your local state
-                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                //    state.Location = skillContext["Location"];
-                // }
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
+                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                state.Geography = locationObj;
             }
         }
 

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
@@ -15,7 +15,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -45,9 +44,9 @@ namespace CalendarSkill.Dialogs
             CreateEventDialog createEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
             TimeRemainingDialog timeRemainingDialog,
-            SummaryDialog summaryDialog,
+            ShowEventsDialog summaryDialog,
             UpdateEventDialog updateEventDialog,
-            ConnectToMeetingDialog connectToMeetingDialog,
+            JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
@@ -94,13 +93,17 @@ namespace CalendarSkill.Dialogs
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
+            var options = new CalendarSkillDialogOptions()
+            {
+                SubFlowMode = false
+            };
+
             if (luisService == null)
             {
                 throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -110,26 +113,31 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindMeetingRoom:
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                            await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.AcceptEventEntry:
+                        {
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                            break;
+                        }
+
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
                             break;
                         }
 
                     case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.ConnectToMeeting:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
+                            await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
                             break;
                         }
 
@@ -140,20 +148,20 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindCalendarWho:
                     case CalendarLuis.Intent.FindDuration:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                            await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
                     case CalendarLuis.Intent.TimeRemaining:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                            await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
                             break;
                         }
 
                     case CalendarLuis.Intent.ShowNextCalendar:
                     case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                            await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -161,12 +169,11 @@ namespace CalendarSkill.Dialogs
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                                await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             }
                             else
                             {
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -175,32 +182,9 @@ namespace CalendarSkill.Dialogs
                     default:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
                 }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
-                }
-            }
-        }
-
-        private async Task PopulateStateFromSemanticAction(ITurnContext context)
-        {
-            var activity = context.Activity;
-            var semanticAction = activity.SemanticAction;
-            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
-            {
-                var timezone = semanticAction.Entities["timezone"];
-                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
-
-                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-
-                // we have a timezone
-                state.UserInfo.Timezone = timezoneObj;
             }
         }
 
@@ -210,7 +194,7 @@ namespace CalendarSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -233,7 +217,7 @@ namespace CalendarSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }
@@ -275,33 +259,52 @@ namespace CalendarSkill.Dialogs
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent().intent;
+                    var topIntent = luisResult.TopIntent();
 
-                    // check intent
-                    switch (topIntent)
+                    if (topIntent.score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        // check intent
+                        switch (topIntent.intent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
 
             return result;
+        }
+
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+            {
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
+
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
+            }
         }
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)

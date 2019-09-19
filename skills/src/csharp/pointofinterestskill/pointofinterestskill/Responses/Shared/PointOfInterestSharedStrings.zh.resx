@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CALL" xml:space="preserve">
+    <value>叫</value>
+  </data>
   <data name="CARD_TITLE" xml:space="preserve">
     <value>位置服务</value>
   </data>
@@ -159,7 +162,16 @@
   <data name="POWERED_BY" xml:space="preserve">
     <value>提供者</value>
   </data>
+  <data name="SHOW_DIRECTIONS" xml:space="preserve">
+    <value>显示方向</value>
+  </data>
   <data name="START" xml:space="preserve">
     <value>开始</value>
+  </data>
+  <data name="START_NAVIGATION" xml:space="preserve">
+    <value>启动导航</value>
+  </data>
+  <data name="YOU" xml:space="preserve">
+    <value>你</value>
   </data>
 </root>

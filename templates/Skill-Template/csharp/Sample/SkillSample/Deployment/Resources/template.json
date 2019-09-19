@@ -207,6 +207,10 @@
     }
   ],
   "outputs": {
+    "resourceGroupName": {
+      "type": "string",
+      "value": "[parameters('name')]"
+    },
     "botWebAppName": {
       "type": "string",
       "value": "[variables('botWebAppName')]"

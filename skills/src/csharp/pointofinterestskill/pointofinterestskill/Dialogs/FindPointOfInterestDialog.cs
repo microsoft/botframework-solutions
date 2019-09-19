@@ -40,6 +40,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 GetPointOfInterestLocations,
                 ProcessPointOfInterestSelection,
+                ProcessPointOfInterestAction,
             };
 
             // Define the conversation flow using a waterfall model.
@@ -77,8 +78,6 @@ namespace PointOfInterestSkill.Dialogs
         /// <returns>DialogTurnResult.</returns>
         protected async Task<DialogTurnResult> RouteToFindPointOfInterestDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
-
             return await sc.ReplaceDialogAsync(Actions.FindPointOfInterest);
         }
     }

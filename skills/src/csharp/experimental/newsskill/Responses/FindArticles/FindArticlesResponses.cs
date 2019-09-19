@@ -18,7 +18,7 @@ namespace NewsSkill.Responses.FindArticles
             ["default"] = new TemplateIdMap
             {
                 { TopicPrompt, (context, data) => "What topic are you interested in?" },
-                { MarketPrompt, (context, data) => "What country do you want to search in?" },
+                { MarketPrompt, (context, data) => "What country or region do you want to search in?" },
                 { ShowArticles, (context, data) => ShowArticleCards(context, data) }
             },
             ["en"] = new TemplateIdMap { },

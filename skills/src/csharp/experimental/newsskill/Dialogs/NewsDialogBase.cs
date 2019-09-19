@@ -71,11 +71,17 @@ namespace NewsSkill.Dialogs
         protected async Task<DialogTurnResult> GetMarket(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
+            var convState = await ConvAccessor.GetAsync(sc.Context, () => new NewsSkillState());
 
             // Check if there's already a location
             if (!string.IsNullOrWhiteSpace(userState.Market))
             {
                 return await sc.NextAsync(userState.Market);
+            }
+            else if (!string.IsNullOrWhiteSpace(convState.CurrentCoordinates))
+            {
+                // make maps service query with location coordinates instead of user input
+                return await sc.NextAsync(convState.CurrentCoordinates);
             }
 
             // Prompt user for location
@@ -92,10 +98,10 @@ namespace NewsSkill.Dialogs
 
             if (string.IsNullOrWhiteSpace(userState.Market))
             {
-                string country = (string)sc.Result;
+                string countryregion = (string)sc.Result;
 
-                // use AzureMaps API to get country code from country input by user
-                userState.Market = await _mapsService.GetCountryCodeAsync(country);
+                // use AzureMaps API to get country code from country or region input by user
+                userState.Market = await _mapsService.GetCountryCodeAsync(countryregion);
             }
 
             return await sc.NextAsync();
@@ -103,11 +109,11 @@ namespace NewsSkill.Dialogs
 
         protected async Task<bool> MarketPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var country = promptContext.Recognized.Value;
+            var countryregion = promptContext.Recognized.Value;
 
             // check for valid country code
-            country = await _mapsService.GetCountryCodeAsync(country);
-            if (country != null)
+            var countryCode = await _mapsService.GetCountryCodeAsync(countryregion);
+            if (countryCode != null)
             {
                 return await Task.FromResult(true);
             }

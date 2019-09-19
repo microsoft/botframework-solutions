@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public partial class GeneralLuis: IRecognizerConvert
+    public partial class GeneralLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;

@@ -17,5 +17,6 @@ namespace CalendarSkill.Responses.JoinEvent
         public const string NotJoinMeeting = "NotJoinMeeting";
         public const string ConfirmPhoneNumber = "ConfirmPhoneNumber";
         public const string JoinMeeting = "JoinMeeting";
+        public const string NoMeetingToConnect = "NoMeetingToConnect";
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBooking.Models
 {
-    public class CusineChoiceCardData : ICardData
+    public class CuisineChoiceCardData : ICardData
     {
         public string ImageUrl { get; set; }
 
@@ -11,6 +11,6 @@ namespace RestaurantBooking.Models
 
         public AdaptiveHorizontalAlignment ImageAlign { get; set; }
 
-        public string Cusine { get; set; }
+        public string Cuisine { get; set; }
     }
 }

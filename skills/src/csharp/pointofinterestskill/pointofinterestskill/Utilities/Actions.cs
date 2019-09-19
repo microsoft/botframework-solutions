@@ -2,11 +2,15 @@
 {
     public class Actions
     {
-        public const string Prompt = "prompt";
+        public const string ConfirmPrompt = "ConfirmPrompt";
 
-        public const string ConfirmPrompt = "confirmprompt";
+        public const string StartNavigationPrompt = "StartNavigationPrompt";
 
         public const string SelectPointOfInterestPrompt = "SelectPointOfInterestPrompt";
+
+        public const string SelectRoutePrompt = "SelectRoutePrompt";
+
+        public const string SelectActionPrompt = "SelectActionPrompt";
 
         public const string FindAlongRoute = "FindAlongRoute";
 

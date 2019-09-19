@@ -4,6 +4,7 @@
   "body": [
     {
       "type": "Container",
+      "bleed": true,
       "items": [
         {
           "type": "ColumnSet",
@@ -50,7 +51,7 @@
           "spacing": "None",
           "size": "Medium",
           "weight": "Bolder",
-          "color": "Accent",
+          "color": "default",
           "text": "{Name}"
         },
         {
@@ -85,7 +86,6 @@
       "items": [
         {
           "type": "Image",
-          "size": "auto",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }
@@ -103,6 +103,40 @@
           "text": "{ProviderDisplayText}"
         }
       ]
+    }
+  ],
+  // https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/cards/cards-actions
+  // messageBack is treated as event now
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{ActionCall}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionCall}"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{ActionShowDirections}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionShowDirections}"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{ActionStartNavigation}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionStartNavigation}"
+        }
+      }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

@@ -1,0 +1,3921 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "2d67bef1-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:41-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-08-29T21:08:41.183Z",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User"
+    },
+    "locale": "en-US",
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do.",
+    "inputHint": "acceptingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Extend Your Stay",
+          "value": "Can I extend my stay?"
+        },
+        {
+          "type": "imBack",
+          "title": "Find Local Events",
+          "value": "Find me something to do nearby"
+        },
+        {
+          "type": "imBack",
+          "title": "Recent News",
+          "value": "What's the news?"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "NewUserGreeting",
+          "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do.",
+          "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "size": "stretch",
+                  "url": "data:image/png;base64,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"
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAb8AAAIpCAYAAAAyxDaxAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAg5SURBVHhe7dUxAcAgEMDAp6pxiSS64CJ3SyRkzT53ACDkewWADPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwByzA+AHPMDIMf8AMgxPwBiZn6z1waYNbhEmwAAAABJRU5ErkJggg==",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "id": "title",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "light",
+                  "text": "Hi, I'm **your** Hospitality Assistant",
+                  "wrap": true,
+                  "spacing": "medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "body",
+                  "size": "medium",
+                  "color": "light",
+                  "text": "Now that I'm up and running, explore the links here to learn what I can do.",
+                  "wrap": true
+                }
+              ],
+              "spacing": "none"
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": "/event:{\"Name\": \"VA.Location\", \"Value\": \"47.639620,-122.130610\"}",
+              "title": "Send location"
+            },
+            {
+              "type": "Action.Submit",
+              "data": "I want to order room service",
+              "title": "Room service"
+            },
+            {
+              "type": "Action.Submit",
+              "data": "What's the weather today?",
+              "title": "Today's weather"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "2d67bef1-caa1-11e9-8be7-794c558b5c5c",
+    "id": "2da1bab0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:41-07:00",
+    "timestamp": "2019-08-29T21:08:41.563Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "2df04fe0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:42-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-08-29T21:08:42.078Z",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User"
+    },
+    "locale": "en-US",
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "text": "Can you bring me 3 more towels and a toothbrush",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15671129329125f7o96b580w"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:08:52.922Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:52-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:08:53.171Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 3 more towels and a toothbrush",
+        "alteredText": null,
+        "intents": {
+          "ShowNext": {
+            "score": 0.231066078
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 17,
+                "endIndex": 18,
+                "text": "3",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            3
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Can you bring me 3 more towels and a toothbrush",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ShowNext",
+          "score": 0.231066078
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 17,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "348cf830-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:08:53.350Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 3 more towels and a toothbrush",
+        "alteredText": null,
+        "intents": {
+          "hospitalitySkill": {
+            "score": 0.999877
+          }
+        },
+        "entities": {
+          "$instance": {
+            "Item": [
+              {
+                "startIndex": 24,
+                "endIndex": 30,
+                "text": "towels",
+                "type": "Item",
+                "score": 0.9975422
+              },
+              {
+                "startIndex": 37,
+                "endIndex": 47,
+                "text": "toothbrush",
+                "type": "Item",
+                "score": 0.999999344
+              }
+            ]
+          },
+          "Item": [
+            "towels",
+            "toothbrush"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Can you bring me 3 more towels and a toothbrush",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "hospitalitySkill",
+          "score": 0.999877
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "towels",
+            "type": "Item",
+            "startIndex": 24,
+            "endIndex": 29,
+            "score": 0.9975422
+          },
+          {
+            "entity": "toothbrush",
+            "type": "Item",
+            "startIndex": 37,
+            "endIndex": 46,
+            "score": 0.999999344
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "34a84860-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "-->Handing off to the Hospitality Skill skill.",
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "34c60990-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "timestamp": "2019-08-29T21:08:53.545Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "34d63630-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "timestamp": "2019-08-29T21:08:53.651Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "43de5d26e886453ca417d8d1698b3f36",
+    "timestamp": "2019-08-29T21:08:53.780Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 3 more towels and a toothbrush",
+        "alteredText": null,
+        "intents": {
+          "ShowNext": {
+            "score": 0.231066078
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 17,
+                "endIndex": 18,
+                "text": "3",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            3
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can you bring me 3 more towels and a toothbrush",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ShowNext",
+          "score": 0.231066078
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 17,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "f0c759143b7d4f2f88448c7a7e28c009",
+    "timestamp": "2019-08-29T21:08:53.974Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 3 more towels and a toothbrush",
+        "alteredText": null,
+        "intents": {
+          "RequestItem": {
+            "score": 0.9998698
+          }
+        },
+        "entities": {
+          "$instance": {
+            "ItemRequest": [
+              {
+                "startIndex": 17,
+                "endIndex": 30,
+                "text": "3 more towels",
+                "type": "ItemRequest",
+                "score": 0.988202453
+              }
+            ],
+            "Item": [
+              {
+                "startIndex": 37,
+                "endIndex": 47,
+                "text": "toothbrush",
+                "type": "Item",
+                "score": 0.999993
+              }
+            ]
+          },
+          "ItemRequest": [
+            {
+              "$instance": {
+                "number": [
+                  {
+                    "startIndex": 17,
+                    "endIndex": 18,
+                    "text": "3",
+                    "type": "builtin.number",
+                    "subtype": "integer"
+                  }
+                ],
+                "Item": [
+                  {
+                    "startIndex": 24,
+                    "endIndex": 30,
+                    "text": "towels",
+                    "type": "Item",
+                    "score": 0.994725943
+                  }
+                ]
+              },
+              "number": [
+                3
+              ],
+              "Item": [
+                "towels"
+              ]
+            }
+          ],
+          "Item": [
+            "toothbrush"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can you bring me 3 more towels and a toothbrush",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RequestItem",
+          "score": 0.9998698
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "towels",
+            "type": "Item",
+            "startIndex": 24,
+            "endIndex": 29,
+            "score": 0.994725943
+          },
+          {
+            "entity": "toothbrush",
+            "type": "Item",
+            "startIndex": 37,
+            "endIndex": 46,
+            "score": 0.999993
+          },
+          {
+            "entity": "3 more towels",
+            "type": "ItemRequest",
+            "startIndex": 17,
+            "endIndex": 29,
+            "score": 0.988202453
+          },
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 17,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": [
+          {
+            "parentType": "ItemRequest",
+            "value": "3 more towels",
+            "children": [
+              {
+                "type": "builtin.number",
+                "value": "3"
+              },
+              {
+                "type": "Item",
+                "value": "towels"
+              }
+            ]
+          }
+        ],
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:08:53-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "10135d7c47a845b1b48f1223f4c56292",
+    "timestamp": "2019-08-29T21:08:54.166Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 3 more towels and a toothbrush",
+        "alteredText": null,
+        "intents": {
+          "RequestItem": {
+            "score": 0.9998698
+          }
+        },
+        "entities": {
+          "$instance": {
+            "ItemRequest": [
+              {
+                "startIndex": 17,
+                "endIndex": 30,
+                "text": "3 more towels",
+                "type": "ItemRequest",
+                "score": 0.988202453
+              }
+            ],
+            "Item": [
+              {
+                "startIndex": 37,
+                "endIndex": 47,
+                "text": "toothbrush",
+                "type": "Item",
+                "score": 0.999993
+              }
+            ]
+          },
+          "ItemRequest": [
+            {
+              "$instance": {
+                "number": [
+                  {
+                    "startIndex": 17,
+                    "endIndex": 18,
+                    "text": "3",
+                    "type": "builtin.number",
+                    "subtype": "integer"
+                  }
+                ],
+                "Item": [
+                  {
+                    "startIndex": 24,
+                    "endIndex": 30,
+                    "text": "towels",
+                    "type": "Item",
+                    "score": 0.994725943
+                  }
+                ]
+              },
+              "number": [
+                3
+              ],
+              "Item": [
+                "towels"
+              ]
+            }
+          ],
+          "Item": [
+            "toothbrush"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can you bring me 3 more towels and a toothbrush",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RequestItem",
+          "score": 0.9998698
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "towels",
+            "type": "Item",
+            "startIndex": 24,
+            "endIndex": 29,
+            "score": 0.994725943
+          },
+          {
+            "entity": "toothbrush",
+            "type": "Item",
+            "startIndex": 37,
+            "endIndex": 46,
+            "score": 0.999993
+          },
+          {
+            "entity": "3 more towels",
+            "type": "ItemRequest",
+            "startIndex": 17,
+            "endIndex": 29,
+            "score": 0.988202453
+          },
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 17,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": [
+          {
+            "parentType": "ItemRequest",
+            "value": "3 more towels",
+            "children": [
+              {
+                "type": "builtin.number",
+                "value": "3"
+              },
+              {
+                "type": "Item",
+                "value": "towels"
+              }
+            ]
+          }
+        ],
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:08:54-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "a2621592982349e49a3e55a901904941",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "RequestItemCard",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "id": "icon",
+                          "size": "small",
+                          "url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyNCAyMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI0IDEyVjIxSDIyLjVWMTkuNUgxLjVWMjFIMFYxMkgxLjVWMTMuMzI0Mkw0LjUgNy4zMjQyMlYwSDZWMS41SDE4VjBIMTkuNVY0LjVDMTkuNzEwOSA0LjUgMTkuOTA2MiA0LjUzOTA2IDIwLjA4NTkgNC42MTcxOUMyMC4yNjU2IDQuNjk1MzEgMjAuNDIxOSA0LjgwNDY5IDIwLjU1NDcgNC45NDUzMUMyMC42OTUzIDUuMDc4MTIgMjAuODA0NyA1LjIzNDM4IDIwLjg4MjggNS40MTQwNkMyMC45NjA5IDUuNTkzNzUgMjEgNS43ODkwNiAyMSA2VjlDMjEgOS4zMDQ2OSAyMC45MTggOS41NzgxMiAyMC43NTM5IDkuODIwMzFMMjIuNSAxMy4zMjQyVjEySDI0Wk0xMy41IDZWOUgxOS41VjZIMTMuNVpNNiAzVjcuNUgxMlY2QzEyIDUuNzg5MDYgMTIuMDM5MSA1LjU5Mzc1IDEyLjExNzIgNS40MTQwNkMxMi4xOTUzIDUuMjM0MzggMTIuMzAwOCA1LjA3ODEyIDEyLjQzMzYgNC45NDUzMUMxMi41NzQyIDQuODA0NjkgMTIuNzM0NCA0LjY5NTMxIDEyLjkxNDEgNC42MTcxOUMxMy4wOTM4IDQuNTM5MDYgMTMuMjg5MSA0LjUgMTMuNSA0LjVIMThWM0g2Wk0zLjA5Mzc1IDEzLjVIMjAuOTA2MkwxOS40MDYyIDEwLjVIMTMuNUMxMy4yODkxIDEwLjUgMTMuMDkzOCAxMC40NjA5IDEyLjkxNDEgMTAuMzgyOEMxMi43MzQ0IDEwLjMwNDcgMTIuNTc0MiAxMC4xOTkyIDEyLjQzMzYgMTAuMDY2NEMxMi4zMDA4IDkuOTI1NzggMTIuMTk1MyA5Ljc2NTYyIDEyLjExNzIgOS41ODU5NEMxMi4wMzkxIDkuNDA2MjUgMTIgOS4yMTA5NCAxMiA5SDUuMzMyMDNMMy4wOTM3NSAxMy41Wk0yMi41IDE4VjE1SDEuNVYxOEgyMi41WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==",
+                          "horizontalAlignment": "center",
+                          "width": "30px",
+                          "height": "30px"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "verticalContentAlignment": "center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "light",
+                          "text": "Your Item Requests"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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"
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Qty",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Item"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "id": "items",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "3",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Towel"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "1",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Toothbrush"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:54-07:00",
+    "timestamp": "2019-08-29T21:08:54.777Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "2905b82397f34d3580f9fa5b5cc9b616",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "These items will be brought to your room shortly.",
+    "speak": "These items will be brought to your room shortly.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:54-07:00",
+    "timestamp": "2019-08-29T21:08:54.949Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "3620b790-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:55-07:00",
+    "timestamp": "2019-08-29T21:08:55.817Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation with the Hospitality Skill Skill and handing off to Parent Bot.",
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "365b2880-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:56-07:00",
+    "timestamp": "2019-08-29T21:08:56.200Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "3466f9a0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "3673e0a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:08:56-07:00",
+    "timestamp": "2019-08-29T21:08:56.362Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "I want to see a room service menu",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112942129db7yheqq86j"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:09:02.139Z",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:02.325Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want to see a room service menu",
+        "alteredText": null,
+        "intents": {
+          "Escalate": {
+            "score": 0.2736349
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "I want to see a room service menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Escalate",
+          "score": 0.2736349
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3a01c250-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:02.504Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want to see a room service menu",
+        "alteredText": null,
+        "intents": {
+          "hospitalitySkill": {
+            "score": 0.9980214
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "02bb39a4-bd73-444c-abe6-e612c5aeef12"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "I want to see a room service menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "hospitalitySkill",
+          "score": 0.9980214
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3a1d3990-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "-->Handing off to the Hospitality Skill skill.",
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "3a3618c0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "timestamp": "2019-08-29T21:09:02.668Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "id": "3a4952a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "timestamp": "2019-08-29T21:09:02.794Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "57b6bf09a1ba418eaa3bffbb5054f6c0",
+    "timestamp": "2019-08-29T21:09:02.876Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want to see a room service menu",
+        "alteredText": null,
+        "intents": {
+          "Escalate": {
+            "score": 0.3038648
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I want to see a room service menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Escalate",
+          "score": 0.3038648
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:02-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "08a41064e28e4228bdcce0e721c4781f",
+    "timestamp": "2019-08-29T21:09:03.054Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want to see a room service menu",
+        "alteredText": null,
+        "intents": {
+          "RoomService": {
+            "score": 0.99348557
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I want to see a room service menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RoomService",
+          "score": 0.99348557
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:03-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "e97acbda920d47c79752447893a3f0e7",
+    "timestamp": "2019-08-29T21:09:03.232Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want to see a room service menu",
+        "alteredText": null,
+        "intents": {
+          "RoomService": {
+            "score": 0.99348557
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I want to see a room service menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RoomService",
+          "score": 0.99348557
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:03-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "211ccfb967264bc1ba84577ea19b71ec",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "There are 4 menus: **Breakfast, Lunch, Dinner and 24 Hour Options**. Which menu would you like to see?",
+    "inputHint": "acceptingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Breakfast",
+          "value": "Breakfast menu"
+        },
+        {
+          "type": "imBack",
+          "title": "Lunch",
+          "value": "Lunch menu"
+        },
+        {
+          "type": "imBack",
+          "title": "Dinner",
+          "value": "Dinner menu"
+        },
+        {
+          "type": "imBack",
+          "title": "24 Hour",
+          "value": "24 hour menu"
+        }
+      ]
+    },
+    "attachments": [],
+    "entities": [],
+    "replyToId": "39e560b0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:04-07:00",
+    "timestamp": "2019-08-29T21:09:04.207Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Lunch menu",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112945652cucq26gse9v"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:09:05.655Z",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:05-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:05.793Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Lunch menu",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.09623608
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Lunch menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.09623608
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "3c12ef10-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:05-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "id": "3c5e9e10-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:06-07:00",
+    "timestamp": "2019-08-29T21:09:06.289Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "a2725e05b17c4de183f52e89443dbcc3",
+    "timestamp": "2019-08-29T21:09:06.803Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Lunch menu",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.1067155
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Lunch menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.1067155
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:06-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "1aecc81755fb4d58ab3de2b6a0374c46",
+    "timestamp": "2019-08-29T21:09:07.004Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Lunch menu",
+        "alteredText": null,
+        "intents": {
+          "RoomService": {
+            "score": 0.499904335
+          }
+        },
+        "entities": {
+          "$instance": {
+            "Menu": [
+              {
+                "startIndex": 0,
+                "endIndex": 5,
+                "text": "lunch",
+                "type": "Menu"
+              }
+            ]
+          },
+          "Menu": [
+            [
+              "lunch"
+            ]
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Lunch menu",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RoomService",
+          "score": 0.499904335
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "lunch",
+            "type": "Menu",
+            "startIndex": 0,
+            "endIndex": 4,
+            "resolution": {
+              "values": [
+                "lunch"
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:07-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "96d9601968354c6183e9538ae5f2f54f",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "MenuCard",
+          "speak": "",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "id": "icon",
+                          "size": "small",
+                          "url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAxNiAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuMjUgMEM3LjQ1MzEyIDAgNy42Mjg5MSAwLjA3NDIxODggNy43NzczNCAwLjIyMjY1NkM3LjkyNTc4IDAuMzcxMDk0IDggMC41NDY4NzUgOCAwLjc1VjlDOCA5LjQxNDA2IDcuOTE3OTcgOS44MDQ2OSA3Ljc1MzkxIDEwLjE3MTlDNy41OTc2NiAxMC41MzEyIDcuMzgyODEgMTAuODQ3NyA3LjEwOTM4IDExLjEyMTFDNi44NDM3NSAxMS4zODY3IDYuNTI3MzQgMTEuNjAxNiA2LjE2MDE2IDExLjc2NTZDNS43OTI5NyAxMS45MjE5IDUuNDA2MjUgMTIgNSAxMlYyMy4yNUM1IDIzLjQ1MzEgNC45MjU3OCAyMy42Mjg5IDQuNzc3MzQgMjMuNzc3M0M0LjYyODkxIDIzLjkyNTggNC40NTMxMiAyNCA0LjI1IDI0QzQuMDQ2ODggMjQgMy44NzEwOSAyMy45MjU4IDMuNzIyNjYgMjMuNzc3M0MzLjU3NDIyIDIzLjYyODkgMy41IDIzLjQ1MzEgMy41IDIzLjI1VjEyQzMuMDg1OTQgMTIgMi42OTUzMSAxMS45MjE5IDIuMzI4MTIgMTEuNzY1NkMxLjk2ODc1IDExLjYwMTYgMS42NTIzNCAxMS4zODY3IDEuMzc4OTEgMTEuMTIxMUMxLjExMzI4IDEwLjg0NzcgMC44OTg0MzggMTAuNTMxMiAwLjczNDM3NSAxMC4xNzE5QzAuNTc4MTI1IDkuODA0NjkgMC41IDkuNDE0MDYgMC41IDlWMC43NUMwLjUgMC41NDY4NzUgMC41NzQyMTkgMC4zNzEwOTQgMC43MjI2NTYgMC4yMjI2NTZDMC44NzEwOTQgMC4wNzQyMTg4IDEuMDQ2ODggMCAxLjI1IDBDMS40NTMxMiAwIDEuNjI4OTEgMC4wNzQyMTg4IDEuNzc3MzQgMC4yMjI2NTZDMS45MjU3OCAwLjM3MTA5NCAyIDAuNTQ2ODc1IDIgMC43NVY5QzIgOS4yMTA5NCAyLjAzOTA2IDkuNDA2MjUgMi4xMTcxOSA5LjU4NTk0QzIuMTk1MzEgOS43NjU2MiAyLjMwMDc4IDkuOTI1NzggMi40MzM1OSAxMC4wNjY0QzIuNTc0MjIgMTAuMTk5MiAyLjczNDM4IDEwLjMwNDcgMi45MTQwNiAxMC4zODI4QzMuMDkzNzUgMTAuNDYwOSAzLjI4OTA2IDEwLjUgMy41IDEwLjVWMC43NUMzLjUgMC41NDY4NzUgMy41NzQyMiAwLjM3MTA5NCAzLjcyMjY2IDAuMjIyNjU2QzMuODcxMDkgMC4wNzQyMTg4IDQuMDQ2ODggMCA0LjI1IDBDNC40NTMxMiAwIDQuNjI4OTEgMC4wNzQyMTg4IDQuNzc3MzQgMC4yMjI2NTZDNC45MjU3OCAwLjM3MTA5NCA1IDAuNTQ2ODc1IDUgMC43NVYxMC41QzUuMjEwOTQgMTAuNSA1LjQwNjI1IDEwLjQ2MDkgNS41ODU5NCAxMC4zODI4QzUuNzY1NjIgMTAuMzA0NyA1LjkyMTg4IDEwLjE5OTIgNi4wNTQ2OSAxMC4wNjY0QzYuMTk1MzEgOS45MjU3OCA2LjMwNDY5IDkuNzY1NjIgNi4zODI4MSA5LjU4NTk0QzYuNDYwOTQgOS40MDYyNSA2LjUgOS4yMTA5NCA2LjUgOVYwLjc1QzYuNSAwLjU0Njg3NSA2LjU3NDIyIDAuMzcxMDk0IDYuNzIyNjYgMC4yMjI2NTZDNi44NzEwOSAwLjA3NDIxODggNy4wNDY4OCAwIDcuMjUgMFpNMTUuNSAwVjIzLjI1QzE1LjUgMjMuNDUzMSAxNS40MjU4IDIzLjYyODkgMTUuMjc3MyAyMy43NzczQzE1LjEyODkgMjMuOTI1OCAxNC45NTMxIDI0IDE0Ljc1IDI0QzE0LjU0NjkgMjQgMTQuMzcxMSAyMy45MjU4IDE0LjIyMjcgMjMuNzc3M0MxNC4wNzQyIDIzLjYyODkgMTQgMjMuNDUzMSAxNCAyMy4yNVYxNi41QzEzLjcxMDkgMTYuNSAxMy4zOTg0IDE2LjUwMzkgMTMuMDYyNSAxNi41MTE3QzEyLjcyNjYgMTYuNTE5NSAxMi4zOTA2IDE2LjUxNTYgMTIuMDU0NyAxNi41QzExLjcyNjYgMTYuNDc2NiAxMS40MDYyIDE2LjQyOTcgMTEuMDkzOCAxNi4zNTk0QzEwLjc4OTEgMTYuMjgxMiAxMC41MTU2IDE2LjE2MDIgMTAuMjczNCAxNS45OTYxQzEwLjAzOTEgMTUuODI0MiA5Ljg1MTU2IDE1LjYwMTYgOS43MTA5NCAxNS4zMjgxQzkuNTcwMzEgMTUuMDQ2OSA5LjUgMTQuNjg3NSA5LjUgMTQuMjVWNS4yNUM5LjUgNC41MjM0NCA5LjYzNjcyIDMuODQzNzUgOS45MTAxNiAzLjIxMDk0QzEwLjE5MTQgMi41NzAzMSAxMC41NjY0IDIuMDE1NjIgMTEuMDM1MiAxLjU0Njg4QzExLjUxMTcgMS4wNzAzMSAxMi4wNjY0IDAuNjk1MzEyIDEyLjY5OTIgMC40MjE4NzVDMTMuMzM5OCAwLjE0MDYyNSAxNC4wMjM0IDAgMTQuNzUgMEgxNS41Wk0xNCAxLjU3MDMxQzEzLjU2MjUgMS42NTYyNSAxMy4xNjAyIDEuODE2NDEgMTIuNzkzIDIuMDUwNzhDMTIuNDMzNiAyLjI3NzM0IDEyLjExNzIgMi41NTQ2OSAxMS44NDM4IDIuODgyODFDMTEuNTc4MSAzLjIxMDk0IDExLjM3MTEgMy41NzgxMiAxMS4yMjI3IDMuOTg0MzhDMTEuMDc0MiA0LjM4MjgxIDExIDQuODA0NjkgMTEgNS4yNVYxNC4yNUMxMSAxNC40NTMxIDExLjA3NDIgMTQuNjI4OSAxMS4yMjI3IDE0Ljc3NzNDMTEuMzcxMSAxNC45MjU4IDExLjU0NjkgMTUgMTEuNzUgMTVIMTRWMS41NzAzMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
+                          "horizontalAlignment": "center",
+                          "width": "30px",
+                          "height": "30px"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "verticalContentAlignment": "center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "light",
+                          "text": "Lunch Menu"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "weight": "bolder",
+                  "color": "light",
+                  "text": "Served daily from 11:00AM - 4:00PM"
+                }
+              ],
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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"
+            },
+            {
+              "type": "Container",
+              "id": "items",
+              "items": [
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "bolder",
+                              "text": "Cobb Salad 18"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "warning",
+                              "text": "GF",
+                              "spacing": "none",
+                              "separation": "none",
+                              "isVisible": "True"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "good",
+                              "text": "V",
+                              "isVisible": "True"
+                            }
+                          ],
+                          "spacing": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Romaine lettuce, house-made bacon, egg, tomatoes, avocado, cheddar cheese, diced chicken",
+                      "wrap": true,
+                      "spacing": "none",
+                      "separation": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "bolder",
+                              "text": "Chicken Quesadilla 14"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "warning",
+                              "text": "GF",
+                              "spacing": "none",
+                              "separation": "none",
+                              "isVisible": "False"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "good",
+                              "text": "V",
+                              "isVisible": "False"
+                            }
+                          ],
+                          "spacing": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Green chiles, cheese blend in flour tortilla, pico de gallo and sour cream",
+                      "wrap": true,
+                      "spacing": "none",
+                      "separation": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "bolder",
+                              "text": "Smoking Turkey Sandwich 17"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "warning",
+                              "text": "GF",
+                              "spacing": "none",
+                              "separation": "none",
+                              "isVisible": "False"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "good",
+                              "text": "V",
+                              "isVisible": "False"
+                            }
+                          ],
+                          "spacing": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Sourdough bread, mayo, bacon, lettuce, tomato",
+                      "wrap": true,
+                      "spacing": "none",
+                      "separation": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "bolder",
+                              "text": "Signature Burger 18"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "warning",
+                              "text": "GF",
+                              "spacing": "none",
+                              "separation": "none",
+                              "isVisible": "False"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "auto",
+                          "verticalContentAlignment": "center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "size": "small",
+                              "weight": "bolder",
+                              "color": "good",
+                              "text": "V",
+                              "isVisible": "False"
+                            }
+                          ],
+                          "spacing": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Roll, cheddar cheese, bacon, lettuce, tomato, burger sauce",
+                      "wrap": true,
+                      "spacing": "none",
+                      "separation": "none"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:07-07:00",
+    "timestamp": "2019-08-29T21:09:07.946Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "57e841c774004894a2465db2cdd501b1",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "What would you like to order?",
+    "speak": "What would you like to order?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "replyToId": "3bfde070-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:08-07:00",
+    "timestamp": "2019-08-29T21:09:08.121Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Can i get 2 burgers",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112955410bkvz0pnqt2b"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:09:15.415Z",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:15-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:15.598Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can i get 2 burgers",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.05455078
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 10,
+                "endIndex": 11,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Can i get 2 burgers",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.05455078
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 10,
+            "endIndex": 10,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "41eb0ee0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:15-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "5864cf0c9b5042678f08985f8ad11261",
+    "timestamp": "2019-08-29T21:09:15.820Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can i get 2 burgers",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.07742844
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 10,
+                "endIndex": 11,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can i get 2 burgers",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.07742844
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 10,
+            "endIndex": 10,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:15-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "316e6e60fb454ec18b6e207aee60a498",
+    "timestamp": "2019-08-29T21:09:15.996Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can i get 2 burgers",
+        "alteredText": null,
+        "intents": {
+          "RoomService": {
+            "score": 0.8014514
+          }
+        },
+        "entities": {
+          "$instance": {
+            "FoodRequest": [
+              {
+                "startIndex": 10,
+                "endIndex": 19,
+                "text": "2 burgers",
+                "type": "FoodRequest",
+                "score": 0.9927866
+              }
+            ]
+          },
+          "FoodRequest": [
+            {
+              "$instance": {
+                "number": [
+                  {
+                    "startIndex": 10,
+                    "endIndex": 11,
+                    "text": "2",
+                    "type": "builtin.number",
+                    "subtype": "integer"
+                  }
+                ],
+                "Food": [
+                  {
+                    "startIndex": 12,
+                    "endIndex": 19,
+                    "text": "burgers",
+                    "type": "Food",
+                    "score": 0.9908281
+                  }
+                ]
+              },
+              "number": [
+                2
+              ],
+              "Food": [
+                "burgers"
+              ]
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can i get 2 burgers",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RoomService",
+          "score": 0.8014514
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "burgers",
+            "type": "Food",
+            "startIndex": 12,
+            "endIndex": 18,
+            "score": 0.9908281
+          },
+          {
+            "entity": "2 burgers",
+            "type": "FoodRequest",
+            "startIndex": 10,
+            "endIndex": 18,
+            "score": 0.9927866
+          },
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 10,
+            "endIndex": 10,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": [
+          {
+            "parentType": "FoodRequest",
+            "value": "2 burgers",
+            "children": [
+              {
+                "type": "builtin.number",
+                "value": "2"
+              },
+              {
+                "type": "Food",
+                "value": "burgers"
+              }
+            ]
+          }
+        ],
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:15-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "id": "4233b0a0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:16-07:00",
+    "timestamp": "2019-08-29T21:09:16.074Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "1b072614e23f415897e48315db7116aa",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "FoodOrderCard",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "id": "icon",
+                          "size": "small",
+                          "url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAxNiAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuMjUgMEM3LjQ1MzEyIDAgNy42Mjg5MSAwLjA3NDIxODggNy43NzczNCAwLjIyMjY1NkM3LjkyNTc4IDAuMzcxMDk0IDggMC41NDY4NzUgOCAwLjc1VjlDOCA5LjQxNDA2IDcuOTE3OTcgOS44MDQ2OSA3Ljc1MzkxIDEwLjE3MTlDNy41OTc2NiAxMC41MzEyIDcuMzgyODEgMTAuODQ3NyA3LjEwOTM4IDExLjEyMTFDNi44NDM3NSAxMS4zODY3IDYuNTI3MzQgMTEuNjAxNiA2LjE2MDE2IDExLjc2NTZDNS43OTI5NyAxMS45MjE5IDUuNDA2MjUgMTIgNSAxMlYyMy4yNUM1IDIzLjQ1MzEgNC45MjU3OCAyMy42Mjg5IDQuNzc3MzQgMjMuNzc3M0M0LjYyODkxIDIzLjkyNTggNC40NTMxMiAyNCA0LjI1IDI0QzQuMDQ2ODggMjQgMy44NzEwOSAyMy45MjU4IDMuNzIyNjYgMjMuNzc3M0MzLjU3NDIyIDIzLjYyODkgMy41IDIzLjQ1MzEgMy41IDIzLjI1VjEyQzMuMDg1OTQgMTIgMi42OTUzMSAxMS45MjE5IDIuMzI4MTIgMTEuNzY1NkMxLjk2ODc1IDExLjYwMTYgMS42NTIzNCAxMS4zODY3IDEuMzc4OTEgMTEuMTIxMUMxLjExMzI4IDEwLjg0NzcgMC44OTg0MzggMTAuNTMxMiAwLjczNDM3NSAxMC4xNzE5QzAuNTc4MTI1IDkuODA0NjkgMC41IDkuNDE0MDYgMC41IDlWMC43NUMwLjUgMC41NDY4NzUgMC41NzQyMTkgMC4zNzEwOTQgMC43MjI2NTYgMC4yMjI2NTZDMC44NzEwOTQgMC4wNzQyMTg4IDEuMDQ2ODggMCAxLjI1IDBDMS40NTMxMiAwIDEuNjI4OTEgMC4wNzQyMTg4IDEuNzc3MzQgMC4yMjI2NTZDMS45MjU3OCAwLjM3MTA5NCAyIDAuNTQ2ODc1IDIgMC43NVY5QzIgOS4yMTA5NCAyLjAzOTA2IDkuNDA2MjUgMi4xMTcxOSA5LjU4NTk0QzIuMTk1MzEgOS43NjU2MiAyLjMwMDc4IDkuOTI1NzggMi40MzM1OSAxMC4wNjY0QzIuNTc0MjIgMTAuMTk5MiAyLjczNDM4IDEwLjMwNDcgMi45MTQwNiAxMC4zODI4QzMuMDkzNzUgMTAuNDYwOSAzLjI4OTA2IDEwLjUgMy41IDEwLjVWMC43NUMzLjUgMC41NDY4NzUgMy41NzQyMiAwLjM3MTA5NCAzLjcyMjY2IDAuMjIyNjU2QzMuODcxMDkgMC4wNzQyMTg4IDQuMDQ2ODggMCA0LjI1IDBDNC40NTMxMiAwIDQuNjI4OTEgMC4wNzQyMTg4IDQuNzc3MzQgMC4yMjI2NTZDNC45MjU3OCAwLjM3MTA5NCA1IDAuNTQ2ODc1IDUgMC43NVYxMC41QzUuMjEwOTQgMTAuNSA1LjQwNjI1IDEwLjQ2MDkgNS41ODU5NCAxMC4zODI4QzUuNzY1NjIgMTAuMzA0NyA1LjkyMTg4IDEwLjE5OTIgNi4wNTQ2OSAxMC4wNjY0QzYuMTk1MzEgOS45MjU3OCA2LjMwNDY5IDkuNzY1NjIgNi4zODI4MSA5LjU4NTk0QzYuNDYwOTQgOS40MDYyNSA2LjUgOS4yMTA5NCA2LjUgOVYwLjc1QzYuNSAwLjU0Njg3NSA2LjU3NDIyIDAuMzcxMDk0IDYuNzIyNjYgMC4yMjI2NTZDNi44NzEwOSAwLjA3NDIxODggNy4wNDY4OCAwIDcuMjUgMFpNMTUuNSAwVjIzLjI1QzE1LjUgMjMuNDUzMSAxNS40MjU4IDIzLjYyODkgMTUuMjc3MyAyMy43NzczQzE1LjEyODkgMjMuOTI1OCAxNC45NTMxIDI0IDE0Ljc1IDI0QzE0LjU0NjkgMjQgMTQuMzcxMSAyMy45MjU4IDE0LjIyMjcgMjMuNzc3M0MxNC4wNzQyIDIzLjYyODkgMTQgMjMuNDUzMSAxNCAyMy4yNVYxNi41QzEzLjcxMDkgMTYuNSAxMy4zOTg0IDE2LjUwMzkgMTMuMDYyNSAxNi41MTE3QzEyLjcyNjYgMTYuNTE5NSAxMi4zOTA2IDE2LjUxNTYgMTIuMDU0NyAxNi41QzExLjcyNjYgMTYuNDc2NiAxMS40MDYyIDE2LjQyOTcgMTEuMDkzOCAxNi4zNTk0QzEwLjc4OTEgMTYuMjgxMiAxMC41MTU2IDE2LjE2MDIgMTAuMjczNCAxNS45OTYxQzEwLjAzOTEgMTUuODI0MiA5Ljg1MTU2IDE1LjYwMTYgOS43MTA5NCAxNS4zMjgxQzkuNTcwMzEgMTUuMDQ2OSA5LjUgMTQuNjg3NSA5LjUgMTQuMjVWNS4yNUM5LjUgNC41MjM0NCA5LjYzNjcyIDMuODQzNzUgOS45MTAxNiAzLjIxMDk0QzEwLjE5MTQgMi41NzAzMSAxMC41NjY0IDIuMDE1NjIgMTEuMDM1MiAxLjU0Njg4QzExLjUxMTcgMS4wNzAzMSAxMi4wNjY0IDAuNjk1MzEyIDEyLjY5OTIgMC40MjE4NzVDMTMuMzM5OCAwLjE0MDYyNSAxNC4wMjM0IDAgMTQuNzUgMEgxNS41Wk0xNCAxLjU3MDMxQzEzLjU2MjUgMS42NTYyNSAxMy4xNjAyIDEuODE2NDEgMTIuNzkzIDIuMDUwNzhDMTIuNDMzNiAyLjI3NzM0IDEyLjExNzIgMi41NTQ2OSAxMS44NDM4IDIuODgyODFDMTEuNTc4MSAzLjIxMDk0IDExLjM3MTEgMy41NzgxMiAxMS4yMjI3IDMuOTg0MzhDMTEuMDc0MiA0LjM4MjgxIDExIDQuODA0NjkgMTEgNS4yNVYxNC4yNUMxMSAxNC40NTMxIDExLjA3NDIgMTQuNjI4OSAxMS4yMjI3IDE0Ljc3NzNDMTEuMzcxMSAxNC45MjU4IDExLjU0NjkgMTUgMTEuNzUgMTVIMTRWMS41NzAzMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
+                          "horizontalAlignment": "center",
+                          "width": "30px",
+                          "height": "30px"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "verticalContentAlignment": "center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "light",
+                          "text": "Current Order"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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"
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Qty",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Amount",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "id": "items",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "2",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Signature Burger"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "isSubtle": true,
+                          "text": "",
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "$18",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Bill Total",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "$36",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:16-07:00",
+    "timestamp": "2019-08-29T21:09:16.560Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "5d2a1b4a4f244e92adb30a8388d8de70",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "Would you like to add anything else?",
+    "speak": "Would you like to add anything else?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "replyToId": "41cf2270-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:16-07:00",
+    "timestamp": "2019-08-29T21:09:16.721Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "I also want a cobb salad without cheese and 3 quesadillas",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112969445gfhmb3z2uqr"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:09:29.459Z",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:29-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:29.698Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.221141368
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 44,
+                "endIndex": 45,
+                "text": "3",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            3
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.221141368
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 44,
+            "endIndex": 44,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "4a528c20-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:29-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "2c3cafcfeab74994b1643c1962f93dad",
+    "timestamp": "2019-08-29T21:09:29.936Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.209985211
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 44,
+                "endIndex": 45,
+                "text": "3",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            3
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.209985211
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 44,
+            "endIndex": 44,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:29-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "b56e23fac86649609bbd7ea06e63084e",
+    "timestamp": "2019-08-29T21:09:30.132Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredText": null,
+        "intents": {
+          "RoomService": {
+            "score": 0.9985772
+          }
+        },
+        "entities": {
+          "$instance": {
+            "FoodRequest": [
+              {
+                "startIndex": 14,
+                "endIndex": 39,
+                "text": "cobb salad without cheese",
+                "type": "FoodRequest",
+                "score": 0.9963755
+              },
+              {
+                "startIndex": 44,
+                "endIndex": 57,
+                "text": "3 quesadillas",
+                "type": "FoodRequest",
+                "score": 0.8263905
+              }
+            ]
+          },
+          "FoodRequest": [
+            {
+              "$instance": {
+                "Food": [
+                  {
+                    "startIndex": 14,
+                    "endIndex": 24,
+                    "text": "cobb salad",
+                    "type": "Food",
+                    "score": 0.9997305
+                  }
+                ],
+                "SpecialRequest": [
+                  {
+                    "startIndex": 25,
+                    "endIndex": 39,
+                    "text": "without cheese",
+                    "type": "SpecialRequest",
+                    "score": 0.424381465
+                  }
+                ]
+              },
+              "Food": [
+                "cobb salad"
+              ],
+              "SpecialRequest": [
+                "without cheese"
+              ]
+            },
+            {
+              "$instance": {
+                "number": [
+                  {
+                    "startIndex": 44,
+                    "endIndex": 45,
+                    "text": "3",
+                    "type": "builtin.number",
+                    "subtype": "integer"
+                  }
+                ],
+                "Food": [
+                  {
+                    "startIndex": 46,
+                    "endIndex": 57,
+                    "text": "quesadillas",
+                    "type": "Food",
+                    "score": 0.826071262
+                  }
+                ]
+              },
+              "number": [
+                3
+              ],
+              "Food": [
+                "quesadillas"
+              ]
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I also want a cobb salad without cheese and 3 quesadillas",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RoomService",
+          "score": 0.9985772
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "cobb salad",
+            "type": "Food",
+            "startIndex": 14,
+            "endIndex": 23,
+            "score": 0.9997305
+          },
+          {
+            "entity": "quesadillas",
+            "type": "Food",
+            "startIndex": 46,
+            "endIndex": 56,
+            "score": 0.826071262
+          },
+          {
+            "entity": "without cheese",
+            "type": "SpecialRequest",
+            "startIndex": 25,
+            "endIndex": 38,
+            "score": 0.424381465
+          },
+          {
+            "entity": "cobb salad without cheese",
+            "type": "FoodRequest",
+            "startIndex": 14,
+            "endIndex": 38,
+            "score": 0.9963755
+          },
+          {
+            "entity": "3 quesadillas",
+            "type": "FoodRequest",
+            "startIndex": 44,
+            "endIndex": 56,
+            "score": 0.8263905
+          },
+          {
+            "entity": "3",
+            "type": "builtin.number",
+            "startIndex": 44,
+            "endIndex": 44,
+            "resolution": {
+              "subtype": "integer",
+              "value": "3"
+            }
+          }
+        ],
+        "compositeEntities": [
+          {
+            "parentType": "FoodRequest",
+            "value": "cobb salad without cheese",
+            "children": [
+              {
+                "type": "Food",
+                "value": "cobb salad"
+              },
+              {
+                "type": "SpecialRequest",
+                "value": "without cheese"
+              }
+            ]
+          },
+          {
+            "parentType": "FoodRequest",
+            "value": "3 quesadillas",
+            "children": [
+              {
+                "type": "builtin.number",
+                "value": "3"
+              },
+              {
+                "type": "Food",
+                "value": "quesadillas"
+              }
+            ]
+          }
+        ],
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:30-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "id": "4aa00fe0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:30-07:00",
+    "timestamp": "2019-08-29T21:09:30.206Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "291056c3b01a45baaf8a023c3cf7384c",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "FoodOrderCard",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "id": "icon",
+                          "size": "small",
+                          "url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAxNiAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuMjUgMEM3LjQ1MzEyIDAgNy42Mjg5MSAwLjA3NDIxODggNy43NzczNCAwLjIyMjY1NkM3LjkyNTc4IDAuMzcxMDk0IDggMC41NDY4NzUgOCAwLjc1VjlDOCA5LjQxNDA2IDcuOTE3OTcgOS44MDQ2OSA3Ljc1MzkxIDEwLjE3MTlDNy41OTc2NiAxMC41MzEyIDcuMzgyODEgMTAuODQ3NyA3LjEwOTM4IDExLjEyMTFDNi44NDM3NSAxMS4zODY3IDYuNTI3MzQgMTEuNjAxNiA2LjE2MDE2IDExLjc2NTZDNS43OTI5NyAxMS45MjE5IDUuNDA2MjUgMTIgNSAxMlYyMy4yNUM1IDIzLjQ1MzEgNC45MjU3OCAyMy42Mjg5IDQuNzc3MzQgMjMuNzc3M0M0LjYyODkxIDIzLjkyNTggNC40NTMxMiAyNCA0LjI1IDI0QzQuMDQ2ODggMjQgMy44NzEwOSAyMy45MjU4IDMuNzIyNjYgMjMuNzc3M0MzLjU3NDIyIDIzLjYyODkgMy41IDIzLjQ1MzEgMy41IDIzLjI1VjEyQzMuMDg1OTQgMTIgMi42OTUzMSAxMS45MjE5IDIuMzI4MTIgMTEuNzY1NkMxLjk2ODc1IDExLjYwMTYgMS42NTIzNCAxMS4zODY3IDEuMzc4OTEgMTEuMTIxMUMxLjExMzI4IDEwLjg0NzcgMC44OTg0MzggMTAuNTMxMiAwLjczNDM3NSAxMC4xNzE5QzAuNTc4MTI1IDkuODA0NjkgMC41IDkuNDE0MDYgMC41IDlWMC43NUMwLjUgMC41NDY4NzUgMC41NzQyMTkgMC4zNzEwOTQgMC43MjI2NTYgMC4yMjI2NTZDMC44NzEwOTQgMC4wNzQyMTg4IDEuMDQ2ODggMCAxLjI1IDBDMS40NTMxMiAwIDEuNjI4OTEgMC4wNzQyMTg4IDEuNzc3MzQgMC4yMjI2NTZDMS45MjU3OCAwLjM3MTA5NCAyIDAuNTQ2ODc1IDIgMC43NVY5QzIgOS4yMTA5NCAyLjAzOTA2IDkuNDA2MjUgMi4xMTcxOSA5LjU4NTk0QzIuMTk1MzEgOS43NjU2MiAyLjMwMDc4IDkuOTI1NzggMi40MzM1OSAxMC4wNjY0QzIuNTc0MjIgMTAuMTk5MiAyLjczNDM4IDEwLjMwNDcgMi45MTQwNiAxMC4zODI4QzMuMDkzNzUgMTAuNDYwOSAzLjI4OTA2IDEwLjUgMy41IDEwLjVWMC43NUMzLjUgMC41NDY4NzUgMy41NzQyMiAwLjM3MTA5NCAzLjcyMjY2IDAuMjIyNjU2QzMuODcxMDkgMC4wNzQyMTg4IDQuMDQ2ODggMCA0LjI1IDBDNC40NTMxMiAwIDQuNjI4OTEgMC4wNzQyMTg4IDQuNzc3MzQgMC4yMjI2NTZDNC45MjU3OCAwLjM3MTA5NCA1IDAuNTQ2ODc1IDUgMC43NVYxMC41QzUuMjEwOTQgMTAuNSA1LjQwNjI1IDEwLjQ2MDkgNS41ODU5NCAxMC4zODI4QzUuNzY1NjIgMTAuMzA0NyA1LjkyMTg4IDEwLjE5OTIgNi4wNTQ2OSAxMC4wNjY0QzYuMTk1MzEgOS45MjU3OCA2LjMwNDY5IDkuNzY1NjIgNi4zODI4MSA5LjU4NTk0QzYuNDYwOTQgOS40MDYyNSA2LjUgOS4yMTA5NCA2LjUgOVYwLjc1QzYuNSAwLjU0Njg3NSA2LjU3NDIyIDAuMzcxMDk0IDYuNzIyNjYgMC4yMjI2NTZDNi44NzEwOSAwLjA3NDIxODggNy4wNDY4OCAwIDcuMjUgMFpNMTUuNSAwVjIzLjI1QzE1LjUgMjMuNDUzMSAxNS40MjU4IDIzLjYyODkgMTUuMjc3MyAyMy43NzczQzE1LjEyODkgMjMuOTI1OCAxNC45NTMxIDI0IDE0Ljc1IDI0QzE0LjU0NjkgMjQgMTQuMzcxMSAyMy45MjU4IDE0LjIyMjcgMjMuNzc3M0MxNC4wNzQyIDIzLjYyODkgMTQgMjMuNDUzMSAxNCAyMy4yNVYxNi41QzEzLjcxMDkgMTYuNSAxMy4zOTg0IDE2LjUwMzkgMTMuMDYyNSAxNi41MTE3QzEyLjcyNjYgMTYuNTE5NSAxMi4zOTA2IDE2LjUxNTYgMTIuMDU0NyAxNi41QzExLjcyNjYgMTYuNDc2NiAxMS40MDYyIDE2LjQyOTcgMTEuMDkzOCAxNi4zNTk0QzEwLjc4OTEgMTYuMjgxMiAxMC41MTU2IDE2LjE2MDIgMTAuMjczNCAxNS45OTYxQzEwLjAzOTEgMTUuODI0MiA5Ljg1MTU2IDE1LjYwMTYgOS43MTA5NCAxNS4zMjgxQzkuNTcwMzEgMTUuMDQ2OSA5LjUgMTQuNjg3NSA5LjUgMTQuMjVWNS4yNUM5LjUgNC41MjM0NCA5LjYzNjcyIDMuODQzNzUgOS45MTAxNiAzLjIxMDk0QzEwLjE5MTQgMi41NzAzMSAxMC41NjY0IDIuMDE1NjIgMTEuMDM1MiAxLjU0Njg4QzExLjUxMTcgMS4wNzAzMSAxMi4wNjY0IDAuNjk1MzEyIDEyLjY5OTIgMC40MjE4NzVDMTMuMzM5OCAwLjE0MDYyNSAxNC4wMjM0IDAgMTQuNzUgMEgxNS41Wk0xNCAxLjU3MDMxQzEzLjU2MjUgMS42NTYyNSAxMy4xNjAyIDEuODE2NDEgMTIuNzkzIDIuMDUwNzhDMTIuNDMzNiAyLjI3NzM0IDEyLjExNzIgMi41NTQ2OSAxMS44NDM4IDIuODgyODFDMTEuNTc4MSAzLjIxMDk0IDExLjM3MTEgMy41NzgxMiAxMS4yMjI3IDMuOTg0MzhDMTEuMDc0MiA0LjM4MjgxIDExIDQuODA0NjkgMTEgNS4yNVYxNC4yNUMxMSAxNC40NTMxIDExLjA3NDIgMTQuNjI4OSAxMS4yMjI3IDE0Ljc3NzNDMTEuMzcxMSAxNC45MjU4IDExLjU0NjkgMTUgMTEuNzUgMTVIMTRWMS41NzAzMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
+                          "horizontalAlignment": "center",
+                          "width": "30px",
+                          "height": "30px"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "verticalContentAlignment": "center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "light",
+                          "text": "Current Order"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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"
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Qty",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "Amount",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "id": "items",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "2",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Signature Burger"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "isSubtle": true,
+                          "text": "",
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "$18",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "1",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Cobb Salad"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "isSubtle": true,
+                          "text": "without cheese",
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "$18",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "10",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "3",
+                          "horizontalAlignment": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Chicken Quesadilla"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "isSubtle": true,
+                          "text": "",
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "$14",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Bill Total",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "bolder",
+                          "text": "$96",
+                          "horizontalAlignment": "right"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:30-07:00",
+    "timestamp": "2019-08-29T21:09:30.916Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "8d780f1213fb4a1a82eef2c41c8db04f",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "Shall I place your order? It will be billed to your room.",
+    "speak": "Shall I place your order? It will be billed to your room.",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [],
+    "replyToId": "4a2e1430-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:31-07:00",
+    "timestamp": "2019-08-29T21:09:31.080Z",
+    "locale": "en-US"
+  },
+  {
+    "text": "Yes",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1567112974291msenyydqb8"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2019-08-29T21:09:34.305Z",
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "id": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:34-07:00",
+    "recipient": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://1cfdeac6.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-08-29T21:09:34.496Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.9802449
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "3ddb4e28-02c7-41d5-ad16-4a5a0d4f2491"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.9802449
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "4d2eaa00-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:34-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "d52ed550e81d45e2b2916280af555945",
+    "timestamp": "2019-08-29T21:09:34.691Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.983040333
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.983040333
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:34-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "id": "65d4c21e14164128a85d1c5a711ba998",
+    "timestamp": "2019-08-29T21:09:34.887Z",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "None": {
+            "score": 0.6773788
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "None",
+          "score": 0.6773788
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-08-29T14:09:34-07:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "id": "4d75c520-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:34-07:00",
+    "timestamp": "2019-08-29T21:09:34.962Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "id": "74b4a6a68a0e4f57bcb7a348ae156dd8",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "Ok! Your order will be brought to your room shortly.",
+    "speak": "Ok! Your order will be brought to your room shortly.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:35-07:00",
+    "timestamp": "2019-08-29T21:09:35.050Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation with the Hospitality Skill Skill and handing off to Parent Bot.",
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "id": "4dff6780-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:35-07:00",
+    "timestamp": "2019-08-29T21:09:35.863Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "e9383e80-c500-11e9-9d08-870cf445af53",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "2d648aa1-caa1-11e9-83c6-7f8a32f3a42b|livechat"
+    },
+    "recipient": {
+      "id": "0bdc0e25-7dad-49a9-9e3b-81290b92c21a",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "4d118510-caa1-11e9-8be7-794c558b5c5c",
+    "id": "4e1846b0-caa1-11e9-8be7-794c558b5c5c",
+    "localTimestamp": "2019-08-29T14:09:36-07:00",
+    "timestamp": "2019-08-29T21:09:36.027Z",
+    "locale": "en-US"
+  }
+]

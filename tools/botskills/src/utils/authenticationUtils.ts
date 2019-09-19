@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { ILogger } from '../logger';
 import {
-    IAppSettingOauthConnection,
+    IAppSetting,
     IAppShowReplyUrl,
     IAuthenticationConnection,
     IAzureAuthSetting,
@@ -19,7 +19,7 @@ import { ChildProcessUtils, isValidAzVersion } from './';
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
     // tslint:disable-next-line: max-line-length
-    private docLink: string = 'https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration';
+    private docLink: string = 'https://aka.ms/vamanualauthsteps';
 
     private scopeMap: Map<string, string> = new Map([
         ['Files.Read.Selected', '5447fe39-cb82-4c1a-b977-520e67e724eb'],
@@ -123,6 +123,7 @@ export class AuthenticationUtils {
                     const listAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'list'];
                     listAuthSettingsCommand.push(...['-n', configuration.botName]);
                     listAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
+                    listAuthSettingsCommand.push(...['--output', 'json']);
 
                     logger.command('Checking for existing aad connections', listAuthSettingsCommand.join(' '));
                     currentCommand = listAuthSettingsCommand;
@@ -140,6 +141,7 @@ export class AuthenticationUtils {
                         showAuthSettingsCommand.push(...['-n', configuration.botName]);
                         showAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
                         showAuthSettingsCommand.push(...['-c', settingName]);
+                        showAuthSettingsCommand.push(...['--output', 'json']);
 
                         logger.command('Getting current aad auth settings', showAuthSettingsCommand.join(' '));
                         currentCommand = showAuthSettingsCommand;
@@ -155,6 +157,7 @@ export class AuthenticationUtils {
                         deleteAuthSettingCommand.push(...['-n', configuration.botName]);
                         deleteAuthSettingCommand.push(...['-g', configuration.resourceGroup]);
                         deleteAuthSettingCommand.push(...['-c', settingName]);
+                        deleteAuthSettingCommand.push(...['--output', 'json']);
 
                         logger.command('Deleting current bot authentication setting', deleteAuthSettingCommand.join(' '));
                         currentCommand = deleteAuthSettingCommand;
@@ -164,7 +167,7 @@ export class AuthenticationUtils {
 
                     // update appsettings.json
                     logger.message('Updating appsettings.json ...');
-                    const appSettings: IAppSettingOauthConnection = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+                    const appSettings: IAppSetting = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
 
                     // check for and remove existing aad connections
                     if (appSettings.oauthConnections) {
@@ -190,6 +193,7 @@ export class AuthenticationUtils {
                     // get the information of the app
                     const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
                     azureAppShowCommand.push(...['--id', appSettings.microsoftAppId]);
+                    azureAppShowCommand.push(...['--output', 'json']);
 
                     logger.command('Getting the app information', azureAppShowCommand.join(' '));
                     currentCommand = azureAppShowCommand;
@@ -208,6 +212,7 @@ export class AuthenticationUtils {
                     const azureAppUpdateCommand: string[] = ['az', 'ad', 'app', 'update'];
                     azureAppUpdateCommand.push(...['--id', appSettings.microsoftAppId]);
                     azureAppUpdateCommand.push(...['--reply-urls', replyUrls.join(' ')]);
+                    azureAppUpdateCommand.push(...['--output', 'json']);
                     const scopeManifestText: string = JSON.stringify(scopeManifest)
                         .replace(/\"/g, '\'');
                     azureAppUpdateCommand.push(...['--required-resource-accesses', `"${scopeManifestText}"`]);
@@ -233,6 +238,7 @@ export class AuthenticationUtils {
                     authSettingCommand.push(...['--parameters', `clientId="${appSettings.microsoftAppId}"`]);
                     authSettingCommand.push(...[`clientSecret="${appSettings.microsoftAppPassword}"`, 'tenantId=common']);
                     authSettingCommand.push(...['--provider-scope-string', `"${scopes.join(' ')}"`]);
+                    authSettingCommand.push(...['--output', 'json']);
 
                     logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
                     currentCommand = authSettingCommand;

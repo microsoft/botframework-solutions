@@ -58,6 +58,9 @@ namespace NewsSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
+            // Populate state from SemanticAction as required
+            await PopulateStateFromSemanticAction(dc.Context);
+
             // If dispatch result is general luis model
             _services.CognitiveModelSets["en"].LuisServices.TryGetValue("News", out var luisService);
 
@@ -67,7 +70,6 @@ namespace NewsSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
@@ -79,7 +81,7 @@ namespace NewsSkill.Dialogs
                     case NewsLuis.Intent.TrendingArticles:
                         {
                             // send articles in response
-                            turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
+                            await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
                             break;
                         }
 
@@ -87,14 +89,14 @@ namespace NewsSkill.Dialogs
                     case NewsLuis.Intent.ShowFavoriteTopics:
                         {
                             // send favorite news categories
-                            turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
+                            await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
                             break;
                         }
-                        
+
                     case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
-                            turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
+                            await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
@@ -102,8 +104,6 @@ namespace NewsSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
 
@@ -111,15 +111,8 @@ namespace NewsSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync("This feature is not yet implemented in this skill.");
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -130,7 +123,7 @@ namespace NewsSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                response.Type = ActivityTypes.Handoff;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -155,21 +148,18 @@ namespace NewsSkill.Dialogs
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    var topIntent = luisResult.TopIntent().intent;
+                    var topIntent = luisResult.TopIntent();
 
-                    switch (topIntent)
+                    if (topIntent.score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
-
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                        switch (topIntent.intent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -189,6 +179,20 @@ namespace NewsSkill.Dialogs
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Help);
             return InterruptionAction.MessageSentToUser;
+        }
+
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            // Populating local state with data passed through semanticAction out of Activity
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            {
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
+                var state = await _stateAccessor.GetAsync(context, () => new NewsSkillState());
+                state.CurrentCoordinates = locationObj;
+            }
         }
     }
 }

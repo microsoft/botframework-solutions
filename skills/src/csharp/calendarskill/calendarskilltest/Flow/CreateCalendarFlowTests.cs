@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
@@ -107,6 +110,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
@@ -412,6 +417,84 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarCreateWithWrongContactName()
+        {
+            var peopleCount = 3;
+            ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
+            var testRecipient = string.Format(Strings.Strings.UserName, 0);
+            var testEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send("wrong name")
+                .AssertReplyOneOf(UserNotFoundPrompt("wrong name"))
+                .Send("wrong name")
+                .AssertReplyOneOf(UserNotFoundAgainPrompt("wrong name"))
+                .Send(string.Format(Strings.Strings.UserName, 0))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt(testRecipient, testEmailAddress))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(testRecipient, testEmailAddress))
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForLocationPrompt())
+                .Send(Strings.Strings.DefaultLocation)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreateWithOneContactMultipleEmails()
+        {
+            ServiceManager = MockServiceManager.SetOnePeopleEmailsToMultiple(3);
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(ShowEmailsList(Strings.Strings.DefaultUserName))
+                .Send(CreateMeetingTestUtterances.ChooseFirstUser)
+                .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserName, string.Format(Strings.Strings.UserEmailAddress, 0)))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(Strings.Strings.DefaultUserName, string.Format(Strings.Strings.UserEmailAddress, 0)))
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForLocationPrompt())
+                .Send(Strings.Strings.DefaultLocation)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarCreateWithTitleEntity()
         {
             var testRecipient = Strings.Strings.DefaultUserName;
@@ -623,9 +706,132 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarCreateShowRestParticipants()
+        {
+            this.ServiceManager = MockServiceManager.SetPeopleToMultiple(6);
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 0))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 0) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 0) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(1))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 1))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 1) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 1) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(2))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 2))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 2) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 2) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(3))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 3))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 3) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 3) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(4))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 4))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 4) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 4) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(5))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
+                .Send(string.Format(Strings.Strings.UserName, 5))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
+                {
+                    { "UserName", string.Format(Strings.Strings.UserName, 5) },
+                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 5) }
+                }))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(6))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithMultipleContactNamePrompt(6))
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForLocationPrompt())
+                .Send(Strings.Strings.DefaultLocation)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(AskForShowRestParticipantsPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(RestParticipantsResponse(6))
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
         {
             return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+        }
+
+        private string[] AddMoreUserPromptWithMultipleUsers(int count)
+        {
+            var resultString = string.Empty;
+            for (int i = 0; i < count; i++)
+            {
+                if (i != 0)
+                {
+                    if (i == count - 1)
+                    {
+                        resultString += " and ";
+                    }
+                    else
+                    {
+                        resultString += ", ";
+                    }
+                }
+
+                resultString += $"{string.Format(Strings.Strings.UserName, i)}: {string.Format(Strings.Strings.UserEmailAddress, i)}";
+            }
+
+            var responseParams = new StringDictionary()
+            {
+                { "Users", resultString }
+            };
+            return ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
         }
 
         private string[] AddMoreUserPrompt(string userName = null, string userEmail = null)
@@ -657,6 +863,34 @@ namespace CalendarSkillTest.Flow
             var responseParams = new StringDictionary()
             {
                 { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" },
+            };
+
+            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+        }
+
+        private string[] AskForSubjectWithMultipleContactNamePrompt(int count)
+        {
+            var resultString = string.Empty;
+            for (int i = 0; i < count; i++)
+            {
+                if (i != 0)
+                {
+                    if (i == count - 1)
+                    {
+                        resultString += " and ";
+                    }
+                    else
+                    {
+                        resultString += ", ";
+                    }
+                }
+
+                resultString += $"{string.Format(Strings.Strings.UserName, i)}: {string.Format(Strings.Strings.UserEmailAddress, i)}";
+            }
+
+            var responseParams = new StringDictionary()
+            {
+                { "UserName", resultString }
             };
 
             return ParseReplies(CreateEventResponses.NoTitle, responseParams);
@@ -752,17 +986,84 @@ namespace CalendarSkillTest.Flow
             };
         }
 
+        private Action<IActivity> ShowEmailsList(string userName)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                var responseParams = new StringDictionary()
+                {
+                    { "UserName", userName }
+                };
+                var confirmedMessage = new List<string>(ParseReplies(FindContactResponses.ConfirmMultiplContactEmailSinglePage, responseParams));
+
+                var messageLines = messageActivity.Text.Split("\r\n");
+                Assert.IsTrue(confirmedMessage.Contains(messageLines[0]));
+                Assert.IsTrue(messageLines.Length == 5);
+            };
+        }
+
         private Action<IActivity> ActionEndMessage()
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
             };
         }
 
         private string[] BotErrorResponse()
         {
             return ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem, new StringDictionary());
+        }
+
+        private string[] AskForAddMoreAttendeesPrompt()
+        {
+            return ParseReplies(FindContactResponses.AddMoreAttendees, new StringDictionary());
+        }
+
+        private string[] AskForShowRestParticipantsPrompt()
+        {
+            return ParseReplies(CreateEventResponses.ShowRestParticipantsPrompt, new StringDictionary());
+        }
+
+        private string RestParticipantsResponse(int count)
+        {
+            var resultString = string.Empty;
+            for (int i = 5; i < count; i++)
+            {
+                if (i != 5)
+                {
+                    if (i == count - 1)
+                    {
+                        resultString += " and ";
+                    }
+                    else
+                    {
+                        resultString += ", ";
+                    }
+                }
+
+                resultString += $"{string.Format(Strings.Strings.UserName, i)}";
+            }
+
+            return resultString;
+        }
+
+        private string[] UserNotFoundPrompt(string userName)
+        {
+            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
+        }
+
+        private string[] UserNotFoundAgainPrompt(string userName)
+        {
+            return ParseReplies(
+                FindContactResponses.UserNotFoundAgain,
+                new StringDictionary()
+                {
+                    { "source", "Outlook" },
+                    { "UserName", userName }
+                });
         }
     }
 }

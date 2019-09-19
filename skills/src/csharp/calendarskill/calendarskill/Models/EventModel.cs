@@ -566,6 +566,7 @@ namespace CalendarSkill.Models
                                     {
                                         Address = attendee.EmailAddress.Address,
                                         DisplayName = attendee.EmailAddress.Name,
+                                        UserPrincipalName = attendee.EmailAddress.Name
                                     });
                             }
                         }
@@ -581,6 +582,7 @@ namespace CalendarSkill.Models
                                     {
                                         Address = attendee.Email,
                                         DisplayName = attendee.DisplayName,
+                                        UserPrincipalName = attendee.DisplayName,
                                     });
                             }
                         }
@@ -923,6 +925,8 @@ namespace CalendarSkill.Models
             public string Address { get; set; }
 
             public string DisplayName { get; set; }
+
+            public string UserPrincipalName { get; set; }
         }
     }
 }

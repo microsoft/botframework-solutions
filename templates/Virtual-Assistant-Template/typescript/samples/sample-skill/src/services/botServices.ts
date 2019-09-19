@@ -4,11 +4,9 @@
  */
 
 import { BotTelemetryClient } from 'botbuilder';
-import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuilder-ai';
-import {
-    ICognitiveModelConfiguration,
-    ICognitiveModelSet } from 'botbuilder-solutions';
-import { LuisService } from 'botframework-config';
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
+import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'botbuilder-solutions';
+import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import { IBotSettings } from './botSettings';
 
 export class BotServices {
@@ -21,16 +19,28 @@ export class BotServices {
             logPersonalInformation: true
         };
 
-        try {
-            if (settings.cognitiveModels !== undefined) {
+        if (settings.cognitiveModels !== undefined) {
+            settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string): void => {
 
-                settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string): void => {
-                    const language: string = key;
-                    const config: ICognitiveModelConfiguration = value;
-                    const cognitiveModelSet: Partial<ICognitiveModelSet> = {
-                        luisServices: new Map()
+                const language: string = key;
+                const config: ICognitiveModelConfiguration = value;
+                const cognitiveModelSet: Partial<ICognitiveModelSet> = {
+                    luisServices: new Map()
+                };
+
+                if (config.dispatchModel !== undefined) {
+                    const dispatchModel: DispatchService = new DispatchService(config.dispatchModel);
+
+                    const dispatchApp: LuisApplication = {
+                        applicationId: dispatchModel.appId,
+                        endpointKey: dispatchModel.subscriptionKey,
+                        endpoint: dispatchModel.getEndpoint()
                     };
 
+                    cognitiveModelSet.dispatchService = new LuisRecognizer(dispatchApp, luisPredictionOptions);
+                }
+
+                if (config.languageModels !== undefined) {
                     config.languageModels.forEach((model: LuisService): void => {
                         const luisService: LuisService = new LuisService(model);
                         const luisApp: LuisApplication  = {
@@ -42,12 +52,24 @@ export class BotServices {
                             cognitiveModelSet.luisServices.set(luisService.id, new LuisRecognizer(luisApp, luisPredictionOptions));
                         }
                     });
+                }
 
-                    this.cognitiveModelSets.set(language, cognitiveModelSet);
-                });
-            }
-        } catch (err) {
-            throw err;
+                if (config.knowledgeBases !== undefined) {
+                    config.knowledgeBases.forEach((kb: QnaMakerService): void => {
+                        const qnaEndpoint: QnAMakerEndpoint = {
+                            knowledgeBaseId: kb.kbId,
+                            endpointKey: kb.endpointKey,
+                            host: kb.hostname
+                        };
+                        const qnaMaker: QnAMaker = new QnAMaker(qnaEndpoint, undefined, telemetryClient, true);
+
+                        if (cognitiveModelSet.qnaServices !== undefined) {
+                            cognitiveModelSet.qnaServices.set(kb.id, qnaMaker);
+                        }
+                    });
+                }
+                this.cognitiveModelSets.set(language, cognitiveModelSet);
+            });
         }
     }
 }

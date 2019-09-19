@@ -31,6 +31,8 @@ namespace AutomotiveSkill.Dialogs
         private const string FallbackSettingImageFileName = "Black_Car.png";
         private const string AvailableSettingsFileName = "available_settings.yaml";
         private const string AlternativeSettingsFileName = "setting_alternative_names.yaml";
+
+        // Unused now. same as SettingChoice.json
         private const string AdaptiveCardBackgroundSVG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=";
 
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
@@ -552,27 +554,8 @@ namespace AutomotiveSkill.Dialogs
 
         private string GetSettingCardImageUri(string imagePath)
         {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            if (_httpContext != null)
-            {
-                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-                return $"{serverUrl}/images/{imagePath}";
-            }
-            else
-            {
-                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                Settings.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
-
-                var imageUriStr = imageUri;
-                if (string.IsNullOrWhiteSpace(imageUriStr))
-                {
-                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
-                }
-                else
-                {
-                    return $"{imageUriStr}/{imagePath}";
-                }
-            }
+            var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            return $"{serverUrl}/images/{imagePath}";
         }
 
         private string GetSpeakableOptions(IList<Choice> choices)

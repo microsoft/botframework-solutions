@@ -19,7 +19,7 @@ namespace VirtualAssistantSample.Tests.Utilities
 
         public static MockQnAMaker CreateRecognizer()
         {
-            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(Path.Combine("Resources" ,"faq_default.json")));
+            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(Path.Combine("Resources", "faq_default.json")));
             recognizer.RegisterAnswers(_utterances);
             return recognizer;
         }

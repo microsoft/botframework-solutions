@@ -195,9 +195,9 @@ namespace HospitalitySkill.Dialogs
                 else
                 {
                     var tokens = new StringDictionary
-                        {
+                    {
                         { "Date", userState.UserReservation.CheckOutDate }
-                        };
+                    };
 
                     await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.NotFutureDateError, tokens));
                 }
@@ -255,14 +255,14 @@ namespace HospitalitySkill.Dialogs
             {
                 var tokens = new StringDictionary
                 {
-                { "Date", userState.UserReservation.CheckOutDate }
+                    { "Date", userState.UserReservation.CheckOutDate }
                 };
 
                 var cardData = userState.UserReservation;
                 cardData.Title = string.Format(HospitalityStrings.UpdateReservation);
 
                 // check out date moved confirmation
-                var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card("ReservationDetails", cardData), tokens);
+                var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card(GetCardName(sc.Context, "ReservationDetails"), cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
 

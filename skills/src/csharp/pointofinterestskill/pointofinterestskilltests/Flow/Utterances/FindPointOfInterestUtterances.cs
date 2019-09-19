@@ -7,8 +7,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
     {
         public FindPointOfInterestUtterances()
         {
-            this.Add(WhatsNearby, CreateIntent(WhatsNearby, PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST));
-            this.Add(FindNearestPoi, CreateIntent(FindNearestPoi, PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST, poiType: new string[][] { new string[] { GeoSpatialServiceTypes.PoiType.Nearest } }));
+            this.Add(WhatsNearby, CreateIntent(WhatsNearby, PointOfInterestLuis.Intent.FindPointOfInterest));
+            this.Add(FindNearestPoi, CreateIntent(FindNearestPoi, PointOfInterestLuis.Intent.FindPointOfInterest, poiType: new string[][] { new string[] { GeoSpatialServiceTypes.PoiType.Nearest } }));
         }
 
         public static string WhatsNearby { get; } = "What's nearby?";

@@ -1,0 +1,5 @@
+{
+  "label": "Max Defrost",
+  "event": "AutomotiveSkill.Max Defrost",
+  "icon": "file:///android_asset/icons/defrost.png"
+}

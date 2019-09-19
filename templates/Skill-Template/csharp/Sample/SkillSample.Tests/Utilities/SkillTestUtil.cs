@@ -13,29 +13,29 @@ namespace SkillSample.Tests.Utilities
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, SkillLuis.Intent.Sample) },
+            { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, SkillSampleLuis.Intent.Sample) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, SkillLuis.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, SkillSampleLuis.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static SkillLuis CreateIntent(string userInput, SkillLuis.Intent intent)
+        public static SkillSampleLuis CreateIntent(string userInput, SkillSampleLuis.Intent intent)
         {
-            var result = new SkillLuis
+            var result = new SkillSampleLuis
             {
                 Text = userInput,
-                Intents = new Dictionary<SkillLuis.Intent, IntentScore>()
+                Intents = new Dictionary<SkillSampleLuis.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new SkillLuis._Entities
+            result.Entities = new SkillSampleLuis._Entities
             {
-                _instance = new SkillLuis._Entities._Instance()
+                _instance = new SkillSampleLuis._Entities._Instance()
             };
 
             return result;

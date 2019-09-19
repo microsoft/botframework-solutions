@@ -1,10 +1,12 @@
-﻿using System;
+﻿                                                                                                                                                                                                                                                                                                                                          using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.Shared;
@@ -47,22 +49,22 @@ namespace CalendarSkill.Dialogs
             };
 
             // go through the name list, replace the confirmNameList
-            // set state.CurrentAttendeeName
+            // set state.MeetingInfor.ContactInfor.CurrentContactName
             var loopNameList = new WaterfallStep[]
             {
                 LoopNameList,
                 AfterLoopNameList
             };
 
-            // check on the attendee of state.CurrentAttendeeName.
+            // check on the attendee of state.MeetingInfor.ContactInfor.CurrentContactName.
             // called by loopNameList
             var confirmAttendee = new WaterfallStep[]
             {
-                // call updateName to get the person state.ConfirmedPerson.
-                // state.ConfirmedPerson should be set after this step
+                // call updateName to get the person state.MeetingInfor.ContactInfor.ConfirmedContact.
+                // state.MeetingInfor.ContactInfor.ConfirmedContact should be set after this step
                 ConfirmName,
 
-                // check if the state.ConfirmedPerson
+                // check if the state.MeetingInfor.ContactInfor.ConfirmedContact
                 //  - null : failed to parse this name for multiple try.
                 //  - one email : check if this one is wanted
                 //  - multiple emails : call selectEmail
@@ -72,9 +74,9 @@ namespace CalendarSkill.Dialogs
                 AfterConfirmEmail
             };
 
-            // use the user name of state.CurrentAttendeeName or user input to find the persons.
+            // use the user name of state.MeetingInfor.ContactInfor.CurrentContactName or user input to find the persons.
             // and will call select person.
-            // after all this done, state.ConfirmedPerson should be set.
+            // after all this done, state.MeetingInfor.ContactInfor.ConfirmedContact should be set.
             var updateName = new WaterfallStep[]
             {
                 // check whether should the bot ask for attendee name.
@@ -82,7 +84,7 @@ namespace CalendarSkill.Dialogs
                 // if called by itself when can not find the last input, it will ask back or end this one when multiple try.
                 UpdateUserName,
 
-                // check if email. add email direct into attendee and set state.ConfirmedPerson null.
+                // check if email. add email direct into attendee and set state.MeetingInfor.ContactInfor.ConfirmedContact null.
                 // if not, search for the attendee.
                 // if got multiple persons, call selectPerson. use replace
                 // if got no person, replace/restart this flow.
@@ -120,7 +122,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.ConfirmNameList;
         }
 
-        public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -128,11 +130,11 @@ namespace CalendarSkill.Dialogs
                 var options = sc.Options as FindContactDialogOptions;
 
                 // got attendee name list already.
-                if (state.AttendeesNameList.Any())
+                if (state.MeetingInfor.ContactInfor.ContactsNameList.Any())
                 {
                     if (options != null && options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                     {
-                        if (state.AttendeesNameList.Count > 1)
+                        if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1)
                         {
                             options.PromptMoreContact = false;
                         }
@@ -159,7 +161,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -174,7 +176,7 @@ namespace CalendarSkill.Dialogs
                     // if is skip. set the name list to be myself only.
                     if (CreateEventWhiteList.IsSkip(userInput))
                     {
-                        state.AttendeesNameList = new List<string>
+                        state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>
                         {
                             CalendarCommonStrings.MyselfConst
                         };
@@ -188,27 +190,28 @@ namespace CalendarSkill.Dialogs
                                 .Select(x => x.Trim())
                                 .Where(x => !string.IsNullOrWhiteSpace(x))
                                 .ToList();
-                            state.AttendeesNameList = nameList;
+                            state.MeetingInfor.ContactInfor.ContactsNameList = nameList;
                         }
                     }
                 }
 
-                if (state.AttendeesNameList.Any())
+                if (state.MeetingInfor.ContactInfor.ContactsNameList.Any())
                 {
-                    if (state.AttendeesNameList.Count > 1)
+                    if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
                     }
 
                     // go to loop to go through all the names
-                    state.ConfirmAttendeesNameIndex = 0;
+                    state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = 0;
                     return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
                 }
 
-                state.AttendeesNameList = new List<string>();
-                state.CurrentAttendeeName = string.Empty;
-                state.ConfirmAttendeesNameIndex = 0;
+                // todo:
+                state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
+                state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = 0;
                 return await sc.EndDialogAsync();
             }
             catch (Exception ex)
@@ -219,25 +222,25 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> LoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> LoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
+                if (state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex < state.MeetingInfor.ContactInfor.ContactsNameList.Count)
                 {
-                    state.CurrentAttendeeName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
+                    state.MeetingInfor.ContactInfor.CurrentContactName = state.MeetingInfor.ContactInfor.ContactsNameList[state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex];
                     var options = sc.Options as FindContactDialogOptions;
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee, sc.Options, cancellationToken);
                 }
                 else
                 {
-                    state.AttendeesNameList = new List<string>();
-                    state.CurrentAttendeeName = string.Empty;
-                    state.ConfirmAttendeesNameIndex = 0;
+                    state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
+                    state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
+                    state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = 0;
                     var options = sc.Options as FindContactDialogOptions;
-                    if (options.PromptMoreContact && state.Attendees.Count < 20)
+                    if (options.PromptMoreContact && state.MeetingInfor.ContactInfor.Contacts.Count < 20)
                     {
                         return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);
                     }
@@ -255,13 +258,13 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterLoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterLoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.ConfirmAttendeesNameIndex = state.ConfirmAttendeesNameIndex + 1;
-                state.ConfirmedPerson = null;
+                state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex + 1;
+                state.MeetingInfor.ContactInfor.ConfirmedContact = null;
                 return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
             }
             catch (Exception ex)
@@ -272,7 +275,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -283,7 +286,7 @@ namespace CalendarSkill.Dialogs
                 var options = (FindContactDialogOptions)sc.Options;
 
                 // set the ConfirmPerson to null as default.
-                state.ConfirmedPerson = null;
+                state.MeetingInfor.ContactInfor.ConfirmedContact = null;
                 return await sc.BeginDialogAsync(Actions.UpdateName, options: options, cancellationToken: cancellationToken);
             }
             catch (SkillException skillEx)
@@ -300,48 +303,55 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var confirmedPerson = state.ConfirmedPerson;
-            if (confirmedPerson == null)
-            {
-                return await sc.EndDialogAsync();
-            }
-
-            var name = confirmedPerson.DisplayName;
-            if (confirmedPerson.Emails.Count() == 1)
-            {
-                // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
-            }
-            else
-            {
-                return await sc.BeginDialogAsync(Actions.SelectEmail);
-            }
-        }
-
-        public async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var confirmedPerson = state.ConfirmedPerson;
+                var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
+                if (confirmedPerson == null)
+                {
+                    return await sc.EndDialogAsync();
+                }
+
+                var name = confirmedPerson.DisplayName;
+                if (confirmedPerson.Emails.Count() == 1)
+                {
+                    // Highest probability
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.SelectEmail);
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
 
                 // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                state.FirstRetryInFindContact = true;
-
                 if (!(sc.Result is bool) || (bool)sc.Result)
                 {
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = name,
-                        Address = confirmedPerson.Emails.First().Address
+                        Address = confirmedPerson.Emails.First().Address,
+                        UserPrincipalName = confirmedPerson.UserPrincipalName
                     };
-                    if (state.Attendees.All(r => r.Address != attendee.Address))
+                    if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
-                        state.Attendees.Add(attendee);
+                        state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
                     }
 
                     return await sc.EndDialogAsync();
@@ -361,13 +371,13 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.UnconfirmedPerson.Clear();
-                state.ConfirmedPerson = null;
+                state.MeetingInfor.ContactInfor.UnconfirmedContact.Clear();
+                state.MeetingInfor.ContactInfor.ConfirmedContact = null;
                 var options = (FindContactDialogOptions)sc.Options;
 
                 // if it is confirm no, thenask user to give a new attendee
@@ -381,14 +391,13 @@ namespace CalendarSkill.Dialogs
                         });
                 }
 
-                var currentRecipientName = state.CurrentAttendeeName;
+                var currentRecipientName = state.MeetingInfor.ContactInfor.CurrentContactName;
 
                 // if not initialize ask user for attendee
                 if (options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    if (state.FirstRetryInFindContact)
+                    if (options.FirstRetry)
                     {
-                        state.FirstRetryInFindContact = false;
                         return await sc.PromptAsync(
                             Actions.Prompt,
                             new PromptOptions
@@ -397,22 +406,24 @@ namespace CalendarSkill.Dialogs
                                     FindContactResponses.UserNotFound,
                                     new StringDictionary()
                                     {
-                                    { "UserName", currentRecipientName }
+                                        { "UserName", currentRecipientName }
                                     })
                             });
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            FindContactResponses.UserNotFoundAgain,
-                            new StringDictionary()
+                        return await sc.PromptAsync(
+                            Actions.Prompt,
+                            new PromptOptions
                             {
-                            { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
-                            { "UserName", currentRecipientName }
-                            }));
-                        state.FirstRetryInFindContact = true;
-                        state.CurrentAttendeeName = string.Empty;
-                        return await sc.EndDialogAsync();
+                                Prompt = ResponseManager.GetResponse(
+                                    FindContactResponses.UserNotFoundAgain,
+                                    new StringDictionary()
+                                    {
+                                        { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
+                                        { "UserName", currentRecipientName }
+                                    })
+                            });
                     }
                 }
 
@@ -426,7 +437,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -440,24 +451,25 @@ namespace CalendarSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.CurrentAttendeeName : userInput;
-                state.CurrentAttendeeName = currentRecipientName;
+                var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
+                state.MeetingInfor.ContactInfor.CurrentContactName = currentRecipientName;
 
-                // if it's an email, add to attendee and kepp the state.ConfirmedPerson null
+                // if it's an email, add to attendee and kepp the state.MeetingInfor.ContactInfor.ConfirmedContact null
                 if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
                 {
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = currentRecipientName,
-                        Address = currentRecipientName
+                        Address = currentRecipientName,
+                        UserPrincipalName = currentRecipientName,
                     };
-                    if (state.Attendees.All(r => r.Address != attendee.Address))
+                    if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
-                        state.Attendees.Add(attendee);
+                        state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
                     }
 
-                    state.CurrentAttendeeName = string.Empty;
-                    state.ConfirmedPerson = null;
+                    state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
+                    state.MeetingInfor.ContactInfor.ConfirmedContact = null;
                     return await sc.EndDialogAsync();
                 }
 
@@ -467,6 +479,41 @@ namespace CalendarSkill.Dialogs
                 {
                     var me = await GetMe(sc.Context);
                     unionList.Add(new CustomizedPerson(me));
+                }
+                else if (!string.IsNullOrEmpty(currentRecipientName) && state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                {
+                    string pronounType = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].PronounType;
+                    string relationship = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].RelationshipName;
+                    var personList = new List<PersonModel>();
+                    if (pronounType == PronounType.FirstPerson)
+                    {
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetMyManager(sc);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+                    else if (pronounType == PronounType.ThirdPerson && state.MeetingInfor.ContactInfor.Contacts.Count > 0)
+                    {
+                        int count = state.MeetingInfor.ContactInfor.Contacts.Count;
+                        string prename = state.MeetingInfor.ContactInfor.Contacts[count - 1].UserPrincipalName;
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetManager(sc, prename);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+
+                    foreach (var person in personList)
+                    {
+                        unionList.Add(new CustomizedPerson(person));
+                    }
                 }
                 else
                 {
@@ -530,17 +577,22 @@ namespace CalendarSkill.Dialogs
                 unionList.RemoveAll(person => !person.Emails.Exists(email => email.Address != null));
                 unionList.RemoveAll(person => !person.Emails.Any());
 
-                state.UnconfirmedPerson = unionList;
+                state.MeetingInfor.ContactInfor.UnconfirmedContact = unionList;
 
                 if (unionList.Count == 0)
                 {
+                    if (!(options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.Initialize))
+                    {
+                        options.FirstRetry = false;
+                    }
+
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
                     return await sc.ReplaceDialogAsync(Actions.UpdateName, options);
                 }
                 else
                 if (unionList.Count == 1)
                 {
-                    state.ConfirmedPerson = unionList.First();
+                    state.MeetingInfor.ContactInfor.ConfirmedContact = unionList.First();
                     return await sc.EndDialogAsync();
                 }
                 else
@@ -562,12 +614,12 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> SelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var unionList = state.UnconfirmedPerson;
+                var unionList = state.MeetingInfor.ContactInfor.UnconfirmedContact;
                 if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
                     return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, true));
@@ -585,7 +637,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterSelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterSelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -600,13 +652,13 @@ namespace CalendarSkill.Dialogs
                 {
                     if (generalTopIntent == General.Intent.ShowNext)
                     {
-                        state.ShowAttendeesIndex++;
+                        state.MeetingInfor.ContactInfor.ShowContactsIndex++;
                     }
                     else if (generalTopIntent == General.Intent.ShowPrevious)
                     {
-                        if (state.ShowAttendeesIndex > 0)
+                        if (state.MeetingInfor.ContactInfor.ShowContactsIndex > 0)
                         {
-                            state.ShowAttendeesIndex--;
+                            state.MeetingInfor.ContactInfor.ShowContactsIndex--;
                         }
                         else
                         {
@@ -616,7 +668,7 @@ namespace CalendarSkill.Dialogs
                     else
                     {
                         // result is null when just update the recipient name. show recipients page should be reset.
-                        state.ShowAttendeesIndex = 0;
+                        state.MeetingInfor.ContactInfor.ShowContactsIndex = 0;
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.SelectPerson, options: sc.Options, cancellationToken: cancellationToken);
@@ -626,11 +678,11 @@ namespace CalendarSkill.Dialogs
                 if (choiceResult != null)
                 {
                     // Clean up data
-                    state.ShowAttendeesIndex = 0;
+                    state.MeetingInfor.ContactInfor.ShowContactsIndex = 0;
 
                     // Start to confirm the email
-                    var confirmedPerson = state.UnconfirmedPerson.Where(p => p.DisplayName.ToLower() == choiceResult.ToLower()).First();
-                    state.ConfirmedPerson = confirmedPerson;
+                    var confirmedPerson = state.MeetingInfor.ContactInfor.UnconfirmedContact.Where(p => p.DisplayName.ToLower() == choiceResult.ToLower()).First();
+                    state.MeetingInfor.ContactInfor.ConfirmedContact = confirmedPerson;
                 }
 
                 return await sc.EndDialogAsync();
@@ -643,12 +695,12 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> SelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var confirmedPerson = state.ConfirmedPerson;
+                var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 var emailString = string.Empty;
                 var emailList = confirmedPerson.Emails.ToList();
 
@@ -669,7 +721,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterSelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterSelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -684,13 +736,13 @@ namespace CalendarSkill.Dialogs
                 {
                     if (generalTopIntent == General.Intent.ShowNext)
                     {
-                        state.ShowAttendeesIndex++;
+                        state.MeetingInfor.ContactInfor.ShowContactsIndex++;
                     }
                     else if (generalTopIntent == General.Intent.ShowPrevious)
                     {
-                        if (state.ShowAttendeesIndex > 0)
+                        if (state.MeetingInfor.ContactInfor.ShowContactsIndex > 0)
                         {
-                            state.ShowAttendeesIndex--;
+                            state.MeetingInfor.ContactInfor.ShowContactsIndex--;
                         }
                         else
                         {
@@ -700,7 +752,7 @@ namespace CalendarSkill.Dialogs
                     else
                     {
                         // result is null when just update the recipient name. show recipients page should be reset.
-                        state.ShowAttendeesIndex = 0;
+                        state.MeetingInfor.ContactInfor.ShowContactsIndex = 0;
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.SelectEmail, sc.Options, cancellationToken);
@@ -709,11 +761,11 @@ namespace CalendarSkill.Dialogs
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
                 if (choiceResult != null)
                 {
-                    state.ConfirmedPerson.DisplayName = choiceResult.Split(": ")[0];
-                    state.ConfirmedPerson.Emails.First().Address = choiceResult.Split(": ")[1];
+                    state.MeetingInfor.ContactInfor.ConfirmedContact.DisplayName = choiceResult.Split(": ")[0];
+                    state.MeetingInfor.ContactInfor.ConfirmedContact.Emails.First().Address = choiceResult.Split(": ")[1];
 
                     // Clean up data
-                    state.ShowAttendeesIndex = 0;
+                    state.MeetingInfor.ContactInfor.ShowContactsIndex = 0;
                 }
 
                 return await sc.EndDialogAsync();
@@ -726,15 +778,15 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -745,7 +797,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -772,7 +824,7 @@ namespace CalendarSkill.Dialogs
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(context);
-            var pageIndex = state.ShowAttendeesIndex;
+            var pageIndex = state.MeetingInfor.ContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
             var emailList = confirmedPerson.Emails.ToList();
@@ -780,8 +832,8 @@ namespace CalendarSkill.Dialogs
             // Go back to the last page when reaching the end.
             if (skip >= emailList.Count && pageIndex > 0)
             {
-                state.ShowAttendeesIndex--;
-                pageIndex = state.ShowAttendeesIndex;
+                state.MeetingInfor.ContactInfor.ShowContactsIndex--;
+                pageIndex = state.MeetingInfor.ContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
@@ -859,16 +911,16 @@ namespace CalendarSkill.Dialogs
         private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(context);
-            var pageIndex = state.ShowAttendeesIndex;
+            var pageIndex = state.MeetingInfor.ContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
-            var currentRecipientName = state.CurrentAttendeeName;
+            var currentRecipientName = state.MeetingInfor.ContactInfor.CurrentContactName;
 
             // Go back to the last page when reaching the end.
             if (skip >= unionList.Count && pageIndex > 0)
             {
-                state.ShowAttendeesIndex--;
-                pageIndex = state.ShowAttendeesIndex;
+                state.MeetingInfor.ContactInfor.ShowContactsIndex--;
+                pageIndex = state.MeetingInfor.ContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
@@ -922,6 +974,12 @@ namespace CalendarSkill.Dialogs
             options.Prompt.Text = GetSelectPromptString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
+        }
+
+        private class PronounType
+        {
+            public const string FirstPerson = "FirstPerson";
+            public const string ThirdPerson = "ThirdPerson";
         }
     }
 }

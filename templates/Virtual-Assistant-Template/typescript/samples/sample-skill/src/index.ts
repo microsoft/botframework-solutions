@@ -94,7 +94,7 @@ if (botSettings.cosmosDb === undefined) {
 }
 
 cosmosDbStorageSettings = {
-    authKey: botSettings.cosmosDb.authkey,
+    authKey: botSettings.cosmosDb.authKey,
     collectionId: botSettings.cosmosDb.collectionId,
     databaseId: botSettings.cosmosDb.databaseId,
     serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
@@ -103,10 +103,9 @@ cosmosDbStorageSettings = {
 const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
-
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
-const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
 const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
+const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,

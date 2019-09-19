@@ -1401,6 +1401,24 @@ $PREBUILT:ordinal
 
 > # List entities
 
+$PossessivePronoun:FirstPerson=
+- my
+- our
+- my own
+- our own
+
+$PossessivePronoun:SecondPerson=
+- your
+- your own
+
+$PossessivePronoun:ThirdPerson=
+- his
+- her
+- their
+- his own
+- her own
+- their own
+
 $RelationshipName:aunt=
 
 $RelationshipName:aunts=

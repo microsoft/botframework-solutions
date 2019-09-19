@@ -23,13 +23,13 @@ namespace PointOfInterestSkillTests.API.Fakes
 
             if (clientIdStr != null && clientSecretStr != null)
             {
-                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, MockData.Radius, MockData.Limit, MockData.Locale, mockClient).Result;
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, MockData.Radius, MockData.Limit, MockData.RouteLimit, MockData.Locale, mockClient).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(services);
 
-                return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, locale, mockClient).Result;
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, MockData.RouteLimit, locale, mockClient).Result;
             }
         }
 
@@ -37,14 +37,14 @@ namespace PointOfInterestSkillTests.API.Fakes
         {
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, locale, mockClient).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, MockData.RouteLimit, locale, mockClient).Result;
         }
 
         public IGeoSpatialService InitRoutingMapsService(BotSettings services, string locale = "en-us")
         {
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, locale, mockClient).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, MockData.Limit, MockData.RouteLimit, locale, mockClient).Result;
         }
 
         protected string GetAzureMapsKey(BotSettings services)

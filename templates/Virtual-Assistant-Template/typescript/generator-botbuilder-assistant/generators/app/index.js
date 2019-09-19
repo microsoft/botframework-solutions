@@ -16,6 +16,8 @@ const templateName = "sample-assistant";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
+let containsSpecialCharacter = false;
+let finalAssistantName = "";
 
 const languagesChoice = [
   {
@@ -255,6 +257,11 @@ module.exports = class extends Generator {
       ``
     );
 
+    if (this.props.assistantName !== assistantName) {
+      finalAssistantName = assistantName;
+      containsSpecialCharacter = true;
+    }
+
     assistantGenerationPath = path.join(assistantGenerationPath, assistantName);
     if (this.props.assistantGenerationPath !== undefined) {
       assistantGenerationPath = path.join(
@@ -283,7 +290,7 @@ module.exports = class extends Generator {
 
     // Start the copy of the template
     this.copier.selectLanguages(assistantLang);
-    this.copier.copyIgnoringTemplateFiles(
+    this.copier.copyTemplate(
       templateName,
       assistantGenerationPath
     );
@@ -328,6 +335,14 @@ module.exports = class extends Generator {
         );
       } else {
         this.spawnCommandSync("npm run build", []);
+        if (containsSpecialCharacter) {
+          this.log(
+            chalk.yellow(
+              `\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`
+            )
+          );
+        }
+
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new assistant is ready!  `));
         this.log(chalk.green(`------------------------ `));
@@ -341,11 +356,7 @@ module.exports = class extends Generator {
             `\nNext step - being in the root of your generated assistant, to deploy it execute the following command:`
           )
         );
-        this.log(
-          chalk.blue(
-            `pwsh -File deployment\\scripts\\deploy.ps1`
-          )
-        );
+        this.log(chalk.blue(`pwsh -File deployment\\scripts\\deploy.ps1`));
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));

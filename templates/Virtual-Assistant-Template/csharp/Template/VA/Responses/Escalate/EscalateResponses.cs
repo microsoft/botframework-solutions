@@ -30,8 +30,8 @@ namespace $safeprojectname$.Responses.Escalate
                 Text = EscalateStrings.PHONE_INFO,
                 Buttons = new List<CardAction>()
                 {
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Call now", value: "tel:18005551234"),
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Open Teams", value: "msteams://")
+                    new CardAction(type: ActionTypes.OpenUrl, title: EscalateStrings.CALL_NOW, value: "tel:18005551234"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: EscalateStrings.OPEN_TEAMS, value: "msteams://")
                 },
             }.ToAttachment();
 

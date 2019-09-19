@@ -40,7 +40,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "Location services"
+                          "text": "{CardTitle}"
                         }
                       ],
                       "width": "stretch"
@@ -64,7 +64,7 @@
           "spacing": "None",
           "size": "Medium",
           "weight": "Bolder",
-          "color": "Accent",
+          "color": "default",
           "text": "{Name}"
         },
         {
@@ -99,7 +99,6 @@
       "items": [
         {
           "type": "Image",
-          "size": "auto",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }
@@ -162,6 +161,16 @@
               "width": 20
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "{ActionStartNavigation}",
+          "data": "{ActionStartNavigation}"
         }
       ]
     },

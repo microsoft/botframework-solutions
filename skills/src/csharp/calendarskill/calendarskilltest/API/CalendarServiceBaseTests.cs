@@ -40,19 +40,19 @@ namespace CalendarSkillTest.API
         public async Task CreateEventTest()
         {
             var newEvent = new EventModel(EventSource.Microsoft);
-            await calendarService.CreateEvent(newEvent);
+            await calendarService.CreateEventAysnc(newEvent);
         }
 
         [TestMethod]
         public async Task GetUpComingEventsTest()
         {
-            await calendarService.GetUpcomingEvents();
+            await calendarService.GetUpcomingEventsAsync();
         }
 
         [TestMethod]
         public async Task GetEventsByTimeTest()
         {
-            await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+            await calendarService.GetEventsByTimeAsync(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace CalendarSkillTest.API
         {
             try
             {
-                await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+                await calendarService.GetEventsByTimeAsync(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
             }
             catch (Exception e)
             {
@@ -76,7 +76,7 @@ namespace CalendarSkillTest.API
         {
             try
             {
-                await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
+                await calendarService.GetEventsByTimeAsync(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
             }
             catch (Exception e)
             {
@@ -90,7 +90,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetEventsByStartTimeTest()
         {
-            await calendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+            await calendarService.GetEventsByStartTimeAsync(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace CalendarSkillTest.API
         {
             try
             {
-                await calendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
+                await calendarService.GetEventsByStartTimeAsync(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
             }
             catch (Exception e)
             {
@@ -112,13 +112,13 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetEventsByTitle()
         {
-            await calendarService.GetEventsByTitle("test");
+            await calendarService.GetEventsByTitleAsync("test");
         }
 
         [TestMethod]
         public async Task DeleteEventsById()
         {
-            await calendarService.DeleteEventById("test id");
+            await calendarService.DeleteEventByIdAsync("test id");
         }
 
         [TestMethod]
@@ -132,7 +132,7 @@ namespace CalendarSkillTest.API
                 EndTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc)
             };
 
-            EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
+            EventModel updateResult = await calendarService.UpdateEventByIdAsync(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }
     }
