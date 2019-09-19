@@ -104,7 +104,6 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -114,31 +113,31 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindMeetingRoom:
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
+                            await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.AcceptEventEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
                             break;
                         }
 
                     case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
                             break;
                         }
 
                     case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
                             break;
                         }
 
                     case CalendarLuis.Intent.ConnectToMeeting:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
+                            await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
                             break;
                         }
 
@@ -149,20 +148,20 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.FindCalendarWho:
                     case CalendarLuis.Intent.FindDuration:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                            await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
                     case CalendarLuis.Intent.TimeRemaining:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                            await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
                             break;
                         }
 
                     case CalendarLuis.Intent.ShowNextCalendar:
                     case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                            await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             break;
                         }
 
@@ -170,12 +169,11 @@ namespace CalendarSkill.Dialogs
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                                await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
                             }
                             else
                             {
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -184,15 +182,8 @@ namespace CalendarSkill.Dialogs
                     default:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

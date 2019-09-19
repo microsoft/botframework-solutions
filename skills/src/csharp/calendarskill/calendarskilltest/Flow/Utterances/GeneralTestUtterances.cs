@@ -15,6 +15,8 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string ChooseOne { get; } = "First one";
 
+        public static string UnknownIntent { get; } = "What's the weather?";
+
         public General GetBaseNoneIntent()
         {
             var intent = new General

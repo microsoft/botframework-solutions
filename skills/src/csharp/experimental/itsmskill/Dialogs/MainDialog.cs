@@ -86,7 +86,6 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<ITSMLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -100,31 +99,31 @@ namespace ITSMSkill.Dialogs
                 {
                     case ITSMLuis.Intent.TicketCreate:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateTicketDialog));
+                            await dc.BeginDialogAsync(nameof(CreateTicketDialog));
                             break;
                         }
 
                     case ITSMLuis.Intent.TicketUpdate:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateTicketDialog));
+                            await dc.BeginDialogAsync(nameof(UpdateTicketDialog));
                             break;
                         }
 
                     case ITSMLuis.Intent.TicketShow:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowTicketDialog));
+                            await dc.BeginDialogAsync(nameof(ShowTicketDialog));
                             break;
                         }
 
                     case ITSMLuis.Intent.TicketClose:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(CloseTicketDialog));
+                            await dc.BeginDialogAsync(nameof(CloseTicketDialog));
                             break;
                         }
 
                     case ITSMLuis.Intent.KnowledgeShow:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowKnowledgeDialog));
+                            await dc.BeginDialogAsync(nameof(ShowKnowledgeDialog));
                             break;
                         }
 
@@ -132,7 +131,6 @@ namespace ITSMSkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -140,14 +138,8 @@ namespace ITSMSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

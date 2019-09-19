@@ -1,18 +1,18 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using BingSearchSkill.Models;
-using BingSearchSkill.Responses.Search;
-using BingSearchSkill.Services;
+﻿using System;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using BingSearchSkill.Models;
 using BingSearchSkill.Models.Cards;
-using Microsoft.Bot.Schema;
-using System;
+using BingSearchSkill.Responses.Search;
+using BingSearchSkill.Services;
 using BingSearchSkill.Utilities;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 namespace BingSearchSkill.Dialogs
 {

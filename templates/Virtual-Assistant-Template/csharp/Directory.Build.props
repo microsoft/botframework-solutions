@@ -8,6 +8,12 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RestoreAdditionalProjectSources>
+      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Product>Microsoft BotFramework Virtual Assistant Template</Product>
