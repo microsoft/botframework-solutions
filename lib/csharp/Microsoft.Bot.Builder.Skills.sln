@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RootBot", "Tests\VABotTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RootBot.Tests", "Tests\VABotTest\RootBot.Tests\RootBot.Tests.csproj", "{D2DA0E53-7C2F-4340-8899-C81A6C7729B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillBot", "Tests\VABotTest\SkillBot\SkillBot.csproj", "{C6869B06-3637-42BE-A2A4-CF5855BB93E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChildBot", "Tests\VABotTest\ChildBot\ChildBot.csproj", "{C6869B06-3637-42BE-A2A4-CF5855BB93E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillBot.Tests", "Tests\VABotTest\SkillBot.Tests\SkillBot.Tests.csproj", "{C5CFCEB9-26FB-4B50-9DE0-2D2F35B75B35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChildBot.Tests", "Tests\VABotTest\ChildBot.Tests\ChildBot.Tests.csproj", "{C5CFCEB9-26FB-4B50-9DE0-2D2F35B75B35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "libraries\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{84771E4A-3CC2-4FF5-9465-A90E8D151D4D}"
 EndProject
@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. VABotTest", "04. VABotT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. ChildWithDialogTest", "02. ChildWithDialogTest", "{119C0D19-143E-427A-9A13-D2A916EEDCDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChildWithDialogBot", "tests\ChildWithDialogTest\ChildWithDialogBot\ChildWithDialogBot.csproj", "{7704A042-67F7-4DFD-934D-818392BAE282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChildWithDialogBot", "tests\ChildWithDialogTest\ChildWithDialogBot\ChildWithDialogBot.csproj", "{7704A042-67F7-4DFD-934D-818392BAE282}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RootNoDialogBot", "tests\ChildWithDialogTest\RootNoDialogBot\RootNoDialogBot.csproj", "{9711A9F5-648D-4B1E-8AF4-FE7C5C8F1A2D}"
 EndProject

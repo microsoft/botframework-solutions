@@ -34,7 +34,7 @@ namespace RootEchoBot.Bots
             var ret = await _skillConnector.ForwardActivityAsync(turnContext, turnContext.Activity as Activity, cancellationToken);
             if (ret != null && ret.Type == ActivityTypes.EndOfConversation)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("The skill ended"), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text("The skill has ended"), cancellationToken);
             }
         }
 

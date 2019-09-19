@@ -118,8 +118,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Deployment\Resources\Dispatch\" />
-  </ItemGroup>
-
 </Project>
