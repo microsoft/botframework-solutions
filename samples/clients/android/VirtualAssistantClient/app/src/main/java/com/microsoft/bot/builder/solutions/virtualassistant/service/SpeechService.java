@@ -21,6 +21,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -260,21 +261,6 @@ public class SpeechService extends Service {
             }
         });
 
-        // Initialize listening animation view
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
-
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        View animationContainer = inflater.inflate(R.layout.assistant_overlay, null);
-        wm.addView(animationContainer, params);
-        animationView = animationContainer.findViewById(R.id.animated_assistant);
 
         // Initialize SFX manager
         sfxManager = new SfxManager();
@@ -426,6 +412,26 @@ public class SpeechService extends Service {
         File directory = getFilesDir();
         Configuration configuration = configurationManager.getConfiguration();
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
+    }
+
+    // Initialize listening animation view
+    private void initializeAnimation() {
+        if (Settings.canDrawOverlays(this)) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                            | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                    PixelFormat.TRANSLUCENT);
+
+            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+            View animationContainer = inflater.inflate(R.layout.assistant_overlay, null);
+            wm.addView(animationContainer, params);
+            animationView = animationContainer.findViewById(R.id.animated_assistant);
+        }
     }
 
     // EventBus: the synthesizer has stopped playing
@@ -628,17 +634,30 @@ public class SpeechService extends Service {
 
     private void startListening() {
         Toast.makeText(getApplicationContext(), "Listening", Toast.LENGTH_LONG).show();
-        if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
+        if (speechSdk == null) {
+            initializeSpeechSdk(true); // assume true - for this to work the app must have been launched once for permission dialog
+        }
         speechSdk.connectAsync();
         speechSdk.listenOnceAsync();
-        animationView.setVisibility(View.VISIBLE);
-        ((AnimationDrawable)animationView.getBackground()).start();
-        sfxManager.playEarconListening();
+        if (animationView == null) {
+            initializeAnimation(); // initialize listening animation view
+        }
+        if (animationView != null) {
+            animationView.setVisibility(View.VISIBLE);
+            ((AnimationDrawable)animationView.getBackground()).start();
+        }
+        if (sfxManager != null) {
+            sfxManager.playEarconListening();
+        }
     }
 
     private void stopListening() {
-        ((AnimationDrawable)animationView.getBackground()).stop();
-        animationView.setVisibility(View.GONE);
-        sfxManager.playEarconDoneListening();
+        if (animationView != null) {
+            ((AnimationDrawable)animationView.getBackground()).stop();
+            animationView.setVisibility(View.GONE);
+        }
+        if (sfxManager != null) {
+            sfxManager.playEarconDoneListening();
+        }
     }
 }
