@@ -11,7 +11,7 @@ Param(
 	[string] $resourceGroup,
 	[switch] $useDispatch = $false,
     [string] $languages = "en-us",
-    [string] $outFolder = $(Get-Location),
+    [string] $outFolder = $(Join-Path $(Get-Location) "src"),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
 )
 
