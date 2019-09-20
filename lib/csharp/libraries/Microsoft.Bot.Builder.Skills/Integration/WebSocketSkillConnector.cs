@@ -17,17 +17,21 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Integration
 {
-    // TODO: GG refactor this class to fix this warming. Probably create an overload that takes what's needed to create the streamingClient and implement IDispose for the case where the class creates the client.
-#pragma warning disable CA1001 // Types that own disposable fields should be disposable (disable, streamingTransportClient is passed in, we assume the owner will dispose it but let's revie later just in case)'
-    public class SkillWebSocketTransport : SkillTransport
-#pragma warning restore CA1001 // Types that own disposable fields should be disposable
+    /// <summary>
+    /// WebSocketSkillConnector that inherits from the base SkillConnector.
+    /// </summary>
+    /// <remarks>
+    /// Its responsibility is to forward a incoming request to the skill and handle
+    /// the responses based on Skill Protocol.
+    /// </remarks>
+    public class WebSocketSkillConnector : SkillConnector
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly IServiceClientCredentials _serviceClientCredentials;
         private readonly SkillOptions _skillOptions;
         private IStreamingTransportClient _streamingTransportClient;
 
-        public SkillWebSocketTransport(IBotTelemetryClient botTelemetryClient, SkillOptions skillOptions, IServiceClientCredentials serviceClientCredentials, IStreamingTransportClient streamingTransportClient = null)
+        public WebSocketSkillConnector(IBotTelemetryClient botTelemetryClient, SkillOptions skillOptions, IServiceClientCredentials serviceClientCredentials, IStreamingTransportClient streamingTransportClient = null)
         {
             _botTelemetryClient = botTelemetryClient;
             _skillOptions = skillOptions;
@@ -35,8 +39,7 @@ namespace Microsoft.Bot.Builder.Skills.Integration
             _streamingTransportClient = streamingTransportClient;
         }
 
-        // TODO: get just turnContext, activity, (optional) callback for interception.
-        public override async Task<Activity> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
+        public override async Task<Activity> ForwardActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
         {
             var responseHandler = new SkillWebSocketsResponseHandler(turnContext, _botTelemetryClient);
             try
@@ -68,14 +71,13 @@ namespace Microsoft.Bot.Builder.Skills.Integration
             return responseHandler.GetEndOfConversationActivity();
         }
 
-        // TODO: look into moving this up the stack (this should be just pipe)
         public override async Task CancelRemoteDialogsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var cancelRemoteDialogEvent = Activity.CreateEventActivity();
             cancelRemoteDialogEvent.Type = ActivityTypes.Event;
             cancelRemoteDialogEvent.Name = SkillEvents.CancelAllSkillDialogsEventName;
 
-            await ForwardToSkillAsync(turnContext, cancelRemoteDialogEvent as Activity, cancellationToken).ConfigureAwait(false);
+            await ForwardActivityAsync(turnContext, cancelRemoteDialogEvent as Activity, cancellationToken).ConfigureAwait(false);
         }
 
         private static string EnsureWebSocketUrl(string url)

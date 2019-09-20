@@ -25,8 +25,7 @@ namespace RootEchoBot.Bots
                 Endpoint = new Uri(configuration["SkillAppEndpoint"]),
             };
             var serviceClientCredentials = new SkillAppCredentials(configuration["SkillAppId"], configuration["SkillAppPassword"], "https://api.botframework.com");
-            var skillTransport = new SkillWebSocketTransport(new NullBotTelemetryClient(), skillOptions, serviceClientCredentials);
-            _skillConnector = new BotFrameworkSkillConnector(skillTransport);
+            _skillConnector = new WebSocketSkillConnector(new NullBotTelemetryClient(), skillOptions, serviceClientCredentials);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
