@@ -220,11 +220,7 @@ namespace ITSMSkill.Dialogs
                 var cards = new List<Card>();
                 foreach (var ticket in result.Tickets)
                 {
-                    cards.Add(new Card()
-                    {
-                        Name = GetDivergedCardName(sc.Context, "Ticket"),
-                        Data = ConvertTicket(ticket)
-                    });
+                    cards.Add(GetTicketCard(sc.Context, ticket));
                 }
 
                 var token = new StringDictionary()

@@ -521,11 +521,7 @@ namespace ITSMSkill.Dialogs
             state.TicketTarget = result.Tickets[0];
             state.Id = state.TicketTarget.Id;
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(state.TicketTarget)
-            };
+            var card = GetTicketCard(sc.Context, state.TicketTarget, false);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketTarget, card, null));
             return await sc.NextAsync();
@@ -884,6 +880,17 @@ namespace ITSMSkill.Dialogs
             }
         }
 
+        protected Card GetTicketCard(ITurnContext turnContext, Ticket ticket, bool showButton = true)
+        {
+            var name = showButton ? (ticket.State != TicketState.Closed ? "TicketUpdateClose" : "TicketUpdate") : "Ticket";
+
+            return new Card
+            {
+                Name = GetDivergedCardName(turnContext, name),
+                Data = ConvertTicket(ticket)
+            };
+        }
+
         protected TicketCard ConvertTicket(Ticket ticket)
         {
             var card = new TicketCard()
@@ -896,7 +903,17 @@ namespace ITSMSkill.Dialogs
                 ResolvedReason = ticket.ResolvedReason,
                 Speak = ticket.Description,
                 Number = $"{SharedStrings.TicketNumber}{ticket.Number}",
+                ActionUpdateTitle = SharedStrings.TicketActionUpdateTitle,
+                ActionUpdateValue = string.Format(SharedStrings.TicketActionUpdateValue, ticket.Number),
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, ticket.Provider),
             };
+
+            if (ticket.State != TicketState.Closed)
+            {
+                card.ActionCloseTitle = SharedStrings.TicketActionCloseTitle;
+                card.ActionCloseValue = string.Format(SharedStrings.TicketActionCloseValue, ticket.Number);
+            }
+
             return card;
         }
 
@@ -912,6 +929,7 @@ namespace ITSMSkill.Dialogs
                 Number = $"{SharedStrings.TicketNumber}{knowledge.Number}",
                 UrlTitle = SharedStrings.OpenKnowledge,
                 UrlLink = knowledge.Url,
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, knowledge.Provider),
             };
             return card;
         }

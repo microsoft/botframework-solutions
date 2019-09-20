@@ -67,6 +67,21 @@
       ]
     },
     {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "{ActionUpdateTitle}",
+          "data": "{ActionUpdateValue}"
+        },
+        {
+          "type": "Action.Submit",
+          "title": "{ActionCloseTitle}",
+          "data": "{ActionCloseValue}"
+        }
+      ]
+    },
+    {
       "type": "Container",
       "separator": true,
       "items": [

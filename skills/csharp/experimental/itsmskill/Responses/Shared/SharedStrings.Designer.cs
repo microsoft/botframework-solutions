@@ -169,6 +169,51 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Powered by **{0}**.
+        /// </summary>
+        public static string PoweredBy {
+            get {
+                return ResourceManager.GetString("PoweredBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string TicketActionCloseTitle {
+            get {
+                return ResourceManager.GetString("TicketActionCloseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to close the ticket {0}.
+        /// </summary>
+        public static string TicketActionCloseValue {
+            get {
+                return ResourceManager.GetString("TicketActionCloseValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string TicketActionUpdateTitle {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update the ticket {0}.
+        /// </summary>
+        public static string TicketActionUpdateValue {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number: .
         /// </summary>
         public static string TicketNumber {

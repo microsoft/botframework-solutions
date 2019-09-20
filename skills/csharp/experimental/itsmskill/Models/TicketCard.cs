@@ -24,5 +24,15 @@ namespace ITSMSkill.Models
         public string Speak { get; set; }
 
         public string Number { get; set; }
+
+        public string ActionUpdateTitle { get; set; }
+
+        public string ActionUpdateValue { get; set; }
+
+        public string ActionCloseTitle { get; set; }
+
+        public string ActionCloseValue { get; set; }
+
+        public string ProviderDisplayText { get; set; }
     }
 }

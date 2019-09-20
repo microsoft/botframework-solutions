@@ -72,11 +72,7 @@ namespace ITSMSkill.Dialogs
                 return await SendServiceErrorAndCancel(sc, result);
             }
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(result.Tickets[0])
-            };
+            var card = GetTicketCard(sc.Context, result.Tickets[0]);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketClosed, card, null));
             return await sc.NextAsync();
