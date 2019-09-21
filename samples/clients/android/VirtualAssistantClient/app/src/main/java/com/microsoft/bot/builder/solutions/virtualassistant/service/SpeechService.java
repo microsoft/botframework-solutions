@@ -23,7 +23,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +37,6 @@ import com.microsoft.bot.builder.solutions.directlinespeech.SpeechSdk;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.SfxManager;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.PlayStoreUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
@@ -253,6 +251,8 @@ public class SpeechService extends Service {
         EventBus.getDefault().register(this);
         gson = new Gson();
 
+        configurationManager = new ConfigurationManager(this);
+
         locationProvider = new LocationProvider(this, location -> {
             final String locLat = String.valueOf(location.getLatitude());
             final String locLon = String.valueOf(location.getLongitude());
@@ -261,36 +261,9 @@ public class SpeechService extends Service {
             }
         });
 
-
         // Initialize SFX manager
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
-    }
-
-    private void setUpConfiguration(){
-        // set up configuration for SpeechSdk
-        configurationManager = new ConfigurationManager(this);
-
-        Configuration configuration = configurationManager.getConfiguration();
-        if (configuration.isEmpty()){
-            // set up defaults
-            configuration.serviceKey = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY;
-            configuration.botId = DefaultConfiguration.DIRECT_LINE_SPEECH_SECRET_KEY;
-            configuration.serviceRegion = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY_REGION;
-            configuration.userName = DefaultConfiguration.USER_NAME;
-            configuration.userId = DefaultConfiguration.USER_FROM_ID;
-            configuration.locale = DefaultConfiguration.LOCALE;
-            configuration.historyLinecount = Integer.MAX_VALUE - 1;
-            configuration.colorBubbleBot = ContextCompat.getColor(this, R.color.color_chat_background_bot);
-            configuration.colorBubbleUser = ContextCompat.getColor(this, R.color.color_chat_background_user);
-            configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
-            configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
-            configuration.keyword = DefaultConfiguration.KEYWORD;
-            configuration.showFullConversation = true;
-            configuration.enableDarkMode = false;
-            configuration.keepScreenOn = true;
-            configurationManager.setConfiguration(configuration);
-        }
     }
 
     @Override
@@ -309,7 +282,6 @@ public class SpeechService extends Service {
             switch (action) {
                 case ACTION_START_FOREGROUND_SERVICE:
                     Toast.makeText(getApplicationContext(), "Service is started", Toast.LENGTH_LONG).show();
-                    setUpConfiguration();
                     if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
                     startForegroundService();
                     break;

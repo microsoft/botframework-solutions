@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
@@ -47,6 +46,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chat
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.AppConfiguration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity
         animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
 
         // load configurations from shared preferences
-        loadConfiguration();
+        loadAppConfiguration();
 
         isCreated = true;//keep this as last line in onCreate()
     }
@@ -300,7 +300,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
-            loadConfiguration();
+            loadAppConfiguration();
         } else if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
             if (Settings.canDrawOverlays(this)) {
                 startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
@@ -308,14 +308,14 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void loadConfiguration() {
-        Configuration configuration = configurationManager.getConfiguration();
-        setDarkMode(configuration.enableDarkMode == null ? false : configuration.enableDarkMode);
-        keepScreenOn = configuration.keepScreenOn == null ? false : configuration.keepScreenOn;
-        chatAdapter.setShowFullConversation(configuration.showFullConversation == null ? false : configuration.showFullConversation);
-        chatAdapter.setChatItemHistoryCount(configuration.historyLinecount == null ? 1 : configuration.historyLinecount);
-        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
-        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
+    private void loadAppConfiguration() {
+        AppConfiguration appConfiguration = appConfigurationManager.getConfiguration();
+        setDarkMode(appConfiguration.enableDarkMode);
+        keepScreenOn = appConfiguration.keepScreenOn;
+        chatAdapter.setShowFullConversation(appConfiguration.showFullConversation);
+        chatAdapter.setChatItemHistoryCount(appConfiguration.historyLinecount);
+        chatAdapter.setChatBubbleColors(appConfiguration.colorBubbleBot, appConfiguration.colorBubbleUser);
+        chatAdapter.setChatTextColors(appConfiguration.colorTextBot, appConfiguration.colorTextUser);
     }
 
     private void showListeningAnimation(){
