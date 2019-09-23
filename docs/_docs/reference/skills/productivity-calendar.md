@@ -26,7 +26,7 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *Reschedule my interview on monday to 1 pm*
+  - *Reschedule my interview on Monday to 1 pm*
 - Connect to a Meeting
   - *Connect me to conference call*
   - *Connect me with my 2 o'clock meeting*
@@ -35,7 +35,7 @@ The following scenarios are currently supported by the Skill:
   - *Put anniversary on my calendar*
 - Delete a Meeting
   - *Cancel my meeting at 3 PM today*
-  - *Drop my appointment for monday*
+  - *Drop my appointment for Monday*
 - Find a Meeting
   - *Do I have any appointments today?*
   - *Get to my next event*
@@ -144,4 +144,4 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Events
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or timezone.
+Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.

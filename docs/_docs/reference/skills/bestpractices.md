@@ -438,7 +438,7 @@ protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> p
 }
 ```
 
-If you need a more complex prmopt you can implement it by inheriting `Microsoft.Bot.Builder.Dialogs.Prompt<T>`. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
+If you need a more complex prompt you can implement it by inheriting `Microsoft.Bot.Builder.Dialogs.Prompt<T>`. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
 
 ### Enable long running tasks
 

@@ -134,4 +134,4 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Events
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or timezone.
+Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.

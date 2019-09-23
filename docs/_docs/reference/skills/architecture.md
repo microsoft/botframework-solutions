@@ -23,7 +23,7 @@ Within an Enterprise, this could be creating one parent bot bringing together mu
 
 Skills are themselves Bots, invoked remotely and a Skill developer template (.NET, TS) is available to facilitate creation of new Skills.
 
-A key design goal for Skills was to maintain the consistent Activity protocol and ensure the development experience was as close to any normal V4 SDK bot as possible. To that end, a Bot simply starts a `SkilllDialog` which abstracts the skill invocation mechanics.
+A key design goal for Skills was to maintain the consistent Activity protocol and ensure the development experience was as close to any normal V4 SDK bot as possible. To that end, a Bot simply starts a `SkillDialog` which abstracts the skill invocation mechanics.
 
 ## Invocation Flow
 

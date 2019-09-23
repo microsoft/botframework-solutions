@@ -139,4 +139,4 @@ HomeworkSynonym | homework, home work |
     ]
 ```
 
-1. Redeploy your To Do Skill.
+3. Redeploy your To Do Skill.

@@ -125,12 +125,12 @@ This event has the name `PhoneSkill.OutgoingCall`.
 Its value is a JSON object representing an object of type `PhoneSkill.Models.OutgoingCall`.
 
 The value of the event has the following properties:
-- The property `Number` holds the phone number to be dialled as a string.
+- The property `Number` holds the phone number to be dialed as a string.
   (Please note that this string is in the same format as it appears in the user's contact list or in the user's query.
   If you require an RFC 3966 compliant `tel:` URI or a particular other format, we recommend using a phone number formatting library to format this string accordingly, taking into account the user's default country code and any other relevant external information.)
 - The property `Contact` is optional and holds the contact list entry that the user selected.
   This is an object of type `PhoneSkill.Models.ContactCandidate`.
-  This information may be useful, for example, to allow the client application to show information about the contact on the screen while the phone number is being dialled.
+  This information may be useful, for example, to allow the client application to show information about the contact on the screen while the phone number is being dialed.
 
 Here is an example of an event returned by the Phone skill:
 
