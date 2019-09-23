@@ -89,7 +89,7 @@ Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauths
 
 ## Language Model
 
-LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
+LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|

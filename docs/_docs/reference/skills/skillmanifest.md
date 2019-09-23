@@ -67,17 +67,18 @@ The `authenticationConnections` section communicates which authentication provid
  scopes             | The authentication scopes required for this skill to operate. Space or comma separated | **Yes**
 
 ```json
- "authenticationConnections": [
-    {
-      "id": "Outlook",
-      "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
-    },
-    {
-      "id": "Google",
-      "serviceProviderId": "Google",
-      "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
-    }]
+"authenticationConnections": [
+  {
+    "id": "Outlook",
+    "serviceProviderId": "Azure Active Directory v2",
+    "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
+  },
+  {
+    "id": "Google",
+    "serviceProviderId": "Google",
+    "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+  }
+]
 ```
 
 ### Actions
@@ -92,25 +93,27 @@ Parameter  | Description | Required
 
 ```json
 "actions": [
-    {
-      "id": "calendarskill_createEvent",
-      "definition": {
-        "description": "Create a new event",
-        "slots": [
-          {
-            "name": "title",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "content",
-            "types": [
-              "string"
-            ]
-          }]
-      }
-    }]
+  {
+    "id": "calendarskill_createEvent",
+    "definition": {
+      "description": "Create a new event",
+      "slots": [
+        {
+          "name": "title",
+          "types": [
+            "string"
+          ]
+        },
+        {
+          "name": "content",
+          "types": [
+            "string"
+          ]
+        }
+      ]
+    }
+  }
+]
 ```
 
 ### Trigger
@@ -122,29 +125,33 @@ References to an source of utterances can be provided through the (`utteranceSou
 > At this time we only support a LU file reference which the Skill CLI parses and resolves the LU file locally meaning the developer must have the LU file available. Moving forward we plan to add a reference to a deployed LUIS model meaning this can be retrieved dynamically.
 
 ```json
- "triggers": {
-    "utteranceSources": [
+"triggers": {
+  "utteranceSources": [
     {
-        "locale": "en",
-        "source": [
-            "Calendar#AcceptEventEntry",
-            "Calendar#DeleteCalendarEntry"]
-    }]
- }
+      "locale": "en",
+      "source": [
+        "Calendar#AcceptEventEntry",
+        "Calendar#DeleteCalendarEntry"
+      ]
+    }
+  ]
+}
 ```
 
 Utterances can also be provided in-line with the skill manifest as shown below. Unlike with `utteranceSource` all utterances are provided as part of the manifest providing the Skill CLI everything it needs for trigger utterances.
 
 ```json
- "triggers": {
-    "utterances": [
+"triggers": {
+  "utterances": [
     {
-        "locale": "en",
-        "text": [
-            "2 hour meeting with darren at 5 on tuesday",
-            "add a meeting with darren to my calendar"]
-    }]
- }
+      "locale": "en",
+      "text": [
+        "2 hour meeting with darren at 5 on tuesday",
+        "add a meeting with darren to my calendar"
+      ]
+    }
+  ]
+}
 ```
 
 Both `utteranceSources` and `utterances` support multiple-locales enabling you to express the locales your Skill supports.

@@ -57,7 +57,7 @@ The following scenarios are currently supported by the Skill:
 
 ## Language Understanding (LUIS)
 
-LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
+LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|

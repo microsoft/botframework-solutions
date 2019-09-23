@@ -56,8 +56,8 @@ This skill has a very limited LUIS model (available in English, French, Italian,
 1. Provide these values in your `appsettings.json` file.
 
 ```
-  "BingSearchKey": "{YOUR_BING_SEARCH_COGNITIVE_SERVICES_KEY}",
-  "BingAnswerSearchKey": "{YOUR_PROJECT_ANSWER_SEARCH_KEY}"
+"BingSearchKey": "{YOUR_BING_SEARCH_COGNITIVE_SERVICES_KEY}",
+"BingAnswerSearchKey": "{YOUR_PROJECT_ANSWER_SEARCH_KEY}"
 ```
 
 ### Event Skill
@@ -74,7 +74,7 @@ This skill currently supports one scenario to get local event information.
 1. Provide this value in your `appsettings.json` file.
 
 ```
-  "eventbriteKey":  "YOUR_EVENTBRITE_API_KEY"
+"eventbriteKey":  "YOUR_EVENTBRITE_API_KEY"
 ```
 
 ### Hospitality Skill
@@ -174,7 +174,7 @@ This skill supports the following scenarios:
 1. Provide this value in your `appsettings.json` file.
 
 ```
-  "BingNewsKey": "{YOUR_BING_NEWS_COGNITIVE_SERVICES_KEY}"
+"BingNewsKey": "{YOUR_BING_NEWS_COGNITIVE_SERVICES_KEY}"
 ```
 
 ### Restaurant Booking Skill
@@ -193,5 +193,5 @@ The [Weather skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/wea
 1. Provide this value in your `appsettings.json` file.
 
 ```
-  "WeatherApiKey": "{YOUR_ACCUWEATHER_API_KEY}"
+"WeatherApiKey": "{YOUR_ACCUWEATHER_API_KEY}"
 ```
