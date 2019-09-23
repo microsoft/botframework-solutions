@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace RestaurantBooking.Models
+namespace RestaurantBookingSkill.Models
 {
     public class ReservationConfirmCard : ICardData
     {

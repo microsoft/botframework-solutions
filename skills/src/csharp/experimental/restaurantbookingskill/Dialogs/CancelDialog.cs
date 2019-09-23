@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace RestaurantBooking.Dialogs
+namespace RestaurantBookingSkill.Dialogs
 {
     public class CancelDialog : ComponentDialog
     {

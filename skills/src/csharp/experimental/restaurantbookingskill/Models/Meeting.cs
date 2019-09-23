@@ -1,4 +1,4 @@
-﻿namespace RestaurantBooking.Models
+﻿namespace RestaurantBookingSkill.Models
 {
     using System;
     using System.Collections.Generic;

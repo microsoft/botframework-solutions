@@ -1,4 +1,4 @@
-﻿namespace RestaurantBooking.Utilities
+﻿namespace RestaurantBookingSkill.Utilities
 {
     public interface IUrlResolver
     {

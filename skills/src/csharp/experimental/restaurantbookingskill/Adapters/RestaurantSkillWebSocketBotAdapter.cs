@@ -9,7 +9,7 @@ using Microsoft.Bot.Schema;
 using RestaurantBooking.Responses.Shared;
 using RestaurantBooking.Services;
 
-namespace RestaurantBooking.Adapters
+namespace RestaurantBookingSkill.Adapters
 {
     public class RestaurantSkillWebSocketBotAdapter : SkillWebSocketBotAdapter
     {

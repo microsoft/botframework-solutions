@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Solutions;
 
-namespace RestaurantBooking.Services
+namespace RestaurantBookingSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {

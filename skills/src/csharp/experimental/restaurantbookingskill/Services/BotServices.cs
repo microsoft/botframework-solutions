@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
 
-namespace RestaurantBooking.Services
+namespace RestaurantBookingSkill.Services
 {
     public class BotServices
     {

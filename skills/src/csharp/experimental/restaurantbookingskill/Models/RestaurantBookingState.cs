@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RestaurantBooking.Models
+namespace RestaurantBookingSkill.Models
 {
     public class RestaurantBookingState
     {

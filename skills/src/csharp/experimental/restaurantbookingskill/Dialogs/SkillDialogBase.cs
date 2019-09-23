@@ -18,7 +18,7 @@ using RestaurantBooking.Responses.Shared;
 using RestaurantBooking.Services;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
-namespace RestaurantBooking.Dialogs
+namespace RestaurantBookingSkill.Dialogs
 {
     public class SkillDialogBase : ComponentDialog
     {

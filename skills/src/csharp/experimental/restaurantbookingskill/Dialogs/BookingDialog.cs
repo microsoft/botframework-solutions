@@ -21,7 +21,7 @@ using RestaurantBooking.Responses.Shared;
 using RestaurantBooking.Services;
 using RestaurantBooking.Utilities;
 
-namespace RestaurantBooking.Dialogs
+namespace RestaurantBookingSkill.Dialogs
 {
     public class BookingDialog : SkillDialogBase
     {

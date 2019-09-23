@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RestaurantBooking.Bots
+namespace RestaurantBookingSkill.Bots
 {
     public class DialogBot<T> : IBot
         where T : Dialog

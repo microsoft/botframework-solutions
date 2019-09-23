@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 
-namespace RestaurantBooking.Controllers
+namespace RestaurantBookingSkill.Controllers
 {
     [ApiController]
     public class BotController : SkillController

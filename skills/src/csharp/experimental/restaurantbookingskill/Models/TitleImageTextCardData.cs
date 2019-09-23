@@ -1,7 +1,7 @@
 ﻿using AdaptiveCards;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace RestaurantBooking.Models
+namespace RestaurantBookingSkill.Models
 {
     public class TitleImageTextCardData : ICardData
     {

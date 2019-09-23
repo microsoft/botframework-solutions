@@ -17,12 +17,12 @@ using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using RestaurantBooking.Models;
-using RestaurantBooking.Responses.Main;
-using RestaurantBooking.Responses.Shared;
-using RestaurantBooking.Services;
+using RestaurantBookingSkill.Models;
+using RestaurantBookingSkill.Responses.Main;
+using RestaurantBookingSkill.Responses.Shared;
+using RestaurantBookingSkill.Services;
 
-namespace RestaurantBooking.Dialogs
+namespace RestaurantBookingSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {

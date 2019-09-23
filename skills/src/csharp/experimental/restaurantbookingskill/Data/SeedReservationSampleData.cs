@@ -3,7 +3,7 @@ using RestaurantBooking.Content;
 using RestaurantBooking.Models;
 using RestaurantBooking.Utilities;
 
-namespace RestaurantBooking.Data
+namespace RestaurantBookingSkill.Data
 {
     public static class SeedReservationSampleData
     {

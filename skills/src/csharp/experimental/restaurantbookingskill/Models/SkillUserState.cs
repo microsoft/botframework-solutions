@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 
-namespace RestaurantBooking.Models
+namespace RestaurantBookingSkill.Models
 {
     public class SkillUserState : DialogState
     {

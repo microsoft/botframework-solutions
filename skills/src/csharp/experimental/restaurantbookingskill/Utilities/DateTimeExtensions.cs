@@ -1,7 +1,7 @@
 ﻿using System;
 using RestaurantBooking.Responses.Shared;
 
-namespace RestaurantBooking.Utilities
+namespace RestaurantBookingSkill.Utilities
 {
     public static class DateTimeExtensions
     {
