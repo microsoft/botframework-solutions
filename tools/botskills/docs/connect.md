@@ -11,7 +11,7 @@ botskills connect [options]
 ```
 
 ## Skill Deployment
-See the [Skills Overview](/docs/readme.md#skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
+See the [Skills Overview]({{site.baseurl}}/overview/skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
 
 ## Manual Authentication Connection configuration
 

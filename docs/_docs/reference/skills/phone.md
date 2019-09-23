@@ -12,7 +12,6 @@ order: 9
 ## In this reference
 {:.no_toc}
 
-*
 {:toc}
 
 ## Overview
@@ -74,7 +73,7 @@ The Phone Skill requires the following dependencies for end to end operation, wh
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
+To deploy your services using the default configuration, follow the steps in this common deployment documentation page ([C#]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources.md)/[TypeScript]({{site.baseurl}}/tutorials/typescript/create-skill/4_provision_your_azure_resources/.md)) from the folder where you have cloned the GitHub repo.
 
 ### Authentication Connection Settings
 
@@ -86,7 +85,7 @@ If you plan to use the skill as part of a Virtual Assistant, the process of regi
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant, please use the following steps to manually configure Authentication for the Phone Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
