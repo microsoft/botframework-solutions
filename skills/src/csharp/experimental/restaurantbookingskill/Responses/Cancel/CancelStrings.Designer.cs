@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RestaurantBooking.Responses.Cancel {
+namespace RestaurantBookingSkill.Responses.Cancel {
     using System;
     
     
@@ -19,7 +19,7 @@ namespace RestaurantBooking.Responses.Cancel {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class CancelStrings {
@@ -39,7 +39,7 @@ namespace RestaurantBooking.Responses.Cancel {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RestaurantBooking.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RestaurantBookingSkill.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

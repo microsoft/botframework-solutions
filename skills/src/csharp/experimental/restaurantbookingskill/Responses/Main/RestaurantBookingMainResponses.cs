@@ -4,7 +4,7 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace RestaurantBooking.Responses.Main
+namespace RestaurantBookingSkill.Responses.Main
 {
     /// <summary>
     /// Contains bot responses.
