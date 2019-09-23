@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using RestaurantBooking.Content;
-using RestaurantBooking.Models;
-using RestaurantBooking.Utilities;
+using RestaurantBookingSkill.Content;
+using RestaurantBookingSkill.Models;
+using RestaurantBookingSkill.Utilities;
 
 namespace RestaurantBookingSkill.Data
 {

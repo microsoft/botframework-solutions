@@ -14,12 +14,12 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
-using RestaurantBooking.Content;
-using RestaurantBooking.Data;
-using RestaurantBooking.Models;
-using RestaurantBooking.Responses.Shared;
-using RestaurantBooking.Services;
-using RestaurantBooking.Utilities;
+using RestaurantBookingSkill.Content;
+using RestaurantBookingSkill.Data;
+using RestaurantBookingSkill.Models;
+using RestaurantBookingSkill.Responses.Shared;
+using RestaurantBookingSkill.Services;
+using RestaurantBookingSkill.Utilities;
 
 namespace RestaurantBookingSkill.Dialogs
 {

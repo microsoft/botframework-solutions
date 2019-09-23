@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.Bot.Builder.TemplateManager;
-using RestaurantBooking.Responses.Cancel;
+using RestaurantBookingSkill.Responses.Cancel;
 
-namespace RestaurantBooking
+namespace RestaurantBookingSkill
 {
     public class CancelResponses : TemplateManager
     {

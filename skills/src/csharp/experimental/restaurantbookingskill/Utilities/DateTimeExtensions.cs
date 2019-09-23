@@ -1,5 +1,5 @@
 ﻿using System;
-using RestaurantBooking.Responses.Shared;
+using RestaurantBookingSkill.Responses.Shared;
 
 namespace RestaurantBookingSkill.Utilities
 {

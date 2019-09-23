@@ -6,8 +6,8 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
-using RestaurantBooking.Responses.Shared;
-using RestaurantBooking.Services;
+using RestaurantBookingSkill.Responses.Shared;
+using RestaurantBookingSkill.Services;
 
 namespace RestaurantBookingSkill.Adapters
 {

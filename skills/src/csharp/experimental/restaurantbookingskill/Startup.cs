@@ -20,12 +20,12 @@ using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RestaurantBooking.Adapters;
-using RestaurantBooking.Bots;
-using RestaurantBooking.Dialogs;
-using RestaurantBooking.Responses.Main;
-using RestaurantBooking.Responses.Shared;
-using RestaurantBooking.Services;
+using RestaurantBookingSkill.Adapters;
+using RestaurantBookingSkill.Bots;
+using RestaurantBookingSkill.Dialogs;
+using RestaurantBookingSkill.Responses.Main;
+using RestaurantBookingSkill.Responses.Shared;
+using RestaurantBookingSkill.Services;
 
 namespace RestaurantBooking
 {

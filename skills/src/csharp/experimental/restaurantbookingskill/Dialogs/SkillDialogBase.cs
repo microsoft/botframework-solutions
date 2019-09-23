@@ -13,9 +13,9 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
-using RestaurantBooking.Models;
-using RestaurantBooking.Responses.Shared;
-using RestaurantBooking.Services;
+using RestaurantBookingSkill.Models;
+using RestaurantBookingSkill.Responses.Shared;
+using RestaurantBookingSkill.Services;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
 namespace RestaurantBookingSkill.Dialogs

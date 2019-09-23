@@ -5,7 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using Microsoft.AspNetCore.Http;
-    using RestaurantBooking.Services;
+    using RestaurantBookingSkill.Services;
 
     public class UrlResolver : IUrlResolver
     {
