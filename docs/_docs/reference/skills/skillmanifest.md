@@ -46,14 +46,16 @@ The manifest header provides high level information relating to your skill, the 
  name       | Display name for your skill | **Yes**
  description| Description of the capabilities your Skill provides | **Yes**
  iconUrl    | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | No
- msaAppId   | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
- endpoint   | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
+ msaAppId   | Microsoft App Id value of your skill | Automatic
+ endpoint   | Exposed entrypoint for communicating with your skill | Automatic
 
 ```json
   "id": "calendarSkill",
   "name": "Calendar Skill",
   "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
   "iconUrl": "calendarSkill.png",
+  "msaAppId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "endpoint": "http://localhost:3980/api/skill/messages",
 ```
 
 ### Authentication Connections
