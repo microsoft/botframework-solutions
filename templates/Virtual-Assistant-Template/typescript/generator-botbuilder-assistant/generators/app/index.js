@@ -290,10 +290,7 @@ module.exports = class extends Generator {
 
     // Start the copy of the template
     this.copier.selectLanguages(assistantLang);
-    this.copier.copyTemplate(
-      templateName,
-      assistantGenerationPath
-    );
+    this.copier.copyTemplate(templateName, assistantGenerationPath);
     this.copier.copyTemplateFiles(
       templateName,
       assistantGenerationPath,
@@ -338,7 +335,9 @@ module.exports = class extends Generator {
         if (containsSpecialCharacter) {
           this.log(
             chalk.yellow(
-              `\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`
+              `\nYour virtual assistant name (${
+                this.props.assistantName
+              }) had special characters, it was changed to '${finalAssistantName}'`
             )
           );
         }
