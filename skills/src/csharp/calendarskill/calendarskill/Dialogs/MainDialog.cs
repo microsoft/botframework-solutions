@@ -10,6 +10,7 @@ using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Services.AzureMapsAPI;
 using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -22,6 +23,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CalendarSkill.Dialogs
 {
@@ -304,6 +306,28 @@ namespace CalendarSkill.Dialogs
 
                 // we have a timezone
                 state.UserInfo.Timezone = timezoneObj;
+            }
+
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            {
+                var location = semanticAction.Entities["location"];
+                var locationString = location.Properties["location"].ToString();
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+
+                var coords = locationString.Split(',');
+                if (coords.Length == 2)
+                {
+                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                    {
+                        state.UserInfo.Latitude = lat;
+                        state.UserInfo.Longitude = lng;
+                    }
+                }
+
+                var azureMapsClient = new AzureMapsClient(_settings);
+                var timezone = await azureMapsClient.GetTimeZoneInfoByCoordinates(locationString);
+
+                state.UserInfo.Timezone = timezone;
             }
         }
 
