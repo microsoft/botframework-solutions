@@ -106,6 +106,9 @@ namespace AdaptiveCalendarSkill
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
 
+            // Register WhiteListAuthProvider
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
+
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 
 /// <summary>
@@ -16,7 +16,7 @@ namespace AdaptiveCalendarSkill.Dialogs
         {
             var oauthDialog = new AdaptiveDialog("oauth")
             {
-                Events =
+                Triggers =
                 {
                     new OnBeginDialog()
                     {
@@ -27,7 +27,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                 Title = "Sign in",
                                 Text = "Please log in to your calendar account",
                                 ConnectionName = "Outlook",
-                                Property = "user.token"
+                                TokenProperty = "user.token"
                             }
                         }
                     }

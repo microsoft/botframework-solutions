@@ -5,7 +5,7 @@ using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
@@ -32,7 +32,7 @@ namespace AdaptiveCalendarSkill.Dialogs
             {
                 Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("AddContactDialog.lg"),
-                Events =
+                Triggers =
                 {
                     new OnBeginDialog()
                     {
@@ -44,7 +44,6 @@ namespace AdaptiveCalendarSkill.Dialogs
                                 Property = "dialog.contactName",
                                 EmailProperty = "dialog.emailAddress",
                                 Prompt = new ActivityTemplate("[ContactPrompt]"),
-                                Value = "@PersonName"
                             },
                             new IfCondition()
                             {
@@ -54,7 +53,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                     // add email to attendeeEmailList
                                     new EditArray()
                                     {
-                                        ArrayProperty = "conversation.recipients",
+                                        ItemsProperty = "conversation.recipients",
                                         ChangeType = EditArray.ArrayChangeType.Push,
                                         Value = "dialog.contactName"
                                     },
@@ -64,7 +63,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                     // look up current user's contacts
                                     new HttpRequest()
                                     {
-                                        Property = "dialog.contactsList",
+                                        ResultProperty = "dialog.contactsList",
                                         Method = HttpRequest.HttpMethod.GET,
                                         Url = "https://graph.microsoft.com/v1.0/me/contacts?$search=\"{dialog.contactName}\"",
                                         Headers = new Dictionary<string, string>()
@@ -111,7 +110,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     },
                                                     new EditArray()
                                                     {
-                                                        ArrayProperty = "conversation.recipients",
+                                                        ItemsProperty = "conversation.recipients",
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },
@@ -130,12 +129,12 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     new ChoiceInput()
                                                     {
                                                         Prompt = new ActivityTemplate("Please select an email from this list:"),
-                                                        ChoicesProperty = "dialog.emailChoiceList",
+                                                        Choices = new ChoiceSet("dialog.emailChoiceList"),
                                                         Property = "dialog.emailAddress"
                                                     },
                                                     new EditArray()
                                                     {
-                                                        ArrayProperty = "conversation.recipients",
+                                                        ItemsProperty = "conversation.recipients",
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },

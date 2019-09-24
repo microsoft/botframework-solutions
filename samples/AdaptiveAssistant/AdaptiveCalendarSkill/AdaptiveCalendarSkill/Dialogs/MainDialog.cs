@@ -3,7 +3,7 @@ using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 
 /// <summary>
@@ -26,7 +26,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                 // Create a LUIS recognizer.
                 Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
-                Events =
+                Triggers =
                 {
                     new OnConversationUpdateActivity()
                     {
@@ -48,7 +48,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                     new OnIntent(GeneralLuis.Intent.Help.ToString())
                     {
                         Actions = { new SendActivity("[Help-Root-Dialog]") },
-                        Constraint = "turn.dialogevent.value.intents.Help.score > 0.5"
+                        Condition = "turn.dialogevent.value.intents.Help.score > 0.5"
                     },
                     new OnIntent(GeneralLuis.Intent.Cancel.ToString())
                     {
@@ -57,7 +57,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                             new SendActivity("[Welcome-Actions]"),
                             new CancelAllDialogs(),
                         },
-                        Constraint = "turn.dialogevent.value.intents.Cancel.score > 0.5"
+                        Condition = "turn.dialogevent.value.intents.Cancel.score > 0.5"
                     }
                 }
             };

@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
@@ -31,7 +31,7 @@ namespace AdaptiveCalendarSkill.Dialogs
             {
                 Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
-                Events =
+                Triggers =
                 {
                     new OnBeginDialog()
                     {
@@ -43,6 +43,12 @@ namespace AdaptiveCalendarSkill.Dialogs
                             {
                                 Property = "dialog.title",
                                 Prompt = new ActivityTemplate("[SubjectPrompt]"),
+                                AllowInterruptions = AllowInterruptions.Always
+                            },
+                            new TextInput()
+                            {
+                                Property = "dialog.content",
+                                Prompt = new ActivityTemplate("What's the meeting content?"),
                                 AllowInterruptions = AllowInterruptions.Always
                             },
                             //// Get attendees
@@ -138,9 +144,10 @@ namespace AdaptiveCalendarSkill.Dialogs
                     new OnDialogEvent()
                     {
                         // If we recognized an intent, try to pull out entities
-                        Events = { AdaptiveEvents.RecognizedIntent },
+                        Event = AdaptiveEvents.RecognizedIntent,
                         Actions =
                         {
+                            new TraceActivity(),
                             new CodeAction((dc, options) =>
                             {
                                 var exp = new ExpressionEngine().Parse("turn.recognized");
