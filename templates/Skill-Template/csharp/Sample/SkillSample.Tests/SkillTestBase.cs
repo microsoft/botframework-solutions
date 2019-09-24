@@ -36,7 +36,7 @@ namespace SkillSample.Tests
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet
+                        "en-us", new CognitiveModelSet
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
@@ -60,7 +60,7 @@ namespace SkillSample.Tests
             });
 
             ResponseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" },
                 new MainResponses(),
                 new SharedResponses(),
                 new SampleResponses());

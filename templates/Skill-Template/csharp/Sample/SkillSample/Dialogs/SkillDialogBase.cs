@@ -146,7 +146,7 @@ namespace SkillSample.Dialogs
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
 
                 // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var locale = CultureInfo.CurrentUICulture.Name.ToLower();
                 var localeConfig = Services.CognitiveModelSets[locale];
                 var luisService = localeConfig.LuisServices["skill"];
 
