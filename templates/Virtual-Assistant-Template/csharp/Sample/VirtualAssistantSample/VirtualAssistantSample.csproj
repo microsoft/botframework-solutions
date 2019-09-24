@@ -80,37 +80,37 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Content\NewUserGreeting.zh.json">
+    <Content Update="Content\NewUserGreeting.zh-cn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.it.json">
+    <Content Update="Content\NewUserGreeting.it-it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.es.json">
+    <Content Update="Content\NewUserGreeting.es-es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.fr.json">
+    <Content Update="Content\NewUserGreeting.fr-fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.de.json">
+    <Content Update="Content\NewUserGreeting.de-de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Content\NewUserGreeting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.zh.json">
+    <Content Update="Content\ReturningUserGreeting.zh-cn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.it.json">
+    <Content Update="Content\ReturningUserGreeting.it-it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.fr.json">
+    <Content Update="Content\ReturningUserGreeting.fr-fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.es.json">
+    <Content Update="Content\ReturningUserGreeting.es-es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.de.json">
+    <Content Update="Content\ReturningUserGreeting.de-de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Content\ReturningUserGreeting.json">
