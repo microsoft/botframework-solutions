@@ -6,45 +6,45 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Responses\Main\MainResponses.de.json" />
-    <Content Remove="Responses\Main\MainResponses.es.json" />
-    <Content Remove="Responses\Main\MainResponses.fr.json" />
-    <Content Remove="Responses\Main\MainResponses.it.json" />
+    <Content Remove="Responses\Main\MainResponses.de-de.json" />
+    <Content Remove="Responses\Main\MainResponses.es-es.json" />
+    <Content Remove="Responses\Main\MainResponses.fr-fr.json" />
+    <Content Remove="Responses\Main\MainResponses.it-it.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
-    <Content Remove="Responses\Main\MainResponses.zh.json" />
-    <Content Remove="Responses\Sample\SampleResponses.de.json" />
-    <Content Remove="Responses\Sample\SampleResponses.es.json" />
-    <Content Remove="Responses\Sample\SampleResponses.fr.json" />
-    <Content Remove="Responses\Sample\SampleResponses.it.json" />
+    <Content Remove="Responses\Main\MainResponses.zh-cn.json" />
+    <Content Remove="Responses\Sample\SampleResponses.de-de.json" />
+    <Content Remove="Responses\Sample\SampleResponses.es-es.json" />
+    <Content Remove="Responses\Sample\SampleResponses.fr-fr.json" />
+    <Content Remove="Responses\Sample\SampleResponses.it-it.json" />
     <Content Remove="Responses\Sample\SampleResponses.json" />
-    <Content Remove="Responses\Sample\SampleResponses.zh.json" />
-    <Content Remove="Responses\Shared\SharedResponses.de.json" />
-    <Content Remove="Responses\Shared\SharedResponses.es.json" />
-    <Content Remove="Responses\Shared\SharedResponses.fr.json" />
-    <Content Remove="Responses\Shared\SharedResponses.it.json" />
+    <Content Remove="Responses\Sample\SampleResponses.zh-cn.json" />
+    <Content Remove="Responses\Shared\SharedResponses.de-de.json" />
+    <Content Remove="Responses\Shared\SharedResponses.es-es.json" />
+    <Content Remove="Responses\Shared\SharedResponses.fr-fr.json" />
+    <Content Remove="Responses\Shared\SharedResponses.it-it.json" />
     <Content Remove="Responses\Shared\SharedResponses.json" />
-    <Content Remove="Responses\Shared\SharedResponses.zh.json" />
+    <Content Remove="Responses\Shared\SharedResponses.zh-cn.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.de-de.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.es-es.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.fr-fr.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.it-it.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.de.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.es.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.zh-cn.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.de-de.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.es-es.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.fr-fr.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.it-it.json" />
     <EmbeddedResource Include="Responses\Sample\SampleResponses.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.it.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.zh-cn.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.de-de.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.es-es.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.fr-fr.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.it-it.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.zh-cn.json" />
   </ItemGroup>
 
   <ItemGroup>

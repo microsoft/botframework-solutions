@@ -17,7 +17,7 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Localization_Spanish()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("es-mx");
+            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
             await GetTestFlow()
                 .Send(new Activity()

@@ -61,7 +61,7 @@ namespace $safeprojectname$.Dialogs
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
             var localeConfig = _services.CognitiveModelSets[locale];
 
             // Populate state from SemanticAction as required
@@ -150,7 +150,7 @@ namespace $safeprojectname$.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var locale = CultureInfo.CurrentUICulture.Name.ToLower();
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // check general luis intent

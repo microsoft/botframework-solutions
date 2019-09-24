@@ -33,17 +33,17 @@
       </Folder>
       <Folder Name="Content" TargetFolderName="Content">
         <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.json">NewUserGreeting.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de.json">NewUserGreeting.de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es.json">NewUserGreeting.es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.fr.json">NewUserGreeting.fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.it.json">NewUserGreeting.it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.zh.json">NewUserGreeting.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de-de.json">NewUserGreeting.de-de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es-es.json">NewUserGreeting.es-es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.fr-fr.json">NewUserGreeting.fr-fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.it-it.json">NewUserGreeting.it-it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.zh-cn.json">NewUserGreeting.zh-cn.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.json">ReturningUserGreeting.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.de.json">ReturningUserGreeting.de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.es.json">ReturningUserGreeting.es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.fr.json">ReturningUserGreeting.fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it.json">ReturningUserGreeting.it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh.json">ReturningUserGreeting.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.de-de.json">ReturningUserGreeting.de-de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.es-es.json">ReturningUserGreeting.es-es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.fr-fr.json">ReturningUserGreeting.fr-fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it-it.json">ReturningUserGreeting.it-it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh-cn.json">ReturningUserGreeting.zh-cn.json</ProjectItem>
       </Folder>
       <Folder Name="Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
@@ -51,47 +51,47 @@
       <Folder Name="Deployment" TargetFolderName="Deployment">
         <Folder Name="Resources" TargetFolderName="Resources">
           <Folder Name="LU" TargetFolderName="LU">
-            <Folder Name="de" TargetFolderName="de">
+            <Folder Name="de-de" TargetFolderName="de-de">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
-            <Folder Name="en" TargetFolderName="en">
+            <Folder Name="en-us" TargetFolderName="en-us">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
-            <Folder Name="es" TargetFolderName="es">
+            <Folder Name="es-es" TargetFolderName="es-es">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
-            <Folder Name="fr" TargetFolderName="fr">
+            <Folder Name="fr-fr" TargetFolderName="fr-fr">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
-            <Folder Name="it" TargetFolderName="it">
+            <Folder Name="it-it" TargetFolderName="it-it">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
-            <Folder Name="zh" TargetFolderName="zh">
+            <Folder Name="zh-cn" TargetFolderName="zh-cn">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
           </Folder>
           <Folder Name="QnA" TargetFolderName="QnA">
-            <Folder Name="de" TargetFolderName="de">
+            <Folder Name="de-de" TargetFolderName="de-de">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-            <Folder Name="en" TargetFolderName="en">
+            <Folder Name="en-us" TargetFolderName="en-us">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-            <Folder Name="es" TargetFolderName="es">
+            <Folder Name="es-es" TargetFolderName="es-es">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-            <Folder Name="fr" TargetFolderName="fr">
+            <Folder Name="fr-fr" TargetFolderName="fr-fr">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-            <Folder Name="it" TargetFolderName="it">
+            <Folder Name="it-it" TargetFolderName="it-it">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-            <Folder Name="zh" TargetFolderName="zh">
+            <Folder Name="zh-cn" TargetFolderName="zh-cn">
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
@@ -122,41 +122,41 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.Designer.cs">CancelStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.de.resx">CancelStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.es.resx">CancelStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.fr.resx">CancelStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.it.resx">CancelStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.zh.resx">CancelStrings.zh.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.de-de.resx">CancelStrings.de-de.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.es-es.resx">CancelStrings.es-es.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.fr-fr.resx">CancelStrings.fr-fr.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.it-it.resx">CancelStrings.it-it.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.zh-cn.resx">CancelStrings.zh-cn.resx</ProjectItem>
         </Folder>
         <Folder Name="Escalate" TargetFolderName="Escalate">
           <ProjectItem ReplaceParameters="true" TargetFileName="EscalateResponses.cs">EscalateResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.resx">EscalateStrings.resx</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.Designer.cs">EscalateStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.de.resx">EscalateStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.es.resx">EscalateStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.fr.resx">EscalateStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.it.resx">EscalateStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.zh.resx">EscalateStrings.zh.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.de-de.resx">EscalateStrings.de-de.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.es-es.resx">EscalateStrings.es-es.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.fr-fr.resx">EscalateStrings.fr-fr.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.it-it.resx">EscalateStrings.it-it.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.zh-cn.resx">EscalateStrings.zh-cn.resx</ProjectItem>
         </Folder>
         <Folder Name="Main" TargetFolderName="Main">
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.resx">MainStrings.resx</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.Designer.cs">MainStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.de.resx">MainStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.es.resx">MainStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.fr.resx">MainStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.it.resx">MainStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.zh.resx">MainStrings.zh.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.de-de.resx">MainStrings.de-de.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.es-es.resx">MainStrings.es-es.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.fr-fr.resx">MainStrings.fr-fr.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.it-it.resx">MainStrings.it-it.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.zh-cn.resx">MainStrings.zh-cn.resx</ProjectItem>
         </Folder>
         <Folder Name="Onboarding" TargetFolderName="Onboarding">
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingResponses.cs">OnboardingResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.resx">OnboardingStrings.resx</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.Designer.cs">OnboardingStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.de.resx">OnboardingStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.es.resx">OnboardingStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.fr.resx">OnboardingStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.it.resx">OnboardingStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh.resx">OnboardingStrings.zh.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.de-de.resx">OnboardingStrings.de-de.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.es-es.resx">OnboardingStrings.es-es.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.fr-fr.resx">OnboardingStrings.fr-fr.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.it-it.resx">OnboardingStrings.it-it.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh-cn.resx">OnboardingStrings.zh-cn.resx</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="Services" TargetFolderName="Services">
