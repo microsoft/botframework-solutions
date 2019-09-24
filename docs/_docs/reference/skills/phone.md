@@ -12,7 +12,6 @@ order: 9
 ## In this reference
 {:.no_toc}
 
-*
 {:toc}
 
 ## Overview
@@ -74,7 +73,7 @@ The Phone Skill requires the following dependencies for end to end operation, wh
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
+To deploy your services using the default configuration, follow the steps in this common deployment documentation page ([C#]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources.md)/[TypeScript]({{site.baseurl}}/tutorials/typescript/create-skill/4_provision_your_azure_resources/.md)) from the folder where you have cloned the GitHub repo.
 
 ### Authentication Connection Settings
 
@@ -86,11 +85,11 @@ If you plan to use the skill as part of a Virtual Assistant, the process of regi
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant, please use the following steps to manually configure Authentication for the Phone Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
-LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
+LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|
@@ -125,12 +124,12 @@ This event has the name `PhoneSkill.OutgoingCall`.
 Its value is a JSON object representing an object of type `PhoneSkill.Models.OutgoingCall`.
 
 The value of the event has the following properties:
-- The property `Number` holds the phone number to be dialled as a string.
+- The property `Number` holds the phone number to be dialed as a string.
   (Please note that this string is in the same format as it appears in the user's contact list or in the user's query.
   If you require an RFC 3966 compliant `tel:` URI or a particular other format, we recommend using a phone number formatting library to format this string accordingly, taking into account the user's default country code and any other relevant external information.)
 - The property `Contact` is optional and holds the contact list entry that the user selected.
   This is an object of type `PhoneSkill.Models.ContactCandidate`.
-  This information may be useful, for example, to allow the client application to show information about the contact on the screen while the phone number is being dialled.
+  This information may be useful, for example, to allow the client application to show information about the contact on the screen while the phone number is being dialed.
 
 Here is an example of an event returned by the Phone skill:
 

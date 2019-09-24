@@ -35,7 +35,7 @@ The following scenarios are currently supported by the Skill:
   - _Can you recommend an affordable restaurant in Seattle?_
 
 ## Language Understanding (LUIS)
-LUIS models are provided in `.LU` file format to support the scenarios used in this Skill.
+LUIS models are provided in `.lu` file format to support the scenarios used in this Skill.
 
 |Supported Languages|
 |-|
