@@ -50,8 +50,8 @@ import { skills as skillsRaw } from './skills.json';
 // tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
     .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+        fallbackLng: 'en-us',
+        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         backend: {
             loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
         }

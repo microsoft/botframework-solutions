@@ -38,7 +38,7 @@ describe("main dialog", function() {
           recipient: {
             id: "1"
           },
-          locale: "en"
+          locale: "en-us"
         })
         .assertReply("[Enter your intro message here]");
 

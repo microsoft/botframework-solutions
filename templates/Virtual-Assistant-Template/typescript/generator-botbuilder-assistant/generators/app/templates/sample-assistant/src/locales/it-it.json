@@ -27,8 +27,8 @@
         "helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
         "helpText": "Sono il tuo assistente virtuale! Posso effettuare un certo numero di mansioni con le mie abilità collegate. In questo momento posso aiutarvi con calendario, e-mail, compito e punto di domande di interesse. Oppure puoi aiutarmi a fare di più creando il tuo!",
         "helpTitle": "Aiuto per assistente virtuale",
-        "introGreetingFile": "NewUserGreeting.it.json",
-        "introReturningFile": "ReturningUserGreeting.it.json",
+        "introGreetingFile": "NewUserGreeting.it-it.json",
+        "introReturningFile": "ReturningUserGreeting.it-it.json",
         "logOut": "Ok, sei uscito."
     },
     "onboarding": {

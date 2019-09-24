@@ -38,8 +38,8 @@ async function initConfiguration() {
     // Configure internationalization and default locale
     await i18next.use(i18nextNodeFsBackend)
     .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+        fallbackLng: 'en-us',
+        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         backend: {
             loadPath: join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
         }
@@ -113,7 +113,7 @@ async function getTestAdapterDefault(settings) {
     };
     
     adapter.use(new TelemetryLoggerMiddleware(telemetryClient, true));
-    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en'));
+    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en-us'));
     adapter.use(new EventDebuggerMiddleware());
     adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
     return adapter;

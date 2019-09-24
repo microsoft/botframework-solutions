@@ -81,7 +81,7 @@ export class MainDialog extends RouterDialog {
 
     protected async route(dc: DialogContext): Promise<void> {
         // get current activity locale
-        const locale: string = i18next.language.substring(0, 2);
+        const locale: string = i18next.language;
         const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
 
         // Populate state from SkillContext slots as required
@@ -170,7 +170,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string = i18next.language.substring(0, 2);
+            const locale: string = i18next.language;
             const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
             if (localeConfig === undefined) {
                 throw new Error('There is no cognitiveModels for the locale');
@@ -249,7 +249,7 @@ export class MainDialog extends RouterDialog {
     protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
         // Example of populating local state with data passed through semanticAction out of Activity
         // const activity: Activity = context.activity;
-        // const semanticAction: SemanticAction | undefined  = activity.semanticAction;
+        // const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
         // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
         // {

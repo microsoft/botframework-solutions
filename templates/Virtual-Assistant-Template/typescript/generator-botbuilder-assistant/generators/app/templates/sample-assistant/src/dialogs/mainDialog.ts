@@ -93,7 +93,7 @@ export class MainDialog extends RouterDialog {
 
     protected async route(dc: DialogContext): Promise<void> {
         // Get cognitive models for locale
-        const locale: string = i18next.language.substring(0, 2);
+        const locale: string = i18next.language;
         const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
 
         if (cognitiveModels === undefined) {
@@ -260,7 +260,7 @@ export class MainDialog extends RouterDialog {
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const locale: string = i18next.language.substring(0, 2);
+            const locale: string = i18next.language;
             const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
 
             if (cognitiveModels === undefined) {
