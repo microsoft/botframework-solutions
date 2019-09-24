@@ -11,7 +11,7 @@ Param(
 	[string] $resourceGroup,
 	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
-    [string] $outFolder = $(Get-Location),
+	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
 )
 
@@ -110,7 +110,7 @@ $settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSO
 Write-Host "> Deploying cognitive models ..."
 foreach ($language in $languageArr)
 {
-	$langCode = ($language -split "-")[0]
+	$langCode = $language
 	$config = New-Object PSObject
 
 	if ($useDispatch) {
@@ -197,7 +197,7 @@ foreach ($language in $languageArr)
 	if ($useQna) {
 		if (Test-Path $(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)) {
 			# Deploy QnA Maker KBs
-			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
+			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'qnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
 
 			if ($qnaFiles) {
 				$config | Add-Member -MemberType NoteProperty -Name knowledgeBases -Value @()

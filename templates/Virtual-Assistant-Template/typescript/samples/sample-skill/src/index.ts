@@ -49,8 +49,8 @@ import { IBotSettings } from './services/botSettings';
 // tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
     .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ]
+        fallbackLng: 'en-us',
+        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn']
     })
     .then(async (): Promise<void> => {
         await Locales.addResourcesFromPath(i18next, 'common');
@@ -132,7 +132,7 @@ let bot: DialogBot<Dialog>;
 try {
 
     const responseManager: ResponseManager = new ResponseManager(
-        ['en', 'de', 'es', 'fr', 'it', 'zh'],
+        ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         [SampleResponses, MainResponses, SharedResponses]);
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
     const sampleDialog: SampleDialog = new SampleDialog(
