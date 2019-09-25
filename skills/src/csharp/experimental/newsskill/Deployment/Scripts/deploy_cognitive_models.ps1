@@ -181,10 +181,10 @@ foreach ($language in $languageArr)
 				$config.languageModels += @{
 					id = $lu.BaseName
 					name = $luisApp.name
-					appid = $luisApp.id
-					authoringkey = $luisAuthoringKey
+					appId = $luisApp.id
+					authoringKey = $luisAuthoringKey
                     authoringRegion = $luisAuthoringRegion
-					subscriptionkey = $luisSubscriptionKey
+					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
 				}
@@ -283,10 +283,10 @@ foreach ($language in $languageArr)
 			$config.dispatchModel = @{
 				type = "dispatch"
 				name = $dispatchApp.name
-				appid = $dispatchApp.appId
-				authoringkey = $luisauthoringkey
+				appId = $dispatchApp.appId
+				authoringKey = $luisauthoringkey
                 authoringRegion = $luisAuthoringRegion
-				subscriptionkey = $luisSubscriptionKey
+				subscriptionKey = $luisSubscriptionKey
 				region = $luisAccountRegion
 			}
 		}

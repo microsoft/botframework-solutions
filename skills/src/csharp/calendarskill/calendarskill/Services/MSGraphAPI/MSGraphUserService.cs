@@ -82,6 +82,59 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
+        public async Task<PersonModel> GetMyManagerAsync()
+        {
+            try
+            {
+                var manager = await _graphClient.Me.Manager.Request().GetAsync();
+
+                if (manager != null)
+                {
+                    User m = (User)manager;
+                    var url = await GetMSUserPhotoUrlAsyc(m.Id);
+                    var personManager = new PersonModel(m.ToPerson());
+                    personManager.Photo = url;
+
+                    return personManager;
+                }
+
+                return null;
+            }
+            catch (ServiceException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// GetManagerAsync.
+        /// </summary>
+        /// <param name="name">name.</param>
+        /// <returns>Get the manager of the given name.</returns>
+        public async Task<PersonModel> GetManagerAsync(string name)
+        {
+            try
+            {
+                var manager = await _graphClient.Users[name].Manager.Request().GetAsync();
+
+                if (manager != null)
+                {
+                    User m = (User)manager;
+                    var url = await GetMSUserPhotoUrlAsyc(m.Id);
+                    var personManager = new PersonModel(m.ToPerson());
+                    personManager.Photo = url;
+
+                    return personManager;
+                }
+
+                return null;
+            }
+            catch (ServiceException)
+            {
+                return null;
+            }
+        }
+
         public async Task<string> GetPhotoAsync(string email)
         {
             var users = await this.GetUserAsync(email);

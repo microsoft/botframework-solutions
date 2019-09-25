@@ -94,7 +94,7 @@ if (botSettings.cosmosDb === undefined) {
 }
 
 cosmosDbStorageSettings = {
-    authKey: botSettings.cosmosDb.authkey,
+    authKey: botSettings.cosmosDb.authKey,
     collectionId: botSettings.cosmosDb.collectionId,
     databaseId: botSettings.cosmosDb.databaseId,
     serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint

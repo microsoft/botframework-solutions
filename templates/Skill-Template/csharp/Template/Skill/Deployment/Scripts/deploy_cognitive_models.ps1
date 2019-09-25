@@ -9,7 +9,7 @@ Param(
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
-	[switch] $useDispatch,
+	[switch] $useDispatch = $false,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -181,10 +181,10 @@ foreach ($language in $languageArr)
 				$config.languageModels += @{
 					id = $lu.BaseName
 					name = $luisApp.name
-					appid = $luisApp.id
-					authoringkey = $luisAuthoringKey
+					appId = $luisApp.id
+					authoringKey = $luisAuthoringKey
                     authoringRegion = $luisAuthoringRegion
-					subscriptionkey = $luisSubscriptionKey
+					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
 				}
@@ -283,10 +283,10 @@ foreach ($language in $languageArr)
 			$config.dispatchModel = @{
 				type = "dispatch"
 				name = $dispatchApp.name
-				appid = $dispatchApp.appId
-				authoringkey = $luisauthoringkey
+				appId = $dispatchApp.appId
+				authoringKey = $luisauthoringkey
                 authoringRegion = $luisAuthoringRegion
-				subscriptionkey = $luisSubscriptionKey
+				subscriptionKey = $luisSubscriptionKey
 				region = $luisAccountRegion
 			}
 		}
@@ -297,4 +297,4 @@ foreach ($language in $languageArr)
 }
 
 # Write out config to file
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json" )
+$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $outFolder "cognitivemodels.json" )

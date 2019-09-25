@@ -34,7 +34,7 @@ namespace PointOfInterestSkill.Models.Foursquare
         public string State { get; set; }
 
         [JsonProperty(PropertyName = "country")]
-        public string Country { get; set; }
+        public string CountryRegion { get; set; }
 
         [JsonProperty(PropertyName = "formattedAddress")]
         public string[] FormattedAddress { get; set; }

@@ -68,7 +68,7 @@ namespace SkillSample.Dialogs
             await PopulateStateFromSemanticAction(dc.Context);
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("skill", out var luisService);
+            localeConfig.LuisServices.TryGetValue("SkillSample", out var luisService);
 
             if (luisService == null)
             {
@@ -76,23 +76,21 @@ namespace SkillSample.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<SkillLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<SkillSampleLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
                 {
-                    case SkillLuis.Intent.Sample:
+                    case SkillSampleLuis.Intent.Sample:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog));
+                            await dc.BeginDialogAsync(nameof(SampleDialog));
                             break;
                         }
 
-                    case SkillLuis.Intent.None:
+                    case SkillSampleLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -100,14 +98,8 @@ namespace SkillSample.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -115,7 +107,7 @@ namespace SkillSample.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            response.Type = ActivityTypes.Handoff;
             await dc.Context.SendActivityAsync(response);
             await dc.EndDialogAsync(result);
         }
@@ -133,7 +125,7 @@ namespace SkillSample.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }

@@ -67,14 +67,14 @@ namespace CalendarSkill.Services.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> CreateEvent(EventModel newEvent)
+        public async Task<EventModel> CreateEventAysnc(EventModel newEvent)
         {
             await Task.CompletedTask;
             return new EventModel(CreateEvent(newEvent.Value));
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
+        public async Task<List<EventModel>> GetUpcomingEventsAsync(TimeSpan? timeSpan = null)
         {
             var events = GetEvents();
             var results = new List<EventModel>();
@@ -88,7 +88,7 @@ namespace CalendarSkill.Services.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
+        public async Task<List<EventModel>> GetEventsByTimeAsync(DateTime startTime, DateTime endTime)
         {
             var events = RequestEventsByTime(startTime, endTime);
             var results = new List<EventModel>();
@@ -102,7 +102,7 @@ namespace CalendarSkill.Services.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
+        public async Task<List<EventModel>> GetEventsByStartTimeAsync(DateTime startTime)
         {
             var events = RequestEventsByStartTime(startTime);
             var results = new List<EventModel>();
@@ -120,15 +120,18 @@ namespace CalendarSkill.Services.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTitle(string title)
+        public async Task<List<EventModel>> GetEventsByTitleAsync(string title)
         {
-            var events = RequestEventsByStartTime(DateTime.UtcNow.AddDays(-1));
             var results = new List<EventModel>();
-            foreach (var gevent in events.Items)
+            if (!string.IsNullOrEmpty(title))
             {
-                if (gevent.Summary.ToLower().Contains(title.ToLower()))
+                var events = RequestEventsByStartTime(DateTime.UtcNow.AddDays(-1));
+                foreach (var gevent in events.Items)
                 {
-                    results.Add(new EventModel(gevent));
+                    if (gevent.Summary.ToLower().Contains(title.ToLower()))
+                    {
+                        results.Add(new EventModel(gevent));
+                    }
                 }
             }
 
@@ -137,28 +140,28 @@ namespace CalendarSkill.Services.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
+        public async Task<EventModel> UpdateEventByIdAsync(EventModel updateEvent)
         {
             await Task.CompletedTask;
             return new EventModel(UpdateEventById(updateEvent.Value));
         }
 
         /// <inheritdoc/>
-        public async Task DeleteEventById(string id)
+        public async Task DeleteEventByIdAsync(string id)
         {
             await Task.CompletedTask;
             var result = DeleteEvent(id);
             return;
         }
 
-        public async Task DeclineEventById(string id)
+        public async Task DeclineEventByIdAsync(string id)
         {
             DeclineEvent(id);
             await Task.CompletedTask;
             return;
         }
 
-        public async Task AcceptEventById(string id)
+        public async Task AcceptEventByIdAsync(string id)
         {
             AcceptEvent(id);
             await Task.CompletedTask;

@@ -8,16 +8,9 @@ namespace PointOfInterestSkill.Models
     {
         public PointOfInterestSkillState()
         {
-            Destination = null;
-            DialogName = string.Empty;
-            Keyword = string.Empty;
-            Address = string.Empty;
+            UserInfo = null;
             CurrentCoordinates = null;
-            LastFoundPointOfInterests = null;
-            ActiveRoute = null;
-            RouteType = string.Empty;
-            PoiType = string.Empty;
-            UserSelectIndex = -1;
+            Clear();
         }
 
         public UserInformation UserInfo { get; set; }
@@ -32,8 +25,6 @@ namespace PointOfInterestSkill.Models
 
         public List<RouteDirections.Summary> FoundRoutes { get; set; }
 
-        public string DialogName { get; set; }
-
         public string Keyword { get; set; }
 
         public string Address { get; set; }
@@ -44,21 +35,17 @@ namespace PointOfInterestSkill.Models
 
         public PointOfInterestLuis LuisResult { get; set; }
 
-        public DialogState ConversationDialogState { get; set; }
-
         public int UserSelectIndex { get; set; }
 
         public void Clear()
         {
             Destination = null;
-            DialogName = string.Empty;
             LastFoundPointOfInterests = null;
+            ActiveRoute = null;
+            FoundRoutes = null;
             ClearLuisResults();
         }
 
-        /// <summary>
-        /// Clear LUIS results in state for next dialog turn.
-        /// </summary>
         public void ClearLuisResults()
         {
             Keyword = string.Empty;
@@ -66,6 +53,7 @@ namespace PointOfInterestSkill.Models
             RouteType = string.Empty;
             PoiType = string.Empty;
             UserSelectIndex = -1;
+            LuisResult = null;
         }
 
         public bool CheckForValidCurrentCoordinates()

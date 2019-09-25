@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Options;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -12,6 +14,8 @@ namespace CalendarSkill.Prompts
 {
     public class TimePrompt : Prompt<IList<DateTimeResolution>>
     {
+        private static TimeZoneInfo userTimeZone = null;
+
         public TimePrompt(string dialogId, PromptValidator<IList<DateTimeResolution>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
         {
@@ -32,6 +36,11 @@ namespace CalendarSkill.Prompts
                 throw new ArgumentNullException(nameof(options));
             }
 
+            if (!(options is TimePromptOptions))
+            {
+                throw new Exception(nameof(options) + " should be TimePromptOptions");
+            }
+
             if (isRetry && options.RetryPrompt != null)
             {
                 await turnContext.SendActivityAsync(options.RetryPrompt, cancellationToken).ConfigureAwait(false);
@@ -40,6 +49,8 @@ namespace CalendarSkill.Prompts
             {
                 await turnContext.SendActivityAsync(options.Prompt, cancellationToken).ConfigureAwait(false);
             }
+
+            userTimeZone = ((TimePromptOptions)options).TimeZone;
         }
 
         protected override async Task<PromptRecognizerResult<IList<DateTimeResolution>>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -74,7 +85,8 @@ namespace CalendarSkill.Prompts
 
         private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, DateTimeOptions.CalendarMode, userNow);
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match

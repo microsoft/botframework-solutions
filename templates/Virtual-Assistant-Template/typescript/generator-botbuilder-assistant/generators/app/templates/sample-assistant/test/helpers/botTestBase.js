@@ -80,6 +80,7 @@ async function getTestAdapterDefault(settings) {
     };
     const botServices = new BotServices(botSettings);
     const onboardingStateAccessor = userState.createProperty('OnboardingState');
+    const skillContextAccessor = userState.createProperty('skillContext');
     const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
     const escalateDialog = new EscalateDialog(botServices, telemetryClient);
     const cancelDialog = new CancelDialog();
@@ -91,6 +92,7 @@ async function getTestAdapterDefault(settings) {
         escalateDialog,
         cancelDialog,
         skillDialogs,
+        skillContextAccessor,
         onboardingStateAccessor,
         telemetryClient
     );

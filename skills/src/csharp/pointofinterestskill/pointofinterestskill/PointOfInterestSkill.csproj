@@ -11,6 +11,8 @@
     <Content Remove="Content\PointOfInterestDetails.json" />
     <Content Remove="Content\PointOfInterestDetailsContainer.1.0.json" />
     <Content Remove="Content\PointOfInterestDetailsContainer.json" />
+    <Content Remove="Content\PointOfInterestDetailsNoCall.1.0.json" />
+    <Content Remove="Content\PointOfInterestDetailsNoCall.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
     <Content Remove="Content\PointOfInterestOverview.1.0.json" />
@@ -20,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\PointOfInterestDetails.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetails.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetailsNoCall.1.0.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetailsNoCall.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.1.0.json" />
     <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
     <EmbeddedResource Include="Content\PointOfInterestOverview.1.0.json" />
@@ -29,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.2.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
@@ -42,8 +49,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />

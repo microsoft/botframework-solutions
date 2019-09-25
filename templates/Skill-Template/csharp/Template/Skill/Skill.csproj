@@ -64,11 +64,10 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
@@ -102,61 +101,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Deployment\Resources\LU\de\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\en\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\en\skill.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>skill.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\es\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\es\skill.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>skill.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\fr\general.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>general.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Resources\LU\fr\skill.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>skill.lu</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Scripts\deploy.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>deploy.ps1</DependentUpon>
-    </Compile>
-    <Compile Update="Deployment\Scripts\deploy_cognitive_models.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>deploy_cognitive_models.ps1</DependentUpon>
-    </Compile>
-    <Compile Update="MyTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MyTemplate.vstemplate</DependentUpon>
-    </Compile>
-    <Compile Update="readme.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>readme.md</DependentUpon>
-    </Compile>
     <Compile Update="Responses\Main\MainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -167,20 +111,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SampleResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\Shared\ResponseIdCollection.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ResponseIdCollection.t4</DependentUpon>
-    </Compile>
     <Compile Update="Responses\Shared\SharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="__TemplateIcon.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>__TemplateIcon.ico</DependentUpon>
     </Compile>
   </ItemGroup>
 

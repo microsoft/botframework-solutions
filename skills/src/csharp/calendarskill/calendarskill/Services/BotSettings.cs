@@ -30,5 +30,7 @@ namespace CalendarSkill.Services
                 public string DefaultValue { get; set; }
             }
         }
+
+        public string AzureMapsKey { get; set; }
     }
 }

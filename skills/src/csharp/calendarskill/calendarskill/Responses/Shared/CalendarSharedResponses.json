@@ -95,5 +95,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "MultipleEventsFound": {
+    "replies": [
+
+      {
+        "text": "Multiple events found, please select the one you need.",
+        "speak": "Multiple events found, please select the one you need."
+      },
+      {
+        "text": "I have found multiple events, can you select the event of choice.",
+        "speak": "I have found multiple events, can you select the event of choice."
+      },
+      {
+        "text": "There are multiple events, please select the relevant event.",
+        "speak": "There are multiple events, please select the relevant event."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

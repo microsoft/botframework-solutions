@@ -9,6 +9,8 @@ namespace PointOfInterestSkillTests.Flow.Utterances
 {
     public class GeneralTestUtterances : Dictionary<string, General>
     {
+        public static string UnknownIntent { get; } = "what's the weather?";
+
         public static double TopIntentScore { get; } = 0.9;
 
         public General GetBaseNoneIntent()

@@ -1,52 +1,53 @@
-## NAVIGATION_FIND_PARKING
-- comprobar un garaje en mi área circundante
-- dirigirme 2 el estacionamiento en la intersección de  {ADDRESS=ciudad de Springfield}  Y  {ADDRESS=Disraeli} en ese lugar por favor
+## FindParking
+
+- comprobar un garaje de estacionamiento en mi área circundante
+- me dirigir 2 el estacionamiento en la intersección de  {Address=springfield ciudad}  Y  {Address=Disraeli} en ese lugar por favor
 - direcciones para un estacionamiento
-- encontrar un estacionamiento
-- encontrar el aparcamiento más cercano
-- encontrar el aparcamiento más cercano por  {ADDRESS=123 calle sésamo} 
+- encontrarme un estacionamiento
+- encontrar el estacionamiento más cercano
+- encontrar el estacionamiento más cercano por  {Address=Calle sésamo 123} 
 - ir al estacionamiento
-- ¿Qué hay de encontrar una ruta a un estacionamiento
-- necesito aparcar el  {KEYWORD=Coche} 
-- ¿Hay algún estacionamiento por  {KEYWORD=Starbucks} 
+- ¿qué tal si encuentras una ruta a un estacionamiento
+- necesito aparcar el  {Keyword=Coche} 
+- ¿hay algún estacionamiento por  {Keyword=Starbucks} 
 - ¿Hay estacionamiento cerca de mi oficina?
 - buscar un estacionamiento
-- buscar estacionamiento en  {ADDRESS=KIRON ciudad}   {ADDRESS=él} 
-- Muéstrame pobre el garaje de estacionamiento en  {ADDRESS=carril del molino} por no más de 16 libras
-- el garaje de estacionamiento en  {ADDRESS=resortes del olmo}  Y  {ADDRESS=Coates ciudad} en la zona nos traen allí
-- lo que es la parte inferior clasificado garaje de estacionamiento en mi vecindad
-- donde hay un estacionamiento cerca  {KEYWORD=Mcdonalds} 
-- donde está el garaje más cercano situado
-- encontrar estacionamiento por  {KEYWORD=pollo restaurante} 
-- encontrar estacionamiento por  {KEYWORD=restaurante chino} 
-- encontrar estacionamiento por  {KEYWORD=restaurante camboyano} 
-- encontrar estacionamiento por  {KEYWORD=restaurante brasileño} 
-- encontrar estacionamiento por  {KEYWORD=restaurante italiano} 
-- encontrar estacionamiento por  {KEYWORD=restaurante indio} 
-- encontrar estacionamiento por  {KEYWORD=restaurante francés} 
-- encontrar estacionamiento por  {KEYWORD=Restaurante Español} 
-- encontrar estacionamiento por  {KEYWORD=hamburguesa restaurante} 
-- encontrar estacionamiento por  {KEYWORD=restaurante asador} 
-- encontrar estacionamiento por  {KEYWORD=restaurante mexicano} 
-- encontrar estacionamiento por  {KEYWORD=Restaurante peruano} 
-- encontrar estacionamiento por  {KEYWORD=restaurante laosiano} 
-- encontrar estacionamiento por  {KEYWORD=restaurante tailandés} 
-- encontrar estacionamiento por  {KEYWORD=restaurante japonés} 
-- encontrar estacionamiento por  {KEYWORD=restaurante alemán} 
-- encontrar aparcamiento cerca  {KEYWORD=Contador} 
-- encontrar aparcamiento cerca  {KEYWORD=Aeropuerto} 
-- encontrar aparcamiento cerca  {KEYWORD=Acuario} 
-- encontrar aparcamiento cerca  {KEYWORD=Galería de arte} 
-- encontrar aparcamiento cerca  {KEYWORD=lugar de alquiler de automóviles} 
-- encontrar aparcamiento cerca  {KEYWORD=Alquiler de vacaciones} 
-- encontrar aparcamiento cerca  {KEYWORD=tienda de cerveza} 
-- encontrar aparcamiento cerca  {KEYWORD=parada de autobús} 
-- encontrar aparcamiento cerca  {KEYWORD=estación de carga} 
-- encontrar aparcamiento cerca  {KEYWORD=guardería infantil} 
-- encontrar aparcamiento cerca  {KEYWORD=centro comunitario} 
-- encontrar aparcamiento cerca  {KEYWORD=Tienda} 
-- encontrar aparcamiento cerca  {KEYWORD=Club de campo} 
-- encontrar aparcamiento cerca  {KEYWORD=Dentista} 
-- encontrar aparcamiento cerca  {KEYWORD=Golf} 
-- encontrar aparcamiento cerca  {KEYWORD=Club de salud} 
+- buscar estacionamiento en  {Address=kiron ciudad}   {Address=ia} 
+- mostrarme pobre el garaje de estacionamiento en  {Address=carril de molino} por no más de 16 libras
+- el garaje de estacionamiento en  {Address=resortes de elm}  Y  {Address=coates ciudad} en la zona nos traen allí
+- lo que es el garaje de estacionamiento con calificación inferior en mi vecindad
+- donde hay un estacionamiento cerca  {Keyword=Mcdonalds} 
+- ¿dónde se encuentra el garaje de estacionamiento más cercano
+- encontrar estacionamiento por  {Keyword=restaurante de pollo} 
+- encontrar estacionamiento por  {Keyword=restaurante chino} 
+- encontrar estacionamiento por  {Keyword=restaurante camboyano} 
+- encontrar estacionamiento por  {Keyword=restaurante brasileño} 
+- encontrar estacionamiento por  {Keyword=restaurante italiano} 
+- encontrar estacionamiento por  {Keyword=restaurante indio} 
+- encontrar estacionamiento por  {Keyword=restaurante francés} 
+- encontrar estacionamiento por  {Keyword=restaurante español} 
+- encontrar estacionamiento por  {Keyword=restaurante de hamburguesas} 
+- encontrar estacionamiento por  {Keyword=restaurante asador} 
+- encontrar estacionamiento por  {Keyword=restaurante mexicano} 
+- encontrar estacionamiento por  {Keyword=restaurante peruano} 
+- encontrar estacionamiento por  {Keyword=restaurante laosiano} 
+- encontrar estacionamiento por  {Keyword=restaurante tailandés} 
+- encontrar estacionamiento por  {Keyword=restaurante japonés} 
+- encontrar estacionamiento por  {Keyword=restaurante alemán} 
+- encontrar aparcamiento cerca  {Keyword=Contador} 
+- encontrar aparcamiento cerca  {Keyword=Aeropuerto} 
+- encontrar aparcamiento cerca  {Keyword=Acuario} 
+- encontrar aparcamiento cerca  {Keyword=galería de arte} 
+- encontrar aparcamiento cerca  {Keyword=lugar de alquiler de automóviles} 
+- encontrar aparcamiento cerca  {Keyword=alojamiento y desayuno} 
+- encontrar aparcamiento cerca  {Keyword=tienda de cerveza} 
+- encontrar aparcamiento cerca  {Keyword=parada de autobús} 
+- encontrar aparcamiento cerca  {Keyword=estación de carga} 
+- encontrar aparcamiento cerca  {Keyword=guardería} 
+- encontrar aparcamiento cerca  {Keyword=centro comunitario} 
+- encontrar aparcamiento cerca  {Keyword=Tienda} 
+- encontrar aparcamiento cerca  {Keyword=club de campo} 
+- encontrar aparcamiento cerca  {Keyword=Dentista} 
+- encontrar aparcamiento cerca  {Keyword=Golf} 
+- encontrar aparcamiento cerca  {Keyword=club de salud} 
 

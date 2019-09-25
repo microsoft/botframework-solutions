@@ -133,5 +133,22 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "MultipleEventsFound": {
+    "replies": [
+      {
+        "text": "找到多个会议，请选择您需要的会议。",
+        "speak": "找到多个会议，请选择您需要的会议。"
+      },
+      {
+        "text": "找到多个会议，请选择您的会议。",
+        "speak": "找到多个会议，请选择您的会议。"
+      },
+      {
+        "text": "有多个会议，请选择相关的会议。",
+        "speak": "有多个会议，请选择相关的会议。"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

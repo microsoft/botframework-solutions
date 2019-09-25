@@ -19,7 +19,7 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> CreateEvent(EventModel newEvent)
+        public async Task<EventModel> CreateEventAysnc(EventModel newEvent)
         {
             Event new_event = await CreateEvent(newEvent.Value);
             if (new_event == null)
@@ -31,7 +31,7 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
+        public async Task<List<EventModel>> GetUpcomingEventsAsync(TimeSpan? timeSpan = null)
         {
             var eventList = new List<EventModel>();
             var msftEvents = await GetMyUpcomingCalendarView(timeSpan);
@@ -48,7 +48,7 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
+        public async Task<List<EventModel>> GetEventsByTimeAsync(DateTime startTime, DateTime endTime)
         {
             var eventList = new List<EventModel>();
             var msftEvents = await GetMyCalendarViewByTime(startTime, endTime);
@@ -61,7 +61,7 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
+        public async Task<List<EventModel>> GetEventsByStartTimeAsync(DateTime startTime)
         {
             var allEvents = await GetMyStartTimeEvents(startTime);
             var result = new List<EventModel>();
@@ -79,17 +79,19 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetEventsByTitle(string title)
+        public async Task<List<EventModel>> GetEventsByTitleAsync(string title)
         {
-            var allEvents = await GetMyStartTimeEvents(DateTime.UtcNow.AddDays(-1));
             var result = new List<EventModel>();
-
-            foreach (var item in allEvents)
+            if (!string.IsNullOrEmpty(title))
             {
-                var modelItem = new EventModel(item);
-                if (modelItem.Title.ToLower().Contains(title.ToLower()))
+                var allEvents = await GetMyStartTimeEvents(DateTime.UtcNow.AddDays(-1));
+                foreach (var item in allEvents)
                 {
-                    result.Add(modelItem);
+                    var modelItem = new EventModel(item);
+                    if (modelItem.Title.ToLower().Contains(title.ToLower()))
+                    {
+                        result.Add(modelItem);
+                    }
                 }
             }
 
@@ -97,13 +99,13 @@ namespace CalendarSkill.Services.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
+        public async Task<EventModel> UpdateEventByIdAsync(EventModel updateEvent)
         {
             return new EventModel(await this.UpdateEvent(updateEvent.Value));
         }
 
         /// <inheritdoc/>
-        public async Task DeleteEventById(string id)
+        public async Task DeleteEventByIdAsync(string id)
         {
             try
             {
@@ -115,7 +117,7 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        public async Task DeclineEventById(string id)
+        public async Task DeclineEventByIdAsync(string id)
         {
             try
             {
@@ -127,7 +129,7 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        public async Task AcceptEventById(string id)
+        public async Task AcceptEventByIdAsync(string id)
         {
             try
             {

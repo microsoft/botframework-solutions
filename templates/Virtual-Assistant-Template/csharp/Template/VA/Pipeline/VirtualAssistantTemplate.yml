@@ -59,3 +59,13 @@ steps:
     # if your working directory is not root, you may change the following path
     summaryFileLocation: '$(Build.SourcesDirectory)\$safeprojectname$.Tests\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\$safeprojectname$.Tests'
+
+ - task: CopyFiles@2
+  displayName: 'Copy VA'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample'
+    Contents: '**\*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\VA'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Artifacts'

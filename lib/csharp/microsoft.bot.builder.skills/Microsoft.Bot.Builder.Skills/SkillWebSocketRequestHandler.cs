@@ -78,13 +78,8 @@ namespace Microsoft.Bot.Builder.Skills
 
             var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
 
-            // verify if caller id is the same as the appid in the claims
-            var appIdClaim = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
-            if (!activity.CallerId.Equals(appIdClaim))
-            {
-                response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return response;
-            }
+            // retrieve the appid and use it to populate callerId on the activity
+            activity.CallerId = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
 
             try
             {
