@@ -21,6 +21,6 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant
+npm pack ..\..\templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant
 
 popd

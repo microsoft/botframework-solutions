@@ -21,6 +21,6 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\tools\botskills
+npm pack ..\..\tools\botskills
 
 popd
