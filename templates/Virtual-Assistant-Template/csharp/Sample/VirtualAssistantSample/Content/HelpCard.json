@@ -1,0 +1,21 @@
+{
+  "title": "Help for Virtual Assistant",
+  "subtitle": "This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites.",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "Learn more",
+      "value": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "imback",
+      "title": "Test LUIS",
+      "value": "Talk to a human"
+    },
+    {
+      "type": "imback",
+      "title": "Test QnA Maker",
+      "value": "What is a Virtual Assistant?"
+    }
+  ]
+}

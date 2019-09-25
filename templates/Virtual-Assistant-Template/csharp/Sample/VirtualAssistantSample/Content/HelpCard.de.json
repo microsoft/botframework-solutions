@@ -1,0 +1,21 @@
+{
+  "title": "Hilfe für Virtual Assistant",
+  "subtitle": "Ich bin Ihr virtueller Assistent! Ich kann durch meine vernetzten Fähigkeiten eine Reihe von Aufgaben erledigen. Im Moment kann ich Ihnen mit Kalender, E-Mail, Aufgabe und Punkt von Interesse Fragen helfen. Oder Sie können mir helfen, mehr zu tun, indem Sie Ihre eigenen!",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "Weitere Informationen",
+      "value": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "imback",
+      "title": "Test LUIS",
+      "value": "Kann ich mit einer Person sprechen"
+    },
+    {
+      "type": "imback",
+      "title": "Test QnA Maker",
+      "value": "Was ist die Virtual Assistant?"
+    }
+  ]
+}

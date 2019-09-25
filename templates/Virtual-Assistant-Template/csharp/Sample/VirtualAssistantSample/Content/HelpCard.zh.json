@@ -1,0 +1,21 @@
+﻿{
+  "title": "智能助手的帮助",
+  "subtitle": "我是您的智能助理!我有不少技能，可以帮您完成很多任务。现在我可以帮您管理您的日历, 电子邮件, 任务和查找地图兴趣点。或者, 您可以教我更多的技能！",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "了解更多信息",
+      "value": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "imback",
+      "title": "Test LUIS",
+      "value": "我能和一个人交谈吗？"
+    },
+    {
+      "type": "imback",
+      "title": "Test QnA Maker",
+      "value": "这个模板是什么？"
+    }
+  ]
+}
