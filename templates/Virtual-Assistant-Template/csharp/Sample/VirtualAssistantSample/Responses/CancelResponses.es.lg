@@ -1,0 +1,11 @@
+﻿# cancelPrompt
+- ¿Confirma que desea cancelar?
+
+# cancelledConfirmedMessage
+- Bien, empecemos de una vez.
+
+# cancelDeniedMessage
+- Bien, sigamos adelante.
+
+# nothingToCancelMessage
+- ¡Parece que no hay nada que cancelar!

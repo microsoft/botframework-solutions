@@ -1,0 +1,29 @@
+﻿# cancelledMessage
+- Ok, let's start over.
+
+# completedMessage
+- What else can I help you with?
+
+# confusedMessage
+- I'm sorry, I'm not able to help with that.
+
+# errorMessage
+- Sorry, it looks like something went wrong.
+
+# logoutMessage
+- Ok, you're signed out.
+
+# newUserIntroCard
+- ```
+[Attachment=Content\NewUserGreeting.json adaptivecard]
+```
+
+# returningUserIntroCard
+- ```
+[Attachment=Content\ReturningUserGreeting.json adaptivecard]
+```
+
+# helpCard
+- ```
+[Attachment=Content\HelpCard.json hero]
+```

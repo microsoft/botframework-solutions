@@ -1,0 +1,17 @@
+﻿# namePrompt
+- What is your name?
+
+# haveNameMessage
+- Hi, {user.name}!
+
+# emailPrompt
+- What is your email?
+
+# haveEmailMessage
+- Got it. I've added {user.email} as your primary contact address.
+
+# locationPrompt
+- Finally, where are you located?
+
+# haveLocationMessage
+- Thanks, {user.name}. I've added {user.location} as your primary location. You're all set up!

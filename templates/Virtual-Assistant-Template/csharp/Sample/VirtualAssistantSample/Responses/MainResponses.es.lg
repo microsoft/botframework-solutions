@@ -1,0 +1,29 @@
+﻿# cancelledTemplate
+- Bien, empecemos de una vez.
+
+# completedTemplate
+- ¿En qué más puedo ayudarte?
+
+# confusedTemplate
+- Lo siento, no soy capaz de ayudar con eso.
+
+# errorTemplate
+- Lo siento, parece que algo salió mal.
+
+# logoutTemplate
+- 
+
+# newUserIntroTemplate
+- ```
+[Attachment=Content\NewUserGreeting.es.json adaptivecard]
+```
+
+# returningUserIntroTemplate
+- ```
+[Attachment=Content\ReturningUserGreeting.es.json adaptivecard]
+```
+
+# helpTemplate
+- ```
+[Attachment=Content\HelpCard.es.json hero]
+```
