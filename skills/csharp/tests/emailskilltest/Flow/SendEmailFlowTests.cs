@@ -6,19 +6,19 @@ using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
-using EmailSkillTest.Flow.Fakes;
-using EmailSkillTest.Flow.Strings;
-using EmailSkillTest.Flow.Utterances;
+using EmailSkill.Tests.Flow.Fakes;
+using EmailSkill.Tests.Flow.Strings;
+using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.Flow
+namespace EmailSkill.Tests.Flow
 {
     [TestClass]
-    public class SendEmailFlowTests : EmailBotTestBase
+    public class SendEmailFlowTests : EmailSkillTestBase
     {
         [TestMethod]
         public async Task Test_NotSendingEmail()

@@ -7,12 +7,12 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Shared;
-using PointOfInterestSkillTests.Flow.Utterances;
+using PointOfInterestSkill.Tests.Flow.Utterances;
 
-namespace PointOfInterestSkillTests.Flow
+namespace PointOfInterestSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : PointOfInterestTestBase
+    public class GeneralSkillFlowTests : PointOfInterestSkillTestBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

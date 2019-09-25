@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Services;
-using ToDoSkillTest.API.Fakes;
+using ToDoSkill.Tests.API.Fakes;
 
-namespace ToDoSkillTest.API
+namespace ToDoSkill.Tests.API
 {
     [TestClass]
     public class OutlookServiceTests

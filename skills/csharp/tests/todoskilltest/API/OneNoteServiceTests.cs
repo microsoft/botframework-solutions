@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Services;
-using ToDoSkillTest.API.Fakes;
+using ToDoSkill.Tests.API.Fakes;
 
-namespace ToDoSkillTest.API
+namespace ToDoSkill.Tests.API
 {
     [TestClass]
     public class OneNoteServiceTests

@@ -8,7 +8,7 @@ using Google.Apis.Services;
 using Moq;
 using static Google.Apis.People.v1.PeopleResource;
 
-namespace CalendarSkillTest.API.Fakes.MockGoogleClient
+namespace CalendarSkill.Test.API.Fakes.MockGoogleClient
 {
     public static class MockGoogleUserClient
     {

@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using CalendarSkill.Services.MSGraphAPI;
-using CalendarSkillTest.API.Fakes.MockMSGraphClient;
+using CalendarSkill.Test.API.Fakes.MockMSGraphClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     [TestClass]
     public class UserServiceMSGraphTests

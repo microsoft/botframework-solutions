@@ -24,9 +24,9 @@ using PhoneSkill.Responses.Main;
 using PhoneSkill.Responses.OutgoingCall;
 using PhoneSkill.Responses.Shared;
 using PhoneSkill.Services;
-using PhoneSkillTest.TestDouble;
+using PhoneSkill.Tests.TestDouble;
 
-namespace PhoneSkillTest.Flow
+namespace PhoneSkill.Tests.Flow
 {
     public class PhoneSkillTestBase : BotTestBase
     {

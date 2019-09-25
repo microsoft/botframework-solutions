@@ -19,12 +19,12 @@ using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
-using PointOfInterestSkillTests.API.Fakes;
-using PointOfInterestSkillTests.Flow.Utterances;
+using PointOfInterestSkill.Tests.API.Fakes;
+using PointOfInterestSkill.Tests.Flow.Utterances;
 
-namespace PointOfInterestSkillTests.Flow
+namespace PointOfInterestSkill.Tests.Flow
 {
-    public class PointOfInterestTestBase : BotTestBase
+    public class PointOfInterestSkillTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
 

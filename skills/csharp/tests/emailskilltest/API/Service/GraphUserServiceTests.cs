@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EmailSkill.Services.MSGraphAPI;
-using EmailSkillTest.API.Fakes.MSGraph;
+using EmailSkill.Tests.API.Fakes.MSGraph;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.API.Service
+namespace EmailSkill.Tests.API.Service
 {
     [TestClass]
     public class GraphUserServiceTests

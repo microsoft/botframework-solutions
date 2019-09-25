@@ -1,7 +1,7 @@
 ﻿using Luis;
-using ToDoSkillTest.Flow.Fakes;
+using ToDoSkill.Tests.Flow.Fakes;
 
-namespace ToDoSkillTest.Flow.Utterances
+namespace ToDoSkill.Tests.Flow.Utterances
 {
     public class ShowToDoFlowTestUtterances : BaseTestUtterances
     {

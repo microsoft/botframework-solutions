@@ -6,9 +6,9 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using ToDoSkillTest.Flow.Utterances;
+using ToDoSkill.Tests.Flow.Utterances;
 
-namespace ToDoSkillTest.Flow.Fakes
+namespace ToDoSkill.Tests.Flow.Fakes
 {
     public class MockLuisRecognizer : ITelemetryRecognizer
     {

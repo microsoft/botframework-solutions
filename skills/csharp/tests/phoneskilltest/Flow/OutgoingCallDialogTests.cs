@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhoneSkill.Models;
 using PhoneSkill.Responses.OutgoingCall;
-using PhoneSkillTest.Flow.Utterances;
-using PhoneSkillTest.TestDouble;
+using PhoneSkill.Tests.Flow.Utterances;
+using PhoneSkill.Tests.TestDouble;
 
-namespace PhoneSkillTest.Flow
+namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
     public class OutgoingCallDialogTests : PhoneSkillTestBase

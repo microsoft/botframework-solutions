@@ -9,7 +9,7 @@ using Microsoft.CognitiveServices.ContentModerator.Models;
 using Microsoft.Graph;
 using Moq;
 
-namespace CalendarSkillTest.Flow.Fakes
+namespace CalendarSkill.Test.Flow.Fakes
 {
     public static class MockServiceManager
     {

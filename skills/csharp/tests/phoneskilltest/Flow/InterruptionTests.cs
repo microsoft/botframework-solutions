@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhoneSkill.Responses.Main;
 using PhoneSkill.Responses.OutgoingCall;
-using PhoneSkillTest.Flow.Utterances;
+using PhoneSkill.Tests.Flow.Utterances;
 
-namespace PhoneSkillTest.Flow
+namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
     public class InterruptionTests : PhoneSkillTestBase

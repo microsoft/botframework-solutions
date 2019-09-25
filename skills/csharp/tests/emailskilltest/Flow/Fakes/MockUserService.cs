@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Services;
 
-namespace EmailSkillTest.Flow.Fakes
+namespace EmailSkill.Tests.Flow.Fakes
 {
     public class MockUserService : IUserService
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkillTest.API.Fakes
+namespace ToDoSkill.Tests.API.Fakes
 {
     public static class MockData
     {

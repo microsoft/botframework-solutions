@@ -1,8 +1,8 @@
 ﻿using Luis;
 using PointOfInterestSkill.Services;
-using PointOfInterestSkillTests.Flow.Strings;
+using PointOfInterestSkill.Tests.Flow.Strings;
 
-namespace PointOfInterestSkillTests.Flow.Utterances
+namespace PointOfInterestSkill.Tests.Flow.Utterances
 {
     public class RouteFromXToYUtterances : BaseTestUtterances
     {

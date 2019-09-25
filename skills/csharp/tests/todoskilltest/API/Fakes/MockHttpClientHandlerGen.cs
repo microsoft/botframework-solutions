@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Models;
 
-namespace ToDoSkillTest.API.Fakes
+namespace ToDoSkill.Tests.API.Fakes
 {
     public class MockHttpClientHandlerGen
     {

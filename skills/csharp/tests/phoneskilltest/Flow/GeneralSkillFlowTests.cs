@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhoneSkill.Responses.Shared;
-using PhoneSkillTest.Flow.Utterances;
+using PhoneSkill.Tests.Flow.Utterances;
 
-namespace PhoneSkillTest.Flow
+namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : PhoneSkillTestBase
+    public class GeneralSkillFlowTests : PhoneSkill.TestsBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

@@ -1,9 +1,19 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
-using Microsoft.AspNetCore.Http;
+using EmailSkill.Bots;
+using EmailSkill.Dialogs;
+using EmailSkill.Models;
+using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.FindContact;
+using EmailSkill.Responses.ForwardEmail;
+using EmailSkill.Responses.Main;
+using EmailSkill.Responses.ReplyEmail;
+using EmailSkill.Responses.SendEmail;
+using EmailSkill.Responses.Shared;
+using EmailSkill.Responses.ShowEmail;
+using EmailSkill.Services;
+using EmailSkill.Tests.Flow.Fakes;
+using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -13,25 +23,15 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Bots;
-using ToDoSkill.Dialogs;
-using ToDoSkill.Responses.AddToDo;
-using ToDoSkill.Responses.DeleteToDo;
-using ToDoSkill.Responses.Main;
-using ToDoSkill.Responses.MarkToDo;
-using ToDoSkill.Responses.Shared;
-using ToDoSkill.Responses.ShowToDo;
-using ToDoSkill.Services;
-using ToDoSkillTest.Flow.Fakes;
-using ToDoSkillTest.Flow.Utterances;
 
-namespace ToDoSkillTest.Flow
+namespace EmailSkill.Tests.Flow
 {
-    public class ToDoBotTestBase : BotTestBase
+    public class EmailSkillTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
 
@@ -62,13 +62,14 @@ namespace ToDoSkillTest.Flow
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                                { "General", new MockGeneralLuisRecognizer() },
                                 {
-                                    MockData.LuisToDo, new MockLuisRecognizer(
-                                    new DeleteToDoFlowTestUtterances(),
-                                    new AddToDoFlowTestUtterances(),
-                                    new MarkToDoFlowTestUtterances(),
-                                    new ShowToDoFlowTestUtterances())
+                                    "Email", new MockEmailLuisRecognizer(
+                                        new ForwardEmailUtterances(),
+                                        new ReplyEmailUtterances(),
+                                        new DeleteEmailUtterances(),
+                                        new SendEmailUtterances(),
+                                        new ShowEmailUtterances())
                                 }
                             }
                         }
@@ -91,31 +92,38 @@ namespace ToDoSkillTest.Flow
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new AddToDoResponses(),
-                new DeleteToDoResponses(),
-                new ToDoMainResponses(),
-                new MarkToDoResponses(),
-                new ToDoSharedResponses(),
-                new ShowToDoResponses());
+                new FindContactResponses(),
+                new DeleteEmailResponses(),
+                new ForwardEmailResponses(),
+                new EmailMainResponses(),
+                new ReplyEmailResponses(),
+                new SendEmailResponses(),
+                new EmailSharedResponses(),
+                new ShowEmailResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-            Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
-			Services.AddTransient<AddToDoItemDialog>();
-			Services.AddTransient<DeleteToDoItemDialog>();
-			Services.AddTransient<MarkToDoItemDialog>();
-			Services.AddTransient<ShowToDoItemDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<DeleteEmailDialog>();
+            Services.AddTransient<FindContactDialog>();
+            Services.AddTransient<ForwardEmailDialog>();
+            Services.AddTransient<ReplyEmailDialog>();
+            Services.AddTransient<SendEmailDialog>();
+            Services.AddTransient<ShowEmailDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            ConfigData.GetInstance().MaxDisplaySize = 3;
+            ConfigData.GetInstance().MaxReadSize = 3;
         }
 
         public Activity GetAuthResponse()
         {
             var providerTokenResponse = new ProviderTokenResponse
             {
-                TokenResponse = new TokenResponse(token: "test")
+                TokenResponse = new TokenResponse(token: "test"),
+                AuthenticationProvider = OAuthProvider.AzureAD
             };
             return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
@@ -124,10 +132,14 @@ namespace ToDoSkillTest.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            var conversationState = sp.GetService<ConversationState>();
+            var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = sp.GetService<IBot>();
+                var state = await stateAccessor.GetAsync(context, () => new EmailSkillState());
+                state.MailSourceType = MailSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 

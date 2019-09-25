@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Moq;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkill.Tests.API.Fakes
 {
     public class MockDialogStateAccessor
     {

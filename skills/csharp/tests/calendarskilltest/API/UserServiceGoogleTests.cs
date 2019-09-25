@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using CalendarSkill.Services.GoogleAPI;
-using CalendarSkillTest.API.Fakes.MockGoogleClient;
+using CalendarSkill.Test.API.Fakes.MockGoogleClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     [TestClass]
     public class UserServiceGoogleTests

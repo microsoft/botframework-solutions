@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
-namespace ToDoSkillTest.API.Fakes
+namespace ToDoSkill.Tests.API.Fakes
 {
     public static class MockConfiguration
     {

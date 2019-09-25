@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 
-namespace PointOfInterestSkillTests.API.Fakes
+namespace PointOfInterestSkill.Tests.API.Fakes
 {
     public class MockHttpClientHandlerGen
     {

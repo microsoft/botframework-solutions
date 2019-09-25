@@ -5,7 +5,7 @@ using EmailSkill.Models;
 using Microsoft.Bot.Builder;
 using Moq;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkill.Tests.API.Fakes
 {
     public class MockEmailStateAccessor
     {

@@ -1,4 +1,4 @@
-﻿namespace CalendarSkillTest.Flow.Strings
+﻿namespace CalendarSkill.Test.Flow.Strings
 {
     public class Strings
     {

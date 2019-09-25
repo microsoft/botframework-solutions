@@ -1,14 +1,14 @@
 ﻿using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.Shared;
-using EmailSkillTest.Flow.Utterances;
+using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.Flow
+namespace EmailSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : EmailBotTestBase
+    public class GeneralSkillFlowTests : EmailSkillTestBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using ToDoSkill.Services;
 
-namespace ToDoSkillTest.Fakes
+namespace ToDoSkill.Tests.Fakes
 {
     public class MockMailService : IMailService
     {

@@ -2,7 +2,7 @@
 using Luis;
 using Microsoft.Bot.Builder;
 
-namespace CalendarSkillTest.Flow.Utterances
+namespace CalendarSkill.Test.Flow.Utterances
 {
     public class GeneralTestUtterances : Dictionary<string, General>
     {

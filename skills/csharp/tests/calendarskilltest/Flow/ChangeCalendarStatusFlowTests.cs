@@ -4,18 +4,18 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Services;
-using CalendarSkillTest.Flow.Fakes;
-using CalendarSkillTest.Flow.Utterances;
+using CalendarSkill.Test.Flow.Fakes;
+using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.Flow
+namespace CalendarSkill.Test.Flow
 {
     [TestClass]
-    public class ChangeCalendarStatusFlowTests : CalendarBotTestBase
+    public class ChangeCalendarStatusFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
         public void SetupLuisService()

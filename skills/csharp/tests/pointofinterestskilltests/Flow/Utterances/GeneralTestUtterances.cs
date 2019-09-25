@@ -5,7 +5,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using static Luis.General;
 
-namespace PointOfInterestSkillTests.Flow.Utterances
+namespace PointOfInterestSkill.Tests.Flow.Utterances
 {
     public class GeneralTestUtterances : Dictionary<string, General>
     {

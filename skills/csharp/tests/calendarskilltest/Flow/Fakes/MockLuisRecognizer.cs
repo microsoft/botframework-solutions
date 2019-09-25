@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkillTest.Flow.Utterances;
+using CalendarSkill.Test.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace CalendarSkillTest.Flow.Fakes
+namespace CalendarSkill.Test.Flow.Fakes
 {
     public class MockLuisRecognizer : ITelemetryRecognizer
     {

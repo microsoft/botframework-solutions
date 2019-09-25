@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkillTest.Flow.Utterances;
+using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace EmailSkillTest.Flow.Fakes
+namespace EmailSkill.Tests.Flow.Fakes
 {
     public class MockGeneralLuisRecognizer : ITelemetryRecognizer
     {

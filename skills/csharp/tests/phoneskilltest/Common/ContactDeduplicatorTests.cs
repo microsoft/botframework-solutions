@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhoneSkill.Common;
 using PhoneSkill.Models;
 
-namespace PhoneSkillTest.Common
+namespace PhoneSkill.Tests.Common
 {
     [TestClass]
     public class ContactDeduplicatorTests

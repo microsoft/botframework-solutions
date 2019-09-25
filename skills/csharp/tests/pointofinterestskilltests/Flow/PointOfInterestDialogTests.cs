@@ -12,13 +12,13 @@ using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
-using PointOfInterestSkillTests.Flow.Strings;
-using PointOfInterestSkillTests.Flow.Utterances;
+using PointOfInterestSkill.Tests.Flow.Strings;
+using PointOfInterestSkill.Tests.Flow.Utterances;
 
-namespace PointOfInterestSkillTests.Flow
+namespace PointOfInterestSkill.Tests.Flow
 {
     [TestClass]
-    public class PointOfInterestDialogTests : PointOfInterestTestBase
+    public class PointOfInterestDialogTests : PointOfInterestSkillTestBase
     {
         /// <summary>
         /// Find nearest points of interest nearby.

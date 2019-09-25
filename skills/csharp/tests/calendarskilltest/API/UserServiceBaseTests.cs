@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using CalendarSkill.Services;
-using CalendarSkillTest.API.Fakes.MockBaseClient;
+using CalendarSkill.Test.API.Fakes.MockBaseClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     [TestClass]
     public class UserServiceBaseTests

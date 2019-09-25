@@ -3,7 +3,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using static Luis.General;
 
-namespace EmailSkillTest.Flow.Utterances
+namespace EmailSkill.Tests.Flow.Utterances
 {
     public class GeneralTestUtterances : Dictionary<string, General>
     {

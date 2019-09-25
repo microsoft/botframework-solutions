@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Responses.Main;
-using ToDoSkillTest.Flow.Utterances;
+using ToDoSkill.Tests.Flow.Utterances;
 
-namespace ToDoSkillTest.Flow
+namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : ToDoBotTestBase
+    public class GeneralSkillFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

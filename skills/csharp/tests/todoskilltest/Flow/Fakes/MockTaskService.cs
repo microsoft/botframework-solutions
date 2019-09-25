@@ -6,9 +6,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ToDoSkill.Models;
 using ToDoSkill.Services;
-using ToDoSkillTest.Flow.Fakes;
+using ToDoSkill.Tests.Flow.Fakes;
 
-namespace ToDoSkillTest.Fakes
+namespace ToDoSkill.Tests.Fakes
 {
     public class MockTaskService : ITaskService
     {

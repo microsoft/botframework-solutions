@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Luis;
 using Microsoft.Bot.Builder;
-using PointOfInterestSkillTests.Flow.Strings;
+using PointOfInterestSkill.Tests.Flow.Strings;
 using static Luis.PointOfInterestLuis;
 
-namespace PointOfInterestSkillTests.Flow.Utterances
+namespace PointOfInterestSkill.Tests.Flow.Utterances
 {
     public class BaseTestUtterances : Dictionary<string, PointOfInterestLuis>
     {

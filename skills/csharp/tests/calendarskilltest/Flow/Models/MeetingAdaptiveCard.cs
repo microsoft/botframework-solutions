@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CalendarSkillTest.Flow.Models
+namespace CalendarSkill.Test.Flow.Models
 {
     public class MeetingAdaptiveCard
     {

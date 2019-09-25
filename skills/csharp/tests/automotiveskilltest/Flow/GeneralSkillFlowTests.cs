@@ -4,10 +4,10 @@ using AutomotiveSkill.Responses.Shared;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomotiveSkillTest.Flow
+namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : AutomotiveSkillTestBase
+    public class GeneralSkillFlowTests : AutomotiveSkill.TestsBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

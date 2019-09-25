@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Services;
 using EmailSkill.Services.GoogleAPI;
-using EmailSkillTest.API.Fakes.Google;
+using EmailSkill.Tests.API.Fakes.Google;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.API.Service
+namespace EmailSkill.Tests.API.Service
 {
     [TestClass]
     public class GoogleUserServiceTests

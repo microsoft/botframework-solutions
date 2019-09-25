@@ -2,9 +2,9 @@
 using Luis;
 using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using PhoneSkill.Services.Luis;
-using PhoneSkillTest.Flow.Utterances;
+using PhoneSkill.Tests.Flow.Utterances;
 
-namespace PhoneSkillTest.TestDouble
+namespace PhoneSkill.Tests.TestDouble
 {
     public class PhoneSkillMockLuisRecognizerFactory
     {

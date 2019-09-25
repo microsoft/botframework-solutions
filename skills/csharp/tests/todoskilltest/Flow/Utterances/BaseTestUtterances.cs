@@ -2,7 +2,7 @@
 using Luis;
 using Microsoft.Bot.Builder;
 
-namespace ToDoSkillTest.Flow.Utterances
+namespace ToDoSkill.Tests.Flow.Utterances
 {
     public class BaseTestUtterances : Dictionary<string, ToDoLuis>
     {

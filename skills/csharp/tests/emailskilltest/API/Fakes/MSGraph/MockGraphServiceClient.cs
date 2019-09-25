@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
 
-namespace EmailSkillTest.API.Fakes.MSGraph
+namespace EmailSkill.Tests.API.Fakes.MSGraph
 {
     public class MockGraphServiceClient
     {

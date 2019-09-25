@@ -2,7 +2,7 @@
 using CalendarSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.Common
+namespace CalendarSkill.Test.Common
 {
     [TestClass]
     public class TimeConverterTests

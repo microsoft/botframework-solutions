@@ -2,10 +2,10 @@
 using EmailSkill.Models;
 using EmailSkill.Services;
 using EmailSkill.Services.MSGraphAPI;
-using EmailSkillTest.API.Fakes.MSGraph;
+using EmailSkill.Tests.API.Fakes.MSGraph;
 using Microsoft.Graph;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkill.Tests.API.Fakes
 {
     public class MockServiceManager : IServiceManager
     {

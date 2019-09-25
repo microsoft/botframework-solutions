@@ -1,6 +1,6 @@
 ﻿using Luis;
 
-namespace AutomotiveSkillTest.Flow.Fakes
+namespace AutomotiveSkill.Tests.Flow.Fakes
 {
     public class MockGeneralIntent : General
     {

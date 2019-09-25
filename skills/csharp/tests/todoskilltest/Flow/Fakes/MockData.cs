@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using ToDoSkill.Models;
 
-namespace ToDoSkillTest.Flow.Fakes
+namespace ToDoSkill.Tests.Flow.Fakes
 {
     public static class MockData
     {

@@ -1,7 +1,7 @@
-﻿using EmailSkillTest.Flow.Strings;
+﻿using EmailSkill.Tests.Flow.Strings;
 using Luis;
 
-namespace EmailSkillTest.Flow.Utterances
+namespace EmailSkill.Tests.Flow.Utterances
 {
     public class ShowEmailUtterances : BaseTestUtterances
     {

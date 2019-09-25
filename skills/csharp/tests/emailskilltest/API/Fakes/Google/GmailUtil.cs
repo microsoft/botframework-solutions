@@ -5,7 +5,7 @@ using EmailSkill.Services.GoogleAPI;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 
-namespace EmailSkillTest.API.Fakes.Google
+namespace EmailSkill.Tests.API.Fakes.Google
 {
     public class GmailUtil
     {

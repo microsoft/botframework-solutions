@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
 
-namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
+namespace CalendarSkill.Test.API.Fakes.MockMSGraphClient
 {
     public static class MockMSGraphUserClient
     {

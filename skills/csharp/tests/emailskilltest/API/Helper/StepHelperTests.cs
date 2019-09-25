@@ -4,11 +4,11 @@ using EmailSkill.Dialogs;
 using EmailSkill.Models;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
-using EmailSkillTest.API.Fakes;
+using EmailSkill.Tests.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.API.Helper
+namespace EmailSkill.Tests.API.Helper
 {
     [TestClass]
     public class StepHelperTests : EmailSkillDialogBase

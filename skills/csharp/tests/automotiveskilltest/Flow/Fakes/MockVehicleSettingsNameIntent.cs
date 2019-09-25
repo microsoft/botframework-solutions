@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 
-namespace AutomotiveSkillTest.Flow.Fakes
+namespace AutomotiveSkill.Tests.Flow.Fakes
 {
     public class MockVehicleSettingsNameIntent : SettingsNameLuis
     {

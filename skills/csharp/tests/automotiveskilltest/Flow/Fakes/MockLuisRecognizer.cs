@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace AutomotiveSkillTest.Flow.Fakes
+namespace AutomotiveSkill.Tests.Flow.Fakes
 {
     public class MockLuisRecognizer : ITelemetryRecognizer
     {

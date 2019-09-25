@@ -5,7 +5,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Services;
 using Microsoft.Graph;
 
-namespace CalendarSkillTest.Flow.Fakes
+namespace CalendarSkill.Test.Flow.Fakes
 {
     // Leave this mock service for GetEventPrompt test. The moq service has issue when serialize, so need instead by this.
     public class MockCalendarService : ICalendarService

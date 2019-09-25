@@ -1,4 +1,4 @@
-﻿namespace ToDoSkillTest.Flow.Fakes
+﻿namespace ToDoSkill.Tests.Flow.Fakes
 {
     public class DataOperationType
     {

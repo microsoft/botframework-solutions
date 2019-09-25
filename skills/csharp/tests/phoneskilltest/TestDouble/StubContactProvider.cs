@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using PhoneSkill.Common;
 using PhoneSkill.Models;
 
-namespace PhoneSkillTest.TestDouble
+namespace PhoneSkill.Tests.TestDouble
 {
     public class StubContactProvider : IContactProvider
     {

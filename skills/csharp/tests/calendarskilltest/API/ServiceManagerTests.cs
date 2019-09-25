@@ -3,7 +3,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     [TestClass]
     public class ServiceManagerTests

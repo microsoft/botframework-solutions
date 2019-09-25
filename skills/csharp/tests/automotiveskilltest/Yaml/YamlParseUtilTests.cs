@@ -5,7 +5,7 @@ using AutomotiveSkill.Models;
 using AutomotiveSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomotiveSkillTest.Yaml
+namespace AutomotiveSkill.Tests.Yaml
 {
     [TestClass]
     public class YamlParseUtilTests

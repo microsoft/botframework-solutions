@@ -4,7 +4,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 
-namespace CalendarSkillTest.Flow.Utterances
+namespace CalendarSkill.Test.Flow.Utterances
 {
     public class BaseTestUtterances : Dictionary<string, CalendarLuis>
     {

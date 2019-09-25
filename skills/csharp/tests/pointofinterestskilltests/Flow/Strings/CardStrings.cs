@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PointOfInterestSkillTests.Flow.Strings
+namespace PointOfInterestSkill.Tests.Flow.Strings
 {
     public class CardStrings
     {

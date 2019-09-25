@@ -8,9 +8,9 @@ using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
-using EmailSkillTest.Flow.Fakes;
-using EmailSkillTest.Flow.Strings;
-using EmailSkillTest.Flow.Utterances;
+using EmailSkill.Tests.Flow.Fakes;
+using EmailSkill.Tests.Flow.Strings;
+using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -19,10 +19,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.Flow
+namespace EmailSkill.Tests.Flow
 {
     [TestClass]
-    public class ShowEmailFlowTests : EmailBotTestBase
+    public class ShowEmailFlowTests : EmailSkillTestBase
     {
         [TestMethod]
         public async Task Test_ShowEmail()

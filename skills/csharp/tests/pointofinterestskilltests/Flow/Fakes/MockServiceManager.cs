@@ -2,7 +2,7 @@
 using System.Net.Http;
 using PointOfInterestSkill.Services;
 
-namespace PointOfInterestSkillTests.API.Fakes
+namespace PointOfInterestSkill.Tests.API.Fakes
 {
     public class MockServiceManager : IServiceManager
     {

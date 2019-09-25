@@ -1,4 +1,4 @@
-﻿namespace EmailSkillTest.Flow.Strings
+﻿namespace EmailSkill.Tests.Flow.Strings
 {
     public class ContextStrings
     {

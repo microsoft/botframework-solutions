@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using CalendarSkill.Services.GoogleAPI;
-using CalendarSkillTest.API.Fakes.MockGoogleClient;
+using CalendarSkill.Test.API.Fakes.MockGoogleClient;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     // this will test all logic in Google Calendar service
     // only have success test now

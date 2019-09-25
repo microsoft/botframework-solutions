@@ -1,6 +1,6 @@
 ﻿using Luis;
 
-namespace EmailSkillTest.Flow.Utterances
+namespace EmailSkill.Tests.Flow.Utterances
 {
     public class DeleteEmailUtterances : BaseTestUtterances
     {

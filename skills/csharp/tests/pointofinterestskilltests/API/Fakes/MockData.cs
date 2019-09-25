@@ -1,4 +1,4 @@
-﻿namespace PointOfInterestSkillTests.API.Fakes
+﻿namespace PointOfInterestSkill.Tests.API.Fakes
 {
     public static class MockData
     {

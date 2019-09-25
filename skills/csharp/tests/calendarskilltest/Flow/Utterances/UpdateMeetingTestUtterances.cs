@@ -1,6 +1,6 @@
 ﻿using Luis;
 
-namespace CalendarSkillTest.Flow.Utterances
+namespace CalendarSkill.Test.Flow.Utterances
 {
     public class UpdateMeetingTestUtterances : BaseTestUtterances
     {

@@ -2,7 +2,7 @@
 using PhoneSkill.Models;
 using PhoneSkill.Services;
 
-namespace PhoneSkillTest.TestDouble
+namespace PhoneSkill.Tests.TestDouble
 {
     public class FakeServiceManager : IServiceManager
     {

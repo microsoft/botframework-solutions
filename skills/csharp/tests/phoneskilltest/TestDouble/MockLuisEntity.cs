@@ -1,4 +1,4 @@
-﻿namespace PhoneSkillTest.TestDouble
+﻿namespace PhoneSkill.Tests.TestDouble
 {
     /// <summary>
     /// Information about an entity to be returned by a MockLuisRecognizer.

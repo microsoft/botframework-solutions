@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 
-namespace PhoneSkillTest.TestDouble
+namespace PhoneSkill.Tests.TestDouble
 {
     /// <summary>
     /// Builder for MockLuisRecognizer's.

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using PointOfInterestSkillTests.Flow.Utterances;
+using PointOfInterestSkill.Tests.Flow.Utterances;
 
-namespace PointOfInterestSkillTests.Flow.Fakes
+namespace PointOfInterestSkill.Tests.Flow.Fakes
 {
     public class MockPointOfInterestLuisRecognizer : ITelemetryRecognizer
     {

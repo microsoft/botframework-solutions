@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Prompts;
 using CalendarSkill.Prompts.Options;
-using CalendarSkillTest.Flow.Fakes;
+using CalendarSkill.Test.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -12,7 +12,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.Prompt
+namespace CalendarSkill.Test.Prompt
 {
     [TestClass]
     public class GetEventPromptTests

@@ -7,8 +7,8 @@ using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
-using CalendarSkillTest.Flow.Fakes;
-using CalendarSkillTest.Flow.Utterances;
+using CalendarSkill.Test.Flow.Fakes;
+using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
@@ -17,10 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.Flow
+namespace CalendarSkill.Test.Flow
 {
     [TestClass]
-    public class CreateCalendarFlowTests : CalendarBotTestBase
+    public class CreateCalendarFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
         public void SetupLuisService()

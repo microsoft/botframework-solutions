@@ -1,22 +1,13 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
-using CalendarSkill.Bots;
-using CalendarSkill.Dialogs;
-using CalendarSkill.Models;
-using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CreateEvent;
-using CalendarSkill.Responses.FindContact;
-using CalendarSkill.Responses.JoinEvent;
-using CalendarSkill.Responses.Main;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
-using CalendarSkill.Responses.TimeRemaining;
-using CalendarSkill.Responses.UpcomingEvent;
-using CalendarSkill.Responses.UpdateEvent;
-using CalendarSkill.Services;
-using CalendarSkillTest.Flow.Fakes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -26,21 +17,31 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Bots;
+using ToDoSkill.Dialogs;
+using ToDoSkill.Responses.AddToDo;
+using ToDoSkill.Responses.DeleteToDo;
+using ToDoSkill.Responses.Main;
+using ToDoSkill.Responses.MarkToDo;
+using ToDoSkill.Responses.Shared;
+using ToDoSkill.Responses.ShowToDo;
+using ToDoSkill.Services;
+using ToDoSkill.Tests.Flow.Fakes;
+using ToDoSkill.Tests.Flow.Utterances;
 
-namespace CalendarSkillTest.Flow
+namespace ToDoSkill.Tests.Flow
 {
-    public class CalendarBotTestBase : BotTestBase
+    public class ToDoSkillTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
 
-        public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
-
-        public IServiceManager ServiceManager { get; set; }
+        public MockServiceManager ServiceManager { get; set; }
 
         [TestInitialize]
         public override void Initialize()
         {
-            this.ServiceManager = MockServiceManager.GetCalendarService();
+            // Initialize mock service manager
+            ServiceManager = new MockServiceManager();
 
             // Initialize service collection
             Services = new ServiceCollection();
@@ -52,7 +53,29 @@ namespace CalendarSkillTest.Flow
                 }
             });
 
-            Services.AddSingleton(new BotServices());
+            Services.AddSingleton(new BotServices()
+            {
+                CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
+                {
+                    {
+                        "en", new CognitiveModelSet()
+                        {
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            {
+                                { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                                {
+                                    MockData.LuisToDo, new MockLuisRecognizer(
+                                    new DeleteToDoFlowTestUtterances(),
+                                    new AddToDoFlowTestUtterances(),
+                                    new MarkToDoFlowTestUtterances(),
+                                    new ShowToDoFlowTestUtterances())
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
             Services.AddSingleton<IBotTelemetryClient, NullBotTelemetryClient>();
             Services.AddSingleton(new UserState(new MemoryStorage()));
             Services.AddSingleton(new ConversationState(new MemoryStorage()));
@@ -68,41 +91,24 @@ namespace CalendarSkillTest.Flow
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new FindContactResponses(),
-                new ChangeEventStatusResponses(),
-                new CreateEventResponses(),
-                new JoinEventResponses(),
-                new CalendarMainResponses(),
-                new CalendarSharedResponses(),
-                new SummaryResponses(),
-                new TimeRemainingResponses(),
-                new UpdateEventResponses(),
-                new UpcomingEventResponses());
+                new AddToDoResponses(),
+                new DeleteToDoResponses(),
+                new ToDoMainResponses(),
+                new MarkToDoResponses(),
+                new ToDoSharedResponses(),
+                new ShowToDoResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            Services.AddSingleton(ServiceManager);
+            Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<ChangeEventStatusDialog>();
-            Services.AddTransient<JoinEventDialog>();
-            Services.AddTransient<CreateEventDialog>();
-            Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<ShowEventsDialog>();
-            Services.AddTransient<TimeRemainingDialog>();
-            Services.AddTransient<UpcomingEventDialog>();
-            Services.AddTransient<UpdateEventDialog>();
-            Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
-
-            var state = Services.BuildServiceProvider().GetService<ConversationState>();
-            CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            this.ServiceManager = MockServiceManager.SetAllToDefault();
+			Services.AddTransient<AddToDoItemDialog>();
+			Services.AddTransient<DeleteToDoItemDialog>();
+			Services.AddTransient<MarkToDoItemDialog>();
+			Services.AddTransient<ShowToDoItemDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public Activity GetAuthResponse()
@@ -122,9 +128,6 @@ namespace CalendarSkillTest.Flow
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = sp.GetService<IBot>();
-                var state = await CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
-                state.APIToken = "test";
-                state.EventSource = EventSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 

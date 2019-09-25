@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Services;
-using PointOfInterestSkillTests.API.Fakes;
+using PointOfInterestSkill.Tests.API.Fakes;
 
-namespace PointOfInterestSkillTests.API
+namespace PointOfInterestSkill.Tests.API
 {
     [TestClass]
     public class AzureMapsGeoSpatialServiceTests

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PhoneSkillTest.Flow.Utterances {
+namespace PhoneSkill.Tests.Flow.Utterances {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PhoneSkillTest.Flow.Utterances {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PhoneSkillTest.Flow.Utterances.GeneralUtterances", typeof(GeneralUtterances).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PhoneSkill.Tests.Flow.Utterances.GeneralUtterances", typeof(GeneralUtterances).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill.Services;
-using EmailSkillTest.Flow.Strings;
+using EmailSkill.Tests.Flow.Strings;
 using Microsoft.Graph;
 
-namespace EmailSkillTest.Flow.Fakes
+namespace EmailSkill.Tests.Flow.Fakes
 {
     public class MockMailService : IMailService
     {

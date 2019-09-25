@@ -8,13 +8,13 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Responses.AddToDo;
 using ToDoSkill.Responses.Shared;
-using ToDoSkillTest.Flow.Fakes;
-using ToDoSkillTest.Flow.Utterances;
+using ToDoSkill.Tests.Flow.Fakes;
+using ToDoSkill.Tests.Flow.Utterances;
 
-namespace ToDoSkillTest.Flow
+namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
-    public class AddToDoFlowTests : ToDoBotTestBase
+    public class AddToDoFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
         public async Task Test_AddToDoItem_Prompt_To_Ask_Content()

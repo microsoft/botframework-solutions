@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ToDoSkill.Models;
 using ToDoSkill.Services;
-using ToDoSkillTest.Fakes;
+using ToDoSkill.Tests.Fakes;
 
-namespace ToDoSkillTest.Flow.Fakes
+namespace ToDoSkill.Tests.Flow.Fakes
 {
     public class MockServiceManager : IServiceManager
     {

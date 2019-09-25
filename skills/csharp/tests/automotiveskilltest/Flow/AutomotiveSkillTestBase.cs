@@ -7,7 +7,7 @@ using AutomotiveSkill.Responses.Main;
 using AutomotiveSkill.Responses.Shared;
 using AutomotiveSkill.Responses.VehicleSettings;
 using AutomotiveSkill.Services;
-using AutomotiveSkillTest.Flow.Fakes;
+using AutomotiveSkill.Tests.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -20,7 +20,7 @@ using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomotiveSkillTest.Flow
+namespace AutomotiveSkill.Tests.Flow
 {
     public class AutomotiveSkillTestBase : BotTestBase
     {

@@ -7,7 +7,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
-namespace AutomotiveSkillTest.Flow
+namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
     public class VehicleSettingsTests : AutomotiveSkillTestBase

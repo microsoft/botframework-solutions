@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
-using CalendarSkillTest.API.Fakes.MockBaseClient;
+using CalendarSkill.Test.API.Fakes.MockBaseClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkill.Test.API
 {
     // this will test all logic in CalendarService only.
     // only have success test now

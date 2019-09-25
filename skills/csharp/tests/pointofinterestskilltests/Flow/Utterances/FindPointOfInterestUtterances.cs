@@ -1,7 +1,7 @@
 ﻿using Luis;
 using PointOfInterestSkill.Services;
 
-namespace PointOfInterestSkillTests.Flow.Utterances
+namespace PointOfInterestSkill.Tests.Flow.Utterances
 {
     public class FindPointOfInterestUtterances : BaseTestUtterances
     {

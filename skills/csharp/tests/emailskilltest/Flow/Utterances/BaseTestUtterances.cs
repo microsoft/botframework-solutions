@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using static Luis.EmailLuis;
 
-namespace EmailSkillTest.Flow.Utterances
+namespace EmailSkill.Tests.Flow.Utterances
 {
     public class BaseTestUtterances : Dictionary<string, EmailLuis>
     {

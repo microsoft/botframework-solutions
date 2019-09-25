@@ -29,20 +29,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomotiveSkill", "experime
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneSkill", "experimental\phoneskill\PhoneSkill.csproj", "{748D0940-CAF1-4F9A-9A70-D8E6983B2009}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkillTests", "tests\calendarskilltest\CalendarSkillTests.csproj", "{905AEED3-F3B5-4867-B543-93E5407E9300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill.Tests", "tests\calendarskilltest\CalendarSkill.Tests.csproj", "{905AEED3-F3B5-4867-B543-93E5407E9300}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomotiveSkillTests", "tests\automotiveskilltest\AutomotiveSkillTests.csproj", "{CF7ABC2D-BA40-4118-B96C-FE560595BFEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomotiveSkill.Tests", "tests\automotiveskilltest\AutomotiveSkill.Tests.csproj", "{CF7ABC2D-BA40-4118-B96C-FE560595BFEB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C887B388-1AC6-4E7A-9659-82219C63CA65} = {C887B388-1AC6-4E7A-9659-82219C63CA65}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkillTests", "tests\emailskilltest\EmailSkillTests.csproj", "{4CBF11D4-6DEC-4D21-8B57-93AA1E639EB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkill.Tests", "tests\emailskilltest\EmailSkill.Tests.csproj", "{4CBF11D4-6DEC-4D21-8B57-93AA1E639EB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneSkillTests", "tests\phoneskilltest\PhoneSkillTests.csproj", "{6618871F-EF93-4EF8-BE86-AD4B70928F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneSkill.Tests", "tests\phoneskilltest\PhoneSkill.Tests.csproj", "{6618871F-EF93-4EF8-BE86-AD4B70928F51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkillTest", "tests\pointofinterestskilltests\PointOfInterestSkillTest.csproj", "{E333EB0E-CC38-4B37-828A-75B33E1351E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill.Tests", "tests\pointofinterestskilltests\PointOfInterestSkill.Tests.csproj", "{E333EB0E-CC38-4B37-828A-75B33E1351E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkillTests", "tests\todoskilltest\ToDoSkillTests.csproj", "{FCF33FE2-EB7A-4524-A6A5-D869C52A8715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill.Tests", "tests\todoskilltest\ToDoSkill.Tests.csproj", "{FCF33FE2-EB7A-4524-A6A5-D869C52A8715}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "calendarskill\CalendarSkill.csproj", "{73934C86-A6CB-44EB-B4B6-38B962ECD878}"
 EndProject
