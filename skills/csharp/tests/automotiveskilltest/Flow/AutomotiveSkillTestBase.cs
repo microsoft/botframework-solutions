@@ -76,8 +76,8 @@ namespace AutomotiveSkill.Tests.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-			Services.AddTransient<VehicleSettingsDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<VehicleSettingsDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             // Mock HttpContext for image path resolution
             var mockHttpContext = new DefaultHttpContext();

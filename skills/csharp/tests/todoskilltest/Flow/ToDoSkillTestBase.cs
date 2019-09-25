@@ -104,11 +104,11 @@ namespace ToDoSkill.Tests.Flow
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
-			Services.AddTransient<AddToDoItemDialog>();
-			Services.AddTransient<DeleteToDoItemDialog>();
-			Services.AddTransient<MarkToDoItemDialog>();
-			Services.AddTransient<ShowToDoItemDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<AddToDoItemDialog>();
+            Services.AddTransient<DeleteToDoItemDialog>();
+            Services.AddTransient<MarkToDoItemDialog>();
+            Services.AddTransient<ShowToDoItemDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public Activity GetAuthResponse()

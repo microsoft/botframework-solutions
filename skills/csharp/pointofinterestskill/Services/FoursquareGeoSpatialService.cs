@@ -190,7 +190,7 @@ namespace PointOfInterestSkill.Services
         {
             url = string.Concat(url, $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}");
 
-			try
+            try
 			{
 				var response = await httpClient.GetStringAsync(url);
 

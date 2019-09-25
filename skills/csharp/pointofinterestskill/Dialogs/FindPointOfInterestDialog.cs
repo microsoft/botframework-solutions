@@ -19,8 +19,8 @@ namespace PointOfInterestSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			RouteDialog routeDialog,
+            ConversationState conversationState,
+            RouteDialog routeDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)

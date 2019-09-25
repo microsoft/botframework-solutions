@@ -76,11 +76,11 @@ namespace PointOfInterestSkill.Tests.Flow
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
-                    new POISharedResponses(),
-                    new RouteResponses(),
-                    new FindPointOfInterestResponses(),
-                    new POIMainResponses(),
-                    new CancelRouteResponses());
+                new POISharedResponses(),
+                new RouteResponses(),
+                new FindPointOfInterestResponses(),
+                new POIMainResponses(),
+                new CancelRouteResponses());
 
             Services.AddSingleton(ResponseManager);
 
@@ -88,10 +88,10 @@ namespace PointOfInterestSkill.Tests.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-			Services.AddTransient<CancelRouteDialog>();
-			Services.AddTransient<FindParkingDialog>();
-			Services.AddTransient<FindPointOfInterestDialog>();
-			Services.AddTransient<RouteDialog>();
+            Services.AddTransient<CancelRouteDialog>();
+            Services.AddTransient<FindParkingDialog>();
+            Services.AddTransient<FindPointOfInterestDialog>();
+            Services.AddTransient<RouteDialog>();
             Services.AddTransient<GetDirectionsDialog>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
