@@ -297,4 +297,7 @@
   <data name="DefaultLocation" xml:space="preserve">
     <value />
   </data>
+  <data name="Manager" xml:space="preserve">
+    <value>(Manager | Chef)</value>
+  </data>
 </root>

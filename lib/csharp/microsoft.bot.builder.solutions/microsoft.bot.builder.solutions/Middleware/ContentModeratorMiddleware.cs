@@ -65,7 +65,8 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
                 var textStream = new MemoryStream(byteArray);
 
                 var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(this.subscriptionKey));
-                client.Endpoint = $"{this.region}.api.cognitive.microsoft.com";
+                var region = this.region.StartsWith("https://") ? this.region : $"https://{this.region}";
+                client.Endpoint = $"{region}.api.cognitive.microsoft.com";
 
                 var screenResult = client.TextModeration.ScreenText(
                     language: "eng",

@@ -76,7 +76,6 @@ namespace $safeprojectname$.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<$safeprojectname$Luis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -84,7 +83,7 @@ namespace $safeprojectname$.Dialogs
                 {
                     case $safeprojectname$Luis.Intent.Sample:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog));
+                            await dc.BeginDialogAsync(nameof(SampleDialog));
                             break;
                         }
 
@@ -92,7 +91,6 @@ namespace $safeprojectname$.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -100,14 +98,8 @@ namespace $safeprojectname$.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }
@@ -115,7 +107,7 @@ namespace $safeprojectname$.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            response.Type = ActivityTypes.Handoff;
             await dc.Context.SendActivityAsync(response);
             await dc.EndDialogAsync(result);
         }
@@ -133,7 +125,7 @@ namespace $safeprojectname$.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
+                            response.Type = ActivityTypes.Handoff;
 
                             await dc.Context.SendActivityAsync(response);
                         }
@@ -240,13 +232,14 @@ namespace $safeprojectname$.Dialogs
             // Example of populating local state with data passed through semanticAction out of Activity
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            //if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-            //{
+
+            // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            // {
             //    var location = semanticAction.Entities["location"];
             //    var locationObj = location.Properties["location"].ToString();
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
-            //}
+            // }
         }
     }
 }

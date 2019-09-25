@@ -1214,6 +1214,24 @@ $PREBUILT:ordinal
 
 > # List entities
 
+$PossessivePronoun:FirstPerson=
+- mio
+- nostro
+- il mio
+- il nostro
+
+$PossessivePronoun:SecondPerson=
+- La tua
+- il proprio
+
+$PossessivePronoun:ThirdPerson=
+- suo
+- lei
+- loro
+- Propria
+- proprio
+- Proprio
+
 $RelationshipName:zia=
 
 $RelationshipName:zie=

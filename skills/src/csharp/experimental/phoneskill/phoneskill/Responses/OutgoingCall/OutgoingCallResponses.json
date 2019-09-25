@@ -1,0 +1,113 @@
+{
+  "RecipientPrompt": {
+    "replies": [
+      {
+        "text": "Who would you like to call?",
+        "speak": "Who would you like to call?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactNotFound": {
+    "replies": [
+      {
+        "text": "There is no {contactName} in your contact list.",
+        "speak": "There is no {contactName} in your contact list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactHasNoPhoneNumber": {
+    "replies": [
+      {
+        "text": "There is no phone number for {contact} in your contact list.",
+        "speak": "There is no phone number for {contact} in your contact list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactsHaveNoPhoneNumber": {
+    "replies": [
+      {
+        "text": "None of the contacts matching {contactName} has a phone number.",
+        "speak": "None of the contacts matching {contactName} has a phone number."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactHasNoPhoneNumberOfRequestedType": {
+    "replies": [
+      {
+        "text": "There is no {phoneNumberType} number for {contact} in your contact list.",
+        "speak": "There is no {phoneNumberType} number for {contact} in your contact list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmAlternativePhoneNumberType": {
+    "replies": [
+      {
+        "text": "Would you like to call their {phoneNumberType} number instead?",
+        "speak": "Would you like to call their {phoneNumberType} number instead?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactSelection": {
+    "replies": [
+      {
+        "text": "Which {contactName}?",
+        "speak": "Which {contactName}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ContactSelectionWithoutName": {
+    "replies": [
+      {
+        "text": "Which contact?",
+        "speak": "Which contact?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PhoneNumberSelection": {
+    "replies": [
+      {
+        "text": "{contact} has multiple phone numbers. Which one?",
+        "speak": "{contact} has multiple phone numbers. Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PhoneNumberSelectionWithPhoneNumberType": {
+    "replies": [
+      {
+        "text": "{contact} has multiple {phoneNumberType} numbers. Which one?",
+        "speak": "{contact} has multiple {phoneNumberType} numbers. Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ExecuteCall": {
+    "replies": [
+      {
+        "text": "Calling {contactOrPhoneNumber}.",
+        "speak": "Calling {contactOrPhoneNumber}."
+      },
+      {
+        "text": "Placing the call to {contactOrPhoneNumber}.",
+        "speak": "Placing the call to {contactOrPhoneNumber}."
+      }
+    ]
+  },
+  "ExecuteCallWithPhoneNumberType": {
+    "replies": [
+      {
+        "text": "Calling {contactOrPhoneNumber} on {phoneNumberType}.",
+        "speak": "Calling {contactOrPhoneNumber} on {phoneNumberType}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

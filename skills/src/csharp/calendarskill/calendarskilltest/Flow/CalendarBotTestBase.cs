@@ -85,10 +85,10 @@ namespace CalendarSkillTest.Flow
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<ChangeEventStatusDialog>();
-            Services.AddTransient<ConnectToMeetingDialog>();
+            Services.AddTransient<JoinEventDialog>();
             Services.AddTransient<CreateEventDialog>();
             Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<SummaryDialog>();
+            Services.AddTransient<ShowEventsDialog>();
             Services.AddTransient<TimeRemainingDialog>();
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();

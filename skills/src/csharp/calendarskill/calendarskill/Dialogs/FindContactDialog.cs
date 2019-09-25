@@ -1,7 +1,8 @@
-﻿using System;
+﻿                                                                                                                                                                                                                                                                                                                                          using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
@@ -121,7 +122,7 @@ namespace CalendarSkill.Dialogs
             InitialDialogId = Actions.ConfirmNameList;
         }
 
-        public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -160,7 +161,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -221,7 +222,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> LoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> LoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -257,7 +258,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterLoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterLoopNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -274,7 +275,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -302,28 +303,36 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
-            if (confirmedPerson == null)
+            try
             {
-                return await sc.EndDialogAsync();
-            }
+                var state = await Accessor.GetAsync(sc.Context);
+                var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
+                if (confirmedPerson == null)
+                {
+                    return await sc.EndDialogAsync();
+                }
 
-            var name = confirmedPerson.DisplayName;
-            if (confirmedPerson.Emails.Count() == 1)
-            {
-                // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                var name = confirmedPerson.DisplayName;
+                if (confirmedPerson.Emails.Count() == 1)
+                {
+                    // Highest probability
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.SelectEmail);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return await sc.BeginDialogAsync(Actions.SelectEmail);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
-        public async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -332,14 +341,13 @@ namespace CalendarSkill.Dialogs
                 var name = confirmedPerson.DisplayName;
 
                 // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                state.MeetingInfor.ContactInfor.FirstRetryInFindContact = true;
-
                 if (!(sc.Result is bool) || (bool)sc.Result)
                 {
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = name,
-                        Address = confirmedPerson.Emails.First().Address
+                        Address = confirmedPerson.Emails.First().Address,
+                        UserPrincipalName = confirmedPerson.UserPrincipalName
                     };
                     if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
@@ -363,7 +371,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -388,7 +396,7 @@ namespace CalendarSkill.Dialogs
                 // if not initialize ask user for attendee
                 if (options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    if (state.MeetingInfor.ContactInfor.FirstRetryInFindContact)
+                    if (options.FirstRetry)
                     {
                         return await sc.PromptAsync(
                             Actions.Prompt,
@@ -398,21 +406,24 @@ namespace CalendarSkill.Dialogs
                                     FindContactResponses.UserNotFound,
                                     new StringDictionary()
                                     {
-                                    { "UserName", currentRecipientName }
+                                        { "UserName", currentRecipientName }
                                     })
                             });
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            FindContactResponses.UserNotFoundAgain,
-                            new StringDictionary()
+                        return await sc.PromptAsync(
+                            Actions.Prompt,
+                            new PromptOptions
                             {
-                            { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
-                            { "UserName", currentRecipientName }
-                            }));
-                        state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
-                        return await sc.EndDialogAsync();
+                                Prompt = ResponseManager.GetResponse(
+                                    FindContactResponses.UserNotFoundAgain,
+                                    new StringDictionary()
+                                    {
+                                        { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
+                                        { "UserName", currentRecipientName }
+                                    })
+                            });
                     }
                 }
 
@@ -426,7 +437,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterUpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -449,7 +460,8 @@ namespace CalendarSkill.Dialogs
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = currentRecipientName,
-                        Address = currentRecipientName
+                        Address = currentRecipientName,
+                        UserPrincipalName = currentRecipientName,
                     };
                     if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
                     {
@@ -467,6 +479,41 @@ namespace CalendarSkill.Dialogs
                 {
                     var me = await GetMe(sc.Context);
                     unionList.Add(new CustomizedPerson(me));
+                }
+                else if (!string.IsNullOrEmpty(currentRecipientName) && state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                {
+                    string pronounType = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].PronounType;
+                    string relationship = state.MeetingInfor.ContactInfor.RelatedEntityInfoDict[currentRecipientName].RelationshipName;
+                    var personList = new List<PersonModel>();
+                    if (pronounType == PronounType.FirstPerson)
+                    {
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetMyManager(sc);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+                    else if (pronounType == PronounType.ThirdPerson && state.MeetingInfor.ContactInfor.Contacts.Count > 0)
+                    {
+                        int count = state.MeetingInfor.ContactInfor.Contacts.Count;
+                        string prename = state.MeetingInfor.ContactInfor.Contacts[count - 1].UserPrincipalName;
+                        if (Regex.IsMatch(relationship, CalendarCommonStrings.Manager, RegexOptions.IgnoreCase))
+                        {
+                            var person = await GetManager(sc, prename);
+                            if (person != null)
+                            {
+                                personList.Add(person);
+                            }
+                        }
+                    }
+
+                    foreach (var person in personList)
+                    {
+                        unionList.Add(new CustomizedPerson(person));
+                    }
                 }
                 else
                 {
@@ -534,6 +581,11 @@ namespace CalendarSkill.Dialogs
 
                 if (unionList.Count == 0)
                 {
+                    if (!(options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.Initialize))
+                    {
+                        options.FirstRetry = false;
+                    }
+
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
                     return await sc.ReplaceDialogAsync(Actions.UpdateName, options);
                 }
@@ -562,7 +614,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> SelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -585,7 +637,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterSelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterSelectPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -643,7 +695,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> SelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -669,7 +721,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterSelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterSelectEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -726,7 +778,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -745,7 +797,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -922,6 +974,12 @@ namespace CalendarSkill.Dialogs
             options.Prompt.Text = GetSelectPromptString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
+        }
+
+        private class PronounType
+        {
+            public const string FirstPerson = "FirstPerson";
+            public const string ThirdPerson = "ThirdPerson";
         }
     }
 }

@@ -195,9 +195,9 @@ namespace HospitalitySkill.Dialogs
                 else
                 {
                     var tokens = new StringDictionary
-                        {
+                    {
                         { "Date", userState.UserReservation.CheckOutDate }
-                        };
+                    };
 
                     await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.NotFutureDateError, tokens));
                 }
@@ -255,7 +255,7 @@ namespace HospitalitySkill.Dialogs
             {
                 var tokens = new StringDictionary
                 {
-                { "Date", userState.UserReservation.CheckOutDate }
+                    { "Date", userState.UserReservation.CheckOutDate }
                 };
 
                 var cardData = userState.UserReservation;

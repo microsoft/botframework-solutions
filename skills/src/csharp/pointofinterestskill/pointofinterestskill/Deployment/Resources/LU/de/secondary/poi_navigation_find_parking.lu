@@ -1,52 +1,53 @@
-## NAVIGATION_FIND_PARKING
-- Schauen Sie sich ein Parkhaus in meiner Umgebung an
-- Direkt mir 2 den Parkplatz an der Kreuzung von  {ADDRESS=Sprungfeld Stadt}  Und  {ADDRESS=Disraeli} Bitte
+## FindParking
+
+- überprüfen Sie ein Parkhaus in meiner Umgebung
+- richten Sie mich 2 den Parkplatz an der Kreuzung von  {Address=Springfield City}  und  {Address=Disraeli} an diesem Ort bitte
 - Anfahrt für einen Parkplatz
-- Finden Sie mich einen Parkplatz
-- Finden Sie den nächstgelegenen Parkplatz
-- Finden Sie den nächstgelegenen Parkplatz durch  {ADDRESS=123 Sesamstraße} 
-- Zum Parkplatz
-- Wie wäre es, wenn Sie einen Weg zum Parkplatz finden
-- Ich muss die parken  {KEYWORD=Auto} 
-- Gibt es einen Parkplatz bei  {KEYWORD=Starbucks} 
-- Gibt es Parkplätze in der Nähe meines Büros?
-- Schauen Sie sich einen Parkplatz an
-- Suchparkplatz in  {ADDRESS=Kironenstadt}   {ADDRESS=er} 
-- Zeigen Sie mir schlecht das Parkhaus auf  {ADDRESS=Mühlenspur} Für maximal 16 Pfund
-- Das Parkhaus am  {ADDRESS=Ulmenquellen}  Und  {ADDRESS=Koating-Stadt} In der Gegend bringen uns dorthin
-- Was ist das am niedrigsten bewertete Parkhaus in meiner Nähe
-- Wo ist ein Parkplatz in der Nähe  {KEYWORD=Mcdonalds} 
-- Wo befindet sich das nächste Parkhaus
-- Parken Sie bei  {KEYWORD=Hühnerrestaurant} 
-- Parken Sie bei  {KEYWORD=Chinesisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Cambodian Restaurant} 
-- Parken Sie bei  {KEYWORD=Brasilianisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Italienisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Indische Gaststätte} 
-- Parken Sie bei  {KEYWORD=Französisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Spanisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Burger-Restaurant} 
-- Parken Sie bei  {KEYWORD=Steakhouse Restaurant} 
-- Parken Sie bei  {KEYWORD=Mexikanische Gaststätte} 
-- Parken Sie bei  {KEYWORD=Restaurant peruvian} 
-- Parken Sie bei  {KEYWORD=Laotische Gaststätte} 
-- Parken Sie bei  {KEYWORD=Thai Restaurant} 
-- Parken Sie bei  {KEYWORD=Japanisches Restaurant} 
-- Parken Sie bei  {KEYWORD=Deutsche Gaststätte} 
-- Parkplatz in der Nähe finden  {KEYWORD=Buchhalter} 
-- Parkplatz in der Nähe finden  {KEYWORD=Flughafen} 
-- Parkplatz in der Nähe finden  {KEYWORD=Aquarium} 
-- Parkplatz in der Nähe finden  {KEYWORD=Kunstgalerie} 
-- Parkplatz in der Nähe finden  {KEYWORD=Mietwagenplatz} 
-- Parkplatz in der Nähe finden  {KEYWORD=Bett und Frühstück} 
-- Parkplatz in der Nähe finden  {KEYWORD=Bierladen} 
-- Parkplatz in der Nähe finden  {KEYWORD=Bushaltestelle} 
-- Parkplatz in der Nähe finden  {KEYWORD=Ladestation} 
-- Parkplatz in der Nähe finden  {KEYWORD=Kindertagesstätte} 
-- Parkplatz in der Nähe finden  {KEYWORD=Gemeindezentrum} 
-- Parkplatz in der Nähe finden  {KEYWORD=Convenience Store} 
-- Parkplatz in der Nähe finden  {KEYWORD=Landverein} 
-- Parkplatz in der Nähe finden  {KEYWORD=Zahnarzt} 
-- Parkplatz in der Nähe finden  {KEYWORD=Golfplatz} 
-- Parkplatz in der Nähe finden  {KEYWORD=Health Club} 
+- finden Sie mir einen Parkplatz
+- finden Sie den nächsten Parkplatz
+- finden Sie den nächstgelegenen Parkplatz durch  {Address=123 Sesamstraße} 
+- zum Parkplatz
+- wie wäre es mit Ihnen finden Sie eine Route zu einem Parkplatz
+- ich muss die  {Keyword=auto} 
+- gibt es parkplätze durch  {Keyword=Starbucks} 
+- gibt es Parkplätze in der Nähe meines Büros?
+- suchen Sie einen Parkplatz
+- Parkplatz suchen in  {Address=kiron City}   {Address=Ia} 
+- zeigen Sie mir arm das Parkhaus auf  {Address=Mühlenspur} für nicht mehr als 16 Pfund
+- das Parkhaus bei  {Address=Ulmenfedern}  und  {Address=coates Stadt} in der Gegend bringen uns dorthin
+- was ist das unterste Parkhaus in meiner Nähe
+- wo ist ein Parkplatz in der Nähe  {Keyword=Mcdonalds} 
+- wo befindet sich das nächste Parkhaus
+- finden Sie Parkplätze an  {Keyword=Hühnerrestaurant} 
+- finden Sie Parkplätze an  {Keyword=chinesisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=kambodschanisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=brasilianisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=italienisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=indisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=französisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=spanisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=Burger-Restaurant} 
+- finden Sie Parkplätze an  {Keyword=Steakhouse Restaurant} 
+- finden Sie Parkplätze an  {Keyword=mexikanisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=peruanisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=laotisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=thai Restaurant} 
+- finden Sie Parkplätze an  {Keyword=japanisches Restaurant} 
+- finden Sie Parkplätze an  {Keyword=deutsches Restaurant} 
+- finden Sie Parkplätze in der Nähe  {Keyword=buchhalter} 
+- finden Sie Parkplätze in der Nähe  {Keyword=flughafen} 
+- finden Sie Parkplätze in der Nähe  {Keyword=aquarium} 
+- finden Sie Parkplätze in der Nähe  {Keyword=kunstgalerie} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Autovermietung} 
+- finden Sie Parkplätze in der Nähe  {Keyword=übernachtung} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Bierladen} 
+- finden Sie Parkplätze in der Nähe  {Keyword=bushaltestelle} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Ladestation} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Kindertagesstätte} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Gemeindezentrum} 
+- finden Sie Parkplätze in der Nähe  {Keyword=Convenience-Shop} 
+- finden Sie Parkplätze in der Nähe  {Keyword=klub auf dem lande} 
+- finden Sie Parkplätze in der Nähe  {Keyword=zahnarzt} 
+- finden Sie Parkplätze in der Nähe  {Keyword=golfplatz} 
+- finden Sie Parkplätze in der Nähe  {Keyword=fitnesscenter} 
 

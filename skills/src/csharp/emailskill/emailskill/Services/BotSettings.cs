@@ -28,5 +28,7 @@ namespace EmailSkill.Services
                 public bool IsSkipByDefault { get; set; }
             }
         }
+
+        public string AzureMapsKey { get; set; }
     }
 }

@@ -22,3 +22,5 @@ Review a sample conversational flow of each skill by downloading a transcript an
 #### News Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-news.transcript)
 
 #### Reservation Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript)
+
+#### Hospitality Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-hospitality.transcript)

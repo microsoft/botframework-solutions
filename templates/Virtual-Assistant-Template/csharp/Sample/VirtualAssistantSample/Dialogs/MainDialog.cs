@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
@@ -287,6 +288,9 @@ namespace VirtualAssistantSample.Dialogs
         {
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
+
+            // Request feedback on the last activity.
+            await FeedbackMiddleware.RequestFeedbackAsync(dc.Context, Id);
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)

@@ -297,4 +297,7 @@
   <data name="DefaultLocation" xml:space="preserve">
     <value />
   </data>
+  <data name="Manager" xml:space="preserve">
+    <value>(经理|老板|上司)</value>
+  </data>
 </root>

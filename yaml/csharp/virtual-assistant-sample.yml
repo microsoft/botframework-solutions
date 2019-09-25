@@ -61,3 +61,13 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests'
+
+- task: CopyFiles@2
+  displayName: 'Copy VA'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample'
+    Contents: '**\*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\VA'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Artifacts'

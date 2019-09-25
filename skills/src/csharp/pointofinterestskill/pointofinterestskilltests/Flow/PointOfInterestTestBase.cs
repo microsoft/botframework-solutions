@@ -14,6 +14,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Bots;
 using PointOfInterestSkill.Dialogs;
 using PointOfInterestSkill.Responses.CancelRoute;
+using PointOfInterestSkill.Responses.FindPointOfInterest;
+using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -50,7 +52,6 @@ namespace PointOfInterestSkillTests.Flow
                                 { "General", new Fakes.MockGeneralLuisRecognizer() },
                                 {
                                     "PointOfInterest", new Fakes.MockPointOfInterestLuisRecognizer(
-                                    new CancelRouteUtterances(),
                                     new FindParkingUtterances(),
                                     new FindPointOfInterestUtterances(),
                                     new RouteFromXToYUtterances())
@@ -77,7 +78,10 @@ namespace PointOfInterestSkillTests.Flow
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                     new POISharedResponses(),
                     new RouteResponses(),
+                    new FindPointOfInterestResponses(),
+                    new POIMainResponses(),
                     new CancelRouteResponses());
+
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IServiceManager, MockServiceManager>();
@@ -88,7 +92,8 @@ namespace PointOfInterestSkillTests.Flow
 			Services.AddTransient<FindParkingDialog>();
 			Services.AddTransient<FindPointOfInterestDialog>();
 			Services.AddTransient<RouteDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<GetDirectionsDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             var mockHttpContext = new DefaultHttpContext();
             mockHttpContext.Request.Scheme = "http";

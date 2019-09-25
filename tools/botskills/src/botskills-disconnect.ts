@@ -8,7 +8,7 @@ import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
-import { ICognitiveModelFile, IDisconnectConfiguration } from './models';
+import { ICognitiveModel, IDisconnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -49,10 +49,21 @@ const args: program.Command = program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
+    process.exit(0);
 }
 
-logger.isVerbose = args.verbose;
+let skillId: string = '';
+let skillsFile: string = '';
+let outFolder: string;
 let noRefresh: boolean = false;
+let cognitiveModelsFile: string;
+let language: string;
+let dispatchFolder: string;
+let lgOutFolder: string;
+let dispatchName: string;
+let lgLanguage: string;
+
+logger.isVerbose = args.verbose;
 
 // Validation of arguments
 // cs and ts validation
@@ -64,7 +75,7 @@ if (csAndTsValidationResult) {
     );
     process.exit(1);
 }
-const projectLanguage: string = args.cs ? 'cs' : 'ts';
+lgLanguage = args.cs ? 'cs' : 'ts';
 
 // noRefresh validation
 if (args.noRefresh) {
@@ -77,20 +88,13 @@ if (!args.skillId) {
     process.exit(1);
 }
 
-const configuration: Partial<IDisconnectConfiguration> = {
-    skillId: args.skillId,
-    lgLanguage: projectLanguage,
-    noRefresh: noRefresh,
-    logger: logger
-};
-
-// outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
-const outFolder: string = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
-configuration.outFolder = outFolder;
+skillId = args.skillId;
+// outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
+outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
 // skillsFile validation
 if (!args.skillsFile) {
-    configuration.skillsFile = join(configuration.outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
+    skillsFile = join(outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
 } else if (extname(args.skillsFile) !== '.json') {
     logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
@@ -101,35 +105,49 @@ if (!args.skillsFile) {
             Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
-    configuration.skillsFile = skillsFilePath;
+    skillsFile = skillsFilePath;
 }
 
 // cognitiveModelsFile validation
 const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(
-    configuration.outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
-configuration.cognitiveModelsFile = cognitiveModelsFilePath;
+    outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
+cognitiveModelsFile = cognitiveModelsFilePath;
 
 // language validation
-const language: string = args.language || 'en-us';
-configuration.language = language;
+language = args.language || 'en-us';
 const languageCode: string = (language.split('-'))[0];
 
 // dispatchFolder validation
-configuration.dispatchFolder = args.dispatchFolder ?
-    sanitizePath(args.dispatchFolder) : join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
+dispatchFolder = args.dispatchFolder ?
+    sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
 // lgOutFolder validation
-configuration.lgOutFolder = args.lgOutFolder ?
-    sanitizePath(args.lgOutFolder) : join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+lgOutFolder = args.lgOutFolder ?
+    sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services') : 'Services'));
 
 // dispatchName validation
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
     // tslint:disable-next-line
-    const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
-    configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
+    const cognitiveModels: ICognitiveModel = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
+    dispatchName = cognitiveModels.cognitiveModels[languageCode].dispatchModel.name;
 } else {
-    configuration.dispatchName = args.dispatchName;
+    dispatchName = args.dispatchName;
 }
 
-new DisconnectSkill(logger).disconnectSkill(<IDisconnectConfiguration> configuration);
+// Initialize an instance of IDisconnectConfiguration to send the needed arguments to the disconnectSkill function
+const configuration: IDisconnectConfiguration = {
+    skillId: skillId,
+    skillsFile: skillsFile,
+    outFolder: outFolder,
+    noRefresh: noRefresh,
+    cognitiveModelsFile: cognitiveModelsFile,
+    language: language,
+    dispatchFolder: dispatchFolder,
+    lgOutFolder: lgOutFolder,
+    dispatchName: dispatchName,
+    lgLanguage: lgLanguage,
+    logger: logger
+};
+
+new DisconnectSkill(logger).disconnectSkill(configuration);

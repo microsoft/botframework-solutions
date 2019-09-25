@@ -331,6 +331,43 @@ namespace EmailSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_SendEmailToWrongUser()
+        {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+
+            await this.GetTestFlow()
+                .Send(SendEmailUtterances.SendEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectRecipientsMessage())
+                .Send("wrong name")
+                .AssertReplyOneOf(this.UserNotFoundPrompt("wrong name"))
+                .Send("wrong name")
+                .AssertReplyOneOf(this.UserNotFoundAgainPrompt("wrong name"))
+                .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
+                .Send(ContextStrings.TestSubject)
+                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .Send(ContextStrings.TestContent)
+                .AssertReply(this.AssertContentPlayback())
+                .AssertReply(this.AssertCheckContent())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private Action<IActivity> AfterSendingMessage(string subject)
         {
             return activity =>
@@ -412,6 +449,22 @@ namespace EmailSkillTest.Flow
         private string[] CollectRecipientsMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoRecipients, new StringDictionary());
+        }
+
+        private string[] UserNotFoundPrompt(string userName)
+        {
+            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
+        }
+
+        private string[] UserNotFoundAgainPrompt(string userName)
+        {
+            return ParseReplies(
+                FindContactResponses.UserNotFoundAgain,
+                new StringDictionary()
+                {
+                    { "source", "Outlook" },
+                    { "UserName", userName }
+                });
         }
 
         private Action<IActivity> CollectRecipients()

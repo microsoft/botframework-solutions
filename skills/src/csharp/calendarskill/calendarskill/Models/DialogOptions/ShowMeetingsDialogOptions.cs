@@ -21,24 +21,24 @@
             FirstShowOverview,
 
             /// <summary>
+            /// ShowOverviewAfterPageTurning.
+            /// </summary>
+            ShowOverviewAfterPageTurning,
+
+            /// <summary>
             /// ShowOverviewAgain.
             /// </summary>
             ShowOverviewAgain,
 
             /// <summary>
-            /// ShowFilteredByTitleMeetings.
+            /// ShowFilteredMeetings.
             /// </summary>
-            ShowFilteredByTitleMeetings,
+            ShowFilteredMeetings,
 
             /// <summary>
-            /// ShowFilteredByTimeMeetings.
+            /// ShowNextMeeting.
             /// </summary>
-            ShowFilteredByTimeMeetings,
-
-            /// <summary>
-            /// ShowFilteredByParticipantNameMeetings.
-            /// </summary>
-            ShowFilteredByParticipantNameMeetings
+            ShowNextMeeting
         }
 
         public ShowMeetingReason Reason { get; set; }

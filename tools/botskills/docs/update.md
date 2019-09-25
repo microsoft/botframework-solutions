@@ -14,7 +14,6 @@ botskills update [options]
 
 | Option                        | Description                                                                                                                                                                 |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -b, --botName \<name>         | Name of your Virtual Assistant bot                                                                                                                                          |
 | -l, --localManifest \<path>   | Path to local Skill Manifest file                                                                                                                                           |
 | -r, --remoteManifest \<url>   | URL to remote Skill Manifest                                                                                                                                                |
 | --cs                          | Determine your Virtual Assistant project structure to be a csharp-like structure                                                                                            |

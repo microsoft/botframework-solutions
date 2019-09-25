@@ -1215,6 +1215,21 @@ $PREBUILT:ordinal
 
 > # List entities
 
+$PossessivePronoun:FirstPerson=
+- Mi
+- Nuestro
+- mi propia
+- nuestro propio
+
+$PossessivePronoun:SecondPerson=
+- usted
+- su propia
+
+$PossessivePronoun:ThirdPerson=
+- suyos
+- Su
+- su propia
+
 $RelationshipName:tía=
 
 $RelationshipName:tías=

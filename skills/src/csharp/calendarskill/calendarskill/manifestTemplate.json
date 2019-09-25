@@ -7,7 +7,7 @@
     {
       "id": "Outlook",
       "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
+      "scopes": "Calendars.ReadWrite, People.Read, Contacts.Read, User.Read.All"
     },
     {
       "id": "Google",

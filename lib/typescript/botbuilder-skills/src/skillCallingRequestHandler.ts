@@ -53,7 +53,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
                         } else {
                             throw new Error('Skill is requesting for token but there\'s no handler on the calling side!');
                         }
-                    } else if (activity.type === ActivityTypes.EndOfConversation) {
+                    } else if (activity.type === ActivityTypes.Handoff) {
                         if (this.handoffActivityHandler !== undefined) {
                             await this.handoffActivityHandler(activity);
 

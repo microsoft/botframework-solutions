@@ -2,6 +2,8 @@
   "id": "sampleSkill",
   "name": "sampleSkill",
   "description": "This is the description of the sampleSkill",
+  "endpoint": "",
+  "msaAppId": "",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [

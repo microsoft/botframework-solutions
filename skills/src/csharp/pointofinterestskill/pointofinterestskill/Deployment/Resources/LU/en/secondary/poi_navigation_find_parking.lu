@@ -1,51 +1,52 @@
-﻿## NAVIGATION_FIND_PARKING
+﻿## FindParking
+
 - check a parking garage in my surrounding area
-- direct me 2 the parking lot at the the intersection of {ADDRESS=springfield city} and {ADDRESS=disraeli} in that place please
+- direct me 2 the parking lot at the the intersection of {Address=springfield city} and {Address=disraeli} in that place please
 - directions for a parking lot
 - find me a parking lot
 - find the nearest parking
-- find the nearest parking by {ADDRESS=123 sesame street}
+- find the nearest parking by {Address=123 sesame street}
 - go to the parking lot
 - how about you find a route to a parking lot
-- i need to park the {KEYWORD=car}
-- is there any parking by {KEYWORD=starbucks}
+- i need to park the {Keyword=car}
+- is there any parking by {Keyword=starbucks}
 - is there parking near my office?
 - look up a parking lot
-- search parking lot in {ADDRESS=kiron city} {ADDRESS=ia}
-- show me poor the parking garage on {ADDRESS=mill lane} for not more than 16 pounds
-- the parking garage at {ADDRESS=elm springs} and {ADDRESS=coates city} in the area bring us there
+- search parking lot in {Address=kiron city} {Address=ia}
+- show me poor the parking garage on {Address=mill lane} for not more than 16 pounds
+- the parking garage at {Address=elm springs} and {Address=coates city} in the area bring us there
 - what is the bottom rated parking garage in my vicinity
-- where is a parking lot near {KEYWORD=mcdonalds}
+- where is a parking lot near {Keyword=mcdonalds}
 - where is the nearest parking garage located
-- find parking by {KEYWORD=chicken restaurant}
-- find parking by {KEYWORD=chinese restaurant}
-- find parking by {KEYWORD=cambodian restaurant}
-- find parking by {KEYWORD=brazilian restaurant}
-- find parking by {KEYWORD=italian restaurant}
-- find parking by {KEYWORD=indian restaurant}
-- find parking by {KEYWORD=french restaurant}
-- find parking by {KEYWORD=spanish restaurant}
-- find parking by {KEYWORD=burger restaurant}
-- find parking by {KEYWORD=steakhouse restaurant}
-- find parking by {KEYWORD=mexican restaurant}
-- find parking by {KEYWORD=peruvian restaurant}
-- find parking by {KEYWORD=laotian restaurant}
-- find parking by {KEYWORD=thai restaurant}
-- find parking by {KEYWORD=japanese restaurant}
-- find parking by {KEYWORD=german restaurant}
-- find parking near {KEYWORD=accountant}
-- find parking near {KEYWORD=airport}
-- find parking near {KEYWORD=aquarium}
-- find parking near {KEYWORD=art gallery}
-- find parking near {KEYWORD=auto rental place}
-- find parking near {KEYWORD=bed and breakfast}
-- find parking near {KEYWORD=beer store}
-- find parking near {KEYWORD=bus stop}
-- find parking near {KEYWORD=charging station}
-- find parking near {KEYWORD=child daycare center}
-- find parking near {KEYWORD=community centre}
-- find parking near {KEYWORD=convenience store}
-- find parking near {KEYWORD=country club}
-- find parking near {KEYWORD=dentist}
-- find parking near {KEYWORD=golf course}
-- find parking near {KEYWORD=health club}
+- find parking by {Keyword=chicken restaurant}
+- find parking by {Keyword=chinese restaurant}
+- find parking by {Keyword=cambodian restaurant}
+- find parking by {Keyword=brazilian restaurant}
+- find parking by {Keyword=italian restaurant}
+- find parking by {Keyword=indian restaurant}
+- find parking by {Keyword=french restaurant}
+- find parking by {Keyword=spanish restaurant}
+- find parking by {Keyword=burger restaurant}
+- find parking by {Keyword=steakhouse restaurant}
+- find parking by {Keyword=mexican restaurant}
+- find parking by {Keyword=peruvian restaurant}
+- find parking by {Keyword=laotian restaurant}
+- find parking by {Keyword=thai restaurant}
+- find parking by {Keyword=japanese restaurant}
+- find parking by {Keyword=german restaurant}
+- find parking near {Keyword=accountant}
+- find parking near {Keyword=airport}
+- find parking near {Keyword=aquarium}
+- find parking near {Keyword=art gallery}
+- find parking near {Keyword=auto rental place}
+- find parking near {Keyword=bed and breakfast}
+- find parking near {Keyword=beer store}
+- find parking near {Keyword=bus stop}
+- find parking near {Keyword=charging station}
+- find parking near {Keyword=child daycare center}
+- find parking near {Keyword=community centre}
+- find parking near {Keyword=convenience store}
+- find parking near {Keyword=country club}
+- find parking near {Keyword=dentist}
+- find parking near {Keyword=golf course}
+- find parking near {Keyword=health club}

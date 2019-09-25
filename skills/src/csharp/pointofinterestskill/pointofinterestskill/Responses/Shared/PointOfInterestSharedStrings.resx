@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CALL" xml:space="preserve">
+    <value>Call</value>
+  </data>
   <data name="CARD_TITLE" xml:space="preserve">
     <value>Location services</value>
   </data>
@@ -159,8 +162,14 @@
   <data name="POWERED_BY" xml:space="preserve">
     <value>Powered by</value>
   </data>
+  <data name="SHOW_DIRECTIONS" xml:space="preserve">
+    <value>Show directions</value>
+  </data>
   <data name="START" xml:space="preserve">
     <value>Start</value>
+  </data>
+  <data name="START_NAVIGATION" xml:space="preserve">
+    <value>Start navigation</value>
   </data>
   <data name="YOU" xml:space="preserve">
     <value>You</value>

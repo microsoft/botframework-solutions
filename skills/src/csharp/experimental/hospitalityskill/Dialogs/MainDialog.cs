@@ -87,7 +87,6 @@ namespace HospitalitySkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<HospitalityLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -96,42 +95,42 @@ namespace HospitalitySkill.Dialogs
                     case HospitalityLuis.Intent.CheckOut:
                         {
                             // handle checking out
-                            turnResult = await dc.BeginDialogAsync(nameof(CheckOutDialog));
+                            await dc.BeginDialogAsync(nameof(CheckOutDialog));
                             break;
                         }
 
                     case HospitalityLuis.Intent.ExtendStay:
                         {
                             // extend reservation dates
-                            turnResult = await dc.BeginDialogAsync(nameof(ExtendStayDialog));
+                            await dc.BeginDialogAsync(nameof(ExtendStayDialog));
                             break;
                         }
 
                     case HospitalityLuis.Intent.LateCheckOut:
                         {
                             // set a late check out time
-                            turnResult = await dc.BeginDialogAsync(nameof(LateCheckOutDialog));
+                            await dc.BeginDialogAsync(nameof(LateCheckOutDialog));
                             break;
                         }
 
                     case HospitalityLuis.Intent.GetReservationDetails:
                         {
                             // show reservation details card
-                            turnResult = await dc.BeginDialogAsync(nameof(GetReservationDialog));
+                            await dc.BeginDialogAsync(nameof(GetReservationDialog));
                             break;
                         }
 
                     case HospitalityLuis.Intent.RequestItem:
                         {
                             // requesting item for room
-                            turnResult = await dc.BeginDialogAsync(nameof(RequestItemDialog));
+                            await dc.BeginDialogAsync(nameof(RequestItemDialog));
                             break;
                         }
 
                     case HospitalityLuis.Intent.RoomService:
                         {
                             // ordering room service
-                            turnResult = await dc.BeginDialogAsync(nameof(RoomServiceDialog));
+                            await dc.BeginDialogAsync(nameof(RoomServiceDialog));
                             break;
                         }
 
@@ -139,7 +138,6 @@ namespace HospitalitySkill.Dialogs
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
 
@@ -147,14 +145,8 @@ namespace HospitalitySkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             break;
                         }
-                }
-
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
                 }
             }
         }

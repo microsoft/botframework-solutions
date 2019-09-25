@@ -19,9 +19,9 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-function checkSkillsFile(skillsFile: string): boolean {
-    const skillsFilePath: string = isAbsolute(skillsFile) ? skillsFile : join(resolve('./'), skillsFile);
-    if (!existsSync(skillsFilePath)) {
+function existFile(file: string): boolean {
+    const filePath: string = isAbsolute(file) ? file : join(resolve('./'), file);
+    if (!existsSync(filePath)) {
 
         return false;
     }
@@ -45,14 +45,16 @@ program
 
 const args: program.Command = program.parse(process.argv);
 
+let skillsFile: string = '';
+
 logger.isVerbose = args.verbose;
 
 // skillsFile validation
 if (!args.skillsFile) {
     args.skillsFile = join('src', 'skills.json');
-    if (!checkSkillsFile(args.skillsFile)) {
+    if (!existFile(args.skillsFile)) {
         args.skillsFile = 'skills.json';
-        if (!checkSkillsFile(args.skillsFile)) {
+        if (!existFile(args.skillsFile)) {
             logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
 Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
             process.exit(1);
@@ -62,15 +64,18 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
     logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
 } else {
-    if (!checkSkillsFile(args.skillsFile)) {
+    if (!existFile(args.skillsFile)) {
         logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
 Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
 }
 
+skillsFile = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
+
+// Initialize an instance of IListConfiguration to send the needed arguments to the listSkill function
 const configuration: IListConfiguration = {
-    skillsFile: isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile),
+    skillsFile: skillsFile,
     logger: logger
 };
 
