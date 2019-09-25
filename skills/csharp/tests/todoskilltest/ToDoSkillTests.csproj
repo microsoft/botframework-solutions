@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
@@ -13,15 +13,9 @@
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
-
+    
   <ItemGroup>
-    <ProjectReference Include="..\emailskill\EmailSkill.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="EmailSkillTest.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\..\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
 
 </Project>

@@ -37,7 +37,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\phoneskill\PhoneSkill.csproj" />
+    <ProjectReference Include="..\..\experimental\phoneskill\PhoneSkill.csproj" />
   </ItemGroup>
 
 </Project>

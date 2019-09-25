@@ -5,6 +5,10 @@
     <IsPackable>false</IsPackable>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Flow\Fakes\MockSkillConfiguration.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
@@ -13,9 +17,9 @@
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
-    
+  
   <ItemGroup>
-    <ProjectReference Include="..\todoskill\ToDoSkill.csproj" />
+    <ProjectReference Include="..\..\calendarskill\CalendarSkill.csproj" />
   </ItemGroup>
 
 </Project>

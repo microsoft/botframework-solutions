@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\automotiveskill\AutomotiveSkill.csproj" />
+    <ProjectReference Include="..\..\experimental\automotiveskill\AutomotiveSkill.csproj" />
   </ItemGroup>
 
 </Project>

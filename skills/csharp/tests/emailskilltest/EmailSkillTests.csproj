@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pointofinterestskill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\..\emailskill\EmailSkill.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="EmailSkillTest.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
