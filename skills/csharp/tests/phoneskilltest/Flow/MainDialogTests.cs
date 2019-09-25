@@ -7,7 +7,7 @@ using PhoneSkill.Tests.Flow.Utterances;
 namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
-    public class MainDialogTests : PhoneSkill.TestsBase
+    public class MainDialogTests : PhoneSkillTestBase
     {
         [TestMethod]
         public async Task Test_Help_Intent()

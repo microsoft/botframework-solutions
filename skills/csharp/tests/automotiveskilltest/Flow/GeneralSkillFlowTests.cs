@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : AutomotiveSkill.TestsBase
+    public class GeneralSkillFlowTests : AutomotiveSkillTestBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

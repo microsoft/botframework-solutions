@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs;
 using EmailSkill.Models;
 using EmailSkill.Services;
-using EmailSkill.Utilities;
 using EmailSkill.Tests.API.Fakes;
+using EmailSkill.Utilities;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

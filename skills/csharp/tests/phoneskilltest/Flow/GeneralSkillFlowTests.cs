@@ -8,7 +8,7 @@ using PhoneSkill.Tests.Flow.Utterances;
 namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
-    public class GeneralSkillFlowTests : PhoneSkill.TestsBase
+    public class GeneralSkillFlowTests : PhoneSkillTestBase
     {
         [TestMethod]
         public async Task Test_SingleTurnCompletion()

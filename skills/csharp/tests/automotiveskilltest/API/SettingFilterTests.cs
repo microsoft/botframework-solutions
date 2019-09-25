@@ -2,14 +2,14 @@
 using System.Linq;
 using AutomotiveSkill.Dialogs;
 using AutomotiveSkill.Models;
-using AutomotiveSkill.Utilities;
 using AutomotiveSkill.Tests.Flow;
+using AutomotiveSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomotiveSkill.Tests.API
 {
     [TestClass]
-    public class SettingFilterTests : AutomotiveSkill.TestsBase
+    public class SettingFilterTests : AutomotiveSkillTestBase
     {
         private SettingList settingList;
         private SettingFilter settingFilter;
