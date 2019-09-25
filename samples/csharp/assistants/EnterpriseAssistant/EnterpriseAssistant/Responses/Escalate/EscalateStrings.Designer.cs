@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VirtualAssistant.Responses.Cancel {
+namespace EnterpriseAssistant.Responses.Escalate {
     using System;
     
     
@@ -19,17 +19,17 @@ namespace VirtualAssistant.Responses.Cancel {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CancelStrings {
+    public class EscalateStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CancelStrings() {
+        internal EscalateStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace VirtualAssistant.Responses.Cancel {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EnterpriseAssistant.Responses.Escalate.EscalateStrings", typeof(EscalateStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,11 @@ namespace VirtualAssistant.Responses.Cancel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ok, let&apos;s start over..
+        ///   Looks up a localized string similar to Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams..
         /// </summary>
-        public static string CANCEL_CONFIRMED {
+        public static string PHONE_INFO {
             get {
-                return ResourceManager.GetString("CANCEL_CONFIRMED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ok, let&apos;s keep going..
-        /// </summary>
-        public static string CANCEL_DENIED {
-            get {
-                return ResourceManager.GetString("CANCEL_DENIED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to cancel?.
-        /// </summary>
-        public static string CANCEL_PROMPT {
-            get {
-                return ResourceManager.GetString("CANCEL_PROMPT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Looks like there&apos;s nothing to cancel! Try saying &quot;help&quot; to get started..
-        /// </summary>
-        public static string NOTHING_TO_CANCEL {
-            get {
-                return ResourceManager.GetString("NOTHING_TO_CANCEL", resourceCulture);
+                return ResourceManager.GetString("PHONE_INFO", resourceCulture);
             }
         }
     }

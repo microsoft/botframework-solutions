@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VirtualAssistant.Responses.Escalate
-{
+namespace EnterpriseAssistant.Responses.Cancel {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,60 +22,77 @@ namespace VirtualAssistant.Responses.Escalate
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class EscalateStrings
-    {
-
+    public class CancelStrings {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EscalateStrings()
-        {
+        internal CancelStrings() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Responses.Escalate.EscalateStrings", typeof(EscalateStrings).Assembly);
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EnterpriseAssistant.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams..
+        ///   Looks up a localized string similar to Ok, let&apos;s start over..
         /// </summary>
-        public static string PHONE_INFO
-        {
-            get
-            {
-                return ResourceManager.GetString("PHONE_INFO", resourceCulture);
+        public static string CANCEL_CONFIRMED {
+            get {
+                return ResourceManager.GetString("CANCEL_CONFIRMED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok, let&apos;s keep going..
+        /// </summary>
+        public static string CANCEL_DENIED {
+            get {
+                return ResourceManager.GetString("CANCEL_DENIED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to cancel?.
+        /// </summary>
+        public static string CANCEL_PROMPT {
+            get {
+                return ResourceManager.GetString("CANCEL_PROMPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looks like there&apos;s nothing to cancel! Try saying &quot;help&quot; to get started..
+        /// </summary>
+        public static string NOTHING_TO_CANCEL {
+            get {
+                return ResourceManager.GetString("NOTHING_TO_CANCEL", resourceCulture);
             }
         }
     }
