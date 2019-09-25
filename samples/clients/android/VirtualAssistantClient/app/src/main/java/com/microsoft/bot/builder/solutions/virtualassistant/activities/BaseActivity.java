@@ -26,6 +26,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.AppConfigurationManager;
 
 /**
  * This base class provides functionality that is reusable in Activities of this app
@@ -37,14 +38,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final Integer PERMISSION_REQUEST_RECORD_AUDIO = 101;
     private static final Integer PERMISSION_REQUEST_FINE_LOCATION = 102;
     public static final String SHARED_PREFS_NAME = "my_shared_prefs";
-    protected static final String SHARED_PREF_SHOW_FULL_CONVERSATION = "SHARED_PREF_SHOW_FULL_CONVERSATION";
-    public static final String SHARED_PREF_DARK_MODE = "SHARED_PREF_DARK_MODE";
     protected static final String SHARED_PREF_ENABLE_KWS = "SHARED_PREF_ENABLE_KWS";
 
     // STATE
     private SharedPreferences sharedPreferences;
     protected ISpeechService speechServiceBinder;
     protected ConfigurationManager configurationManager;
+    protected AppConfigurationManager appConfigurationManager;
 
     // OVERRIDE THESE
     protected void permissionDenied(String manifestPermission){}
@@ -57,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
         setupMainWindowDisplayMode();
         configurationManager = new ConfigurationManager(this);
+        appConfigurationManager = new AppConfigurationManager(this);
     }
 
     @Override

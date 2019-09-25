@@ -62,4 +62,8 @@
         <item name="android:paddingRight">4dp</item>
     </style>
 
+    <style name="TextView.GroupLabel" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:padding">4dp</item>
+    </style>
+
 </resources>

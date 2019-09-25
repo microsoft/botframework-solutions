@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,10 +20,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.AppConfiguration;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
@@ -35,6 +36,7 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
@@ -63,12 +65,16 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.edit_color_picked_bot_text) EditText colorPickedBotTextEditText;
     @BindView(R.id.edit_color_picked_user_text) EditText colorPickedUserTextEditText;
     @BindView(R.id.edit_time_text) EditText gpsSentTimeEditText;
+    @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
+    @BindView(R.id.switch_enable_dark_mode) SwitchCompat switchEnableDarkMode;
+    @BindView(R.id.switch_keep_screen_on) SwitchCompat switchKeepScreenOn;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_settings;
 
     // STATE
     private Configuration configuration;
+    private AppConfiguration appConfiguration;
     private ArrayAdapter tzAdapter;
     private Gson gson;
     private Integer colorBubbleBot, colorBubbleUser, colorTextBot, colorTextUser;
@@ -122,6 +128,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void serviceConnected() {
         showConfiguration();
+        showAppConfiguration();
     }
 
     @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.bot_id, R.id.user_id, R.id.locale})
@@ -139,6 +146,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedBot, updatedColor);
+            colorBubbleBot = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -149,6 +157,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedUser, updatedColor);
+            colorBubbleUser = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -159,6 +168,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedBotText, updatedColor);
+            colorTextBot = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -169,6 +179,7 @@ public class SettingsActivity extends BaseActivity {
         try {
             int updatedColor = Integer.parseInt(text.toString(), 16) | 0xFF000000;
             updateShapeColor(colorPickedUserText, updatedColor);
+            colorTextUser = updatedColor;
         } catch (NumberFormatException ex){
             //nothing to do if the number is not legal
         }
@@ -234,6 +245,21 @@ public class SettingsActivity extends BaseActivity {
         builder.show();
     }
 
+    @OnCheckedChanged(R.id.switch_show_full_conversation)
+    public void onChangeShowFullConversation(boolean checked) {
+        appConfiguration.showFullConversation = checked;
+    }
+
+    @OnCheckedChanged(R.id.switch_enable_dark_mode)
+    public void onChangeEnableDarkMode(boolean checked) {
+        appConfiguration.enableDarkMode = checked;
+    }
+
+    @OnCheckedChanged(R.id.switch_keep_screen_on)
+    public void onChangeKeepScreenOn(boolean checked) {
+        appConfiguration.keepScreenOn = checked;
+    }
+
     @OnClick(R.id.btn_send_gps)
     public void onClickSendGps() {
         try {
@@ -245,13 +271,16 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.btn_cancel)
     public void onClickCancel() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 
-    @OnClick(R.id.btn_ok)
-    public void onClickOk() {
+    @OnClick(R.id.btn_save)
+    public void onClickSave() {
         saveConfiguration();// must save updated config first
+        saveAppConfiguration();
         initializeAndConnect();// re-init service to make it read updated config
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -262,7 +291,6 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initTimezoneAdapter() {
-
         //populate spinner with all timezones
         String[] idArray = TimeZone.getAvailableIDs();
         tzAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, idArray);
@@ -288,59 +316,66 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void showConfiguration(){
-        try {
-            final String json = speechServiceBinder.getConfiguration();
-            configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
-            serviceKey.setText(configuration.serviceKey);
-            serviceRegion.setText(configuration.serviceRegion);
-            botId.setText(configuration.botId);
-            userId.setText(configuration.userId);
-            locale.setText(configuration.locale);
+        configuration = configurationManager.getConfiguration();
 
-            // history linecount
-            int iHistoryLinecount = configuration.historyLinecount==null?1:configuration.historyLinecount;
-            String historyLineCount = String.valueOf(iHistoryLinecount);
-            historyLinecount.setText(historyLineCount);
+        serviceKey.setText(configuration.serviceKey);
+        serviceRegion.setText(configuration.serviceRegion);
+        botId.setText(configuration.botId);
+        userId.setText(configuration.userId);
+        locale.setText(configuration.locale);
 
-            // timezone
-            selectTimezone(configuration.currentTimezone);
+        // timezone
+        selectTimezone(configuration.currentTimezone);
 
-            // chat bubble colors
-            colorBubbleBot = configuration.colorBubbleBot;
-            colorBubbleUser = configuration.colorBubbleUser;
-            updateShapeColor(colorPickedBot, colorBubbleBot);
-            updateShapeColor(colorPickedUser, colorBubbleUser);
-            colorPickedBotEditText.setText(String.format("%06X", colorBubbleBot & 0xFFFFFF));
-            colorPickedUserEditText.setText(String.format("%06X", colorBubbleUser & 0xFFFFFF));
+        // keywords
+        Spinner spinner = findViewById(R.id.keyword_dropdown);
+        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                configuration.keyword = keywords[position];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
-            // text colors
-            colorTextBot = configuration.colorTextBot;
-            colorTextUser = configuration.colorTextUser;
-            updateShapeColor(colorPickedBotText, colorTextBot);
-            updateShapeColor(colorPickedUserText, colorTextUser);
-            colorPickedBotTextEditText.setText(String.format("%06X", colorTextBot & 0xFFFFFF));
-            colorPickedUserTextEditText.setText(String.format("%06X", colorTextUser & 0xFFFFFF));
+        // gps sent time
+        showGpsLocationSentDate();
+    }
 
-            // keywords
-            Spinner spinner = findViewById(R.id.keyword_dropdown);
-            spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    configuration.keyword = keywords[position];
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
+    private void showAppConfiguration() {
+        appConfiguration = appConfigurationManager.getConfiguration();
 
-            // gps sent time
-            showGpsLocationSentDate();
+        // history linecount
+        String historyLineCount = String.valueOf(appConfiguration.historyLinecount);
+        historyLinecount.setText(historyLineCount);
 
 
-        } catch (RemoteException exception){
-            Log.e(LOGTAG, exception.getMessage());
-        }
+        // chat bubble colors
+        colorBubbleBot = appConfiguration.colorBubbleBot;
+        colorBubbleUser = appConfiguration.colorBubbleUser;
+        updateShapeColor(colorPickedBot, colorBubbleBot);
+        updateShapeColor(colorPickedUser, colorBubbleUser);
+        colorPickedBotEditText.setText(String.format("%06X", colorBubbleBot & 0xFFFFFF));
+        colorPickedUserEditText.setText(String.format("%06X", colorBubbleUser & 0xFFFFFF));
+
+        // text colors
+        colorTextBot = appConfiguration.colorTextBot;
+        colorTextUser = appConfiguration.colorTextUser;
+        updateShapeColor(colorPickedBotText, colorTextBot);
+        updateShapeColor(colorPickedUserText, colorTextUser);
+        colorPickedBotTextEditText.setText(String.format("%06X", colorTextBot & 0xFFFFFF));
+        colorPickedUserTextEditText.setText(String.format("%06X", colorTextUser & 0xFFFFFF));
+
+        // show full conversation
+        switchShowFullConversation.setChecked(appConfiguration.showFullConversation);
+
+        // enable dark mode
+        switchEnableDarkMode.setChecked(appConfiguration.enableDarkMode);
+
+        // keep screen on
+        switchKeepScreenOn.setChecked(appConfiguration.keepScreenOn);
     }
 
     private void showGpsLocationSentDate() {
@@ -356,36 +391,33 @@ public class SettingsActivity extends BaseActivity {
             gpsSentTimeEditText.setText(gpsTime);
     }
 
-    private void saveConfiguration(){
-        try {
-            configuration.serviceKey = serviceKey.getText().toString();
-            configuration.serviceRegion = serviceRegion.getText().toString();
-            configuration.botId = botId.getText().toString();
-            configuration.userId = userId.getText().toString();
-            configuration.locale = locale.getText().toString();
+    private void saveConfiguration() {
+        configuration.serviceKey = serviceKey.getText().toString();
+        configuration.serviceRegion = serviceRegion.getText().toString();
+        configuration.botId = botId.getText().toString();
+        configuration.userId = userId.getText().toString();
+        configuration.locale = locale.getText().toString();
 
-            // history linecount
-            configuration.historyLinecount = Integer.valueOf(historyLinecount.getText().toString());
-            if (configuration.historyLinecount == 0) configuration.historyLinecount = 1;//do not allow 0
+        // timezone
+        configuration.currentTimezone = (String)tzAdapter.getItem(spinnerTimezone.getSelectedItemPosition());
 
-            // timezone
-            configuration.currentTimezone = (String)tzAdapter.getItem(spinnerTimezone.getSelectedItemPosition());
+        configurationManager.setConfiguration(configuration);
+    }
 
-            // chat bubble colors
-            configuration.colorBubbleBot = colorBubbleBot;
-            configuration.colorBubbleUser = colorBubbleUser;
+    private void saveAppConfiguration() {
+        // history linecount
+        appConfiguration.historyLinecount = Integer.valueOf(historyLinecount.getText().toString());
+        if (appConfiguration.historyLinecount == 0) appConfiguration.historyLinecount = 1;//do not allow 0
 
-            // text colors
-            configuration.colorTextBot = colorTextBot;
-            configuration.colorTextUser = colorTextUser;
+        // chat bubble colors
+        appConfiguration.colorBubbleBot = colorBubbleBot;
+        appConfiguration.colorBubbleUser = colorBubbleUser;
 
-            // note: keyword is stored in showConfiguration()$OnItemSelectedListener
+        // text colors
+        appConfiguration.colorTextBot = colorTextBot;
+        appConfiguration.colorTextUser = colorTextUser;
 
-            String json = gson.toJson(configuration);
-            speechServiceBinder.setConfiguration(json);
-        } catch (RemoteException exception){
-            Log.e(LOGTAG, exception.getMessage());
-        }
+        appConfigurationManager.setConfiguration(appConfiguration);
     }
 
 }

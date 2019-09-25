@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -36,7 +38,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
@@ -45,7 +46,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chat
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.AppConfiguration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -87,26 +88,27 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.textinput) TextInputEditText textInput;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
-    @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.mic_image) ImageView micImage;
     @BindView(R.id.kbd_image) ImageView kbdImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
     @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
+    @BindView(R.id.nav_menu_set_as_default_assistant) TextView setDefaultAssistant;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
     private static final String LOGTAG = "MainActivity";
+    private static final int REQUEST_CODE_SETTINGS = 256;
+    private static final int REQUEST_CODE_OVERLAY_PERMISSION = 255;
 
     // STATE
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
-    private boolean showFullConversation;
     private Handler handler;
-    private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
+    private boolean enableDarkMode;
+    private boolean keepScreenOn;
     private boolean enableKws;
     private boolean isExpandedTextInput;
     private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
@@ -124,9 +126,6 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
-        switchShowFullConversation.setChecked(showFullConversation);
-        switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         enableKws = getBooleanSharedPref(SHARED_PREF_ENABLE_KWS);
         switchEnableKws.setChecked(enableKws);
 
@@ -148,20 +147,14 @@ public class MainActivity extends BaseActivity
         // make media volume the default
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // check if this activity was launched as an assistant
-        Intent intent = getIntent();
-        if (intent != null) {
-            String originator = intent.getStringExtra(VoiceInteractionActivity.KEY_ORIGINATOR);
-            if (originator != null && originator.equals(VoiceInteractionActivity.KEY_VALUE)) {
-                launchedAsAssistant = true;//this flag can now be used, i.e. to automatically start microphone recording
-            }
-        }
-
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
 
         // assign animation
         animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
+
+        // load configurations from shared preferences
+        loadAppConfiguration();
 
         isCreated = true;//keep this as last line in onCreate()
     }
@@ -179,11 +172,15 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        final Configuration configuration = configurationManager.getConfiguration();
-        chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
-        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
-        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
-        chatAdapter.setShowFullConversation(showFullConversation);
+        if (keepScreenOn) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // to keep screen on
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // to disable keeping screen on
     }
 
     // Unregister EventBus messages and SpeechService
@@ -280,17 +277,14 @@ public class MainActivity extends BaseActivity
         try {
 
             switch (id) {
-                case R.id.nav_menu_configuration:
-                    startActivity(SettingsActivity.getNewIntent(this));
+                case R.id.nav_menu_settings:
+                    startActivityForResult(SettingsActivity.getNewIntent(this), REQUEST_CODE_SETTINGS);
                     break;
-                case R.id.nav_menu_reset_bot:
+                case R.id.nav_menu_restart_conversation:
                     speechServiceBinder.resetBot();
                     chatAdapter.resetChat();
                     suggActionsAdapter.clear();
                     speechServiceBinder.clearSuggestedActions();
-                    break;
-                case R.id.nav_menu_show_assistant_settings:
-                    startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
                     break;
             }
 
@@ -301,6 +295,27 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
+            loadAppConfiguration();
+        } else if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
+            if (Settings.canDrawOverlays(this)) {
+                startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+            }
+        }
+    }
+
+    private void loadAppConfiguration() {
+        AppConfiguration appConfiguration = appConfigurationManager.getConfiguration();
+        setDarkMode(appConfiguration.enableDarkMode);
+        keepScreenOn = appConfiguration.keepScreenOn;
+        chatAdapter.setShowFullConversation(appConfiguration.showFullConversation);
+        chatAdapter.setChatItemHistoryCount(appConfiguration.historyLinecount);
+        chatAdapter.setChatBubbleColors(appConfiguration.colorBubbleBot, appConfiguration.colorBubbleUser);
+        chatAdapter.setChatTextColors(appConfiguration.colorTextBot, appConfiguration.colorTextUser);
     }
 
     private void showListeningAnimation(){
@@ -336,6 +351,17 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @OnClick(R.id.nav_menu_set_as_default_assistant)
+    public void onClickSetDefaultAssistant() {
+        if (Settings.canDrawOverlays(this)) {
+            startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+        } else {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_CODE_OVERLAY_PERMISSION);
+        }
+    }
+
     @OnCheckedChanged(R.id.switch_enable_kws)
     public void onCheckedChangedEnableKws(CompoundButton button, boolean checked){
         if (isCreated) {
@@ -355,18 +381,10 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @OnCheckedChanged(R.id.switch_show_full_conversation)
-    public void OnCheckedChangedShowFullConversation(CompoundButton button, boolean checked){
-        if (isCreated) {
-            showFullConversation = checked;
-            putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
-            chatAdapter.setShowFullConversation(showFullConversation);
-        }
-    }
+    public void setDarkMode(boolean enabled){
+        if (enableDarkMode != enabled) {
+            enableDarkMode = enabled;
 
-    @OnCheckedChanged(R.id.switch_night_mode)
-    public void OnCheckedChangedEnableNightMode(CompoundButton button, boolean checked){
-        if (isCreated) {
             // OutOfMemoryError can occur, try to free as many objects as possible 1st
             // note: the assistant animation might need to be unloaded prior to switching night mode
             sfxManager.reset();
@@ -374,8 +392,7 @@ public class MainActivity extends BaseActivity
             System.gc();
 
             // now proceed with the night mode switch
-            putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
-            AppCompatDelegate.setDefaultNightMode(checked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(enabled ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
             getDelegate().applyDayNight();
 
             // re-init SFX manager

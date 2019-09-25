@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.MainActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechService;
+
+import static com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechService.ACTION_START_LISTENING;
 
 /**
  * this class is used to re-launch the LAUNCH activity
@@ -21,11 +24,9 @@ public class VoiceInteractionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.setComponent(new ComponentName(this, MainActivity.class));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(KEY_ORIGINATOR, KEY_VALUE);//special flag
-        startActivity(intent);
+        Intent intent = new Intent(this, SpeechService.class);
+        intent.setAction(ACTION_START_LISTENING);
+        startService(intent);
+        finish();
     }
 }

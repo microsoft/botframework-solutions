@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#3062d6</color>
+    <color name="colorAccent">#2f2f2f</color>
 
     <!-- General -->
     <color name="color_background">#ffffff</color>
@@ -24,12 +24,12 @@
     <color name="color_toggle_off">#373736</color>
 
     <!-- Suggested Actions -->
-    <color name="color_action_outline">#84d9f8</color>
+    <color name="color_action_outline">#0078d4</color>
 
     <!-- DARK THEME -->
     <color name="colorPrimaryNight">#008577</color>
     <color name="colorPrimaryDarkNight">#00574B</color>
-    <color name="colorAccentNight">#3062d6</color>
+    <color name="colorAccentNight">#e6e6e6</color>
 
     <!-- Chat -->
     <color name="background_night">#272727</color>

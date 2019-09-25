@@ -16,18 +16,19 @@
     <!-- GENERAL STRINGS -->
     <string name="bot_input_hint" translatable="false">Type a message to the bot</string>
     <string name="ok">OK</string>
+    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 
     <!-- NAVIGATION DRAWER MENU -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_menu_show_textinput" translatable="false">Show Textinput</string>
+    <string name="nav_menu_restart_conversation" translatable="false">Restart conversation</string>
+    <string name="nav_menu_settings" translatable="false">Settings</string>
+    <string name="nav_menu_set_as_default_assistant" translatable="false">Set as default assistant</string>
+    <!--
     <string name="nav_menu_show_full_conversation" translatable="false">Show full conversation</string>
-    <string name="nav_menu_reset_bot" translatable="false">Restart Conversation</string>
-    <string name="nav_menu_configuration" translatable="false">Settings</string>
-    <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
-    <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
-    <string name="nav_menu_night_mode" translatable="false">Enable Dark Mode</string>
+    <string name="nav_menu_enable_dark_mode" translatable="false">Enable dark mode</string>
+    -->
     <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
 
     <!-- CONFIGURATION -->
@@ -41,15 +42,20 @@
     <string name="configuration_geolocation_lon_hint">Lon</string>
     <string name="configuration_chat_history_line_count">Chat history line-count</string>
     <string name="configuration_timezone">Timezone</string>
-    <string name="configuration_bot_color">Bot Bubble Background</string>
-    <string name="configuration_user_color">User Bubble Background</string>
+    <string name="configuration_bot_color">Bot bubble background</string>
+    <string name="configuration_user_color">User bubble background</string>
     <string name="configuration_pick_color">Pick a color</string>
-    <string name="configuration_bot_text_color">Bot Text Color</string>
-    <string name="configuration_user_text_color">User Text Color</string>
+    <string name="configuration_bot_text_color">Bot text color</string>
+    <string name="configuration_user_text_color">User text color</string>
     <string name="configuration_keyword">Keyword</string>
-    <string name="configuration_location_event">GPS Sent On</string>
-    <string name="configuration_location_send">Send GPS Location</string>
-    <string name="configuration_location_unsent">Not Sent</string>
+    <string name="configuration_location_event">GPS sent on</string>
+    <string name="configuration_location_send">Send GPS location</string>
+    <string name="configuration_location_unsent">Not sent</string>
+    <string name="configuration_general">General</string>
+    <string name="configuration_appearance">Appearance</string>
+    <string name="configuration_show_full_conversation">Show full conversation</string>
+    <string name="configuration_enable_dark_mode">Enable dark mode</string>
+    <string name="configuration_keep_screen_on">Keep screen on</string>
 
     <!-- WIDGETS -->
     <string name="widget_push_to_talk">Talk</string>

@@ -29,48 +29,12 @@ public class Configuration {
     @Expose
     public String userName;
 
-    @SerializedName("history_linecount")
-    @Expose
-    public Integer historyLinecount;
-
     @SerializedName("current_timezone")
     @Expose
     public String currentTimezone;//stores the TZ ID
-
-    @SerializedName("color_bubble_bot")
-    @Expose
-    public Integer colorBubbleBot;
-
-    @SerializedName("color_bubble_user")
-    @Expose
-    public Integer colorBubbleUser;
-
-    @SerializedName("color_text_bot")
-    @Expose
-    public Integer colorTextBot;
-
-    @SerializedName("color_text_user")
-    @Expose
-    public Integer colorTextUser;
 
     @SerializedName("keyword")
     @Expose
     public String keyword;
 
-
-    public boolean isEmpty(){
-        return serviceKey==null&&
-                serviceRegion==null&&
-                botId==null&&
-                userId==null&&
-                locale==null&&
-                userName==null&&
-                historyLinecount==null&&
-                currentTimezone==null&&
-                colorBubbleBot==null&&
-                colorBubbleUser==null&&
-                colorTextBot==null&&
-                colorTextUser==null&&
-                keyword==null;
-    }
 }

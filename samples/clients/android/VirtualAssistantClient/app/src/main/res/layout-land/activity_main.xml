@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="end"
-    tools:context=".activities.main.MainActivity"
-    android:keepScreenOn="true">
+    tools:context=".activities.main.MainActivity">
 
     <RelativeLayout
         android:id="@+id/root_container"
@@ -121,39 +120,36 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:layout_gravity="start"
+        app:insetForeground="@null"
         app:menu="@menu/nav_drawer_menu">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="14dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nav_menu_set_as_default_assistant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/nav_menu_set_as_default_assistant" />
 
             <!-- hidden for now since it is blocked from making progress -->
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_enable_kws"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:text="@string/nav_menu_enable_kws"
                 android:visibility="gone"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/switch_show_full_conversation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/nav_menu_show_full_conversation"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/switch_night_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/nav_menu_night_mode"/>
 
         </LinearLayout>
 
