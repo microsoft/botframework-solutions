@@ -7,7 +7,7 @@ trigger:
 
   paths:
     include:
-    - 'lib/typescript/botbuilder-skills/*'
+    - 'sdk/typescript/libraries/botbuilder-skills/*'
   
 # By default will disable PR builds
 pr: none
@@ -21,28 +21,28 @@ steps:
     versionSpec: 10.x
 
 - pwsh: 'node ./common/scripts/install-run-rush.js install --no-link'
-  workingDirectory: lib/typescript
+  workingDirectory: sdk/typescript/libraries
   displayName: 'rush install'
 
 - pwsh: 'node ./common/scripts/install-run-rush.js link'
-  workingDirectory: lib/typescript
+  workingDirectory: sdk/typescript/libraries
   displayName: 'rush link'
 
 - pwsh: 'node ./common/scripts/install-run-rush.js build'
-  workingDirectory: lib/typescript
+  workingDirectory: sdk/typescript/libraries
   displayName: 'rush build'
 
 - pwsh: 'npm run test-coverage-ci'
   errorActionPreference: continue
   ignoreLASTEXITCODE: 'true'
-  workingDirectory: lib/typescript/botbuilder-skills
+  workingDirectory: sdk/typescript/libraries/botbuilder-skills
   displayName: 'npm test coverage'
 
 - task: PublishTestResults@2
   displayName: 'publish test results'
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'lib/typescript/botbuilder-skills'
+    searchFolder: 'sdk/typescript/libraries/botbuilder-skills'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
@@ -50,5 +50,5 @@ steps:
   condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'lib/typescript/botbuilder-skills/coverage/cobertura-coverage.xml'
-    reportDirectory: 'lib/typescript/botbuilder-skills/coverage/'
+    summaryFileLocation: 'sdk/typescript/libraries/botbuilder-skills/coverage/cobertura-coverage.xml'
+    reportDirectory: 'sdk/typescript/libraries/botbuilder-skills/coverage/'

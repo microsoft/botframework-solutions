@@ -6,7 +6,7 @@ if (-not $version) {
     Write-Host "Version for botbuilder-libs required!.  Please use the param -version" -ForegroundColor DarkRed
 }
 
-pushd .\lib\typescript
+pushd ..\sdk\typescript\libraries
 
 node .\common\scripts\install-run-rush.js install --no-link
 
@@ -35,7 +35,7 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\lib\typescript\botbuilder-solutions
-npm pack ..\lib\typescript\botbuilder-skills
+npm pack ..\..\sdk\typescript\libraries\botbuilder-solutions
+npm pack ..\..\sdk\typescript\libraries\botbuilder-skills
 
 popd
