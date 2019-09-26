@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedAccounts.Web", "linke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Identity.Web", "Microsoft.Identity.Web\Microsoft.Identity.Web.csproj", "{A3E62E6A-7EEE-48B5-998D-FD733DB29B53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectLine.Console", "directline.console\DirectLine.Console.csproj", "{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebChatWithLinkedAccounts.Web", "webchat-with-linkedaccounts.web\WebChatWithLinkedAccounts.Web.csproj", "{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A3E62E6A-7EEE-48B5-998D-FD733DB29B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3E62E6A-7EEE-48B5-998D-FD733DB29B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3E62E6A-7EEE-48B5-998D-FD733DB29B53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
