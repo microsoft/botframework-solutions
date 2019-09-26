@@ -7,7 +7,7 @@ trigger:
 
   paths:
     include:
-    - 'sdk/csharp/libraries/microsoft.bot.builder.skills/*'
+    - 'sdk/csharp/libraries/microsoft.bot.builder.solutions.skills/*'
 
 # By default will disable PR builds
 pr: none
