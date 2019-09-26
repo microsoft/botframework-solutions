@@ -1,7 +1,7 @@
 ---
 category: Reference
 subcategory: Analytics
-title: Power BI
+title: Conversational Analytics Power BI Sample
 description: Detailed information on how the provided Power BI template provides insights into your assistant usage.
 order: 3
 ---
@@ -16,7 +16,11 @@ order: 3
 {:toc}
 
 ## Intro
-The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) provides a Power BI template that can be used to understand how your bot is performing.
+The Conversational Analytics Power BI sample provides a Power BI template that can be used to understand how your bot is performing.
+
+<div>
+<a href="{{site.baseurl}}/assets/analytics/ConversationalAnalyticsSample_4_6_1.pbit" class="btn btn-primary">Download</a>
+</div>
 
 ## Sample Overview
 
