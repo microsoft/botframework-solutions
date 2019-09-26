@@ -234,7 +234,7 @@ namespace ITSMSkill.Dialogs
 
         protected async Task<DialogTurnResult> BeginInitialDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(InitialDialogId);
+            return await sc.ReplaceDialogAsync(InitialDialogId);
         }
 
         protected async Task<DialogTurnResult> CheckId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -971,6 +971,7 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttribute = "ShowAttribute";
             public const string ShowAttributePrompt = "ShowAttributePrompt";
             public const string ShowTicketLoop = "ShowTicketLoop";
+            public const string ShowNavigatePrompt = "ShowNavigatePrompt";
 
             public const string CloseTicket = "CloseTicket";
 
