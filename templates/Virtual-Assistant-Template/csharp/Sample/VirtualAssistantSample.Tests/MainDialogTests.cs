@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
@@ -58,7 +57,7 @@ namespace VirtualAssistantSample.Tests
         {
             await GetTestFlow()
                 .Send("Unhandled message")
-                .AssertReply(MainStrings.CONFUSED)
+                .AssertReply(TemplateEngine.EvaluateTemplate("confusedMessage"))
                 .StartTestAsync();
         }
 

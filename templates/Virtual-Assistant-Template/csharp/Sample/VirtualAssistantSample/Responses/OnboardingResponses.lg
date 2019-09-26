@@ -2,7 +2,7 @@
 - What is your name?
 
 # haveNameMessage
-- Hi, {user.name}!
+- Hi, @{name}!
 
 # emailPrompt
 - What is your email?

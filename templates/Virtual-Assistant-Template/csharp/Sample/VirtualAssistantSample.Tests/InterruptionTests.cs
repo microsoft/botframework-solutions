@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using VirtualAssistantSample.Responses.Cancel;
-using VirtualAssistantSample.Responses.Onboarding;
 using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
@@ -34,10 +34,10 @@ namespace VirtualAssistantSample.Tests
                    Type = ActivityTypes.Event,
                    Value = new JObject(new JProperty("action", "startOnboarding"))
                })
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .StartTestAsync();
         }
 
@@ -46,10 +46,7 @@ namespace VirtualAssistantSample.Tests
         {
             await GetTestFlow()
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(activity =>
-               {
-                   Assert.IsTrue(activity.AsMessageActivity().Text.Contains(CancelStrings.NOTHING_TO_CANCEL));
-               })
+               .AssertReply(TemplateEngine.EvaluateTemplate("nothingToCancelMessage"))
                .StartTestAsync();
         }
 
@@ -62,11 +59,11 @@ namespace VirtualAssistantSample.Tests
                    Type = ActivityTypes.Event,
                    Value = new JObject(new JProperty("action", "startOnboarding"))
                })
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(activity => Assert.IsTrue(activity.AsMessageActivity().Text.Contains(CancelStrings.CANCEL_PROMPT)))
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelPrompt"))
                .Send(GeneralUtterances.Confirm)
-               .AssertReply(CancelStrings.CANCEL_CONFIRMED)
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelConfirmedMessage"))
                .StartTestAsync();
         }
 
@@ -79,11 +76,11 @@ namespace VirtualAssistantSample.Tests
                    Type = ActivityTypes.Event,
                    Value = new JObject(new JProperty("action", "startOnboarding"))
                })
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(activity => Assert.IsTrue(activity.AsMessageActivity().Text.Contains(CancelStrings.CANCEL_PROMPT)))
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelPrompt"))
                .Send(GeneralUtterances.Reject)
-               .AssertReply(CancelStrings.CANCEL_DENIED)
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelDeniedMessage"))
                .StartTestAsync();
         }
     }

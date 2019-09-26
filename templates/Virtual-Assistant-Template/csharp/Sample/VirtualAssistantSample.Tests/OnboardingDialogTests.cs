@@ -6,7 +6,6 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using VirtualAssistantSample.Responses.Onboarding;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -18,6 +17,9 @@ namespace VirtualAssistantSample.Tests
         {
             var testName = "Jane Doe";
 
+            dynamic data = new JObject();
+            data.name = testName;
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -25,9 +27,9 @@ namespace VirtualAssistantSample.Tests
                     Type = ActivityTypes.Event,
                     Value = new JObject(new JProperty("action", "startOnboarding"))
                 })
-                .AssertReply(OnboardingStrings.NAME_PROMPT)
+                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                 .Send(testName)
-                .AssertReply(string.Format(OnboardingStrings.HAVE_NAME, testName))
+                .AssertReply(TemplateEngine.EvaluateTemplate("haveNameMessage", data))
                 .StartTestAsync();
         }
     }
