@@ -38,7 +38,6 @@ namespace WeatherSkill.Dialogs
             ResponseManager responseManager,
             UserState userState,
             ConversationState conversationState,
-            SampleDialog sampleDialog,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
             : base(nameof(MainDialog), telemetryClient)
@@ -53,7 +52,6 @@ namespace WeatherSkill.Dialogs
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
-            AddDialog(sampleDialog);
             AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient, httpContext));
         }
 
