@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Spatial;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -153,6 +154,28 @@ namespace WeatherSkill.Dialogs
 
                         break;
                     }
+                case Events.Location:
+                    {
+                        // Test trigger with
+                        // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
+                        var value = dc.Context.Activity.Value.ToString();
+
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            var coords = value.Split(',');
+                            if (coords.Length == 2)
+                            {
+                                if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                {
+                                    var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
+                                    state.Latitude = lat;
+                                    state.Longitude = lng;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -257,8 +280,20 @@ namespace WeatherSkill.Dialogs
             {
                 var location = semanticAction.Entities["location"];
                 var locationObj = location.Properties["location"].ToString();
-                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                state.Geography = locationObj;
+
+                var coords = locationObj.Split(',');
+                if (coords.Length == 2 && double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                {
+                    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                    state.Latitude = lat;
+                    state.Longitude = lng;
+                }
+                else
+                {
+                    // In case name has ','
+                    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                    state.Geography = locationObj;
+                }
             }
         }
 
@@ -266,6 +301,7 @@ namespace WeatherSkill.Dialogs
         {
             public const string TokenResponseEvent = "tokens/response";
             public const string SkillBeginEvent = "skillBegin";
+            public const string Location = "Location";
         }
     }
 }

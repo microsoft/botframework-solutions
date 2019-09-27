@@ -66,7 +66,7 @@ namespace WeatherSkill.Dialogs
             var state = await _stateAccessor.GetAsync(stepContext.Context);
             var geography = state.Geography;
 
-            if (string.IsNullOrEmpty(geography))
+            if (string.IsNullOrEmpty(geography) && state.Latitude == double.NaN)
             {
                 return await stepContext.NextAsync();
             }
@@ -117,7 +117,19 @@ namespace WeatherSkill.Dialogs
             var state = await _stateAccessor.GetAsync(stepContext.Context);
 
             var service = new AccuweatherService(Settings);
-            state.GeographyLocation = await service.GetLocationByQueryAsync(state.Geography);
+
+            if (!string.IsNullOrEmpty(state.Geography))
+            {
+                state.GeographyLocation = await service.GetLocationByQueryAsync(state.Geography);
+            }
+            else if (state.Latitude != double.NaN)
+            {
+                state.GeographyLocation = await service.GetLocationByGeoAsync(state.Latitude, state.Longitude);
+            }
+            else
+            {
+                throw new Exception("Must have Geography or Latitude & Longitude!");
+            }
 
             var oneDayForecast = await service.GetOneDayForecastAsync(state.GeographyLocation.Key);
 

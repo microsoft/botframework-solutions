@@ -207,6 +207,7 @@ namespace WeatherSkill.Dialogs
                 return card;
             }
         }
+
         private class DialogIds
         {
             public const string SkillModeAuth = "SkillAuth";

@@ -13,6 +13,7 @@ namespace WeatherSkill.Services
     {
         private static HttpClient _httpClient;
         private string _searchLocationUrl = $"http://dataservice.accuweather.com/locations/v1/search?q={{0}}&apikey={{1}}";
+        private string _searchLocationByGeoUrl = $"http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?q={{0}},{{1}}&apikey={{2}}";
         private string _oneDayForecastUrl = $"http://dataservice.accuweather.com/forecasts/v1/daily/1day/{{0}}?apikey={{1}}&details=true";
         private string _fiveDayForecastUrl = $"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{{0}}?apikey={{1}}&details=true";
         private string _tenDayForecastUrl = $"http://dataservice.accuweather.com/forecasts/v1/daily/10day/{{0}}?apikey={{1}}&details=true";
@@ -27,7 +28,12 @@ namespace WeatherSkill.Services
 
         public async Task<Location> GetLocationByQueryAsync(string query)
         {
-            return await GetLocationResponseAsync(string.Format(CultureInfo.InvariantCulture, _searchLocationUrl, query, _apiKey));
+            return (await GetLocationsResponseAsync(string.Format(CultureInfo.InvariantCulture, _searchLocationUrl, query, _apiKey)))[0];
+        }
+
+        public async Task<Location> GetLocationByGeoAsync(double latitude, double longitude)
+        {
+            return await GetLocationResponseAsync(string.Format(CultureInfo.InvariantCulture, _searchLocationByGeoUrl, latitude, longitude, _apiKey));
         }
 
         public async Task<ForecastResponse> GetOneDayForecastAsync(string query)
@@ -55,13 +61,22 @@ namespace WeatherSkill.Services
             _apiKey = settings.WeatherApiKey ?? throw new Exception("Could not get the required AccuWeather API key. Please make sure your settings are correctly configured.");
         }
 
-        private async Task<Location> GetLocationResponseAsync(string url)
+        private async Task<Location[]> GetLocationsResponseAsync(string url)
         {
             var response = await _httpClient.GetStringAsync(url);
 
             var apiResponse = JsonConvert.DeserializeObject<Location[]>(response);
 
-            return apiResponse[0];
+            return apiResponse;
+        }
+
+        private async Task<Location> GetLocationResponseAsync(string url)
+        {
+            var response = await _httpClient.GetStringAsync(url);
+
+            var apiResponse = JsonConvert.DeserializeObject<Location>(response);
+
+            return apiResponse;
         }
 
         private async Task<ForecastResponse> GetDailyForecastResponseAsync(string url)
