@@ -3,6 +3,8 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.StreamingExtensions;
@@ -16,23 +18,26 @@ namespace VirtualAssistantSample.Adapters
     public class DefaultWebSocketAdapter : WebSocketEnabledHttpAdapter
     {
         public DefaultWebSocketAdapter(
-            IConfiguration config,
+            IConfiguration configuration,
             BotSettings settings,
-            TemplateEngine templateEngine,
+            ResourceExplorer resourceExplorer,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient)
-            : base(config, credentialProvider)
+            : base(configuration, credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
+                var activityGenerator = turnContext.TurnState.Get<IActivityGenerator>();
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
+                await turnContext.SendActivityAsync(await activityGenerator.Generate(turnContext, "errorMessage", null));
                 telemetryClient.TrackException(exception);
             };
 
             // Uncomment the following line for local development without Azure Storage
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
+            TypeFactory.Configuration = configuration;
+            this.UseLanguageGeneration(resourceExplorer);
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());

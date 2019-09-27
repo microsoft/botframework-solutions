@@ -12,19 +12,9 @@ namespace VirtualAssistantSample.Dialogs
 {
     public class CancelDialog : ComponentDialog
     {
-        private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
-
-        public CancelDialog(
-            TemplateEngine templateEngine,
-            ILanguageGenerator langGenerator,
-            TextActivityGenerator activityGenerator)
+        public CancelDialog()
             : base(nameof(CancelDialog))
         {
-            _templateEngine = templateEngine;
-            _langGenerator = langGenerator;
-            _activityGenerator = activityGenerator;
             InitialDialogId = nameof(CancelDialog);
 
             var cancel = new WaterfallStep[]
@@ -39,13 +29,14 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
+            var activityGenerator = outerDc.Context.TurnState.Get<IActivityGenerator>();
+
             var doCancel = (bool)result;
 
             if (doCancel)
             {
                 // If user chose to cancel
-                var template = _templateEngine.EvaluateTemplate("cancelConfirmedMessage");
-                var activity = await _activityGenerator.CreateActivityFromText(template, null, outerDc.Context, _langGenerator);
+                var activity = await activityGenerator.Generate(outerDc.Context, "cancelConfirmedMessage", null);
                 await outerDc.Context.SendActivityAsync(activity);
 
                 // Cancel all in outer stack of component i.e. the stack the component belongs to
@@ -54,8 +45,7 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 // else if user chose not to cancel
-                var template = _templateEngine.EvaluateTemplate("cancelDeniedMessage");
-                var activity = await _activityGenerator.CreateActivityFromText(template, null, outerDc.Context, _langGenerator);
+                var activity = await activityGenerator.Generate(outerDc.Context, "cancelDeniedMessage", null);
                 await outerDc.Context.SendActivityAsync(activity);
 
                 // End this component. Will trigger reprompt/resume on outer stack
@@ -65,8 +55,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var template = _templateEngine.EvaluateTemplate("cancelPrompt");
-            var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
+            var activityGenerator = sc.Context.TurnState.Get<IActivityGenerator>();
+            var activity = await activityGenerator.Generate(sc.Context, "cancelPrompt", null);
 
             return await sc.PromptAsync(DialogIds.CancelPrompt, new PromptOptions()
             {

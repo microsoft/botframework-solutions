@@ -1,4 +1,18 @@
 ﻿# escalateMessage
 - ```
-[Attachment=Content\EscalateCard.json hero]
+{
+  "subtitle": "Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "Call Now",
+      "value": "tel:18005551234"
+    },
+    {
+      "type": "openUrl",
+      "title": "Open Teams",
+      "value": "msteams://"
+    }
+  ]
+}
 ```
