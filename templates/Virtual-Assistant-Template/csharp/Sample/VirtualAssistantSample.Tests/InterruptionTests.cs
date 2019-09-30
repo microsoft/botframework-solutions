@@ -61,7 +61,12 @@ namespace VirtualAssistantSample.Tests
                })
                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelPrompt"))
+               .AssertReply((activity) =>
+               {
+                   var message = activity.AsMessageActivity();
+                   var template = TemplateEngine.EvaluateTemplate("cancelPrompt");
+                   Assert.IsTrue(message.Text.Contains(template));
+                })
                .Send(GeneralUtterances.Confirm)
                .AssertReply(TemplateEngine.EvaluateTemplate("cancelConfirmedMessage"))
                .StartTestAsync();
@@ -78,7 +83,12 @@ namespace VirtualAssistantSample.Tests
                })
                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelPrompt"))
+                .AssertReply((activity) =>
+                {
+                    var message = activity.AsMessageActivity();
+                    var template = TemplateEngine.EvaluateTemplate("cancelPrompt");
+                    Assert.IsTrue(message.Text.Contains(template));
+                })
                .Send(GeneralUtterances.Reject)
                .AssertReply(TemplateEngine.EvaluateTemplate("cancelDeniedMessage"))
                .StartTestAsync();

@@ -371,7 +371,7 @@ namespace VirtualAssistantSample.Dialogs
                 return InterruptionAction.StartedDialog;
             }
 
-            var template = _templateEngine.EvaluateTemplate("cancelledMessage");
+            var template = _templateEngine.EvaluateTemplate("nothingToCancelMessage");
             var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
             await dc.Context.SendActivityAsync(activity);
 

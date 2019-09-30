@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Tests", "Sample\VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj", "{F94F4298-309A-4DB6-AFA2-B1D2F9B51FA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{84617C44-C93B-4EFF-A6D3-523F53E0CB81}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -47,14 +45,6 @@ Global
 		{F94F4298-309A-4DB6-AFA2-B1D2F9B51FA8}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{F94F4298-309A-4DB6-AFA2-B1D2F9B51FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94F4298-309A-4DB6-AFA2-B1D2F9B51FA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84617C44-C93B-4EFF-A6D3-523F53E0CB81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

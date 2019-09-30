@@ -77,7 +77,7 @@ namespace VirtualAssistantSample.Dialogs
 
             dynamic data = new JObject();
             data.name = name;
-            var template = _templateEngine.EvaluateTemplate("haveNameMessage");
+            var template = _templateEngine.EvaluateTemplate("haveNameMessage", data);
             var activity = await _activityGenerator.CreateActivityFromText(template, data, sc.Context, _langGenerator);
             await sc.Context.SendActivityAsync(activity);
             return await sc.EndDialogAsync();

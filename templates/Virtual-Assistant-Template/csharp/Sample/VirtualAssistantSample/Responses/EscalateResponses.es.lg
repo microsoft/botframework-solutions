@@ -1,4 +1,6 @@
 ﻿# escalateMessage
 - ```
-[Attachment=Content\EscalateCard.json hero]
+[HeroCard
+  subtitle=Nuestros agentes están disponibles 24/7 en 1 (800) 555-1234.
+]
 ```
