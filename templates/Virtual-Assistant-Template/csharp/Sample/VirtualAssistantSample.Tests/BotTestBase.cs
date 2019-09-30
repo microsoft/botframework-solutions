@@ -73,10 +73,10 @@ namespace VirtualAssistantSample.Tests
             });
 
             TemplateEngine = new TemplateEngine()
-                .AddFile(Path.Combine("..", "..", "..", "..", "VirtualAssistantSample", "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "VirtualAssistantSample", "Responses", "OnboardingResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "VirtualAssistantSample", "Responses", "EscalateResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "VirtualAssistantSample", "Responses", "CancelResponses.lg"));
+                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "MainResponses.lg"))
+                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "OnboardingResponses.lg"))
+                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "EscalateResponses.lg"))
+                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "CancelResponses.lg"));
             LanguageGenerator = new TemplateEngineLanguageGenerator();
             ActivityGenerator = new TextActivityGenerator();
 
