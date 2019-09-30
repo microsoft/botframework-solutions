@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Builder.Skills
                 if (activity.Name == SkillEvents.CancelAllSkillDialogsEventName)
                 {
                     await _dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
-                    await _conversationState.DeleteAsync(turnContext).ConfigureAwait(false);
+                    await _conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
                     await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
                     return;
                 }
