@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -31,8 +32,10 @@ namespace VirtualAssistantSample.Tests
                     Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count);
 
                     // Assert the intro card has been localized
-                    var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hola, soy tu Virtual Assistant")));
+                    var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
+                    var card = AdaptiveCard.FromJson(content).Card;
+
+                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hola, soy tu Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -54,8 +57,10 @@ namespace VirtualAssistantSample.Tests
                     Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count);
 
                     // Assert the intro card has been localized
-                    var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hi, ich bin **dein** Virtueller Assistent")));
+                    var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
+                    var card = AdaptiveCard.FromJson(content).Card;
+
+                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hi, ich bin **dein** Virtueller Assistent")));
                 })
                 .StartTestAsync();
         }
@@ -77,8 +82,10 @@ namespace VirtualAssistantSample.Tests
                     Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count);
 
                     // Assert the intro card has been localized
-                    var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Salut, je suis votre Virtual Assistant")));
+                    var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
+                    var card = AdaptiveCard.FromJson(content).Card;
+
+                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Salut, je suis votre Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -100,8 +107,10 @@ namespace VirtualAssistantSample.Tests
                     Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count);
 
                     // Assert the intro card has been localized
-                    var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Ciao, sono il **tuo** Virtual Assistant")));
+                    var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
+                    var card = AdaptiveCard.FromJson(content).Card;
+
+                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Ciao, sono il **tuo** Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -123,8 +132,10 @@ namespace VirtualAssistantSample.Tests
                     Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count);
 
                     // Assert the intro card has been localized
-                    var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
+                    var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
+                    var card = AdaptiveCard.FromJson(content).Card;
+
+                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
                 })
                 .StartTestAsync();
         }

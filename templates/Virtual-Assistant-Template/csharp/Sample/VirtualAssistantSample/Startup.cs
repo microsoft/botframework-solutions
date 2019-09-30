@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,8 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
@@ -88,6 +91,15 @@ namespace VirtualAssistantSample
                 var conversationState = sp.GetService<ConversationState>();
                 return new BotStateSet(userState, conversationState);
             });
+
+            services.AddSingleton(new TemplateEngine()
+                .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "EscalateResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "CancelResponses.lg")));
+
+            services.AddSingleton<TextActivityGenerator>();
+            services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
 
             // Register dialogs
             services.AddTransient<CancelDialog>();

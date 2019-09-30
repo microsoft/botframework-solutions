@@ -3,12 +3,12 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
-using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
@@ -18,6 +18,7 @@ namespace VirtualAssistantSample.Adapters
         public DefaultWebSocketAdapter(
             IConfiguration config,
             BotSettings settings,
+            TemplateEngine templateEngine,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient)
             : base(config, credentialProvider)
@@ -26,7 +27,7 @@ namespace VirtualAssistantSample.Adapters
             {
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(MainStrings.ERROR);
+                await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
                 telemetryClient.TrackException(exception);
             };
 
