@@ -30,14 +30,14 @@
 - tell me about the {MovieTitle=jurassic park} movie
 - tell me about the movie {MovieTitle=gone with the wind}
 - what is {MovieTitle=jurassic park}
-- what’s {MovieTitle=hello} about?
-- what’s the move {MovieTitle=harry potter} about?
+- what's {MovieTitle=hello} about?
+- what's the move {MovieTitle=harry potter} about?
 - how is {MovieTitlePatten}
 - tell me about the {MovieTitlePatten} movie
 - what's {MovieTitlePatten} about?
-- what’s the move {MovieTitlePatten} about?
-- what’s {MovieTitlePatten} about
-- what’s {MovieTitlePatten} about?
+- what's the move {MovieTitlePatten} about?
+- what's {MovieTitlePatten} about
+- what's {MovieTitlePatten} about?
 - tell me about the movie {MovieTitlePatten}
 - what's {MovieTitlePatten} about
 
