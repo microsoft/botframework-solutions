@@ -108,7 +108,7 @@ export class AuthenticationUtils {
         try {
             // configuring bot auth settings
             logger.message('Checking for authentication settings ...');
-            if (manifest.authenticationConnections) {
+            if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
                     (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
                 if (aadConfig) {
@@ -247,13 +247,15 @@ export class AuthenticationUtils {
 
                     logger.message('Authentication process finished successfully.');
 
-                    return true;
                 } else {
                     throw new Error(`There's no Azure Active Directory v2 authentication connection in your Skills manifest.`);
                 }
             } else {
-                throw new Error(`There are no authentication connections in your Skills manifest.`);
+                logger.message(`There are no authentication connections in your Skills manifest.`);
             }
+
+            return true;
+
         } catch (err) {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
