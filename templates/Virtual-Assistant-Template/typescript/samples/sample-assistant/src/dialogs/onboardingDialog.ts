@@ -57,13 +57,13 @@ export class OnboardingDialog extends ComponentDialog {
             prompt: await OnboardingDialog.responder.renderTemplate(
                 sc.context,
                 OnboardingResponses.responseIds.namePrompt,
-                <string> sc.context.activity.locale)
+                sc.context.activity.locale as string)
         });
     }
 
     public async finishOnboardingDialog(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
         this.state = await this.getStateFromAccessor(sc.context);
-        this.state.name = <string> sc.result;
+        this.state.name = sc.result as string;
         await this.accessor.set(sc.context, this.state);
 
         await OnboardingDialog.responder.replyWith(
