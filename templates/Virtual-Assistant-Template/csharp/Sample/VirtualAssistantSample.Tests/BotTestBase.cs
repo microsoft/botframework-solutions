@@ -72,11 +72,12 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
+            var dir = Directory.GetCurrentDirectory();
             TemplateEngine = new TemplateEngine()
-                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "OnboardingResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "EscalateResponses.lg"))
-                .AddFile(Path.Combine("..", "..", "..", "..", "..", "VirtualAssistantSample", "Responses", "CancelResponses.lg"));
+                .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
+                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"))
+                .AddFile(Path.Combine(dir, "Responses", "EscalateResponses.lg"))
+                .AddFile(Path.Combine(dir, "Responses", "CancelResponses.lg"));
             LanguageGenerator = new TemplateEngineLanguageGenerator();
             ActivityGenerator = new TextActivityGenerator();
 
