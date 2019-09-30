@@ -95,11 +95,18 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample
 
 ### IT Service Management Skill
 
-The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports ServiceNow.
+
+This skill demonstrates the following scenarios:
+- Create a ticket: *Create a ticket for my broken laptop*
+- Show ticket: *What's the status of my incident*
+- Update Ticket: *Change ticket's urgency to high*
+- Close a ticket: *Close my ticket*
+- Find Knowledgebase item: *Search knowledge articles related to error 1234*
 
 #### Configuration
 
-To test this skill, one should setup the following:
+To test this skill you will need to follow the ServiceNow configuration steps shown below:
 
 1. Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
 1. Provide this value in your `appsettings.json` file.
@@ -117,13 +124,9 @@ To test this skill, one should setup the following:
     - No Scopes are needed
     - Click Test Connection to verify
 
-To test this skill in VA, one should setup the following:
+To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
-1. Add https://botbuilder.myget.org/F/aitemplates/api/v3/index.json as NuGet package source
-1. Update VA's Microsoft.Bot.Builder.Solutions and Microsoft.Bot.Builder.Skills to 4.6.0-daily27 as this skill
-1. Add VA's appId to AppsWhitelist of SimpleWhitelistAuthenticationProvider under Utilities
-1. Add OAuth Connection as skill
-1. The remaining steps are same as normal skills
+1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
 
 ### Music Skill
 
