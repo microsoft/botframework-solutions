@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -28,12 +29,18 @@ namespace VirtualAssistantSample.Dialogs
         private const string TimeZone = "timezone";
         private BotSettings _settings;
         private BotServices _services;
+        private TemplateEngine _templateEngine;
+        private ILanguageGenerator _langGenerator;
+        private TextActivityGenerator _activityGenerator;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
+            TemplateEngine templateEngine,
+            ILanguageGenerator langGenerator,
+            TextActivityGenerator activityGenerator,
             OnboardingDialog onboardingDialog,
             EscalateDialog escalateDialog,
             CancelDialog cancelDialog,
@@ -44,6 +51,9 @@ namespace VirtualAssistantSample.Dialogs
         {
             _settings = settings;
             _services = services;
+            _templateEngine = templateEngine;
+            _langGenerator = langGenerator;
+            _activityGenerator = activityGenerator;
             TelemetryClient = telemetryClient;
             _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
@@ -60,25 +70,24 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
             var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
             if (string.IsNullOrEmpty(onboardingState.Name))
             {
-                var activity = await activityGenerator.Generate(dc.Context, "[newUserIntroCard]", null);
+                var template = _templateEngine.EvaluateTemplate("newUserIntroCard");
+                var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                 await dc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var activity = await activityGenerator.Generate(dc.Context, "[returningUserIntroCard]", null);
+                var template = _templateEngine.EvaluateTemplate("returningUserIntroCard");
+                var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                 await dc.Context.SendActivityAsync(activity);
             }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
-
             // Get cognitive models for locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var cognitiveModels = _services.CognitiveModelSets[locale];
@@ -129,7 +138,8 @@ namespace VirtualAssistantSample.Dialogs
                         default:
                             {
                                 // No intent was identified, send confused message
-                                var activity = await activityGenerator.Generate(dc.Context, "[confusedMessage]", null);
+                                var template = _templateEngine.EvaluateTemplate("confusedMessage");
+                                var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                                 await dc.Context.SendActivityAsync(activity);
 
                                 break;
@@ -155,7 +165,8 @@ namespace VirtualAssistantSample.Dialogs
                     }
                     else
                     {
-                        var activity = await activityGenerator.Generate(dc.Context, "[confusedMessage]", null);
+                        var template = _templateEngine.EvaluateTemplate("confusedMessage");
+                        var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                         await dc.Context.SendActivityAsync(activity);
                     }
                 }
@@ -178,7 +189,8 @@ namespace VirtualAssistantSample.Dialogs
                     }
                     else
                     {
-                        var activity = await activityGenerator.Generate(dc.Context, "[confusedMessage]", null);
+                        var template = _templateEngine.EvaluateTemplate("confusedMessage");
+                        var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                         await dc.Context.SendActivityAsync(activity);
                     }
                 }
@@ -187,7 +199,8 @@ namespace VirtualAssistantSample.Dialogs
             {
                 // If dispatch intent does not map to configured models, send "confused" response.
                 // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
-                var activity = await activityGenerator.Generate(dc.Context, "[confusedMessage]", null);
+                var template = _templateEngine.EvaluateTemplate("confusedMessage");
+                var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                 await dc.Context.SendActivityAsync(activity);
             }
         }
@@ -293,10 +306,9 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
-
             // The active dialog's stack ended with a complete status
-            var activity = await activityGenerator.Generate(dc.Context, "[confusedMessage]", null);
+            var template = _templateEngine.EvaluateTemplate("completedMessage");
+            var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
             await dc.Context.SendActivityAsync(activity);
 
             // Request feedback on the last activity.
@@ -350,8 +362,6 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
-
             if (dc.ActiveDialog != null && dc.ActiveDialog.Id != nameof(CancelDialog))
             {
                 // Don't start restart cancel dialog
@@ -361,7 +371,8 @@ namespace VirtualAssistantSample.Dialogs
                 return InterruptionAction.StartedDialog;
             }
 
-            var activity = await activityGenerator.Generate(dc.Context, "[cancelledMessage]", null);
+            var template = _templateEngine.EvaluateTemplate("cancelledMessage");
+            var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.StartedDialog;
@@ -369,9 +380,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
-
-            var activity = await activityGenerator.Generate(dc.Context, "[helpCard]", null);
+            var template = _templateEngine.EvaluateTemplate("helpCard");
+            var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
             await dc.Context.SendActivityAsync(activity);
 
             // Signal the conversation was interrupted and should immediately continue
@@ -380,8 +390,6 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
         {
-            var activityGenerator = dc.Context.TurnState.Get<IActivityGenerator>();
-
             IUserTokenProvider tokenProvider;
             var supported = dc.Context.Adapter is IUserTokenProvider;
             if (!supported)
@@ -402,7 +410,8 @@ namespace VirtualAssistantSample.Dialogs
                 await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            var activity = await activityGenerator.Generate(dc.Context, "[logoutMessage]", null);
+            var template = _templateEngine.EvaluateTemplate("logoutMessage");
+            var activity = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.StartedDialog;

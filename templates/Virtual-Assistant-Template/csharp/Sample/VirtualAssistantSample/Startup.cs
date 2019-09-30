@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -49,12 +48,9 @@ namespace VirtualAssistantSample
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
-
-        public IHostingEnvironment HostingEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -96,8 +92,14 @@ namespace VirtualAssistantSample
                 return new BotStateSet(userState, conversationState);
             });
 
-            // Load LG files
-            services.AddSingleton(ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath));
+            services.AddSingleton(new TemplateEngine()
+                .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "EscalateResponses.lg"))
+                .AddFile(Path.Combine(".", "Responses", "CancelResponses.lg")));
+
+            services.AddSingleton<TextActivityGenerator>();
+            services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
 
             // Register dialogs
             services.AddTransient<CancelDialog>();

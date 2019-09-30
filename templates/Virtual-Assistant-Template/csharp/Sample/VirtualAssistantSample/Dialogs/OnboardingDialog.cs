@@ -15,15 +15,24 @@ namespace VirtualAssistantSample.Dialogs
 {
     public class OnboardingDialog : ComponentDialog
     {
+        private TemplateEngine _templateEngine;
+        private ILanguageGenerator _langGenerator;
+        private TextActivityGenerator _activityGenerator;
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
         public OnboardingDialog(
             BotServices botServices,
+            TemplateEngine templateEngine,
+            ILanguageGenerator langGenerator,
+            TextActivityGenerator activityGenerator,
             UserState userState,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
+            _templateEngine = templateEngine;
+            _langGenerator = langGenerator;
+            _activityGenerator = activityGenerator;
             _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
 
@@ -42,7 +51,6 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var activityGenerator = sc.Context.TurnState.Get<IActivityGenerator>();
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
 
             if (!string.IsNullOrEmpty(_state.Name))
@@ -51,7 +59,9 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var activity = await activityGenerator.Generate(sc.Context, "namePrompt", null);
+                var template = _templateEngine.EvaluateTemplate("namePrompt");
+                var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
+
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
                     Prompt = activity,
@@ -61,13 +71,14 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var activityGenerator = sc.Context.TurnState.Get<IActivityGenerator>();
-
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
             await _accessor.SetAsync(sc.Context, _state, cancellationToken);
 
-            var activity = await activityGenerator.Generate(sc.Context, "haveNameMessage", new { name = _state.Name });
+            dynamic data = new JObject();
+            data.name = name;
+            var template = _templateEngine.EvaluateTemplate("haveNameMessage");
+            var activity = await _activityGenerator.CreateActivityFromText(template, data, sc.Context, _langGenerator);
             await sc.Context.SendActivityAsync(activity);
             return await sc.EndDialogAsync();
         }
