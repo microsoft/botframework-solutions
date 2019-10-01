@@ -3,7 +3,7 @@ category: Additional resources
 subcategory: Deployment
 title: Deployment Scripts
 description: Reference for deployment tools provided in the Virtual Assistant Template.
-order: 3
+order: 1
 ---
 
 # {{ page.title }}

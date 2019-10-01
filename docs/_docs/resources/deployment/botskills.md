@@ -3,7 +3,7 @@ category: Additional resources
 subcategory: Deployment
 title: BotSkills CLI Tool
 description: Details on usage and commands.
-order: 1
+order: 2
 ---
 
 # {{ page.title }}

@@ -22,7 +22,7 @@ The Conversational Analytics Power BI sample provides a Power BI template that c
 <a href="{{site.baseurl}}/assets/analytics/ConversationalAnalyticsSample_4_6_1.pbit" class="btn btn-primary">Download</a>
 </div>
 
-## Sample Overview
+## Overview
 
 |Dashboard Name|Description|
 |-|-|
@@ -38,7 +38,8 @@ The Conversational Analytics Power BI sample provides a Power BI template that c
 |[Sentiment](#sentiment)| If sentiment analysis is enabled, will show the average sentiment by day.|
 |[QnA Maker Insights](#qna-maker-insights)| Shows insights on user utterances matches with QnA Maker. |
 
-### Sample Query using Application Insights
+### Sample query using Application Insights
+{:.no_toc}
 
 Below is a sample query to create a `conversationalai` table in Power BI. This extracts bot activity, QnA results, sentiment and demographic data.
 
@@ -111,45 +112,56 @@ in
 ```
 
 ### Overall Usage
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-overall.png)
 
 ### All Dialogs Overview
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-alldialogsoverview.png)
 
 ### Dialog Overview
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-dialogoverview.png)
 
 ### LUIS Intents
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-luisintents.png)
 
 ### All Conversations Metrics
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-allconversationsmetrics.png)
 
 ### Conversations Drill Down
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-conversationsdrilldown.png)
 
 ### Transcript
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-transcript.png)
 
 ### Demographics
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-demographics.png)
 
 ### Word Cloud
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-wordcloud.png)
 
 ### Sentiment
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-sentimentanalysis.png)
 
 ### QnA Maker Insights
+{:.no_toc}
 
 ![Example Report]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-qnamakerinsights.png)
