@@ -3,7 +3,7 @@ category: Skills
 subcategory: Samples
 title: Email Skill
 description: Add email capabilities to your Assistant. Powered by Microsoft Graph and Google.
-order: 9
+order: 2
 ---
 
 # {{ page.title }}

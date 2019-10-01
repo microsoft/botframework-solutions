@@ -3,7 +3,7 @@ category: Skills
 subcategory: Samples
 title: Calendar Skill
 description: Add calendar capabilities to your Assistant. Powered by Microsoft Graph and Google.
-order: 8
+order: 1
 ---
 
 # {{ page.title }}
