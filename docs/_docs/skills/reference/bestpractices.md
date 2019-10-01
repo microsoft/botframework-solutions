@@ -1,9 +1,9 @@
 ---
 category: Skills
 subcategory: Reference
-title: Best Practices
-description: Best practices for developing your Bot Framework Skill.
-order: 2
+title: Best practices
+description: Best practices when developing a Bot Framework Skill.
+order: 4
 ---
 
 # {{ page.title }}

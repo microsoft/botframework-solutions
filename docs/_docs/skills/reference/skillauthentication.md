@@ -1,8 +1,8 @@
 ---
 category: Skills
 subcategory: Reference
-title: Skill Authentication
-description: Details on skill authentication approach and flow.
+title: Authentication flow
+description: Details on Skill authentication approach and flow.
 order: 4
 ---
 
@@ -87,3 +87,19 @@ public BotController(
 ```
 
 With all these changes in place, you're enabling your Skill to allow bots to invoke it as long as the bot's Microsoft App id is included in the whitelist.
+
+## Token Flow
+
+To ensure a standardized user experience across all Skills, the parent Bot is responsible for managing token requests. This helps to ensure that tokens common across multiple Skills can be shared and the user isn't prompted to authenticate for every Skill.
+When a token isn't already cached (e.g. first time use) the following flow occurs:
+- When a Skill requests a token, it asks the calling Bot for a token using an event called `tokens/request`
+- The Skill starts an EventPRompt waiting for an Event to be returned called `tokens/response`
+- The Bot makes use of an OAuthPrompt to surface a prompt to the user
+- When a token is retrieved it's returned to the Bot within a `tokens/response` activity, which is used to complete the OAuthPrompt and store the token securely
+- The same event is then forwarded to the Skill through the SkillDialog on the stack and provides a token for the Skill to use
+
+![Initial authentication flow for Skills]({{site.baseurl}}/assets/images/virtualassistant-SkillAuthInitialFlow.png)
+
+Subsequent activations benefit from the Azure Bot Service provided cache, which enables silent retrieval of a token.
+
+![Subsequent authentication flow for Skills]({{site.baseurl}}/assets/images/virtualassistant-SkillAuthSubsequentFlow.png)

@@ -1,8 +1,8 @@
 ---
 category: Skills
 subcategory: Reference
-title: Skill Manifest
-description: Overview of the skill manifest and its role with skill registration and invocation.
+title: Manifest
+description: Overview of the Skill manifest and its role with Skill registration and invocation.
 order: 3
 ---
 
