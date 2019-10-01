@@ -1,0 +1,11 @@
+﻿# cancelPrompt
+- 确实要取消吗？
+
+# cancelledConfirmedMessage
+- 好吧, 让我们重新开始。
+
+# cancelDeniedMessage
+- 好吧, 让我们继续走。
+
+# nothingToCancelMessage
+- 看来没什么可以取消的!
