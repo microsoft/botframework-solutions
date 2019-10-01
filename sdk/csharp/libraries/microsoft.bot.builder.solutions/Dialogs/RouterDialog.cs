@@ -123,7 +123,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         }
 
         /// <summary>
-        /// Called when an event activity is received.
+        /// Called when a message activity is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         }
 
         /// <summary>
-        /// Called when an event activity is received.
+        /// Called when a conversationUpdate activity is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -145,7 +145,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         }
 
         /// <summary>
-        /// Called when an event activity is received.
+        /// Called when an activity type other than event, message, or conversationUpdate is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
