@@ -84,3 +84,27 @@ This is then further complicated by the need to support multiple languages and r
 Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an existing Virtual Assistant through configuration only.
 
 All aspects of each Skill are completely customizable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
+
+## Next steps
+{:.no_toc}
+
+<div class="card-group">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create a Virtual Assistant (C#)</h4>
+            <p class="card-text">Get up and running with the solution accelerator.</p>
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: center;">
+            <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create a Virtual Assistant (TypeScript)</h4>
+            <p class="card-text">Personalize your experience for your brand and customers.</p>
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: center;">
+            <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+</div>
