@@ -86,7 +86,7 @@ namespace WeatherSkill.Dialogs
 
                 switch (intent)
                 {
-                    case WeatherSkillLuis.Intent.GetForecast:
+                    case WeatherSkillLuis.Intent.CheckWeatherValue:
                         {
                             await dc.BeginDialogAsync(nameof(ForecastDialog));
                             break;
