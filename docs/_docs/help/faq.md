@@ -37,8 +37,6 @@ order: 1
 
 ### What is the Botskills Command Line (CLI) tool?
 
-Botskills command line tool allows you to automate the connection between the Virtual Assistant and your Skills, which includes the process of updating your dispatch models and create authentication connections where needed. 
-
 ### How do I enable Skills on an existing v4 Bot?
 
 ### How do I convert an existing v4 Bot to a Skill?
