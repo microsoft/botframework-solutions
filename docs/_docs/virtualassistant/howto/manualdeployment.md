@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Deploy a Virtual Assistant manually
 description: How to manually deploy and configuring your Virtual Assistant
-order: 1
+order: 6
 ---
 
 # {{ page.title }}

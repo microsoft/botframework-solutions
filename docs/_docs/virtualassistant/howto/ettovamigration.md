@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Migrate from the Enterprise Template
 description: Guidance on how to move from an Enterprise Template based Bot to the new Template
-order: 6
+order: 12
 ---
 
 # {{ page.title }}

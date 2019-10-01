@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Send events to pass context to a Virtual Assistant
 description: Event activities enable contextual information to be shared between a user and assistant, without being visible to the user.
-order: 6
+order: 1
 ---
 
 # {{ page.title }}

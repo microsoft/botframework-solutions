@@ -17,29 +17,87 @@ order: 1
 
 ## Virtual Assistant
 
+### What is the Bot Framework Virtual Assistant solution accelerator?
+The Bot Framework Virtual Assistant template enables you to build a conversational assistant tailored to your brand, personalized for your users, and available across a broad range of clients and devices.
+This greatly simplifies the creation of a new bot project by providing basic conversational intents, a dispatch model, Language Understanding and QnA Maker integration, SKills, and automated ARM deployment.
+
+### What is the architecture of a Virtual Assistant solution?
+Learn more about the [Virtual Assistant solution architecture]().
+
+### How do I create a Virtual Assistant?
+Follow a guided tutorial to create a Virtual Assistant (available in [C#]() or [Typescript]()).
+
+### How do I customize a Virtual Assistant?
+Follow a guided tutorial to customize a Virtual Assistant (available in [C#]() or [Typescript]()).
+
+### How do I deploy a Virtual Assistant?
+Learn how to deploy a Virtual Assistant by [automated scripts]() or [manual configuration]().
+
+### How do I test a Virtual Assistant?
+Learn how to [test a Virtual Assistant]().
+
+### How do I pass events to a Virtual Assistant?
+Event activities are used to pass metadata between a Bot and user without being visible to the user. The data from these activities can be processed by a Virtual Assistant to fulfill scenarios like providing a summary of the day ahead or filling semantic action slots on a Skill.
+Learn more on [sample event activities packaged with the Virtual Assistant template]().
+
+### How do I link user accounts to a Virtual Assistant?
+
+### How do I collect feedback from users for a Virtual Assistant?
+
+### How does localization work for a Virtual Assistant?
+Learn how to [manage localization across a Virtual Assistant environment]().
+
+### How do I send proactive messages to users?
+Learn how to [send proactive messages to users]().
+
+### How do I convert from the Enterprise Template to the Virtual Assistant Template?
+Learn how to [convert from the Enterprise Template to the Virtual Assistant Template]().
+
+### How do I migrate from the Virtual Assistant solution (v0.3) to the Virtual Assistant Template?
+Learn how to [migrate from the Virtual Assistant solution to the Virtual Assistant Template]().
+
 ## Skills
 
 ### What is a Bot Framework Skill?
+Bot Framework SKills are re-usable skill building blocks covering conversational use-cases, enabling you to add extensive functionality to a Bot within minutes.
+Skills include Language Understanding models, dialogs, and integration code, and are delivered in source code - enabling you to customize and extend as required.
 
-### What Skills are available?
+### What sample Skills are available?
+The following sample Skills are available out of the box, with appropriate steps required to deploy and configure for your own use/
+- [Calendar]()
+- [Email]()
+- [To Do]()
+- [Point of Interest]()
+- [Experimental]()
 
 ### How do I create a Bot Framework Skill?
+Follow a guided tutorial to create a Bot Framework Skill (available in [C#]() or [Typescript]()).
 
 ### How do I customize a Bot Framework Skill?
+Follow a guided tutorial to customize a Bot Framework Skill (available in [C#]() or [Typescript]()).
 
-### What are the best practices when developing custom Skills?
+### What are the best practices when developing custom Bot Framework Skills?
+Learn the [best practices when developing a custom Bot Framework Skill]().
 
 ### How do I add Skills to a Virtual Assistant?
+Learn how to [add SKills to a Virtual Assistant]().
 
-### What is a Skill manifest?
+### What is a Bot Framework Skill manifest?
+The [Bot Framework Skill manifest]() enables Skills to be self-describing in that they communicate the name and sceription of a SKill, it's authentication requirements (if appropriate), along with discrete actions it exposes.
 
-### How does Skill authentication work?
+This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a Skill and what actions it provides. The manifest is used by the Botskills command line tool to configure a Bot to make use of a SKill.
+
+### How does Bot Framework Skill authentication work?
+A Skill needs to be able to authenticate the request from a Virtual Assistant, [learn how a Skill uses JWT and whitelist authentication]().
 
 ### What is the Botskills Command Line (CLI) tool?
+[Botskills command line tool]() allows you to automate teh connection between a Virtual Assistant and your Skills; this includes the process of updating your dispatch models and creating authentication connections when needed.
 
-### How do I enable Skills on an existing v4 Bot?
+### How do I enable Bot Framework Skills on an existing v4 Bot?
+Learn how to [enable Bot Framework Skill support on an existing v4 Bot]().
 
-### How do I convert an existing v4 Bot to a Skill?
+### How do I convert an existing v4 Bot to a Bot Framework Skill?
+Learn how to [convert an existing v4 Bot to a Bot Framework Skill]().
 
 ## Analytics
 

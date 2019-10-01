@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Send proactive messages to users
 description: Adding proactive experiences to your Assistant
-order: 5
+order: 9
 ---
 
 # {{ page.title }}

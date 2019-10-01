@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Test a Virtual Assistant
 description: How to test your assistant end-to-end.
-order: 4
+order: 5
 ---
 
 # {{ page.title }}

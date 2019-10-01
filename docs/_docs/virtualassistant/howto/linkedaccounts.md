@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Link user accounts to a Virtual Assistant
 description: Enable users to link third party accounts (e.g. Office 365) to your Assistant.
-order: 6
+order: 2
 ---
 
 # {{ page.title }}

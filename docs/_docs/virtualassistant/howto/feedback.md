@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Collect feedback from users
 description: Describes how to implement the FeedbackMiddleware to collect user feedback.
-order: 6
+order: 3
 ---
 
 # {{ page.title }}

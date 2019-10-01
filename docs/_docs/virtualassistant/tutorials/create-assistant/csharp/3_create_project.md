@@ -1,13 +1,12 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorials
-subsubcategory: Create a Virtual Assistant
+subcategory: Tutorial: Create a Virtual Assistant
 language: C#
 title: Create your assistant
 order: 3
 ---
 
-# Tutorial: {{page.subsubcategory}} ({{page.language}})
+# Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Create your Virtual Assistant project
 

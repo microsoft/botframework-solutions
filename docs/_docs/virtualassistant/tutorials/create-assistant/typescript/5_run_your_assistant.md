@@ -1,13 +1,12 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorials
-subsubcategory: Create a Virtual Assistant
+subcategory: Tutorial: Create a Virtual Assistant
 language: TypeScript
 title: Run your assistant
 order: 5
 ---
 
-# Tutorial: {{page.subsubcategory}} ({{page.language}})
+# Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Run your assistant
 When deployment is complete, you can run your Virtual Assistant through the following steps:

@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Create an Azure DevOps release pipeline
 description: Guidance on how to create and configure a release pipeline for your Virtual Assistant
-order: 1
+order: 7
 ---
 
 # {{ page.title }}

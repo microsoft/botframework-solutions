@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Manage localization across a Virtual Assistant environment
 description: Understanding the Virtual Assistant's approach to localizing conversations
-order: 6
+order: 4
 ---
 
 # {{ page.title }}

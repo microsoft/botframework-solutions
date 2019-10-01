@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Migrate from Virtual Assistant solution (v0.3)
 description: Guidance on how to move from the original Virtual Assistant solution to the new Template
-order: 7
+order: 11
 ---
 
 # {{ page.title }}

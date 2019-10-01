@@ -1,13 +1,12 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorials
-subsubcategory: Create a Virtual Assistant
+subcategory: Tutorial: Create a Virtual Assistant
 language: TypeScript
 title: Next steps
 order: 6
 ---
 
-# Tutorial: {{page.subsubcategory}} ({{page.language}})
+# Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Next Steps
 

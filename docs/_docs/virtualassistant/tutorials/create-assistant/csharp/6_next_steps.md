@@ -1,7 +1,6 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorials
-subsubcategory: Create a Virtual Assistant
+subcategory: Tutorial: Create a Virtual Assistant
 language: C#
 title: Next steps
 order: 6

@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: How-to
 title: Enable the Enterprise Notifications solution for a Virtual Assistant
 description: Steps for configuring the Enterprise Notifications sample
-order: 1
+order: 8
 ---
 
 # {{ page.title }}
