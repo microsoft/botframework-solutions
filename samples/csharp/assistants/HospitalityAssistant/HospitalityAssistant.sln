@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalityAssistant", "HospitalityAssistant.csproj", "{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virtual Assistant", "Virtual Assistant", "{2499BB55-6DD4-423D-8194-41987F6F3C11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7FF8B3C-519B-4AFC-A8FC-2CCF3078BB1D} = {2499BB55-6DD4-423D-8194-41987F6F3C11}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9D0038C-86BC-40C9-816C-A3F40ACCC77B}
+	EndGlobalSection
+EndGlobal

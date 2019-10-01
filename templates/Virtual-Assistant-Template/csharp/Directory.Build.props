@@ -10,6 +10,7 @@
   <PropertyGroup>
     <RestoreAdditionalProjectSources>
       https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+      https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 

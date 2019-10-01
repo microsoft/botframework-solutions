@@ -1,0 +1,11 @@
+﻿# cancelPrompt
+- Sind Sie sicher, dass Sie absagen wollen?
+
+# cancelledConfirmedMessage
+- Sicher, fangen wir an.
+
+# cancelDeniedMessage
+- Sicher, machen wir weiter.
+
+# nothingToCancelMessage
+- Es sieht so aus, als gäbe es nichts zu stornieren!
