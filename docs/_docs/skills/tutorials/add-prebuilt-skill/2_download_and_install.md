@@ -1,7 +1,7 @@
 ---
 layout: tutorial
-category: Tutorials
-subcategory: Connect a pre-built skill
+category: Skills
+subcategory: Connect to a sample Skill
 title: Download and install
 order: 2
 ---

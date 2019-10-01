@@ -1,7 +1,6 @@
 ---
 category: Skills
-subcategory: Tutorials
-subsubcategory: Create a Skill
+subcategory: Create a Skill
 language: TypeScript
 title: Download and install
 order: 2

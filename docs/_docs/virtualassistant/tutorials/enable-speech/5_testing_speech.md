@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Speech
+category: Virtual Assistant
+subcategory: Enable speech 
 title: Test speech
 order: 5
 ---

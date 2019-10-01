@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Tutorial: Create a Virtual Assistant
+subcategory: Create a Virtual Assistant
 language: C#
 title: Intro
 order: 1

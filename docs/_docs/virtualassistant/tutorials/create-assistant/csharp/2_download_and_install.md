@@ -1,6 +1,6 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorial: Create a Virtual Assistant
+subcategory: Create a Virtual Assistant
 language: C#
 title: Download and install
 order: 2

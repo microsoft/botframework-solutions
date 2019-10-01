@@ -41,8 +41,10 @@ Event activities are used to pass metadata between a Bot and user without being 
 Learn more on [sample event activities packaged with the Virtual Assistant template]().
 
 ### How do I link user accounts to a Virtual Assistant?
+Learn how to [link user accounts to a Virtual Assistant]().
 
 ### How do I collect feedback from users for a Virtual Assistant?
+Learn more about using the [sample feedback middleware that enables you to capture feedback from a Virtual Assistant's users]() in Application Insights telemetry.
 
 ### How does localization work for a Virtual Assistant?
 Learn how to [manage localization across a Virtual Assistant environment]().

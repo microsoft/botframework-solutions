@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Speech
+category: Virtual Assistant
+subcategory: Enable speech 
 title: Create a Microsoft Speech instance
 order: 2
 ---

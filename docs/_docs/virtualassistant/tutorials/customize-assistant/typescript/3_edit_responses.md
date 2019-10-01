@@ -1,7 +1,6 @@
 ---
 category: Virtual Assistant
-subcategory: Tutorials
-subsubcategory: Customize a Virtual Assistant
+subcategory: Customize a Virtual Assistant
 language: TypeScript
 title: Edit your responses
 order: 3

@@ -1,7 +1,6 @@
 ---
 category: Skills
-subcategory: Tutorials
-subsubcategory: Customize a Skill
+subcategory: Customize a Skill
 language: TypeScript
 title: Publish your skill
 order: 4

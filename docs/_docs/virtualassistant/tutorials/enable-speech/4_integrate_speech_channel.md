@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Speech
+category: Virtual Assistant
+subcategory: Enable speech 
 title: Build speech sample app
 order: 4
 ---

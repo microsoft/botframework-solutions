@@ -1,7 +1,6 @@
 ---
 category: Skills
-subcategory: Tutorials
-subsubcategory: Create a Skill
+subcategory: Create a Skill
 language: C#
 title: Provision your Azure resources
 order: 4

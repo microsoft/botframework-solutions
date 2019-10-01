@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Speech
+category: Virtual Assistant
+subcategory: Enable speech 
 title: Add the Direct Line Speech channel
 order: 3
 ---

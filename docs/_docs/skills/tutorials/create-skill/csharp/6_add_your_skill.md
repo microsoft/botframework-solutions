@@ -1,7 +1,6 @@
 ---
 category: Skills
-subcategory: Tutorials
-subsubcategory: Create a Skill
+subcategory: Create a Skill
 language: C#
 title: Add your skill to a Virtual Assistant
 order: 6

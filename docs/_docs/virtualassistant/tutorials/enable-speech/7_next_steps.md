@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Speech
+category: Virtual Assistant
+subcategory: Enable speech
 title: Next steps
 order: 7
 ---

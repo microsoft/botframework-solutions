@@ -1,6 +1,6 @@
 ---
 category: Virtual Assistant
-title: What is the Virtual Assistant?
+title: What is the Virtual Assistant solution accelerator?
 order: 1
 ---
 

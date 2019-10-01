@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Microsoft Teams
+category: Virtual Assistant
+subcategory: Extend to Microsoft Teams
 title: Install App Studio
 order: 3
 ---

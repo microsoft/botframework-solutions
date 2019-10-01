@@ -1,6 +1,6 @@
 ---
-category: Tutorials
-subcategory: Enable Microsoft Teams
+category: Virtual Assistant
+subcategory: Extend to Microsoft Teams
 title: Add Microsoft Teams channel
 order: 2
 ---
