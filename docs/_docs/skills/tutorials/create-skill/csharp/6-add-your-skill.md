@@ -9,6 +9,8 @@ order: 6
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
+## {{ page.title }}
+
 ## Validate the Skill manifest endpoint
 
 - To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`

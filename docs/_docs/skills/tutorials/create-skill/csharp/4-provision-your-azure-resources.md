@@ -9,7 +9,7 @@ order: 4
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Deploy your Skill
+## {{ page.title }}
 
 The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 

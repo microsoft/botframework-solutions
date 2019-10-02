@@ -6,10 +6,9 @@ title: Connect skill
 order: 4
 ---
 
-# Tutorial: {{page.subcategory}}
+# Tutorial: {{page.subcategory}} 
 
-
-## Connect your Skill to an assistant
+## {{ page.title }}
 
 Once you've deployed your Skill you can now add it to your Assistant. 
 

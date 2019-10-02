@@ -8,7 +8,7 @@ order: 3
 
 # Tutorial: {{page.subcategory}} 
 
-## Deploy skill project
+## {{ page.title }}
 
 Choose which of the provided Skills you wish to add to your Virtual Assistant, click one of the links below and follow the **`Skill Deployment`** instructions to deploy your own instance of this Skill.
 

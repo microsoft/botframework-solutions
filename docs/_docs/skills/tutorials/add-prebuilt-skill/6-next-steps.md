@@ -6,9 +6,9 @@ title: Next steps
 order: 6
 ---
 
-# Tutorial: {{page.subcategory}}
+# Tutorial: {{page.subcategory}} 
 
-## Next steps
+## {{ page.title }}
 
 Now that you've connected a pre-built skill to your assitant, try out these other tutorials:
 

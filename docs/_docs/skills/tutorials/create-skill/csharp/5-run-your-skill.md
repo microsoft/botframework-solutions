@@ -9,7 +9,7 @@ order: 5
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Test your Skill
+## {{ page.title }}
 
 Once deployment is complete, you can start debugging through the following steps:
 

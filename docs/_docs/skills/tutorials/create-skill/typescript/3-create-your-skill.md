@@ -9,7 +9,7 @@ order: 3
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Create your Skill
+## {{ page.title }}
 
 Install the botbuilder-assistant generator
 

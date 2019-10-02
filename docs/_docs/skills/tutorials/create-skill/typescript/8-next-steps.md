@@ -9,7 +9,7 @@ order: 8
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Next Steps
+## {{ page.title }}
 
 Now that you've created your custom skill, try the one of these tutorials:
 

@@ -6,9 +6,9 @@ title: Intro
 order: 1
 ---
 
-# Tutorial: {{page.subcategory}}
+# Tutorial: {{page.subcategory}} 
 
-## Intro
+## {{ page.title }}
 
 ### Purpose
 

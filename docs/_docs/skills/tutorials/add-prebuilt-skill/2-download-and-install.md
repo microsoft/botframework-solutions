@@ -8,7 +8,7 @@ order: 2
 
 # Tutorial: {{page.subcategory}} 
 
-## Download and install
+## {{ page.title }}
 
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 

@@ -9,7 +9,7 @@ order: 3
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Create your Skill
+## {{ page.title }}
 
 1. In Visual Studio, click **File > New Project**.
 2. Under Bot, select **Skill Template**.

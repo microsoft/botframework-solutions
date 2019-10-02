@@ -6,9 +6,9 @@ title: Test skill
 order: 5
 ---
 
-# Tutorial: {{page.subcategory}}
+# Tutorial: {{page.subcategory}} 
 
-## Testing your Skill
+## {{ page.title }}
 
 Refer to the documentation page in the table below for an example question that you can ask to validate that your Assistant can now perform additional capabilities with no additional code changes.
 

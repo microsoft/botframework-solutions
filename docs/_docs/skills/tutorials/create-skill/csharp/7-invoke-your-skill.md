@@ -9,6 +9,6 @@ order: 7
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Testing your Skill
+## {{ page.title }}
 
 Test your skill works in your Bot through the emulator by typing "sample dialog"
