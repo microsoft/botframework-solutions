@@ -1,21 +1,14 @@
 ---
-category: Additional resources
-subcategory: Analytics
-title: Conversational Analytics Power BI Sample
-description: Detailed information on how the provided Power BI template provides insights into your assistant usage.
-order: 3
+layout: tutorial
+category: Virtual Assistant
+subcategory: View analytics with Power BI
+title: Intro
+order: 1
 ---
 
-# {{ page.title }}
-{:.no_toc}
+# Tutorial: {{page.subcategory}}
 
-## In this reference
-{:.no_toc}
-
-* 
-{:toc}
-
-## Intro
+## {{ page.title }}
 The Conversational Analytics Power BI sample provides a Power BI template that can be used to understand how your bot is performing.
 
 <div>

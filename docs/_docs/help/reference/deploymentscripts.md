@@ -1,6 +1,6 @@
 ---
-category: Additional resources
-subcategory: Deployment
+category: Help
+subcategory: Reference
 title: Deployment Scripts
 description: Reference for deployment tools provided in the Virtual Assistant Template.
 order: 1

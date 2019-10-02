@@ -1,6 +1,6 @@
 ---
-category: Additional resources
-subcategory: Deployment
+category: Help
+subcategory: Reference
 title: BotSkills CLI Tool
 description: Details on usage and commands.
 order: 2
