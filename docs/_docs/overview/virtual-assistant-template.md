@@ -1,13 +1,14 @@
 ---
-category: Virtual Assistant
-subcategory: Handbook
-title: Understanding the Template
+category: Overview
+title: What's in the Virtual Assistant template?
 description: An outline of what the Virtual Assistant template provides
 order: 2
 ---
 
 # {{ page.title }}
 {:.no_toc}
+
+{{ page.description }}
 
 ## In this reference
 {:.no_toc}
