@@ -2,8 +2,8 @@
 layout: tutorial
 category: Skills
 subcategory: Convert a v4 Bot to a Skill
-title: Add a Skill Manifest
 language: C#
+title: Add a Skill Manifest
 order: 3
 ---
 
