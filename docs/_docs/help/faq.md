@@ -82,12 +82,12 @@ Follow a guided tutorial to customize a Bot Framework Skill (available in [C#]({
 Learn the [best practices when developing a custom Bot Framework Skill]({{site.baseurl}}/reference/skills/bestpractices).
 
 ### How do I add Skills to a Virtual Assistant?
-Learn how to [add SKills to a Virtual Assistant]({{site.baseurl}}/howto/skills/addingskills).
+Learn how to [add Skills to a Virtual Assistant]({{site.baseurl}}/howto/skills/addingskills).
 
 ### What is a Bot Framework Skill manifest?
 The [Bot Framework Skill manifest]({{site.baseurl}}/reference/skills/skillmanifest) enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements (if appropriate), along with discrete actions it exposes.
 
-This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a Skill and what actions it provides. The manifest is used by the Botskills command line tool to configure a Bot to make use of a SKill.
+This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a Skill and what actions it provides. The manifest is used by the Botskills command line tool to configure a Bot to make use of a Skill.
 
 ### How does Bot Framework Skill authentication work?
 A Skill needs to be able to authenticate the request from a Virtual Assistant, [learn how a Skill uses JWT and whitelist authentication]({{site.baseurl}}/reference/skillauthentication).
