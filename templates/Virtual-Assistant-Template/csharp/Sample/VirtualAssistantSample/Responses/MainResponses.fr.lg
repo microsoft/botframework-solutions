@@ -11,7 +11,14 @@
 - Désolé, on dirait que quelque chose a mal tourné.
 
 # logoutTemplate
-- 
+- Ok, tu es signé.
+
+# escalateMessage
+- ```
+[HeroCard
+  subtitle=Nos agents sont disponibles 24/7 au 1 (800) 555-1234.
+]
+```
 
 # newUserIntroTemplate
 - ```
