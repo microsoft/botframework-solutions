@@ -2,8 +2,8 @@
 layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot with Skills
-title: Forward queries to Skills
 language: TypeScript
+title: Forward queries to Skills
 order: 5
 ---
 

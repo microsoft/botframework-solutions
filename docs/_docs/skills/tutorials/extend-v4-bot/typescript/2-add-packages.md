@@ -2,8 +2,8 @@
 layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot with Skills
-title: Add Bot Framework Solutions packages
 language: TypeScript
+title: Add Bot Framework Solutions packages
 order: 2
 ---
 

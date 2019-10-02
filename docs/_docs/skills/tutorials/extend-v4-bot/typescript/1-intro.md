@@ -2,8 +2,8 @@
 layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot with Skills
-title: Intro
 language: TypeScript
+title: Intro
 order: 1
 ---
 
