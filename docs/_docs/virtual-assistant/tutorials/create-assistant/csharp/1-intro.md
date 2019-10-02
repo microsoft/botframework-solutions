@@ -7,7 +7,7 @@ title: Intro
 order: 1
 ---
 
-# {{page.subcategory}} ({{page.language}})
+# Tutorial: {{page.subcategory}} ({{page.language}})
 ## Intro
 
 ### Purpose

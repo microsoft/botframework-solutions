@@ -6,7 +6,8 @@ title: Connect skill
 order: 4
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}}
+
 
 ## Connect your Skill to an assistant
 

@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Change the voice
 order: 6
 ---
 
-# Tutorial: Enable Speech for your Assistant
+# Tutorial: {{page.subcategory}}
 
 ## Changing the Voice
 

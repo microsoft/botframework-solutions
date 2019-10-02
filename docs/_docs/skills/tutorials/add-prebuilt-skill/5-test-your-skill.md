@@ -6,7 +6,7 @@ title: Test skill
 order: 5
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}}
 
 ## Testing your Skill
 

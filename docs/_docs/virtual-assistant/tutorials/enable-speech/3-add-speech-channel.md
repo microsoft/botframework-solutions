@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Add the Direct Line Speech channel
 order: 3
 ---
 
-# Tutorial: Enable Speech for your Assistant
+# Tutorial: {{page.subcategory}}
 
 ## Add the Direct Line Speech channel to your Assistant
 

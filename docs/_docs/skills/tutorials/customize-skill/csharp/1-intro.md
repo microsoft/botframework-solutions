@@ -1,4 +1,5 @@
 ---
+layout: tutorial
 category: Skills
 subcategory: Customize a Skill
 language: C#

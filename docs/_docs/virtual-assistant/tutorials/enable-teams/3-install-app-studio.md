@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Extend to Microsoft Teams
 title: Install App Studio
 order: 3
 ---
 
-# Tutorial: Adding your Assistant to Microsoft Teams
+# Tutorial: {{page.subcategory}}
 
 ## Installing App Studio
 

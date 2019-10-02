@@ -1,4 +1,5 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Customize a Virtual Assistant
 language: TypeScript

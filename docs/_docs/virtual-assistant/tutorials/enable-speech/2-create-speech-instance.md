@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Create a Microsoft Speech instance
 order: 2
 ---
 
-# Tutorial: Enable Speech for your Assistant
+# Tutorial: {{page.subcategory}}
 
 ## Create a Microsoft Speech Azure resource
 

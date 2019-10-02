@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Test speech
 order: 5
 ---
 
-# Tutorial: Enable Speech for your Assistant
+# Tutorial: {{page.subcategory}}
 
 ## Testing Speech Interactions
 

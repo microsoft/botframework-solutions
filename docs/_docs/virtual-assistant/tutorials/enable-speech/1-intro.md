@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Intro
 order: 1
 ---
 
-# Tutorial: Enable Speech for your Assistant
+# Tutorial: {{page.subcategory}}
 
 ## Intro
 

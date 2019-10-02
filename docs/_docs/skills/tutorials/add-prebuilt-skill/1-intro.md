@@ -6,7 +6,7 @@ title: Intro
 order: 1
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}}
 
 ## Intro
 

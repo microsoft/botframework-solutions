@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Extend to Microsoft Teams
 title: Test in Teams
 order: 5
 ---
 
-# Tutorial: Adding your Assistant to Microsoft Teams
+# Tutorial: {{page.subcategory}}
 
 ## Testing in Teams
 

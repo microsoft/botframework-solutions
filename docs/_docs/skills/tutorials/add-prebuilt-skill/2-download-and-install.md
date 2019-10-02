@@ -6,7 +6,7 @@ title: Download and install
 order: 2
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}} 
 
 ## Download and install
 

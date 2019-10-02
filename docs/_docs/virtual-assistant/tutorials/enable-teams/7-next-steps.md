@@ -1,11 +1,12 @@
 ---
+layout: tutorial
 category: Virtual Assistant
 subcategory: Extend to Microsoft Teams
 title: Next steps
 order: 7
 ---
 
-# Tutorial: Adding your Assistant to Microsoft Teams
+# Tutorial: {{page.subcategory}}
 
 ## Next Steps
 

@@ -6,7 +6,7 @@ title: Next steps
 order: 6
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}}
 
 ## Next steps
 

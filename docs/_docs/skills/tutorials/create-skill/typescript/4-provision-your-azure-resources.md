@@ -1,4 +1,5 @@
 ---
+layout: tutorial
 category: Skills
 subcategory: Create a Skill
 language: TypeScript

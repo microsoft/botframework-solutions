@@ -6,7 +6,7 @@ title: Deploy skill project
 order: 3
 ---
 
-# Tutorial: Connect a pre-built skill to your assistant
+# Tutorial: {{page.subcategory}} 
 
 ## Deploy skill project
 
