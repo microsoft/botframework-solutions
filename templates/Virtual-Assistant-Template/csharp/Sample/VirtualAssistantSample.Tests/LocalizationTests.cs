@@ -24,7 +24,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity =>
                 {
@@ -49,7 +49,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity =>
                 {
@@ -74,7 +74,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity =>
                 {
@@ -99,7 +99,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity =>
                 {
@@ -124,7 +124,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity =>
                 {

@@ -26,8 +26,6 @@ namespace VirtualAssistantSample.Tests.Utilities
             { GeneralUtterances.ShowPrevious, CreateIntent(GeneralUtterances.ShowPrevious, DispatchLuis.Intent.l_General) },
             { GeneralUtterances.StartOver, CreateIntent(GeneralUtterances.StartOver, DispatchLuis.Intent.l_General) },
             { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, DispatchLuis.Intent.l_General) },
-            { FaqUtterances.Overview, CreateIntent(FaqUtterances.Overview, DispatchLuis.Intent.q_Faq) },
-            { ChitchatUtterances.Greeting, CreateIntent(ChitchatUtterances.Greeting, DispatchLuis.Intent.q_Chitchat) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()

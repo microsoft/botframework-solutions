@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -23,10 +24,10 @@ namespace VirtualAssistantSample.Tests
             await GetTestFlow()
                 .Send(new Activity()
                 {
-                    ChannelId = Channels.Emulator,
-                    Type = ActivityTypes.Event,
-                    Value = new JObject(new JProperty("action", "startOnboarding"))
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
+                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                 .Send(testName)
                 .AssertReply(TemplateEngine.EvaluateTemplate("haveNameMessage", data))
