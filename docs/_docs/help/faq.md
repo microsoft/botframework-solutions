@@ -61,7 +61,7 @@ Learn how to [update from the Virtual Assistant solution (v0.3 and earlier)]({{s
 ## Skills
 
 ### What is a Bot Framework Skill?
-Bot Framework SKills are re-usable skill building blocks covering conversational use-cases, enabling you to add extensive functionality to a Bot within minutes.
+Bot Framework Skills are re-usable skill building blocks covering conversational use-cases, enabling you to add extensive functionality to a Bot within minutes.
 Skills include Language Understanding models, dialogs, and integration code, and are delivered in source code - enabling you to customize and extend as required.
 
 ### What sample Skills are available?
