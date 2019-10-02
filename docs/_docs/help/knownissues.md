@@ -1,6 +1,6 @@
 ---
-category: Reference
-title: Known Issues
+category: Help
+title: Known issues
 order: 2
 ---
 
