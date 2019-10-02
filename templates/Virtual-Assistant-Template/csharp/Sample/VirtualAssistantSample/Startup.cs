@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.ApplicationInsights;
@@ -66,7 +65,6 @@ namespace VirtualAssistantSample
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-
             var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
             services.AddSingleton(appCredentials);
 
@@ -85,43 +83,25 @@ namespace VirtualAssistantSample
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
 
             services.AddSingleton(new TemplateEngine()
                 .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg"))
-                .AddFile(Path.Combine(".", "Responses", "EscalateResponses.lg"))
-                .AddFile(Path.Combine(".", "Responses", "CancelResponses.lg")));
+                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg")));
 
             services.AddSingleton<TextActivityGenerator>();
             services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
 
             // Register dialogs
-            services.AddTransient<CancelDialog>();
-            services.AddTransient<EscalateDialog>();
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
 
-            // Register skill dialogs
-            services.AddTransient(sp =>
+            foreach (var skill in settings.Skills)
             {
-                var userState = sp.GetService<UserState>();
-                var skillDialogs = new List<SkillDialog>();
-
-                foreach (var skill in settings.Skills)
-                {
-                    var authDialog = BuildAuthDialog(skill, settings, appCredentials);
-                    var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
-                }
-
-                return skillDialogs;
-            });
+                var userState = provider.GetService<UserState>();
+                var authDialog = BuildAuthDialog(skill, settings, appCredentials);
+                var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
+                services.AddTransient(sp => new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+            }
 
             // Configure adapters
             // DefaultAdapter is for all regular channels that use Http transport
@@ -134,7 +114,7 @@ namespace VirtualAssistantSample
             services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
