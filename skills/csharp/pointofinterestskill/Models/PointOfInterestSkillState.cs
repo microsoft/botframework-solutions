@@ -25,6 +25,8 @@ namespace PointOfInterestSkill.Models
 
         public List<RouteDirections.Summary> FoundRoutes { get; set; }
 
+        public bool ShouldInterrupt { get; set; }
+
         public string Keyword { get; set; }
 
         public string Address { get; set; }

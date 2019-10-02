@@ -61,7 +61,12 @@
       ],
       "selectAction": {
         "type": "Action.Submit",
-        "data": "{SubmitText}"
+        "data": {
+          "msteams": {
+            "type": "imBack",
+            "value": "{SubmitText}"
+          }
+        }
       }
     }
   ],

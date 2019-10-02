@@ -81,8 +81,8 @@ namespace PointOfInterestSkill.Dialogs
 
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.None });
-            AddDialog(new ChoicePrompt(Actions.SelectActionPrompt) { Style = ListStyle.None });
+            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
+            AddDialog(new ChoicePrompt(Actions.SelectActionPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
@@ -113,8 +113,29 @@ namespace PointOfInterestSkill.Dialogs
             return replyEvent;
         }
 
+        public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext outerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var result = await base.ContinueDialogAsync(outerDc, cancellationToken);
+            var state = await Accessor.GetAsync(outerDc.Context);
+            if (state.ShouldInterrupt)
+            {
+                // Assume already call CancelAllDialogsAsync
+                // TODO Empty indicates RouteAsync in RouterDialog
+                state.ShouldInterrupt = false;
+                return new DialogTurnResult(DialogTurnStatus.Empty);
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Clear interrupt state
+            var state = await Accessor.GetAsync(dc.Context);
+            state.ShouldInterrupt = false;
+
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
@@ -183,6 +204,12 @@ namespace PointOfInterestSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                if (state.ShouldInterrupt)
+                {
+                    return await sc.CancelAllDialogsAsync();
+                }
+
                 var cancelMessage = ResponseManager.GetResponse(POISharedResponses.CancellingMessage);
 
                 if (sc.Result != null)
@@ -323,6 +350,12 @@ namespace PointOfInterestSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                if (state.ShouldInterrupt)
+                {
+                    return await sc.CancelAllDialogsAsync();
+                }
+
                 var defaultReplyMessage = ResponseManager.GetResponse(POISharedResponses.GetRouteToActiveLocationLater);
 
                 if (sc.Result != null)
@@ -403,6 +436,11 @@ namespace PointOfInterestSkill.Dialogs
         protected async Task<DialogTurnResult> ProcessPointOfInterestAction(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
+
+            if (state.ShouldInterrupt)
+            {
+                return await sc.CancelAllDialogsAsync();
+            }
 
             var choice = sc.Result as FoundChoice;
             int choiceIndex = choice.Index;
@@ -825,6 +863,33 @@ namespace PointOfInterestSkill.Dialogs
         {
             var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
             return $"{serverUrl}/images/{imagePath}";
+        }
+
+        private async Task<bool> InterruptablePromptValidator<T>(PromptValidatorContext<T> promptContext, CancellationToken cancellationToken)
+        {
+            if (promptContext.Recognized.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.CognitiveModelSets[locale];
+                localeConfig.LuisServices.TryGetValue("PointOfInterest", out var poiService);
+                var poiResult = await poiService.RecognizeAsync<PointOfInterestLuis>(promptContext.Context, CancellationToken.None);
+                var topIntent = poiResult.TopIntent();
+
+                if (topIntent.score > 0.5 && topIntent.intent != PointOfInterestLuis.Intent.None)
+                {
+                    var state = await Accessor.GetAsync(promptContext.Context);
+                    state.ShouldInterrupt = true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         private class ImageSize
