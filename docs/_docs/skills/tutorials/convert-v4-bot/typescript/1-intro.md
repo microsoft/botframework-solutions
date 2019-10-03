@@ -24,4 +24,3 @@ If you want to manually update your existing bot into a Bot Framework Skill, you
 XX minutes
 
 ### Scenario
-

@@ -74,6 +74,10 @@
                                         {% if language.name != '' %}
                                         {% if language.name == 'C#' %}
                                         {% assign languageName = "csharp" %}
+                                        {% else if language.name == 'Using CLI tools' %}
+                                        {% assign languageName = "cli" %}
+                                        {% else if language.name == 'Using the web' %}
+                                        {% assign languageName = "web" %}
                                         {% else %}
                                         {% assign languageName = language.name %}
                                         {% endif %}

@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: View analytics with Power BI
+subcategory: View analytics using Power BI
 title: Intro
 order: 1
 ---
