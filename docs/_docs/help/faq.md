@@ -18,7 +18,7 @@ order: 1
 ## Virtual Assistant
 
 ### What is the Bot Framework Virtual Assistant solution accelerator?
-The Bot Framework Virtual Assistant template enables you to build a conversational assistant tailored to your brand, personalized for your users, and available across a broad range of clients and devices.
+The Bot Framework Virtual Assistant solution accelerator enables you to build a conversational assistant tailored to your brand, personalized for your users, and available across a broad range of clients and devices.
 This greatly simplifies the creation of a new bot project by providing basic conversational intents, a dispatch model, Language Understanding and QnA Maker integration, Skills, and automated ARM deployment.
 
 ### What is the architecture of a Virtual Assistant solution?
