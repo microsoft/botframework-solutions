@@ -8,7 +8,7 @@ order: 1
 
 # Tutorial: {{page.subcategory}}
 
-## Intro
+## {{ page.title }}
 
 ### Purpose
 

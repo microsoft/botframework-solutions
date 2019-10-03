@@ -8,7 +8,7 @@ order: 1
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
-## Intro
+## {{ page.title }}
 
 ### Purpose
 Install Bot Framework development prerequisites and create your first Virtual Assistant.
