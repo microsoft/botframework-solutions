@@ -224,18 +224,7 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
 
 // Listen for incoming requests
 server.get('/api/messages', async (req: restify.Request, res: restify.ServerUpgradeResponse, next: restify.Next): Promise<void> => {
-    if (res.claimUpgrade === undefined) {
-        next(new Error('Connection must upgrade for WebSockets'));
-
-        return;
-    }
-    const resUpgrade: restify.ServerUpgradeResponse = res.claimUpgrade();
-    await webSocketAdapter.connectWebSocket(req, resUpgrade, adapterSettings);
-    // DefaultWebSocketAdapter is for directline speech channel
-    await webSocketAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
-    });
+    await webSocketAdapter.connectWebSocket(req, res, adapterSettings);
 });
 
 // This method creates a MultiProviderAuthDialog based on a skill manifest.
