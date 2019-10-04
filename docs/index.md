@@ -137,25 +137,6 @@ layout: default
     </div>
 </div>
 
-## How To
-> How-to guides for achieving more complex scenarios.
-
-{% assign howtos = site.docs | where: 'category', 'How To' %}
-
-| Category | Title | Description |
-| --- | --- | --- |
-{% for subcategory in site.data.toc["How To"] %}{% assign items = howtos | where: 'subcategory', subcategory | sort: 'order' %}{% for item in items %}| {{item.subcategory}} | [{{ item.title }}]({{ site.baseurl }}{{ item.url }}) | {{ item.description }} |
-{% endfor %}{% endfor %}
-
-## Reference
-> Reference documentation providing more details on concepts across the Virtual Assistant, Skills and Analytics
-{% assign refs = site.docs | where: 'category', 'Reference' %}
-
-| Category | Title | Description |
-| --- | --- | --- |
-{% for subcategory in site.data.toc["Reference"] %}{% assign items = refs | where: 'subcategory', subcategory | sort: 'order' %}{% for item in items %}| {{ item.subcategory }} | [{{ item.title }}]({{ site.baseurl }}{{ item.url }}) | {{ item.description }} |
-{% endfor %}{% endfor %}
-
 ## Need Help?
 For questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 
 
