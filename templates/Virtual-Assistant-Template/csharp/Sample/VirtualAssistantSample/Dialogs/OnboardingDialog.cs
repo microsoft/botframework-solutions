@@ -1,15 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
-using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -22,19 +23,16 @@ namespace VirtualAssistantSample.Dialogs
         private OnboardingState _state;
 
         public OnboardingDialog(
-            BotServices botServices,
-            TemplateEngine templateEngine,
-            ILanguageGenerator langGenerator,
-            TextActivityGenerator activityGenerator,
-            UserState userState,
+            IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = templateEngine;
-            _langGenerator = langGenerator;
-            _activityGenerator = activityGenerator;
+            _templateEngine = serviceProvider.GetService<TemplateEngine>();
+            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
+            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+
+            var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
             {
@@ -45,7 +43,7 @@ namespace VirtualAssistantSample.Dialogs
             // To capture built-in waterfall dialog telemetry, set the telemetry client
             // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(nameof(onboarding), onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
         }
 

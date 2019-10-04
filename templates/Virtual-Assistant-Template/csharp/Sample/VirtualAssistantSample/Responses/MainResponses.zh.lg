@@ -11,7 +11,14 @@
 - 对不起, 看起来出了问题。
 
 # logoutTemplate
-- 
+- 好了，您已注销。
+
+# escalateMessage
+- ```
+[HeroCard
+  subtitle=我们的客服在 1 (800) 555-1234 提供全天候服务。
+]
+```
 
 # newUserIntroTemplate
 - ```

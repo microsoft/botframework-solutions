@@ -23,8 +23,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily59" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily59" />
     <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-09-25-01" />
@@ -36,42 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\CancelResponses.de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.zh.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.zh.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\MainResponses.de.lg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
