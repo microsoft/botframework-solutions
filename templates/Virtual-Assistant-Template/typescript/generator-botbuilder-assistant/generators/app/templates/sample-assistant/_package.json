@@ -29,6 +29,7 @@
         "botbuilder-dialogs": "^4.5.3",
         "botbuilder-skills": "^4.4.8",
         "botbuilder-solutions": "^4.4.8",
+        "botbuilder-streaming-extensions": "^4.6.0-preview.76590",
         "botframework-config": "^4.5.3",
         "botframework-connector": "^4.5.3",
         "botframework-schema": "^4.5.3",
