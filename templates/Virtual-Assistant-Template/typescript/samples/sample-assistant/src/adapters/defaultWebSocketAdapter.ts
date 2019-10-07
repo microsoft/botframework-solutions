@@ -5,7 +5,6 @@
 
 import {
     BotTelemetryClient,
-    MemoryTranscriptStore,
     ShowTypingMiddleware,
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
@@ -37,7 +36,8 @@ export class DefaultWebSocketAdapter extends BotFrameworkStreamingAdapter {
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
 
-        this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
+        // Uncomment the following line for local development without Azure Storage
+        // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
