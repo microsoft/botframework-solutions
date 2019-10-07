@@ -156,6 +156,7 @@ namespace ITSMSkill.Dialogs
             }
 
             var management = ServiceManager.CreateManagement(Settings, state.Token);
+
             var urgencies = new List<UrgencyLevel>();
             if (state.UrgencyLevel != UrgencyLevel.None)
             {
@@ -168,6 +169,18 @@ namespace ITSMSkill.Dialogs
                 states.Add(state.TicketState);
             }
 
+            var countResult = await management.CountTicket(description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
+
+            if (!countResult.Success)
+            {
+                return await SendServiceErrorAndCancel(sc, countResult);
+            }
+
+            // adjust PageIndex
+            int maxPage = Math.Max(0, (countResult.Tickets.Length - 1) / Settings.LimitSize);
+            state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
+
+            // TODO handle consistency with count
             var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!result.Success)
@@ -188,6 +201,7 @@ namespace ITSMSkill.Dialogs
                 }
                 else
                 {
+                    // it is unlikely to happen now
                     var token = new StringDictionary()
                     {
                         { "Page", (state.PageIndex + 1).ToString() }
@@ -215,7 +229,8 @@ namespace ITSMSkill.Dialogs
 
                 var token = new StringDictionary()
                 {
-                    { "Page", (state.PageIndex + 1).ToString() }
+                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
+                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
                 };
 
                 var options = new PromptOptions()

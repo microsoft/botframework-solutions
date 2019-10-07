@@ -115,6 +115,33 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Go forward/previous&quot; to navigate..
+        /// </summary>
+        public static string GoBoth {
+            get {
+                return ResourceManager.GetString("GoBoth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Go forward&quot; to navigate..
+        /// </summary>
+        public static string GoForward {
+            get {
+                return ResourceManager.GetString("GoForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Go previous&quot; to navigate..
+        /// </summary>
+        public static string GoPrevious {
+            get {
+                return ResourceManager.GetString("GoPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID: .
         /// </summary>
         public static string ID {
