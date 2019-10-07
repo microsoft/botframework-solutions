@@ -66,5 +66,22 @@ namespace VirtualAssistantSample.Tests
                .AssertReply(TemplateEngine.EvaluateTemplate("cancelledMessage"))
                .StartTestAsync();
         }
+
+        [TestMethod]
+        public async Task Test_Repeat_Interruption()
+        {
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
+                })
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .Send(GeneralUtterances.Repeat)
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .StartTestAsync();
+        }
     }
 }
