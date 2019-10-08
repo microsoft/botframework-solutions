@@ -368,6 +368,7 @@ ASALocalRun/
 # Zip files
 *.7z
 *.jar
+!**/gradle/wrapper/gradle-wrapper.jar
 *.rar
 *.zip
 *.gz
