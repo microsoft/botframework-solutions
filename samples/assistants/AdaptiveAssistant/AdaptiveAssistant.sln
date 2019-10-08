@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28902.138
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveAssistant", "AdaptiveAssistant\AdaptiveAssistant.csproj", "{111A7595-398E-4442-A29B-60256CF45198}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkillPreview", "calendarskillpreview\CalendarSkillPreview.csproj", "{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCalendarSkill", "AdaptiveCalendarSkill\AdaptiveCalendarSkill\AdaptiveCalendarSkill.csproj", "{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{7F4E6943-2015-451A-8A8C-3F6C0A0E69A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{60017AAB-AB03-498F-933B-60471D60FE3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions.Skills", "..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions.skills\Microsoft.Bot.Builder.Solutions.Skills.csproj", "{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarSkillAdaptive", "CalendarSkillAdaptive\CalendarSkillAdaptive.csproj", "{521E34FF-CC56-432C-97A2-149B44249E5C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Documentation|Any CPU = Documentation|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{111A7595-398E-4442-A29B-60256CF45198}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111A7595-398E-4442-A29B-60256CF45198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABC74AB-A085-42B2-9C8B-CC82EC61301F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7F4E3B-2E6E-4269-A6A1-D67C5573F557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60017AAB-AB03-498F-933B-60471D60FE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521E34FF-CC56-432C-97A2-149B44249E5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60017AAB-AB03-498F-933B-60471D60FE3E} = {7F4E6943-2015-451A-8A8C-3F6C0A0E69A0}
+		{60F82CFF-3F44-4699-ADB0-12B1CC99F1FC} = {7F4E6943-2015-451A-8A8C-3F6C0A0E69A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61DB5266-62CE-4829-A091-C3A21CED8185}
+	EndGlobalSection
+EndGlobal

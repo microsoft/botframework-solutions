@@ -110,7 +110,7 @@ namespace AdaptiveCalendarSkill
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
