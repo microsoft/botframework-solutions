@@ -6,10 +6,15 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-09-25-01" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-preview-191005-1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
