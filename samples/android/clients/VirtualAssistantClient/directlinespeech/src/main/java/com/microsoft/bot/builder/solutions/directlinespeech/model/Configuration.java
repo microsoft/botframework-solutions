@@ -37,4 +37,10 @@ public class Configuration {
     @Expose
     public String keyword;
 
+    @SerializedName("app_center_id")
+    @Expose
+    public String appCenterId;
+
+
+
 }
