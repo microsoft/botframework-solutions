@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -56,8 +56,6 @@ namespace VirtualAssistantSample
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var provider = services.BuildServiceProvider();
-
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
@@ -70,9 +68,11 @@ namespace VirtualAssistantSample
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+            services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+            services.AddSingleton<TelemetryInitializerMiddleware>();
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -95,9 +95,12 @@ namespace VirtualAssistantSample
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
 
+            // Register skill dialogs
+            var provider = services.BuildServiceProvider();
             foreach (var skill in settings.Skills)
             {
                 var userState = provider.GetService<UserState>();
+                var telemetryClient = provider.GetService<IBotTelemetryClient>();
                 var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                 var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
                 services.AddTransient(sp => new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
@@ -125,8 +128,7 @@ namespace VirtualAssistantSample
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();
