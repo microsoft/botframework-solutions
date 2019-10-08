@@ -205,20 +205,13 @@ namespace ITSMSkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    state.Token = providerTokenResponse.TokenResponse;
+                    return await sc.NextAsync(providerTokenResponse.TokenResponse);
                 }
                 else
-                {
-                    state.Token = null;
-                }
-
-                if (state.Token == null)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
                     return await sc.CancelAllDialogsAsync();
                 }
-
-                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {
@@ -498,7 +491,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> SetIdFromNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.SearchTicket(0, number: state.TicketNumber);
 
             if (!result.Success)
@@ -693,7 +686,7 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
 
             var countResult = await management.CountKnowledge(state.TicketDescription);
 
