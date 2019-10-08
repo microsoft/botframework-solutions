@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -30,6 +31,7 @@ namespace VirtualAssistantSample.Dialogs
         private OnboardingDialog _onboardingDialog;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -41,11 +43,17 @@ namespace VirtualAssistantSample.Dialogs
             _templateEngine = serviceProvider.GetService<TemplateEngine>();
             _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
             _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+            _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
+            // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
             _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
+
+            // Create conversation state properties
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>("previousResponse");
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
@@ -57,6 +65,13 @@ namespace VirtualAssistantSample.Dialogs
             {
                 AddDialog(dialog);
             }
+        }
+
+        protected override Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            // Set up response caching for "repeat" functionality.
+            innerDc.Context.OnSendActivities(StoreOutgoingActivities);
+            return base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
@@ -125,6 +140,21 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
                             break;
+                        }
+
+                    case GeneralLuis.Intent.Repeat:
+                        {
+                            // Sends the activities since the last user message again.
+                            var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
+
+                            foreach (var response in previousResponse)
+                            {
+                                // Reset id of original activity so it can be processed by the channel.
+                                response.Id = string.Empty;
+                                await dc.Context.SendActivityAsync(response);
+                            }
+
+                            return InterruptionAction.Waiting;
                         }
                 }
             }
@@ -296,6 +326,29 @@ namespace VirtualAssistantSample.Dialogs
                 var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
                 await innerDc.Context.SendActivityAsync(response);
             }
+        }
+
+        private async Task<ResourceResponse[]> StoreOutgoingActivities(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
+        {
+            var messageActivities = activities
+                .Where(a => a.Type == ActivityTypes.Message)
+                .ToList();
+
+            // If the bot is sending message activities to the user (as opposed to trace activities)
+            if (messageActivities.Any())
+            {
+                var botResponse = await _previousResponseAccessor.GetAsync(turnContext, () => new List<Activity>());
+
+                // Get only the activities sent in response to last user message
+                botResponse = botResponse
+                    .Concat(messageActivities)
+                    .Where(a => a.ReplyToId == turnContext.Activity.Id)
+                    .ToList();
+
+                await _previousResponseAccessor.SetAsync(turnContext, botResponse);
+            }
+
+            return await next();
         }
 
         private class Events
