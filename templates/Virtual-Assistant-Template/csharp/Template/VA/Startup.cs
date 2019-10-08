@@ -95,21 +95,17 @@ namespace $safeprojectname$
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
 
-            // Register recognizer
-            services.AddTransient<ISkillIntentRecognizer, SkillIntentRecognizer>();
-
             // Register skill dialogs
             services.AddTransient(sp =>
             {
                 var userState = sp.GetService<UserState>();
                 var skillDialogs = new List<SkillDialog>();
-                var intentRecognizer = sp.GetService<ISkillIntentRecognizer>();
 
                 foreach (var skill in settings.Skills)
                 {
                     var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog, intentRecognizer));
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
 
                 return skillDialogs;

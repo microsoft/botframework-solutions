@@ -131,7 +131,6 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="WhiteListAuthProvider.cs">WhiteListAuthProvider.cs</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

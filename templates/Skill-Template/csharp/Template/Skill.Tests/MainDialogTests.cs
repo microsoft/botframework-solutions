@@ -47,6 +47,16 @@ namespace $safeprojectname$
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_Single_Turn()
+        {
+            await GetTestFlow()
+                .Send(GeneralUtterances.None)
+                .AssertReply(DidntUnderstandMessage())
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .StartTestAsync();
+        }
+
         private Action<IActivity> WelcomeMessage()
         {
             return activity =>

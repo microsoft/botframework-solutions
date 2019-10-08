@@ -17,13 +17,8 @@ order: 10
 
 ## Overview
 The To Do Skill provides task related capabilities to a Virtual Assistant.
-The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
-### Supported Sources
-
-> Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Additional sources will be coming in a future release.
-
-## Supported Scenarios
+## Supported scenarios
 
 The following scenarios are currently supported by the Skill:
 
@@ -44,33 +39,7 @@ The following scenarios are currently supported by the Skill:
   - *Task completed "reserve a restaurant for anniversary"*
   - *Check off "bananas" on my grocery list*
 
-## Skill Deployment
-
-The To Do Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.
-
-### Authentication Connection Settings
-
-If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
-- `Notes.ReadWrite`
-- `User.Read`
-- `User.ReadBasic.All`
-- `Tasks.ReadWrite`
-
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
-
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
-
-## Language Model
+## Language Understanding (LUIS)
 
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
@@ -106,12 +75,27 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
 
+## Configuration
+### Deployment
+Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
-## Add Your Own List Type
+### Supported content providers
+> Office 365 and Outlook.com through the Microsoft Graph is supported at this time.
 
+### Authentication connection settings
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+- `Notes.ReadWrite` 
+- `User.ReadBasic.All`
+- `Tasks.ReadWrite`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
+
+### Add customized to do lists
 If you want to add your customized list types, for example, your homework list or movie list, please follow these steps:
 
-1.Add your list type to `appsettings.json`
+1. Add your list type to `appsettings.json`
 
 ```json
 "customizeListTypes": [
@@ -127,7 +111,7 @@ Name | Value |
 Homework | Homework |
 HomeworkSynonym | homework, home work |
 
-3.Modify your LUIS file. Modify `Deployment/Resources/LU/en/todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
+1. Modify your LUIS file. Modify `Deployment/Resources/LU/en/todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
 
 ```diff
 ## AddToDo
@@ -135,7 +119,7 @@ HomeworkSynonym | homework, home work |
 + - add {TaskContent=Math} to my {ListType=homework}
 ```
 
-(Optional) If you want to surport multi languages, please modify corresponding `.resx` files and `.lu` files, such as `Deployment/Resources/LU/zh/todo.lu`.
+(Optional) If you want to support multiple languages, please modify corresponding `.resx` files and `.lu` files, such as `Deployment/Resources/LU/zh/todo.lu`.
 
 ```diff
 ## AddToDo
@@ -154,4 +138,4 @@ HomeworkSynonym | homework, home work |
     ]
 ```
 
-4.Redeploy your To Do Skill.
+1. Redeploy your To Do Skill.

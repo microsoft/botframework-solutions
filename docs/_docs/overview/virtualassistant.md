@@ -59,7 +59,7 @@ In addition, Language Understanding support is provided by the LUIS Cognitive Se
 
 The Virtual Assistant architecture is flexible and can be integrated with existing investments you have made into device-based Speech or Natural Language processing capabilities and integrate existing back-end systems and APIs.
 
-Not only does the Virtual Assistant enable you to deliver your own unique experience, but you can also also handoff a user's query to their chosen Digital Assistant for certain types of questions.
+Not only does the Virtual Assistant enable you to deliver your own unique experience, but you can also handoff a user's query to their chosen Digital Assistant for certain types of questions.
 
 Your Virtual Assistant can be integrated into your device and ecosystem to enable a truly intelligent experience.
 Through this contextual awareness your Virtual Assistant can deliver a further personalized conversation than otherwise possible.
