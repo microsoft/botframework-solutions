@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/animated_assistant"
+        android:layout_width="@dimen/animated_assistant_width"
+        android:layout_height="@dimen/animated_assistant_height"
+        android:layout_centerInParent="true"
+        android:background="@drawable/agent_listening_animation"
+        android:elevation="2dp"
+        android:visibility="gone" />
+</RelativeLayout>

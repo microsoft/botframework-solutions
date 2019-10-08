@@ -54,6 +54,31 @@ The following scenarios are currently supported by the Skill:
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
+  
+## Skill Deployment
+
+The Calendar Skill require the following dependencies for end to end operation which are created through an ARM deployment script which you can modify as required.
+
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+
+> Review the pricing and terms for the services and adjust to suit your scenario.
+
+**To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources/) from the folder where your have cloned the GitHub repo.**
+
+### Authentication Connection Settings
+
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+
+- `Calendars.ReadWrite`
+- `People.Read`    
+- `Contacts.Read`
+- `User.Read.All`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
 ## Language Understanding (LUIS)
 

@@ -1,30 +1,38 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
-using VirtualAssistantSample.Responses.Onboarding;
-using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
     public class OnboardingDialog : ComponentDialog
     {
-        private static OnboardingResponses _responder = new OnboardingResponses();
+        private TemplateEngine _templateEngine;
+        private ILanguageGenerator _langGenerator;
+        private TextActivityGenerator _activityGenerator;
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
         public OnboardingDialog(
-            BotServices botServices,
-            UserState userState,
+            IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
+            _templateEngine = serviceProvider.GetService<TemplateEngine>();
+            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
+            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+
+            var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
             {
@@ -35,7 +43,7 @@ namespace VirtualAssistantSample.Dialogs
             // To capture built-in waterfall dialog telemetry, set the telemetry client
             // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(nameof(onboarding), onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
         }
 
@@ -49,9 +57,12 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
+                var template = _templateEngine.EvaluateTemplate("namePrompt");
+                var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
+
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.NamePrompt),
+                    Prompt = activity,
                 });
             }
         }
@@ -62,7 +73,11 @@ namespace VirtualAssistantSample.Dialogs
             var name = _state.Name = (string)sc.Result;
             await _accessor.SetAsync(sc.Context, _state, cancellationToken);
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
+            dynamic data = new JObject();
+            data.name = name;
+            var template = _templateEngine.EvaluateTemplate("haveNameMessage", data);
+            var activity = await _activityGenerator.CreateActivityFromText(template, data, sc.Context, _langGenerator);
+            await sc.Context.SendActivityAsync(activity);
             return await sc.EndDialogAsync();
         }
 
