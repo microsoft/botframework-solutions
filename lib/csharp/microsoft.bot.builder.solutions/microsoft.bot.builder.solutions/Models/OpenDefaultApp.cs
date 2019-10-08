@@ -9,7 +9,7 @@ namespace Microsoft.Bot.Builder.Solutions.Models
 
         public string TelephoneUri { get; set; }
 
-        public string MapUri { get; set; }
+        public string MapsUri { get; set; }
 
         public string MusicUri { get; set; }
     }
