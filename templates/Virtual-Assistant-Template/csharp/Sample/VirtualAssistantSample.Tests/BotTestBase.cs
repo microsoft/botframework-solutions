@@ -79,7 +79,6 @@ namespace VirtualAssistantSample.Tests
             Services.AddSingleton(ActivityGenerator);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
-            Services.AddTransient<QnAMakerDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
