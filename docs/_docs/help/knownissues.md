@@ -14,7 +14,7 @@ order: 2
 {:toc}
 
 ## Skill dialog telemetry is not showing up in the Power BI dashboard
-In the Bot Builder SDK version 4.5.3 and below, there is a bug which causes the Activity Id and Conversation Id to be null on all telemetry logged over a web socket connection. This causes the skill dialog telemetry to not populate properly in the Conversational AI Power BI sample. To resolve this issue, follow these steps:
+In the Bot Builder SDK version 4.5.3 and below, there is a bug which causes the Activity ID and Conversation ID to be null on all telemetry logged over a web socket connection. This causes the Skill dialog telemetry to not populate properly in the [Conversational AI Power BI sample](https://aka.ms/botPowerBiTemplate). To resolve this issue, follow these steps:
 
 1. Update to the latest Microsoft.Bot.Builder packages
     1. Add the following package source to your project: **https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json**
@@ -55,8 +55,8 @@ In the Bot Builder SDK version 4.5.3 and below, there is a bug which causes the 
     ```
     
 For more information, refer to the following resources:
-- Bot Builder SDK Issue: https://github.com/microsoft/botbuilder-dotnet/issues/2474
-- Bot Builder SDK PR: https://github.com/microsoft/botbuilder-dotnet/pull/2580
+- [Bot Builder SDK issue](https://github.com/microsoft/botbuilder-dotnet/issues/2474)
+- [Bot Builder SDK pull request](https://github.com/microsoft/botbuilder-dotnet/pull/2580)
 
 ## My Microsoft App Registration could not be automatically provisioned
 
