@@ -48,6 +48,45 @@ namespace CalendarSkill.Test.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarSearchByTitle()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.FindMeetingByTitle)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"about {Strings.Strings.DefaultEventName}"))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarSearchByAttendee()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.FindMeetingByAttendee)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"with {Strings.Strings.DefaultUserName}"))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarSearchByLocation()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.FindMeetingByLocation)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"at {Strings.Strings.DefaultLocation}"))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarNoEventSummary()
         {
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
@@ -167,7 +206,7 @@ namespace CalendarSkill.Test.Flow
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
+                .AssertReplyOneOf(this.FoundOneEventPrompt("for next week", "next week"))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -180,7 +219,7 @@ namespace CalendarSkill.Test.Flow
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
+                .AssertReplyOneOf(this.FoundOneEventPrompt("for tomorrow", "tomorrow"))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -233,10 +272,11 @@ namespace CalendarSkill.Test.Flow
             return this.ParseReplies(SummaryResponses.AskForShowOverview, responseParams);
         }
 
-        private string[] FoundOneEventPrompt(string dateTime = "today")
+        private string[] FoundOneEventPrompt(string conditionString = "for today", string dateTime = "today")
         {
             var responseParams = new StringDictionary()
             {
+                { "Condition", conditionString },
                 { "Count", "1" },
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
@@ -248,21 +288,22 @@ namespace CalendarSkill.Test.Flow
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams);
         }
 
-        private string[] FoundOneEventAgainPrompt(string dateTime = "today")
+        private string[] FoundOneEventAgainPrompt(string conditionString = "for today")
         {
             var responseParams = new StringDictionary()
             {
+                { "Condition", conditionString },
                 { "Count", "1" },
-                { "DateTime", dateTime },
             };
 
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams);
         }
 
-        private string[] FoundMultipleEventPrompt(int count, string dateTime = "today")
+        private string[] FoundMultipleEventPrompt(int count, string conditionString = "for today", string dateTime = "today")
         {
             var responseParams = new StringDictionary()
             {
+                { "Condition", conditionString },
                 { "Count", count.ToString() },
                 { "DateTime", dateTime },
                 { "Participants1", Strings.Strings.DefaultUserName + "0" },
