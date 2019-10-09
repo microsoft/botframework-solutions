@@ -1,7 +1,7 @@
 ---
 category: Overview
 title: What's in the Virtual Assistant template?
-description: An outline of what the Virtual Assistant template provides
+description: This section of the documentation covers each capability providing an overview and code walk-through enabling you to understand what has been provided to get you started. This documentation can also be used to lift discrete pieces into your own Bot if preferred.
 order: 2
 ---
 
@@ -18,15 +18,13 @@ order: 2
 
 ## Introduction
 
-This section of the documentation covers each capability providing an overview and code walk-through enabling you to understand what has been provided to get you started. This documentation can also be used to lift discrete pieces into your own Bot if preferred.
-
 The Virtual Assistant Template brings together a number of best practices we've identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
 
 ## Your Assistant Project
 
 Using the template you'll end up with your own Assistant project that is organized in-line with our latest thinking on how a Bot project can be structured. You can choose to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location so bear this in mind.
 
-To learn more about project structure, see the [Create Project](https://microsoft.github.io/botframework-solutions/tutorials/csharp/create-assistant/3_create_project/) documentation.
+To learn more about project structure, see the [Create Project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project/) documentation.
 
 ## LU File Format
 
@@ -40,9 +38,10 @@ All of the above is handled as part of the Deployment scripts detailed below.
 
 Every Bot should handle a base level of conversational language understanding. Cancellation or Help for example are a basic things every Bot should handle with ease. Typically, developers need to create these base intents and provide initial training data to get started. The Virtual Assistant template provides example LU files to get you started and avoids every project having to create these each time and ensures a base level of capability out of the box.
 
-The LU files provide the following intents across English, Chinese, French, Italian, German, Spanish. You can review these within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/LU).
-
+The LU files provide the following intents across English, Chinese, French, Italian, German, Spanish. 
 > Cancel, Confirm, Escalate, FinishTask, GoBack, Help, Reject, Repeat, SelectAny, SelectItem, SelectNone, ShowNext, ShowPrevious, StartOver, Stop
+
+You can review these within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/LU).
 
 ### LUIS Strongly Typed classes
 
@@ -57,7 +56,7 @@ A key design pattern used to good effect in the first wave of conversational exp
 
 [QnA Maker](https://www.qnamaker.ai/) provides the ability for non-developers to curate general knowledge in the format of question and answer pairs. This knowledge can be imported from FAQ data sources, product manuals and interactively within the QnaMaker portal.
 
-Two example QnA Maker models are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/QnA).
+Two example QnA Maker models localised to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/QnA).
 
 ### Base Personality
 
@@ -79,15 +78,29 @@ The Dispatch model is used at the core of each project created using the templat
 
 ## Fallback Response Handling
 
-// TODO
+In situations where an utterance from a user isn't understood by Dispatch (and therefore LUIS, QnAMaker and Skills) the typical approach is to send a confused message back to the user. However this behavior can easily be overridden to call some form of `fallback` capability where you could use another knowledge source like a Search engine to see if there is a highly scored response that could help satisfy the users request.
+
+> TODO - Once Sample is updated
 
 ## Interruption
 
-// TODO
+The `MainDialog` class provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` nuget library.
+
+This RouterDialog as part of the `OnContinueDialogAsync` handler invokes on the `OnInterruptDialogAsync` within your `MainDialog.cs`. This handler enables interruption logic to be processed before any utterance is processed, by default Cancel, Help, Logout and Restart are handled as part of this handler enabling top level intent processing even when you have an active dialog.
+
+You can review this logic within `MainDialog.cs` within the `Dialogs` folder of your project or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L295)
 
 ## Activity Processing
 
-// TODO
+1. Activities are first processed within your Bot through the DialogBot.cs class found in the `Bots` folder. `OnTurnAsync` is executed and `MainDialog` processing is started.
+2. The `MainDialog` dialog provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` nuget library.
+3. The `OnInterruptDialogAsync` handler within `MainDialog` is executed which in-turn calls LUIS to evaluate the `General` LUIS model for top intent processing. If interruption is required it's processed at this point.
+4. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
+5. If the Activity is a `message` and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
+6. `RouteAsync` within MainDialog invokes the `Dispatch` model to identify whether it should hand the utterance to:
+    - A dialog (mapped to a LUIS intent)
+    - QnAMaker (Chitchat or QnA)
+    - A Skill (mapped to a Dispatcher skill intent)
 
 ## State Management
 
@@ -121,6 +134,17 @@ A middleware component combined with a wrapper class around the QnA Maker and Lu
 
 To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics).
 
+## Global Exception Handler
+
+```
+ OnTurnError = async (turnContext, exception) =>
+            {
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+                await turnContext.SendActivityAsync(MainStrings.ERROR);
+                telemetryClient.TrackException(exception);
+            };
+```
 ## Deployment Automation
 
 ## Middleware
@@ -193,6 +217,6 @@ To learn more about the Feedback capability, see the [Feedback documentation]]({
 
 // TODO
 
-## [Continuous Integration and Continuous Deployment]
+## Continuous Integration and Continuous Deployment
 
 // TODO
