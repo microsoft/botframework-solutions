@@ -22,7 +22,7 @@
             {
               "locale": "en",
               "source": [
-                "WeatherSkill#GetForecast"
+                "WeatherSkill#CheckWeatherValue"
               ]
             }
           ]

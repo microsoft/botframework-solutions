@@ -13,11 +13,17 @@ namespace WeatherSkill.Models
 
         public string Geography { get; set; }
 
+        public double Latitude { get; set; } = double.NaN;
+
+        public double Longitude { get; set; } = double.NaN;
+
         public Location GeographyLocation { get; set; }
 
         public void Clear()
         {
             Geography = string.Empty;
+            Latitude = double.NaN;
+            Longitude = double.NaN;
             GeographyLocation = null;
         }
     }

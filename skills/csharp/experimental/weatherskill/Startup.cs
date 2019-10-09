@@ -26,7 +26,6 @@ using WeatherSkill.Adapters;
 using WeatherSkill.Bots;
 using WeatherSkill.Dialogs;
 using WeatherSkill.Responses.Main;
-using WeatherSkill.Responses.Sample;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
 
@@ -95,11 +94,9 @@ namespace WeatherSkill
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
-                new SharedResponses(),
-                new SampleResponses()));
+                new SharedResponses()));
 
             // Register dialogs
-            services.AddTransient<SampleDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters
