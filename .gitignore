@@ -364,6 +364,7 @@ ASALocalRun/
 **/remove_skill_log.txt
 **/publish_log.txt
 **/.deployment
+**/local.properties
 
 # Zip files
 *.7z
