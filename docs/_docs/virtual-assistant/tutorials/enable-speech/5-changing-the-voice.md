@@ -3,7 +3,7 @@ layout: tutorial
 category: Virtual Assistant
 subcategory: Enable speech 
 title: Change the voice
-order: 6
+order: 5
 ---
 
 # Tutorial: {{page.subcategory}}

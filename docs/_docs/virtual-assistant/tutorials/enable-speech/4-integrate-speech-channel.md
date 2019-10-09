@@ -10,14 +10,17 @@ order: 4
 
 ## Integrating with the Speech Channel
 
-For this tutorial we'll take a pre-built C# sample to get you up and running quickly.
+For this tutorial we'll use a Direct-Line Speech Client testing tool to demonstrate speech working with your assistant.
 
-1. Locate the [assistant-SimpleSpeechApp](https://github.com/microsoft/botframework-solutions/tree/master/solutions/testharnesses/csharp/assistant-SimpleSpeechApp) example application found in the [botframework-solutions github repo](https://github.com/microsoft/botframework-solutions/) and open in Visual Studio / VSCode.
-2. Open `MainPage.xaml.cs` which you can find in your Solution by expanding `MainPage.xaml` in Solution Explorer.
-3. At the top of the file you will find the following configuration properties. Update these, using the `Channel Secret` and `Speech Subscription key` that you retrieved in the previous steps. The region provided is for Direct Line Speech which should be left as `westus2` at this time.
+1. Browse to the [Direct Line Speech Client repo](https://github.com/Azure-Samples/Cognitive-Services-Direct-Line-Speech-Client). Click [Releases](https://github.com/Azure-Samples/Cognitive-Services-Direct-Line-Speech-Client/releases) and download the [latest](https://github.com/Azure-Samples/Cognitive-Services-Direct-Line-Speech-Client/releases/latest) ZIP file.
+1. Expand the ZIP file onto your local drive and open in Visual Studio / VSCode.
+1. Build and run the `DLSpeechClient` app. The App will show the Settings page on first load.
+![Direct Line Speech Client Configuration]({{site.baseurl}}/assets/images/dlspeechclientsettings.png)
 
-    ```
-    private const string channelSecret = "YourChannelSecret";
-    private const string speechSubscriptionKey = "YourSpeechSubscriptionKey";
-    ```
-4. Build your application.
+1. Set the Subscription Key to be the `Speech Subscription Key` that you retrieved in the previous step and set the correct region.
+1. It's advised to provide an example User ID to ensure multi-user scenarios work, this can be a GUID or some other user identifier of your choice.
+1. Click OK to save the Settings.
+1. Paste the `Channel Secret` retrieved in the previous steps into the `Bot Secret` text box.
+1. Click the Microphone button in the bottom right hand corner and say something, you should now see and hear a response.
+
+![Direct Line Speech Client Configuration]({{site.baseurl}}/assets/images/dlspeechclient.png)
