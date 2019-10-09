@@ -56,8 +56,6 @@ namespace VirtualAssistantSample
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var provider = services.BuildServiceProvider();
-
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
@@ -97,10 +95,13 @@ namespace VirtualAssistantSample
 
             foreach (var skill in settings.Skills)
             {
-                var userState = provider.GetService<UserState>();
                 var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                 var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                services.AddTransient(sp => new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                services.AddTransient(sp =>
+                {
+                    var userState = sp.GetService<UserState>();
+                    return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
+                });
             }
 
             // Configure adapters
