@@ -538,6 +538,42 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to with {0}.
+        /// </summary>
+        public static string ShowEventContactCondition {
+            get {
+                return ResourceManager.GetString("ShowEventContactCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to for {0}.
+        /// </summary>
+        public static string ShowEventDateCondition {
+            get {
+                return ResourceManager.GetString("ShowEventDateCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to at {0}.
+        /// </summary>
+        public static string ShowEventLocationCondition {
+            get {
+                return ResourceManager.GetString("ShowEventLocationCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to about {0}.
+        /// </summary>
+        public static string ShowEventTitleCondition {
+            get {
+                return ResourceManager.GetString("ShowEventTitleCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to **{0}-{1}** of {2}.
         /// </summary>
         public static string ShowMeetingsIndicator {

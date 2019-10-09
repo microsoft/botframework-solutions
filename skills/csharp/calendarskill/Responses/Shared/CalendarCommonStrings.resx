@@ -300,4 +300,16 @@
   <data name="Manager" xml:space="preserve">
     <value>(manager|boss)</value>
   </data>
+  <data name="ShowEventContactCondition" xml:space="preserve">
+    <value>with {0}</value>
+  </data>
+  <data name="ShowEventDateCondition" xml:space="preserve">
+    <value>for {0}</value>
+  </data>
+  <data name="ShowEventLocationCondition" xml:space="preserve">
+    <value>at {0}</value>
+  </data>
+  <data name="ShowEventTitleCondition" xml:space="preserve">
+    <value>about {0}</value>
+  </data>
 </root>
