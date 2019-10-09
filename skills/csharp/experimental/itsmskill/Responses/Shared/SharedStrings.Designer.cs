@@ -185,6 +185,16 @@ namespace ITSMSkill.Responses.Shared {
                 return ResourceManager.GetString("ID", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to GetUserId is invalid..
+        /// </summary>
+        public static string InvalidGetUserId {
+            get {
+                return ResourceManager.GetString("InvalidGetUserId", resourceCulture);
+
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to no.
