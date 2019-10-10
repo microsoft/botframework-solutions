@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.CognitiveServices.ContentModerator;
 
@@ -44,8 +44,8 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
         /// <param name="region">Azure Service Region.</param>
         public ContentModeratorMiddleware(string subscriptionKey, string region)
         {
-            this.subscriptionKey = subscriptionKey;
-            this.region = region;
+            this.subscriptionKey = subscriptionKey ?? throw new ArgumentNullException(nameof(subscriptionKey));
+            this.region = region ?? throw new ArgumentNullException(nameof(region));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
         {
             BotAssert.ContextNotNull(context);
 
-            if (context.Activity.Type == ActivityTypes.Message)
+            if (context.Activity.Type == ActivityTypes.Message && string.IsNullOrEmpty(context.Activity.Text))
             {
                 var byteArray = Encoding.UTF8.GetBytes(context.Activity.Text);
                 var textStream = new MemoryStream(byteArray);
