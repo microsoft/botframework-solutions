@@ -3,6 +3,7 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Feedback;
@@ -20,6 +21,7 @@ namespace VirtualAssistantSample.Adapters
             TemplateEngine templateEngine,
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
+            TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
@@ -31,10 +33,11 @@ namespace VirtualAssistantSample.Adapters
                 telemetryClient.TrackException(exception);
             };
 
+            Use(telemetryMiddleware);
+
             // Uncomment the following line for local development without Azure Storage
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
-            Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
