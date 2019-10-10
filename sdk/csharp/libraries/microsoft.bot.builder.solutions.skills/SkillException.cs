@@ -15,6 +15,21 @@ namespace Microsoft.Bot.Builder.Skills
         AccountNotActivated,
 
         /// <summary>
+        ///  Bad Request returned when calling external APIs
+        /// </summary>
+        APIBadRequest,
+
+        /// <summary>
+        ///  Unauthorized returned when calling external APIs
+        /// </summary>
+        APIUnauthorized,
+
+        /// <summary>
+        ///  Forbidden returned when calling external APIs
+        /// </summary>
+        APIForbidden,
+
+        /// <summary>
         /// Other types of exceptions
         /// </summary>
         Other,
