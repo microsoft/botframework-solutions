@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
         {
             BotAssert.ContextNotNull(context);
 
-            if (context.Activity.Type == ActivityTypes.Message && string.IsNullOrEmpty(context.Activity.Text))
+            if (context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(context.Activity.Text))
             {
                 var byteArray = Encoding.UTF8.GetBytes(context.Activity.Text);
                 var textStream = new MemoryStream(byteArray);
