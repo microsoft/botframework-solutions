@@ -39,6 +39,9 @@ namespace PointOfInterestSkill.Models
 
         public int UserSelectIndex { get; set; }
 
+        // from OnInterruptDialogAsync
+        public General.Intent GeneralIntent { get; set; }
+
         public void Clear()
         {
             Destination = null;
