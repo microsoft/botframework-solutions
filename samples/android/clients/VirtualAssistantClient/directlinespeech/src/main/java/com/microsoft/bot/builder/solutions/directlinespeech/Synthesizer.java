@@ -198,12 +198,12 @@ public class Synthesizer {
                 public void run() {
                     audioTrack.play();
                     isPlaying.set(true);
-                    long readSize = -1;
 
                     while (streamList.size() > 0) {
                         try {
                             if(streamList.peekFirst() != null){
                                 PullAudioOutputStream stream = streamList.getFirst();
+                                long readSize = -1;
                                 while(readSize != 0){
                                     readSize = stream.read(buffer);
                                     audioTrack.write(buffer, 0, (int)readSize);
