@@ -134,7 +134,7 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
+                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc, false) } });
                 var noSubjectMessage = ResponseManager.GetResponse(SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
@@ -283,27 +283,27 @@ namespace EmailSkill.Dialogs
                     {
                         state.Content = contentInput;
 
-                        var emailCard = new EmailCardData
-                        {
-                            Subject = EmailCommonStrings.MessageConfirm,
-                            EmailContent = state.Content,
-                        };
+                        //var emailCard = new EmailCardData
+                        //{
+                        //    Subject = EmailCommonStrings.MessageConfirm,
+                        //    EmailContent = state.Content,
+                        //};
+
+                        //var replyMessage = ResponseManager.GetCardResponse(
+                        //    SendEmailResponses.PlayBackMessage,
+                        //    new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
+                        //    stringToken);
+
+                        //await sc.Context.SendActivityAsync(replyMessage);
 
                         var stringToken = new StringDictionary
                         {
                             { "EmailContent", state.Content },
                         };
 
-                        var replyMessage = ResponseManager.GetCardResponse(
-                            SendEmailResponses.PlayBackMessage,
-                            new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
-                            stringToken);
-
-                        await sc.Context.SendActivityAsync(replyMessage);
-
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
-                            Prompt = ResponseManager.GetResponse(SendEmailResponses.CheckContent),
+                            Prompt = ResponseManager.GetResponse(SendEmailResponses.PlayBackMessage, stringToken),
                             RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessageRetry),
                         });
                     }
@@ -440,13 +440,13 @@ namespace EmailSkill.Dialogs
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                             await ClearConversationState(sc);
                             return await sc.EndDialogAsync(false, cancellationToken);
-                        case ResendEmailState.Participants:
+                        case ResendEmailState.Recipients:
                             state.ClearParticipants();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Subject:
                             state.ClearSubject();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
-                        case ResendEmailState.Content:
+                        case ResendEmailState.Body:
                             state.ClearContent();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         default:

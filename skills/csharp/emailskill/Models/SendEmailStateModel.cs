@@ -8,9 +8,9 @@
         Cancel = 0,
 
         /// <summary>
-        /// Change the Participants and recerate.
+        /// Change the Recipients and recerate.
         /// </summary>
-        Participants = 1,
+        Recipients = 1,
 
         /// <summary>
         /// Change the subject and recerate.
@@ -20,6 +20,6 @@
         /// <summary>
         /// Change the content and recerate.
         /// </summary>
-        Content = 3
+        Body = 3
     }
 }

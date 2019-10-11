@@ -117,44 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultContent" xml:space="preserve">
+    <value />
+  </data>
   <data name="ImportantMessages" xml:space="preserve">
     <value>Mensajes de alta prioridad</value>
   </data>
   <data name="EmailInfoFormat" xml:space="preserve">
-    <value>En {0}, {1} escribió:</value>
+    <value>En el número 0, escribió:</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
     <value>Destinatario desconocido</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>no leídos</value>
+    <value>no leído</value>
   </data>
   <data name="DisplayDetailDateFormat" xml:space="preserve">
     <value>ddd MM/dd hh:mm tt</value>
   </data>
-  <data name="Content" xml:space="preserve">
-    <value>Contenido</value>
-  </data>
-  <data name="Participants" xml:space="preserve">
-    <value>Participantes</value>
-  </data>
   <data name="CCFormat" xml:space="preserve">
-    <value>CC: {0}</value>
+    <value>Cc: "0"</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>El contenido vacío</value>
+    <value>Contenido vacío</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Fecha: {0}</value>
+    <value>Fecha: n.o 0</value>
   </data>
-  <data name="SearchBySubject" xml:space="preserve">
-    <value>Los mensajes sobre {0}</value>
+  <data name="DefaultSubject" xml:space="preserve">
+    <value />
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Asunto</value>
   </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>Desde: {0}</value>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**-0--1-** de 2o</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -166,49 +163,55 @@
     <value>Mensajes</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>RE: {0}</value>
+    <value>RE: s0o</value>
   </data>
   <data name="ToFormat" xml:space="preserve">
-    <value>Para: {0}</value>
+    <value>Para: .</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
     <value>Tu bandeja de entrada</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
-    <value>relevante {0}</value>
+    <value>relevantes .</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>omitir | Pass | No</value>
+    <value>Saltar ? pase de paso ? No</value>
   </data>
   <data name="UnknownSender" xml:space="preserve">
     <value>Remitente desconocido</value>
   </data>
   <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW: {0}</value>
+    <value>FW: .</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>de {0} recibido {1} titulado {2}</value>
+    <value>recibió el número 1 de la fecha titulada 2o de la</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>de {0} recibido {1}</value>
+    <value>recibido s.a. 1o de la</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0} a {1} y el contenido es {2}</value>
+    <value>De 0 a 1o y el contenido es de 2o.</value>
   </data>
   <data name="SubjectFormat" xml:space="preserve">
-    <value>Asunto: {0}</value>
+    <value>Asunto:</value>
   </data>
   <data name="Source" xml:space="preserve">
-    <value>Con tecnología de **{0}**</value>
+    <value>Alimentado por **-0**</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>Contenido: {0}</value>
+    <value>Cuerpo: s0o</value>
   </data>
   <data name="PreviousDateFormat" xml:space="preserve">
     <value>ddd MM/dd</value>
   </data>
+  <data name="SearchBySubject" xml:space="preserve">
+    <value>Mensajes acerca de la página de .0</value>
+  </data>
   <data name="TodayDateFormat" xml:space="preserve">
     <value>hh:mm tt</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value>Importante</value>
   </data>
   <data name="Relevant" xml:space="preserve">
     <value>Relevante</value>
@@ -216,8 +219,8 @@
   <data name="All" xml:space="preserve">
     <value>todo</value>
   </data>
-  <data name="Important" xml:space="preserve">
-    <value>Importante</value>
+  <data name="Body" xml:space="preserve">
+    <value>Contenido</value>
   </data>
   <data name="Split" xml:space="preserve">
     <value>|</value>
@@ -226,7 +229,10 @@
     <value>Alto</value>
   </data>
   <data name="Reply" xml:space="preserve">
-    <value>re</value>
+    <value>re:</value>
+  </data>
+  <data name="Recipients" xml:space="preserve">
+    <value>Destinatarios</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
     <value>, | ; | Y</value>
@@ -234,28 +240,22 @@
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>
   </data>
+  <data name="FromFormat" xml:space="preserve">
+    <value>De: .</value>
+  </data>
   <data name="MessageConfirm" xml:space="preserve">
-    <value>Confirmación de mensaje</value>
+    <value>Confirmación de mensajes</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
-    <value>----------Mensaje reenviado----------</value>
+    <value>---------- mensaje reenviado ----------</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>de {0} recibido {1} titulado {2}, el contenido es {3}.</value>
+    <value>recibido el número 1, titulado 2o, a partir de la versión 0, el contenido es de 3o.</value>
   </data>
   <data name="SearchBySender" xml:space="preserve">
-    <value>Los mensajes de {0}</value>
+    <value>Mensajes de la página de la aplicación de la unidad de texto de la unidad de texto</value>
   </data>
   <data name="GeneralDateFormat" xml:space="preserve">
-    <value>MMM dd, yyyy</value>
-  </data>
-  <data name="PageIndexerFormat" xml:space="preserve">
-    <value>**{0}-{1}** de {2}</value>
-  </data>
-  <data name="DefaultContent" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DefaultSubject" xml:space="preserve">
-    <value />
+    <value>MMM dd, aaaa</value>
   </data>
 </root>

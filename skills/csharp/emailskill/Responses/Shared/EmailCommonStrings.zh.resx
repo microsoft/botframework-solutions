@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultContent" xml:space="preserve">
+    <value />
+  </data>
   <data name="ImportantMessages" xml:space="preserve">
     <value>重要邮件</value>
   </data>
@@ -132,12 +135,6 @@
   <data name="DisplayDetailDateFormat" xml:space="preserve">
     <value>ddd MM/dd hh:mm tt</value>
   </data>
-  <data name="Content" xml:space="preserve">
-    <value>内容</value>
-  </data>
-  <data name="Participants" xml:space="preserve">
-    <value>参与者</value>
-  </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc:{0}</value>
   </data>
@@ -145,16 +142,16 @@
     <value>空内容</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>日期: {0}</value>
+    <value>日期：{0}</value>
   </data>
-  <data name="SearchBySubject" xml:space="preserve">
-    <value>关于{0}的消息</value>
+  <data name="DefaultSubject" xml:space="preserve">
+    <value />
   </data>
   <data name="Subject" xml:space="preserve">
     <value>主题</value>
   </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>发件人:{0}</value>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**{0}-{1}** 于 {2}</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
@@ -163,16 +160,16 @@
     <value>空主题</value>
   </data>
   <data name="Messages" xml:space="preserve">
-    <value>邮件</value>
+    <value>消息</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>Re: {0}</value>
+    <value>RE：{0}</value>
   </data>
   <data name="ToFormat" xml:space="preserve">
-    <value>收件人:{0}</value>
+    <value>TO： {0}</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
-    <value>您的邮件</value>
+    <value>您的收件箱</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>相关{0}</value>
@@ -184,7 +181,7 @@
     <value>未知发件人</value>
   </data>
   <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW:{0}</value>
+    <value>FW：{0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
     <value>来自{0}于{1}标题是{2}</value>
@@ -196,28 +193,34 @@
     <value>{0}发送至{1}, 内容是{2}</value>
   </data>
   <data name="SubjectFormat" xml:space="preserve">
-    <value>主题:{0}</value>
+    <value>主题：{0}</value>
   </data>
   <data name="Source" xml:space="preserve">
     <value>由**{0}**提供支持</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>内容:{0}</value>
+    <value>内容：{0}</value>
   </data>
   <data name="PreviousDateFormat" xml:space="preserve">
     <value>ddd MM/dd</value>
   </data>
+  <data name="SearchBySubject" xml:space="preserve">
+    <value>有关{0}的消息</value>
+  </data>
   <data name="TodayDateFormat" xml:space="preserve">
     <value>hh:mm tt</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value>重要</value>
   </data>
   <data name="Relevant" xml:space="preserve">
     <value>相关</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>全部</value>
+    <value>所有</value>
   </data>
-  <data name="Important" xml:space="preserve">
-    <value>重要</value>
+  <data name="Body" xml:space="preserve">
+    <value>内容</value>
   </data>
   <data name="Split" xml:space="preserve">
     <value>|</value>
@@ -226,7 +229,10 @@
     <value>高</value>
   </data>
   <data name="Reply" xml:space="preserve">
-    <value>Re:</value>
+    <value>RE：</value>
+  </data>
+  <data name="Recipients" xml:space="preserve">
+    <value>收件人</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
     <value>，| , | ；| ; |和</value>
@@ -234,11 +240,14 @@
   <data name="Forward" xml:space="preserve">
     <value>Fw：</value>
   </data>
+  <data name="FromFormat" xml:space="preserve">
+    <value>To：{0}</value>
+  </data>
   <data name="MessageConfirm" xml:space="preserve">
     <value>消息确认</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
-    <value>----------转发的邮件----------</value>
+    <value>---------- 转发邮件----------</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
     <value>来自{0}于{1}标题是{2}，内容为{3}。</value>
@@ -248,14 +257,5 @@
   </data>
   <data name="GeneralDateFormat" xml:space="preserve">
     <value>MMM dd, yyyy</value>
-  </data>
-  <data name="PageIndexerFormat" xml:space="preserve">
-    <value>**{0}-{1}** 于 {2}</value>
-  </data>
-  <data name="DefaultContent" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DefaultSubject" xml:space="preserve">
-    <value />
   </data>
 </root>
