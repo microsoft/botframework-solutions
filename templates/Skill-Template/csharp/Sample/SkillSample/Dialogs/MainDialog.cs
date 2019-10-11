@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -60,9 +61,7 @@ namespace SkillSample.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
@@ -141,9 +140,7 @@ namespace SkillSample.Dialogs
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
@@ -240,6 +237,24 @@ namespace SkillSample.Dialogs
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
             // }
+        }
+
+        private CognitiveModelSet GetCognitiveModels()
+        {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+            CognitiveModelSet cognitiveModels;
+
+            cognitiveModels = _services.CognitiveModelSets.ContainsKey(locale)
+                ? _services.CognitiveModelSets[locale]
+                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).First().Value;
+
+            if (cognitiveModels == null)
+            {
+                throw new Exception("There is no value in cognitiveModels");
+            }
+
+            return cognitiveModels;
         }
     }
 }

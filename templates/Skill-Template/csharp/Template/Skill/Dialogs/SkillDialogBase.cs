@@ -17,6 +17,8 @@ using Microsoft.Bot.Schema;
 using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Shared;
 using $safeprojectname$.Services;
+using Microsoft.Bot.Builder.Solutions;
+using System.Linq;
 
 namespace $safeprojectname$.Dialogs
 {
@@ -143,10 +145,7 @@ namespace $safeprojectname$.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
-
-                // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["$safeprojectname$"];
 
                 // Get intent and entities for activity
@@ -171,6 +170,24 @@ namespace $safeprojectname$.Dialogs
             // clear state
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
+        }
+
+        private CognitiveModelSet GetCognitiveModels()
+        {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+            CognitiveModelSet cognitiveModels;
+
+            cognitiveModels = Services.CognitiveModelSets.ContainsKey(locale)
+                ? Services.CognitiveModelSets[locale]
+                : Services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).First().Value;
+
+            if (cognitiveModels == null)
+            {
+                throw new Exception("There is no value in cognitiveModels");
+            }
+
+            return cognitiveModels;
         }
     }
 }

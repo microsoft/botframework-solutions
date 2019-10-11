@@ -77,9 +77,7 @@ namespace $safeprojectname$.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-            var cognitiveModels = _services.CognitiveModelSets[locale];
+            CognitiveModelSet cognitiveModels = GetCognitiveModels();
 
             // Check dispatch result
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
@@ -297,9 +295,7 @@ namespace $safeprojectname$.Dialogs
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-                var cognitiveModels = _services.CognitiveModelSets[locale];
+                CognitiveModelSet cognitiveModels = GetCognitiveModels();
 
                 // check luis intent
                 cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
@@ -389,6 +385,24 @@ namespace $safeprojectname$.Dialogs
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private CognitiveModelSet GetCognitiveModels()
+        {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+            CognitiveModelSet cognitiveModels;
+
+            cognitiveModels = _services.CognitiveModelSets.ContainsKey(locale)
+                ? _services.CognitiveModelSets[locale]
+                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).First().Value;
+
+            if (cognitiveModels == null)
+            {
+                throw new Exception("There is no value in cognitiveModels");
+            }
+
+            return cognitiveModels;
         }
 
         private class Events
