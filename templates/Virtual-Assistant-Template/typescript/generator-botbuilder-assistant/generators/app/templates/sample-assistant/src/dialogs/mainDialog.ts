@@ -92,13 +92,8 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        // Get cognitive models for locale
-        const locale: string = i18next.language;
-        const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
-
-        if (cognitiveModels === undefined) {
-            throw new Error('There is no value in cognitiveModels');
-        }
+        const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
+        
         // Check dispatch result
         const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc.context);
         const intent: string = LuisRecognizer.topIntent(dispatchResult);
@@ -260,12 +255,8 @@ export class MainDialog extends RouterDialog {
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const locale: string = i18next.language;
-            const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+            const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
 
-            if (cognitiveModels === undefined) {
-                throw new Error('There is no cognitiveModels value');
-            }
             // check luis intent
             const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
 
@@ -340,5 +331,28 @@ export class MainDialog extends RouterDialog {
         await dc.context.sendActivity(i18next.t('main.logOut'));
 
         return InterruptionAction.StartedDialog;
+    }
+
+    private getCognitiveModel(): ICognitiveModelSet {
+        // get current activity locale
+        const locale: string = i18next.language;
+        let cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+
+        if (cognitiveModels === undefined) {
+            const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+                .find((key: string) => {
+                    if (key.substring(0, 2) === locale.substring(0, 2)) {
+                        return key;
+                    }
+                });
+            if (keyFound !== undefined) {
+                cognitiveModels = this.services.cognitiveModelSets.get(keyFound);
+            }
+        }
+        if (cognitiveModels === undefined) {
+            throw new Error('There is no value in cognitiveModels');
+        }
+
+        return cognitiveModels;
     }
 }

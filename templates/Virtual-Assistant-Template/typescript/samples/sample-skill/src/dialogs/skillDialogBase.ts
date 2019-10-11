@@ -133,13 +133,8 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
+            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
 
-            // Get luis service for current locale
-            const locale: string = i18next.language;
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
-            if (localeConfig === undefined) {
-                throw new Error('There is no cognitiveModels for the locale');
-            }
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 
@@ -176,5 +171,28 @@ export class SkillDialogBase extends ComponentDialog {
         const state: any = await this.stateAccessor.get(sc.context);
         // tslint:disable-next-line: no-unsafe-any
         state.clear();
+    }
+
+    private getCognitiveModel(): Partial<ICognitiveModelSet> {
+        // get current activity locale
+        const locale: string = i18next.language;
+        let cognitiveModels: Partial<ICognitiveModelSet> | undefined  = this.services.cognitiveModelSets.get(locale);
+
+        if (cognitiveModels === undefined) {
+            const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+                .find((key: string) => {
+                    if (key.substring(0, 2) === locale.substring(0, 2)) {
+                        return key;
+                    }
+                });
+            if (keyFound !== undefined) {
+                cognitiveModels = this.services.cognitiveModelSets.get(keyFound);
+            }
+        }
+        if (cognitiveModels === undefined) {
+            throw new Error('There is no value in cognitiveModels');
+        }
+
+        return cognitiveModels;
     }
 }

@@ -80,15 +80,11 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        // get current activity locale
-        const locale: string = i18next.language;
-        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
+        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
 
         // Populate state from SkillContext slots as required
         await this.populateStateFromSemanticAction(dc.context);
-        if (localeConfig === undefined) {
-            throw new Error('There is no cognitiveModels for the locale');
-        }
+
         // Get skill LUIS model from configuration
         if (localeConfig.luisServices !== undefined) {
 
@@ -169,12 +165,8 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-            // get current activity locale
-            const locale: string = i18next.language;
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
-            if (localeConfig === undefined) {
-                throw new Error('There is no cognitiveModels for the locale');
-            }
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
+
             // check general luis intent
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
@@ -259,5 +251,27 @@ export class MainDialog extends RouterDialog {
         //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
         //    state.CurrentCoordinates = locationObj;
         // }
+    }
+
+    private getCognitiveModel(): ICognitiveModelSet {
+        const locale: string = i18next.language;
+        let cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+
+        if (cognitiveModels === undefined) {
+            const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+                .find((key: string) => {
+                    if (key.substring(0, 2) === locale.substring(0, 2)) {
+                        return key;
+                    }
+                });
+            if (keyFound !== undefined) {
+                cognitiveModels = this.services.cognitiveModelSets.get(keyFound);
+            }
+        }
+        if (cognitiveModels === undefined) {
+            throw new Error('There is no value in cognitiveModels');
+        }
+
+        return cognitiveModels;
     }
 }
