@@ -297,14 +297,23 @@ Within `MainDialog`, any dispatch intent that has been identified is matched aga
 
 The Virtual Assistant has all of the pre-requisites required for a high quality speech experience out of the box when using Direct Line Speech. This includes ensuring all responses have speech friendly responses, middleware for SSML and configuration of the Streaming Extensions adapter. The [Enabling speech tutorial(https://microsoft.github.io/botframework-solutions/tutorials/enable-speech/1_intro/) includes further configuration steps to provision Speech and get starting with a test tool quickly.
 
-## Multi Provider Auth
+## Multi Provider Authentication
 
-// TODO
+For some assistant scenarios you may have a capability or Skill that supports multiple authentication types, the Calendar Skill for examples supports both Microsoft and Google accounts. If a user has linked their assistant to both of these there is a scenario where you need to clarify which account the user wants to use, to support this scenario the Multi Provider Auth will wrap an additional prompt around an authentication request.
+
+The Multi Provider Authentication also provides the Skill authentication protocol whereby a Skill can request a token centrally from the Virtual Assistant rather than prompting for it's own authentication.
 
 ## Event Processing
 
-// TODO
+Events plays a central role to a assistant experience and we provide a central event handler as part of the `MainDialog` implementation. `OnEventAsync` provides support for two key events: `VA.Location` and `VA.Timezone`. These events are processed, validated and then stored in state enabling dialogs and Skills to leverage these as required to enable them to adapt to the user. For example the Point of Interest skill can decide not to prompt for your current location if a Location is present.
+
+In addition, the standard `token/response` event is handled as per the Azure Bot Service authentication feature.
+
+This event handler can be extended as required to support your specific scenarios. You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/next_docs/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L208).
 
 ## Continuous Integration and Continuous Deployment
 
-// TODO
+A [Azure DevOps](https://azure.microsoft.com/en-us/solutions/devops/) [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) file for Continuous Integration is included within the `pipeline` folder of your assistant and provides all the steps required to build your assistant project and generate code coverage results. This can be imported into your Azure DevOps environment to create a build.
+
+In addition documentation to create a [release pipeline](https://microsoft.github.io/botframework-solutions/howto/virtual-assistant/continuousdeployment/) is also provided enabling you to continuously deploy updates to your project to your Azure test environment and also update Dispatch, LUIS and QnAMaker resources with any changes to the LU files within source control.
+
