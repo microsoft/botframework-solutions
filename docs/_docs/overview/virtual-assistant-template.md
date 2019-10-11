@@ -93,10 +93,15 @@ You can review this logic within `MainDialog.cs` within the `Dialogs` folder of 
 ## Activity Processing
 
 1. Activities are first processed within your Bot through the DialogBot.cs class found in the `Bots` folder. `OnTurnAsync` is executed and `MainDialog` processing is started.
+
 2. The `MainDialog` dialog provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` nuget library.
+
 3. The `OnInterruptDialogAsync` handler within `MainDialog` is executed which in-turn calls LUIS to evaluate the `General` LUIS model for top intent processing. If interruption is required it's processed at this point.
+
 4. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
+
 5. If the Activity is a `message` and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
+
 6. `RouteAsync` within MainDialog invokes the `Dispatch` model to identify whether it should hand the utterance to:
     - A dialog (mapped to a LUIS intent)
     - QnAMaker (Chitchat or QnA)
@@ -104,23 +109,49 @@ You can review this logic within `MainDialog.cs` within the `Dialogs` folder of 
 
 ## State Management
 
-// TODO
+CosmosDB is used as the default state store through the SDK provided `CosmosDbStorage` storage provider. This provides a production-grade, scalable storage layer for your Bots state along with fast disaster recovery capabilities and regional replication where required. Features like automatic time-to-live provide additional benefits around clean-up of old conversations.
+
+Within `Startup.cs` you can optionally choose to disable use of CosmosDB and switch to MemoryStorage often used for development operations but ensure this is reverted ahead of production deployment.
+
+```csharp
+ // Configure storage
+ // Uncomment the following line for local development without Cosmos Db
+ // services.AddSingleton<IStorage, MemoryStorage>();
+ services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+```
+
+Deployment can be customized to omit deployment of CosmosDB and is covered in the [deployment documentation]({{site.baseurl}}/help/reference/deploymentscripts.md).
 
 ## Introduction Card
 
 A key issue with many conversational experiences is end-users not knowing how to get started, leading to general questions that the Bot may not be best placed to answer. First impressions matter! An introduction card offers an opportunity to introduce the Bot's capabilities to an end user and suggests a few initial questions the user can use to get started. It's also a great opportunity to surface the personality of your Bot.
 
-A simple introduction card is provided as standard which you can adapt as needed, a returning user card is shown on subsequent interactions when a user has completed the onboarding dialog (triggered by the Get Started button on the Introduction card)
+A simple introduction card is provided as standard which you can adapt as needed, a returning user card is shown on subsequent interactions when a user has completed the on-boarding dialog (triggered by the Get Started button on the Introduction card)
 
 ![Intro Card Example]({{site.baseurl}}/assets/images/vatemplateintrocard.png)
 
 ## Multi-Locale support
 
-// TODO
+Most conversational experiences need to serve users in a variety of languages which introduces additional complexity around ensuring:
+- The users desired language is identified on each incoming message
+- The appropriate language variant of Dispatch, LUIS and QnAMaker is used to process the users question
+- Responses to the user are selected from the right locale response file (language generation).
+
+The Virtual Assistant addresses all of the above capabilities and assists with the deployment considerations for multi-language Dispatch, LUIS and QNAMaker resources. Localized responses for built-in capabilities are also provided.
+
+To learn more about how multi-locale support is added, see the [localization documentation]({{site.baseurl}}/virtual-assistant/handbook/localization.md).
 
 ## Language Generation
 
-// TODO
+The Virtual Assistant has transitioned to use the new [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) capability to provide a more natural conversational experience by being able to define multiple response variations and leverage context/memory to adapt these dynamically to end users.
+
+Language Generation (LG) leverages a new [LG file format](https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/lg-file-format.md) which follows the same markdown approach as the LU file format mentioned earlier. This enables easy editing of responses by a broad range of roles.
+
+LG also enables Adaptive Card responses to be defined alongside responses further simplifying management and localization of responses.
+
+LG files for your Virtual Assistant can be found in your `responses` folder or [here](https://github.com/microsoft/botframework-solutions/tree/next/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Responses) and the Template Engine code can be found in your `Startup.cs` file.
+
+An example of LG in use can be found [here](https://github.com/microsoft/botframework-solutions/blob/next/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L77) and throughout the Virtual Assistant.
 
 ## Telemetry
 
@@ -136,46 +167,81 @@ To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/vir
 
 ## Global Exception Handler
 
-```
- OnTurnError = async (turnContext, exception) =>
-            {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(MainStrings.ERROR);
-                telemetryClient.TrackException(exception);
-            };
+Whilst exceptions are typically handled at source it's important to have a global exception handler for unexpected situations which is defined as part of the Adapter definition within `DefaultAdapter.cs` or [here](https://github.com/microsoft/botframework-solutions/blob/next/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Adapters/DefaultAdapter.cs).
+
+The provided Exception handler passes information on the Exception as a Trace activity enabling it to be shown within the Bot Framework Emulator if it's being used otherwise these are suppressed. A general Error message is then shown to the user and the exception is logged through Application Insights.
+
+```csharp
+OnTurnError = async (turnContext, exception) =>
+{
+    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
+    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+    await turnContext.SendActivityAsync(MainStrings.ERROR);
+    telemetryClient.TrackException(exception);
+};
 ```
 ## Deployment Automation
 
+In order to deliver a comprehensive experience the following Azure capabilities are typically required which are detailed more fully [here](https://microsoft.github.io/botframework-solutions/reference/virtual-assistant/deploymentscripts/).
+
+Resource | Resource |
+-------- | ----- |
+Azure Bot Service | Azure Blob Storage |
+Azure Cosmos DB | Azure App Service Plan |
+Azure Application Insights | Bot Web App | 
+Language Understanding (LUIS) | QnA Maker | 
+QnA Maker Web App | QnA Maker Azure Search Service |
+Content Moderator |
+
+In order to enable you to get started quickly we have provided an ARM template and set of PowerShell scripts (supported cross platform) to provision these resources along with the required LUIS models, QnAMaker knowledgebases, Dispatcher and publishing into Azure. In addition the ability to refresh the LUIS and QNA resources with any changes from your LU files.
+
+All of the steps provided by our scripts are documented [here](https://microsoft.github.io/botframework-solutions/howto/virtual-assistant/manualdeployment/) if you wish to review or perform manually.
+
+You can find the ARM template (template.json) in your `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Template/VA/Deployment/Resources). The PowerShell scripts can be found in your `Deployment\Scripts` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Template/VA/Deployment/Scripts).
+
 ## Middleware
 
-// TODO
+A number of middleware components have been provided to address some key scenarios and are included in the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware).
 
 ### SetLocale Middleware
 
-// TODO
+In multi-locale scenarios it's key to understand the users locale so you can select the appropriate language LUIS Models and responses for a given user. Most channels populate the `Locale` property on an incoming Message activity but there are a number of cases where this may not be present thus it's important to `stamp` a default locale on activities where this is missing so downstream components 
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetLocaleMiddleware.cs).
 
 ### SetSpeak Middleware
 
-// TODO
+For Speech scenario's providing a fully formed SSML fragment is required in order to be able to control the voice, tone and more advanced capabilities such as pronunciation. Setting the `Speak` property on the Activity to a Speech representation should be performed as part of the Language Generation step but in cases where this is omitted we can transpose the Activity.Text property into Speak to ensure all responses have Speech variations.
+
+The `SetSpeak` middleware provides these capabilities and only executes when the Direct-Line Speech channel is used.  An example SSML fragment is shown below:
+
+```json
+<speak version='1.0' xmlns="https://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="en-US">
+<voice name='en-US-JessaNeural'>
+<mstts:express-as type="cheerful"> 
+You have the following event on your calendar: Sync Meeting at 4PM with 2 people at Conference Room 1.
+</mstts:express-as></voice></speak>
+```
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetSpeakMiddleware.cs).
 
 ### Console Output Middleware
 
-// TODO
+The Console Output middleware is a simple component for debugging that outputs incoming and outcoming activities to the console enabling you to easily see the Text/Speak responses flowing through your Bot.
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ConsoleOutputMiddleware.cs).
 
 ### Event Debugger Middleware
 
-// TODO
+Event Activities can used to pass metadata between a assistant and user without being visible to the user. These events can enable a device or application to communicate an event to an assistant (e.g. being switched on) or enable an assistant to convey an action to a device to perform such as opening a deep link to an application or changing the temperature.
+
+It can be hard to generate these activities for testing purposes as the Bot Framework Emulator doesn't provide the ability to send Activities. The `EventDebugMiddleware` provides an elegant workaround enabling you to send messages following a specific format which are then transponsed into an Event activity processed by your Assistant
+
+For example sending this message with the middleware registered: `/event:{ "Name": "{Event name}", "Value": "{Event value}" }` would generate an Activity of type event being created with the appropriate Value.
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/EventDebuggerMiddleware.cs).
 
-### Content Moderator Middleware.
+### Content Moderator Middleware
 
 Content Moderator is an optional component which enables detection of potential profanity and helps check for personally identifiable information (PII). This can be helpful to integrate into Bots enabling a Bot to react to profanity or if the user shares PII information. For example, a Bot can apologise and hand-off to a human or not store telemetry records if PII information is detected.
 
@@ -183,31 +249,53 @@ A middleware component is provided that screen texts and surfaces output through
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs).
 
-## Feedback
+### Feedback Middleware
 
-// TODO
+Collecting Feedback from users at the end of a interaction is a great way to measure how your assistant is doing with resolving end-users objectives beyond in addition to measuring dialog completion metrics. Forcing the user to complete feedback has been found to be highly disruptive to an overall experience so it's important to make this optional and not get in the way of the user.
+
+The Feedback middleware provides a way to collect feedback leveraging suggested actions thus making the request optional and surfaces simple 👍 and 👎 options with an option to provide a text response too. This feedback is then stored through the usual Application Insights telemetry storage and surfaced via the accompanying PowerBI dashboard.
+
+By default the middleware activates at the end of every dialog but you can customize this further to suit your scenario, for example only asking for feedback when LUIS or QnA prediction scores are low or perhaps at random or a limited numbers of times in a time-period.
 
 To learn more about the Feedback capability, see the [Feedback documentation]]({{site.baseurl}}/virtual-assistant/handbook/feedback.md).
 
-## Onboarding
-
-// TODO
-
 ## Example Dialogs
 
-// TODO
+Beyond the core `MainDialog` dialog two further dialogs are provided firstly to deliver core scenarios but also to provide examples to get you started. These are all wired up to provided LUIS intents so work out of the box across multiple languages.
+
+### MainDialog
+
+The `MainDialog` class as discussed earlier in this section is the core part of the Activity processing stack and is where all activities are processed. This is also where the Help intent is handled which returns a response as defined within the Language Generation responses. Events are also handled as part of this dialog.
+
+You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs).
+
+### OnboardingDialog
+
+The `OnboardingDialog` provides an example introduction Dialog experience for users starting their first conversation. It prompts for some information which is then stored in State for future use by your assistant. This dialog demonstrates how you can use prompts and state.
+
+You can find `OnboardingDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/OnboardingDialog.cs).
+
+### EscalateDialog
+
+The `EscalateDialog` demonstrates a stubbed dialog to handle a user asking to be transferred to a human. This is where you could integrate to a human-handoff capability. The provided implementation returns a response with a placeholder telephone number.
+
+You can find `EscalateDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/EscalateDialog.cs)
 
 ## Unit Testing
 
-// TODO
+Unit testing of dialogs is an important capability for any project. A number of examples unit tests are provided as part of the Virtual Assistant and cover all capabilities provided. These can be used as a baseline to build your own additional tests.
 
-## Adding Skill Support (utterance triggering)
+You can find these tests in a companion project to your assistant or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample.Tests).
 
-// TODO
+## Skill Support 
 
-## Centralised Skill authentication
+The Virtual Assistant integrates Skill support for your assistant, enabling you to easily register skills through execution of the `botskills` command line tool. The ability to trigger skills based on utterances relies heavily on the Dispatcher which is automatically provisioned as part of your assistant deployment.
 
-// TODO
+Within `MainDialog`, any dispatch intent that has been identified is matched against registered skills. If a skill is matched then Skill invocation is started with subsequent messages being routed to the Skill until the skill conversation is ended.
+
+## Speech support
+
+The Virtual Assistant has all of the pre-requisites required for a high quality speech experience out of the box when using Direct Line Speech. This includes ensuring all responses have speech friendly responses, middleware for SSML and configuration of the Streaming Extensions adapter. The [Enabling speech tutorial(https://microsoft.github.io/botframework-solutions/tutorials/enable-speech/1_intro/) includes further configuration steps to provision Speech and get starting with a test tool quickly.
 
 ## Multi Provider Auth
 
