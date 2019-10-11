@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
         {
             var activity = turnContext.Activity;
 
-            if (activity.Type == ActivityTypes.Message)
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 var text = activity.Text;
                 var value = activity.Value?.ToString();
