@@ -88,7 +88,7 @@
 ]
 ```
 
-# returningUserIntroTemplate
+# returningUserIntroCard
 - ```
 [AdaptiveCard
 {
@@ -150,7 +150,7 @@
 ]
 ```
 
-# helpTemplate
+# helpCard
 - ```
 [Herocard 
     title=Ayuda para el Virtual Assistant
