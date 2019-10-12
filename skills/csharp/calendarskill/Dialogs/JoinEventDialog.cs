@@ -161,7 +161,8 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
-                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect)
+                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
+                        MaxReprompt = 5
                     }, cancellationToken);
                 }
             }

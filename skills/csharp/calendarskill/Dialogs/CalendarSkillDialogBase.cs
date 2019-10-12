@@ -434,6 +434,12 @@ namespace CalendarSkill.Dialogs
                 {
                     state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
                 }
+                else
+                {
+                    // user has tried 5 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
+                }
 
                 return await sc.NextAsync();
             }

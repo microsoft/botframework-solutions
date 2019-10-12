@@ -676,7 +676,8 @@ namespace CalendarSkill.Dialogs
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate),
                     RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDateRetry),
-                    TimeZone = state.GetUserTimeZone()
+                    TimeZone = state.GetUserTimeZone(),
+                    MaxReprompt = 5
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -705,8 +706,7 @@ namespace CalendarSkill.Dialogs
 
                     state.MeetingInfor.StartDate.Add(datetime);
                 }
-                else
-                if (sc.Result != null)
+                else if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                     foreach (var resolution in dateTimeResolutions)
@@ -736,6 +736,12 @@ namespace CalendarSkill.Dialogs
                         }
                     }
                 }
+                else
+                {
+                    // user has tried 5 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
+                }
 
                 return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
@@ -759,7 +765,8 @@ namespace CalendarSkill.Dialogs
                         Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
                         RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
                         NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeNoSkip),
-                        TimeZone = state.GetUserTimeZone()
+                        TimeZone = state.GetUserTimeZone(),
+                        MaxReprompt = 5
                     }, cancellationToken);
                 }
                 else
@@ -779,29 +786,38 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null && !state.MeetingInfor.StartTime.Any())
+                if (!state.MeetingInfor.StartTime.Any())
                 {
-                    IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    foreach (var resolution in dateTimeResolutions)
+                    if (sc.Result != null)
                     {
-                        var dateTimeConvertType = resolution?.Timex;
-                        var dateTimeValue = resolution?.Value;
-                        if (dateTimeValue != null)
+                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
+                        foreach (var resolution in dateTimeResolutions)
                         {
-                            try
+                            var dateTimeConvertType = resolution?.Timex;
+                            var dateTimeValue = resolution?.Value;
+                            if (dateTimeValue != null)
                             {
-                                var dateTime = DateTime.Parse(dateTimeValue);
-
-                                if (dateTime != null)
+                                try
                                 {
-                                    state.MeetingInfor.StartTime.Add(dateTime);
+                                    var dateTime = DateTime.Parse(dateTimeValue);
+
+                                    if (dateTime != null)
+                                    {
+                                        state.MeetingInfor.StartTime.Add(dateTime);
+                                    }
+                                }
+                                catch (FormatException ex)
+                                {
+                                    await HandleExpectedDialogExceptions(sc, ex);
                                 }
                             }
-                            catch (FormatException ex)
-                            {
-                                await HandleExpectedDialogExceptions(sc, ex);
-                            }
                         }
+                    }
+                    else
+                    {
+                        // user has tried 5 times but can't get result
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                        return await sc.CancelAllDialogsAsync();
                     }
                 }
 
@@ -852,10 +868,11 @@ namespace CalendarSkill.Dialogs
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DurationPromptForCreate, new PromptOptions
+                return await sc.PromptAsync(Actions.DurationPromptForCreate, new CalendarPromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoDuration),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDurationRetry)
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDurationRetry),
+                    MaxReprompt = 5
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -923,15 +940,24 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                if (state.MeetingInfor.Duration <= 0 && sc.Result != null)
+                if (state.MeetingInfor.Duration <= 0)
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-
-                    IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    if (dateTimeResolutions.First().Value != null)
+                    if (sc.Result != null)
                     {
-                        int.TryParse(dateTimeResolutions.First().Value, out var duration);
-                        state.MeetingInfor.Duration = duration;
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+
+                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
+                        if (dateTimeResolutions.First().Value != null)
+                        {
+                            int.TryParse(dateTimeResolutions.First().Value, out var duration);
+                            state.MeetingInfor.Duration = duration;
+                        }
+                    }
+                    else
+                    {
+                        // user has tried 5 times but can't get result
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                        return await sc.CancelAllDialogsAsync();
                     }
                 }
 
@@ -959,10 +985,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
+                return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new CalendarPromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfoRetry)
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfoRetry),
+                    MaxReprompt = 5
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -1012,9 +1039,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    // should not go to this part. place an error handling for safe.
-                    await HandleDialogExceptions(sc, new Exception("Get unexpect result in recreate."));
-                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                    // user has tried 5 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)

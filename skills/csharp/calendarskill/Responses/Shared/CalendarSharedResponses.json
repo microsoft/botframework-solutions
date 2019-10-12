@@ -113,5 +113,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "RetryTooManyResponse": {
+    "replies": [
+      {
+        "text": "Sorry I can't help you on this. Let's try it later.",
+        "speak": "Sorry I can't help you on this. Let's try it later."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

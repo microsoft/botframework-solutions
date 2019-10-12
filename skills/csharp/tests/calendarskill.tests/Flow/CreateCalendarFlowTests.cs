@@ -12,6 +12,7 @@ using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
@@ -70,6 +71,49 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreate_ConfirmNo_RetryTooMany()
+        {
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForLocationPrompt())
+                .Send(Strings.Strings.DefaultLocation)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForRecreateInfoReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForRecreateInfoReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForRecreateInfoReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForRecreateInfoReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForRecreateInfoReprompt())
+                .Send("test")
+                .AssertReplyOneOf(RetryTooManyResponse())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -802,6 +846,129 @@ namespace CalendarSkill.Test.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarCreateRetryDateTooMany()
+        {
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDateReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDateReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDateReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDateReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDateReprompt())
+                .Send("test")
+                .AssertReplyOneOf(RetryTooManyResponse())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreateRetryTimeTooMany()
+        {
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForStartTimeReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForStartTimeReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForStartTimeReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForStartTimeReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForStartTimeReprompt())
+                .Send("test")
+                .AssertReplyOneOf(RetryTooManyResponse())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreateRetryDurationTooMany()
+        {
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDurationReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDurationReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDurationReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDurationReprompt())
+                .Send("test")
+                .AssertReplyOneOf(AskForDurationReprompt())
+                .Send("test")
+                .AssertReplyOneOf(RetryTooManyResponse())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
         {
             return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
@@ -922,14 +1089,29 @@ namespace CalendarSkill.Test.Flow
             return ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
         }
 
+        private string[] AskForDateReprompt()
+        {
+            return ParseReplies(CreateEventResponses.NoStartDateRetry, new StringDictionary());
+        }
+
         private string[] AskForStartTimePrompt()
         {
             return ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
         }
 
+        private string[] AskForStartTimeReprompt()
+        {
+            return ParseReplies(CreateEventResponses.NoStartTimeRetry, new StringDictionary());
+        }
+
         private string[] AskForDurationPrompt()
         {
             return ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
+        }
+
+        private string[] AskForDurationReprompt()
+        {
+            return ParseReplies(CreateEventResponses.NoDurationRetry, new StringDictionary());
         }
 
         private string[] AskForLocationPrompt()
@@ -940,6 +1122,16 @@ namespace CalendarSkill.Test.Flow
         private string[] AskForRecreateInfoPrompt()
         {
             return ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
+        }
+
+        private string[] AskForRecreateInfoReprompt()
+        {
+            return ParseReplies(CreateEventResponses.GetRecreateInfoRetry, new StringDictionary());
+        }
+
+        private string[] RetryTooManyResponse()
+        {
+            return ParseReplies(CalendarSharedResponses.RetryTooManyResponse, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
