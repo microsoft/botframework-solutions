@@ -27,6 +27,7 @@ Next you need to create the Authentication Connection for your Bot. Within the A
 - Scroll down to the oAuth Connection settings section.
 - Click `Add Setting`
 - Type in the name of your Connection Setting - e.g. `Outlook`
+    - The name will be displayed in the OAuth card, so make sure it is meaningful
 - Choose `Azure Active Directory v2` from the Service Provider drop-down
 - Open the `appSettings.config` file for your Skill
     - Copy/Paste the value of `microsoftAppId` into the ClientId setting
