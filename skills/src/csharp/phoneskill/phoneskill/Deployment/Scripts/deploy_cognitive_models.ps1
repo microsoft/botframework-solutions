@@ -61,21 +61,21 @@ if (-not $luisAuthoringKey) {
 }
 
 if (-not $luisAccountName) {
-    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+    $luisAccountName = Read-Host "? LUIS Service Name (existing service in Azure required)"
 }
 
 if (-not $resourceGroup) {
 	$resourceGroup = $name
 
-	$rgExists = az group exists -n $resourceGroup
+	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
-	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
+	    $resourceGroup = Read-Host "? LUIS Service Resource Group (existing service in Azure required)"
 	}
 }
 
 if (-not $luisSubscriptionKey) {
-	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup --output json | ConvertFrom-Json
 
 	if ($keys) {
 		$luisSubscriptionKey = $keys.key1
@@ -98,8 +98,8 @@ else {
 	$useQna = $true
 }
 
-$azAccount = az account show | ConvertFrom-Json
-$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
+$azAccount = az account show --output json | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
@@ -181,10 +181,10 @@ foreach ($language in $languageArr)
 				$config.languageModels += @{
 					id = $lu.BaseName
 					name = $luisApp.name
-					appid = $luisApp.id
-					authoringkey = $luisAuthoringKey
+					appId = $luisApp.id
+					authoringKey = $luisAuthoringKey
                     authoringRegion = $luisAuthoringRegion
-					subscriptionkey = $luisSubscriptionKey
+					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
 				}
@@ -283,10 +283,10 @@ foreach ($language in $languageArr)
 			$config.dispatchModel = @{
 				type = "dispatch"
 				name = $dispatchApp.name
-				appid = $dispatchApp.appId
-				authoringkey = $luisauthoringkey
+				appId = $dispatchApp.appId
+				authoringKey = $luisauthoringkey
                 authoringRegion = $luisAuthoringRegion
-				subscriptionkey = $luisSubscriptionKey
+				subscriptionKey = $luisSubscriptionKey
 				region = $luisAccountRegion
 			}
 		}
@@ -297,4 +297,4 @@ foreach ($language in $languageArr)
 }
 
 # Write out config to file
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json" )
+$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $outFolder "cognitivemodels.json" )

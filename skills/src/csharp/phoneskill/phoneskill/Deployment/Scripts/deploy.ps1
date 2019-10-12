@@ -81,7 +81,8 @@ if (-not $appId) {
 		--display-name $name `
 		--password `"$($appPassword)`" `
 		--available-to-other-tenants `
-		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
+		--reply-urls 'https://token.botframework.com/.auth/web/redirect' `
+        --output json)
 
 	# Retrieve AppId
 	if ($app) {
@@ -101,7 +102,7 @@ $timestamp = Get-Date -f MMddyyyyHHmmss
 
 # Create resource group
 Write-Host "> Creating resource group ..."
-(az group create --name $resourceGroup --location $location) 2>> $logFile | Out-Null
+(az group create --name $resourceGroup --location $location --output json) 2>> $logFile | Out-Null
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
@@ -110,7 +111,8 @@ if ($parametersFile) {
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+        --output json
 
 	if ($validation) {
 		$validation >> $logFile
@@ -123,7 +125,8 @@ if ($parametersFile) {
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+                --output json
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
@@ -139,7 +142,8 @@ else {
 	$validation = az group deployment validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+        --output json
 
 	if ($validation) {
 		$validation >> $logFile
@@ -151,7 +155,8 @@ else {
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+                --output json
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
@@ -167,7 +172,8 @@ else {
 $outputs = (az group deployment show `
 	--name $timestamp `
 	--resource-group $resourceGroup `
-	--query properties.outputs) 2>> $logFile
+	--query properties.outputs `
+    --output json) 2>> $logFile
 
 # If it succeeded then we perform the remainder of the steps
 if ($outputs)
@@ -181,7 +187,7 @@ if ($outputs)
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
 	if (Test-Path $(Join-Path $projDir appsettings.json)) {
-		$settings = Get-Content $(Join-Path $projDir appsettings.json) | ConvertFrom-Json
+		$settings = Get-Content -Encoding utf8 $(Join-Path $projDir appsettings.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
@@ -190,7 +196,7 @@ if ($outputs)
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
+	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $projDir appsettings.json)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
 
@@ -200,6 +206,13 @@ if ($outputs)
 	# Deploy cognitive models
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
+	# Summary 
+	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow
+
+	Write-Host "- Resource Group: $($resourceGroup)" -ForegroundColor Yellow
+		
+	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
+
 	# Publish bot
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 
@@ -208,7 +221,7 @@ if ($outputs)
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp) 2>> $logFile | Out-Null 
+	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json
