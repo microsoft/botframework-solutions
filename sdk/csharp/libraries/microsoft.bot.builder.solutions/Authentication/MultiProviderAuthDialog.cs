@@ -357,7 +357,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
 
             var eventActivity = promptContext.Context.Activity.AsEventActivity();
-            if (eventActivity != null && eventActivity.Name == "tokens/response")
+            if (eventActivity != null && eventActivity.Name == TokenEvents.TokenResponseEventName)
             {
                 promptContext.Recognized.Value = eventActivity.Value as TokenResponse;
                 return Task.FromResult(true);
