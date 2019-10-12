@@ -406,15 +406,6 @@ namespace EmailSkill.Tests.Flow
             };
         }
 
-        //private Action<IActivity> AssertCheckContent()
-        //{
-        //    return activity =>
-        //    {
-        //        var messageActivity = activity.AsMessageActivity();
-        //        CollectionAssert.Contains(this.ParseReplies(SendEmailResponses.CheckContent, new StringDictionary()), messageActivity.Text);
-        //    };
-        //}
-
         private Action<IActivity> CoundNotFindUser(StringDictionary recipient)
         {
             return activity =>

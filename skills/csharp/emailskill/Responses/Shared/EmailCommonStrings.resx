@@ -129,8 +129,8 @@
   <data name="ContactSeparator" xml:space="preserve">
     <value>, | ; | and</value>
   </data>
-  <data name="Body" xml:space="preserve">
-    <value>content</value>
+  <data name="Content" xml:space="preserve">
+    <value>body</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
     <value>Body: {0}</value>
@@ -172,7 +172,7 @@
     <value>important</value>
   </data>
   <data name="Recipients" xml:space="preserve">
-    <value>Recipients</value>
+    <value>recipients</value>
   </data>
   <data name="Relevant" xml:space="preserve">
     <value>relevant</value>

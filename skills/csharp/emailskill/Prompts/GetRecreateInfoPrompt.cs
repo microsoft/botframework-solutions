@@ -84,7 +84,7 @@ namespace EmailSkill.Prompts
             {
                 result = ResendEmailState.Subject;
             }
-            else if (message.ToLowerInvariant().Equals(EmailCommonStrings.Body))
+            else if (message.ToLowerInvariant().Equals(EmailCommonStrings.Content))
             {
                 result = ResendEmailState.Body;
             }

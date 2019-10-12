@@ -259,11 +259,14 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // End when there is no message.
                 if (state.MessageList.Count == 0)
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
+                // Set focus when there is only one message.
                 if (state.MessageList.Count == 1)
                 {
                     state.Message.Add(state.MessageList[0]);

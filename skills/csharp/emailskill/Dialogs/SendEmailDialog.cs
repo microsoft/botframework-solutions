@@ -283,19 +283,6 @@ namespace EmailSkill.Dialogs
                     {
                         state.Content = contentInput;
 
-                        //var emailCard = new EmailCardData
-                        //{
-                        //    Subject = EmailCommonStrings.MessageConfirm,
-                        //    EmailContent = state.Content,
-                        //};
-
-                        //var replyMessage = ResponseManager.GetCardResponse(
-                        //    SendEmailResponses.PlayBackMessage,
-                        //    new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
-                        //    stringToken);
-
-                        //await sc.Context.SendActivityAsync(replyMessage);
-
                         var stringToken = new StringDictionary
                         {
                             { "EmailContent", state.Content },

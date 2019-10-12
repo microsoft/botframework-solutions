@@ -70,15 +70,6 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to content.
-        /// </summary>
-        public static string Body {
-            get {
-                return ResourceManager.GetString("Body", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to cancel.
         /// </summary>
         public static string Cancel {
@@ -102,6 +93,15 @@ namespace EmailSkill.Responses.Shared {
         public static string ContactSeparator {
             get {
                 return ResourceManager.GetString("ContactSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to body.
+        /// </summary>
+        public static string Content {
+            get {
+                return ResourceManager.GetString("Content", resourceCulture);
             }
         }
         
@@ -313,7 +313,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recipients.
+        ///   Looks up a localized string similar to recipients.
         /// </summary>
         public static string Recipients {
             get {
