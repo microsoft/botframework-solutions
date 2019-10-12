@@ -204,7 +204,7 @@ namespace EmailSkill.Tests.Flow
         {
             string testRecipient = ContextStrings.TestEmailAdress;
             StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testRecipient } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testRecipient } };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
@@ -232,7 +232,7 @@ namespace EmailSkill.Tests.Flow
             StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
             string testRecipientConfirm = ContextStrings.TestEmailAdress;
             StringDictionary recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm + ": " + testRecipientConfirm } };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm} };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToNobody)
