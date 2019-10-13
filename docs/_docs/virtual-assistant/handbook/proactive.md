@@ -14,7 +14,7 @@ order: 8
 
 * 
 {:toc}
-## Intro
+## Introduction
 
 Proactive scenarios are a key part of ensuring a Virtual Assistant can provide more intelligent and helpful capabilities to end users. This enables a Virtual Assistant to move away from exclusively reactive (user initiated) scenarios towards more intelligent interactions triggered by external events that are known to be of interest to the end user.
 

@@ -15,7 +15,7 @@ order: 12
 * 
 {:toc}
 
-## Intro
+## Introduction
 
 [Event Activities](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-activities?view=azure-bot-service-3.0#event) are used to pass metadata between a bot and user without being visible to the user.
 

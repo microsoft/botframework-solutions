@@ -3,7 +3,7 @@ category: Virtual Assistant
 subcategory: Handbook
 title: Architecture
 description: Detailed documentation covering what the template provides and how it works
-order: 2
+order: 1
 ---
 
 # {{ page.title }}
@@ -15,7 +15,7 @@ order: 2
 * 
 {:toc}
 
-## Intro
+## Introduction
 An architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
 
 ![Virtual Assistant Architecture]({{site.baseurl}}/assets/images/virtualassistant-architecture.jpg)

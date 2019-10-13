@@ -15,7 +15,7 @@ order: 5
 * 
 {:toc}
 
-## Intro
+## Introduction
 
 ## Getting the locale
 To capture the user's locale, the Virtual Assistant uses the SetLocaleMiddleware. For each message that comes in from the user, the CurrentUICulture is set equal to the Activity's locale property. If Activity.Locale is not available on the activity, the DefaultLocale from cognitivemodel.json is used instead.

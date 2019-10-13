@@ -1,24 +1,19 @@
 ---
 category: Overview
 title: What's in the Virtual Assistant template?
-description: This section of the documentation covers each capability providing an overview and code walk-through enabling you to understand what has been provided to get you started. This documentation can also be used to lift discrete pieces into your own Bot if preferred.
+description: The Virtual Assistant Template brings together a number of best practices identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
 order: 2
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
 {{ page.description }}
 
-## In this reference
+## In this overview
 {:.no_toc}
 
 * 
 {:toc}
-
-## Introduction
-
-The Virtual Assistant Template brings together a number of best practices we've identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
 
 ## Your Assistant Project
 
@@ -26,7 +21,10 @@ Using the template you'll end up with your own Assistant project that is organiz
 
 To learn more about project structure, see the [Create Project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project/) documentation.
 
-## LU File Format
+## Language Understanding
+
+### LU file format
+{:.no_toc}
 
 The [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) format is similar to MarkDown enabling easy modification and source control of your LUIS models and QnA information. Virtual Assistant uses these files at it's core to simplify deployment and provide a ongoing source control solution.
 
@@ -34,7 +32,8 @@ The [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/
 
 All of the above is handled as part of the Deployment scripts detailed below.
 
-## LUIS
+### LUIS
+{:.no_toc}
 
 Every Bot should handle a base level of conversational language understanding. Cancellation or Help for example are a basic things every Bot should handle with ease. Typically, developers need to create these base intents and provide initial training data to get started. The Virtual Assistant template provides example LU files to get you started and avoids every project having to create these each time and ensures a base level of capability out of the box.
 
@@ -43,7 +42,8 @@ The LU files provide the following intents across English, Chinese, French, Ital
 
 You can review these within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/LU).
 
-### LUIS Strongly Typed classes
+#### LUIS Strongly Typed classes
+{:.no_toc}
 
 The [LuisGen](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) tool enables developers to create a strongly-typed class for their LUIS models. As a result you can easily reference the intents and entities as class instance members.
 
@@ -51,14 +51,17 @@ You'll find a `GeneralLuis.cs` and `DispatchLuis.cs` class as part of your proje
 
 To learn more about LuisGen, see the [LuisGen Tool](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) documentation and you can find examples of these classes [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services).
 
-## QnA Maker
+### QnA Maker
+{:.no_toc}
+
 A key design pattern used to good effect in the first wave of conversational experiences was to leverage Language Understanding (LUIS) and QnA Maker together. LUIS would be trained with tasks that your Bot could do for an end user and QnA Maker would be trained with more general knowledge and also provide personality chit-chat capabilities.
 
 [QnA Maker](https://www.qnamaker.ai/) provides the ability for non-developers to curate general knowledge in the format of question and answer pairs. This knowledge can be imported from FAQ data sources, product manuals and interactively within the QnaMaker portal.
 
 Two example QnA Maker models localised to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/QnA).
 
-### Base Personality
+#### Base Personality
+{:.no_toc}
 
 QnAMaker provides 5 different personality types which you can find [here](https://github.com/microsoft/BotBuilder-PersonalityChat/tree/master/CSharp/Datasets). The Virtual Assistant template includes the `Professional` personality and has been converted into the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) format to ease source control and deployment.
 
@@ -66,7 +69,7 @@ You can review this within the `Deployment\Resources` folder or [here](https://g
 
 ![QnA ChitChat example]({{site.baseurl}}/assets/images/qnachitchatexample.png)
 
-## Dispatch Model
+### Dispatch Model
 
 [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=csaddref%2Ccsbotconfig) provides an elegant solution to bringing together LUIS models and QnAMaker knowledge-bases into one experience. It does this by extracting utterances from each configured LUIS model and questions from QnA Maker and creating a central dispatch LUIS model. This enables a Bot to quickly identify which LUIS model or component should handle a given utterance and ensures QnA Maker data is considered at the top level of intent processing not just through None intent processing as has been the case previously.
 
@@ -122,7 +125,7 @@ Within `Startup.cs` you can optionally choose to disable use of CosmosDB and swi
 
 Deployment can be customized to omit deployment of CosmosDB and is covered in the [deployment documentation]({{site.baseurl}}/help/reference/deploymentscripts.md).
 
-## Introduction Card
+## Introductionduction Card
 
 A key issue with many conversational experiences is end-users not knowing how to get started, leading to general questions that the Bot may not be best placed to answer. First impressions matter! An introduction card offers an opportunity to introduce the Bot's capabilities to an end user and suggests a few initial questions the user can use to get started. It's also a great opportunity to surface the personality of your Bot.
 
@@ -203,13 +206,15 @@ You can find the ARM template (template.json) in your `Deployment\Resources` fol
 
 A number of middleware components have been provided to address some key scenarios and are included in the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware).
 
-### SetLocale Middleware
+### Set Locale Middleware
+{:.no_toc}
 
 In multi-locale scenarios it's key to understand the users locale so you can select the appropriate language LUIS Models and responses for a given user. Most channels populate the `Locale` property on an incoming Message activity but there are a number of cases where this may not be present thus it's important to `stamp` a default locale on activities where this is missing so downstream components 
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetLocaleMiddleware.cs).
 
-### SetSpeak Middleware
+### Set Speak Middleware
+{:.no_toc}
 
 For Speech scenario's providing a fully formed SSML fragment is required in order to be able to control the voice, tone and more advanced capabilities such as pronunciation. Setting the `Speak` property on the Activity to a Speech representation should be performed as part of the Language Generation step but in cases where this is omitted we can transpose the Activity.Text property into Speak to ensure all responses have Speech variations.
 
@@ -226,12 +231,14 @@ You have the following event on your calendar: Sync Meeting at 4PM with 2 people
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetSpeakMiddleware.cs).
 
 ### Console Output Middleware
+{:.no_toc}
 
 The Console Output middleware is a simple component for debugging that outputs incoming and outcoming activities to the console enabling you to easily see the Text/Speak responses flowing through your Bot.
 
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ConsoleOutputMiddleware.cs).
 
 ### Event Debugger Middleware
+{:.no_toc}
 
 Event Activities can used to pass metadata between a assistant and user without being visible to the user. These events can enable a device or application to communicate an event to an assistant (e.g. being switched on) or enable an assistant to convey an action to a device to perform such as opening a deep link to an application or changing the temperature.
 
@@ -242,6 +249,7 @@ For example sending this message with the middleware registered: `/event:{ "Name
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/EventDebuggerMiddleware.cs).
 
 ### Content Moderator Middleware
+{:.no_toc}
 
 Content Moderator is an optional component which enables detection of potential profanity and helps check for personally identifiable information (PII). This can be helpful to integrate into Bots enabling a Bot to react to profanity or if the user shares PII information. For example, a Bot can apologise and hand-off to a human or not store telemetry records if PII information is detected.
 
@@ -250,6 +258,7 @@ A middleware component is provided that screen texts and surfaces output through
 You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs).
 
 ### Feedback Middleware
+{:.no_toc}
 
 Collecting Feedback from users at the end of a interaction is a great way to measure how your assistant is doing with resolving end-users objectives beyond in addition to measuring dialog completion metrics. Forcing the user to complete feedback has been found to be highly disruptive to an overall experience so it's important to make this optional and not get in the way of the user.
 
@@ -259,23 +268,26 @@ By default the middleware activates at the end of every dialog but you can custo
 
 To learn more about the Feedback capability, see the [Feedback documentation]]({{site.baseurl}}/virtual-assistant/handbook/feedback.md).
 
-## Example Dialogs
+## Starter dialogs
 
 Beyond the core `MainDialog` dialog two further dialogs are provided firstly to deliver core scenarios but also to provide examples to get you started. These are all wired up to provided LUIS intents so work out of the box across multiple languages.
 
 ### MainDialog
+{:.no_toc}
 
 The `MainDialog` class as discussed earlier in this section is the core part of the Activity processing stack and is where all activities are processed. This is also where the Help intent is handled which returns a response as defined within the Language Generation responses. Events are also handled as part of this dialog.
 
 You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs).
 
 ### OnboardingDialog
+{:.no_toc}
 
 The `OnboardingDialog` provides an example introduction Dialog experience for users starting their first conversation. It prompts for some information which is then stored in State for future use by your assistant. This dialog demonstrates how you can use prompts and state.
 
 You can find `OnboardingDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/OnboardingDialog.cs).
 
 ### EscalateDialog
+{:.no_toc}
 
 The `EscalateDialog` demonstrates a stubbed dialog to handle a user asking to be transferred to a human. This is where you could integrate to a human-handoff capability. The provided implementation returns a response with a placeholder telephone number.
 
@@ -311,7 +323,7 @@ In addition, the standard `token/response` event is handled as per the Azure Bot
 
 This event handler can be extended as required to support your specific scenarios. You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/next_docs/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L208).
 
-## Continuous Integration and Continuous Deployment
+## Continuous Integration and Deployment
 
 A [Azure DevOps](https://azure.microsoft.com/en-us/solutions/devops/) [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) file for Continuous Integration is included within the `pipeline` folder of your assistant and provides all the steps required to build your assistant project and generate code coverage results. This can be imported into your Azure DevOps environment to create a build.
 

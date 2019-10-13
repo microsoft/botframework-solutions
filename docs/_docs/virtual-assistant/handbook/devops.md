@@ -23,7 +23,7 @@ order: 7
 
 ## Create an Azure DevOps release pipeline
 
-### Introduction
+### Introductionduction
 {:.no_toc}
 
 In the first place, we need to have in mind a few modifications before starting to work on the Release Pipeline configuration. We'll generate an artifact, but what is an artifact? It’s a compressed version of the project or solution which contains all the necessary information to create the base of the Release Pipeline configuration.
@@ -155,7 +155,7 @@ After the release was executed you can check the log of each tasks added to the 
 
 
 
-    ### Intro
+    ### Introduction
 
 When trying to develop language models in a distributed team, managing conflicts can be difficult. Refer to the following guidance for some common scenarios when managing cognitive models for a team.
 

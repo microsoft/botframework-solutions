@@ -15,7 +15,7 @@ order: 2
 * 
 {:toc}
 
-## Intro
+## Introduction
 
 Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.
 

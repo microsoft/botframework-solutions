@@ -14,7 +14,7 @@ order: 1
 
 * 
 {:toc}
-## Intro
+## Introduction
 
 A number of PowerShell scripts are provided in the Virtual Assistant Template to help deploy and configure your different resources. Please find details on each script's purpose, parameters, and outputs below.
 

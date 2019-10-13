@@ -1,7 +1,7 @@
 ---
 category: Virtual Assistant
 subcategory: Handbook
-title: Responses
+title: Language Generation
 description: How responses work in the Virtual Assistant template
 order: 4
 ---
@@ -14,7 +14,7 @@ order: 4
 
 * 
 {:toc}
-## Intro
+## Introductionduction
 
 Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas. Through use of the Bot Framework Activity schema, both `Text` and `Speak` variations of a response are returned enabling the device to make the most appropriate choice.
 

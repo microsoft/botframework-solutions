@@ -14,10 +14,9 @@ layout: default
 |[<img src="{{site.baseurl}}/assets/images/calendarskillcardexample.png" width="1250">]({{site.baseurl}}/overview/skills)| [**Skills (Preview).**]({{site.baseurl}}/overview/skills) A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.|
 |[<img src="{{site.baseurl}}/assets/images/powerbi-conversationanalytics-luisintents.png" width="1250">]({{site.baseurl}}/overview/analytics)| [**Analytics.**]({{site.baseurl}}/overview/analytics) Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
 
-## Tutorials
-> Step-by-step tutorials to get your started using the Virtual Assistant and Skills. 
+## Step-by-Step Tutorials
 
-### C#
+### C# Tutorials
 {:.no_toc}
 <div class="card-group">
     <div class="card">
@@ -58,7 +57,7 @@ layout: default
     </div>
 </div>
 
-### TypeScript
+### TypeScript Tutorials
 {:.no_toc}
 <div class="card-group">
     <div class="card">

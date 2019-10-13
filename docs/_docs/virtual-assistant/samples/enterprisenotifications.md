@@ -12,7 +12,7 @@ order: 1
 * 
 {:toc}
 
-## Intro
+## Introduction
 
 There are many scenarios where an enterprise-focused Assistant needs to push notifications or messages to employees.
 These messages may need to be delivered on a variety of [channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) and customized by each employees.
