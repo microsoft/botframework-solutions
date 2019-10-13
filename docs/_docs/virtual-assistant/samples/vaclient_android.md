@@ -9,7 +9,7 @@ order: 3
 # {{ page.title }}
 {:.no_toc}
 
-## In this how-to
+## In this topic
 {:.no_toc}
 
 * 
