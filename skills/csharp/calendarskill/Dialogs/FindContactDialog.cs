@@ -315,10 +315,18 @@
                 }
 
                 var name = confirmedPerson.DisplayName;
+                var userString = string.Empty;
+                if (!name.Equals(confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName))
+                {
+                    userString = name + ": ";
+                }
+
+                userString += confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName;
+
                 if (confirmedPerson.Emails.Count() == 1)
                 {
                     // Highest probability
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
 
                     return await sc.NextAsync();
                 }
