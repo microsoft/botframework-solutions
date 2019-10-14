@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "..\..\..\..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITSMSkill", "..\..\..\..\skills\csharp\experimental\itsmskill\ITSMSkill.csproj", "{E226ECDB-2D28-4515-95B5-5163BADDCBDA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistant\VirtualAssistantSample.csproj", "{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -97,6 +99,14 @@ Global
 		{E226ECDB-2D28-4515-95B5-5163BADDCBDA}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{E226ECDB-2D28-4515-95B5-5163BADDCBDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E226ECDB-2D28-4515-95B5-5163BADDCBDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +120,7 @@ Global
 		{5420EA87-17E8-4C22-B9F3-3FC8DF00491F} = {C3C4992B-F781-4DF3-9822-78AF2CCC15D0}
 		{427C17CA-F952-471D-A7B2-9A798F70C42D} = {C3C4992B-F781-4DF3-9822-78AF2CCC15D0}
 		{E226ECDB-2D28-4515-95B5-5163BADDCBDA} = {C3C4992B-F781-4DF3-9822-78AF2CCC15D0}
+		{14FD131F-0EEC-4E64-8DE0-4DF85C33F0E2} = {5E36FFFD-2C9D-48E5-AAFA-460023F19764}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0CBBA70E-7242-4EC3-A76B-FF444246A980}
