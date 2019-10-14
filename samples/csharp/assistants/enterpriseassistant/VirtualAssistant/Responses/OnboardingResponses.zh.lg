@@ -1,0 +1,17 @@
+﻿# namePrompt
+- 您叫什么名字？
+
+# haveNameMessage
+- 你好, {name}!
+
+# emailPrompt
+- 您的电子邮件是什么？
+
+# haveEmailMessage
+- 明白了。我已将 {email} 添加为您的主要联系地址。
+
+# locationPrompt
+- 最后, 你在哪里？
+
+# haveLocationMessage
+- 谢谢, {name}。我已将 {location} 添加为您的主要位置。你们都准备好了!
