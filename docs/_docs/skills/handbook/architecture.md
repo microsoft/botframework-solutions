@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Architecture
 description: Under the covers of the skill implementation
 order: 2
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Introduction
 

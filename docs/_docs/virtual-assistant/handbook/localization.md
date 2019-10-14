@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Localization
 description: Manage localization across a Virtual Assistant environment
 order: 5
+toc: true
 ---
 
 # {{ page.title }} : {{ page.description }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Introduction
 

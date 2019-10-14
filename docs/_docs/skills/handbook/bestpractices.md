@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Best practices
 description: Best practices when developing a Bot Framework Skill
 order: 1
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this reference
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Language understanding
 

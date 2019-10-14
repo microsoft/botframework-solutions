@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Events
 description: Send events to pass context to a Virtual Assistant
 order: 12
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Introduction
 

@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Authentication
 description: Details on Skill authentication approach and flow.
 order: 4
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this reference
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 A Skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication:
 

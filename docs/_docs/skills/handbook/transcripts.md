@@ -2,12 +2,12 @@
 category: Skills
 subcategory: Handbook
 title: Transcripts
-description: Bot Framework emulator transcripts for pre-built skills.
+description: Review a sample conversational flow of each skill by downloading a transcript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 order: 6
 ---
 
 # {{ page.title }}
-Review a sample conversational flow of each skill by downloading a transcript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
+{{ page.description }}
 
 #### Automotive Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-automotive.transcript)
 

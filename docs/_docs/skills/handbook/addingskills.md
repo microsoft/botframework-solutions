@@ -4,16 +4,13 @@ subcategory: Handbook
 title: Add a Skill to a Virtual Assistant
 description: Steps for adding a skill to an assistant
 order: 1
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
+{{ page.description }}
 
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) version 10.8 or higher

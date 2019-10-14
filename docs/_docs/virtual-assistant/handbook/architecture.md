@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Architecture
 description: Detailed documentation covering what the template provides and how it works
 order: 1
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Introduction
 An architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.

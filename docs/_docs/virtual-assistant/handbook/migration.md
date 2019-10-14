@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Migration
 description: Migrate from the Enterprise template 
 order: 13
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## What happened to the Enterprise Template?
 

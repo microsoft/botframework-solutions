@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Feedback
 description: Collect feedback from users
 order: 9
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Add and configure the middleware
 To start collecting user feedback, add the following code block in your adapter class (DefaultAdapter.cs in the Virtual Assistant and Skill templates):

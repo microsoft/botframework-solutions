@@ -4,16 +4,12 @@ subcategory: Handbook
 title: Manifest
 description: Overview of the Skill manifest and its role with Skill registration and invocation.
 order: 3
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 ## Introduction
 

@@ -4,16 +4,12 @@ subcategory: Handbook
 title: DevOps
 description: Create an Azure DevOps release pipeline
 order: 7
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 	
 ## Prerequisites
 - To have a better knowledge you can read the documentation of Continuous integration about the YAML build Pipelines.

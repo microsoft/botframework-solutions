@@ -4,16 +4,13 @@ subcategory: Handbook
 title: Responses
 description: Details on how responses work in skill projects.
 order: 6
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
+{{ page.description }}
 
 
 ## Response Files
