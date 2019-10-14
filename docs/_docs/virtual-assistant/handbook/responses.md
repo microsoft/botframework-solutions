@@ -14,7 +14,7 @@ order: 4
 
 * 
 {:toc}
-## Introductionduction
+## Introduction
 
 Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas. Through use of the Bot Framework Activity schema, both `Text` and `Speak` variations of a response are returned enabling the device to make the most appropriate choice.
 

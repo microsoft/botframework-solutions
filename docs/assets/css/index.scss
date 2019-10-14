@@ -87,3 +87,28 @@ body {
 .carousel-control-next-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
+
+.content-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.section-nav::before {
+    content: "Contents";
+}
+
+.section-nav {
+    list-style: none;
+    font-size: .875rem;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    float: right !important;
+    padding-top: 1em !important;
+
+    a:hover {
+        text-decoration: none;
+    }
+}

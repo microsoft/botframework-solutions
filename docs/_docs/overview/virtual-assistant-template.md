@@ -1,32 +1,26 @@
 ---
 category: Overview
 title: What's in the Virtual Assistant template?
-description: The Virtual Assistant Template brings together a number of best practices identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
+description: The Virtual Assistant Template brings together many best practices identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
 order: 2
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 {{ page.description }}
 
-## In this overview
-{:.no_toc}
+## Your Assistant project
 
-* 
-{:toc}
-
-## Your Assistant Project
-
-Using the template you'll end up with your own Assistant project that is organized in-line with our latest thinking on how a Bot project can be structured. You can choose to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location so bear this in mind.
+Using the template you'll end up with your Assistant project that is organized in-line with the recommended thinking on how a Bot project should be structured. You are free to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location so bear this in mind.
 
 To learn more about project structure, see the [Create Project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project/) documentation.
 
 ## Language Understanding
-
-### LU file format
+### .lu file format
 {:.no_toc}
 
-The [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) format is similar to MarkDown enabling easy modification and source control of your LUIS models and QnA information. Virtual Assistant uses these files at it's core to simplify deployment and provide a ongoing source control solution.
+The [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) format is similar to MarkDown enabling easy modification and source control of your LUIS models and QnA information. Virtual Assistant uses these files at its core to simplify deployment and provide an ongoing source control solution.
 
 The [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) tool is then used to convert .LU files into LUIS models which can then be published to your LUIS subscription either through the portal or the associated [LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS) CLI (command line) tool. The same tool is used to create a QnA Maker JSON file which the [QnA Maker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI (command line) tool then uses to publish items to the QnA Maker knowledgebase.
 
@@ -35,17 +29,17 @@ All of the above is handled as part of the Deployment scripts detailed below.
 ### LUIS
 {:.no_toc}
 
-Every Bot should handle a base level of conversational language understanding. Cancellation or Help for example are a basic things every Bot should handle with ease. Typically, developers need to create these base intents and provide initial training data to get started. The Virtual Assistant template provides example LU files to get you started and avoids every project having to create these each time and ensures a base level of capability out of the box.
+Every Bot should handle a base level of conversational language understanding. Cancellation or Help, for example, is a basic thing every Bot should handle with ease. Typically, developers need to create these base intents and provide initial training data to get started. The Virtual Assistant template provides example LU files to get you started and avoids every project having to create these each time and ensures a base level of capability out of the box.
 
 The LU files provide the following intents across English, Chinese, French, Italian, German, Spanish. 
 > Cancel, Confirm, Escalate, FinishTask, GoBack, Help, Reject, Repeat, SelectAny, SelectItem, SelectNone, ShowNext, ShowPrevious, StartOver, Stop
 
 You can review these within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/LU).
 
-#### LUIS Strongly Typed classes
+#### LUIS strongly-typed classes
 {:.no_toc}
 
-The [LuisGen](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) tool enables developers to create a strongly-typed class for their LUIS models. As a result you can easily reference the intents and entities as class instance members.
+The [LuisGen](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) tool enables developers to create a strongly-typed class for their LUIS models. As a result, you can easily reference the intents and entities as class instance members.
 
 You'll find a `GeneralLuis.cs` and `DispatchLuis.cs` class as part of your project within the `Services` folder. The DispatchLuis.cs will be re-generated if you add Skills to reflect the changes made.
 
@@ -54,11 +48,11 @@ To learn more about LuisGen, see the [LuisGen Tool](https://github.com/microsoft
 ### QnA Maker
 {:.no_toc}
 
-A key design pattern used to good effect in the first wave of conversational experiences was to leverage Language Understanding (LUIS) and QnA Maker together. LUIS would be trained with tasks that your Bot could do for an end user and QnA Maker would be trained with more general knowledge and also provide personality chit-chat capabilities.
+A key design pattern used to good effect in the first wave of conversational experiences was to leverage Language Understanding (LUIS) and QnA Maker together. LUIS would be trained with tasks that your Bot could do for an end-user and QnA Maker would be trained with more general knowledge and also provide personality chit-chat capabilities.
 
 [QnA Maker](https://www.qnamaker.ai/) provides the ability for non-developers to curate general knowledge in the format of question and answer pairs. This knowledge can be imported from FAQ data sources, product manuals and interactively within the QnaMaker portal.
 
-Two example QnA Maker models localised to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/QnA).
+Two example QnA Maker models localized to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the `Deployment\Resources` folder or [here](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment/Resources/QnA).
 
 #### Base Personality
 {:.no_toc}
@@ -70,6 +64,7 @@ You can review this within the `Deployment\Resources` folder or [here](https://g
 ![QnA ChitChat example]({{site.baseurl}}/assets/images/qnachitchatexample.png)
 
 ### Dispatch Model
+{:.no_toc}
 
 [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=csaddref%2Ccsbotconfig) provides an elegant solution to bringing together LUIS models and QnAMaker knowledge-bases into one experience. It does this by extracting utterances from each configured LUIS model and questions from QnA Maker and creating a central dispatch LUIS model. This enables a Bot to quickly identify which LUIS model or component should handle a given utterance and ensures QnA Maker data is considered at the top level of intent processing not just through None intent processing as has been the case previously.
 
@@ -79,25 +74,13 @@ The Dispatch model is used at the core of each project created using the templat
 
 ![Dispatch Example]({{site.baseurl}}/assets/images/dispatchexample.png)
 
-## Fallback Response Handling
-
-In situations where an utterance from a user isn't understood by Dispatch (and therefore LUIS, QnAMaker and Skills) the typical approach is to send a confused message back to the user. However this behavior can easily be overridden to call some form of `fallback` capability where you could use another knowledge source like a Search engine to see if there is a highly scored response that could help satisfy the users request.
-
-> TODO - Once Sample is updated
-
-## Interruption
-
-The `MainDialog` class provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` nuget library.
-
-This RouterDialog as part of the `OnContinueDialogAsync` handler invokes on the `OnInterruptDialogAsync` within your `MainDialog.cs`. This handler enables interruption logic to be processed before any utterance is processed, by default Cancel, Help, Logout and Restart are handled as part of this handler enabling top level intent processing even when you have an active dialog.
-
-You can review this logic within `MainDialog.cs` within the `Dialogs` folder of your project or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L295)
-
-## Activity Processing
+## Handling activities
+### Activity processing
+{:.no_toc}
 
 1. Activities are first processed within your Bot through the DialogBot.cs class found in the `Bots` folder. `OnTurnAsync` is executed and `MainDialog` processing is started.
 
-2. The `MainDialog` dialog provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` nuget library.
+2. The `MainDialog` dialog provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` NuGet library.
 
 3. The `OnInterruptDialogAsync` handler within `MainDialog` is executed which in-turn calls LUIS to evaluate the `General` LUIS model for top intent processing. If interruption is required it's processed at this point.
 
@@ -110,7 +93,49 @@ You can review this logic within `MainDialog.cs` within the `Dialogs` folder of 
     - QnAMaker (Chitchat or QnA)
     - A Skill (mapped to a Dispatcher skill intent)
 
-## State Management
+### Interruptions
+{:.no_toc}
+
+The `MainDialog` class provided in the template derives from a base class called [RouterDialog](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  `Microsoft.Bot.Builder.Solutions` NuGet library.
+
+This RouterDialog as part of the `OnContinueDialogAsync` handler invokes on the `OnInterruptDialogAsync` within your `MainDialog.cs`. This handler enables interruption logic to be processed before any utterance is processed, by default Cancel, Help, Logout and Restart are handled as part of this handler enabling top-level intent processing even when you have an active dialog.
+
+You can review this logic within `MainDialog.cs` within the `Dialogs` folder of your project or [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L295)
+
+### Event processing
+{:.no_toc}
+
+Events play a central role to an assistant experience and we provide a central event handler as part of the `MainDialog` implementation. `OnEventAsync` provides support for two key events: `VA.Location` and `VA.Timezone`. These events are processed, validated and then stored in state enabling dialogs and Skills to leverage these as required to enable them to adapt to the user. For example, the Point of Interest skill can decide not to prompt for your current location if a Location is present.
+
+In addition, the standard `token/response` event is handled as per the Azure Bot Service authentication feature.
+
+This event handler can be extended as required to support your specific scenarios. You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/next_docs/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L208).
+
+### Fallback responses
+{:.no_toc}
+
+In situations where an utterance from a user isn't understood by Dispatch (and therefore LUIS, QnAMaker, and Skills) the typical approach is to send a confused message back to the user. However, this behavior can easily be overridden to call some form of `fallback` capability where you could use another knowledge source like a Search engine to see if there is a highly scored response that could help satisfy the user's request.
+
+> TODO - Once Sample is updated
+
+### Managing global exceptions
+{:.no_toc}
+
+Whilst exceptions are typically handled at source it's important to have a global exception handler for unexpected situations which is defined as part of the Adapter definition within `DefaultAdapter.cs` or [here](https://github.com/microsoft/botframework-solutions/blob/next/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Adapters/DefaultAdapter.cs).
+
+The provided Exception handler passes information on the Exception as a Trace activity enabling it to be shown within the Bot Framework Emulator if it's being used otherwise these are suppressed. A general Error message is then shown to the user and the exception is logged through Application Insights.
+
+```csharp
+OnTurnError = async (turnContext, exception) =>
+{
+    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
+    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+    await turnContext.SendActivityAsync(MainStrings.ERROR);
+    telemetryClient.TrackException(exception);
+};
+```
+
+## Managing state
 
 CosmosDB is used as the default state store through the SDK provided `CosmosDbStorage` storage provider. This provides a production-grade, scalable storage layer for your Bots state along with fast disaster recovery capabilities and regional replication where required. Features like automatic time-to-live provide additional benefits around clean-up of old conversations.
 
@@ -125,28 +150,28 @@ Within `Startup.cs` you can optionally choose to disable use of CosmosDB and swi
 
 Deployment can be customized to omit deployment of CosmosDB and is covered in the [deployment documentation]({{site.baseurl}}/help/reference/deploymentscripts.md).
 
-## Introductionduction Card
+## Introduction card
 
-A key issue with many conversational experiences is end-users not knowing how to get started, leading to general questions that the Bot may not be best placed to answer. First impressions matter! An introduction card offers an opportunity to introduce the Bot's capabilities to an end user and suggests a few initial questions the user can use to get started. It's also a great opportunity to surface the personality of your Bot.
+A key issue with many conversational experiences is end-users not knowing how to get started, leading to general questions that the Bot may not be best placed to answer. First impressions matter! An introduction card offers an opportunity to introduce the Bot's capabilities to an end-user and suggests a few initial questions the user can use to get started. It's also a great opportunity to surface the personality of your Bot.
 
-A simple introduction card is provided as standard which you can adapt as needed, a returning user card is shown on subsequent interactions when a user has completed the on-boarding dialog (triggered by the Get Started button on the Introduction card)
+A simple introduction card is provided as standard which you can adapt as needed, a returning user card is shown on subsequent interactions when a user has completed the onboarding dialog (triggered by the Get Started button on the Introduction card)
 
 ![Intro Card Example]({{site.baseurl}}/assets/images/vatemplateintrocard.png)
 
-## Multi-Locale support
+## Multi-locale support
 
 Most conversational experiences need to serve users in a variety of languages which introduces additional complexity around ensuring:
 - The users desired language is identified on each incoming message
-- The appropriate language variant of Dispatch, LUIS and QnAMaker is used to process the users question
+- The appropriate language variant of Dispatch, LUIS, and QnAMaker is used to process the user's question
 - Responses to the user are selected from the right locale response file (language generation).
 
-The Virtual Assistant addresses all of the above capabilities and assists with the deployment considerations for multi-language Dispatch, LUIS and QNAMaker resources. Localized responses for built-in capabilities are also provided.
+The Virtual Assistant addresses all of the above capabilities and assists with the deployment considerations for multi-language Dispatch, LUIS, and QNAMaker resources. Localized responses for built-in capabilities are also provided.
 
 To learn more about how multi-locale support is added, see the [localization documentation]({{site.baseurl}}/virtual-assistant/handbook/localization.md).
 
-## Language Generation
+## Language generation and responses
 
-The Virtual Assistant has transitioned to use the new [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) capability to provide a more natural conversational experience by being able to define multiple response variations and leverage context/memory to adapt these dynamically to end users.
+The Virtual Assistant has transitioned to use the new [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) capability to provide a more natural conversational experience by being able to define multiple response variations and leverage context/memory to adapt these dynamically to end-users.
 
 Language Generation (LG) leverages a new [LG file format](https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/lg-file-format.md) which follows the same markdown approach as the LU file format mentioned earlier. This enables easy editing of responses by a broad range of roles.
 
@@ -162,32 +187,17 @@ Providing insights into the user engagement of your Bot has proven to be highly 
 
 Integration of Application Insights provides significant operational/technical insight out of the box but this can also be used to capture specific Bot related events - messages sent and received along with LUIS and QnA Maker operations. Bot level telemetry is intrinsically linked to technical and operational telemetry enabling you to inspect how a given user question was answered and vice versa.
 
-A middleware component combined with a wrapper class around the QnA Maker and LuisRecognizer SDK classes provides an elegant way to collect a consistent set of events. These consistent events can then be used by the Application Insights tooling along with tools like PowerBI. An example PowerBI dashboard is as part of the Bot Framework Solutions github repo and works right out of the box with every Virtual Assistant template. See the [Analytics]({{site.baseurl}}/overview/analytics) section for more information.
+A middleware component combined with a wrapper class around the QnA Maker and LuisRecognizer SDK classes provides an elegant way to collect a consistent set of events. These consistent events can then be used by the Application Insights tooling along with tools like PowerBI. An example PowerBI dashboard is as part of the Bot Framework Solutions Github repo and works right out of the box with every Virtual Assistant template. See the [Analytics]({{site.baseurl}}/overview/analytics) section for more information.
 
-![Analytics Example]({{site.baseurl}}/assets/images/powerbi-conversationanalytics-luisintents.png)
+![Analytics Example]({{site.baseurl}}/assets/images/analytics/virtual-assistant-analytics-powerbi-1.png)
 
 To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics).
 
-## Global Exception Handler
+## Azure resource deployment
 
-Whilst exceptions are typically handled at source it's important to have a global exception handler for unexpected situations which is defined as part of the Adapter definition within `DefaultAdapter.cs` or [here](https://github.com/microsoft/botframework-solutions/blob/next/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Adapters/DefaultAdapter.cs).
+The comprehensive experience requires the following Azure resources to function properly, detailed [here]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts).
 
-The provided Exception handler passes information on the Exception as a Trace activity enabling it to be shown within the Bot Framework Emulator if it's being used otherwise these are suppressed. A general Error message is then shown to the user and the exception is logged through Application Insights.
-
-```csharp
-OnTurnError = async (turnContext, exception) =>
-{
-    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-    await turnContext.SendActivityAsync(MainStrings.ERROR);
-    telemetryClient.TrackException(exception);
-};
-```
-## Deployment Automation
-
-In order to deliver a comprehensive experience the following Azure capabilities are typically required which are detailed more fully [here](https://microsoft.github.io/botframework-solutions/reference/virtual-assistant/deploymentscripts/).
-
-Resource | Resource |
+Resource | Description |
 -------- | ----- |
 Azure Bot Service | Azure Blob Storage |
 Azure Cosmos DB | Azure App Service Plan |
@@ -196,7 +206,7 @@ Language Understanding (LUIS) | QnA Maker |
 QnA Maker Web App | QnA Maker Azure Search Service |
 Content Moderator |
 
-In order to enable you to get started quickly we have provided an ARM template and set of PowerShell scripts (supported cross platform) to provision these resources along with the required LUIS models, QnAMaker knowledgebases, Dispatcher and publishing into Azure. In addition the ability to refresh the LUIS and QNA resources with any changes from your LU files.
+To enable you to get started quickly, we have provided an ARM template and set of PowerShell scripts (supported cross-platform) to provide these resources along with the required LUIS models, QnAMaker knowledgebases, Dispatcher and publishing into Azure. In addition the ability to refresh the LUIS and QNA resources with any changes from your LU files.
 
 All of the steps provided by our scripts are documented [here](https://microsoft.github.io/botframework-solutions/howto/virtual-assistant/manualdeployment/) if you wish to review or perform manually.
 
@@ -204,14 +214,16 @@ You can find the ARM template (template.json) in your `Deployment\Resources` fol
 
 ## Middleware
 
+Middleware is simply a class that sits between the adapter and your bot logic, added to your adapter's middleware collection during initialization. Every activity coming into or out of your Assistant flows through your middleware.
+
 A number of middleware components have been provided to address some key scenarios and are included in the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware).
 
 ### Set Locale Middleware
 {:.no_toc}
 
-In multi-locale scenarios it's key to understand the users locale so you can select the appropriate language LUIS Models and responses for a given user. Most channels populate the `Locale` property on an incoming Message activity but there are a number of cases where this may not be present thus it's important to `stamp` a default locale on activities where this is missing so downstream components 
+In multi-locale scenarios, it's key to understand the user's locale so you can select the appropriate language LUIS Models and responses for a given user. Most channels populate the `Locale` property on an incoming Message activity but there are many cases where this may not be present thus it's important to `stamp` a default locale on activities where this is missing so downstream components 
 
-You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetLocaleMiddleware.cs).
+You can find this component within the `Microsoft.Bot.Builder.Solutions` NuGet library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetLocaleMiddleware.cs).
 
 ### Set Speak Middleware
 {:.no_toc}
@@ -228,47 +240,47 @@ You have the following event on your calendar: Sync Meeting at 4PM with 2 people
 </mstts:express-as></voice></speak>
 ```
 
-You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetSpeakMiddleware.cs).
+You can find this component within the `Microsoft.Bot.Builder.Solutions` NuGet library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/SetSpeakMiddleware.cs).
 
 ### Console Output Middleware
 {:.no_toc}
 
 The Console Output middleware is a simple component for debugging that outputs incoming and outcoming activities to the console enabling you to easily see the Text/Speak responses flowing through your Bot.
 
-You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ConsoleOutputMiddleware.cs).
+You can find this component within the `Microsoft.Bot.Builder.Solutions` NuGet library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ConsoleOutputMiddleware.cs).
 
 ### Event Debugger Middleware
 {:.no_toc}
 
-Event Activities can used to pass metadata between a assistant and user without being visible to the user. These events can enable a device or application to communicate an event to an assistant (e.g. being switched on) or enable an assistant to convey an action to a device to perform such as opening a deep link to an application or changing the temperature.
+Event Activities can be used to pass metadata between an assistant and user without being visible to the user. These events can enable a device or application to communicate an event to an assistant (e.g. being switched on) or enable an assistant to convey an action to a device to perform such as opening a deep link to an application or changing the temperature.
 
-It can be hard to generate these activities for testing purposes as the Bot Framework Emulator doesn't provide the ability to send Activities. The `EventDebugMiddleware` provides an elegant workaround enabling you to send messages following a specific format which are then transponsed into an Event activity processed by your Assistant
+It can be hard to generate these activities for testing purposes as the Bot Framework Emulator doesn't provide the ability to send Activities. The `EventDebugMiddleware` provides an elegant workaround enabling you to send messages following a specific format which are then transposed into an Event activity processed by your Assistant
 
 For example sending this message with the middleware registered: `/event:{ "Name": "{Event name}", "Value": "{Event value}" }` would generate an Activity of type event being created with the appropriate Value.
 
-You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/EventDebuggerMiddleware.cs).
+You can find this component within the `Microsoft.Bot.Builder.Solutions` NuGet library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/EventDebuggerMiddleware.cs).
 
 ### Content Moderator Middleware
 {:.no_toc}
 
-Content Moderator is an optional component which enables detection of potential profanity and helps check for personally identifiable information (PII). This can be helpful to integrate into Bots enabling a Bot to react to profanity or if the user shares PII information. For example, a Bot can apologise and hand-off to a human or not store telemetry records if PII information is detected.
+Content Moderator is an optional component that enables the detection of potential profanity and helps check for personally identifiable information (PII). This can be helpful to integrate into Bots enabling a Bot to react to profanity or if the user shares PII information. For example, a Bot can apologize and hand-off to a human or not store telemetry records if PII information is detected.
 
 A middleware component is provided that screen texts and surfaces output through a `TextModeratorResult` on the `TurnState` object. This middleware is not enabled by default.
 
-You can find this component within the `Microsoft.Bot.Builder.Solutions` nuget library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs).
+You can find this component within the `Microsoft.Bot.Builder.Solutions` NuGet library or in [this location](https://github.com/microsoft/botframework-solutions/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs).
 
 ### Feedback Middleware
 {:.no_toc}
 
-Collecting Feedback from users at the end of a interaction is a great way to measure how your assistant is doing with resolving end-users objectives beyond in addition to measuring dialog completion metrics. Forcing the user to complete feedback has been found to be highly disruptive to an overall experience so it's important to make this optional and not get in the way of the user.
+Collecting feedback from users at the end of an interaction is a great way to measure how your assistant is doing with resolving end-users objectives beyond in addition to measuring dialog completion metrics. Forcing the user to complete feedback is highly disruptive to an overall experience so it's important to make this optional and not get in the way of the user.
 
 The Feedback middleware provides a way to collect feedback leveraging suggested actions thus making the request optional and surfaces simple 👍 and 👎 options with an option to provide a text response too. This feedback is then stored through the usual Application Insights telemetry storage and surfaced via the accompanying PowerBI dashboard.
 
-By default the middleware activates at the end of every dialog but you can customize this further to suit your scenario, for example only asking for feedback when LUIS or QnA prediction scores are low or perhaps at random or a limited numbers of times in a time-period.
+By default, the middleware activates at the end of every dialog but you can customize this further to suit your scenario, for example only asking for feedback when LUIS or QnA prediction scores are low or perhaps at random or a limited number of times in a time period.
 
 To learn more about the Feedback capability, see the [Feedback documentation]]({{site.baseurl}}/virtual-assistant/handbook/feedback.md).
 
-## Starter dialogs
+## Dialogs
 
 Beyond the core `MainDialog` dialog two further dialogs are provided firstly to deliver core scenarios but also to provide examples to get you started. These are all wired up to provided LUIS intents so work out of the box across multiple languages.
 
@@ -301,31 +313,23 @@ You can find these tests in a companion project to your assistant or [here](http
 
 ## Skill Support 
 
-The Virtual Assistant integrates Skill support for your assistant, enabling you to easily register skills through execution of the `botskills` command line tool. The ability to trigger skills based on utterances relies heavily on the Dispatcher which is automatically provisioned as part of your assistant deployment.
+The Virtual Assistant integrates Skill support for your assistant, enabling you to easily register skills through the execution of the `botskills` command-line tool. The ability to trigger skills based on utterances relies heavily on the Dispatcher which is automatically provisioned as part of your assistant deployment.
 
 Within `MainDialog`, any dispatch intent that has been identified is matched against registered skills. If a skill is matched then Skill invocation is started with subsequent messages being routed to the Skill until the skill conversation is ended.
 
 ## Speech support
 
-The Virtual Assistant has all of the pre-requisites required for a high quality speech experience out of the box when using Direct Line Speech. This includes ensuring all responses have speech friendly responses, middleware for SSML and configuration of the Streaming Extensions adapter. The [Enabling speech tutorial(https://microsoft.github.io/botframework-solutions/tutorials/enable-speech/1_intro/) includes further configuration steps to provision Speech and get starting with a test tool quickly.
+The Virtual Assistant has all of the pre-requisites required for a high-quality speech experience out of the box when using Direct Line Speech. This includes ensuring all responses have speech friendly responses, middleware for SSML and configuration of the Streaming Extensions adapter. The [Enabling speech tutorial(https://microsoft.github.io/botframework-solutions/tutorials/enable-speech/1_intro/) includes further configuration steps to provision Speech and get starting with a test tool quickly.
 
-## Multi Provider Authentication
+## Multi-provider authentication
 
 For some assistant scenarios you may have a capability or Skill that supports multiple authentication types, the Calendar Skill for examples supports both Microsoft and Google accounts. If a user has linked their assistant to both of these there is a scenario where you need to clarify which account the user wants to use, to support this scenario the Multi Provider Auth will wrap an additional prompt around an authentication request.
 
-The Multi Provider Authentication also provides the Skill authentication protocol whereby a Skill can request a token centrally from the Virtual Assistant rather than prompting for it's own authentication.
+The Multi Provider Authentication also provides the Skill authentication protocol whereby a Skill can request a token centrally from the Virtual Assistant rather than prompting for its own authentication.
 
-## Event Processing
-
-Events plays a central role to a assistant experience and we provide a central event handler as part of the `MainDialog` implementation. `OnEventAsync` provides support for two key events: `VA.Location` and `VA.Timezone`. These events are processed, validated and then stored in state enabling dialogs and Skills to leverage these as required to enable them to adapt to the user. For example the Point of Interest skill can decide not to prompt for your current location if a Location is present.
-
-In addition, the standard `token/response` event is handled as per the Azure Bot Service authentication feature.
-
-This event handler can be extended as required to support your specific scenarios. You can find `MainDialog` within your `Dialogs` folder or [here](https://github.com/microsoft/botframework-solutions/blob/next_docs/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs#L208).
-
-## Continuous Integration and Deployment
+## Continuous integration and deployment
 
 A [Azure DevOps](https://azure.microsoft.com/en-us/solutions/devops/) [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) file for Continuous Integration is included within the `pipeline` folder of your assistant and provides all the steps required to build your assistant project and generate code coverage results. This can be imported into your Azure DevOps environment to create a build.
 
-In addition documentation to create a [release pipeline](https://microsoft.github.io/botframework-solutions/howto/virtual-assistant/continuousdeployment/) is also provided enabling you to continuously deploy updates to your project to your Azure test environment and also update Dispatch, LUIS and QnAMaker resources with any changes to the LU files within source control.
+In addition, documentation to create a [release pipeline](https://microsoft.github.io/botframework-solutions/howto/virtual-assistant/continuousdeployment/) is also provided enabling you to continuously deploy updates to your project to your Azure test environment and also update Dispatch, LUIS and QnAMaker resources with any changes to the LU files within source control.
 

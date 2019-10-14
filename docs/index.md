@@ -5,14 +5,45 @@ layout: default
 # Bot Framework Solutions Documentation
 {:.no_toc}
 
-## Overview
-> High-level overview into the Virtual Assistant, Skills and Analytics.
-
-| Name | Description |  
-|:------------:|------------| 
-|[<img src="{{site.baseurl}}/assets/images/vatemplateintrocard.png" width="1250">]({{site.baseurl}}/overview/virtualassistant) | [**Virtual Assistant (Preview).**]({{site.baseurl}}/overview/virtualassistant) A conversational assistant tailored to your brand, personalized for your users, and available across a broad range of clients and devices. This template greatly simplifies the creation of a new bot project by providing basic conversational intents, Dispatch, LUIS, and QnA Maker integration, and automated ARM deployment.|
-|[<img src="{{site.baseurl}}/assets/images/calendarskillcardexample.png" width="1250">]({{site.baseurl}}/overview/skills)| [**Skills (Preview).**]({{site.baseurl}}/overview/skills) A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.|
-|[<img src="{{site.baseurl}}/assets/images/powerbi-conversationanalytics-luisintents.png" width="1250">]({{site.baseurl}}/overview/analytics)| [**Analytics.**]({{site.baseurl}}/overview/analytics) Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
+<div id="index-carousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+        <div class="card">
+        <img src="{{site.baseurl}}/assets/images/vatemplateintrocard.png" class="card-img-top" alt="Virtual Assistant (preview)">
+        <div class="card-body">
+            <h4 class="card-title">Virtual Assistant solution accelerator (preview)</h4>
+            <p class="card-text">Personalize your experience for your brand and customers.</p>
+        </div>
+        </div>
+    </div>
+    <div class="carousel-item">
+        <div class="card">
+        <img src="{{site.baseurl}}/assets/images/calendarskillcardexample.png" class="card-img-top" alt="Bot Framework Skills (preview)">
+        <div class="card-body">
+            <h4 class="card-title">Bot Framework Skills (preview)</h4>
+            <p class="card-text">A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.</p>
+        </div>
+        </div>
+    </div>
+        <div class="carousel-item">
+        <div class="card">
+        <img src="{{site.baseurl}}/assets/images/analytics/virtual-assistant-analytics-powerbi-1.png" class="card-img-top" alt="Virtual Assistant analytics">
+        <div class="card-body">
+            <h4 class="card-title">Analytics</h4>
+            <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>
+        </div>
+        </div>
+    </div>
+    </div>
+  <a class="carousel-control-prev" href="#index-carousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#index-carousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 
 ## Step-by-Step Tutorials
 

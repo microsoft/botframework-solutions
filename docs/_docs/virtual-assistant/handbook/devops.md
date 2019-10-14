@@ -23,7 +23,7 @@ order: 7
 
 ## Create an Azure DevOps release pipeline
 
-### Introductionduction
+### Introduction
 {:.no_toc}
 
 In the first place, we need to have in mind a few modifications before starting to work on the Release Pipeline configuration. We'll generate an artifact, but what is an artifact? It’s a compressed version of the project or solution which contains all the necessary information to create the base of the Release Pipeline configuration.
