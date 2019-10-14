@@ -20,8 +20,8 @@
   "ShowNoMeetingMessage": {
     "replies": [
       {
-        "text": "You don't have any events.",
-        "speak": "You don't have any events."
+        "text": "You don't have anything on your calendar.",
+        "speak": "You don't have anything on your calendar."
       }
     ],
     "inputHint": "acceptingInput"

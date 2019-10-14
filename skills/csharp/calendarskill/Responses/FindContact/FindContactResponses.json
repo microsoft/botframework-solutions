@@ -2,8 +2,8 @@
   "PromptOneNameOneAddress": {
     "replies": [
       {
-        "text": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?",
-        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?"
+        "text": "Okay, I will add {UserName}: {EmailAddress}.",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}."
       }
     ],
     "inputHint": "expectingInput"

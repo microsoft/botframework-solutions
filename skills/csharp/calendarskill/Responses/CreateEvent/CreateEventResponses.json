@@ -117,8 +117,8 @@
   "EventCreated": {
     "replies": [
       {
-        "text": "OK, I have added the event to your calendar. named {Subject}",
-        "speak": "OK, I have added the event to your calendar. named {Subject}"
+        "text": "OK, I have added {Subject} to your calendar.",
+        "speak": "OK, I have added {Subject} to your calendar."
       }
     ],
     "inputHint": "acceptingInput"
