@@ -122,7 +122,7 @@ namespace ToDoSkill.Dialogs
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-                var markToDoCard = ToAdaptiveCardForTaskCompletedFlowByLG(
+                var markToDoCard = await ToAdaptiveCardForTaskCompletedFlowByLG(
                     sc.Context,
                     state.Tasks,
                     state.AllTasks.Count,
@@ -176,8 +176,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.ListTypePromptForComplete}]", null);
-                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.ListTypePromptForComplete}]", sc.Context, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -246,13 +245,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.AskTaskIndexRetryForComplete}]", null);
-                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.AskTaskIndexRetryForComplete}]", sc.Context, null);
                     }
                     else
                     {
-                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.AskTaskIndexForComplete}]", null);
-                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.AskTaskIndexForComplete}]", sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -340,11 +337,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.CompleteAnotherTaskPrompt}]", null);
-                var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
-
-                lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.CompleteAnotherTaskConfirmFailed}]", null);
-                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.CompleteAnotherTaskPrompt}]", sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.CompleteAnotherTaskConfirmFailed}]", sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -375,8 +369,9 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ActionEnded}]", null);
-                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
+
                     return await sc.EndDialogAsync(true);
                 }
             }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
 
 namespace ToDoSkill.Utilities
 {
@@ -9,15 +9,9 @@ namespace ToDoSkill.Utilities
     {
         public const int DefaultDisplaySize = 4;
 
-        public static Activity GetToDoResponseActivity(string text)
+        public static async Task<Activity> GetToDoResponseActivity(string templateName, ITurnContext turnContext, object data)
         {
-            var activity = new Activity()
-            {
-                Type = ActivityTypes.Message,
-                Text = text,
-                Speak = text
-            };
-            return activity;
+            return await new ActivityTemplate(templateName).BindToData(turnContext, data);
         }
     }
 }

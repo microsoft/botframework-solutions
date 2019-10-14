@@ -1,0 +1,85 @@
+﻿> [import](DeleteToDoTexts.lg)
+
+# AskDeletionAllConfirmation
+[Activity
+    Text = {AskDeletionAllConfirmation.Text(ListType)}
+    Speak = {AskDeletionAllConfirmation.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# AskDeletionAllConfirmationFailed
+[Activity
+    Text = {AskDeletionAllConfirmationFailed.Text(ListType)}
+    Speak = {AskDeletionAllConfirmationFailed.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# DeletionAllConfirmationRefused
+[Activity
+    Text = {DeletionAllConfirmationRefused.Text(TaskCount, ListType)}
+    Speak = {DeletionAllConfirmationRefused.Speak(TaskCount, ListType)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# ListTypePromptForDelete
+[Activity
+    Text = {ListTypePromptForDelete.Text()}
+    Speak = {ListTypePromptForDelete.Speak()}
+    InputHint = expectingInput
+]
+
+# AskTaskIndexForDelete
+[Activity
+    Text = {AskTaskIndexForDelete.Text()}
+    Speak = {AskTaskIndexForDelete.Speak()}
+    InputHint = expectingInput
+]
+
+# AskTaskIndexRetryForDelete
+[Activity
+    Text = {AskTaskIndexRetryForDelete.Text()}
+    Speak = {AskTaskIndexRetryForDelete.Speak()}
+    InputHint = expectingInput
+]
+
+# DeleteAnotherTaskPrompt
+[Activity
+    Text = {DeleteAnotherTaskPrompt.Text()}
+    Speak = {DeleteAnotherTaskPrompt.Speak()}
+    InputHint = expectingInput
+]
+
+# DeleteAnotherTaskConfirmFailed
+[Activity
+    Text = {DeleteAnotherTaskConfirmFailed.Text()}
+    Speak = {DeleteAnotherTaskConfirmFailed.Speak()}
+    InputHint = expectingInput
+]
+
+# TaskDeleted
+[Activity
+    Text = {TaskDeletedText(IsDeleteAll, ListType, TaskContent)}
+    Speak = {TaskDeletedText(IsDeleteAll, ListType, TaskContent)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# TaskDeletedText(IsDeleteAll, ListType, TaskContent)
+- IF: {IsDeleteAll == true}
+  - {AfterAllTasksDeletedTmp(ListType).Text}
+- ELSE:
+  - {AfterTaskDeletedTmp(TaskContent, ListType).Text}
+
+
+> ToDo: Get rid of 'Tmp'.
+
+# AfterAllTasksDeletedTmp(ListType)
+[Activity
+    Text = {AfterAllTasksDeleted(ListType)}
+]
+
+# AfterTaskDeletedTmp(TaskContent, ListType)
+[Activity
+    Text = {AfterTaskDeleted(TaskContent, ListType)}
+]

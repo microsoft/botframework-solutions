@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F2E-60EB-4566-9ECD-56F114372037}"
 EndProject
@@ -40,6 +40,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalitySkill", "experimental\hospitalityskill\HospitalitySkill.csproj", "{0EFEA4F2-DC7E-436E-B951-E9B566AFF7F0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkillPreview", "experimental\calendarskillpreview\CalendarSkillPreview.csproj", "{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{9525B183-5751-4B0B-A1E6-DA5272360FF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +181,22 @@ Global
 		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7D6C2EF-F78F-4A9B-8898-2E21C96C1343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9525B183-5751-4B0B-A1E6-DA5272360FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66DD7C9-00BA-4909-A24D-1CD1AC9845FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

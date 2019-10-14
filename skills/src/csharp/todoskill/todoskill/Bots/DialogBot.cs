@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +23,6 @@ namespace ToDoSkill.Bots
         private readonly BotState _userState;
         private DialogManager _dialogManager;
         private IStorage _storage;
-        private ResourceExplorer _resourceExplorer;
 
         public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
@@ -33,8 +33,6 @@ namespace ToDoSkill.Bots
 
             _dialogManager = new DialogManager(dialog);
             _storage = storage;
-
-            _resourceExplorer = resourceExplorer;
         }
 
         public async override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -49,11 +47,6 @@ namespace ToDoSkill.Bots
             if (turnContext.TurnState.Get<IStorage>() == null)
             {
                 turnContext.TurnState.Add<IStorage>(_storage);
-            }
-
-            if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
-            {
-                turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
             }
 
             await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);

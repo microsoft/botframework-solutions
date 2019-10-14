@@ -13,12 +13,16 @@
   <ItemGroup>
     <Compile Remove="CognitiveModels\**" />
     <Compile Remove="DeploymentScripts\**" />
+    <Compile Remove="Resources\**" />
     <Content Remove="CognitiveModels\**" />
     <Content Remove="DeploymentScripts\**" />
+    <Content Remove="Resources\**" />
     <EmbeddedResource Remove="CognitiveModels\**" />
     <EmbeddedResource Remove="DeploymentScripts\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="CognitiveModels\**" />
     <None Remove="DeploymentScripts\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,22 +38,19 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-10-08-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-10-08-01" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-07-31-01" />
     <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-07-31-01" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-Daily-2019-07-31-01" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-07-31-01" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.7.0-daily2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.7.0-daily2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-10-08-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-Daily-2019-10-08-01" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-07-31-01" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-10-08-01" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-10-08-01" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-10-08-01" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
   </ItemGroup>
 
@@ -94,6 +95,11 @@
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.it.json" />
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.json" />
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
+    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -182,10 +188,6 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

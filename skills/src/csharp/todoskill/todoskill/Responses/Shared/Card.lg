@@ -236,5 +236,5 @@
 # ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl)
 - {join(foreach(ToDos, x , ShowToDoItem(x, CheckIconUrl, UnCheckIconUrl)), ',')} 
 
-# ShowToDoCard
+# ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl)
 - {join(createArray(ShowToDoTitle(UseFile, Title, TotalNumber), ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl), ShowToDoPageFooter()), ' ')}

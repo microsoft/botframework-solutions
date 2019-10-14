@@ -1,0 +1,63 @@
+﻿> [import](MarkToDoTexts.lg)
+
+# ListTypePromptForComplete
+[Activity
+    Text = {ListTypePromptForComplete.Text()}
+    Speak = {ListTypePromptForComplete.Speak()}
+    InputHint = expectingInput
+]
+
+# AskTaskIndexForComplete
+[Activity
+    Text = {AskTaskIndexForComplete.Text()}
+    Speak = {AskTaskIndexForComplete.Speak()}
+    InputHint = expectingInput
+]
+
+# AskTaskIndexRetryForComplete
+[Activity
+    Text = {AskTaskIndexRetryForComplete.Text()}
+    Speak = {AskTaskIndexRetryForComplete.Speak()}
+    InputHint = expectingInput
+]
+
+# CompleteAnotherTaskPrompt
+[Activity
+    Text = {CompleteAnotherTaskPrompt.Text()}
+    Speak = {CompleteAnotherTaskPrompt.Speak()}
+    InputHint = expectingInput
+]
+
+# CompleteAnotherTaskConfirmFailed
+[Activity
+    Text = {CompleteAnotherTaskConfirmFailed.Text()}
+    Speak = {CompleteAnotherTaskConfirmFailed.Speak()}
+    InputHint = expectingInput
+]
+
+# TaskCompleted
+[Activity
+    Text = {CardSummary(AllTasksCount, ListType, ToDos)}
+    Speak = {TaskCompletedSpeak(IsCompleteAll, ListType, TaskContent)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# TaskCompletedSpeak(IsCompleteAll, ListType, TaskContent)
+- IF: {IsCompleteAll == true}
+  - {AfterAllTasksCompletedTmp(ListType).Text}
+- ELSE:
+  - {AfterTaskCompletedTmp(TaskContent, ListType).Text}
+
+
+> ToDo: Get rid of 'Tmp'.
+
+# AfterAllTasksCompletedTmp(ListType)
+[Activity
+    Text = {AfterAllTasksCompleted(ListType)}
+]
+
+# AfterTaskCompletedTmp(TaskContent, ListType)
+[Activity
+    Text = {AfterTaskCompleted(TaskContent, ListType)}
+]

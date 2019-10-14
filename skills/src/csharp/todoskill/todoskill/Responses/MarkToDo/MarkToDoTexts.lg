@@ -1,0 +1,35 @@
+﻿# AfterAllTasksCompleted(ListType)
+- I have marked all your tasks as complete on your {ListType} list.
+
+# AfterTaskCompleted(TaskContent, ListType)
+- I have completed {TaskContent} on your {ListType} list.
+
+# ListTypePromptForComplete.Text
+- Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?
+
+# ListTypePromptForComplete.Speak
+- Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?
+
+# AskTaskIndexForComplete.Text
+- What task do you want to complete? It is also possible to complete all your tasks by saying complete all.
+
+# AskTaskIndexForComplete.Speak
+- What task do you want to complete? It is also possible to complete all your tasks by saying complete all.
+
+# AskTaskIndexRetryForComplete.Text
+- Sorry, I could not find this task. Please try again. What task do you want to complete?
+
+# AskTaskIndexRetryForComplete.Speak
+- Sorry, I could not find this task. Please try again. What task do you want to complete?
+
+# CompleteAnotherTaskPrompt.Text
+- Do you want to complete another task?
+
+# CompleteAnotherTaskPrompt.Speak
+- Do you want to complete another task?
+
+# CompleteAnotherTaskConfirmFailed.Text
+- Sorry, I didn't understand what you meant. Do you want to complete another task?
+
+# CompleteAnotherTaskConfirmFailed.Speak
+- Sorry, I didn't understand what you meant. Do you want to complete another task?

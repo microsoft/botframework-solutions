@@ -1,0 +1,58 @@
+﻿> [import](AddToDoTexts.lg)
+
+# AskTaskContentText
+[Activity
+    Text = {AskTaskContentText.Text()}
+    Speak = {AskTaskContentText.Speak()}
+    InputHint = expectingInput
+]
+
+# AfterTaskAdded
+[Activity
+    Text = {AfterTaskAdded.Text(TaskContent, ListType)}
+    Speak = {AfterTaskAdded.Speak(TaskContent, ListType)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# SwitchListType
+[Activity
+    Text = {SwitchListType.Text(ListType)}
+    Speak = {SwitchListType.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# SwitchListTypeConfirmFailed
+[Activity
+    Text = {SwitchListTypeConfirmFailed.Text(ListType)}
+    Speak = {SwitchListTypeConfirmFailed.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# AddMoreTask
+[Activity
+    Text = {AddMoreTask.Text(ListType)}
+    Speak = {AddMoreTask.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# AddMoreTaskConfirmFailed
+[Activity
+    Text = {AddMoreTaskConfirmFailed.Text(ListType)}
+    Speak = {AddMoreTaskConfirmFailed.Speak(ListType)}
+    InputHint = expectingInput
+]
+
+# AskAddDupTaskPrompt
+[Activity
+    Text = {AskAddDupTaskPrompt.Text(TaskContent)}
+    Speak = {AskAddDupTaskPrompt.Speak(TaskContent)}
+    InputHint = expectingInput
+]
+
+# AskAddDupTaskConfirmFailed
+[Activity
+    Text = {AskAddDupTaskConfirmFailed.Text()}
+    Speak = {AskAddDupTaskConfirmFailed.Speak()}
+    InputHint = expectingInput
+]

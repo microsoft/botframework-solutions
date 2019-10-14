@@ -1,0 +1,199 @@
+﻿> [import](ShowToDoTexts.lg)
+
+# AskAddOrCompleteTaskMessage
+[Activity
+    Text = {AskAddOrCompleteTaskMessage.Text()}
+    Speak = {AskAddOrCompleteTaskMessage.Speak()}
+    InputHint = ignoringInput
+]
+
+# ReadMoreTasksPrompt
+[Activity
+    Text = {ReadMoreTasksPrompt.Text()}
+    Speak = {ReadMoreTasksPrompt.Speak()}
+    InputHint = expectingInput
+]
+
+# ReadMoreTasksConfirmFailed
+[Activity
+    Text = {ReadMoreTasksConfirmFailed.Text()}
+    Speak = {ReadMoreTasksConfirmFailed.Speak()}
+    InputHint = expectingInput
+]
+
+# ReadMoreTasksPrompt2
+[Activity
+    Text = {ReadMoreTasksPrompt2.Text()}
+    Speak = {ReadMoreTasksPrompt2.Speak()}
+    InputHint = expectingInput
+]
+
+# RetryReadMoreTasksPrompt2
+[Activity
+    Text = {RetryReadMoreTasksPrompt2.Text()}
+    Speak = {RetryReadMoreTasksPrompt2.Speak()}
+    InputHint = expectingInput
+]
+
+# NoTasksMessage
+[Activity
+    Text = {NoTasksMessage.Text(ListType)}
+    Speak = {NoTasksMessage.Speak(ListType)}
+    InputHint = acceptingInput
+]
+
+# TaskSummaryMessage(TaskCount, ListType)
+[Activity
+    Text = {TaskSummaryMessage.Text(TaskCount, ListType)}
+    Speak = {TaskSummaryMessage.Speak(TaskCount, ListType)}
+    InputHint = ignoringInput
+]
+
+# RepeatFirstPagePrompt
+[Activity
+    Text = {RepeatFirstPagePrompt.Text(TaskCount, ListType)}
+    Speak = {RepeatFirstPagePrompt.Speak(TaskCount, ListType)}
+    InputHint = expectingInput
+]
+
+# RepeatFirstPageConfirmFailed
+[Activity
+    Text = {RepeatFirstPageConfirmFailed.Text(TaskCount)}
+    Speak = {RepeatFirstPageConfirmFailed.Speak(TaskCount)}
+    InputHint = expectingInput
+]
+
+# GoBackToStartPromptForSingleTask
+[Activity
+    Text = {GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)}
+    Speak = {GoBackToStartPromptForSingleTask.Speak(TaskCount, ListType)}
+    InputHint = expectingInput
+]
+
+# GoBackToStartForSingleTaskConfirmFailed
+[Activity
+    Text = {GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)}
+    Speak = {GoBackToStartForSingleTaskConfirmFailed.Speak(TaskCount)}
+    InputHint = expectingInput
+]
+
+# GoBackToStartPromptForTasks
+[Activity
+    Text = {GoBackToStartPromptForTasks.Text(TaskCount, ListType)}
+    Speak = {GoBackToStartPromptForTasks.Speak(TaskCount, ListType)}
+    InputHint = expectingInput
+]
+
+# GoBackToStartForTasksConfirmFailed
+[Activity
+    Text = {GoBackToStartForTasksConfirmFailed.Text(TaskCount)}
+    Speak = {GoBackToStartForTasksConfirmFailed.Speak(TaskCount)}
+    InputHint = expectingInput
+]
+
+# ShowToDo
+[Activity
+    Text = {ShowToDoText(AllTasksCount, ListType, ToDos)}
+    Speak = {ShowToDoText(AllTasksCount, ListType, ToDos)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# CardSummary(AllTasksCount, ListType, ToDos)
+- IF: {AllTasksCount == 1}
+  - {CardSummaryMessageForSingleTaskTmp(ListType).Text}
+- ELSE:
+  - {CardSummaryMessageForMultipleTasksTmp(AllTasksCount, ListType, ToDos).Text}
+
+# ShowToDoTextForSinglePage(ToDos)
+- IF: {count(ToDos) == 1}
+  - {LatestTaskTmp().Text}
+- ELSE:
+  - {LatestTasksTmp().Text}
+
+# ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)
+- [CardSummary(AllTasksCount, ListType, ToDos)]
+
+# ShowToDoText(AllTasksCount, ListType, ToDos)
+- IF: {AllTasksCount <= count(ToDos)}
+  - [ShowToDoTextForSinglePage(ToDos)]
+- ELSE:
+  - [ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)]
+
+# ReadMore
+[Activity
+    Text = {ReadMoreText(ToDos)}
+    Speak = {ReadMoreText(ToDos)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# ReadMoreText(ToDos)
+- IF: {count(ToDos) == 1}
+  - {NextTaskTmp().Text}
+- ELSE:
+  - {NextTasksTmp().Text}
+
+# PreviousPage
+[Activity
+    Text = {PreviousPageText(ToDos)}
+    Speak = {PreviousPageText(ToDos)}
+    Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
+    InputHint = ignoringInput
+]
+
+# PreviousPageText(ToDos)
+- IF: {isFirst == false}
+  - {PreviousTasksTmp().Text}
+- ELSEIF: {count(ToDos) == 1}
+  - {PreviousFirstSingleTaskTmp(count(ToDos)).Text}
+- ELSE:
+  - {PreviousFirstTasksTmp(count(ToDos)).Text}
+
+
+> ToDo: Get rid of 'Tmp'.
+
+# CardSummaryMessageForSingleTaskTmp(ListType)
+[Activity
+    Text = {CardSummaryMessageForSingleTask(ListType)}
+]
+
+# CardSummaryMessageForMultipleTasksTmp(AllTasksCount, ListType, ToDos)
+[Activity
+    Text = {CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)}
+]
+
+# LatestTaskTmp
+[Activity
+    Text = {LatestTask()}
+]
+
+# LatestTasksTmp
+[Activity
+    Text = {LatestTasks()}
+]
+
+# NextTaskTmp
+[Activity
+    Text = {NextTask()}
+]
+
+# NextTasksTmp
+[Activity
+    Text = {NextTasks()}
+]
+
+# PreviousTasksTmp
+[Activity
+    Text = {PreviousTasks()}
+]
+
+# PreviousFirstSingleTaskTmp(taskCount)
+[Activity
+    Text = {PreviousFirstSingleTask(taskCount)}
+]
+
+# PreviousFirstTasksTmp(taskCount)
+[Activity
+    Text = {PreviousFirstTasks(taskCount)}
+]

@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
@@ -47,6 +48,8 @@ namespace ToDoSkill
             Configuration = builder.Build();
 
             HostingEnvironment = env;
+
+            TypeFactory.Configuration = Configuration;
         }
 
         public IConfiguration Configuration { get; }

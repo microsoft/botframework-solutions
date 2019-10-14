@@ -12,6 +12,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -64,18 +66,10 @@ namespace ToDoSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            path = Path.Combine(path + @"\..\..\..\..\todoskill\Responses\Shared\Card.lg");
-            LGEngine.AddFile(path);
-
-            LGMultiLangEngine = new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg");
-
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
-
-        protected ResourceMultiLanguageGenerator LGMultiLangEngine { get; set; }
 
         protected BotServices Services { get; set; }
 
@@ -84,10 +78,6 @@ namespace ToDoSkill.Dialogs
         protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
-
-        private TemplateEngine LGEngine { get; set; } = new TemplateEngine();
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -119,8 +109,9 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.NoAuth}]", null);
-                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ToDoCommonUtil.GetToDoResponseActivity(response) });
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.NoAuth}]", sc.Context, null);
+
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -239,8 +230,9 @@ namespace ToDoSkill.Dialogs
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.NoTasksInList}]", null);
-                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.NoTasksInList}]", sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
+
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -374,166 +366,36 @@ namespace ToDoSkill.Dialogs
             }
         }
 
-        protected Activity ToAdaptiveCardForShowToDosByLG(
+        protected async Task<Activity> ToAdaptiveCardForShowToDosByLG(
            ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-
-            var content = LGMultiLangEngine.Generate(turnContext, "[ShowToDos]", new
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[ShowToDo]").BindToData(turnContext, new
             {
-                listType = listType,
-                allTasksCount = allTasksCount,
-                todos = todos
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
-            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
-            activity.Text = speakAndTextContainer.Text;
-            return activity;
-        }
-
-        protected Activity ToAdaptiveCardForReadMoreByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string listType)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-            var content = LGMultiLangEngine.Generate(turnContext, "[ReadMore]", new
-            {
-                todos = todos
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
+                AllTasksCount = allTasksCount,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
             activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
             return activity;
         }
 
-        protected Activity ToAdaptiveCardForPreviousPageByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            bool isFirstPage,
-            string listType)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-            var content = LGMultiLangEngine.Generate(turnContext, "[PreviousPage]", new
-            {
-                isFirstPage = isFirstPage,
-                todos = todos
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
-            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
-            return activity;
-        }
-
-        protected Activity ToAdaptiveCardForTaskAddedFlowByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            string taskContent,
-            int allTasksCount,
-            string listType)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-            var content = LGMultiLangEngine.Generate(turnContext, "[AfterTaskAdded]", new
-            {
-                taskContent = taskContent,
-                listType = listType
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Text = speakAndTextContainer.Text;
-            activity.Speak = activity.Text;
-            return activity;
-        }
-
-        protected Activity ToAdaptiveCardForTaskCompletedFlowByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string taskContent,
-            string listType,
-            bool isCompleteAll)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-
-            var content = LGMultiLangEngine.Generate(turnContext, "[TaskCompleted]", new
-            {
-                isCompleteAll = isCompleteAll,
-                taskContent = taskContent,
-                listType = listType
-            }).Result;
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
-
-            content = LGMultiLangEngine.Generate(turnContext, "[CardSummary]", new
-            {
-                allTasksCount = allTasksCount,
-                listType = listType,
-                todos = todos
-            }).Result;
-            speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Text = speakAndTextContainer.Text;
-
-            return activity;
-        }
-
-        protected Activity ToAdaptiveCardForTaskDeletedFlowByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string taskContent,
-            string listType,
-            bool isDeleteAll)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-            var content = LGMultiLangEngine.Generate(turnContext, "[TaskDeleted]", new
-            {
-                isDeleteAll = isDeleteAll,
-                taskContent = taskContent,
-                listType = listType
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
-            activity.Text = activity.Speak;
-            return activity;
-        }
-
-        protected Activity ToAdaptiveCardForDeletionRefusedFlowByLG(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string listType)
-        {
-            var activity = BuildTodoCardByLG(turnContext, todos, allTasksCount, listType);
-            var content = LGMultiLangEngine.Generate(turnContext, "[DeletionAllConfirmationRefused]", new
-            {
-                taskCount = allTasksCount,
-                listType = listType
-            }).Result;
-
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
-            activity.Speak = speakAndTextContainer.Speak;
-            activity.Text = activity.Speak;
-            return activity;
-        }
-
-        protected Activity BuildTodoCardByLG(
+        protected async Task<Activity> ToAdaptiveCardForReadMoreByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var content = LGEngine.EvaluateTemplate("ShowToDoCard", new
+            var activity = await new ActivityTemplate("[Readmore]").BindToData(turnContext, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -542,14 +404,121 @@ namespace ToDoSkill.Dialogs
                 CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
                 UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
             });
+            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            return activity;
+        }
 
-            var reply = new Attachment()
+        protected async Task<Activity> ToAdaptiveCardForPreviousPageByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            bool isFirstPage,
+            string listType)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[PreviousPage]").BindToData(turnContext, new
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(content)
-            };
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            return activity;
+        }
 
-            return MessageFactory.Attachment(reply) as Activity;
+        protected async Task<Activity> ToAdaptiveCardForTaskAddedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            string taskContent,
+            int allTasksCount,
+            string listType)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[AfterTaskAdded]").BindToData(turnContext, new
+            {
+                TaskContent = taskContent,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
+        }
+
+        protected async Task<Activity> ToAdaptiveCardForTaskCompletedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string taskContent,
+            string listType,
+            bool isCompleteAll)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[TaskCompleted]").BindToData(turnContext, new
+            {
+                AllTasksCount = allTasksCount,
+                ListType = listType,
+                IsCompleteAll = isCompleteAll,
+                TaskContent = taskContent,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
+        }
+
+        protected async Task<Activity> ToAdaptiveCardForTaskDeletedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string taskContent,
+            string listType,
+            bool isDeleteAll)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[TaskDeleted]").BindToData(turnContext, new
+            {
+                IsDeleteAll = isDeleteAll,
+                ListType = listType,
+                TaskContent = taskContent,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
+        }
+
+        protected async Task<Activity> ToAdaptiveCardForDeletionRefusedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string listType)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
+            var activity = await new ActivityTemplate("[DeletionAllConfirmationRefused]").BindToData(turnContext, new
+            {
+                TaskCount = allTasksCount,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
@@ -563,8 +532,8 @@ namespace ToDoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
-            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessage}]", sc.Context, null);
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
@@ -584,18 +553,18 @@ namespace ToDoSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessageBotProblem}]", null);
-                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessageBotProblem}]", sc.Context, null);
+                await sc.Context.SendActivityAsync(activity);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessageAccountProblem}]", null);
-                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessageAccountProblem}]", sc.Context, null);
+                await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
-                await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessage}]", sc.Context, null);
+                await sc.Context.SendActivityAsync(activity);
             }
 
             // clear state
@@ -619,17 +588,19 @@ namespace ToDoSkill.Dialogs
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", null);
-                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
-                            var response2 = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", null);
-                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response2));
+                            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(activity);
+
+                            var activity2 = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(activity);
                         }
                         else
                         {
-                            var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.SettingUpOutlookMessage}]", null);
-                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
-                            var response2 = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", null);
-                            await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response2));
+                            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOutlookMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(activity);
+
+                            var activity2 = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(activity);
                         }
 
                         var taskWebLink = await taskServiceInit.GetTaskWebLink();

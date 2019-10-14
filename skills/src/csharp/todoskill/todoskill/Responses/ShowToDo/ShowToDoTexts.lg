@@ -1,0 +1,104 @@
+﻿# AskAddOrCompleteTaskMessage.Text
+- You can let me know if you want to add or complete a task.
+
+# AskAddOrCompleteTaskMessage.Speak
+- You can let me know if you want to add or complete a task.
+
+# ReadMoreTasksPrompt.Text
+- Do you want to see the next tasks?
+
+# ReadMoreTasksPrompt.Speak
+- Do you want to see the next tasks?
+
+# ReadMoreTasksConfirmFailed.Text
+- Sorry, I didn't understand what you meant. Do you want to see the next tasks?
+
+# ReadMoreTasksConfirmFailed.Speak
+- Sorry, I didn't understand what you meant. Do you want to see the next tasks?
+
+# ReadMoreTasksPrompt2.Text
+- There are more items on your list. Do you want to see more?
+
+# ReadMoreTasksPrompt2.Speak
+- There are more items on your list. Do you want to see more?
+
+# RetryReadMoreTasksPrompt2.Text
+- Sorry, I didn't understand what you meant. Do you want to see more?
+
+# RetryReadMoreTasksPrompt2.Speak
+- Sorry, I didn't understand what you meant. Do you want to see more?
+
+# NoTasksMessage.Text(ListType)
+- It seems you have no tasks in your {ListType} list. Let me know if you want to create a new task.
+
+# NoTasksMessage.Speak(ListType)
+- It seems you have no tasks in your {ListType} list. Let me know if you want to create a new task.
+
+# TaskSummaryMessage.Text(TaskCount, ListType)
+- You have {TaskCount} items on your {ListType} list. 
+
+# TaskSummaryMessage.Speak(TaskCount, ListType)
+- You have {TaskCount} items on your {ListType} list. 
+
+# RepeatFirstPagePrompt.Text(TaskCount, ListType)
+- You are already at the start of your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# RepeatFirstPagePrompt.Speak(TaskCount, ListType)
+- You are already at the start of your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# RepeatFirstPageConfirmFailed.Text(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# RepeatFirstPageConfirmFailed.Speak(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
+- This is the last task on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartPromptForSingleTask.Speak(TaskCount, ListType)
+- This is the last task on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartForSingleTaskConfirmFailed.Speak(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
+- These are the last tasks on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartPromptForTasks.Speak(TaskCount, ListType)
+- These are the last tasks on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# GoBackToStartForTasksConfirmFailed.Speak(TaskCount)
+- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+
+# CardSummaryMessageForSingleTask(ListType)
+- You have 1 task on your {ListType} list: Here are the 1 most recent, it is 
+
+# CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)
+- You have {AllTasksCount} tasks on your {ListType} list: Here are the {count(ToDos)} most recent, they are 
+
+# LatestTask 
+- Your latest task is 
+
+# LatestTasks
+- Your latest tasks are 
+
+# NextTask
+- The next task is 
+
+# NextTasks
+- The next tasks are 
+
+# PreviousTasks
+- Your previous tasks are 
+
+# PreviousFirstSingleTask(taskCount)
+- Your first {taskCount} task is 
+
+# PreviousFirstTasks(taskCount)
+- Your first {taskCount} tasks are 

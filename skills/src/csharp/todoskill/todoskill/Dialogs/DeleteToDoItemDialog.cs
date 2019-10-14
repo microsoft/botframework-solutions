@@ -130,7 +130,7 @@ namespace ToDoSkill.Dialogs
 
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-                    cardReply = ToAdaptiveCardForTaskDeletedFlowByLG(
+                    cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
                         sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
@@ -151,7 +151,7 @@ namespace ToDoSkill.Dialogs
                         state.ShowTaskPageIndex = 0;
                         state.TaskIndexes = new List<int>();
 
-                        cardReply = ToAdaptiveCardForTaskDeletedFlowByLG(
+                        cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
                             sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
@@ -161,7 +161,7 @@ namespace ToDoSkill.Dialogs
                     }
                     else
                     {
-                        cardReply = ToAdaptiveCardForDeletionRefusedFlowByLG(
+                        cardReply = await ToAdaptiveCardForDeletionRefusedFlowByLG(
                             sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
@@ -214,14 +214,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-
-                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.ListTypePromptForDelete}]", new
-                    {
-                        listType = string.Empty,
-                        taskCount = string.Empty,
-                        taskContent = string.Empty
-                    });
-                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.ListTypePromptForDelete}]", sc.Context, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -290,23 +283,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.AskTaskIndexRetryForDelete}]", new
-                        {
-                            listType = string.Empty,
-                            taskCount = string.Empty,
-                            taskContent = string.Empty
-                        });
-                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskTaskIndexRetryForDelete}]", sc.Context, null);
                     }
                     else
                     {
-                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.AskTaskIndexForDelete}]", new
-                        {
-                            listType = string.Empty,
-                            taskCount = string.Empty,
-                            taskContent = string.Empty
-                        });
-                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskTaskIndexForDelete}]", sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -397,21 +378,15 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.AskDeletionAllConfirmation}]", new
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskDeletionAllConfirmation}]", sc.Context, new
                     {
-                        listType = state.ListType,
-                        taskCount = string.Empty,
-                        taskContent = string.Empty
+                        ListType = state.ListType
                     });
-                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
 
-                    lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.AskDeletionAllConfirmationFailed}]", new
+                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskDeletionAllConfirmationFailed}]", sc.Context, new
                     {
-                        listType = state.ListType,
-                        taskCount = string.Empty,
-                        taskContent = string.Empty
+                        ListType = state.ListType
                     });
-                    var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
 
                     return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
@@ -471,21 +446,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.DeleteAnotherTaskPrompt}]", new
-                {
-                    listType = string.Empty,
-                    taskCount = string.Empty,
-                    taskContent = string.Empty
-                });
-                var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
-
-                lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{DeleteToDoResponses.DeleteAnotherTaskConfirmFailed}]", new
-                {
-                    listType = string.Empty,
-                    taskCount = string.Empty,
-                    taskContent = string.Empty
-                });
-                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.DeleteAnotherTaskPrompt}]", sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.DeleteAnotherTaskConfirmFailed}]", sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -516,8 +478,9 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ActionEnded}]", null);
-                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
+
                     return await sc.EndDialogAsync(true);
                 }
             }

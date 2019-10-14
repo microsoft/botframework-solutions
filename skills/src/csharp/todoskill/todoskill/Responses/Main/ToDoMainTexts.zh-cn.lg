@@ -1,0 +1,17 @@
+﻿# ToDoWelcomeMessage.Text
+- 我可以读出您的待办事项，购物列表以及杂货列表, 创建新的待办事项，购物项以及杂货项, 或改变和删除一个待办事项，购物项以及杂货项。
+
+# ToDoWelcomeMessage.Speak
+- 我可以读出您的待办事项，购物列表以及杂货列表, 创建新的待办事项，购物项以及杂货项, 或改变和删除一个待办事项，购物项以及杂货项。
+
+# ToDoWelcomeMessage.S1
+- 读出我的待办事项
+
+# ToDoWelcomeMessage.S2
+- 给我创建一个新的待办事项
+
+# ToDoWelcomeMessage.S3
+- 标注第二个待办事项为完成
+
+# ToDoWelcomeMessage.S4
+- 删除第三个待办事项
