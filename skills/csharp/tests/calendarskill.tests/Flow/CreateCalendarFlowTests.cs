@@ -42,7 +42,7 @@ namespace CalendarSkill.Test.Flow
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -51,7 +51,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -82,7 +81,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -128,7 +126,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -170,7 +167,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -210,14 +206,13 @@ namespace CalendarSkill.Test.Flow
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -244,7 +239,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(ShowCalendarList())
@@ -263,7 +257,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -305,7 +298,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -379,7 +371,7 @@ namespace CalendarSkill.Test.Flow
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
             var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            var recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
+            var recipientDupDict = new StringDictionary() { { "User", $"{testDupRecipient}: {testDupEmailAddress}" } };
 
             var peopleCount = 3;
             ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
@@ -393,7 +385,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowContactsList(recipientDict))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDupDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt(testDupRecipient, testDupEmailAddress))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0), testDupEmailAddress))
@@ -423,7 +414,7 @@ namespace CalendarSkill.Test.Flow
             ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
             var testRecipient = string.Format(Strings.Strings.UserName, 0);
             var testEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -436,7 +427,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(UserNotFoundAgainPrompt("wrong name"))
                 .Send(string.Format(Strings.Strings.UserName, 0))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt(testRecipient, testEmailAddress))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(testRecipient, testEmailAddress))
@@ -499,7 +489,7 @@ namespace CalendarSkill.Test.Flow
         {
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
@@ -508,7 +498,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForContentPrompt())
@@ -537,7 +526,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -565,7 +553,7 @@ namespace CalendarSkill.Test.Flow
         {
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDateTimeEntity)
@@ -574,7 +562,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -596,7 +583,7 @@ namespace CalendarSkill.Test.Flow
         {
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithLocationEntity)
@@ -605,7 +592,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -631,7 +617,7 @@ namespace CalendarSkill.Test.Flow
         {
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDurationEntity)
@@ -640,7 +626,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -710,10 +695,6 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateShowRestParticipants()
         {
             this.ServiceManager = MockServiceManager.SetPeopleToMultiple(6);
-            var testRecipient = Strings.Strings.DefaultUserName;
-            var testEmailAddress = Strings.Strings.DefaultUserEmail;
-
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -723,60 +704,48 @@ namespace CalendarSkill.Test.Flow
                 .Send(string.Format(Strings.Strings.UserName, 0))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 0) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 0) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 0)}: {string.Format(Strings.Strings.UserEmailAddress, 0)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(1))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 1))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 1) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 1) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 1)}: {string.Format(Strings.Strings.UserEmailAddress, 1)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(2))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 2))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 2) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 2) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 2)}: {string.Format(Strings.Strings.UserEmailAddress, 2)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(3))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 3))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 3) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 3) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 3)}: {string.Format(Strings.Strings.UserEmailAddress, 3)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(4))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 4))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 4) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 4) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 4)}: {string.Format(Strings.Strings.UserEmailAddress, 4)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(5))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 5))
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
-                    { "UserName", string.Format(Strings.Strings.UserName, 5) },
-                    { "EmailAddress", string.Format(Strings.Strings.UserEmailAddress, 5) }
+                    { "User", $"{string.Format(Strings.Strings.UserName, 5)}: {string.Format(Strings.Strings.UserEmailAddress, 5)}" }
                 }))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPromptWithMultipleUsers(6))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithMultipleContactNamePrompt(6))
@@ -824,7 +793,7 @@ namespace CalendarSkill.Test.Flow
                     }
                 }
 
-                resultString += $"{string.Format(Strings.Strings.UserName, i)}: {string.Format(Strings.Strings.UserEmailAddress, i)}";
+                resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
             var responseParams = new StringDictionary()
@@ -838,7 +807,7 @@ namespace CalendarSkill.Test.Flow
         {
             var responseParams = new StringDictionary()
             {
-                { "Users", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" }
+                { "Users", $"{userName ?? Strings.Strings.DefaultUserName}" }
             };
             return ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
         }
@@ -852,7 +821,7 @@ namespace CalendarSkill.Test.Flow
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", $"{Strings.Strings.DefaultUserEmail}: {Strings.Strings.DefaultUserEmail}" },
+                { "UserName", $"{Strings.Strings.DefaultUserEmail}" },
             };
 
             return ParseReplies(CreateEventResponses.NoTitle, responseParams);
@@ -862,7 +831,7 @@ namespace CalendarSkill.Test.Flow
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" },
+                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}" },
             };
 
             return ParseReplies(CreateEventResponses.NoTitle, responseParams);
@@ -885,7 +854,7 @@ namespace CalendarSkill.Test.Flow
                     }
                 }
 
-                resultString += $"{string.Format(Strings.Strings.UserName, i)}: {string.Format(Strings.Strings.UserEmailAddress, i)}";
+                resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
             var responseParams = new StringDictionary()
@@ -900,8 +869,7 @@ namespace CalendarSkill.Test.Flow
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", userName ?? Strings.Strings.DefaultUserName },
-                { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
+                { "User", $"{userName ?? Strings.Strings.DefaultUserName}: {emailAddress ?? Strings.Strings.DefaultUserEmail}" }
             };
 
             return ParseReplies(FindContactResponses.PromptOneNameOneAddress, responseParams);
