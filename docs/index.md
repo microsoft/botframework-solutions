@@ -1,62 +1,55 @@
 ---
 layout: default
+title: Bot Framework Solutions Documentation
 ---
 
-# Bot Framework Solutions Documentation
-{:.no_toc}
+# {{ page.title }}
 
-<div id="index-carousel" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-        <div class="card">
-        <img src="{{site.baseurl}}/assets/images/vatemplateintrocard.png" class="card-img-top" alt="Virtual Assistant (preview)">
-        <div class="card-body">
-            <h4 class="card-title">Virtual Assistant solution accelerator (preview)</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
-        </div>
-        </div>
+<div class="card-deck">
+<div class="card">
+    <div class="card-body">
+      <img src="{{site.baseurl}}/assets/images/va-icon.png" alt="Virtual Assistant icon" width="48px">
+        <h4 class="card-title">Virtual Assistant solution accelerator (preview)</h4>
+        <p class="card-text">Personalize your experience for your brand and customers.</p>
     </div>
-    <div class="carousel-item">
-        <div class="card">
-        <img src="{{site.baseurl}}/assets/images/calendarskillcardexample.png" class="card-img-top" alt="Bot Framework Skills (preview)">
-        <div class="card-body">
-            <h4 class="card-title">Bot Framework Skills (preview)</h4>
-            <p class="card-text">A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.</p>
-        </div>
-        </div>
+    <div class="card-footer" style="display: flex; justify-content: center;">
+        <a href="{{site.baseurl}}/overview/virtual-assistant-overview" class="btn btn-primary">Learn more</a>
     </div>
-        <div class="carousel-item">
-        <div class="card">
-        <img src="{{site.baseurl}}/assets/images/analytics/virtual-assistant-analytics-powerbi-1.png" class="card-img-top" alt="Virtual Assistant analytics">
-        <div class="card-body">
-            <h4 class="card-title">Analytics</h4>
-            <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>
-        </div>
-        </div>
+</div>
+<div class="card">
+    <div class="card-body">
+      <img src="{{site.baseurl}}/assets/images/skill-icon.png" alt="Skills icon" width="48px">
+        <h4 class="card-title">Bot Framework Skills (preview)</h4>
+        <p class="card-text">A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.</p>
     </div>
+    <div class="card-footer" style="display: flex; justify-content: center;">
+        <a href="{{site.baseurl}}/overview/skills" class="btn btn-primary">Learn more</a>
     </div>
-  <a class="carousel-control-prev" href="#index-carousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#index-carousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+</div>
+<div class="card">
+    <div class="card-body">
+      <img src="{{site.baseurl}}/assets/images/BIDashboard-icon.png" alt="Analytics icon" width="48px">
+        <h4 class="card-title">Analytics</h4>
+        <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>
+    </div>
+    <div class="card-footer" style="display: flex; justify-content: center;">
+        <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro" class="btn btn-primary">Learn more</a>
+    </div>
+</div>
 </div>
 
 ## Step-by-Step Tutorials
 
 ### C# Tutorials
 {:.no_toc}
-<div class="card-group">
+<div class="card-deck">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Create a Virtual Assistant (C#)</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -65,7 +58,7 @@ layout: default
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/customize-assistant/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/csharp/customize-assistant/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -74,7 +67,7 @@ layout: default
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -83,21 +76,21 @@ layout: default
             <p class="card-text">Customize your skill for your brand and users.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/customize-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/csharp/customize-skill/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
 </div>
 
 ### TypeScript Tutorials
 {:.no_toc}
-<div class="card-group">
+<div class="card-deck">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Create a Virtual Assistant (TypeScript)</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -106,7 +99,7 @@ layout: default
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/customize-assistant/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/typescript/customize-assistant/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -115,7 +108,7 @@ layout: default
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/create-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/typescript/create-skill/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -124,21 +117,21 @@ layout: default
             <p class="card-text">Customize your skill for your brand and users.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/customize-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/typescript/customize-skill/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
 </div>
 
 ### More tutorials
 {:.no_toc}
-<div class="card-group">
+<div class="card-deck">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Connect pre-built skills</h4>
             <p class="card-text">Deploy and connect to a selection of provided skill projects.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/add-prebuilt-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/add-prebuilt-skill/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -147,7 +140,7 @@ layout: default
             <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-speech/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/enable-speech/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
     <div class="card">
@@ -156,7 +149,7 @@ layout: default
             <p class="card-text">Enable the Microsoft Teams Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-teams/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/tutorials/enable-teams/1_intro" class="btn btn-primary">Get started</a>
         </div>
     </div>
 </div>
