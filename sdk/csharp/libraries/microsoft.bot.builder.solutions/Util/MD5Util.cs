@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Microsoft.Bot.Builder.Solutions.Util
