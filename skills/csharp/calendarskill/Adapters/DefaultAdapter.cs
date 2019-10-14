@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using CalendarSkill.Middlewares;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder;
@@ -38,6 +39,8 @@ namespace CalendarSkill.Adapters
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
+            // TODO cann't easily measure the latency of those middlewares above, so ignore them now
+            Use(new LatencyMiddleware(settings, telemetryClient, "Calendar"));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
         }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.CognitiveServices.ContentModerator.Models;
 using Microsoft.Graph;
@@ -93,8 +94,8 @@ namespace CalendarSkill.Test.Flow.Fakes
 
             // manager
             mockServiceManager = new Mock<IServiceManager>();
-            mockServiceManager.Setup(manager => manager.InitCalendarService(It.IsAny<string>(), It.IsAny<CalendarSkill.Models.EventSource>())).Returns(mockCalendarService.Object);
-            mockServiceManager.Setup(manager => manager.InitUserService(It.IsAny<string>(), It.IsAny<CalendarSkill.Models.EventSource>())).Returns(mockUserService.Object);
+            mockServiceManager.Setup(manager => manager.InitCalendarService(It.IsAny<string>(), It.IsAny<CalendarSkill.Models.EventSource>(), It.IsAny<ITurnContext>())).Returns(mockCalendarService.Object);
+            mockServiceManager.Setup(manager => manager.InitUserService(It.IsAny<string>(), It.IsAny<CalendarSkill.Models.EventSource>(), It.IsAny<ITurnContext>())).Returns(mockUserService.Object);
         }
 
         public static IServiceManager GetCalendarService()

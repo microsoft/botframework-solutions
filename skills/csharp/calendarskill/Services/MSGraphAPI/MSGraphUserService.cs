@@ -3,10 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
+using CalendarSkill.Middlewares;
 using CalendarSkill.Models;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Services.MSGraphAPI
@@ -16,11 +20,17 @@ namespace CalendarSkill.Services.MSGraphAPI
     /// </summary>
     public class MSGraphUserService : IUserService
     {
+        private readonly Stopwatch _stopWatch;
         private readonly IGraphServiceClient _graphClient;
+        private readonly IBotTelemetryClient _botTelemetryClient;
+        private readonly ITurnContext _ctx;
 
-        public MSGraphUserService(IGraphServiceClient graphClient)
+        public MSGraphUserService(IGraphServiceClient graphClient, IBotTelemetryClient botTelemetryClient, ITurnContext ctx)
         {
-            this._graphClient = graphClient;
+            _stopWatch = new Stopwatch();
+            _graphClient = graphClient;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
+            _ctx = ctx;
         }
 
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
@@ -63,7 +73,9 @@ namespace CalendarSkill.Services.MSGraphAPI
         {
             try
             {
+                _stopWatch.Restart();
                 var me = await _graphClient.Me.Request().GetAsync();
+                TrackGraphLatency("Me");
 
                 if (me != null)
                 {
@@ -86,7 +98,9 @@ namespace CalendarSkill.Services.MSGraphAPI
         {
             try
             {
+                _stopWatch.Restart();
                 var manager = await _graphClient.Me.Manager.Request().GetAsync();
+                TrackGraphLatency("MeManager");
 
                 if (manager != null)
                 {
@@ -115,7 +129,9 @@ namespace CalendarSkill.Services.MSGraphAPI
         {
             try
             {
+                _stopWatch.Restart();
                 var manager = await _graphClient.Users[name].Manager.Request().GetAsync();
+                TrackGraphLatency("UsersManager");
 
                 if (manager != null)
                 {
@@ -149,6 +165,7 @@ namespace CalendarSkill.Services.MSGraphAPI
 
         private async Task<string> GetMSUserPhotoUrlAsyc(string id)
         {
+            _stopWatch.Restart();
             var photoRequest = this._graphClient.Users[id].Photos["64x64"].Content.Request();
 
             Stream originalPhoto = null;
@@ -156,6 +173,7 @@ namespace CalendarSkill.Services.MSGraphAPI
             try
             {
                 originalPhoto = await photoRequest.GetAsync();
+                TrackGraphLatency("UsersPhotos");
                 photoUrl = Convert.ToBase64String(ReadFully(originalPhoto));
 
                 return string.Format("data:image/jpeg;base64,{0}", photoUrl);
@@ -182,7 +200,9 @@ namespace CalendarSkill.Services.MSGraphAPI
             IGraphServiceUsersCollectionPage users = null;
             try
             {
+                _stopWatch.Restart();
                 users = await _graphClient.Users.Request(optionList).GetAsync();
+                TrackGraphLatency("Users");
             }
             catch (ServiceException ex)
             {
@@ -227,7 +247,9 @@ namespace CalendarSkill.Services.MSGraphAPI
             IUserPeopleCollectionPage users = null;
             try
             {
+                _stopWatch.Restart();
                 users = await _graphClient.Me.People.Request(optionList).GetAsync();
+                TrackGraphLatency("MePeople");
             }
             catch (ServiceException ex)
             {
@@ -269,7 +291,9 @@ namespace CalendarSkill.Services.MSGraphAPI
             IUserContactsCollectionPage contacts = null;
             try
             {
+                _stopWatch.Restart();
                 contacts = await this._graphClient.Me.Contacts.Request(optionList).GetAsync();
+                TrackGraphLatency("MeContacts");
             }
             catch (ServiceException ex)
             {
@@ -305,6 +329,11 @@ namespace CalendarSkill.Services.MSGraphAPI
                 input.CopyTo(ms);
                 return ms.ToArray();
             }
+        }
+
+        private void TrackGraphLatency(string name)
+        {
+            _botTelemetryClient.TrackLatency(_ctx, _stopWatch, $"Graph{name}");
         }
     }
 }

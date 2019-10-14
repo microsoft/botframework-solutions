@@ -24,7 +24,7 @@ namespace CalendarSkill.Test.API
                 GoogleScopes = "testScopes"
             };
 
-            serviceManager = new ServiceManager(mockConfig);
+            serviceManager = new ServiceManager(mockConfig, null);
         }
 
         [ClassCleanup]
@@ -45,28 +45,28 @@ namespace CalendarSkill.Test.API
         [TestMethod]
         public void GetMSUserServiceTest()
         {
-            var userService = serviceManager.InitUserService("test token", EventSource.Microsoft);
+            var userService = serviceManager.InitUserService("test token", EventSource.Microsoft, null);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
         public void GetMSCalendarServiceTest()
         {
-            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Microsoft);
+            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Microsoft, null);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
         [TestMethod]
         public void GetGoogleUserServiceTest()
         {
-            var userService = serviceManager.InitUserService("test token", EventSource.Google);
+            var userService = serviceManager.InitUserService("test token", EventSource.Google, null);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
         public void GetGoogleCalendarServiceTest()
         {
-            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Google);
+            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Google, null);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
@@ -75,7 +75,7 @@ namespace CalendarSkill.Test.API
         {
             try
             {
-                var userService = serviceManager.InitUserService("test token", EventSource.Other);
+                var userService = serviceManager.InitUserService("test token", EventSource.Other, null);
             }
             catch (Exception e)
             {
@@ -91,7 +91,7 @@ namespace CalendarSkill.Test.API
         {
             try
             {
-                var calendarService = serviceManager.InitCalendarService("test token", EventSource.Other);
+                var calendarService = serviceManager.InitCalendarService("test token", EventSource.Other, null);
             }
             catch (Exception e)
             {

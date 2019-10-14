@@ -73,7 +73,7 @@ namespace CalendarSkill.Dialogs
                     var userId = activity.From.Id;
 
                     var proactiveState = await _proactiveStateAccessor.GetAsync(sc.Context, () => new ProactiveModel());
-                    var calendarService = ServiceManager.InitCalendarService((string)apiToken, calendarState.EventSource);
+                    var calendarService = ServiceManager.InitCalendarService((string)apiToken, calendarState.EventSource, sc.Context);
 
                     _backgroundTaskQueue.QueueBackgroundWorkItem(async (token) =>
                     {

@@ -29,7 +29,7 @@ namespace CalendarSkill.Test.API
         [TestInitialize]
         public void TestInit()
         {
-            userService = new UserService(new MSGraphUserService(MockMSGraphUserClient.GetUserService()));
+            userService = new UserService(new MSGraphUserService(MockMSGraphUserClient.GetUserService(), null, null));
         }
 
         [TestCleanup]

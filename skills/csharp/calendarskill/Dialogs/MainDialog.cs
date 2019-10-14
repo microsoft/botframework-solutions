@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Middlewares;
 using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Main;
@@ -19,6 +22,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
@@ -76,6 +80,7 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            dc.Context.SetTurnName("Welcome");
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
         }
@@ -253,7 +258,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices.RecognizeAsync<CalendarLuis>("Calendar", dc.Context, cancellationToken, TelemetryClient);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
@@ -266,7 +271,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var luisResult = await luisService.RecognizeAsync<General>("General", dc.Context, cancellationToken, TelemetryClient);
                     state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent();
 

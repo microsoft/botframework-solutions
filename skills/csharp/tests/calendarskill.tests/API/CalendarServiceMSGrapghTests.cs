@@ -34,7 +34,7 @@ namespace CalendarSkill.Test.API
         [TestInitialize]
         public void TestInit()
         {
-            calendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.GetCalendarService()), EventSource.Microsoft);
+            calendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.GetCalendarService(), null, null), EventSource.Microsoft);
         }
 
         [TestCleanup]

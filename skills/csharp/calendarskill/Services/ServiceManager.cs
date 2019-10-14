@@ -5,26 +5,29 @@ using System;
 using CalendarSkill.Models;
 using CalendarSkill.Services.GoogleAPI;
 using CalendarSkill.Services.MSGraphAPI;
+using Microsoft.Bot.Builder;
 
 namespace CalendarSkill.Services
 {
     public class ServiceManager : IServiceManager
     {
         private BotSettings _settings;
+        private IBotTelemetryClient _botTelemetryClient;
 
-        public ServiceManager(BotSettings settings)
+        public ServiceManager(BotSettings settings, IBotTelemetryClient botTelemetryClient)
         {
             _settings = settings;
+            _botTelemetryClient = botTelemetryClient;
         }
 
-        public IUserService InitUserService(string token, EventSource source)
+        public IUserService InitUserService(string token, EventSource source, ITurnContext ctx)
         {
             IUserService userService = null;
             switch (source)
             {
                 case EventSource.Microsoft:
                     var serviceClient = GraphClient.GetAuthenticatedClient(token);
-                    userService = new MSGraphUserService(serviceClient);
+                    userService = new MSGraphUserService(serviceClient, _botTelemetryClient, ctx);
                     break;
                 case EventSource.Google:
                     var googleClient = GoogleClient.GetGoogleClient(_settings);
@@ -38,14 +41,14 @@ namespace CalendarSkill.Services
             return new UserService(userService);
         }
 
-        public ICalendarService InitCalendarService(string token, EventSource source)
+        public ICalendarService InitCalendarService(string token, EventSource source, ITurnContext ctx)
         {
             ICalendarService calendarAPI = null;
             switch (source)
             {
                 case EventSource.Microsoft:
                     var serviceClient = GraphClient.GetAuthenticatedClient(token);
-                    calendarAPI = new MSGraphCalendarAPI(serviceClient);
+                    calendarAPI = new MSGraphCalendarAPI(serviceClient, _botTelemetryClient, ctx);
                     break;
                 case EventSource.Google:
                     var googleClient = GoogleClient.GetGoogleClient(_settings);

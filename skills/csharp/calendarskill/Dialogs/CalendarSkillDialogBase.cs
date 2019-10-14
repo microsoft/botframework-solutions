@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Middlewares;
 using CalendarSkill.Models;
 using CalendarSkill.Prompts;
 using CalendarSkill.Responses.Shared;
@@ -23,6 +24,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -70,6 +72,8 @@ namespace CalendarSkill.Dialogs
             AddDialog(new GetEventPrompt(Actions.GetEventPrompt));
         }
 
+        protected System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
         protected BotSettings Settings { get; set; }
 
         protected BotServices Services { get; set; }
@@ -109,6 +113,9 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                // Could be overwritten by following
+                sc.Context.SetTurnName("Auth");
+                stopwatch.Restart();
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
             }
             catch (SkillException ex)
@@ -127,6 +134,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                // TODO or if not, it is a continued turn from OAuth prompt
+                if (stopwatch.IsRunning)
+                {
+                    TelemetryClient.TrackLatency(sc.Context, stopwatch, LatencyMiddleware.LatencyAuthName);
+                }
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
@@ -178,7 +190,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource, sc.Context);
 
                 // search by time without cancelled meeting
                 if (!state.ShowMeetingInfor.ShowingMeetings.Any())
@@ -603,7 +615,12 @@ namespace CalendarSkill.Dialogs
 
             var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
 
-            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            // TODO measure directly in ResponseManager
+            var result = ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            TelemetryClient.TrackLatency(context, stopwatch, $"Card{overviewCard.Name}");
+            return result;
         }
 
         protected async Task<Activity> GetGeneralMeetingListResponseAsync(
@@ -643,7 +660,11 @@ namespace CalendarSkill.Dialogs
 
             var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
 
-            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            var result = ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            TelemetryClient.TrackLatency(context, stopwatch, $"Card{overviewCard.Name}");
+            return result;
         }
 
         protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
@@ -685,7 +706,11 @@ namespace CalendarSkill.Dialogs
 
             participantContainerList.Add(participantContainerCard);
 
-            return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            var result = ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+            TelemetryClient.TrackLatency(dc.Context, stopwatch, $"Card{detailCard.Name}");
+            return result;
         }
 
         protected string GetSearchConditionString(CalendarSkillState state)
@@ -814,7 +839,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, context);
 
             PersonModel me = null;
 
@@ -840,7 +865,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, context);
             var displayName = attendee.DisplayName ?? attendee.Address;
 
             try
@@ -1540,7 +1565,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, sc.Context);
 
             // Get users.
             result = await service.GetContactsAsync(name);
@@ -1552,7 +1577,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, sc.Context);
 
             // Get users.
             result = await service.GetPeopleAsync(name);
@@ -1565,7 +1590,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, sc.Context);
 
             // Get users.
             result = await service.GetUserAsync(name);
@@ -1577,7 +1602,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, sc.Context);
             return await service.GetMyManagerAsync();
         }
 
@@ -1585,7 +1610,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, sc.Context);
             return await service.GetManagerAsync(name);
         }
 
@@ -1593,7 +1618,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource, context);
             return await service.GetMeAsync();
         }
 

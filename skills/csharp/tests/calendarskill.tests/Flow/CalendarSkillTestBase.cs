@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
+using CalendarSkill.Middlewares;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.CheckAvailable;
@@ -117,6 +118,7 @@ namespace CalendarSkill.Test.Flow
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
             adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
+            adapter.Use(new LatencyMiddleware(sp.GetService<BotSettings>(), sp.GetService<IBotTelemetryClient>(), "Calendar"));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
