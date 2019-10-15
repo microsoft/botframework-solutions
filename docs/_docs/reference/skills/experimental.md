@@ -119,7 +119,8 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
 1. Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
 1. Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
-    - Set Authorization URL, Token URL, Refresh URL to the followiong, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
+    - Set Authorization URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_auth.do
+    - Set Token URL, Refresh URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
     - No Scopes are needed
     - Click Test Connection to verify the connection works as expected.
 
