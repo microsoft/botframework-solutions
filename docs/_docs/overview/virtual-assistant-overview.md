@@ -1,6 +1,6 @@
 ---
 category: Overview
-title: What is the Virtual Assistant solution accelerator?
+title: What is the Virtual Assistant Solution Accelerator?
 order: 1
 toc: true
 ---
@@ -16,27 +16,29 @@ Common scenarios are provided as reusable conversational Skills, increasing deve
 
 ![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
 
-
 ## Example scenarios
 
-The Virtual Assistant extends across a broad number of industry scenarios, some example scenarios are shown below for reference purposes.
+The Virtual Assistant Solution Accelerator can be applied to a variety of industry-specific scenarios. Sample Virtual Assistants are provided.
 
 ### Automotive
 {:.no_toc}
-  - Voice enabled Virtual Assistant integrated into the car providing end users the ability to perform traditional car operations (e.g. navigation, radio) along with productivity focused scenarios such as moving meetings when your running late, adding items to your task list and proactive experiences where the car can suggest tasks to complete based on events such as starting the engine, traveling home or enabling cruise control. Adaptive Cards are rendered within the Head Unit and Speech integration performed through Push-To-Talk or Wake Word interactions.
+
+A voice-enabled Virtual Assistant integrated in a car providing passengers the ability to perform expected operations, like finding navigation or using the radio.  Drivers can personalize this by linking to their preferences and enabling scenarios such as notifying someone they are running late, managing their tasks, or searching for ports of interest.
 
 ### Hospitality
 {:.no_toc}
 
-A voice-enabled Virtual Assistant integrated in a hotel room's device can provide support for a 
+![Diagram of the Hospitality Assistant]({{site.baseurl}}/assets/images/hospitalitysample-diagram.png)
+A voice-enabled Virtual Assistant integrated in a hotel room can provide support for hospitality-focused scenarios such as room service, concierge, and local events. This can be further personalized by linking a guest to their preferences. This represnets An evolution of the current TV personalization experienced in room today.
 
-
-  - Voice enabled Virtual Assistant integrated into a hotel-room device providing a broad range of Hospitality focused scenarios (e.g. extend your stay, request late checkout, room service) including concierge and the ability to find local restaurants and attractions. Optional linking to your Productivity accounts open up more personalized experiences such as suggested alarm calls, Weather warnings and learning of patterns across stays. An evolution of the current TV personalization experienced in room today.
+For more information, view the [Hospitality Assistant sample]({{site.baseurl}}/virtual-assistant/samples/hospitalityassistant.md).
 
 ### Enterprise
 {:.no_toc}
 
-  - Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
+A voice- and text-enabled Virtual Assistant integrated into enterprise devices and existing channels such as Microsoft Teams, Web Chat, and Slack. Enable employees to manage their calendars, find available meeting rooms, search for co-workers, or perform HR-related operations.
+
+For more information, view the [Enterprise Assistant sample]({{site.baseurl}}/virtual-assistant/samples/enterprisenotifications.md).
 
 ## Principles
 
@@ -50,49 +52,25 @@ Your Virtual Assistant will be deployed within your Azure subscription. Therefor
 ### Write once, embed anywhere
 {:.no_toc}
 
-The Virtual Assistant leverages the Microsoft Conversational AI platform and therefore can be surfaced through any Bot Framework [channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) – e.g. WebChat, FaceBook Messenger, Skype, etc.
-
-In addition, through the [Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-concepts?view=azure-bot-service-4.0) channel we can embed experiences into Desktop and Mobile Apps including devices such as Cars, Speakers, Alarm Clocks, etc.
+The Virtual Assistant Solution Accelerator leverages Azure Cognitive Services and can be embedded on any [Bot Framework channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) such as Web Chat, Facebook Messenger, or Microsoft Teams. You can use the the [Direct Line channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-directline?view=azure-bot-service-4.0) to integrate a Virtual Assistant into your mobile app, webpage, or device
 
 ### Enterprise-grade solutions
 {:.no_toc}
 
-The Virtual Assistant solution is built on the Azure Bot Service, Language Understanding Cognitive Service, Unified Speech along with a broad set of supporting Azure components meaning that you benefit from the [Azure global infrastructure](https://azure.microsoft.com/en-gb/global-infrastructure/) including ISO 27018, HIPAA, PCI DSS, SOC 1, 2 and 3 certification.
+The Virtual Assistant Solution Accelerator is built the Azure Bot Service, Language Understanding Cognitive Service, Unified Speech along with a broad set of supporting Azure components meaning that you benefit from the [Azure global infrastructure](https://azure.microsoft.com/en-gb/global-infrastructure/) including ISO 27018, HIPAA, PCI DSS, SOC 1, 2 and 3 certification.
 
-In addition, Language Understanding support is provided by the LUIS Cognitive Service which supports a broad set of [languages](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-supported-languages). The [Translator Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/) provides additional Machine Translation capabilities to extend the reach of your Virtual Assistant even further.
+In addition, Language Understanding support is provided by the LUIS Cognitive Service which [supports a broad set of languages](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-supported-languages). The [Translator Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/) provides additional machine translation capabilities to
 
 ### Flexible integration and contextually aware
 {:.no_toc}
 
-The Virtual Assistant architecture is flexible and can be integrated with existing investments you have made into device-based Speech or Natural Language processing capabilities and integrate existing back-end systems and APIs.
+The Virtual Assistant Solution Accelerator architecture is flexible and can be integrated with existing investments made into device-based conversational AI experiences. You can integrate into existing backend systems and APIs. Your users' Virtual Assistant can be integrated into your device and ecosystem to enable a truly intelligent experience. Through this contextual awareness your Virtual Assistant can deliver a further personalized conversation than otherwise possible.
 
-Not only does the Virtual Assistant enable you to deliver your own unique experience, but you can also handoff a user's query to their chosen Digital Assistant for certain types of questions.
-
-Your Virtual Assistant can be integrated into your device and ecosystem to enable a truly intelligent experience.
-Through this contextual awareness your Virtual Assistant can deliver a further personalized conversation than otherwise possible.
-
-### Adaptive cards
+### Extend with Bot Framework Skills
 {:.no_toc}
 
-[Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return user experience elements (e.g. Cards, Images, Buttons) alongside text-based responses.
-If the conversation canvas has a screen these cards can be rendered across a broad range of devices and platforms providing supporting UX where appropriate.
-[Samples of Adaptive Cards](https://adaptivecards.io/samples/) are available to try out, as well as documentation on how to [render cards within your own application](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
-
-### Skills
-{:.no_toc}
-
-In addition to the core Virtual Assistant, there exists a broad set of common capabilities which require each developer to build themselves.
-Productivity scenarios are a great example where each organization would need to create their own:
-
-1. Language Models (*LUIS*)
-2. Dialogs (*code-based*)
-3. API Integration (*code-based*)
-4. Language Generation (*bot responses*)
-
-This is then further complicated by the need to support multiple languages and results in a large amount of work required for any organization building their own assistant.
-Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an existing Virtual Assistant through configuration only.
-
-All aspects of each Skill are completely customizable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
+A Virtual Assistant often needs to extend it's capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
+This is further complicated should you require your Virtual Assistant to support multiple languages. The Solution Accelerator includes a Skill capability that enables external bots to be plugged into an existing Virtual Assistant.
 
 ## Next steps
 {:.toc}
