@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "TicketCard",
+  "id": "TicketNoCloseCard",
   "body": [
     {
       "type": "Container",
@@ -63,6 +63,22 @@
           "size": "Small",
           "color": "Light",
           "text": "{Number}"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{ResolvedReason}",
+      "maxLines": 5
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "{ActionUpdateTitle}",
+          "data": "{ActionUpdateValue}"
         }
       ]
     },

@@ -90,6 +90,7 @@ namespace ITSMSkill.Dialogs
                 var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
                 state.DisplayExisting = false;
 
+                // note that it replaces the active WaterfallDialog instead of ShowKnowledgeDialog
                 return await sc.ReplaceDialogAsync(nameof(CreateTicketDialog));
             }
             else

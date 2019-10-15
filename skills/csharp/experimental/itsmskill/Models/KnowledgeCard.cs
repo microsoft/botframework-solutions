@@ -22,5 +22,7 @@ namespace ITSMSkill.Models
         public string UrlTitle { get; set; }
 
         public string UrlLink { get; set; }
+
+        public string ProviderDisplayText { get; set; }
     }
 }

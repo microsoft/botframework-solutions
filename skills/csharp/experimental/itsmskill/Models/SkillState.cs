@@ -26,6 +26,8 @@ namespace ITSMSkill.Models
 
         public Ticket TicketTarget { get; set; }
 
+        public ITSMLuis.Intent InterruptedIntent { get; set; }
+
         public string Id { get; set; }
 
         public string TicketDescription { get; set; }

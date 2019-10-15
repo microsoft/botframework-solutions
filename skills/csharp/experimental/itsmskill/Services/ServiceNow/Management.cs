@@ -17,6 +17,7 @@ namespace ITSMSkill.Services.ServiceNow
 {
     public class Management : IITServiceManagement
     {
+        private static readonly string Provider = "ServiceNow";
         private static readonly string TicketResource = "now/v1/table/incident";
         private static readonly string TicketCount = "now/v1/stats/incident";
         private static readonly string KnowledgeResource = "now/v1/table/kb_knowledge";
@@ -342,6 +343,7 @@ namespace ITSMSkill.Services.ServiceNow
                 State = StringToTicketState[ticketResponse.state],
                 OpenedTime = DateTime.Parse(ticketResponse.opened_at),
                 Number = ticketResponse.number,
+                Provider = Provider,
             };
 
             if (!string.IsNullOrEmpty(ticketResponse.close_code))
@@ -372,6 +374,7 @@ namespace ITSMSkill.Services.ServiceNow
                 UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on),
                 Number = knowledgeResponse.number,
                 Url = string.Format(knowledgeUrl, knowledgeResponse.number),
+                Provider = Provider,
             };
             if (!string.IsNullOrEmpty(knowledgeResponse.text))
             {

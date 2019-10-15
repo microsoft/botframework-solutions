@@ -23,5 +23,7 @@ namespace ITSMSkill.Models
         public string ResolvedReason { get; set; }
 
         public string Number { get; set; }
+
+        public string Provider { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "TicketCard",
+  "id": "TicketNoCloseCard",
   "body": [
     {
       "type": "Container",
@@ -51,6 +51,12 @@
       ]
     },
     {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{ResolvedReason}",
+      "maxLines": 5
+    },
+    {
       "type": "Container",
       "separator": true,
       "items": [
@@ -62,6 +68,18 @@
           "text": "{ProviderDisplayText}"
         }
       ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{ActionUpdateTitle}",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "{ActionUpdateValue}"
+        }
+      }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

@@ -192,4 +192,19 @@
   <data name="GoPrevious" xml:space="preserve">
     <value>"Go previous" to navigate.</value>
   </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Powered by **{0}**</value>
+  </data>
+  <data name="TicketActionCloseTitle" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="TicketActionCloseValue" xml:space="preserve">
+    <value>close the ticket {0}</value>
+  </data>
+  <data name="TicketActionUpdateTitle" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="TicketActionUpdateValue" xml:space="preserve">
+    <value>update the ticket {0}</value>
+  </data>
 </root>
