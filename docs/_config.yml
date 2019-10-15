@@ -43,3 +43,13 @@ plugins:
   - jekyll-sitemap
   - jekyll-toc
   - jemoji  
+
+toc:
+  # Default is "section-nav":
+  list_class: nav
+  # Default is no class for sublists:
+  sublist_class: nav
+  # Default is "toc-entry":
+  item_class: nav-item
+  # Default is "toc-":
+  item_prefix: nav-item-

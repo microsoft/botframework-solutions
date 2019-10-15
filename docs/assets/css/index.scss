@@ -86,28 +86,22 @@ body {
 }
 
 #content-navbar {
+    float: right !important;
     position: -webkit-sticky !important;
     position: sticky !important;
-    top: 4rem;
+    top: 40px;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     display: block !important;
-}
 
-.section-nav::before {
-    content: "Contents";
-    font-weight: bold;
-}
 
-.section-nav {
-    list-style: none;
-    font-size: .875rem;
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    float: right !important;
-    padding-top: 1em !important;
+    .nav::before {
+        content: "Contents";
+        font-weight: bold;
+    }
 
-    a:hover {
-        text-decoration: none;
+    .nav {
+      display: block !important;
     }
 }
+
