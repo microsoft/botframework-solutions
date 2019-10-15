@@ -692,7 +692,7 @@ namespace CalendarSkill.Dialogs
 
                     if (state.ShowMeetingInfor.ShowingMeetings.Count == 1)
                     {
-                        if (state.ShowMeetingInfor.Condition == CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time || (options != null && options.Reason == ShowMeetingReason.ShowOverviewAgain))
+                        if (state.ShowMeetingInfor.Condition == CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time && !(options != null && options.Reason == ShowMeetingReason.ShowOverviewAgain))
                         {
                             responseTemplateId = SummaryResponses.ShowOneMeetingSummaryMessage;
                         }
