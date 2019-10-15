@@ -15,6 +15,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Adapters
 {
@@ -30,7 +31,9 @@ namespace ToDoSkill.Adapters
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                var activity = await new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg").Generate(context, $"[{ToDoSharedResponses.ToDoErrorMessage}]", null);
+
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessage}]", context, null);
+
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
