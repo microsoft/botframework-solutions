@@ -45,8 +45,8 @@ body {
   min-width: 60vw;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
+
 .container-lg {
   flex: 1;
 }
@@ -105,3 +105,6 @@ body {
     }
 }
 
+.markdown-body {
+  position: relative;
+}

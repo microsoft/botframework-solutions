@@ -24,7 +24,7 @@ The following Skill samples are available out of the box, each with deployment s
     <div class="card">
         <div class="card-body">
         <img src="{{site.baseurl}}/assets/images/icons/calendar-skill.png" alt="Calendar icon" width="48px">
-            <h4 class="card-title">Calendar Skill</h4>
+            <h4 class="card-title no_toc">Calendar Skill</h4>
             <p class="card-text">Get up and running with the Calendar Skill sample.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -91,7 +91,7 @@ The following Skill samples are available out of the box, each with deployment s
     <div class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
-            <h4 class="card-title">Create a Skill (TypeScript)</h4>
+            <h4 class="card-title no_toc">Create a Skill (TypeScript)</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer no_toc" style="display: flex; justify-content: center;">

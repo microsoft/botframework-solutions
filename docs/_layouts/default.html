@@ -19,11 +19,11 @@
 	<div class="container px-3 py-3" style="min-width: 90%">
         <div class="d-md-flex flex-md-row flex-md-row gutter-md-spacious">
             {% include nav.html %}
-            <div class="col-md-10 markdown-body p-md-6">
+            <div class="col-md-10 markdown-body p-md-6" data-spy="scroll" data-target="#content-navbar">
                 <nav id="content-navbar" class="navbar">
                     {% toc %}
                 </nav>
-                <div class="col-md-8" id="markdown-content" data-spy="scroll" data-target="#content-navbar">
+                <div class="col-md-8" id="markdown-content">
                     {{ content }}
                 </div>
             </div>
