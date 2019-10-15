@@ -122,7 +122,7 @@ namespace ITSMSkill.Dialogs
                 return await sc.NextAsync();
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.UpdateTicket(state.Id, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)

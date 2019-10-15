@@ -64,7 +64,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> CloseTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.CloseTicket(id: state.Id, reason: state.CloseReason);
 
             if (!result.Success)

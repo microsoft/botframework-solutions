@@ -180,7 +180,7 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
 
             var urgencies = new List<UrgencyLevel>();
             if (state.UrgencyLevel != UrgencyLevel.None)

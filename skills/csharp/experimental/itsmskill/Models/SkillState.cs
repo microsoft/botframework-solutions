@@ -15,9 +15,6 @@ namespace ITSMSkill.Models
             ClearLuisResult();
         }
 
-        // always call GetAuthToken before using
-        public TokenResponse Token { get; set; }
-
         // handle manually
         public int PageIndex { get; set; }
 
