@@ -9,30 +9,68 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class WeatherSkillLuis: IRecognizerConvert
+    public partial class WeatherSkillLuis: IRecognizerConvert
     {
+        [JsonProperty("text")]
         public string Text;
+
+        [JsonProperty("alteredText")]
         public string AlteredText;
+
         public enum Intent {
+            ChangeTemperatureUnit, 
+            CheckWeatherTime, 
+            CheckWeatherValue, 
+            GetWeatherAdvisory, 
             None, 
-            GetForecast
+            QueryWeather
         };
+        [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
+            // Simple entities
+            public string[] Historic;
+
+            public string[] SuitableFor;
+
+            public string[] WeatherCondition;
+
+            public string[] WeatherRange;
 
             // Built-in entities
+            public DateTimeSpec[] datetime;
+
+            public Dimension[] dimension;
+
             public GeographyV2[] geographyV2;
+
+            public Temperature[] temperature;
+
+            // Lists
+            public string[][] AdditionalWeatherCondition;
+
+            public string[][] WindDirectionUnit;
 
             // Instance
             public class _Instance
             {
+                public InstanceData[] AdditionalWeatherCondition;
+                public InstanceData[] Historic;
+                public InstanceData[] SuitableFor;
+                public InstanceData[] WeatherCondition;
+                public InstanceData[] WeatherRange;
+                public InstanceData[] WindDirectionUnit;
+                public InstanceData[] datetime;
+                public InstanceData[] dimension;
                 public InstanceData[] geographyV2;
+                public InstanceData[] temperature;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
+        [JsonProperty("entities")]
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
@@ -40,7 +78,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<WeatherSkillLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<WeatherSkillLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

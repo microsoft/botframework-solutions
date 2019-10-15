@@ -44,6 +44,19 @@
       "wrap": true,
       "text": "{Content}",
       "maxLines": 5
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "default",
+          "text": "{ProviderDisplayText}"
+        }
+      ]
     }
   ],
   "actions": [

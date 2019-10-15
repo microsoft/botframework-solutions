@@ -11,7 +11,14 @@
 - Lo siento, parece que algo salió mal.
 
 # logoutTemplate
-- 
+- Ok, ya has cerrado la sesión.
+
+# escalateTemplate
+- ```
+[HeroCard
+  subtitle=Nuestros agentes están disponibles 24/7 en 1 (800) 555-1234.
+]
+```
 
 # newUserIntroTemplate
 - ```
@@ -88,7 +95,7 @@
 ]
 ```
 
-# returningUserIntroCard
+# returningUserIntroTemplate
 - ```
 [AdaptiveCard
 {
@@ -150,7 +157,7 @@
 ]
 ```
 
-# helpCard
+# helpTemplate
 - ```
 [Herocard 
     title=Ayuda para el Virtual Assistant

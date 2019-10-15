@@ -17,8 +17,11 @@ namespace ITSMSkill.Services.ServiceNow
 {
     public class Management : IITServiceManagement
     {
+        private static readonly string Provider = "ServiceNow";
         private static readonly string TicketResource = "now/v1/table/incident";
+        private static readonly string TicketCount = "now/v1/stats/incident";
         private static readonly string KnowledgeResource = "now/v1/table/kb_knowledge";
+        private static readonly string KnowledgeCount = "now/v1/stats/kb_knowledge";
         private static readonly Dictionary<UrgencyLevel, string> UrgencyToString;
         private static readonly Dictionary<string, UrgencyLevel> StringToUrgency;
         private static readonly Dictionary<TicketState, string> TicketStateToString;
@@ -98,40 +101,9 @@ namespace ITSMSkill.Services.ServiceNow
         {
             try
             {
-                var request = CreateRequest(getUserIdResource);
-                var userId = await client.GetAsync<GetUserIdResponse>(request);
+                var request = CreateRequest(TicketResource);
 
-                request = CreateRequest(TicketResource);
-
-                var sysparmQuery = new List<string>
-                {
-                    $"caller_id={userId.result}"
-                };
-
-                if (!string.IsNullOrEmpty(description))
-                {
-                    sysparmQuery.Add($"short_descriptionLIKE{description}");
-                }
-
-                if (urgencies != null && urgencies.Count > 0)
-                {
-                    sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => UrgencyToString[urgency]))}");
-                }
-
-                if (!string.IsNullOrEmpty(id))
-                {
-                    sysparmQuery.Add($"sys_id={id}");
-                }
-
-                if (states != null && states.Count > 0)
-                {
-                    sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
-                }
-
-                if (!string.IsNullOrEmpty(number))
-                {
-                    sysparmQuery.Add($"number={number}");
-                }
+                var sysparmQuery = await CreateTicketSearchQuery(description: description, urgencies: urgencies, id: id, states: states, number: number);
 
                 request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
 
@@ -144,6 +116,35 @@ namespace ITSMSkill.Services.ServiceNow
                 {
                     Success = true,
                     Tickets = result.result?.Select(r => ConvertTicket(r)).ToArray()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new TicketsResult()
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+        public async Task<TicketsResult> CountTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
+        {
+            try
+            {
+                var request = CreateRequest(TicketCount);
+
+                var sysparmQuery = await CreateTicketSearchQuery(description: description, urgencies: urgencies, id: id, states: states, number: number);
+
+                request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
+
+                request.AddParameter("sysparm_count", true);
+
+                var result = await client.GetAsync<SingleAggregateResponse>(request);
+                return new TicketsResult()
+                {
+                    Success = true,
+                    Tickets = new Ticket[result.result.stats.count]
                 };
             }
             catch (Exception ex)
@@ -225,17 +226,18 @@ namespace ITSMSkill.Services.ServiceNow
 
         public async Task<KnowledgesResult> SearchKnowledge(string query, int pageIndex)
         {
-            var request = CreateRequest(KnowledgeResource);
-
-            // https://codecreative.io/blog/gliderecord-full-text-search-explained/
-            request.AddParameter("sysparm_query", $"IR_AND_OR_QUERY={query}");
-
-            request.AddParameter("sysparm_limit", limitSize);
-
-            request.AddParameter("sysparm_offset", limitSize * pageIndex);
-
             try
             {
+                var request = CreateRequest(KnowledgeResource);
+
+                var sysparmQuery = await CreateKnowledgeSearchQuery(query: query);
+
+                request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
+
+                request.AddParameter("sysparm_limit", limitSize);
+
+                request.AddParameter("sysparm_offset", limitSize * pageIndex);
+
                 var result = await client.GetAsync<MultiKnowledgesResponse>(request);
                 return new KnowledgesResult()
                 {
@@ -253,6 +255,84 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
+        public async Task<KnowledgesResult> CountKnowledge(string query)
+        {
+            try
+            {
+                var request = CreateRequest(KnowledgeCount);
+
+                var sysparmQuery = await CreateKnowledgeSearchQuery(query: query);
+
+                request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
+
+                request.AddParameter("sysparm_count", true);
+
+                var result = await client.GetAsync<SingleAggregateResponse>(request);
+                return new KnowledgesResult()
+                {
+                    Success = true,
+                    Knowledges = new Knowledge[result.result.stats.count]
+                };
+            }
+            catch (Exception ex)
+            {
+                return new KnowledgesResult()
+                {
+                    Success = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+        private async Task<List<string>> CreateTicketSearchQuery(string description, List<UrgencyLevel> urgencies, string id, List<TicketState> states, string number)
+        {
+            var request = CreateRequest(getUserIdResource);
+            var userId = await client.GetAsync<GetUserIdResponse>(request);
+
+            var sysparmQuery = new List<string>
+            {
+                $"caller_id={userId.result}"
+            };
+
+            if (!string.IsNullOrEmpty(description))
+            {
+                sysparmQuery.Add($"short_descriptionLIKE{description}");
+            }
+
+            if (urgencies != null && urgencies.Count > 0)
+            {
+                sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => UrgencyToString[urgency]))}");
+            }
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sysparmQuery.Add($"sys_id={id}");
+            }
+
+            if (states != null && states.Count > 0)
+            {
+                sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
+            }
+
+            if (!string.IsNullOrEmpty(number))
+            {
+                sysparmQuery.Add($"number={number}");
+            }
+
+            return sysparmQuery;
+        }
+
+        private async Task<List<string>> CreateKnowledgeSearchQuery(string query)
+        {
+            var sysparmQuery = new List<string>
+            {
+                // https://codecreative.io/blog/gliderecord-full-text-search-explained/
+                $"IR_AND_OR_QUERY={query}"
+            };
+
+            return sysparmQuery;
+        }
+
         private Ticket ConvertTicket(TicketResponse ticketResponse)
         {
             var ticket = new Ticket()
@@ -263,6 +343,7 @@ namespace ITSMSkill.Services.ServiceNow
                 State = StringToTicketState[ticketResponse.state],
                 OpenedTime = DateTime.Parse(ticketResponse.opened_at),
                 Number = ticketResponse.number,
+                Provider = Provider,
             };
 
             if (!string.IsNullOrEmpty(ticketResponse.close_code))
@@ -293,6 +374,7 @@ namespace ITSMSkill.Services.ServiceNow
                 UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on),
                 Number = knowledgeResponse.number,
                 Url = string.Format(knowledgeUrl, knowledgeResponse.number),
+                Provider = Provider,
             };
             if (!string.IsNullOrEmpty(knowledgeResponse.text))
             {

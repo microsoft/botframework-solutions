@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 
@@ -8,8 +11,8 @@ namespace Microsoft.Bot.Builder.Solutions
     {
         public IRecognizer DispatchService { get; set; }
 
-        public Dictionary<string, ITelemetryRecognizer> LuisServices { get; set; } = new Dictionary<string, ITelemetryRecognizer>();
+        public Dictionary<string, LuisRecognizer> LuisServices { get; set; } = new Dictionary<string, LuisRecognizer>();
 
-        public Dictionary<string, ITelemetryQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
+        public Dictionary<string, QnAMaker> QnAServices { get; set; } = new Dictionary<string, QnAMaker>();
     }
 }

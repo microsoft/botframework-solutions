@@ -15,9 +15,6 @@ namespace ITSMSkill.Models
             ClearLuisResult();
         }
 
-        // always call GetAuthToken before using
-        public TokenResponse Token { get; set; }
-
         // handle manually
         public int PageIndex { get; set; }
 
@@ -25,6 +22,8 @@ namespace ITSMSkill.Models
         public bool DisplayExisting { get; set; }
 
         public Ticket TicketTarget { get; set; }
+
+        public ITSMLuis.Intent InterruptedIntent { get; set; }
 
         public string Id { get; set; }
 

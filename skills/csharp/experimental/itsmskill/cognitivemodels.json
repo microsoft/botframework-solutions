@@ -6,22 +6,72 @@
         {
           "id": "General",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
         },
         {
           "id": "ITSM",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
+        },
+        {
+          "id": "KnowledgeShow",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "TicketClose",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "TicketCreate",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "TicketShow",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "TicketUpdate",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
         }
       ]
     }

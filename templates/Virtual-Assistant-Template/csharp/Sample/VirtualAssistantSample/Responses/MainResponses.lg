@@ -13,6 +13,14 @@
 # logoutMessage
 - Ok, you're signed out.
 
+# escalateMessage
+- ```
+[HeroCard
+{
+  subtitle=Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
+]
+```
+
 # newUserIntroCard
 - ```
 [AdaptiveCard

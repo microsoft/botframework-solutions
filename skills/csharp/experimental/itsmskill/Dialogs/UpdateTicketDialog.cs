@@ -122,7 +122,7 @@ namespace ITSMSkill.Dialogs
                 return await sc.NextAsync();
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.UpdateTicket(state.Id, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)
@@ -130,11 +130,7 @@ namespace ITSMSkill.Dialogs
                 return await SendServiceErrorAndCancel(sc, result);
             }
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(result.Tickets[0])
-            };
+            var card = GetTicketCard(sc.Context, result.Tickets[0]);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketUpdated, card, null));
             return await sc.NextAsync();

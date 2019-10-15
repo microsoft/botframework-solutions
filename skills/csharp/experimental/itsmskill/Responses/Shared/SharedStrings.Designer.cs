@@ -115,6 +115,33 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Go forward/previous&quot; to navigate..
+        /// </summary>
+        public static string GoBoth {
+            get {
+                return ResourceManager.GetString("GoBoth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Go forward&quot; to navigate..
+        /// </summary>
+        public static string GoForward {
+            get {
+                return ResourceManager.GetString("GoForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Go previous&quot; to navigate..
+        /// </summary>
+        public static string GoPrevious {
+            get {
+                return ResourceManager.GetString("GoPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID: .
         /// </summary>
         public static string ID {
@@ -138,6 +165,51 @@ namespace ITSMSkill.Responses.Shared {
         public static string OpenKnowledge {
             get {
                 return ResourceManager.GetString("OpenKnowledge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered by **{0}**.
+        /// </summary>
+        public static string PoweredBy {
+            get {
+                return ResourceManager.GetString("PoweredBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string TicketActionCloseTitle {
+            get {
+                return ResourceManager.GetString("TicketActionCloseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to close the ticket {0}.
+        /// </summary>
+        public static string TicketActionCloseValue {
+            get {
+                return ResourceManager.GetString("TicketActionCloseValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string TicketActionUpdateTitle {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update the ticket {0}.
+        /// </summary>
+        public static string TicketActionUpdateValue {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateValue", resourceCulture);
             }
         }
         

@@ -60,13 +60,29 @@
       "wrap": true,
       "text": "{Content}",
       "maxLines": 5
-    }
-  ],
-  "actions": [
+    },
     {
-      "type": "Action.OpenUrl",
-      "title": "{UrlTitle}",
-      "url": "{UrlLink}"
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.OpenUrl",
+          "title": "{UrlTitle}",
+          "url": "{UrlLink}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "default",
+          "text": "{ProviderDisplayText}"
+        }
+      ]
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

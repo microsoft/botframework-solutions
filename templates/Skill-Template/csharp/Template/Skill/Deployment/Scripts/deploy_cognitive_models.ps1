@@ -9,7 +9,7 @@ Param(
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
-	[switch] $useDispatch = $false,
+	[switch] $useDispatch,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")

@@ -205,20 +205,13 @@ namespace ITSMSkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    state.Token = providerTokenResponse.TokenResponse;
+                    return await sc.NextAsync(providerTokenResponse.TokenResponse);
                 }
                 else
-                {
-                    state.Token = null;
-                }
-
-                if (state.Token == null)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
                     return await sc.CancelAllDialogsAsync();
                 }
-
-                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {
@@ -234,7 +227,7 @@ namespace ITSMSkill.Dialogs
 
         protected async Task<DialogTurnResult> BeginInitialDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(InitialDialogId);
+            return await sc.ReplaceDialogAsync(InitialDialogId);
         }
 
         protected async Task<DialogTurnResult> CheckId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -498,7 +491,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> SetIdFromNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.SearchTicket(0, number: state.TicketNumber);
 
             if (!result.Success)
@@ -521,11 +514,7 @@ namespace ITSMSkill.Dialogs
             state.TicketTarget = result.Tickets[0];
             state.Id = state.TicketTarget.Id;
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(state.TicketTarget)
-            };
+            var card = GetTicketCard(sc.Context, state.TicketTarget, false);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketTarget, card, null));
             return await sc.NextAsync();
@@ -693,7 +682,20 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+
+            var countResult = await management.CountKnowledge(state.TicketDescription);
+
+            if (!countResult.Success)
+            {
+                return await SendServiceErrorAndCancel(sc, countResult);
+            }
+
+            // adjust PageIndex
+            int maxPage = Math.Max(0, (countResult.Knowledges.Length - 1) / Settings.LimitSize);
+            state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
+
+            // TODO handle consistency with count
             var result = await management.SearchKnowledge(state.TicketDescription, state.PageIndex);
 
             if (!result.Success)
@@ -714,6 +716,7 @@ namespace ITSMSkill.Dialogs
                 }
                 else
                 {
+                    // it is unlikely to happen now
                     var token = new StringDictionary()
                     {
                         { "Page", (state.PageIndex + 1).ToString() }
@@ -741,7 +744,8 @@ namespace ITSMSkill.Dialogs
 
                 var token = new StringDictionary()
                 {
-                    { "Page", (state.PageIndex + 1).ToString() }
+                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
+                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
                 };
 
                 var options = new PromptOptions()
@@ -846,6 +850,40 @@ namespace ITSMSkill.Dialogs
             return await sc.CancelAllDialogsAsync();
         }
 
+        protected string GetNavigateString(int page, int maxPage)
+        {
+            if (page == 0)
+            {
+                if (maxPage == 0)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return SharedStrings.GoForward;
+                }
+            }
+            else if (page == maxPage)
+            {
+                return SharedStrings.GoPrevious;
+            }
+            else
+            {
+                return SharedStrings.GoBoth;
+            }
+        }
+
+        protected Card GetTicketCard(ITurnContext turnContext, Ticket ticket, bool showButton = true)
+        {
+            var name = showButton ? (ticket.State != TicketState.Closed ? "TicketUpdateClose" : "TicketUpdate") : "Ticket";
+
+            return new Card
+            {
+                Name = GetDivergedCardName(turnContext, name),
+                Data = ConvertTicket(ticket)
+            };
+        }
+
         protected TicketCard ConvertTicket(Ticket ticket)
         {
             var card = new TicketCard()
@@ -858,7 +896,17 @@ namespace ITSMSkill.Dialogs
                 ResolvedReason = ticket.ResolvedReason,
                 Speak = ticket.Description,
                 Number = $"{SharedStrings.TicketNumber}{ticket.Number}",
+                ActionUpdateTitle = SharedStrings.TicketActionUpdateTitle,
+                ActionUpdateValue = string.Format(SharedStrings.TicketActionUpdateValue, ticket.Number),
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, ticket.Provider),
             };
+
+            if (ticket.State != TicketState.Closed)
+            {
+                card.ActionCloseTitle = SharedStrings.TicketActionCloseTitle;
+                card.ActionCloseValue = string.Format(SharedStrings.TicketActionCloseValue, ticket.Number);
+            }
+
             return card;
         }
 
@@ -874,6 +922,7 @@ namespace ITSMSkill.Dialogs
                 Number = $"{SharedStrings.TicketNumber}{knowledge.Number}",
                 UrlTitle = SharedStrings.OpenKnowledge,
                 UrlLink = knowledge.Url,
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, knowledge.Provider),
             };
             return card;
         }
@@ -915,6 +964,7 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttribute = "ShowAttribute";
             public const string ShowAttributePrompt = "ShowAttributePrompt";
             public const string ShowTicketLoop = "ShowTicketLoop";
+            public const string ShowNavigatePrompt = "ShowNavigatePrompt";
 
             public const string CloseTicket = "CloseTicket";
 

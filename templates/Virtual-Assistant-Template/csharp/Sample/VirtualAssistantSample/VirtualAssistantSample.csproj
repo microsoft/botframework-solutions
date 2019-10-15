@@ -5,6 +5,11 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0" />
@@ -14,64 +19,29 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-09-25-01" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview-191005-1" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-Daily-2019-10-04-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily62" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily62" />
     <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-09-25-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-preview-191005-1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\CancelResponses.de-de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.es-es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.fr-fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.it-it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CancelResponses.zh-cn.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.de-de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.es-es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.fr-fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.it-it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\EscalateResponses.zh-cn.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\MainResponses.de-de.lg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

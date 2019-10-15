@@ -3,7 +3,6 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
@@ -37,13 +36,13 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         {
             var status = await OnInterruptDialogAsync(dc, cancellationToken).ConfigureAwait(false);
 
-            if (status == InterruptionAction.MessageSentToUser)
+            if (status == InterruptionAction.Resume)
             {
                 // Resume the waiting dialog after interruption
                 await dc.RepromptDialogAsync().ConfigureAwait(false);
                 return EndOfTurn;
             }
-            else if (status == InterruptionAction.StartedDialog)
+            else if (status == InterruptionAction.Waiting)
             {
                 // Stack is already waiting for a response, shelve inner stack
                 return EndOfTurn;

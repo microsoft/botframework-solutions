@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector;
@@ -28,12 +29,12 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Help_Interruption_In_Dialog()
         {
             await GetTestFlow()
-               .Send(new Activity()
-               {
-                   ChannelId = Channels.Emulator,
-                   Type = ActivityTypes.Event,
-                   Value = new JObject(new JProperty("action", "startOnboarding"))
-               })
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
+                })
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
@@ -46,7 +47,7 @@ namespace VirtualAssistantSample.Tests
         {
             await GetTestFlow()
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(TemplateEngine.EvaluateTemplate("nothingToCancelMessage"))
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelledMessage"))
                .StartTestAsync();
         }
 
@@ -54,43 +55,32 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Cancel_Interruption_Confirmed()
         {
             await GetTestFlow()
-               .Send(new Activity()
-               {
-                   Type = ActivityTypes.Event,
-                   Value = new JObject(new JProperty("action", "startOnboarding"))
-               })
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
+                })
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply((activity) =>
-               {
-                   var message = activity.AsMessageActivity();
-                   var template = TemplateEngine.EvaluateTemplate("cancelPrompt");
-                   Assert.IsTrue(message.Text.Contains(template));
-                })
-               .Send(GeneralUtterances.Confirm)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelConfirmedMessage"))
+               .AssertReply(TemplateEngine.EvaluateTemplate("cancelledMessage"))
                .StartTestAsync();
         }
 
         [TestMethod]
-        public async Task Test_Cancel_Interruption_Rejected()
+        public async Task Test_Repeat_Interruption()
         {
             await GetTestFlow()
-               .Send(new Activity()
-               {
-                   Type = ActivityTypes.Event,
-                   Value = new JObject(new JProperty("action", "startOnboarding"))
-               })
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
-               .Send(GeneralUtterances.Cancel)
-                .AssertReply((activity) =>
+                .Send(new Activity()
                 {
-                    var message = activity.AsMessageActivity();
-                    var template = TemplateEngine.EvaluateTemplate("cancelPrompt");
-                    Assert.IsTrue(message.Text.Contains(template));
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-               .Send(GeneralUtterances.Reject)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelDeniedMessage"))
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .Send(GeneralUtterances.Repeat)
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
                .StartTestAsync();
         }
     }

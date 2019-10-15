@@ -47,15 +47,10 @@ namespace VirtualAssistantSample.Tests
                         "en-us", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() }
                             },
-                            QnAServices = new Dictionary<string, ITelemetryQnAMaker>
-                            {
-                                { "Faq", FaqTestUtil.CreateRecognizer() },
-                                { "Chitchat", ChitchatTestUtil.CreateRecognizer() }
-                            }
                         }
                     }
                 }
@@ -75,22 +70,18 @@ namespace VirtualAssistantSample.Tests
             var dir = Directory.GetCurrentDirectory();
             TemplateEngine = new TemplateEngine()
                 .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"))
-                .AddFile(Path.Combine(dir, "Responses", "EscalateResponses.lg"))
-                .AddFile(Path.Combine(dir, "Responses", "CancelResponses.lg"));
+                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"));
             LanguageGenerator = new TemplateEngineLanguageGenerator();
             ActivityGenerator = new TextActivityGenerator();
 
             Services.AddSingleton(TemplateEngine);
             Services.AddSingleton(LanguageGenerator);
             Services.AddSingleton(ActivityGenerator);
-            Services.AddTransient<CancelDialog>();
-            Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()

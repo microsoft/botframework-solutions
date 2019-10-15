@@ -56,36 +56,36 @@ namespace ITSMSkill
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-              services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-              var provider = services.BuildServiceProvider();
+            var provider = services.BuildServiceProvider();
 
             // Load settings
-              var settings = new BotSettings();
-              Configuration.Bind(settings);
-              services.AddSingleton(settings);
-              services.AddSingleton<BotSettingsBase>(settings);
+            var settings = new BotSettings();
+            Configuration.Bind(settings);
+            services.AddSingleton(settings);
+            services.AddSingleton<BotSettingsBase>(settings);
 
             // Configure credentials
-              services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-              services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure telemetry
-              services.AddApplicationInsightsTelemetry();
-              var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-              services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-              services.AddBotApplicationInsights(telemetryClient);
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
+            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
+            services.AddBotApplicationInsights(telemetryClient);
 
             // Configure bot services
-              services.AddSingleton<BotServices>();
+            services.AddSingleton<BotServices>();
 
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
             // services.AddSingleton<IStorage, MemoryStorage>();
-              services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
-              services.AddSingleton<UserState>();
-              services.AddSingleton<ConversationState>();
-              services.AddSingleton(sp =>
+            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<UserState>();
+            services.AddSingleton<ConversationState>();
+            services.AddSingleton(sp =>
             {
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
@@ -93,11 +93,11 @@ namespace ITSMSkill
             });
 
             // Configure proactive
-              services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-              services.AddHostedService<QueuedHostedService>();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
 
             // Configure responses
-              services.AddSingleton(sp => new ResponseManager(
+            services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
                 new TicketResponses(),
@@ -105,27 +105,26 @@ namespace ITSMSkill
                 new SharedResponses()));
 
             // Configure service
-              services.AddSingleton<IServiceManager>(new ServiceManager());
+            services.AddSingleton<IServiceManager>(new ServiceManager());
 
             // Register dialogs
-              services.AddTransient<CreateTicketDialog>();
-              services.AddTransient<UpdateTicketDialog>();
-              services.AddTransient<ShowTicketDialog>();
-              services.AddTransient<CloseTicketDialog>();
-              services.AddTransient<ShowKnowledgeDialog>();
-              services.AddTransient<MainDialog>();
+            services.AddTransient<CreateTicketDialog>();
+            services.AddTransient<UpdateTicketDialog>();
+            services.AddTransient<ShowTicketDialog>();
+            services.AddTransient<CloseTicketDialog>();
+            services.AddTransient<ShowKnowledgeDialog>();
+            services.AddTransient<MainDialog>();
 
             // Configure adapters
-              services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-              services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
-              services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
 
             // Register WhiteListAuthProvider
-              services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
+            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-              services.AddTransient<IBot, DialogBot<MainDialog>>();
-              services.AddSingleton<IWhitelistAuthenticationProvider>(new SimpleWhitelistAuthenticationProvider());
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

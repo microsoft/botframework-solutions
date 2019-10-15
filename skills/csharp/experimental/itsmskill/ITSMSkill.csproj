@@ -10,6 +10,10 @@
     <Content Remove="Content\Knowledge.json" />
     <Content Remove="Content\Ticket.1.0.json" />
     <Content Remove="Content\Ticket.json" />
+    <Content Remove="Content\TicketUpdate.1.0.json" />
+    <Content Remove="Content\TicketUpdate.json" />
+    <Content Remove="Content\TicketUpdateClose.1.0.json" />
+    <Content Remove="Content\TicketUpdateClose.json" />
     <Content Remove="Responses\Knowledge\KnowledgeResponses.json" />
     <Content Remove="Responses\Ticket\CreateTicketResponses.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
@@ -25,6 +29,10 @@
     <EmbeddedResource Include="Content\Knowledge.1.0.json" />
     <EmbeddedResource Include="Content\Knowledge.json" />
     <EmbeddedResource Include="Content\Ticket.json" />
+    <EmbeddedResource Include="Content\TicketUpdate.1.0.json" />
+    <EmbeddedResource Include="Content\TicketUpdate.json" />
+    <EmbeddedResource Include="Content\TicketUpdateClose.1.0.json" />
+    <EmbeddedResource Include="Content\TicketUpdateClose.json" />
     <EmbeddedResource Include="Responses\Knowledge\KnowledgeResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
@@ -36,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
+    <PackageReference Include="AdaptiveCards" Version="1.2.2" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
