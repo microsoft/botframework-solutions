@@ -13,7 +13,7 @@
 # logoutTemplate
 - Ok, ya has cerrado la sesión.
 
-# escalateTemplate
+# escalateMessage
 - ```
 [HeroCard
   subtitle=Nuestros agentes están disponibles 24/7 en 1 (800) 555-1234.
