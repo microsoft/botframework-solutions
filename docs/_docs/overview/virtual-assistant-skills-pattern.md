@@ -1,55 +1,49 @@
 ---
 category: Overview
 title: How do the Virtual Assistant and Skills work together?
-description: How the Virtual Assistant and Skills can enable a parent-child pattern throughout your organization.
+description:As you develop your Virtual Assistant, you will find that the ability to manage individual domains of a conversation (Skills) and aggregate them into a singular *parent* Assistant becomes attractive for a number of reasons:
 order: 3
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-## In this reference
+{{ page.description }}
+
+## End user fatigue
 {:.no_toc}
+As customer adoption for this technology grows, new Bots appear owned by disparate teams, increasing the cognitive load on your end users. It becomes up to them to remember the right Bot to use for a given function and they may not discover the full breadth of Bots available.
 
-* 
-{:toc}
-## Overview
+## Monolithic architecture
+{:.no_toc}
+As a Bot increases it's complexity it becomes unsustainable to house them within a single project.
 
-As you develop your Virtual Assistant, you will find that the ability to manage individual domains of a conversation (Skills) and aggregate them into a singular *parent* Assistant becomes attractive for a number of reasons:
-
-* **End user fatigue**: As customer adoption for this technology grows, new Bots appear owned by disparate teams, increasing the cognitive load on your end users. It becomes up to them to remember the right Bot to use for a given function and they may not discover the full breadth of Bots available.
-* **Monolithic Architecture**: As a Bot increases it's complexity it becomes unsustainable to house them within a single project.
-* **Centralized changes**: On the cognitive-side, changes to language models, QnA knowledge bases, and dialogs are usually performed by a central team. This quickly becomes a bottleneck across an organization and highlights change-management issues over time.
+## Centralized changes
+{:.no_toc}
+On the cognitive-side, changes to language models, QnA knowledge bases, and dialogs are usually performed by a central team. This quickly becomes a bottleneck across an organization and highlights change-management issues over time.
 
 ## Parent-Child pattern
-
 Adopting a Parent-Child pattern enables you to address the above issues and provides the following benefits:
-
 
 * Establish a front-facing Assistant experience that your users grow familiar with. This Assistant identifies the intent best suited for a given utterance and hands off processing to a remote-hosted Skill.
 * Enable different teams to own their own capabilities packaged up in a Skill which is added to the **parent** Assistant.
 * Mix programming languages between your Assistant and Skills, for example a C# Assistant could call a Typescript Skill and vice-versa.
 * Leverage Skills from third parties including Microsoft to quickly extend your Assistant's capabilities.
 
-### Example: Enterprise Assistant
-
-In the Enterprise Assistant example shown below, an enterprise customer establishes their global Assistant's brand and personality that  all end users interact with across a broad range of [Bot Framework Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
-
-![Enterprise Assistant Example]({{site.baseurl}}/assets/images/parentchildpattern-enterpriseassistant.png)
-
-The Enterprise Assistant itself provides basic conversational capabilities and QnA and surfaces capabilities from separate HR and IT Bots align with integrating a Calendar Skill capability. Due to the nature of handing over control to skills it's important to ensure that the user can interrupt conversation with a Skill to *escape*. For example saying `cancel` would enable the user to stop an interaction with a Skill and go back to interacting with the parent-level assistant. A user may also wish to seek help or escalate to a human.
-
 ## Key Concepts
 
 The following concepts are key to an effective Skill architecture. These are described at a generic level before moving into details of how this is solved as part of the Virtual Assistant.
 
-### Dispatching
+### Dispatch
+{:.no_toc}
 
 Taking a natural language question from a user (e.g. `What meetings do I have today`) and identifying which (if any) conversational component to hand the question to is the primary function of the Dispatching capability.
 
 The Dispatcher capability requires knowledge of training data for downstream Skills and Q&A in order to reason over all components and make an informed decision on which component to hand control to. A key requirement is the ability to provide scoring comparison across multiple dependencies which is not otherwise possible as there is no common baseline.
 
 ### Orchestrator
+{:.no_toc}
 
 Once a downstream conversational component has been identified the triggering question is passed across and a conversation with the downstream Skill is established through an Orchestration capability.
 
@@ -61,7 +55,7 @@ Conversely, a downstream component can provide information for the Assistant to 
 
 In addition, depending on the scenario the Orchestrator also handles authentication-token needs of downstream Skills maintaining authentication at the parent-level enabling tokens to be shared across Skills if needed (e.g. Office 365 across Calendar, Email and To Do skills).
 
-## Bot Framework Skills and Virtual Assistant
+## Virtual Assistant and Bot Framework Skills
 
 Bot Framework Skills are a new capability enabling Parent-Child / Assistant type experiences to be created. These Skills are almost identical to normal Bot Framework based bots and can be developed and tested in the same way, ensuring a consistent and familiar approach and the same Activity protocol is maintained.
 
