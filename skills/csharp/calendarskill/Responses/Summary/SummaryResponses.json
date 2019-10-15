@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned {Condition}, it is with {Participants1} {EventTime1} titled {EventName1}. Do you want to know more information?",
-        "speak": "You have 1 event planned {Condition}, it is with {Participants1} {EventTime1} titled {EventName1}. Do you want to know more information?"
+        "text": "You have 1 meeting {Condition}: {EventName1}. It's with {Participants1} {EventTime1}.",
+        "speak": "You have 1 meeting {Condition}: {EventName1}. It's with {Participants1} {EventTime1}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -44,16 +44,16 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowOneMeetingSummaryAgainMessage": {
+  "ShowOneMeetingSummaryShortMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned {Condition}. Do you want more information?",
-        "speak": "You have 1 event planned {Condition}. Do you want more information?"
+        "text": "You have 1 meeting {Condition}.",
+        "speak": "You have 1 meeting {Condition}."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowMeetingSummaryAgainMessage": {
+  "ShowMeetingSummaryShortMessage": {
     "replies": [
       {
         "text": "You have {Count} events planned {Condition}.",

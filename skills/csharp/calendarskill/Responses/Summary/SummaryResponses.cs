@@ -17,8 +17,8 @@ namespace CalendarSkill.Responses.Summary
         public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";
         public const string ShowOneMeetingSummaryMessage = "ShowOneMeetingSummaryMessage";
         public const string ShowMultipleMeetingSummaryMessage = "ShowMultipleMeetingSummaryMessage";
-        public const string ShowOneMeetingSummaryAgainMessage = "ShowOneMeetingSummaryAgainMessage";
-        public const string ShowMeetingSummaryAgainMessage = "ShowMeetingSummaryAgainMessage";
+        public const string ShowOneMeetingSummaryShortMessage = "ShowOneMeetingSummaryAgainMessage";
+        public const string ShowMeetingSummaryShortMessage = "ShowMeetingSummaryAgainMessage";
         public const string ShowMeetingSummaryNotFirstPageMessage = "ShowMeetingSummaryNotFirstPageMessage";
         public const string ShowMultipleFilteredMeetings = "ShowMultipleFilteredMeetings";
         public const string ReadOutPrompt = "ReadOutPrompt";

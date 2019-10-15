@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "你{Condition}有1个会议, 你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。你想了解这个会议的详细内容吗？",
-        "speak": "你{Condition}有1个会议, 你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。你想了解这个会议的详细内容吗？"
+        "text": "你{Condition}有1个会议：{EventName1}，和{Participants1}{EventTime1}。",
+        "speak": "你{Condition}有1个会议：{EventName1}，和{Participants1}{EventTime1}。"
       }
     ],
     "inputHint": "acceptingInput"
@@ -44,16 +44,16 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowOneMeetingSummaryAgainMessage": {
+  "ShowOneMeetingSummaryShortMessage": {
     "replies": [
       {
-        "text": "你{Condition}有1个会议。你想了解这个会议的详细内容吗？",
-        "speak": "你{Condition}有1个会议。你想了解这个会议的详细内容吗？"
+        "text": "你{Condition}有1个会议。",
+        "speak": "你{Condition}有1个会议。"
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowMeetingSummaryAgainMessage": {
+  "ShowMeetingSummaryShortMessage": {
     "replies": [
       {
         "text": "你{Condition}有{Count}个会议。",

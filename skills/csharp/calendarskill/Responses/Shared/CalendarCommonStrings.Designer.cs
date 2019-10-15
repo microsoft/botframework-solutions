@@ -223,7 +223,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} and {1} more.
+        ///   Looks up a localized string similar to {0} and {1} other people.
         /// </summary>
         public static string AttendeesSummary {
             get {

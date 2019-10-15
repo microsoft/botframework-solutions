@@ -124,7 +124,7 @@
     <value>all day</value>
   </data>
   <data name="AttendeesSummary" xml:space="preserve">
-    <value>{0} and {1} more</value>
+    <value>{0} and {1} other people</value>
   </data>
   <data name="AtTime" xml:space="preserve">
     <value>at {0}</value>

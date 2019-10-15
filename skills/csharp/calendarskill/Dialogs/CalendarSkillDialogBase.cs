@@ -671,7 +671,17 @@ namespace CalendarSkill.Dialogs
             switch (state.ShowMeetingInfor.Condition)
             {
                 case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time:
-                    return string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower);
+                    {
+                        if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TodayLower, StringComparison.InvariantCultureIgnoreCase) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TomorrowLower, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            return (state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower).ToLower();
+                        }
+
+                        return string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString);
+                    }
+
                 case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Title:
                     return string.Format(CalendarCommonStrings.ShowEventTitleCondition, state.MeetingInfor.Title);
                 case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Attendee:
