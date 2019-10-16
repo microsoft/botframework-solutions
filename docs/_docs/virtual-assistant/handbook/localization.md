@@ -123,6 +123,8 @@ The localization approach is currently supported in the following channels:
 - Direct Line Speech
 
 ### Bot Framework Emulator
+{:.no_toc}
+
 To test your assistant with different locales, you follow these steps in the Bot Framework emulator:
 
 1. Open the **Settings** tab.
@@ -134,6 +136,8 @@ To test your assistant with different locales, you follow these steps in the Bot
     ![Emulator locale screenshot]({{site.baseurl}}/assets/images/emulator_locale.jpg)
 
 ### Web Chat
+{:.no_toc}
+
 To use this approach in webchat, you can set the locale of the activity by providing the **locale** parameter when you initialize your WebChat client, like so:
 
 ```
@@ -152,4 +156,6 @@ To use this approach in webchat, you can set the locale of the activity by provi
 ```
 
 ### Direct Line & Direct Line Speech
+{:.no_toc}
+
 For Direct Line and Direct Line Speech, your client can pass the locale in the Activity.Locale property to enable localization scenarios.

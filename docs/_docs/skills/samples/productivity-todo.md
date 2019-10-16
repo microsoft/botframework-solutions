@@ -10,10 +10,10 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-## Overview
-The To Do Skill provides task related capabilities to a Virtual Assistant.
+{{ page.description }}
 
 ## Supported scenarios
+{:.toc}
 
 The following scenarios are currently supported by the Skill:
 
@@ -35,6 +35,7 @@ The following scenarios are currently supported by the Skill:
   - *Check off "bananas" on my grocery list*
 
 ## Language Understanding (LUIS)
+{:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
@@ -48,6 +49,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |Chinese (simplified)|
 
 ### Intents
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -57,6 +59,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |DeleteToDo| Matches queries to delete a To Do item |
 
 ### Entities
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -71,13 +74,21 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |ordinal| Prebuilt entity|
 
 ## Configuration
+{:.toc}
+
 ### Deployment
+{:.no_toc}
+
 Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
+{:.no_toc}
+
 > Office 365 and Outlook.com through the Microsoft Graph is supported at this time.
 
 ### Authentication connection settings
+{:.no_toc}
+
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 - `Notes.ReadWrite` 
 - `User.Read`
@@ -89,6 +100,8 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ### Add customized to do lists
+{:.no_toc}
+
 If you want to add your customized list types, for example, your homework list or movie list, please follow these steps:
 
 1. Add your list type to `appsettings.json`
@@ -134,3 +147,8 @@ If you want to add your customized list types, for example, your homework list o
 	```
 
 4. Redeploy your To Do Skill.
+
+## Download a transcript
+{:.toc}
+
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-todo.transcript">Download</a>

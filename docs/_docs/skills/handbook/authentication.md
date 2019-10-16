@@ -2,7 +2,7 @@
 category: Skills
 subcategory: Handbook
 title: Authentication
-description: Details on Skill authentication approach and flow.
+description: A Skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication
 order: 4
 toc: true
 ---
@@ -11,7 +11,6 @@ toc: true
 {:.no_toc}
 {{ page.description }}
 
-A Skill needs to be able to authenticate the request coming from another bot (Virtual Assistant). The Skill model requires two levels of Authentication:
 
 ## JWT Authentication
 
@@ -100,7 +99,7 @@ Subsequent activations benefit from the Azure Bot Service provided cache, which 
 
 ![Subsequent authentication flow for Skills]({{site.baseurl}}/assets/images/virtualassistant-SkillAuthSubsequentFlow.png)
 
-# Manual authentication
+## Manual authentication
 
 If you wish to make use of the Calendar, Email and Task Skills standalone to the Virtual Assistant (local mode) you need to configure an Authentication Connection enabling use of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 

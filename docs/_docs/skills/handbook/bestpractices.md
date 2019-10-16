@@ -14,11 +14,13 @@ toc: true
 ## Language understanding
 
 ### Best practices
+{:.no_toc}
 
 A key aspect of your custom Skill's success will be it's ability to extract the right data out of a user's utterance.
 Follow the [Best practices for building a language understanding app](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-best-practices) to help plan your own application.
 
 ### Use the General LUIS model for common utterances
+{:.no_toc}
 
 If there is an utterance that you expect would be applied to multiple Skills, take advantage of the General LUIS model provided to manage this entity at the top-level. The following intents are currently available:
 
@@ -34,6 +36,8 @@ If there is an utterance that you expect would be applied to multiple Skills, ta
 * Restart
 
 ### Update LUIS model
+{:.no_toc}
+
 You can update you LUIS model in LUIS portal. Or modify the `.lu` file then convert it to `.json` and upload to LUIS portal manually, or use `update_cognitive_models.ps1`
 
 How to convert `.json` to `.lu`:
@@ -46,6 +50,7 @@ ludown parse toluis --in YOUR_BOT_NAME.lu
 ```
 
 ### Test LUIS model
+{:.no_toc}
 
 The unit test use a mock LUIS model. So if you need to test your LUIS model, you can implement a test tool by [LUIS API](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f) to test it automatically.
 
@@ -56,10 +61,12 @@ Read [Design and control conversation flow](https://docs.microsoft.com/en-us/azu
 ## Developing a dialog
 
 ### Take advantage of multimodal clients
+{:.no_toc}
 
 Consider the multiple layers of communication a user may have with a Skill on the many popular communication services available on the [Azure Bot Service Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
 
 #### Speech & Text
+{:.no_toc}
 
 Speech & Text responses are stored in `.json` files, and offer the ability to provide a variety of responses and set the input hint on each Activity.
 
@@ -95,10 +102,12 @@ Vary your responses. By providing additional utterances to the `replies` array, 
 Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
 
 #### Common string
+{:.no_toc}
 
 Some common strings shouldn't save in response file. Suggest you to save them in `.resx` file. It is easy to be localized.
 
 #### Visual
+{:.no_toc}
 
 Use [Adaptive Cards](https://adaptivecards.io/) to deliver rich cards as visual clues to a Skill's content.
 
@@ -350,6 +359,7 @@ protected async Task<Activity> GetOverviewMeetingListResponseAsync(
 ```
 
 ### Use prompts to enable smart option matching
+{:.no_toc}
 
 When a Skill needs to gather information with users, it should use the prompts available in the SDK library.
 These enable developers to validate responses with specific data types or create custom validation rules.
@@ -408,6 +418,7 @@ protected PromptOptions GetPointOfInterestChoicePromptOptions(List<PointOfIntere
 Learn more on how you can [gather user input using a dialog prompt](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=csharp).
 
 #### Custom prompt dialog
+{:.no_toc}
 
 One of approach to create a custom prompt dialog is add a validator. In Calendar Skill, there is a choice validator to handle next/previous page intent.
 
@@ -444,11 +455,13 @@ protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> p
 If you need a more complex prompt you can implement it by inheriting `Microsoft.Bot.Builder.Dialogs.Prompt<T>`. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
 
 ### Enable long running tasks
+{:.no_toc}
 
 [Proactive scenarios]({{site.baseurl}}/howto/virtual-assistant/proactivemessaging) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
 This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
 ### Handle and log errors
+{:.no_toc}
 
 Use the `HandleDialogExceptions` method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
@@ -472,12 +485,14 @@ protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception e
 ```
 
 ### Manage the states
+{:.no_toc}
 
 Save your data in different scope of states. Read [Save user and conversation data](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=csharp) to learn about user and conversation state.
 
 For dialog state, you can save your data in `stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]`.
 
 ### Manage the dialogs
+{:.no_toc}
 
 Use dialog options to transfer data among dialogs. Read [Create advanced conversation flow using branches and loops](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=csharp) to learn more about dialog management.
 

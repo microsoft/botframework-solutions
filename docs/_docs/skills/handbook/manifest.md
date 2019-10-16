@@ -33,6 +33,7 @@ A manifest is made up of the following structure:
     - Utterance
 
 ### Manifest Header
+{:.no_toc}
 
 The manifest header provides high level information relating to your skill, the table below provides more information on each item. Note that items marked as automatic should not be provided in your manifest file as they are automatically provided at runtime as part of the manifest generation.
 
@@ -55,6 +56,7 @@ The manifest header provides high level information relating to your skill, the 
 ```
 
 ### Authentication Connections
+{:.no_toc}
 
 The `authenticationConnections` section communicates which authentication providers your skill supports, if any. For example, a Calendar skill might support both Outlook and Google enabling it to function with either provider depending on the users choice. The caller can then use this information to automatically configure the Authentication connection or as required enable a manual step to be performed.
 
@@ -80,6 +82,7 @@ The `authenticationConnections` section communicates which authentication provid
 ```
 
 ### Actions
+{:.no_toc}
 
 The `actions` section describes the discrete actions (features) that a given Skill supports. Each action can optionally provide slots (parameters) that the caller may choose to pass or alternatively omit and pass the utterance for the Skill to perform it's own slot filling. Slot filling on the client side can enable a Skill to be invoked and not require any further input or turns from the end user.
 
@@ -115,6 +118,7 @@ Parameter  | Description | Required
 ```
 
 ### Trigger
+{:.no_toc}
 
 A given action can be trigged through different mechanisms or an utterance. Example triggering utterances must be provided by a skill to enable a caller to train a natural language dispatcher so it can identify utterances that should be routed to a skill.
 
@@ -155,6 +159,7 @@ Utterances can also be provided in-line with the skill manifest as shown below. 
 Both `utteranceSources` and `utterances` support multiple-locales enabling you to express the locales your Skill supports.
 
 ### Example Skill Manifest
+{:.no_toc}
 
 ```json
 {

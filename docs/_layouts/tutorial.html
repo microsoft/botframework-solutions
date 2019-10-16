@@ -21,14 +21,12 @@ layout: default
     <div class="d-flex border-bottom border-gray-light mt-6 mb-3 py-3 text-gray-light">
         <div class="col-6">
             {% if previous %}
-            {% octicon chevron-left class:"v-align-text-bottom" %}
-            <a class = "btn btn-secondary" href="{{ site.baseurl }}{{ previous.url }}">{{ previous.title }}</a>
+            <a class = "btn btn-default" href="{{ site.baseurl }}{{ previous.url }}">{{ previous.title }}</a>
             {% endif %}
         </div>
         <div class="col-6 text-right">
             {% if next %}
             <a class ="btn btn-primary" href="{{ site.baseurl }}{{ next.url }}">{{ next.title }}</a>
-            {% octicon chevron-right class:"v-align-text-bottom" %}
             {% endif %}
         </div>
     </div>

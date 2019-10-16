@@ -10,10 +10,10 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-## Overview
-The Email Skill provides email related capabilities to a Virtual Assistant.
+{{ page.description }}
 
 ## Supported scenarios
+{:.toc}
 
 The following scenarios are currently supported by the Skill:
 
@@ -49,6 +49,7 @@ The following scenarios are currently supported by the Skill:
   - *Open this one*
 
 ## Language Understanding (LUIS)
+{:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
@@ -62,6 +63,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |Chinese (simplified)|
 
 ### Intents
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -77,6 +79,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |SendEmail| Matches queries to send an email |
 
 ### Entities
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -101,10 +104,14 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |ordinal| Prebuilt entity|
 
 ## Configuration
+{:.toc}
+
 ### Deployment
+{:.no_toc}
 Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
+{:.no_toc}
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
 To use Google account skill you need follow these steps:
@@ -117,6 +124,7 @@ To use Google account skill you need follow these steps:
 3. Add the connection name, client id, secret and scopes in the `appsetting.json` file.
 
 ### Authentication connection Settings
+{:.no_toc}
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 - `User.ReadBasic.All`
 - `Mail.ReadWrite`
@@ -129,4 +137,11 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Events
+{:.toc}
+
 Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.
+
+## Download a transcript
+{:.toc}
+
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-email.transcript">Download</a>

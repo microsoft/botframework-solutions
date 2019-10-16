@@ -2,7 +2,7 @@
 category: Skills
 subcategory: Samples
 title: Experimental Skills
-description: News, Search, Reservation, Weather, Music, Events, and Hospitality.
+description: These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started. These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
 order: 5
 toc: true
 ---
@@ -10,13 +10,8 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-## Overview
-
-These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started.
-
-These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
-
 ### Skill Deployment
+{:.toc}
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
@@ -31,6 +26,7 @@ The Experimental Skills require the following dependencies for end to end operat
 **To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
 
 ## Skills
+{:.no_toc}
 
 ### Automotive Skill
 The Automotive Skill is in preview and demonstrates the first capabilities to help enable Automotive scenarios. The skill focuses on Vehicle Settings, specifically Climate Control, Safety and Basic audio controls. Media, Tuner and Phone capabilities are expected in a future release.

@@ -11,14 +11,13 @@ toc: true
 {:.no_toc}
 {{ page.description }}
 
-## Introduction
-
 [Event Activities](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-activities?view=azure-bot-service-3.0#event) are used to pass metadata between a bot and user without being visible to the user.
 
 The data from these activities can be processed by an assistant to fulfill scenarios like providing a summary of the day ahead or filling semantic action slots on a Skill.
 
 ## From user to assistant
 ### Location
+{:.no_toc}
 
 You can pass a user's coordinates to an assistant using the **VA.Location** example event.
 
@@ -37,6 +36,8 @@ You can pass a user's coordinates to an assistant using the **VA.Location** exam
 ```
 
 ### Timezone
+{:.no_toc}
+
 You can pass a user's timezone to an assistant using the **VA.Timezone** example event.
 
 **Activity payload**
@@ -54,6 +55,8 @@ You can pass a user's timezone to an assistant using the **VA.Timezone** example
 ```
 
 ### Reset user
+{:.no_toc}
+
 You can request to remove all user state and unlink accounts by passing the **VA.ResetUser** example event.
 
 **Activity payload**
@@ -71,6 +74,8 @@ You can request to remove all user state and unlink accounts by passing the **VA
 
 ## From assistant to user
 ### Open default applications
+{:.no_toc}
+
 To be tightly integrated with a user's messaging client, a Virtual Assistant needs to send events back to the client application.
 The **OpenDefaultApp** example event is used in conjunction with the [Virtual Assistant Client (Android) sample)]({{ site.baseurl }}/howto/samples/vaclient_android/) to demonstrate samples of using metadata
 

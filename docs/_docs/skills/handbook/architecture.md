@@ -11,8 +11,6 @@ toc: true
 {:.no_toc}
 {{ page.description }}
 
-## Introduction
-
 Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.
 
 Within an Enterprise, this could be creating one parent bot bringing together multiple sub-bots owned by different teams, or more broadly leveraging common capabilities provided by other developers. With this preview of Skills, developers can create a new bot (typically through the Virtual Assistant template) and add/remove Skills with one command line operation incorporating all Dispatch and Configuration changes.

@@ -7,6 +7,8 @@ order: 6
 ---
 
 # {{ page.title }}
+{:.no_toc}
+
 {{ page.description }}
 
 #### Automotive Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-automotive.transcript)

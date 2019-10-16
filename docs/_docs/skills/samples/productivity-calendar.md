@@ -10,10 +10,10 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-## Overview
-The Calendar Skill provides calendar related capabilities to a Virtual Assistant.
+{{ page.description }}
 
 ## Supported scenarios
+{:.toc}
 
 The following scenarios are currently supported by the Skill:
 
@@ -50,33 +50,11 @@ The following scenarios are currently supported by the Skill:
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
-  
-## Skill Deployment
-
-The Calendar Skill require the following dependencies for end to end operation which are created through an ARM deployment script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-**To deploy your services using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources/) from the folder where your have cloned the GitHub repo.**
-
-### Authentication Connection Settings
-
-If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
-
-- `Calendars.ReadWrite`
-- `People.Read`    
-- `Contacts.Read`
-- `User.Read.All`
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
 ## Language Understanding (LUIS)
+{:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
 
@@ -90,6 +68,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |Chinese (simplified)|
 
 ### Intents
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -113,6 +92,7 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |TimeRemaining| Matches queries to get the time until a meeting begins|
 
 ### Entities
+{:.no_toc}
 
 |Name|Description|
 |-|-|
@@ -137,10 +117,15 @@ LUIS models for the Skill are provided in `.lu` file format as part of the Skill
 |ordinal| Prebuilt entity|
 
 ## Configuration
+{:.toc}
+
 ### Deployment
+{:.no_toc}
 Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
+{:.no_toc}
+
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
 To use Google account skill you need follow these steps:
@@ -153,6 +138,8 @@ To use Google account skill you need follow these steps:
 3. Add the connection name, client id, secret and scopes in the `appsetting.json` file.
 
 ### Authentication connection settings
+{:.no_toc}
+
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 
 - `User.ReadBasic.All`  
@@ -165,4 +152,10 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
 
 ## Events
+{:.toc}
 Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.
+
+## Download a transcript
+{:.toc}
+
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-calendar.transcript">Download</a>

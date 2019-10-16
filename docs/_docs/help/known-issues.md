@@ -2,17 +2,11 @@
 category: Help
 title: Known issues
 order: 2
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## Contents
-{:.no_toc}
-
-* 
-{:toc}
-
 
 ## My Microsoft App Registration could not be automatically provisioned
 

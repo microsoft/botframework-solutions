@@ -4,17 +4,11 @@ subcategory: Samples
 title: Linked accounts
 description: Enable users to link third party accounts (e.g. Office 365) to your Assistant.
 order: 4
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
-## Overview
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios,
 one such example is Authentication. If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important for the VA Bot to have access to a security token (Office 365 for example).
@@ -40,6 +34,7 @@ In order to perform Account Linking, the Linked Accounts web app will need the e
 The ``appsettings.json`` file in the LinkedAccounts sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoftonline.com based scenario. You can replace this with any custom authentication solution you have, what is key is ensuring the Linked Accounts feature is authenticating the user in some way and retrieving the same unique identifier which is passed to the assistant in future conversations.
 
 ### Integrating Azure AD
+{:.no_toc}
 
 1. Sign in to the [Azure Portal](https://portal.azure.com/).
 2. On the left sidebar, select  **Azure Active Directory**.

@@ -2,18 +2,12 @@
 category: Help
 title: Frequently asked questions
 order: 1
+toc: true
 ---
 
 
 # {{ page.title }}
 {:.no_toc}
-
-## Contents
-{:.no_toc}
-
-* 
-{:toc}
-
 
 ## Virtual Assistant
 

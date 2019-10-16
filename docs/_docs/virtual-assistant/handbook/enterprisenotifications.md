@@ -4,16 +4,11 @@ subcategory: Handbook
 title: Enable the Enterprise Notifications solution for a Virtual Assistant
 description: Steps for configuring the Enterprise Notifications sample
 order: 8
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 
 ## Prerequisites
 
@@ -35,6 +30,8 @@ This sample includes an example [Event Producer]({{site.repo}}/samples/Enterpris
 - Update `appSettings.json` with the `EventHubName` and `EventHubConnectionString` which you can find by going to your EventHub resource, creating an instance and then a `Shared Access Policy`
 
 ### Azure Function - Event Handler
+{:.no_toc}
+
 This sample includes an example [EventHandler Azure Function]({{site.repo}}/Samples/EnterpriseNotification/EventHandler) which is triggered by Event delivery and handles Event processing.
 
 
@@ -53,6 +50,7 @@ This sample includes an example [EventHandler Azure Function]({{site.repo}}/Samp
 ## Virtual Assistant
 
 ### ProactiveState Middleware
+{:.no_toc}
 
 In order to be able to deliver messages to a conversation the end user must already have had an interaction with the assistant. As part of this interaction a `ConversationReference` needs to be persisted and used to resume the conversation.
 
@@ -72,6 +70,7 @@ We provide a middleware component to perform this ConversationReference storage 
 ```
 
 ### Event Handling
+{:.no_toc}
 
 The following code handles the `BroadcastEvent` event type sent by the Azure function and is added to the Event Handling code. Within Virtual Assistant this is handled by `OnEventAsync` within MainDialog.cs.
 
@@ -109,6 +108,7 @@ Within `MainDialog.cs` add the following changes:
 Now events can be sent to a user through your Virtual Assistant in an active conversation.
 
 ### Bot Framework Emulator
+{:.no_toc}
 
 Event generation must generate Events with the same `UserId` as the Emulator is using so the existing conversation can be matched and notifications can be delivered.
 
