@@ -7,12 +7,11 @@ toc: true
 
 # {{ page.title }}
 {:.no_toc}
+The Virtual Assistant Solution Accelerator is an open-sourced solution based on the [Microsoft Bot Framework](https://aka.ms/botframework) providing you with a set of core foundational capabilities and full ownership of a conversational assistant tailored to your brand, personalized to your users, and made available across a broad range of canvases and devices. Owning and enriching user relationships is vital to the goals of the Virtual Assistant Solution Accelerator. You can modify the name, voice, and personality to suit your brand's requirements and style guide. 
 
-Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the [Bot Framework](http://aka.ms/botframework) SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience.
+At it's core is the [Virtual Assistant template]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript), a project template with the best practices to developing a bot on the Microsoft Azure platform.
 
-Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. You can modify the name, voice, and personality to suit a customer’s needs. The solution simplifies the creation of a Virtual Assistant, enabling you to Get started in minutes and extend with end-to-end development tooling.
-
-Common scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual Skills can be added to an existing conversational application like: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
+Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
 ![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
 
