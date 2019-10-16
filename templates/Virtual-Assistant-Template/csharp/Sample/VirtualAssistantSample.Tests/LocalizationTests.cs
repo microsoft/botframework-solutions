@@ -9,6 +9,7 @@ using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -137,6 +138,30 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
                 })
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
+                })
+                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_No_Cognitive_With_Same_Locale_Root()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
+            await GetTestFlow()
+                .Send(GeneralUtterances.Escalate)
+                .AssertReply(TemplateEngine.EvaluateTemplate("confusedMessage"))
                 .StartTestAsync();
         }
     }
