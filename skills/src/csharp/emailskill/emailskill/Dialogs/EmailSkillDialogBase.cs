@@ -1313,6 +1313,17 @@ namespace EmailSkill.Dialogs
                         }
                     }
 
+                    if (entity.ContactName != null)
+                    {
+                        foreach (var name in entity.ContactName)
+                        {
+                            if (!state.FindContactInfor.ContactsNameList.Contains(name))
+                            {
+                                state.FindContactInfor.ContactsNameList.Add(name);
+                            }
+                        }
+                    }
+
                     if (entity.RelationshipName != null)
                     {
                         var relatedEntities = GetRelatedEntityFromRelationship(entity, luisResult.Text);
@@ -1375,17 +1386,6 @@ namespace EmailSkill.Dialogs
                                     }
                                 }
 
-                                if (entity.ContactName != null)
-                                {
-                                    foreach (var name in entity.ContactName)
-                                    {
-                                        if (!state.FindContactInfor.ContactsNameList.Contains(name))
-                                        {
-                                            state.FindContactInfor.ContactsNameList.Add(name);
-                                        }
-                                    }
-                                }
-
                                 if (entity.email != null)
                                 {
                                     // As luis result for email address often contains extra spaces for word breaking
@@ -1431,17 +1431,6 @@ namespace EmailSkill.Dialogs
                                 if (entity.Message != null)
                                 {
                                     state.Content = entity.Message[0];
-                                }
-
-                                if (entity.ContactName != null)
-                                {
-                                    foreach (var name in entity.ContactName)
-                                    {
-                                        if (!state.FindContactInfor.ContactsNameList.Contains(name))
-                                        {
-                                            state.FindContactInfor.ContactsNameList.Add(name);
-                                        }
-                                    }
                                 }
 
                                 if (entity.email != null)

@@ -17,8 +17,8 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 {
     public class ResolveContextualInfoDialog : ComponentDialog
     {
-        private const string _getContextualContactNameDialog = "GetContextualContactName";
-        private const string _setContextualContactNameDialog = "SetContextualContactName";
+        private const string _getContextualContactNameDialog = "GetContextualInfoName";
+        private const string _setContextualContactNameDialog = "SetContextualInfoName";
         private const string _confirmContextualContactNameDialog = "ConfirmContextualContactName";
         private const string _textPrompt = "TextPrompt";
         private const string _confirmPrompt = "ConfirmPrompt";

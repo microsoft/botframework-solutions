@@ -31,7 +31,7 @@ namespace EmailSkill.Dialogs
     public class FindContactDialog : ComponentDialog
     {
         public static readonly int MaxAcceptContactsNum = 20;
-        private ResolveContextualInfoDialog _resolveContextualInfoDialog;
+        private ResolveContextualContactInfoDialog _resolveContextualInfoDialog;
 
         public FindContactDialog(
              BotSettings settings,
@@ -131,7 +131,7 @@ namespace EmailSkill.Dialogs
                 SaveResolvedContextualInfo,
             };
 
-            _resolveContextualInfoDialog = new ResolveContextualInfoDialog(userState, telemetryClient, userContextManager);
+            _resolveContextualInfoDialog = new ResolveContextualContactInfoDialog(userState, telemetryClient, userContextManager);
 
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
@@ -293,6 +293,17 @@ namespace EmailSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 state.FindContactInfor.ConfirmContactsNameIndex = state.FindContactInfor.ConfirmContactsNameIndex + 1;
+
+                if (state.FindContactInfor.ConfirmedContact != null)
+                {
+                    if (UserContextManager.AnaphoraResolutionState.PreviousContacts.Contains(state.FindContactInfor.ConfirmedContact.DisplayName))
+                    {
+                        UserContextManager.AnaphoraResolutionState.PreviousContacts.Remove(state.FindContactInfor.ConfirmedContact.DisplayName);
+                    }
+
+                    UserContextManager.AnaphoraResolutionState.PreviousContacts.Add(state.FindContactInfor.ConfirmedContact.DisplayName);
+                }
+
                 state.FindContactInfor.ConfirmedContact = null;
                 return await sc.ReplaceDialogAsync(FindContactAction.LoopNameList, sc.Options, cancellationToken);
             }
@@ -508,7 +519,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(nameof(ResolveContextualInfoDialog), sc.Options, cancellationToken);
+                return await sc.BeginDialogAsync(nameof(ResolveContextualContactInfoDialog), sc.Options, cancellationToken);
             }
             catch (SkillException skillEx)
             {

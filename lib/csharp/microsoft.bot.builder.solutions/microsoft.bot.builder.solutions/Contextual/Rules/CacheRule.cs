@@ -10,7 +10,10 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Rules
         {
             if (state.Pron == PossessivePronoun.ThirdPerson)
             {
-                return state.PreviousContacts.Last();
+                if (state.PreviousContacts.Count() > 0)
+                {
+                    return state.PreviousContacts.Last();
+                }
             }
 
             return null;

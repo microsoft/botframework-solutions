@@ -16,7 +16,6 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
         {
             _contextResolver = contextResolver;
             _userStateContextResolver = new UserStateContextResolver(userInfo);
-            _userStateContextResolver.RegisterARRule(new StanfordNLPRule());
             _userStateContextResolver.RegisterARRule(new CacheRule());
         }
 
@@ -24,7 +23,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
         internal List<PreviousTriggerIntent> PreviousTriggerIntents { get; set; } = new List<PreviousTriggerIntent>();
 
-        internal AnaphoraResolutionState AnaphoraResolutionState { get; set; } = new AnaphoraResolutionState();
+        public static AnaphoraResolutionState AnaphoraResolutionState { get; set; } = new AnaphoraResolutionState();
 
         public async Task<IList<string>> GetResolvedContactAsync(RelatedEntityInfo relatedEntityInfo)
         {

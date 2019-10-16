@@ -11,8 +11,8 @@
   "PromptUserContact": {
     "replies": [
       {
-        "text": "Your {Relationship} is {Contact}, could you confirm?",
-        "speak": "Your {Relationship} is {Contact}, could you confirm?"
+        "text": "The {Relationship} you mean is {Contact}, could you confirm?",
+        "speak": "The {Relationship} you mean is {Contact}, could you confirm?"
       }
     ],
     "inputHint": "acceptingInput"

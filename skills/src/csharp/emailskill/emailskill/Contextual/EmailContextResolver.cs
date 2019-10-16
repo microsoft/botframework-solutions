@@ -44,7 +44,7 @@ namespace EmailSkill.Contextual
             else if (relatedEntityInfo.PronounType == PossessivePronoun.ThirdPerson && _state.FindContactInfor.Contacts.Count > 0)
             {
                 int count = _state.FindContactInfor.Contacts.Count;
-                string prename = _state.FindContactInfor.Contacts[count - 1].EmailAddress.Name;
+                string prename = _state.FindContactInfor.Contacts[count - 1].EmailAddress.Address;
 
                 // To do
                 if (Regex.IsMatch(relatedEntityInfo.RelationshipName, "manager", RegexOptions.IgnoreCase))
