@@ -11,18 +11,25 @@ order: 6
 
 {{ page.description }}
 
-#### Automotive Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-automotive.transcript)
+## Skills
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-calendar.transcript">Calendar</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-email.transcript">Email</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-pointofinterest.transcript">Point of Interest</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-todo.transcript">To Do</a>
 
-#### Calendar Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-calendar.transcript)
+### Experimental
+{:.no_toc}
 
-#### Email Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-email.transcript)
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-automotive.transcript">Automotive</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-hospitality.transcript">Hospitality</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-news.transcript">News</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript">Restaurant Booking</a>
 
-#### To Do Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-todo.transcript)
+## Virtual Assistant samples
 
-#### Point of Interest Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-pointofinterest.transcript)
-
-#### News Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-news.transcript)
-
-#### Reservation Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript)
-
-#### Hospitality Skill: [Download]({{site.baseurl}}/assets/transcripts/skills-hospitality.transcript)
+### Hospitality Assistant
+{:.no_toc}
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-faqs.transcript">Frequently asked questions</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-localinfo.transcript">Local info</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-reservationchanges.transcript">Reservation changes</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-roomservices.transcript">Room services</a>

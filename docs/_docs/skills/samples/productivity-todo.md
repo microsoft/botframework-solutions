@@ -3,7 +3,7 @@ category: Skills
 subcategory: Samples
 title: To Do Skill
 description: Add task management capabilities to your Assistant. Powered by Microsoft Graph.
-order: 3
+order: 4
 toc: true
 ---
 

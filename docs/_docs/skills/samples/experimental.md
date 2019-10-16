@@ -29,6 +29,8 @@ The Experimental Skills require the following dependencies for end to end operat
 {:.no_toc}
 
 ### Automotive Skill
+{:.toc}
+
 The Automotive Skill is in preview and demonstrates the first capabilities to help enable Automotive scenarios. The skill focuses on Vehicle Settings, specifically Climate Control, Safety and Basic audio controls. Media, Tuner and Phone capabilities are expected in a future release.
 
 Vehicle Control is a complicated domain, whilst there are only a limited set of car controls for climate control there are a myriad of ways that a human can describe a given setting. For example, *I'm feeling chilly* , *My feet are cold* and *It's cold here in the back* all relate to a decrease in temperature but to different parts of the car and perhaps even different fan settings.

@@ -1,12 +1,14 @@
 ---
 category: Virtual Assistant
 subcategory: Samples
-title: NEW Hospitality Assistant
-order: 1
+title: Hospitality Assistant
+order: 2
 toc: true
 ---
 
 # {{ page.title }}
+{:.no_toc}
+
 The [Hospitality Sample Virtual Assistant]({{site.repo}}/tree/master/samples/assistants/HospitalitySample) is a prototype of an assistant that helps to conceptualize and demonstrate how a virtual assistant could be used in a hospitality specific scenario. It also provides a starting point for those interested in creating an assistant customized for this scenario.
 
 This sample works off the basis that the assistant would be integrated into a hotel room device and would help a hotel guest with anything they might usually go to the hotel concierge about. It also provides additional capabilites that might be useful for guests, such as getting the weather forecast or showing current news articles. 
@@ -19,8 +21,55 @@ The majority of the skills connected to this sample are [experimental skills]({{
 
 
 ## Supported scenarios
+This sample demonstrates the following scenarios:
+- Answer hotel FAQs ([QnA Maker](https://www.qnamaker.ai/) knowledge base)
+    - *Where is the gym?*
+    - *What time is breakfast?*
+    - *Do you allow pets?*
+- Guest reservation changes ([Hospitality Skill]({{site.baseurl}}/reference/skills/experimental/#hospitality-skill))
+    - *I want to extend my stay by 2 nights*
+    - *Can I get a late check out time?*
+    - *Can you check me out now*
+- Room services ([Hospitality Skill]({{site.baseurl}}/reference/skills/experimental/#hospitality-skill))
+    - *I want to see a room service menu*
+    - *Can you get me 2 croissants and a yogurt parfait?*
+    - *Can you bring me a toothbrush and toothpaste?*
+- Get local area information ([Event]({{site.baseurl}}/reference/skills/experimental/#event-skill) and [Point of Interest]({{site.baseurl}}/reference/skills/pointofinterest) skills)
+    - *What's happening nearby?* 
+    - *Find me nearby coffee shops*
+- Make a restaurant reservation ([Restaurant Booking Skill]({{site.baseurl}}/reference/skills/experimental/#restaurant-booking-skill))
+    - *Make a dinner reservation for tonight*
+- Weather forecast ([Weather Skill]({{site.baseurl}}/reference/skills/experimental/#weather-skill))
+    - *What's the weather today?*
+- Find news articles ([News Skill]({{site.baseurl}}/reference/skills/experimental/#news-skill))
+    - *What's the latest news on surfing?*
+    - *What news is currently trending?*
+- Search the web ([Bing Search Skill]({{site.baseurl}}/reference/skills/experimental/#bing-search-skill))
+    - *Tell me about the jurassic park movie*
+    - *Who is Bill Gates?*
 
-## Deployment
+For a more in-depth explanation of the scenarios supported by each skill check out the [experimental skills documentation]({{site.baseurl}}/reference/skills/experimental) and [Point of Interest Skill documentation]({{site.baseurl}}/reference/skills/pointofinterest).
+
+## Deploy
+To configure this sample follow the steps below:
+1. Clone the [Hospitality Sample from our repository]({{site.repo}}/tree/master/samples/assistants/HospitalitySample).
+1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
+1. Clone the following skills from our repository:
+    - [Hospitality Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/hospitalityskill)
+    - [Event Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/eventskill)
+    - [Point of Interest Skill]({{site.repo}}/tree/master/skills/src/csharp/pointofinterestskill/pointofinterestskill)
+    - [Weather Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/weatherskill)
+    - [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/bingsearchskill/bingsearchskill)
+    - [News Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/newsskill)
+    - [Restaurant Booking Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/restaurantbooking)
+1. [Deploy each one of these skills]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) separately, using the deployment script included in the skill directory. 
+1. [Add each skill]({{site.baseurl}}/howto/skills/addingskills/) using the botskills connect CLI tool. 
 
 ## Download transcripts
 
+View sample conversations Hospitality Assistant solution by downloading a trancscript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator). For more flows of specific skills see [transcripts]({{site.baseurl}}/reference/skills/transcripts).
+
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-faqs.transcript">Frequently asked questions</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-localinfo.transcript">Local info</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-reservationchanges.transcript">Reservation changes</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-roomservices.transcript">Room services</a>

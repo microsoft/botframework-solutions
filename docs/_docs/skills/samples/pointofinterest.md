@@ -3,7 +3,7 @@ category: Skills
 subcategory: Samples
 title: Point Of Interest Skill
 description: Find points of interest and directions. Powered by Azure Maps and FourSquare.
-order: 4
+order: 3
 toc: true
 ---
 

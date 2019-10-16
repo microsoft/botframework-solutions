@@ -7,12 +7,15 @@ toc: true
 ---
 
 # {{ page.title }}
+{:.no_toc}
 
 ## Enterprise Notifications
 
-## Sample configuration
 
 ## Supported scenarios
+
+## Deploy
+
 
 ## Download transcripts
 

@@ -3,7 +3,6 @@ category: Virtual Assistant
 subcategory: Handbook
 title: Testing
 description: Your Virtual Assistant can be tested just like any other Bot Framework Bot; the most common tools are the [Bot Framework Emulator](https://aka.ms/botframework-emulator) and [Web Chat](https://aka.ms/botframework-webchat).
-
 order: 6
 toc: true
 ---
