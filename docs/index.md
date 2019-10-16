@@ -6,36 +6,27 @@ title: Bot Framework Solutions Documentation
 # {{ page.title }}
 
 <div class="card-deck">
-    <div class="card">
+    <a href="{{site.baseurl}}/overview/virtual-assistant-overview" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/virtual-assistant.png" alt="Virtual Assistant icon" width="48px">
-            <h4 class="card-title">Virtual Assistant solution accelerator (preview)</h4>
+            <h4 class="card-title">Virtual Assistant Solution Accelerator (preview)</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>           
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/overview/virtual-assistant-overview" class="btn btn-primary stretched-link">Learn more</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/overview/skills" class="card">
         <div class="card-body">        
           <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">
             <h4 class="card-title">Bot Framework Skills (preview)</h4>
-            <p class="card-text">A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.</p>
+            <p class="card-text">Extend a bot with reusable conversational Skills to add common functionality such as collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. Try the sample Skills available like Calendar, Email, To Do, Point of Interest, and more.</p>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/overview/skills" class="btn btn-primary stretched-link">Learn more</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/bi-dashboard.png" alt="Analytics icon" width="48px">
             <h4 class="card-title">Analytics</h4>
             <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>            
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro" class="btn btn-primary stretched-link">Learn more</a>
-        </div>
-    </div>
+    </a>
 </div>
 
 ## Step-by-Step Tutorials
@@ -43,83 +34,39 @@ title: Bot Framework Solutions Documentation
 ### C# Tutorials
 {:.no_toc}
 <div class="card-deck">
-    <div class="card">
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/" class="card">
         <div class="card-body">
             <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/" class="card">
         <div class="card-body">
-            <h4 class="card-title">Customize a Virtual Assistant</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
-        </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/customize-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Create a skill</h4>
+            <h4 class="card-title">Create a Skill</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Customize a skill</h4>
-            <p class="card-text">Customize your skill for your brand and users.</p>
-        </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/customize-skill/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
+    </a>
 </div>
 
 ### TypeScript Tutorials
 {:.no_toc}
 <div class="card-deck">
-    <div class="card">
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/typescript/1-intro/" class="card">
         <div class="card-body">
             <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/" class="card">
         <div class="card-body">
-            <h4 class="card-title">Customize a Virtual Assistant (TypeScript)</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
-        </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/customize-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Create a skill (TypeScript)</h4>
+            <h4 class="card-title">Create a Skill</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/create-skill/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Customize a skill (TypeScript)</h4>
-            <p class="card-text">Customize your skill for your brand and users.</p>
-        </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/customize-skill/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
+    </a>
 </div>
 
 ### More tutorials

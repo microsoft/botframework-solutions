@@ -28,6 +28,7 @@ A voice-enabled Virtual Assistant integrated in a car providing passengers the a
 {:.no_toc}
 
 ![Diagram of the Hospitality Assistant]({{site.baseurl}}/assets/images/hospitalitysample-diagram.png)
+
 A voice-enabled Virtual Assistant integrated in a hotel room can provide support for hospitality-focused scenarios such as room service, concierge, and local events. This can be further personalized by linking a guest to their preferences. This represnets An evolution of the current TV personalization experienced in room today.
 
 For more information, view the [Hospitality Assistant sample]({{site.baseurl}}/virtual-assistant/samples/hospitalityassistant.md).
@@ -75,24 +76,20 @@ This is further complicated should you require your Virtual Assistant to support
 {:.toc}
 
 <div class="card-deck">
-    <div class="card">
+    <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="TypeScript icon" width="48px">
             <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/typescript/create-assistant/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
+    </a>
 </div>

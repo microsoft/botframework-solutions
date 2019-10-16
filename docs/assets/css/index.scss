@@ -113,3 +113,26 @@ body {
       padding-left: 15px;
     }
 }
+
+a.card {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 2px 5px hsla(0,0%,89%,1);
+}
+
+a.card:hover{
+  border: 1px solid var(--primary);
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  background-image: none !important;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9 !important;
+}
+
+.btn-secondary:hover {
+  color: var(--dark);
+}
