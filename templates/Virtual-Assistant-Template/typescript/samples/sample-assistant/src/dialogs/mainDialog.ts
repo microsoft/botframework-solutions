@@ -340,6 +340,7 @@ export class MainDialog extends RouterDialog {
 
         if (cognitiveModels === undefined) {
             const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
                 .find((key: string) => {
                     if (key.substring(0, 2) === locale.substring(0, 2)) {
                         return key;
