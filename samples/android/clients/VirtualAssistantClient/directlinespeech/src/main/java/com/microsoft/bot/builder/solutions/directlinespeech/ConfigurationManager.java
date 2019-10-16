@@ -68,10 +68,6 @@ public class ConfigurationManager {
             configuration.locale = defaultConfiguration.locale;
         }
 
-        if (configuration.appCenterId == null)
-        {
-            configuration.appCenterId = defaultConfiguration.appCenterId;
-        }
         return configuration;
     }
 
