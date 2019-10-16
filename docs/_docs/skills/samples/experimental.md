@@ -4,16 +4,11 @@ subcategory: Samples
 title: Experimental Skills
 description: News, Search, Reservation, Weather, Music, Events, and Hospitality.
 order: 5
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 
 ## Overview
 

@@ -78,7 +78,8 @@ This is further complicated should you require your Virtual Assistant to support
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title no_toc">Create a Virtual Assistant (C#)</h4>
+            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
+            <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -87,7 +88,8 @@ This is further complicated should you require your Virtual Assistant to support
     </div>
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title no_toc">Create a Virtual Assistant (TypeScript)</h4>
+            <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="TypeScript icon" width="48px">
+            <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">

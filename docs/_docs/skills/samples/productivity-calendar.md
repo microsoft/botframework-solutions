@@ -4,16 +4,12 @@ subcategory: Samples
 title: Calendar Skill
 description: Add calendar capabilities to your Assistant. Powered by Microsoft Graph and Google.
 order: 1
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 ## Overview
 The Calendar Skill provides calendar related capabilities to a Virtual Assistant.
 

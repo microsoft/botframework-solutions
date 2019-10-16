@@ -4,16 +4,11 @@ subcategory: Samples
 title: To Do Skill
 description: Add task management capabilities to your Assistant. Powered by Microsoft Graph.
 order: 3
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 
 ## Overview
 The To Do Skill provides task related capabilities to a Virtual Assistant.

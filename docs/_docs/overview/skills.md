@@ -41,6 +41,9 @@ The following Skill samples are available out of the box, each with deployment s
             <a href="{{site.baseurl}}/skills/samples/productivity-email" class="btn btn-primary">Learn more</a>
         </div>
     </div>
+</div>
+
+<div class="card-deck">
     <div class="card">
         <div class="card-body">
         <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
@@ -51,7 +54,7 @@ The following Skill samples are available out of the box, each with deployment s
             <a href="{{site.baseurl}}/skills/samples/productivity-todo" class="btn btn-primary">Learn more</a>
         </div>
     </div>
-        <div class="card">
+    <div class="card">
         <div class="card-body">
         <img src="{{site.baseurl}}/assets/images/icons/point-of-interest-skill.png" alt="Point of Interest icon" width="48px">
             <h4 class="card-title no_toc">Point of Interest Skill</h4>
@@ -61,8 +64,9 @@ The following Skill samples are available out of the box, each with deployment s
             <a href="{{site.baseurl}}/skills/samples/pointofinterest" class="btn btn-primary">Learn more</a>
         </div>
     </div>
-    </div>
-    <div class="card-deck">
+</div>
+
+<div class="card-deck">
     <div class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/experimental-skill.png" alt="Experimental icon" width="48px">
@@ -80,7 +84,7 @@ The following Skill samples are available out of the box, each with deployment s
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="To Do icon" width="48px">
+            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title no_toc">Create a Skill</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
@@ -91,7 +95,7 @@ The following Skill samples are available out of the box, each with deployment s
     <div class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
-            <h4 class="card-title no_toc">Create a Skill (TypeScript)</h4>
+            <h4 class="card-title no_toc">Create a Skill</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer no_toc" style="display: flex; justify-content: center;">

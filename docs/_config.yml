@@ -46,10 +46,10 @@ plugins:
 
 toc:
   # Default is "section-nav":
-  list_class: nav
+  list_class: nav flex-column
   # Default is no class for sublists:
-  sublist_class: nav
+  sublist_class: nav flex-column
   # Default is "toc-entry":
-  item_class: nav-item
+  item_class: nav-item no-underline py-1 text-gray-light
   # Default is "toc-":
   item_prefix: nav-item-

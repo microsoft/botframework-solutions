@@ -1,4 +1,4 @@
-<div id="toc" class="col-md-2 py-6">
+<div id="toc" class="col-12 col-md-3 col-xl-2">
     <div class="toc-wrap">
         <ul class="mt-2 mb-4">
             <li>
@@ -34,11 +34,11 @@
                                 {% for item in items %}
                                 <li>
                                     {% if page.url == item.url %}
-                                    {% assign classes = "text-brand-highlight" %}
+                                    {% assign classes = "text-brand-dark font-weight-bold" %}
                                     {% else %}
-                                    {% assign classes = "text-gray-light" %}
+                                    {% assign classes = "text-gray" %}
                                     {% endif %}
-                                    <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
+                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
                                         {{ item.title }}
                                     </a>
                                 </li>
@@ -91,11 +91,11 @@
                                                 {% for item in language.items | sort: 'order' %}
                                                 <li>
                                                     {% if page.url == item.url %}
-                                                    {% assign classes = "text-brand-highlight" %}
+                                                    {% assign classes = "text-brand-dark font-weight-bold" %}
                                                     {% else %}
-                                                    {% assign classes = "text-gray-light" %}
+                                                    {% assign classes = "text-gray" %}
                                                     {% endif %}
-                                                    <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
+                                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
                                                         {{ item.title }}
                                                     </a>
                                                 </li>
@@ -109,9 +109,9 @@
                                         {% for item in nolang.items | sort: 'order' %}
                                         <li>
                                             {% if page.url == item.url %}
-                                            {% assign classes = "text-brand-highlight" %}
+                                            {% assign classes = "text-brand-dark font-weight-bold" %}
                                             {% else %}
-                                            {% assign classes = "text-gray-light" %}
+                                            {% assign classes = "text-gray" %}
                                             {% endif %}
                                             <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
                                                 {{ item.title }}

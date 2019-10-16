@@ -4,16 +4,11 @@ subcategory: Samples
 title: Point Of Interest Skill
 description: Find points of interest and directions. Powered by Azure Maps and FourSquare.
 order: 4
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 
 ## Overview
 The Point of Interest Skill provides point of interest and navigation related capabilities to a Virtual Assistant.

@@ -4,16 +4,11 @@ subcategory: Samples
 title: Email Skill
 description: Add email capabilities to your Assistant. Powered by Microsoft Graph and Google.
 order: 2
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
 
 ## Overview
 The Email Skill provides email related capabilities to a Virtual Assistant.

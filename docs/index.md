@@ -9,25 +9,31 @@ title: Bot Framework Solutions Documentation
     <div class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/virtual-assistant.png" alt="Virtual Assistant icon" width="48px">
-            <h5 class="card-title">Virtual Assistant solution accelerator (preview)</h5>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
+            <h4 class="card-title">Virtual Assistant solution accelerator (preview)</h4>
+            <p class="card-text">Personalize your experience for your brand and customers.</p>           
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: center;">
             <a href="{{site.baseurl}}/overview/virtual-assistant-overview" class="btn btn-primary stretched-link">Learn more</a>
         </div>
     </div>
     <div class="card">
         <div class="card-body">        
           <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">
-            <h5 class="card-title">Bot Framework Skills (preview)</h5>
+            <h4 class="card-title">Bot Framework Skills (preview)</h4>
             <p class="card-text">A collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. We currently provide: Calendar, Email, To Do, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models and source code to customize as required.</p>
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: center;">
             <a href="{{site.baseurl}}/overview/skills" class="btn btn-primary stretched-link">Learn more</a>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/bi-dashboard.png" alt="Analytics icon" width="48px">
-            <h5 class="card-title">Analytics</h5>
-            <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>
-            <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro stretched-link" class="btn btn-primary">Learn more</a>
+            <h4 class="card-title">Analytics</h4>
+            <p class="card-text">Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries and Power BI dashboards to understand the full breadth of your bot’s conversations with users.</p>            
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: center;">
+            <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro" class="btn btn-primary stretched-link">Learn more</a>
         </div>
     </div>
 </div>
@@ -39,7 +45,7 @@ title: Bot Framework Solutions Documentation
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Create a Virtual Assistant (C#)</h5>
+            <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -48,7 +54,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Customize a Virtual Assistant (C#)</h5>
+            <h4 class="card-title">Customize a Virtual Assistant</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -57,7 +63,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Create a skill (C#)</h5>
+            <h4 class="card-title">Create a skill</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -66,7 +72,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Customize a skill (C#)</h5>
+            <h4 class="card-title">Customize a skill</h4>
             <p class="card-text">Customize your skill for your brand and users.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -80,7 +86,7 @@ title: Bot Framework Solutions Documentation
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Create a Virtual Assistant (TypeScript)</h5>
+            <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -89,7 +95,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Customize a Virtual Assistant (TypeScript)</h5>
+            <h4 class="card-title">Customize a Virtual Assistant (TypeScript)</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -98,7 +104,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Create a skill (TypeScript)</h5>
+            <h4 class="card-title">Create a skill (TypeScript)</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -107,7 +113,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Customize a skill (TypeScript)</h5>
+            <h4 class="card-title">Customize a skill (TypeScript)</h4>
             <p class="card-text">Customize your skill for your brand and users.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -121,7 +127,7 @@ title: Bot Framework Solutions Documentation
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Connect pre-built skills</h5>
+            <h4 class="card-title">Connect pre-built skills</h4>
             <p class="card-text">Deploy and connect to a selection of provided skill projects.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -130,7 +136,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Enable Speech</h5>
+            <h4 class="card-title">Enable Speech</h4>
             <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
@@ -139,7 +145,7 @@ title: Bot Framework Solutions Documentation
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Enable Microsoft Teams</h5>
+            <h4 class="card-title">Enable Microsoft Teams</h4>
             <p class="card-text">Enable the Microsoft Teams Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
