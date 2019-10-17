@@ -8,7 +8,7 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Rules
     {
         public async Task<string> GetAnaphoraResolutionResultAsync(AnaphoraResolutionState state)
         {
-            if (state.Pron == PossessivePronoun.ThirdPerson)
+            if (state.Pron == PossessivePronoun.Unknown && (state.QueryText == "him" || state.QueryText == "her"))
             {
                 if (state.PreviousContacts.Count() > 0)
                 {

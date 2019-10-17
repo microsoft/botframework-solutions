@@ -41,7 +41,16 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual
 
             // just for testing rules...
             AnaphoraResolutionState.Pron = relatedEntityInfo.PronounType;
+            AnaphoraResolutionState.QueryText = relatedEntityInfo.RelationshipName;
             string name = await _userStateContextResolver.ExcuteARRules(AnaphoraResolutionState);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                var anaphoraNameList = new List<string>();
+                anaphoraNameList.Add(name);
+
+                return anaphoraNameList;
+            }
 
             // 2. User state context resolver
             var resolvedUserStateContact = await _userStateContextResolver.GetResolvedContactAsync(relatedEntityInfo);

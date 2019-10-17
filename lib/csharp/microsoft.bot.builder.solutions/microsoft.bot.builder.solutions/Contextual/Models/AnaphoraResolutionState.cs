@@ -10,6 +10,8 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Models
 
         public string Pron { get; set; }
 
+        public string QueryText { get; set; }
+
         public List<string> PreviousContacts { get; set; } = new List<string>();
     }
 }

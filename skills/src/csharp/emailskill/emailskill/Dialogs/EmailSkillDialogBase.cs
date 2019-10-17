@@ -1328,24 +1328,40 @@ namespace EmailSkill.Dialogs
                     {
                         var relatedEntities = GetRelatedEntityFromRelationship(entity, luisResult.Text);
 
-                        foreach (var item in relatedEntities)
+                        if (relatedEntities.Count() > 0)
                         {
-                            if (!state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(item.Key))
+                            foreach (var item in relatedEntities)
                             {
-                                state.FindContactInfor.RelatedEntityInfoDict.Add(item.Key, item.Value);
-                            }
-                            else
-                            {
-                                state.FindContactInfor.RelatedEntityInfoDict[item.Key] = item.Value;
+                                if (!state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(item.Key))
+                                {
+                                    state.FindContactInfor.RelatedEntityInfoDict.Add(item.Key, item.Value);
+                                }
+                                else
+                                {
+                                    state.FindContactInfor.RelatedEntityInfoDict[item.Key] = item.Value;
+                                }
+
+                                if (!state.FindContactInfor.ContactsNameList.Contains(item.Key))
+                                {
+                                    state.FindContactInfor.ContactsNameList.Add(item.Key);
+                                }
                             }
 
-                            if (!state.FindContactInfor.ContactsNameList.Contains(item.Key))
+                            state.FindContactInfor.RelatedEntityInfoDict = relatedEntities;
+                        }
+                        else
+                        {
+                            foreach (var itemList in entity.RelationshipName)
                             {
-                                state.FindContactInfor.ContactsNameList.Add(item.Key);
+                                foreach (var item in itemList)
+                                {
+                                    if (!state.FindContactInfor.ContactsNameList.Contains(item))
+                                    {
+                                        state.FindContactInfor.ContactsNameList.Add(item);
+                                    }
+                                }
                             }
                         }
-
-                        state.FindContactInfor.RelatedEntityInfoDict = relatedEntities;
                     }
 
                     if (!isBeginDialog)

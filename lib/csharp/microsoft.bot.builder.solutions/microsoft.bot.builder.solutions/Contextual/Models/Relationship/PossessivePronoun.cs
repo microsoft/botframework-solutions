@@ -4,5 +4,6 @@
     {
         public static readonly string FirstPerson = "FirstPerson";
         public static readonly string ThirdPerson = "ThirdPerson";
+        public static readonly string Unknown = "Unknown";
     }
 }

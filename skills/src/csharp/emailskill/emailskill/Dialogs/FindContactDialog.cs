@@ -49,6 +49,7 @@ namespace EmailSkill.Dialogs
             ResponseManager = responseManager;
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             UserStateAccessor = userState.CreateProperty<UserInfoState>(nameof(UserInfoState));
+            UserContextManager = userContextManager;
 
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -159,6 +160,8 @@ namespace EmailSkill.Dialogs
         protected IServiceManager ServiceManager { get; set; }
 
         protected ResponseManager ResponseManager { get; set; }
+
+        protected UserContextManager UserContextManager { get; set; }
 
         public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -294,15 +297,15 @@ namespace EmailSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 state.FindContactInfor.ConfirmContactsNameIndex = state.FindContactInfor.ConfirmContactsNameIndex + 1;
 
-                if (state.FindContactInfor.ConfirmedContact != null)
-                {
-                    if (UserContextManager.AnaphoraResolutionState.PreviousContacts.Contains(state.FindContactInfor.ConfirmedContact.DisplayName))
-                    {
-                        UserContextManager.AnaphoraResolutionState.PreviousContacts.Remove(state.FindContactInfor.ConfirmedContact.DisplayName);
-                    }
+                //if (state.FindContactInfor.ConfirmedContact != null)
+                //{
+                //    if (UserContextManager.AnaphoraResolutionState.PreviousContacts.Contains(state.FindContactInfor.ConfirmedContact.DisplayName))
+                //    {
+                //        UserContextManager.AnaphoraResolutionState.PreviousContacts.Remove(state.FindContactInfor.ConfirmedContact.DisplayName);
+                //    }
 
-                    UserContextManager.AnaphoraResolutionState.PreviousContacts.Add(state.FindContactInfor.ConfirmedContact.DisplayName);
-                }
+                //    UserContextManager.AnaphoraResolutionState.PreviousContacts.Add(state.FindContactInfor.ConfirmedContact.DisplayName);
+                //}
 
                 state.FindContactInfor.ConfirmedContact = null;
                 return await sc.ReplaceDialogAsync(FindContactAction.LoopNameList, sc.Options, cancellationToken);
@@ -487,16 +490,29 @@ namespace EmailSkill.Dialogs
                 }
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
-                if (!string.IsNullOrEmpty(currentRecipientName) && state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                state.FindContactInfor.CurrentContactName = currentRecipientName;
+                if (!string.IsNullOrEmpty(currentRecipientName))
                 {
-                    var possessivePronoun = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName];
-                    var pronounType = possessivePronoun.PronounType;
-                    var relationship = possessivePronoun.RelationshipName;
-                    var personList = new List<PersonModel>();
+                    if (state.FindContactInfor.RelatedEntityInfoDict.ContainsKey(currentRecipientName))
+                    {
+                        var possessivePronoun = state.FindContactInfor.RelatedEntityInfoDict[currentRecipientName];
+                        var pronounType = possessivePronoun.PronounType;
+                        var relationship = possessivePronoun.RelationshipName;
+                        var personList = new List<PersonModel>();
 
-                    var option = new UserInfoOptions() { QueryItem = possessivePronoun };
-                    _resolveContextualInfoDialog.ContextResolver = new EmailContextResolver(state, sc, ServiceManager);
-                    return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
+                        var option = new UserInfoOptions() { QueryItem = possessivePronoun };
+                        _resolveContextualInfoDialog.ContextResolver = new EmailContextResolver(state, sc, ServiceManager);
+                        return await sc.BeginDialogAsync(FindContactAction.ResolveContext, option, cancellationToken);
+                    }
+                    else
+                    {
+                        RelatedEntityInfo info = new RelatedEntityInfo() { PronounType = PossessivePronoun.Unknown, RelationshipName = state.FindContactInfor.CurrentContactName };
+                        var result = await UserContextManager.GetResolvedContactAsync(info);
+                        if (result != null && result.Count() > 0)
+                        {
+                            state.FindContactInfor.CurrentContactName = result[0];
+                        }
+                    }
                 }
 
                 return await sc.NextAsync();
