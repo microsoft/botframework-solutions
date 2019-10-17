@@ -41,7 +41,7 @@ The Assistant makes use of a number of Middleware Components to process incoming
 
 ## Advanced Conversational Analytics
 
-The Assistant is configured to collect telemetry into Application Insights. This can be imported into a PowerBI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
+The Assistant is configured to collect telemetry into Application Insights. [Learn how to set up your own Power BI dashboard]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/).
 
 ## Dialogs
 
