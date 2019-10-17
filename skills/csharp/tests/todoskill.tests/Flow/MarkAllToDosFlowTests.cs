@@ -37,7 +37,6 @@ namespace ToDoSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
                   this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),

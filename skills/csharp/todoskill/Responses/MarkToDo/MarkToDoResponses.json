@@ -62,20 +62,20 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CardSummaryMessageForMultipleTasks": {
+  "AfterCompleteCardSummaryMessageForMultipleTasks": {
     "replies": [
       {
         "text": "You now have {taskCount} items on your {listType} list.",
-        "speak": "You now have {taskCount} items on your {listType} list. "
+        "speak": "You now have {taskCount} items on your {listType} list."
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "CardSummaryMessageForSingleTask": {
+  "AfterCompleteCardSummaryMessageForSingleTask": {
     "replies": [
       {
         "text": "You now have 1 item on your {listType} list.",
-        "speak": "You now have 1 item on your {listType} list. "
+        "speak": "You now have 1 item on your {listType} list."
       }
     ],
     "inputHint": "ignoringInput"

@@ -120,25 +120,33 @@ namespace ToDoSkill.Dialogs
                 }
 
                 ResponseTemplate response = null;
-
-                var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
-                var taskContent = state.AllTasks[completedTaskIndex].Topic;
-                response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
-                var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
-                await sc.Context.SendActivityAsync(completeSummary);
-
-                int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
-                if (uncompletedTaskCount == 1)
+                if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.CardSummaryMessageForSingleTask);
+                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
+                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
                 }
                 else
                 {
-                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.CardSummaryMessageForMultipleTasks);
-                }
+                    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
+                    var taskContent = state.AllTasks[completedTaskIndex].Topic;
+                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
+                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
 
-                var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
-                await sc.Context.SendActivityAsync(taskSummary);
+                    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
+                    if (uncompletedTaskCount == 1)
+                    {
+                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask);
+                    }
+                    else
+                    {
+                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks);
+                    }
+
+                    var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(taskSummary, speak: taskSummary);
+                }
 
                 return await sc.EndDialogAsync(true);
             }

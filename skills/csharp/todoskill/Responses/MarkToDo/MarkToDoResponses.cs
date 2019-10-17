@@ -19,7 +19,7 @@ namespace ToDoSkill.Responses.MarkToDo
         public const string AskTaskIndexRetryForComplete = "AskTaskIndexRetryForComplete";
         public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
         public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
-        public const string CardSummaryMessageForMultipleTasks = "CardSummaryMessageForMultipleTasks";
-        public const string CardSummaryMessageForSingleTask = "CardSummaryMessageForSingleTask";
+        public const string AfterCompleteCardSummaryMessageForMultipleTasks = "AfterCompleteCardSummaryMessageForMultipleTasks";
+        public const string AfterCompleteCardSummaryMessageForSingleTask = "AfterCompleteCardSummaryMessageForSingleTask";
     }
 }

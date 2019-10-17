@@ -62,7 +62,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CardSummaryMessageForMultipleTasks": {
+  "AfterCompleteCardSummaryMessageForMultipleTasks": {
     "replies": [
       {
         "speak": "现在 {listType} 列表中有 {taskCount} 个项目。",
@@ -71,7 +71,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "CardSummaryMessageForSingleTask": {
+  "AfterCompleteCardSummaryMessageForSingleTask": {
     "replies": [
       {
         "speak": "现在 {listType} 列表中有 1 个项目。",
