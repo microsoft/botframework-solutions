@@ -36,10 +36,13 @@ namespace ITSMSkill.Dialogs
         {
             var createTicket = new WaterfallStep[]
             {
+                CheckTitle,
+                InputTitle,
+                SetTitle,
+                DisplayExistingLoop,
                 CheckDescription,
                 InputDescription,
                 SetDescription,
-                DisplayExistingLoop,
                 CheckUrgency,
                 InputUrgency,
                 SetUrgency,
@@ -88,7 +91,7 @@ namespace ITSMSkill.Dialogs
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
-            var result = await management.CreateTicket(state.TicketDescription, state.UrgencyLevel);
+            var result = await management.CreateTicket(state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)
             {

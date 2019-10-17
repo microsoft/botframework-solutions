@@ -5,22 +5,22 @@
 - close a ticket
 - close an issue
 - close an incident
-- close a ticket because {CloseReason=Received help from agent}
-- close an issue due to {CloseReason=Wrong setup}
-- i would like to close a ticket because {CloseReason=Reinstalled the app}
-- i would like to close an issue due to {CloseReason=Reverted to a previous version}
-- Ticket about {CloseReason=lost connection} can be closed
+- close a ticket because {CloseReason}
+- close an issue due to {CloseReason}
+- i would like to close a ticket because {CloseReason}
+- i would like to close an issue due to {CloseReason}
+- Ticket can be closed by {CloseReason}
 - Ticket can be closed
-- Close the ticket about {CloseReason=lost connection}
+- Close the ticket with {CloseReason}
 
 > resolve
 
 - resolve a ticket
 - resolve an issue
 - resolve an incident
-- resolve a ticket because {CloseReason=Gave workaround}
-- resolve an issue due to {CloseReason=Fixed}
+- resolve a ticket because {CloseReason}
+- resolve an issue due to {CloseReason}
 - i would like to resolve a ticket
 - i would like to resolve an issue
 - i would like to resolve an incident
-- Resolve the ticket about {CloseReason=lost connection}
+- Resolve the ticket with {CloseReason}

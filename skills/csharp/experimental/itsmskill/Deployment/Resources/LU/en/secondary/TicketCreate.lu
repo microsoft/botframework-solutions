@@ -2,35 +2,46 @@
 
 > add
 
+- add a new ticket
 - add a ticket
-- add a ticket about {TicketDescription=unable to connect}
-- add a ticket for {TicketDescription=not detecting the device}
+- add a ticket about {TicketTitle}
+- add a ticket for {TicketTitle}
 - add an incident
+- add an issue for {TicketTitle}
+- add issue for {TicketTitle}
 - i would like to add a ticket
-- add a new ticket 
-- Please add a new ticket about {TicketDescription=lost connection}
+- please add a new issue for {TicketTitle}
+- please add a new ticket about {TicketTitle}
 
 > create
 
+- a new ticket about {TicketTitle} needs to be created
 - create a ticket
-- create a ticket about {TicketDescription=missing my directory}
-- create a ticket for {TicketDescription=new employee hire}
-- create an incident for {TicketDescription=disk is still having issues}
-- i would like to create a ticket for {TicketDescription=server down again}
-- I'd like to create a ticket
-- A new incident about {TicketDescription=lost connection} need to be created
+- create a ticket about {TicketTitle}
+- create a ticket for {TicketTitle}
+- create a ticket to {TicketTitle}
+- create an incident for {TicketTitle}
+- create an issue for {TicketTitle}
+- i would like to create for {TicketTitle}
+- i'd like to create a ticket
 
 > open
 
+- a new ticket about {TicketTitle} needs to be opened
+- i would like to open a ticket about {TicketTitle}
 - open a ticket
-- open a ticket about {TicketDescription=need oracle installed}
-- open a ticket for {TicketDescription=need phone set up}
-- open an incident about {TicketDescription=customer didn't receive fax}
-- i would like to open a ticket about {TicketDescription=lost connection}
-- A new ticket about {TicketDescription=lost connection} need to be opened
+- open a ticket about {TicketTitle}
+- open a ticket for {TicketTitle}
+- open an incident about {TicketTitle}
 
 > raise
 
 - raise a ticket
 - raise an incident
 - raise an issue
+- raise an issue for {TicketTitle}
+
+> submit
+
+- submit issue about {TicketTitle}
+- submit issue for {TicketTitle}

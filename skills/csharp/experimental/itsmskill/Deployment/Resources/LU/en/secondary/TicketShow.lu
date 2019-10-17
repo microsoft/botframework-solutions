@@ -16,14 +16,14 @@
 - search issues
 - search incidents
 - search for tickets
-- search for issues about {TicketDescription=lost connection}
-- search for incidents about {TicketDescription=lost connection}
+- search for issues about {TicketTitle}
+- search for incidents about {TicketTitle}
 
 > see
 
 - i would like to see my tickets
 - i would like to see urgency low issues
-- i would like to see incidents about {TicketDescription=unable to connect}
+- i would like to see incidents about {TicketTitle}
 
 > show
 
@@ -31,7 +31,7 @@
 - show my issues
 - show my incidents
 - show my urgency high tickets
-- show my tickets about {TicketDescription=lost connection}
+- show my tickets about {TicketTitle}
 - show me all high priority tickets
 - show me all high priority issues
 - show me all high priority incidents
@@ -45,5 +45,5 @@
 - view my issues
 - view my incidents
 - view my urgency low tickets
-- view my tickets about {TicketDescription=new employee hire}
+- view my tickets about {TicketTitle}
 - i would like to view my tickets

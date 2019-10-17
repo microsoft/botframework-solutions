@@ -18,6 +18,10 @@ namespace ITSMSkill.Responses.Shared
         public const string AuthFailed = "AuthFailed";
         public const string ActionEnded = "ActionEnded";
         public const string ErrorMessage = "ErrorMessage";
+        public const string ConfirmSearch = "ConfirmSearch";
+        public const string InputSearch = "InputSearch";
+        public const string ConfirmTitle = "ConfirmTitle";
+        public const string InputTitle = "InputTitle";
         public const string ConfirmDescription = "ConfirmDescription";
         public const string InputDescription = "InputDescription";
         public const string ConfirmReason = "ConfirmReason";

@@ -56,6 +56,20 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
 
+            var setSearch = new WaterfallStep[]
+            {
+                CheckSearch,
+                InputSearch,
+                SetTitle
+            };
+
+            var setTitle = new WaterfallStep[]
+            {
+                CheckTitle,
+                InputTitle,
+                SetTitle
+            };
+
             var setDescription = new WaterfallStep[]
             {
                 CheckDescription,
@@ -126,6 +140,8 @@ namespace ITSMSkill.Dialogs
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new TicketNumberPrompt(nameof(TicketNumberPrompt)));
+            AddDialog(new WaterfallDialog(Actions.SetSearch, setSearch));
+            AddDialog(new WaterfallDialog(Actions.SetTitle, setTitle));
             AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
             AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
             AddDialog(new WaterfallDialog(Actions.SetId, setId));
@@ -341,6 +357,16 @@ namespace ITSMSkill.Dialogs
                 state.TicketDescription = null;
                 return await sc.BeginDialogAsync(Actions.SetDescription);
             }
+            else if (attribute == AttributeType.Title)
+            {
+                state.TicketTitle = null;
+                return await sc.BeginDialogAsync(Actions.SetTitle);
+            }
+            else if (attribute == AttributeType.Search)
+            {
+                state.TicketTitle = null;
+                return await sc.BeginDialogAsync(Actions.SetSearch);
+            }
             else if (attribute == AttributeType.Urgency)
             {
                 state.UrgencyLevel = UrgencyLevel.None;
@@ -365,6 +391,96 @@ namespace ITSMSkill.Dialogs
             {
                 throw new Exception($"Invalid AttributeType: {attribute}");
             }
+        }
+
+        // Actually Title
+        protected async Task<DialogTurnResult> CheckSearch(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketTitle))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Search", state.TicketTitle }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmSearch, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputSearch(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketTitle))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputSearch)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketTitle);
+            }
+        }
+
+        protected async Task<DialogTurnResult> CheckTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketTitle))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Title", state.TicketTitle }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmTitle, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketTitle))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputTitle)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketTitle);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.TicketTitle = (string)sc.Result;
+            return await sc.NextAsync();
         }
 
         protected async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -684,7 +800,7 @@ namespace ITSMSkill.Dialogs
 
             var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
 
-            var countResult = await management.CountKnowledge(state.TicketDescription);
+            var countResult = await management.CountKnowledge(state.TicketTitle);
 
             if (!countResult.Success)
             {
@@ -696,7 +812,7 @@ namespace ITSMSkill.Dialogs
             state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
 
             // TODO handle consistency with count
-            var result = await management.SearchKnowledge(state.TicketDescription, state.PageIndex);
+            var result = await management.SearchKnowledge(state.TicketTitle, state.PageIndex);
 
             if (!result.Success)
             {
@@ -888,14 +1004,15 @@ namespace ITSMSkill.Dialogs
         {
             var card = new TicketCard()
             {
+                Title = ticket.Title,
                 Description = ticket.Description,
-                UrgencyLevel = $"{SharedStrings.Urgency}{ticket.Urgency.ToLocalizedString()}",
-                State = $"{SharedStrings.TicketState}{ticket.State.ToLocalizedString()}",
-                OpenedTime = $"{SharedStrings.OpenedAt}{ticket.OpenedTime.ToString()}",
-                Id = $"{SharedStrings.ID}{ticket.Id}",
+                UrgencyLevel = string.Format(SharedStrings.Urgency, ticket.Urgency.ToLocalizedString()),
+                State = string.Format(SharedStrings.TicketState, ticket.State.ToLocalizedString()),
+                OpenedTime = string.Format(SharedStrings.OpenedAt, ticket.OpenedTime.ToString()),
+                Id = string.Format(SharedStrings.ID, ticket.Id),
                 ResolvedReason = ticket.ResolvedReason,
                 Speak = ticket.Description,
-                Number = $"{SharedStrings.TicketNumber}{ticket.Number}",
+                Number = string.Format(SharedStrings.TicketNumber, ticket.Number),
                 ActionUpdateTitle = SharedStrings.TicketActionUpdateTitle,
                 ActionUpdateValue = string.Format(SharedStrings.TicketActionUpdateValue, ticket.Number),
                 ProviderDisplayText = string.Format(SharedStrings.PoweredBy, ticket.Provider),
@@ -914,12 +1031,12 @@ namespace ITSMSkill.Dialogs
         {
             var card = new KnowledgeCard()
             {
-                Id = $"{SharedStrings.ID}{knowledge.Id}",
+                Id = string.Format(SharedStrings.ID, knowledge.Id),
                 Title = knowledge.Title,
-                UpdatedTime = $"{SharedStrings.UpdatedAt}{knowledge.UpdatedTime.ToString()}",
+                UpdatedTime = string.Format(SharedStrings.UpdatedAt, knowledge.UpdatedTime.ToString()),
                 Content = knowledge.Content,
                 Speak = knowledge.Title,
-                Number = $"{SharedStrings.TicketNumber}{knowledge.Number}",
+                Number = string.Format(SharedStrings.TicketNumber, knowledge.Number),
                 UrlTitle = SharedStrings.OpenKnowledge,
                 UrlLink = knowledge.Url,
                 ProviderDisplayText = string.Format(SharedStrings.PoweredBy, knowledge.Provider),
@@ -941,6 +1058,8 @@ namespace ITSMSkill.Dialogs
 
         protected class Actions
         {
+            public const string SetSearch = "SetSearch";
+            public const string SetTitle = "SetTitle";
             public const string SetDescription = "SetDescription";
             public const string SetUrgency = "SetUrgency";
             public const string SetId = "SetId";

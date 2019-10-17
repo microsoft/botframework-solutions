@@ -145,6 +145,42 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ConfirmSearch": {
+    "replies": [
+      {
+        "text": "Is the search text \"{Search}\" correct?",
+        "speak": "Is the search text \"{Search}\" correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InputSearch": {
+    "replies": [
+      {
+        "text": "Please provide the search text:",
+        "speak": "Please provide the search text:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmTitle": {
+    "replies": [
+      {
+        "text": "Is the title \"{Title}\" correct?",
+        "speak": "Is the title \"{Title}\" correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InputTitle": {
+    "replies": [
+      {
+        "text": "Please provide the title:",
+        "speak": "Please provide the title:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "ConfirmDescription": {
     "replies": [
       {

@@ -17,7 +17,7 @@
                   "horizontalAlignment": "Left",
                   "size": "Medium",
                   "color": "Default",
-                  "text": "{Description}",
+                  "text": "{Title}",
                   "wrap": true
                 }
               ],
@@ -49,6 +49,12 @@
           "text": "{Number}"
         }
       ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{Description}",
+      "maxLines": 5
     },
     {
       "type": "Container",
