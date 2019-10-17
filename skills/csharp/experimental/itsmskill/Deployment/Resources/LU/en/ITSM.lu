@@ -1,8 +1,8 @@
-﻿[Ticket Create](./TicketCreate.lu)
-[Ticket Update](./TicketUpdate.lu)
-[Ticket Show](./TicketShow.lu)
-[Ticket Close](./TicketClose.lu)
-[Knowledge Show](./KnowledgeShow.lu)
+﻿[Ticket Create](./secondary/TicketCreate.lu)
+[Ticket Update](./secondary/TicketUpdate.lu)
+[Ticket Show](./secondary/TicketShow.lu)
+[Ticket Close](./secondary/TicketClose.lu)
+[Knowledge Show](./secondary/KnowledgeShow.lu)
 
 
 # None
