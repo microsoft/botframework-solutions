@@ -1,9 +1,9 @@
 ---
 category: Skills
 subcategory: Handbook
-title: Responses
+title: Language generation
 description: Details on how responses work in skill projects.
-order: 6
+order: 5
 toc: true
 ---
 

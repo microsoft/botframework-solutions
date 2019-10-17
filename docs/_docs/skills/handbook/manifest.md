@@ -3,15 +3,12 @@ category: Skills
 subcategory: Handbook
 title: Manifest
 description: Overview of the Skill manifest and its role with Skill registration and invocation.
-order: 3
+order: 2
 toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-{{ page.description }}
-
-## Introduction
 
 The Skill manifest enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
 

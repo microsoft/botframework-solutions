@@ -48,7 +48,7 @@ The following scenarios are currently supported by the Skill:
   - *The third search result please*
   - *Open this one*
 
-## Language Understanding (LUIS)
+## Language Understanding
 {:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.

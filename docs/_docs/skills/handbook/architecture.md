@@ -3,7 +3,7 @@ category: Skills
 subcategory: Handbook
 title: Architecture
 description: Under the covers of the skill implementation
-order: 2
+order: 1
 toc: true
 ---
 

@@ -53,7 +53,7 @@ The following scenarios are currently supported by the Skill:
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-## Language Understanding (LUIS)
+## Language Understanding
 {:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.

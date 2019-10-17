@@ -3,7 +3,7 @@ category: Skills
 subcategory: Handbook
 title: Add a Skill to a Virtual Assistant
 description: Steps for adding a skill to an assistant
-order: 1
+order: 6
 toc: true
 ---
 

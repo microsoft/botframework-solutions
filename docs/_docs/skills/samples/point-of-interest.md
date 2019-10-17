@@ -30,7 +30,7 @@ The following scenarios are currently supported by the Skill:
   - _Are there any pharmacies in town?_
   - _Can you recommend an affordable restaurant in Seattle?_
 
-## Language Understanding (LUIS)
+## Language Understanding
 {:.toc}
 
 LUIS models are provided in `.lu` file format to support the scenarios used in this Skill.

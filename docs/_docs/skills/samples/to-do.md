@@ -34,7 +34,7 @@ The following scenarios are currently supported by the Skill:
   - *Task completed "reserve a restaurant for anniversary"*
   - *Check off "bananas" on my grocery list*
 
-## Language Understanding (LUIS)
+## Language Understanding
 {:.toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.

@@ -80,7 +80,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 ![ Automotive Skill Transcript Example]({{site.baseurl}}/assets/images/skills-auto-transcript.png)
 
-#### Language Understanding (LUIS)
+#### Language Understanding
 {:.no_toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. These are currently available in English with other languages to follow.
@@ -440,7 +440,7 @@ This example assumes that the user's contact list contains multiple contacts nam
 
 Refer to the unit tests for further example dialogs.
 
-#### Language Understanding (LUIS)
+#### Language Understanding
 {:.no_toc}
 
 LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
