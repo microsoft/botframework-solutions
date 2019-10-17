@@ -2,8 +2,8 @@
   "IfExistingSolve": {
     "replies": [
       {
-        "text": "Page {Page}. Do any of these solve your problem? {Navigate}",
-        "speak": "Page {Page}. Do any of these solve your problem? {Navigate}"
+        "text": "Do any of these solve your problem? {Navigate}",
+        "speak": "Do any of these solve your problem? {Navigate}"
       }
     ],
     "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
   "IfFindWanted": {
     "replies": [
       {
-        "text": "Page {Page}. Do you find what you want? {Navigate}",
-        "speak": "Page {Page}. Do you find what you want? {Navigate}"
+        "text": "Do you find what you want? {Navigate}",
+        "speak": "Do you find what you want? {Navigate}"
       }
     ],
     "inputHint": "expectingInput"

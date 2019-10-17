@@ -248,23 +248,12 @@ namespace ITSMSkill.Dialogs
                     cards.Add(GetTicketCard(sc.Context, ticket));
                 }
 
-                var token = new StringDictionary()
-                {
-                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
-                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
-                };
+                await sc.Context.SendActivityAsync(GetCardsWithIndicator(state.PageIndex, maxPage, cards));
 
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetCardResponse(TicketResponses.TicketShow, cards, token)
+                    Prompt = GetNavigatePrompt(sc.Context, TicketResponses.TicketShow, state.PageIndex, maxPage),
                 };
-
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
 
                 return await sc.PromptAsync(Actions.ShowNavigatePrompt, options);
             }

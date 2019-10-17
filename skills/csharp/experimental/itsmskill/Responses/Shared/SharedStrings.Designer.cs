@@ -151,6 +151,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to go forward.
+        /// </summary>
+        public static string GoForwardUtterance {
+            get {
+                return ResourceManager.GetString("GoForwardUtterance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;Go previous&quot; to navigate..
         /// </summary>
         public static string GoPrevious {
@@ -160,11 +169,29 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to go previous.
+        /// </summary>
+        public static string GoPreviousUtterance {
+            get {
+                return ResourceManager.GetString("GoPreviousUtterance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID: {0}.
         /// </summary>
         public static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no.
+        /// </summary>
+        public static string NoUtterance {
+            get {
+                return ResourceManager.GetString("NoUtterance", resourceCulture);
             }
         }
         
@@ -363,6 +390,15 @@ namespace ITSMSkill.Responses.Shared {
         public static string UrgencyMedium {
             get {
                 return ResourceManager.GetString("UrgencyMedium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yes.
+        /// </summary>
+        public static string YesUtterance {
+            get {
+                return ResourceManager.GetString("YesUtterance", resourceCulture);
             }
         }
     }

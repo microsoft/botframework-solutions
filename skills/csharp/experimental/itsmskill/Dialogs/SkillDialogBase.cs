@@ -858,23 +858,12 @@ namespace ITSMSkill.Dialogs
                     });
                 }
 
-                var token = new StringDictionary()
-                {
-                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
-                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
-                };
+                await sc.Context.SendActivityAsync(GetCardsWithIndicator(state.PageIndex, maxPage, cards));
 
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetCardResponse(ShowKnowledgeResponse, cards, token)
+                    Prompt = GetNavigatePrompt(sc.Context, ShowKnowledgeResponse, state.PageIndex, maxPage),
                 };
-
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
 
                 return await sc.PromptAsync(ShowKnowledgePrompt, options);
             }
@@ -986,6 +975,62 @@ namespace ITSMSkill.Dialogs
             else
             {
                 return SharedStrings.GoBoth;
+            }
+        }
+
+        protected IList<Choice> GetNavigateList(int page, int maxPage)
+        {
+            var result = new List<Choice>() { new Choice(SharedStrings.YesUtterance), new Choice(SharedStrings.NoUtterance) };
+            if (page == 0)
+            {
+                if (maxPage == 0)
+                {
+                }
+                else
+                {
+                    result.Add(new Choice(SharedStrings.GoForwardUtterance));
+                }
+            }
+            else if (page == maxPage)
+            {
+                result.Add(new Choice(SharedStrings.GoPreviousUtterance));
+            }
+            else
+            {
+                result.Add(new Choice(SharedStrings.GoForwardUtterance));
+                result.Add(new Choice(SharedStrings.GoPreviousUtterance));
+            }
+
+            return result;
+        }
+
+        protected Activity GetNavigatePrompt(ITurnContext context, string response, int pageIndex, int maxPage)
+        {
+            var token = new StringDictionary()
+            {
+                { "Navigate", GetNavigateString(pageIndex, maxPage) },
+            };
+
+            var prompt = ResponseManager.GetResponse(response, token);
+
+            return ChoiceFactory.ForChannel(context.Activity.ChannelId, GetNavigateList(pageIndex, maxPage), prompt.Text, prompt.Speak) as Activity;
+        }
+
+        protected Activity GetCardsWithIndicator(int pageIndex, int maxPage, IList<Card> cards)
+        {
+            if (maxPage == 0)
+            {
+                return ResponseManager.GetCardResponse(cards.Count == 1 ? SharedResponses.ResultIndicator : SharedResponses.ResultsIndicator, cards);
+            }
+            else
+            {
+                var token = new StringDictionary()
+                {
+                    { "Current", (pageIndex + 1).ToString() },
+                    { "Total", (maxPage + 1).ToString() },
+                };
+
+                return ResponseManager.GetCardResponse(SharedResponses.PageIndicator, cards, token);
             }
         }
 

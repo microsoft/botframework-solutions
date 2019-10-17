@@ -33,6 +33,9 @@ namespace ITSMSkill.Responses.Shared
         public const string ConfirmId = "ConfirmId";
         public const string InputId = "InputId";
         public const string InputTicketNumber = "InputTicketNumber";
+        public const string PageIndicator = "PageIndicator";
+        public const string ResultIndicator = "ResultIndicator";
+        public const string ResultsIndicator = "ResultsIndicator";
         public const string ServiceFailed = "ServiceFailed";
     }
 }

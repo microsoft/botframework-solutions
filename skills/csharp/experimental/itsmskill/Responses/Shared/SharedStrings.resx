@@ -219,4 +219,16 @@
   <data name="Title" xml:space="preserve">
     <value>Title: {0}</value>
   </data>
+  <data name="GoForwardUtterance" xml:space="preserve">
+    <value>go forward</value>
+  </data>
+  <data name="GoPreviousUtterance" xml:space="preserve">
+    <value>go previous</value>
+  </data>
+  <data name="NoUtterance" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="YesUtterance" xml:space="preserve">
+    <value>yes</value>
+  </data>
 </root>

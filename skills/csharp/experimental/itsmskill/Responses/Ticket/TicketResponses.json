@@ -96,8 +96,8 @@
   "TicketShow": {
     "replies": [
       {
-        "text": "Page {Page}. Do you want to update constraints to search again? {Navigate}",
-        "speak": "Page {Page}. Do you want to update constraints to search again? {Navigate}"
+        "text": "Do you want to update constraints to search again? {Navigate}",
+        "speak": "Do you want to update constraints to search again? {Navigate}"
       }
     ],
     "inputHint": "acceptingInput"

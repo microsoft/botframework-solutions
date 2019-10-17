@@ -280,6 +280,33 @@
     ],
     "inputHint": "expectingInput"
   },
+  "PageIndicator": {
+    "replies": [
+      {
+        "text": "Page {Current}/{Total}:",
+        "speak": "Page {Current}/{Total}:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ResultIndicator": {
+    "replies": [
+      {
+        "text": "Here is the result:",
+        "speak": "Here is the result:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ResultsIndicator": {
+    "replies": [
+      {
+        "text": "Here are the results:",
+        "speak": "Here are the results:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "ServiceFailed": {
     "replies": [
       {
