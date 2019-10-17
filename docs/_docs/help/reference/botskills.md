@@ -4,18 +4,12 @@ subcategory: Reference
 title: BotSkills CLI Tool
 description: Details on usage and commands.
 order: 2
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
-
-## Overview
 Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of updating your dispatch models and create authentication connections where needed.
 The CLI performs the following operations on your behalf:
 1. Retrieve the **Skill Manifest** from the remote Skill through the `/api/skill/manifest` endpoint. If it is a local Skill you should specify the path.
@@ -42,6 +36,8 @@ The CLI performs the following operations on your behalf:
 For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template, and therefore have a `skills.json` file present in the working folder which contains the connected skills.
 
 ### Connect Skills
+{:.no_toc}
+
 The `connect` command allows you to connect a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can connect a Skill coded in C# into a Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
 
 Here is an example:
@@ -54,6 +50,8 @@ botskills connect --botName <YOUR_VA_NAME> --remoteManifest "http://<YOUR_SKILL_
 For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).
 
 ### Disconnect Skills
+{:.no_toc}
+
 The `disconnect` command allows you to disconnect a Skill from your Virtual Assistant. You can always check the Skills already connected to your Virtual Assistant using the [`list` command](#List-Connected-Skills). Remember to specify the coding language of your Virtual Assistant using `--cs` or `--ts`.
 
 Here is an example:
@@ -65,7 +63,9 @@ For further information, see the [Disconnect command documentation]({{site.repo}
 
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
 
-### Update a Connected Skill
+### Update a connected Skill
+{:.no_toc}
+
 The `update` command allows you to update a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can update a Skill coded in C# into a Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
 
 Here is an example:
@@ -75,7 +75,9 @@ botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_
 
 For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).
 
-### Refresh Connected Skills
+### Refresh connected Skills
+{:.no_toc}
+
 The `refresh` command allows you to train and publish your existing dispatch model of your **Virtual Assistant**, specifying the Virtual Assistant's coding language using `--cs` or `--ts`. This functionality is mainly useful after using the `connect` or `disconnect` command with the `--noRefresh` flag.
 
 Here is an example:
@@ -85,7 +87,9 @@ botskills refresh --cs
 
 For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/refresh.md).
 
-### List Connected Skills
+### List connected Skills
+{:.no_toc}
+
 The `list` command allows you to acknowledge the Skills currently connected to your Virtual Assistant.
 
 Here is an example:

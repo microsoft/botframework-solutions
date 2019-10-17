@@ -72,33 +72,27 @@ title: Bot Framework Solutions Documentation
 ### More tutorials
 {:.no_toc}
 <div class="card-deck">
-    <div class="card">
+     <a href="{{site.baseurl}}/skills/tutorials/add-prebuilt-skill/1-intro/"  class="card">
         <div class="card-body">
-            <h4 class="card-title">Connect pre-built skills</h4>
+            <h4 class="card-title">Connect to a sample skill</h4>
             <p class="card-text">Deploy and connect to a selection of provided skill projects.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/add-prebuilt-skill/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1-intro/" class="card">
         <div class="card-body">
             <h4 class="card-title">Enable Speech</h4>
             <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-speech/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-teams/1-intro/" class="card">
         <div class="card-body">
-            <h4 class="card-title">Enable Microsoft Teams</h4>
+            <h4 class="card-title">Extend to Microsoft Teams</h4>
             <p class="card-text">Enable the Microsoft Teams Channel for your assistant.</p>
+            <div class="btn btn-primary">Get started</div>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-teams/1_intro" class="btn btn-primary">Get started</a>
-        </div>
-    </div>
+    </a>
 </div>
 
 ## Need help?

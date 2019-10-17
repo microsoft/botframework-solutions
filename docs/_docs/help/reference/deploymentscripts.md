@@ -4,17 +4,11 @@ subcategory: Reference
 title: Deployment Scripts
 description: Reference for deployment tools provided in the Virtual Assistant Template.
 order: 1
+toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## In this topic
-{:.no_toc}
-
-* 
-{:toc}
-## Introduction
 
 A number of PowerShell scripts are provided in the Virtual Assistant Template to help deploy and configure your different resources. Please find details on each script's purpose, parameters, and outputs below.
 
@@ -30,6 +24,7 @@ A number of PowerShell scripts are provided in the Virtual Assistant Template to
 ## Scripts
 
 ### deploy.ps1
+{:.no_toc}
 
 This script orchestrates the deployment of all Azure Resources and Cognitive Models to get the Virtual Assistant running.
 
@@ -48,6 +43,7 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
 ### deploy_cognitive_models.ps1
+{:.no_toc}
 
 This script deploys all the language models found in `Deployment/Resources/LU` and the knowledgebases found in `Deployment/Resources/QnA`. Finally it creates a Dispatch model to dispatch between all cognitive models.
 
@@ -66,6 +62,7 @@ This script deploys all the language models found in `Deployment/Resources/LU` a
 | logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
 ### update_cognitive_models.ps1
+{:.no_toc}
 
 This script updates your hosted language models and knowledgebases based on local .lu files. Or, it can update your local .lu files based on your current models. Finally, it refreshes your dispatch model with the latest changes.
 
@@ -80,6 +77,8 @@ This script updates your hosted language models and knowledgebases based on loca
 | logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
 ### publish.ps1
+{:.no_toc}
+
 This script builds and publishes your local project to your Azure.
 
 | Parameter | Description | Required? |
@@ -88,9 +87,11 @@ This script builds and publishes your local project to your Azure.
 | resourceGroup |  The resource group for the Azure Web App | Yes |
 | projFolder |  The project folder. Defaults to | No |
 
-## Common Questions
+## Frequently asked questions
 
 ### What services are deployed by the script?
+{:.no_toc}
+
 The Virtual Assistant Template relies on a number of Azure resources to run. The included deployment scripts and ARM template use the following services:
 
 Resource | Notes |
@@ -108,9 +109,13 @@ QnA Maker Azure Search Service | Search index for your QnA Maker knowledgebases.
 Content Moderator | Subscription keys for Content Moderator Cognitive Service.
 
 ### How do I reduce my Azure costs during development?
+{:.no_toc}
+
 The default `parameters.template.json` file is configured to use all free service tiers to reduce the cost of testing. Provide this file in the `-parametersFile` parameter on the `deploy.ps1` script. **Note: There are service limits associated with free tiers (e.g. Azure Search permits only 1 free tier per subscription). Free tiers should only be used for development, not for production implementations.**
 
 ### How do I customize my Azure resource deployment?
+{:.no_toc}
+
 Any of the following parameters in the ARM template can be overridden with your preferred values using the `parameters.template.json` file provided in the `Deployment/Resources` folder:
 
 | Parameters | Default Value |
@@ -166,6 +171,8 @@ Then provide the path to the file as an argument on the `deploy.ps1` script:
 ```
 
 ### How do I use my existing Azure resources from the same resource group?
+{:.no_toc}
+
 If you want to use existing resources from the same resource group, override the parameters for the services you want in the `parameters.template.json`. Provide this file in the `-parametersFile` parameter on the `deploy.ps1` script. 
 
 #### parameters.template.json
@@ -179,6 +186,8 @@ If you want to use existing resources from the same resource group, override the
 ```
 
 ### How do I use my existing Azure resources from a different resource group?
+{:.no_toc}
+
 If you want to use an existing resource from a different resource group, follow these steps:
 
 #### Cosmos DB
@@ -221,7 +230,7 @@ If you want to use an existing resource from a different resource group, follow 
 2. Provide the appropriate configuration in `appsettings.json` from the [Azure Portal](https://portal.azure.com).
 
 ### How do I update my local deployment scripts with the latest?
-
+{:.no_toc}
 Once you have created your Virtual Assistant or Skill projects using the various templates and generators, you may need to update the deployment scripts to reflect ongoing changes to these scripts over time. 
 
 #### Sample Project
