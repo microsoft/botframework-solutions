@@ -139,3 +139,46 @@ botskills connect --botName "<YOUR_VA_NAME>" --localManifest "<YOUR_LOCAL_MANIFE
 ```
 
 So, to avoid this, it's highly recommended to use `PowerShell 6` to execute the CLI tool commands. Also, you can remove the trailing backslash of the argument.
+
+## Skill dialog telemetry is not showing up in the Power BI dashboard
+In the Bot Builder SDK version 4.5.3 and below, there is a bug which causes the Activity ID and Conversation ID to be null on all telemetry logged over a web socket connection. This causes the Skill dialog telemetry to not populate properly in the [Conversational AI Power BI sample](https://aka.ms/botPowerBiTemplate). To resolve this issue, follow these steps:
+
+1. Update to the latest Microsoft.Bot.Builder packages
+    1. Add the following package source to your project: **https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json**
+    1. Update all Microsoft.Bot.Builder packages to version **4.6.0-preview-191005-1** and above
+1. Add the following code to **Startup.cs**:
+    ```
+        // Configure telemetry
+        services.AddApplicationInsightsTelemetry();
+        services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+        services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+        services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+        services.AddSingleton<TelemetryInitializerMiddleware>();
+        services.AddSingleton<TelemetryLoggerMiddleware>();
+    ```
+1. Update your **DefaultAdapter.cs** and **DefaultWebsocketAdapter.cs** with the following:
+    ```
+      public DefaultAdapter(
+            BotSettings settings,
+            TemplateEngine templateEngine,
+            ConversationState conversationState,
+            ICredentialProvider credentialProvider,
+            TelemetryInitializerMiddleware telemetryMiddleware,
+            IBotTelemetryClient telemetryClient)
+            : base(credentialProvider)
+        {
+            ...
+            Use(telemetryMiddleware);
+            // Uncomment the following line for local development without Azure Storage
+            // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
+            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
+            Use(new ShowTypingMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient));
+            Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
+            Use(new EventDebuggerMiddleware());
+        }
+    ```
+
+For more information, refer to the following resources:
+- [Bot Builder SDK issue](https://github.com/microsoft/botbuilder-dotnet/issues/2474)
+- [Bot Builder SDK pull request](https://github.com/microsoft/botbuilder-dotnet/pull/2580)
