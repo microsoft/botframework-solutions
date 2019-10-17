@@ -60,4 +60,4 @@ After the middleware is configured, you can request feedback as usual.
 ## View your feedback in Power BI
 You can view your **Feedback** in the Feedback tab of the Conversational AI Dashboard. 
 
-More information on Power BI and Analytics in Virtual Assistant can be found [here]({{site.repo}}/reference/analytics/powerbi/).
+[Learn how to set up your own Power BI dashboard]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/)
