@@ -320,35 +320,37 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample
 
 The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
+This skill demonstrates the following scenarios:
+- Create a ticket: *Create a ticket for my broken laptop*
+- Show ticket: *What's the status of my incident*
+- Update Ticket: *Change ticket's urgency to high*
+- Close a ticket: *Close my ticket*
+- Find Knowledgebase item: *Search knowledge articles related to error 1234*
+
 #### Configuration
 {:.no_toc}
 
-To test this skill, one should setup the following:
+To test this skill you will need to follow the ServiceNow configuration steps shown below:
 
 1. Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
-1. Provide this value in your `appsettings.json` file.
+1. Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
 `"serviceNowUrl": "{YOUR_SERVICENOW_INSTANCE_URL}`
 1. Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
     - In System Web Services/Scripted REST APIs, click New to create an API
     - In API's Resources, click New to add a resource
     - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
     - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
-1. Set up endpoint by [this document](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients) for Client id and Client secret to be used in the following OAuth Connection
+1. Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
-1. Add an OAuth Connection in the Settings of Web App Bot named 'ServiceNow' with Service Provider 'Generic Oauth 2'
-    - Authorization URL as https://instance.service-now.com/oauth_auth.do
-    - Token URL, Refresh URL as https://instance.service-now.com/oauth_token.do
+1. Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
+    - Set Authorization URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_auth.do
+    - Set Token URL, Refresh URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
     - No Scopes are needed
-    - Click Test Connection to verify
+    - Click Test Connection to verify the connection works as expected.
 
-To test this skill in VA, one should setup the following:
+To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
-1. Add https://botbuilder.myget.org/F/aitemplates/api/v3/index.json as NuGet package source
-1. Update VA's Microsoft.Bot.Builder.Solutions and Microsoft.Bot.Builder.Skills to 4.6.0-daily27 as this skill
-1. Add VA's appId to AppsWhitelist of SimpleWhitelistAuthenticationProvider under Utilities
-1. Add OAuth Connection as skill
-1. The remaining steps are same as normal skills
-
+1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
 ### Music Skill
 
 The [Music skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.
