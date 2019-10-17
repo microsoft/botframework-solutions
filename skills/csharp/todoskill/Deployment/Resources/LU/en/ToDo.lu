@@ -1,6 +1,7 @@
 ﻿> # Intent definitions
 
 ## AddToDo
+- add {TaskContent=get a perm} to my {ListType=to do} list
 - add a few items to the {ListType=grocery} list
 - add a {ListType=grocery} item to {TaskContent=buy fish}
 - add a {ListType=grocery} item to {TaskContent=buy fruit and vegetables}
