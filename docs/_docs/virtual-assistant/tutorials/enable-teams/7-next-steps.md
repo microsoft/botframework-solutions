@@ -10,39 +10,27 @@ order: 7
 
 ## Next Steps
 
-The Microsoft Teams documentation has additional documentation around Microsoft Teams and Bots with two key items highlighted below.
+Learn more from additional documentation provided by Microsoft Teams.
 
-- [Test and debug your Microsoft Teams bot](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-test)
-- [Quickly develop apps with App Studio for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio)
-
-## More Tutorials
-
-<div class="card-group">
-    <div class="card">
+<div class="card-deck">
+    <a href="https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-test" class="card">
         <div class="card-body">
-            <h4 class="card-title">Enable Speech</h4>
-            <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
+            <img src="{{site.baseurl}}/assets/images/icons/teams.png" alt="Microsoft Teams icon" width="48px">
+            <h4 class="card-title">Test and debug your Microsoft Teams bot</h4>
+            <p class="card-text">When testing your bot you need to take into consideration both the context(s) you want your bot to run in, as well as any functionality you may have added to your bot that requires data specific to Microsoft Teams.</p>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-speech/1_intro" class="btn btn-primary">Get Started</a>
+        <div class="card-footer">
+            <div class="btn btn-primary">Learn more</div>
         </div>
-    </div>
-    <div class="card">
+    </a>
+    <a href="https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio" class="card">
         <div class="card-body">
-            <h4 class="card-title">Customize a Virtual Assistant</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
+            <img src="{{site.baseurl}}/assets/images/icons/teams.png" alt="Microsoft Teams icon" width="48px">
+            <h4 class="card-title">Quickly develop apps with App Studio for Microsoft Teams</h4>
+            <p class="card-text">App Studio makes it easy to start creating or integrating your own Microsoft Teams apps</p>
         </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/customize-assistant/1_intro" class="btn btn-primary">Get Started</a>
+        <div class="card-footer">
+            <div class="btn btn-primary">Learn more</div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Create a skill</h4>
-            <p class="card-text">Build a custom skill for your scenario.</p>
-        </div>
-        <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get Started</a>
-        </div>
-    </div>
+    </a>
 </div>

@@ -29,13 +29,14 @@ title: Bot Framework Solutions Documentation
     </a>
 </div>
 
+## What's new
+
 ## Step-by-Step Tutorials
 
-### C# Tutorials
-{:.no_toc}
 <div class="card-deck">
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
             <div class="btn btn-primary">Get started</div>
@@ -43,18 +44,17 @@ title: Bot Framework Solutions Documentation
     </a>
     <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title">Create a Skill</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
 </div>
-
-### TypeScript Tutorials
-{:.no_toc}
-<div class="card-deck">
+<div class="card-deck py-4">
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/typescript/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
             <h4 class="card-title">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
             <div class="btn btn-primary">Get started</div>
@@ -62,6 +62,7 @@ title: Bot Framework Solutions Documentation
     </a>
     <a href="{{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
             <h4 class="card-title">Create a Skill</h4>
             <p class="card-text">Build a custom skill for your scenario.</p>
             <div class="btn btn-primary">Get started</div>
@@ -74,13 +75,14 @@ title: Bot Framework Solutions Documentation
 <div class="card-deck">
      <a href="{{site.baseurl}}/skills/tutorials/add-prebuilt-skill/1-intro/"  class="card">
         <div class="card-body">
-            <h4 class="card-title">Connect to a sample skill</h4>
+            <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">             <h4 class="card-title">Connect to a sample skill</h4>
             <p class="card-text">Deploy and connect to a selection of provided skill projects.</p>
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/speech.png" alt="Speech icon" width="48px">
             <h4 class="card-title">Enable Speech</h4>
             <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
             <div class="btn btn-primary">Get started</div>
@@ -88,6 +90,7 @@ title: Bot Framework Solutions Documentation
     </a>
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-teams/1-intro/" class="card">
         <div class="card-body">
+            <img src="{{site.baseurl}}/assets/images/icons/teams.png" alt="Microsoft Teams icon" width="48px">
             <h4 class="card-title">Extend to Microsoft Teams</h4>
             <p class="card-text">Enable the Microsoft Teams Channel for your assistant.</p>
             <div class="btn btn-primary">Get started</div>

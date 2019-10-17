@@ -81,6 +81,8 @@ This is further complicated should you require your Virtual Assistant to support
             <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
@@ -89,6 +91,8 @@ This is further complicated should you require your Virtual Assistant to support
             <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="TypeScript icon" width="48px">
             <h4 class="card-title no_toc">Create a Virtual Assistant</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>

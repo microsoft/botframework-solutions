@@ -17,7 +17,7 @@ Learn how to navigate your skill project and make common customizations.
 
 ### Prerequisites
 
-[Create a skill]({{site.baseurl}}/tutorials/typescript/create-skill/1_intro) to setup your environment.
+[Create a skill]({{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/) to setup your environment.
 
 ### Time to Complete
 

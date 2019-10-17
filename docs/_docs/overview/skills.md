@@ -26,6 +26,8 @@ The following Skill samples are available out of the box, each with deployment s
         <img src="{{site.baseurl}}/assets/images/icons/calendar-skill.png" alt="Calendar icon" width="48px">
             <h4 class="card-title no_toc">Calendar Skill</h4>
             <p class="card-text">Get up and running with the Calendar Skill sample.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
@@ -34,6 +36,8 @@ The following Skill samples are available out of the box, each with deployment s
         <img src="{{site.baseurl}}/assets/images/icons/email-skill.png" alt="Email icon" width="48px">
             <h4 class="card-title no_toc">Email Skill</h4>
             <p class="card-text">Get up and running with the Email Skill sample.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
@@ -42,6 +46,8 @@ The following Skill samples are available out of the box, each with deployment s
         <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
             <h4 class="card-title no_toc">To Do Skill</h4>
             <p class="card-text">Get up and running with the To Do Skill sample.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
@@ -53,6 +59,8 @@ The following Skill samples are available out of the box, each with deployment s
         <img src="{{site.baseurl}}/assets/images/icons/point-of-interest-skill.png" alt="Point of Interest icon" width="48px">
             <h4 class="card-title no_toc">Point of Interest Skill</h4>
             <p class="card-text">Get up and running with the Point of Interest Skill sample.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
@@ -61,6 +69,8 @@ The following Skill samples are available out of the box, each with deployment s
             <img src="{{site.baseurl}}/assets/images/icons/experimental-skill.png" alt="Experimental icon" width="48px">
             <h4 class="card-title no_toc">Experimental Skills</h4>
             <p class="card-text">Get up and running with the additional experimental Skill samples.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
@@ -76,14 +86,18 @@ The following Skill samples are available out of the box, each with deployment s
             <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title no_toc">Create a Skill</h4>
             <p class="card-text">Get up and running with the solution accelerator.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/tutorials/typescript/create-skill/1_intro" class="card">
+    <a href="{{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
             <h4 class="card-title no_toc">Create a Skill</h4>
             <p class="card-text">Personalize your experience for your brand and customers.</p>
+        </div>
+        <div class="card-footer">
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
