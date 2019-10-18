@@ -126,5 +126,5 @@ describe("Main Dialog", function () {
                 testNock.resolveWithMocks('mainDialog_faq_response', done, flow);
             });
         });
-    });
+	});
 });
