@@ -33,7 +33,7 @@ namespace VirtualAssistantSample.Dialogs
         private TextActivityGenerator _activityGenerator;
         private OnboardingDialog _onboardingDialog;
         private IStatePropertyAccessor<SkillContext> _skillContext;
-        private IStatePropertyAccessor<UserProfileState> _onboardingState;
+        private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
         public MainDialog(
@@ -51,7 +51,7 @@ namespace VirtualAssistantSample.Dialogs
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
-            _onboardingState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
@@ -80,7 +80,7 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             var activity = dc.Context.Activity;
-            var userProfile = await _onboardingState.GetAsync(dc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
@@ -182,7 +182,7 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
@@ -206,7 +206,7 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity.AsMessageActivity();
-            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
@@ -302,7 +302,7 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken = default)
         {
-            var userProfile = await _onboardingState.GetAsync(outerDc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(outerDc.Context, () => new UserProfileState());
 
             // Default to sending a dialog complete message
             bool suppressCompleteMessage = false;
@@ -347,7 +347,7 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task CallQnAMaker(DialogContext innerDc, QnAMaker qnaMaker)
         {
-            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
 
             var answers = await qnaMaker.GetAnswersAsync(innerDc.Context);
 
