@@ -7,6 +7,8 @@ namespace ITSMSkill.Models
 {
     public class TicketCard : ICardData
     {
+        public string Title { get; set; }
+
         public string Description { get; set; }
 
         public string UrgencyColor { get; set; }

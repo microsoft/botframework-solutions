@@ -2,7 +2,7 @@
 
 > assign
 
-- Assign incident about {TicketDescription=lost connection} to medium
+- Assign incident about {TicketTitle} to medium
 
 > change
 
@@ -10,7 +10,7 @@
 - change an incident
 - change an issue
 - change ticket's urgency to low
-- change ticket's description to {TicketDescription=unable to access}
+- change ticket's title to {TicketTitle}
 - i would like to change a ticket
 - i would like to change an incident
 - i would like to change an issue
@@ -18,8 +18,8 @@
 
 > mark
 
-- Mark issue about {TicketDescription=lost connection} as high importance
-- Mark incident about {TicketDescription=lost connection} as urgent 
+- Mark issue about {TicketTitle} as high importance
+- Mark incident about {TicketTitle} as urgent
 
 > update
 
@@ -27,8 +27,8 @@
 - update an incident
 - update an issue
 - update ticket's urgency to high
-- update ticket's description to {TicketDescription=can't log}
+- update ticket's title to {TicketTitle}
 - i would like to update a ticket
 - i would like to update an incident
 - i would like to update an issue
-- Update issue's description to {TicketDescription=new description}
+- Update issue's title to {TicketTitle}

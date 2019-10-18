@@ -33,7 +33,7 @@
                   "horizontalAlignment": "Left",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "{Description}",
+                  "text": "{Title}",
                   "wrap": true
                 }
               ],
@@ -65,6 +65,19 @@
           "text": "{Number}"
         }
       ]
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{Description}",
+      "maxLines": 5
+    },
+    {
+      "separator": true,
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "{ResolvedReason}",
+      "maxLines": 5
     },
     {
       "type": "Container",

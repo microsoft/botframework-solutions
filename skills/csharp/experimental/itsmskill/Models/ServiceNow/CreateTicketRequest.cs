@@ -9,6 +9,8 @@ namespace ITSMSkill.Models.ServiceNow
 
         public string short_description { get; set; }
 
+        public string description { get; set; }
+
         public string urgency { get; set; }
     }
 }

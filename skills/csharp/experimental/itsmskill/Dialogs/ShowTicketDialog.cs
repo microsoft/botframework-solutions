@@ -62,7 +62,7 @@ namespace ITSMSkill.Dialogs
                 IfContinueShow
             };
 
-            var attributesForShow = new AttributeType[] { AttributeType.Number, AttributeType.Description, AttributeType.Urgency, AttributeType.State };
+            var attributesForShow = new AttributeType[] { AttributeType.Number, AttributeType.Search, AttributeType.Urgency, AttributeType.State };
 
             var navigateYesNo = new HashSet<GeneralLuis.Intent>()
             {
@@ -109,22 +109,22 @@ namespace ITSMSkill.Dialogs
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(state.TicketNumber))
             {
-                sb.AppendLine($"{SharedStrings.TicketNumber}{state.TicketNumber}");
+                sb.AppendLine(string.Format(SharedStrings.TicketNumber, state.TicketNumber));
             }
 
-            if (!string.IsNullOrEmpty(state.TicketDescription))
+            if (!string.IsNullOrEmpty(state.TicketTitle))
             {
-                sb.AppendLine($"{SharedStrings.Description}{state.TicketDescription}");
+                sb.AppendLine(string.Format(SharedStrings.Search, state.TicketTitle));
             }
 
             if (state.UrgencyLevel != UrgencyLevel.None)
             {
-                sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
+                sb.AppendLine(string.Format(SharedStrings.Urgency, state.UrgencyLevel.ToLocalizedString()));
             }
 
             if (state.TicketState != TicketState.None)
             {
-                sb.AppendLine($"{SharedStrings.TicketState}{state.TicketState.ToLocalizedString()}");
+                sb.AppendLine(string.Format(SharedStrings.TicketState, state.TicketState.ToLocalizedString()));
             }
 
             if (sb.Length == 0)
@@ -194,7 +194,7 @@ namespace ITSMSkill.Dialogs
                 states.Add(state.TicketState);
             }
 
-            var countResult = await management.CountTicket(description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
+            var countResult = await management.CountTicket(query: state.TicketTitle, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!countResult.Success)
             {
@@ -206,7 +206,7 @@ namespace ITSMSkill.Dialogs
             state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
 
             // TODO handle consistency with count
-            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
+            var result = await management.SearchTicket(state.PageIndex, query: state.TicketTitle, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!result.Success)
             {
@@ -248,23 +248,12 @@ namespace ITSMSkill.Dialogs
                     cards.Add(GetTicketCard(sc.Context, ticket));
                 }
 
-                var token = new StringDictionary()
-                {
-                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
-                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
-                };
+                await sc.Context.SendActivityAsync(GetCardsWithIndicator(state.PageIndex, maxPage, cards));
 
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetCardResponse(TicketResponses.TicketShow, cards, token)
+                    Prompt = GetNavigatePrompt(sc.Context, TicketResponses.TicketShow, state.PageIndex, maxPage),
                 };
-
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
 
                 return await sc.PromptAsync(Actions.ShowNavigatePrompt, options);
             }
