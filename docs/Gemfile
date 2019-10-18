@@ -25,6 +25,7 @@ group :jekyll_plugins do
   gem 'jekyll-octicons'
   gem 'jekyll-readme-index'
   gem 'jekyll-mentions'
+  gem 'jekyll-toc'
   gem 'jemoji'
 end
 
