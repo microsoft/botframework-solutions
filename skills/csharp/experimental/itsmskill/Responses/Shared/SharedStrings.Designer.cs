@@ -88,11 +88,29 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to text.
+        /// </summary>
+        public static string AttributeSearch {
+            get {
+                return ResourceManager.GetString("AttributeSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to state.
         /// </summary>
         public static string AttributeState {
             get {
                 return ResourceManager.GetString("AttributeState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to title.
+        /// </summary>
+        public static string AttributeTitle {
+            get {
+                return ResourceManager.GetString("AttributeTitle", resourceCulture);
             }
         }
         
@@ -106,7 +124,7 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Description: .
+        ///   Looks up a localized string similar to Description: {0}.
         /// </summary>
         public static string Description {
             get {
@@ -133,6 +151,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to go forward.
+        /// </summary>
+        public static string GoForwardUtterance {
+            get {
+                return ResourceManager.GetString("GoForwardUtterance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;Go previous&quot; to navigate..
         /// </summary>
         public static string GoPrevious {
@@ -142,11 +169,29 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ID: .
+        ///   Looks up a localized string similar to go previous.
+        /// </summary>
+        public static string GoPreviousUtterance {
+            get {
+                return ResourceManager.GetString("GoPreviousUtterance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID: {0}.
         /// </summary>
         public static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no.
+        /// </summary>
+        public static string NoUtterance {
+            get {
+                return ResourceManager.GetString("NoUtterance", resourceCulture);
             }
         }
         
@@ -169,7 +214,61 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number: .
+        ///   Looks up a localized string similar to Powered by **{0}**.
+        /// </summary>
+        public static string PoweredBy {
+            get {
+                return ResourceManager.GetString("PoweredBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search text: {0}.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string TicketActionCloseTitle {
+            get {
+                return ResourceManager.GetString("TicketActionCloseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to close the ticket {0}.
+        /// </summary>
+        public static string TicketActionCloseValue {
+            get {
+                return ResourceManager.GetString("TicketActionCloseValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string TicketActionUpdateTitle {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update the ticket {0}.
+        /// </summary>
+        public static string TicketActionUpdateValue {
+            get {
+                return ResourceManager.GetString("TicketActionUpdateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number: {0}.
         /// </summary>
         public static string TicketNumber {
             get {
@@ -178,7 +277,7 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to State: .
+        ///   Looks up a localized string similar to State: {0}.
         /// </summary>
         public static string TicketState {
             get {
@@ -241,6 +340,15 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title: {0}.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated at .
         /// </summary>
         public static string UpdatedAt {
@@ -250,7 +358,7 @@ namespace ITSMSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Urgency: .
+        ///   Looks up a localized string similar to Urgency: {0}.
         /// </summary>
         public static string Urgency {
             get {
@@ -282,6 +390,15 @@ namespace ITSMSkill.Responses.Shared {
         public static string UrgencyMedium {
             get {
                 return ResourceManager.GetString("UrgencyMedium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yes.
+        /// </summary>
+        public static string YesUtterance {
+            get {
+                return ResourceManager.GetString("YesUtterance", resourceCulture);
             }
         }
     }

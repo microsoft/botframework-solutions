@@ -1,31 +1,31 @@
-﻿                                                                                                                                                                                                                                                                                                                                          using System;
-                                                                                                                                                                                                                                                                                                                                          using System.Collections.Generic;
-                                                                                                                                                                                                                                                                                                                                          using System.Collections.Specialized;
-                                                                                                                                                                                                                                                                                                                                          using System.Linq;
-                                                                                                                                                                                                                                                                                                                                          using System.Text.RegularExpressions;
-                                                                                                                                                                                                                                                                                                                                          using System.Threading;
-                                                                                                                                                                                                                                                                                                                                          using System.Threading.Tasks;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Models;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Models.DialogOptions;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.CreateEvent;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.FindContact;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.Shared;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Services;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Utilities;
-                                                                                                                                                                                                                                                                                                                                          using Luis;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Dialogs;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Dialogs.Choices;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Skills;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Extensions;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Resources;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Responses;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Util;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Connector.Authentication;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Graph;
-                                                                                                                                                                                                                                                                                                                                          using static CalendarSkill.Models.CalendarSkillState;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
+using CalendarSkill.Responses.CreateEvent;
+using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.Shared;
+using CalendarSkill.Services;
+using CalendarSkill.Utilities;
+using Luis;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Graph;
+using static CalendarSkill.Models.CalendarSkillState;
 
-                                                                                                                                                                                                                                                                                                                                          namespace CalendarSkill.Dialogs
+namespace CalendarSkill.Dialogs
 {
     public class FindContactDialog : CalendarSkillDialogBase
     {

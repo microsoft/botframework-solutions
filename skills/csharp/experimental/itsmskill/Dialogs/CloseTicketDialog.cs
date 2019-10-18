@@ -64,7 +64,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> CloseTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.CloseTicket(id: state.Id, reason: state.CloseReason);
 
             if (!result.Success)
@@ -72,11 +72,7 @@ namespace ITSMSkill.Dialogs
                 return await SendServiceErrorAndCancel(sc, result);
             }
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(result.Tickets[0])
-            };
+            var card = GetTicketCard(sc.Context, result.Tickets[0]);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketClosed, card, null));
             return await sc.NextAsync();

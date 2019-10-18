@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Bot.Builder.Solutions
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Microsoft.Bot.Builder.Solutions
 {
     using System.Collections.Generic;
     using Microsoft.ApplicationInsights.Extensibility;

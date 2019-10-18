@@ -17,7 +17,7 @@
                   "horizontalAlignment": "Left",
                   "size": "Medium",
                   "color": "Default",
-                  "text": "{Description}",
+                  "text": "{Title}",
                   "wrap": true
                 }
               ],
@@ -26,33 +26,15 @@
           ]
         },
         {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "size": "Medium",
-                  "color": "Default",
-                  "text": "{UrgencyLevel}",
-                  "weight": "Bolder"
-                }
-              ]
-            },
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "size": "Medium",
-                  "color": "Default",
-                  "text": "{State}"
-                }
-              ]
-            }
-          ]
+          "type": "TextBlock",
+          "color": "Default",
+          "text": "{UrgencyLevel}",
+          "weight": "Bolder"
+        },
+        {
+          "type": "TextBlock",
+          "color": "Default",
+          "text": "{State}"
         },
         {
           "type": "TextBlock",
@@ -71,8 +53,28 @@
     {
       "type": "TextBlock",
       "wrap": true,
+      "text": "{Description}",
+      "maxLines": 5
+    },
+    {
+      "separator": true,
+      "type": "TextBlock",
+      "wrap": true,
       "text": "{ResolvedReason}",
       "maxLines": 5
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "default",
+          "text": "{ProviderDisplayText}"
+        }
+      ]
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
