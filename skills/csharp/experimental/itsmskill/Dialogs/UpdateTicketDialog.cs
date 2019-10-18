@@ -53,7 +53,7 @@ namespace ITSMSkill.Dialogs
                 UpdateLoop
             };
 
-            var attributesForUpdate = new AttributeType[] { AttributeType.Description, AttributeType.Urgency };
+            var attributesForUpdate = new AttributeType[] { AttributeType.Title, AttributeType.Description, AttributeType.Urgency };
 
             AddDialog(new WaterfallDialog(Actions.UpdateTicket, updateTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateAttribute, updateAttribute) { TelemetryClient = telemetryClient });
@@ -76,14 +76,19 @@ namespace ITSMSkill.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
             var sb = new StringBuilder();
 
+            if (!string.IsNullOrEmpty(state.TicketTitle))
+            {
+                sb.AppendLine(string.Format(SharedStrings.Title, state.TicketTitle));
+            }
+
             if (!string.IsNullOrEmpty(state.TicketDescription))
             {
-                sb.AppendLine($"{SharedStrings.Description}{state.TicketDescription}");
+                sb.AppendLine(string.Format(SharedStrings.Description, state.TicketDescription));
             }
 
             if (state.UrgencyLevel != UrgencyLevel.None)
             {
-                sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
+                sb.AppendLine(string.Format(SharedStrings.Urgency, state.UrgencyLevel.ToLocalizedString()));
             }
 
             if (sb.Length == 0)
@@ -116,14 +121,14 @@ namespace ITSMSkill.Dialogs
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
 
-            if (string.IsNullOrEmpty(state.TicketDescription) && state.UrgencyLevel == UrgencyLevel.None)
+            if (string.IsNullOrEmpty(state.TicketTitle) && string.IsNullOrEmpty(state.TicketDescription) && state.UrgencyLevel == UrgencyLevel.None)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.TicketNoUpdate));
                 return await sc.NextAsync();
             }
 
             var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
-            var result = await management.UpdateTicket(state.Id, state.TicketDescription, state.UrgencyLevel);
+            var result = await management.UpdateTicket(state.Id, state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)
             {

@@ -9,15 +9,15 @@ namespace ITSMSkill.Services
 {
     public interface IITServiceManagement
     {
-        Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency);
+        Task<TicketsResult> CreateTicket(string title, string description, UrgencyLevel urgency);
 
-        // like description & in urgencies & equal id & in states
-        Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null);
+        // like query & in urgencies & equal id & in states
+        Task<TicketsResult> SearchTicket(int pageIndex, string query = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null);
 
         // only count. so Tickets are all null
-        Task<TicketsResult> CountTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null);
+        Task<TicketsResult> CountTicket(string query = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null);
 
-        Task<TicketsResult> UpdateTicket(string id, string description = null, UrgencyLevel urgency = UrgencyLevel.None);
+        Task<TicketsResult> UpdateTicket(string id, string title = null, string description = null, UrgencyLevel urgency = UrgencyLevel.None);
 
         Task<TicketsResult> CloseTicket(string id, string reason);
 

@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <NoWarn>NU1701</NoWarn>
     <UserSecretsId>96a10d5f-5616-41d3-a131-a310c90072ff</UserSecretsId>
+    <RootNamespace>HospitalitySample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,8 +25,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.5.1-preview1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />

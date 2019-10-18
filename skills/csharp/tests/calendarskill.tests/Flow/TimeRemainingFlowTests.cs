@@ -24,7 +24,7 @@ namespace CalendarSkill.Test.Flow
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
             botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
             {
-                LuisServices = new Dictionary<string, ITelemetryRecognizer>()
+                LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
                     { "General", new MockLuisRecognizer() },
                     { "Calendar", new MockLuisRecognizer(new TimeRemainingUtterances()) }

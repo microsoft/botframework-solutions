@@ -90,73 +90,77 @@ namespace VirtualAssistantSample.Dialogs
 
                     // Check dispatch result
                     var luisResult = await cognitiveModels.LuisServices["General"].RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
-                    var intent = luisResult.TopIntent().intent;
+                    (var intent, var score) = luisResult.TopIntent();
 
-                    switch (intent)
+                    if (score > 0.5)
                     {
-                        case GeneralLuis.Intent.Cancel:
-                            {
-                                var template = _templateEngine.EvaluateTemplate("cancelledMessage");
-                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                await dc.Context.SendActivityAsync(response);
-                                await dc.CancelAllDialogsAsync();
-                                return InterruptionAction.End;
-                            }
 
-                        case GeneralLuis.Intent.Escalate:
-                            {
-                                var template = _templateEngine.EvaluateTemplate("escalateMessage");
-                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                await dc.Context.SendActivityAsync(response);
-                                return InterruptionAction.Resume;
-                            }
-
-                        case GeneralLuis.Intent.Help:
-                            {
-                                if (isSkill)
+                        switch (intent)
+                        {
+                            case GeneralLuis.Intent.Cancel:
                                 {
-                                    // If current dialog is a skill, allow it to handle its own help intent.
-                                    await dc.ContinueDialogAsync(cancellationToken);
-                                    break;
+                                    var template = _templateEngine.EvaluateTemplate("cancelledMessage");
+                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                    await dc.Context.SendActivityAsync(response);
+                                    await dc.CancelAllDialogsAsync();
+                                    return InterruptionAction.End;
                                 }
-                                else
+
+                            case GeneralLuis.Intent.Escalate:
                                 {
-                                    var template = _templateEngine.EvaluateTemplate("helpCard");
+                                    var template = _templateEngine.EvaluateTemplate("escalateMessage");
                                     var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                                     await dc.Context.SendActivityAsync(response);
                                     return InterruptionAction.Resume;
                                 }
-                            }
 
-                        case GeneralLuis.Intent.Logout:
-                            {
-                                await LogUserOut(dc);
-                                var template = _templateEngine.EvaluateTemplate("logoutMessage");
-                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                await dc.Context.SendActivityAsync(response);
-                                return InterruptionAction.End;
-                            }
-
-                        case GeneralLuis.Intent.Stop:
-                            {
-                                // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
-                                break;
-                            }
-
-                        case GeneralLuis.Intent.Repeat:
-                            {
-                                // Sends the activities since the last user message again.
-                                var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
-
-                                foreach (var response in previousResponse)
+                            case GeneralLuis.Intent.Help:
                                 {
-                                    // Reset id of original activity so it can be processed by the channel.
-                                    response.Id = string.Empty;
-                                    await dc.Context.SendActivityAsync(response);
+                                    if (isSkill)
+                                    {
+                                        // If current dialog is a skill, allow it to handle its own help intent.
+                                        await dc.ContinueDialogAsync(cancellationToken);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        var template = _templateEngine.EvaluateTemplate("helpCard");
+                                        var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                        await dc.Context.SendActivityAsync(response);
+                                        return InterruptionAction.Resume;
+                                    }
                                 }
 
-                                return InterruptionAction.Waiting;
-                            }
+                            case GeneralLuis.Intent.Logout:
+                                {
+                                    await LogUserOut(dc);
+                                    var template = _templateEngine.EvaluateTemplate("logoutMessage");
+                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                    await dc.Context.SendActivityAsync(response);
+                                    return InterruptionAction.End;
+                                }
+
+                            case GeneralLuis.Intent.Stop:
+                                {
+                                    // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
+                                    break;
+                                }
+
+                            case GeneralLuis.Intent.Repeat:
+                                {
+                                    // Sends the activities since the last user message again.
+                                    var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
+
+                                    foreach (var response in previousResponse)
+                                    {
+                                        // Reset id of original activity so it can be processed by the channel.
+                                        response.Id = string.Empty;
+                                        await dc.Context.SendActivityAsync(response);
+                                    }
+
+                                    return InterruptionAction.Waiting;
+                                }
+                        }
                     }
                 }
                 catch (Exception)

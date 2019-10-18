@@ -250,6 +250,29 @@ namespace CalendarSkill.Models
 
         public class ShowMeetingInformation
         {
+            public enum SearchMeetingCondition
+            {
+                /// <summary>
+                /// Search meeting by time.
+                /// </summary>
+                Time,
+
+                /// <summary>
+                /// Search meeting by title.
+                /// </summary>
+                Title,
+
+                /// <summary>
+                /// Search meeting by attendee.
+                /// </summary>
+                Attendee,
+
+                /// <summary>
+                /// Search meeting by location.
+                /// </summary>
+                Location
+            }
+
             public string AskParameterContent { get; set; } = null;
 
             public int TotalConflictCount { get; set; } = 0;
@@ -266,6 +289,8 @@ namespace CalendarSkill.Models
 
             // be chosen in ShowingMeetings or in update/change status flow
             public List<EventModel> FocusedEvents { get; set; } = new List<EventModel>();
+
+            public SearchMeetingCondition Condition { get; set; }
 
             public void Clear()
             {

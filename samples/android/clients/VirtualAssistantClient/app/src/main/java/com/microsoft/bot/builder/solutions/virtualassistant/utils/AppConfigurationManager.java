@@ -76,6 +76,11 @@ public class AppConfigurationManager {
         if (appConfiguration.keepScreenOn == null) {
             appConfiguration.keepScreenOn = defaultConfiguration.keepScreenOn;
         }
+
+        if (appConfiguration.appCenterId == null)
+        {
+            appConfiguration.appCenterId = defaultConfiguration.appCenterId;
+        }
         return appConfiguration;
     }
 }

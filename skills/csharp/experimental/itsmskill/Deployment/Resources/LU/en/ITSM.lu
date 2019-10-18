@@ -1,8 +1,8 @@
-﻿[Ticket Create](./TicketCreate.lu)
-[Ticket Update](./TicketUpdate.lu)
-[Ticket Show](./TicketShow.lu)
-[Ticket Close](./TicketClose.lu)
-[Knowledge Show](./KnowledgeShow.lu)
+﻿[Ticket Create](./secondary/TicketCreate.lu)
+[Ticket Update](./secondary/TicketUpdate.lu)
+[Ticket Show](./secondary/TicketShow.lu)
+[Ticket Close](./secondary/TicketClose.lu)
+[Knowledge Show](./secondary/KnowledgeShow.lu)
 
 
 # None
@@ -22,10 +22,6 @@
 
 
 > # Entity definitions
-
-$TicketDescription:simple
-
-$CloseReason:simple
 
 
 > # PREBUILT Entity definitions
@@ -47,6 +43,9 @@ $ticket_show_phrase:phraseList interchangeable
 
 $AttributeType:urgency=
 - urgency
+
+$AttributeType:title=
+- title
 
 $AttributeType:description=
 - description

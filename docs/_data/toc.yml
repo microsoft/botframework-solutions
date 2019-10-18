@@ -1,18 +1,23 @@
 Overview:
-- Samples
-Tutorials:
+Virtual Assistant:
 - Create a Virtual Assistant
 - Customize a Virtual Assistant
-- Create a skill
-- Customize a skill
-- Enable Speech
-- Enable Microsoft Teams
-How To:
-- Virtual Assistant
-- Skills
+- Deploy a Virtual Assistant
+- Enable speech
+- Extend to Microsoft Teams
+- View analytics using Power BI
+- Handbook
 - Samples
-Reference:
-- Virtual Assistant
-- Skills
+Skills:
+- Create a Skill
+- Customize a Skill
+- Connect to a sample Skill
+- Convert a v4 Bot to a Skill
+- Extend a v4 Bot with Skills
+- Handbook
+- Samples
+Additional resources:
 - Analytics
-- Samples
+- Deployment
+Help:
+- Reference

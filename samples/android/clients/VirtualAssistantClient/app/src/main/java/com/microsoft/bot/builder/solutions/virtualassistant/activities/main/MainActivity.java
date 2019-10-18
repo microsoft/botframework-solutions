@@ -38,6 +38,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
@@ -155,6 +158,9 @@ public class MainActivity extends BaseActivity
 
         // load configurations from shared preferences
         loadAppConfiguration();
+
+        AppCenter.start(getApplication(), appConfigurationManager.getConfiguration().appCenterId,
+                Analytics.class, Crashes.class);
 
         isCreated = true;//keep this as last line in onCreate()
     }
