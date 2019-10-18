@@ -315,10 +315,20 @@ namespace CalendarSkill.Dialogs
                 }
 
                 var name = confirmedPerson.DisplayName;
+                var userString = string.Empty;
+                if (!name.Equals(confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName))
+                {
+                    userString = name + ": ";
+                }
+
+                userString += confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName;
+
                 if (confirmedPerson.Emails.Count() == 1)
                 {
                     // Highest probability
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+
+                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -340,28 +350,18 @@ namespace CalendarSkill.Dialogs
                 var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
 
-                // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                if (!(sc.Result is bool) || (bool)sc.Result)
+                var attendee = new EventModel.Attendee
                 {
-                    var attendee = new EventModel.Attendee
-                    {
-                        DisplayName = name,
-                        Address = confirmedPerson.Emails.First().Address,
-                        UserPrincipalName = confirmedPerson.UserPrincipalName
-                    };
-                    if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
-                    {
-                        state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
-                    }
+                    DisplayName = name,
+                    Address = confirmedPerson.Emails.First().Address,
+                    UserPrincipalName = confirmedPerson.UserPrincipalName
+                };
+                if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
+                {
+                    state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
+                }
 
-                    return await sc.EndDialogAsync();
-                }
-                else
-                {
-                    var options = sc.Options as FindContactDialogOptions;
-                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, options);
-                }
+                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -785,8 +785,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}") } })
                 }, cancellationToken);
             }
             catch (Exception ex)
