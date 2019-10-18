@@ -1,8 +1,12 @@
 <Project>
- <PropertyGroup>
-    <CodeAnalysisRuleSet>$(SolutionDir)VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+  </ItemGroup>
+
   <PropertyGroup>
     <RestoreAdditionalProjectSources>
       https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
@@ -11,20 +15,10 @@
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
-  </ItemGroup>
-  
-  <PropertyGroup>
-    <RestoreAdditionalProjectSources>
-      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
-  </PropertyGroup>
-
   <PropertyGroup>
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
-    <Product>Microsoft BotFramework Skills</Product>
+    <Product>Microsoft BotFramework Solutions</Product>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
   </PropertyGroup>
 
