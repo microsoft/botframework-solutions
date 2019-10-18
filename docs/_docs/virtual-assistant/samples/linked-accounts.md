@@ -29,9 +29,9 @@ The Linked Accounts feature of the Virtual Assistant provides a reference sample
 
 ## Authentication Configuration
 
-In order to perform Account Linking, the Linked Accounts web app will need the end user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. This is required to retrieve the unique identifier of the user which is used as the **key** to retrieving any linked token in the future.
+In order to perform Account Linking, the Linked Accounts web app will need the end user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example **darren@contosoassistant.com**. This is required to retrieve the unique identifier of the user which is used as the **key** to retrieving any linked token in the future.
 
-The ``appsettings.json`` file in the LinkedAccounts sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoftonline.com based scenario. You can replace this with any custom authentication solution you have, what is key is ensuring the Linked Accounts feature is authenticating the user in some way and retrieving the same unique identifier which is passed to the assistant in future conversations.
+The **appsettings.json** file in the LinkedAccounts sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoftonline.com based scenario. You can replace this with any custom authentication solution you have, what is key is ensuring the Linked Accounts feature is authenticating the user in some way and retrieving the same unique identifier which is passed to the assistant in future conversations.
 
 ### Integrating Azure AD
 {:.no_toc}
@@ -41,13 +41,13 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 3. From the sidebar within, select **App Registrations (Preview)**.
 4. Select **New registration**
    * **Name**: *Provide a friendly name*
-   * **Redirect URI**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project or replace with the address of your deployed website*
+   * **Redirect URI**: http://localhost:XXXX/signin-oidc *(update with the local port of your project or replace with the address of your deployed website*
    * Click Register
 5. Select the Authentication section of your newly created application
-   * Select `ID tokens` under the Implicit grant section
-6. On the **Overview** page of your new app, copy the following values into your `appsettings.json`
-   * `Directory (tenant) ID` maps to `TenantId`
-   * `Application (client) ID` maps to `ClientId`
+   * Select **ID tokens** under the Implicit grant section
+6. On the **Overview** page of your new app, copy the following values into your **appsettings.json**
+   * **Directory (tenant) ID** maps to **TenantId**
+   * **Application (client) ID** maps to **ClientId**
 
 ```json
 "AzureAd": {
@@ -61,7 +61,7 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 
 > **Note** This should enable MSA accounts to be linked as well, but your provider may prevent that as a default. You can go to **Users** > **New guest user** to add additional accounts.
 
-This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. This needs to be the same user identifier used by the Virtual Assistant when requesting tokens.
+This sample uses the AD Object Identifier claim (**AadObjectidentifierClaim**) as the unique user identifier when performing token operations. This needs to be the same user identifier used by the Virtual Assistant when requesting tokens.
 
 In order to manage account linking and securely store authentication tokens, the web app requires access to your bot's ApplicationId and Secret which you provide through the following configuration settings.
 
@@ -98,7 +98,7 @@ Now that you've linked your account and stored tokens you can move back to your 
 
 Asking a question that triggers a user flow which requires the specified token should now not prompt for authentication.
 
-The Bot Framework Emulator currently generates a unique UserId which can be changed to a new unique ID by clicking the down arrow next to the Restart Conversation button and choosing 'Restart with new UserId'. Unfortunately there is no current way to specify a UserId and therefore match the `AadObjectidentifierClaim` associated with your user account for use which blocks Emulator testing. At this time we have provided the ability in Linked Accounts to override the UserId enabling you to pass in the UserId currently in use by the Emulator. You can view the User identified being used by the emulator by sending a message and clicking on the entry in the log window and retrieving the from.id value.
+The Bot Framework Emulator currently generates a unique UserId which can be changed to a new unique ID by clicking the down arrow next to the Restart Conversation button and choosing 'Restart with new UserId'. Unfortunately there is no current way to specify a UserId and therefore match the **AadObjectidentifierClaim** associated with your user account for use which blocks Emulator testing. At this time we have provided the ability in Linked Accounts to override the UserId enabling you to pass in the UserId currently in use by the Emulator. You can view the User identified being used by the emulator by sending a message and clicking on the entry in the log window and retrieving the from.id value.
 
 ```json
   "from": {

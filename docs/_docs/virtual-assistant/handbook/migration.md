@@ -21,7 +21,7 @@ The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}
 
 - C# template simplified and aligned to ASP.NET MVC pattern with dependency injection
 - Typescript generator
-- `Microsoft.Bot.Builder.Solutions` NuGet package to enable easy updating of the template core after a project is created
+- **Microsoft.Bot.Builder.Solutions** NuGet package to enable easy updating of the template core after a project is created
 - Works out-of-box with Skills, enabling you to use re-usable conversational capabilities or hand off specific tasks to child Bots within your organization
 - [Adaptive Cards](https://adaptivecards.io/) that greet new and returning users
 - Native conversational telemetry and Power BI analytics via the Bot Builder SDK
@@ -39,7 +39,7 @@ The Virtual Assistant template has adopted the ASP.NET Core MVC approach which h
 ### Bot file deprecation
 {:.no_toc}
 
-Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. Going forward we recommend that you use `appsettings.json` (C#) or `.env` (Typescript) file for managing these resources.
+Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. Going forward we recommend that you use **appsettings.json** (C#) or **.env** (Typescript) file for managing these resources.
 
 In-line with this change to .bot files we have migrated the template configuration across to appSettings.json for general dependencies and cognitiveModels.json to represent the Dispatch, LUIS and QnA models registered for your assistant.
 
@@ -72,12 +72,12 @@ The core folder structure is shown below and key concepts such as Dialogs, Model
 ### Solutions NuGet package
 {:.no_toc}
 
-The previous Enterprise Template had a `Microsoft.Bot.Solutions` library which contained extensions to the Bot Framework to simplify creation of advanced experiences. This is now published as the [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) is now published as an additional NuGet library enabling us to easily make updates which you can pull into your project and avoiding have to perform differential comparison with our sample Enterprise Template project.
+The previous Enterprise Template had a **Microsoft.Bot.Solutions** library which contained extensions to the Bot Framework to simplify creation of advanced experiences. This is now published as the [**Microsoft.Bot.Builder.Solutions**](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) is now published as an additional NuGet library enabling us to easily make updates which you can pull into your project and avoiding have to perform differential comparison with our sample Enterprise Template project.
 
 ### ARM Deployment
 {:.no_toc}
 
-Previously we used the `msbot` command line tool to automate deployment of dependent resources in Azure. This enabled us to address limitations around automated Azure deployment for some resources and ensure developers had an easy way to get started.
+Previously we used the **msbot** command line tool to automate deployment of dependent resources in Azure. This enabled us to address limitations around automated Azure deployment for some resources and ensure developers had an easy way to get started.
 
 With these limitations addressed we have now moved to a ARM template based approach providing you the same automated approach but also providing a more familiar way to customize deployment to suit your requirements.
 
@@ -93,14 +93,14 @@ With these limitations addressed we have now moved to a ARM template based appro
 
 It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
 
-Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new `appSettings.json` and `cognitiveModels.json` files.
+Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new **appSettings.json** and **cognitiveModels.json** files.
 
 ### Migrate dialogs
 {:.no_toc}
 
-1. Copy your custom dialog class files into the `Dialogs` directory of your new project.
+1. Copy your custom dialog class files into the Dialogs directory of your new project.
   
-1. Within the `Startup.cs` file, add a Transient Service for each of your dialogs.
+1. Within the **Startup.cs** file, add a Transient Service for each of your dialogs.
 
      ```csharp
     // Register dialogs
@@ -147,17 +147,17 @@ Copy Responses for each dialog into a sub-directory of the Responses folder. Foc
 ### Adaptive Cards
 {:.no_toc}
 
-Copy any Adaptive Cards used by your dialogs into the `Content` directory with the sample greeting cards.
+Copy any Adaptive Cards used by your dialogs into the Content directory with the sample greeting cards.
 
 ### State
 {:.no_toc}
 
-Copy any state classes you may have created into the `Models` directory.
+Copy any state classes you may have created into the Models directory.
 
 ### Files generated by the LUISGen tool
 {:.no_toc}
 
-Copy any LuisGen-generated classes into the `Services` directory.
+Copy any LuisGen-generated classes into the Services directory.
 
 ## Extend your assistant with Skills
 

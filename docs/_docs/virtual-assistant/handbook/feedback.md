@@ -22,12 +22,12 @@ This enables the FeedbackMiddleware with the following default settings:
 
 | Property | Description | Type | Default value |
 | -------- | ----------- | ---- |------------- |
-| FeedbackActions | Feedback options shown to the user. | `List<CardAction>` | 👍 / 👎 |
-| DismissAction | Option to dismiss request for feedback, or request for comment. | `CardAction` | *Dismiss*
-| FeedbackReceivedMessage | Message to show after user has provided feedback. | `string` | *Thanks for your feedback!* |
-| CommentsEnabled | Flag indicating whether the bot should prompt for free-form comments after user has provided feedback. | `bool` | false |
-| CommentPrompt | Message to show after user provided feedback if CommentsEnabled is true. | `string` | *Please add any additional comments in the chat.*
-| CommentReceivedMessage | Message to show after user provides a free-form comment. | `string` | *Your comment has been received.* |
+| FeedbackActions | Feedback options shown to the user. | **CardAction List** | 👍 / 👎 |
+| DismissAction | Option to dismiss request for feedback, or request for comment. | **CardAction** | *Dismiss*
+| FeedbackReceivedMessage | Message to show after user has provided feedback. | **string** | *Thanks for your feedback!* |
+| CommentsEnabled | Flag indicating whether the bot should prompt for free-form comments after user has provided feedback. | **bool** | false |
+| CommentPrompt | Message to show after user provided feedback if CommentsEnabled is true. | **string** | *Please add any additional comments in the chat.*
+| CommentReceivedMessage | Message to show after user provides a free-form comment. | **string** | *Your comment has been received.* |
 
 Here is an example customization with different feedback options and comments enabled:
 

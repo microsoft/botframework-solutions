@@ -42,7 +42,7 @@ az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 ### Direct Line Sample
 {:.no_toc}
 
-A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the `Speak` property which is the Speech friendly variation of the response.
+A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the **Speak** property which is the Speech friendly variation of the response.
 
 Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
 

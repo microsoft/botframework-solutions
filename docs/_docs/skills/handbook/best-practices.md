@@ -38,13 +38,13 @@ If there is an utterance that you expect would be applied to multiple Skills, ta
 ### Update LUIS model
 {:.no_toc}
 
-You can update you LUIS model in LUIS portal. Or modify the `.lu` file then convert it to `.json` and upload to LUIS portal manually, or use `update_cognitive_models.ps1`
+You can update you LUIS model in LUIS portal. Or modify the **.lu** file then convert it to **.json** and upload to LUIS portal manually, or use **update_cognitive_models.ps1**
 
-How to convert `.json` to `.lu`:
+How to convert **.json** to **.lu**:
 ```bash
 ludown refresh -i YOUR_BOT_NAME.json
 ```
-How to convert `.lu` to `.json`:
+How to convert **.lu** to **.json**:
 ```bash
 ludown parse toluis --in YOUR_BOT_NAME.lu
 ```
@@ -68,7 +68,7 @@ Consider the multiple layers of communication a user may have with a Skill on th
 #### Speech & Text
 {:.no_toc}
 
-Speech & Text responses are stored in `.json` files, and offer the ability to provide a variety of responses and set the input hint on each Activity.
+Speech & Text responses are stored in **.json** files, and offer the ability to provide a variety of responses and set the input hint on each Activity.
 
 ```json
 {
@@ -97,14 +97,14 @@ Speech & Text responses are stored in `.json` files, and offer the ability to pr
 }
 ```
 
-Vary your responses. By providing additional utterances to the `replies` array, your Skill will sound more natural and provide a dynamic conversation.
+Vary your responses. By providing additional utterances to the **replies** array, your Skill will sound more natural and provide a dynamic conversation.
 
 Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
 
 #### Common string
 {:.no_toc}
 
-Some common strings shouldn't save in response file. Suggest you to save them in `.resx` file. It is easy to be localized.
+Some common strings shouldn't save in response file. Suggest you to save them in **.resx** file. It is easy to be localized.
 
 #### Visual
 {:.no_toc}
@@ -452,7 +452,7 @@ protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> p
 }
 ```
 
-If you need a more complex prompt you can implement it by inheriting `Microsoft.Bot.Builder.Dialogs.Prompt<T>`. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
+If you need a more complex prompt you can implement it by inheriting **Microsoft.Bot.Builder.Dialogs.Prompt<T>**. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
 
 ### Enable long running tasks
 {:.no_toc}
@@ -463,7 +463,7 @@ This enables a Skill to have more intelligent interactions with a user, triggere
 ### Handle and log errors
 {:.no_toc}
 
-Use the `HandleDialogExceptions` method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
+Use the **HandleDialogExceptions** method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
 ```csharp
 protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
@@ -489,7 +489,7 @@ protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception e
 
 Save your data in different scope of states. Read [Save user and conversation data](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=csharp) to learn about user and conversation state.
 
-For dialog state, you can save your data in `stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]`.
+For dialog state, you can save your data in **stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]**.
 
 ### Manage the dialogs
 {:.no_toc}

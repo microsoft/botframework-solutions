@@ -37,7 +37,7 @@ The following scenarios are currently supported by the Skill:
 ## Language Understanding
 {:.toc}
 
-LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
+LUIS models for the Skill are provided in **.lu** file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages |
 |-|
@@ -90,10 +90,10 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/
 {:.no_toc}
 
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
-- `Notes.ReadWrite` 
-- `User.Read`
-- `User.ReadBasic.All`
-- `Tasks.ReadWrite`
+- **Notes.ReadWrite** 
+- **User.Read**
+- **User.ReadBasic.All**
+- **Tasks.ReadWrite**
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
@@ -104,7 +104,7 @@ Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauths
 
 If you want to add your customized list types, for example, your homework list or movie list, please follow these steps:
 
-1. Add your list type to `appsettings.json`
+1. Add your list type to **appsettings.json**
 
 	```json
 	"customizeListTypes": [

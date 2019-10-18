@@ -56,7 +56,7 @@ The following scenarios are currently supported by the Skill:
 ## Language Understanding
 {:.toc}
 
-LUIS models for the Skill are provided in `.lu` file format as part of the Skill. Further languages are being prioritized.
+LUIS models for the Skill are provided in **.lu** file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|
@@ -131,21 +131,21 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/
 To use Google account skill you need follow these steps:
 1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
 2. Create an OAuth connection setting in your Web App Bot.
-    - Connection name: `googleapi`
-    - Service Provider: `Google`
+    - Connection name: **googleapi**
+    - Service Provider: **Google**
     - Client id and secret are generated in step 1
-    - Scopes: `https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts`.
-3. Add the connection name, client id, secret and scopes in the `appsetting.json` file.
+    - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
+3. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
 ### Authentication connection settings
 {:.no_toc}
 
 If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 
-- `User.ReadBasic.All`  
-- `Calendars.ReadWrite`
-- `People.Read`    
-- `Contacts.Read`
+- **User.ReadBasic.All**  
+- **Calendars.ReadWrite**
+- **People.Read**    
+- **Contacts.Read**
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 

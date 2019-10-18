@@ -94,5 +94,7 @@ The **OpenDefaultApp** example event is used in conjunction with the [Virtual As
 ```
 
 ## Add and configure the event debug middleware
-Native event activities are not supported on the [Bot Framework Emulator](https://aka.ms/botframework-emulator), you can work around this using the`EventDebugMiddleware` class that comes with the Virtual Assistan template.
-You can send messages with a string payload following the format: `/event:{ "Name": "{Event name}", "Value": "{Event value}" }`. The middleware tranposes these values onto an event activity to be processed.
+Native event activities are not supported on the [Bot Framework Emulator](https://aka.ms/botframework-emulator), you can work around this using the [**EventDebugMiddleware**]({{site.baseurl}}/overview/virtual-assistant-template/#middleware) class that comes with the Virtual Assistan template.
+You can send messages with a string payload following the format: 
+**/event:{ "Name": "{Event name}", "Value": "{Event value}" }**. 
+The middleware tranposes these values onto an event activity to be processed.

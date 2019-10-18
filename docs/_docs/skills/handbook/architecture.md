@@ -17,7 +17,7 @@ Within an Enterprise, this could be creating one parent bot bringing together mu
 
 Skills are themselves Bots, invoked remotely and a Skill developer template (.NET, TS) is available to facilitate creation of new Skills.
 
-A key design goal for Skills was to maintain the consistent Activity protocol and ensure the development experience was as close to any normal V4 SDK bot as possible. To that end, a Bot simply starts a `SkillDialog` which abstracts the skill invocation mechanics.
+A key design goal for Skills was to maintain the consistent Activity protocol and ensure the development experience was as close to any normal V4 SDK bot as possible. To that end, a Bot simply starts a **SkillDialog** which abstracts the skill invocation mechanics.
 
 ## Invocation Flow
 
@@ -36,21 +36,21 @@ When the user of a Virtual Assistant asks a question, the Dispatcher will proces
 
 > When testing a Virtual Assistant using the Emulator the SkillDialog surfaces Skill invocation and slot-filling telemetry.
 
-On start-up of a Virtual Assistant, each registered Skill results in a SkillDialog instance being created which is associated with a `SkillManifest` instance containing details about the Skill including it's endpoint, actions and slots.
+On start-up of a Virtual Assistant, each registered Skill results in a SkillDialog instance being created which is associated with a **SkillManifest** instance containing details about the Skill including it's endpoint, actions and slots.
 
-All communication between a Virtual Assistant and a Skill is performed through a custom `SkillDialog`, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through a lightweight `SkillWebSocket` or `SkillHttp` adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
+All communication between a Virtual Assistant and a Skill is performed through a custom **SkillDialog**, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through a lightweight **SkillWebSocket** or **SkillHttp** adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
 
-The `SkillManifest` provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill.
+The **SkillManifest** provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill.
 
-When a Skill wants to terminate an ongoing dialog, it sends back an Activity with `Handoff` type to signal the completion of the current dialog. 
+When a Skill wants to terminate an ongoing dialog, it sends back an Activity with **Handoff** type to signal the completion of the current dialog. 
 
 See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthentication) section for information on how Bot->Skill invocation is secured.
 
 ## Skill Middleware
 
-The `SkillMiddleware` is used by each Skill and is configured automatically if you use the Skill Template.
+The **SkillMiddleware** is used by each Skill and is configured automatically if you use the Skill Template.
 
-The middleware consumes the `skill/cancelallskilldialogs` event, when the Skill receives it it clears out the active dialog stack on that active Skill. This is useful in interruptions - i.e. if a user asks to cancel, a Virtual Assistant can send this event to the Skill and cancel the active dialog.
+The middleware consumes the **skill/cancelallskilldialogs** event, when the Skill receives it it clears out the active dialog stack on that active Skill. This is useful in interruptions - i.e. if a user asks to cancel, a Virtual Assistant can send this event to the Skill and cancel the active dialog.
 
 ## Interrupting Active Skills
 

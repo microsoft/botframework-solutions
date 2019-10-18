@@ -33,7 +33,7 @@ The following scenarios are currently supported by the Skill:
 ## Language Understanding
 {:.toc}
 
-LUIS models are provided in `.lu` file format to support the scenarios used in this Skill.
+LUIS models are provided in **.lu** file format to support the scenarios used in this Skill.
 
 |Supported Languages|
 |-|
@@ -96,7 +96,7 @@ Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) t
 ### From assistant to user
 {:.no_toc}
 
-This Skill supports an outgoing `OpenDefaultApp` Event Activity that provides a Geo URI for chat clients to determine how to handle navigation to a user's selected point of interest.
+This Skill supports an outgoing **OpenDefaultApp** Event Activity that provides a Geo URI for chat clients to determine how to handle navigation to a user's selected point of interest.
 The [Virtual Assistant Client (Android) sample]({{ site.baseurl }}/howto/samples/vaclient_android/) demonstrates how a client may navigate to a destination using a user's preferred map application.
 
 ```json

@@ -2,7 +2,7 @@
 category: Virtual Assistant
 subcategory: Handbook
 title: Localization
-description: Manage localization across a Virtual Assistant environment
+description: Manage localization across a Virtual Assistant solution
 order: 5
 toc: true
 ---
@@ -10,8 +10,6 @@ toc: true
 # {{ page.title }} : {{ page.description }}
 {:.no_toc}
 {{ page.description }}
-
-## Introduction
 
 ## Getting the locale
 To capture the user's locale, the Virtual Assistant uses the SetLocaleMiddleware. For each message that comes in from the user, the CurrentUICulture is set equal to the Activity's locale property. If Activity.Locale is not available on the activity, the DefaultLocale from cognitivemodel.json is used instead.
