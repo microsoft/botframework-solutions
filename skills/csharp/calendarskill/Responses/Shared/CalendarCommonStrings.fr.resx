@@ -312,4 +312,10 @@
   <data name="ShowEventTitleCondition" xml:space="preserve">
     <value>à propos de {0}</value>
   </data>
+  <data name="AskForDate" xml:space="preserve">
+    <value>quoi (jour|date)</value>
+  </data>
+  <data name="DisplayDateLong" xml:space="preserve">
+    <value>dddd, MMMM d</value>
+  </data>
 </root>
