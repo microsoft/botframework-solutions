@@ -175,5 +175,46 @@ describe("Localization", function() {
                 return testNock.resolveWithMocks('localization_response_zh-cn', done, flow);
             });
         });
-    });    
+    });
+    describe("Defaulting localization", function () {
+        it("Fallback to a locale of the root language locale", function (done) {
+            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+            const flow = testAdapter
+                .send({
+                    type: "conversationUpdate",
+                    membersAdded: [
+                        {
+                            id: "1",
+                            name: "Bot"
+                        }
+                    ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
+                    locale: "en-gb"
+                })
+                .assertReply(function (activity, description) {
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+                    assert.deepStrictEqual(activity.attachments[0].content, localizationJson);
+                });
+
+                return testNock.resolveWithMocks('localization_response_en-gb', done, flow);
+            });
+        });
+    });
+    describe("No matching Cognitive Model", function () {
+        it("Send a confused message notice when there is no matching cognitive models and can't fallback", function (done) {
+            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+                const flow = testAdapter
+                    .send({
+						text: 'hola',
+						locale: "es-es"
+					})
+                    .assertReply("Lo siento, no soy capaz de ayudar con eso.");
+                
+                testNock.resolveWithMocks('localization_no_cognitive_models', done, flow);
+            });
+        });
+	});
 });

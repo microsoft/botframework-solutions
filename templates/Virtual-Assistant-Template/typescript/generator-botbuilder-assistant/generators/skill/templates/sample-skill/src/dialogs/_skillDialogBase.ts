@@ -176,10 +176,11 @@ export class SkillDialogBase extends ComponentDialog {
     private getCognitiveModel(): Partial<ICognitiveModelSet> {
         // get current activity locale
         const locale: string = i18next.language;
-        let cognitiveModels: Partial<ICognitiveModelSet> | undefined  = this.services.cognitiveModelSets.get(locale);
+        let cognitiveModels: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
 
         if (cognitiveModels === undefined) {
             const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
                 .find((key: string) => {
                     if (key.substring(0, 2) === locale.substring(0, 2)) {
                         return key;

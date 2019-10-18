@@ -92,77 +92,81 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
-        
-        // Check dispatch result
-        const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc.context);
-        const intent: string = LuisRecognizer.topIntent(dispatchResult);
+        try {
+            const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
 
-        if (this.settings.skills === undefined) {
-            throw new Error('There is no skills in settings value');
-        }
-        // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
-        const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
-        if (identifiedSkill !== undefined) {
-            // We have identified a skill so initialize the skill connection with the target skill
-            const result: DialogTurnResult = await dc.beginDialog(identifiedSkill.id);
+            // Check dispatch result
+            const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc.context);
+            const intent: string = LuisRecognizer.topIntent(dispatchResult);
 
-            if (result.status === DialogTurnStatus.complete) {
-                await this.complete(dc);
+            if (this.settings.skills === undefined) {
+                throw new Error('There is no skills in settings value');
             }
-        } else if (intent === 'l_general') {
-            // If dispatch result is general luis model
-            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
-            if (luisService === undefined) {
-                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
-            } else {
-                const result: RecognizerResult = await luisService.recognize(dc.context);
-                if (result !== undefined) {
-                    const generalIntent: string = LuisRecognizer.topIntent(result);
+            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+            const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
+            if (identifiedSkill !== undefined) {
+                // We have identified a skill so initialize the skill connection with the target skill
+                const result: DialogTurnResult = await dc.beginDialog(identifiedSkill.id);
 
-                    // switch on general intents
-                    switch (generalIntent) {
-                        case 'Escalate': {
-                            // start escalate dialog
-                            await dc.beginDialog(EscalateDialog.name);
-                            break;
-                        }
-                        case 'None':
-                        default: {
-                            // No intent was identified, send confused message
-                            await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                if (result.status === DialogTurnStatus.complete) {
+                    await this.complete(dc);
+                }
+            } else if (intent === 'l_general') {
+                // If dispatch result is general luis model
+                const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+                if (luisService === undefined) {
+                    throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
+                } else {
+                    const result: RecognizerResult = await luisService.recognize(dc.context);
+                    if (result !== undefined) {
+                        const generalIntent: string = LuisRecognizer.topIntent(result);
+
+                        // switch on general intents
+                        switch (generalIntent) {
+                            case 'Escalate': {
+                                // start escalate dialog
+                                await dc.beginDialog(EscalateDialog.name);
+                                break;
+                            }
+                            case 'None':
+                            default: {
+                                // No intent was identified, send confused message
+                                await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                            }
                         }
                     }
                 }
-            }
-        } else if (intent === 'q_faq') {
-            const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceFaq);
+            } else if (intent === 'q_faq') {
+                const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceFaq);
 
-            if (qnaService === undefined) {
-                throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
-            } else {
-                const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
-                if (answers !== undefined && answers.length > 0) {
-                    await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                if (qnaService === undefined) {
+                    throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
                 } else {
-                    await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                    const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
+                    if (answers !== undefined && answers.length > 0) {
+                        await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                    } else {
+                        await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                    }
                 }
-            }
-        } else if (intent === 'q_chitchat') {
-            const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceChitchat);
+            } else if (intent === 'q_chitchat') {
+                const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceChitchat);
 
-            if (qnaService === undefined) {
-                throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
-            } else {
-                const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
-                if (answers !== undefined && answers.length > 0) {
-                    await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                if (qnaService === undefined) {
+                    throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
                 } else {
-                    await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                    const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
+                    if (answers !== undefined && answers.length > 0) {
+                        await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                    } else {
+                        await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                    }
                 }
+            } else {
+                // If dispatch intent does not map to configured models, send 'confused' response.
+                await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
             }
-        } else {
-            // If dispatch intent does not map to configured models, send 'confused' response.
+        } catch {
             await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
         }
     }
@@ -255,32 +259,36 @@ export class MainDialog extends RouterDialog {
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
+            try {
+                const cognitiveModels: ICognitiveModelSet = this.getCognitiveModel();
 
-            // check luis intent
-            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+                // check luis intent
+                const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
 
-            if (luisService === undefined) {
-                throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
-            } else {
-                const luisResult: RecognizerResult = await luisService.recognize(dc.context);
-                const intent: string = LuisRecognizer.topIntent(luisResult);
+                if (luisService === undefined) {
+                    throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
+                } else {
+                    const luisResult: RecognizerResult = await luisService.recognize(dc.context);
+                    const intent: string = LuisRecognizer.topIntent(luisResult);
 
-                // Only triggers interruption if confidence level is high
-                if (luisResult.intents[intent] !== undefined && luisResult.intents[intent].score > 0.5) {
-                    switch (intent) {
-                        case 'Cancel': {
-                            return this.onCancel(dc);
+                    // Only triggers interruption if confidence level is high
+                    if (luisResult.intents[intent] !== undefined && luisResult.intents[intent].score > 0.5) {
+                        switch (intent) {
+                            case 'Cancel': {
+                                return this.onCancel(dc);
+                            }
+                            case 'Help': {
+                                return this.onHelp(dc);
+                            }
+                            case 'Logout': {
+                                return this.onLogout(dc);
+                            }
+                            default:
                         }
-                        case 'Help': {
-                            return this.onHelp(dc);
-                        }
-                        case 'Logout': {
-                            return this.onLogout(dc);
-                        }
-                        default:
                     }
                 }
+            } catch {
+                await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
             }
         }
 
@@ -340,6 +348,7 @@ export class MainDialog extends RouterDialog {
 
         if (cognitiveModels === undefined) {
             const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
                 .find((key: string) => {
                     if (key.substring(0, 2) === locale.substring(0, 2)) {
                         return key;
