@@ -46,6 +46,18 @@ namespace CalendarSkill.Services.GoogleAPI
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
             }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                skillExceptionType = SkillExceptionType.APIUnauthorized;
+            }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                skillExceptionType = SkillExceptionType.APIForbidden;
+            }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                skillExceptionType = SkillExceptionType.APIBadRequest;
+            }
 
             return new SkillException(skillExceptionType, ex.Message, ex);
         }
