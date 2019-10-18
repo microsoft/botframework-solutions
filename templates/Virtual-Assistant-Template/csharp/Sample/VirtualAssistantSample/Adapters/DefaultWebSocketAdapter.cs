@@ -27,8 +27,7 @@ namespace VirtualAssistantSample.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message:{exception.Message}, Stack: {exception.StackTrace}"));
                 await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
                 telemetryClient.TrackException(exception);
             };

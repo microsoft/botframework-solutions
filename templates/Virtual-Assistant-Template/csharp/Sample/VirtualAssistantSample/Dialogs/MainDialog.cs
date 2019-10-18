@@ -21,6 +21,9 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
+    /// <summary>
+    /// The MainDialog class providing core Activity routing and message/event processing.
+    /// </summary>
     public class MainDialog : RouterDialog
     {
         private BotServices _services;
@@ -30,7 +33,7 @@ namespace VirtualAssistantSample.Dialogs
         private TextActivityGenerator _activityGenerator;
         private OnboardingDialog _onboardingDialog;
         private IStatePropertyAccessor<SkillContext> _skillContext;
-        private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<UserProfileState> _onboardingState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
         public MainDialog(
@@ -48,7 +51,7 @@ namespace VirtualAssistantSample.Dialogs
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
-            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _onboardingState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
@@ -77,6 +80,8 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             var activity = dc.Context.Activity;
+            var userProfile = await _onboardingState.GetAsync(dc.Context, () => new UserProfileState());
+
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // If the active dialog is a Skill, do not interrupt.
@@ -95,23 +100,30 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     case GeneralLuis.Intent.Cancel:
                         {
-                            var template = _templateEngine.EvaluateTemplate("cancelledMessage");
-                            var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                            // No need to send the usual dialog completion message for utility capabilities such as these.
+                            dc.Context.TurnState.TryAdd("SuppressCompleteMessage", true);
+
+                            var template = _templateEngine.EvaluateTemplate("cancelledMessage", userProfile);
+                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
                             await dc.Context.SendActivityAsync(response);
                             await dc.CancelAllDialogsAsync();
+
                             return InterruptionAction.End;
                         }
 
                     case GeneralLuis.Intent.Escalate:
                         {
-                            var template = _templateEngine.EvaluateTemplate("escalateMessage");
-                            var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                            var template = _templateEngine.EvaluateTemplate("escalateMessage", userProfile);
+                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
                             await dc.Context.SendActivityAsync(response);
                             return InterruptionAction.Resume;
                         }
 
                     case GeneralLuis.Intent.Help:
                         {
+                            // No need to send the usual dialog completion message for utility capabilities such as these.
+                            dc.Context.TurnState.TryAdd("SuppressCompleteMessage", true);
+
                             if (isSkill)
                             {
                                 // If current dialog is a skill, allow it to handle its own help intent.
@@ -120,8 +132,8 @@ namespace VirtualAssistantSample.Dialogs
                             }
                             else
                             {
-                                var template = _templateEngine.EvaluateTemplate("helpCard");
-                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                var template = _templateEngine.EvaluateTemplate("helpCard", userProfile);
+                                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
                                 await dc.Context.SendActivityAsync(response);
                                 return InterruptionAction.Resume;
                             }
@@ -129,9 +141,12 @@ namespace VirtualAssistantSample.Dialogs
 
                     case GeneralLuis.Intent.Logout:
                         {
+                            // No need to send the usual dialog completion message for utility capabilities such as these.
+                            dc.Context.TurnState.TryAdd("SupressDialogCompletionMessage", true);
+
                             await LogUserOut(dc);
-                            var template = _templateEngine.EvaluateTemplate("logoutMessage");
-                            var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                            var template = _templateEngine.EvaluateTemplate("logoutMessage", userProfile);
+                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
                             await dc.Context.SendActivityAsync(response);
                             return InterruptionAction.End;
                         }
@@ -144,6 +159,9 @@ namespace VirtualAssistantSample.Dialogs
 
                     case GeneralLuis.Intent.Repeat:
                         {
+                            // No need to send the usual dialog completion message for utility capabilities such as these.
+                            dc.Context.TurnState.TryAdd("SupressDialogCompletionMessage", true);
+
                             // Sends the activities since the last user message again.
                             var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
 
@@ -164,13 +182,13 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            var onboardingState = await _onboardingState.GetAsync(innerDc.Context, () => new OnboardingState());
+            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
 
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Send intro card
-                var template = _templateEngine.EvaluateTemplate("newUserIntroCard");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
+                var template = _templateEngine.EvaluateTemplate("newUserIntroCard", userProfile);
+                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
                 await innerDc.Context.SendActivityAsync(response);
 
                 // Start onboarding dialog
@@ -179,8 +197,8 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 // Send returning user intro card
-                var template = _templateEngine.EvaluateTemplate("returningUserIntroCard");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
+                var template = _templateEngine.EvaluateTemplate("returningUserIntroCard", userProfile);
+                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
                 await innerDc.Context.SendActivityAsync(response);
             }
         }
@@ -188,6 +206,7 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity.AsMessageActivity();
+            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
@@ -216,8 +235,8 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    var template = _templateEngine.EvaluateTemplate("confusedMessage");
-                    var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
+                    var template = _templateEngine.EvaluateTemplate("confusedMessage", userProfile);
+                    var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
                     await innerDc.Context.SendActivityAsync(response);
                 }
             }
@@ -283,9 +302,23 @@ namespace VirtualAssistantSample.Dialogs
 
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken = default)
         {
-            var template = _templateEngine.EvaluateTemplate("completedMessage");
-            var response = await _activityGenerator.CreateActivityFromText(template, null, outerDc.Context, _langGenerator);
-            await outerDc.Context.SendActivityAsync(response);
+            var userProfile = await _onboardingState.GetAsync(outerDc.Context, () => new UserProfileState());
+
+            // Default to sending a dialog complete message
+            bool suppressCompleteMessage = false;
+
+            // The dialog that is completing can choose to override the automatic dialog completion message if it's performed it's own.
+            if (outerDc.Context.TurnState.TryGetValue("SuppressCompleteMessage", out object supressCompletionMessage))
+            {
+                suppressCompleteMessage = (bool)supressCompletionMessage;
+            }
+
+            if (!suppressCompleteMessage)
+            {
+                var template = _templateEngine.EvaluateTemplate("completedMessage", userProfile);
+                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, outerDc.Context, _langGenerator);
+                await outerDc.Context.SendActivityAsync(response);
+            }
         }
 
         private async Task LogUserOut(DialogContext dc)
@@ -314,6 +347,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task CallQnAMaker(DialogContext innerDc, QnAMaker qnaMaker)
         {
+            var userProfile = await _onboardingState.GetAsync(innerDc.Context, () => new UserProfileState());
+
             var answers = await qnaMaker.GetAnswersAsync(innerDc.Context);
 
             if (answers != null && answers.Count() > 0)
@@ -322,8 +357,8 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("confusedMessage");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
+                var template = _templateEngine.EvaluateTemplate("confusedMessage", userProfile);
+                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
                 await innerDc.Context.SendActivityAsync(response);
             }
         }

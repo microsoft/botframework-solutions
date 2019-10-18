@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using System.Collections.Generic;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
@@ -27,8 +28,7 @@ namespace VirtualAssistantSample.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message:{exception.Message}, Stack: {exception.StackTrace}"));
                 await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
                 telemetryClient.TrackException(exception);
             };
@@ -42,6 +42,16 @@ namespace VirtualAssistantSample.Adapters
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()
+            {
+                FeedbackActions = new List<CardAction>()
+                {
+                new CardAction(ActionTypes.PostBack, title: "🙂", value: "positive"),
+                new CardAction(ActionTypes.PostBack, title: "😐", value: "neutral"),
+                new CardAction(ActionTypes.PostBack, title: "🙁", value: "negative"),
+                },
+                CommentsEnabled = true
+            }));
         }
     }
 }
