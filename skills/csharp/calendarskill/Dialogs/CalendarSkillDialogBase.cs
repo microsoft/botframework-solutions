@@ -173,6 +173,7 @@ namespace CalendarSkill.Dialogs
                         if (item.IsCancelled != true)
                         {
                             state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time;
                         }
                     }
                 }
@@ -186,6 +187,49 @@ namespace CalendarSkill.Dialogs
                         if (item.IsCancelled != true)
                         {
                             state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Title;
+                        }
+                    }
+                }
+
+                // search by participants without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any() && state.MeetingInfor.ContactInfor.ContactsNameList.Any())
+                {
+                    var utcNow = DateTime.UtcNow;
+                    var searchedMeeting = await calendarService.GetEventsByTimeAsync(utcNow, utcNow.AddDays(14));
+
+                    foreach (var item in searchedMeeting)
+                    {
+                        var containsAllContacts = true;
+                        foreach (var contactName in state.MeetingInfor.ContactInfor.ContactsNameList)
+                        {
+                            if (!item.ContainsAttendee(contactName))
+                            {
+                                containsAllContacts = false;
+                                break;
+                            }
+                        }
+
+                        if (containsAllContacts && item.IsCancelled != true)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Attendee;
+                        }
+                    }
+                }
+
+                // search by location without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any() && !string.IsNullOrEmpty(state.MeetingInfor.Location))
+                {
+                    var utcNow = DateTime.UtcNow;
+                    var searchedMeeting = await calendarService.GetEventsByTimeAsync(utcNow, utcNow.AddDays(14));
+
+                    foreach (var item in searchedMeeting)
+                    {
+                        if (item.Location.Contains(state.MeetingInfor.Location) && item.IsCancelled != true)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Location;
                         }
                     }
                 }
@@ -527,7 +571,7 @@ namespace CalendarSkill.Dialogs
                     OverlapEventCount = state.ShowMeetingInfor.TotalConflictCount.ToString(),
                     TotalEventCountUnit = string.Format(
                         state.ShowMeetingInfor.ShowingMeetings.Count == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
-                        state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower),
+                        GetSearchConditionString(state)),
                     OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
                     Provider = string.Format(CalendarCommonStrings.OverviewEventSource, currentEvents[0].SourceString()),
                     UserPhoto = await GetMyPhotoUrlAsync(context),
@@ -620,6 +664,33 @@ namespace CalendarSkill.Dialogs
             participantContainerList.Add(participantContainerCard);
 
             return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+        }
+
+        protected string GetSearchConditionString(CalendarSkillState state)
+        {
+            switch (state.ShowMeetingInfor.Condition)
+            {
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time:
+                    {
+                        if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TodayLower, StringComparison.InvariantCultureIgnoreCase) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TomorrowLower, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            return (state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower).ToLower();
+                        }
+
+                        return string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString);
+                    }
+
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Title:
+                    return string.Format(CalendarCommonStrings.ShowEventTitleCondition, state.MeetingInfor.Title);
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Attendee:
+                    return string.Format(CalendarCommonStrings.ShowEventContactCondition, string.Join(", ", state.MeetingInfor.ContactInfor.ContactsNameList));
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Location:
+                    return string.Format(CalendarCommonStrings.ShowEventLocationCondition, state.MeetingInfor.Location);
+            }
+
+            return null;
         }
 
         protected List<EventModel> GetFilteredEvents(CalendarSkillState state, string userInput, string locale, out string showingCardTitle)
@@ -1104,6 +1175,21 @@ namespace CalendarSkill.Dialogs
                             if (entity.OrderReference != null)
                             {
                                 state.MeetingInfor.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
+                            if (entity.Subject != null)
+                            {
+                                state.MeetingInfor.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                            }
+
+                            if (entity.Location != null)
+                            {
+                                state.MeetingInfor.Location = GetLocationFromEntity(entity);
                             }
 
                             if (entity.FromDate != null)
