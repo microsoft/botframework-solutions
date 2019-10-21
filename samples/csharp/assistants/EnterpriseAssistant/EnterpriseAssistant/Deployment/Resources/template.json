@@ -102,11 +102,18 @@
     "qnaMakerWebAppName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qnahost')]"
+    },
+    "calendarSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "calendarSkillMicrosoftAppPassword": {
+      "type": "string"
     }
   },
   "variables": {
     "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]",
-    "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
+    "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
+    "calendarSkillARMLink": "https://raw.githubusercontent.com/microsoft/botframework-solutions/master/skills/src/csharp/calendarskill/calendarskill/Deployment/Resources/template.json"
   },
   "resources": [
     {
@@ -318,7 +325,58 @@
           }
         }
       ]
-    }
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "incremental",
+          "templateLink": {
+              "uri": "[variables('calendarSkillARMLink')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+              "name": {
+                  "value": "[concat(parameters('name'), '-calendar')]"
+              },
+              "location": {
+                "value": "[parameters('location')]"
+              },
+              "microsoftAppId": {
+                "value": "[parameters('calendarSkillMicrosoftAppId')]"
+              },
+              "microsoftAppPassword": {
+                "value": "[parameters('calendarSkillMicrosoftAppPassword')]"
+              },
+              "cosmosDbName": {
+                "value": "[parameters('cosmosDbName')]"
+              },
+              "storageAccountName": {
+                "value": "[parameters('storageAccountName')]"
+              },
+              "appServicePlanName": {
+                "value": "[parameters('appServicePlanName')]"
+              },
+              "appServicePlanSku": {
+                "value": "[parameters('appServicePlanSku')]"
+              },
+              "luisServiceName": {
+                "value": "[parameters('luisServiceName')]"
+              },
+              "luisServiceSku": {
+                "value": "[parameters('luisServiceSku')]"
+              },
+              "luisServiceLocation": {
+                "value": "[parameters('luisServiceLocation')]"
+              }          
+          }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+  }
   ],
   "outputs": {
     "ApplicationInsights": {
