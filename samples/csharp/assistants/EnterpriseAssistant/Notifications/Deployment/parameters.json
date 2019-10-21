@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_vaeventfunction_name": {
+            "value": null
+        },
+        "serverfarms_CentralUSPlan_name": {
+            "value": null
+        },
+        "namespaces_vaeventhub_name": {
+            "value": null
+        },
+        "components_vaeventfunction_name": {
+            "value": null
+        },
+        "storageAccounts_vaeventfunction94c1_name": {
+            "value": null
+        },
+        "namespaces_vaenterprisenotifications_name": {
+            "value": null
+        }
+    }
+}
