@@ -293,5 +293,18 @@ namespace CalendarSkill.Services.MSGraphAPI
                 throw GraphClient.HandleGraphAPIException(ex);
             }
         }
+
+        private async Task<MeetingTimeSuggestionsResult> FindMeetingTimes(IEnumerable<AttendeeBase> attendees, TimeConstraint timeConstraint = null, Duration meetingDuration = null)
+        {
+            try
+            {
+                var suggestion = await _graphClient.Me.FindMeetingTimes(attendees, timeConstraint: timeConstraint).Request().PostAsync();
+                return suggestion;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
     }
 }
