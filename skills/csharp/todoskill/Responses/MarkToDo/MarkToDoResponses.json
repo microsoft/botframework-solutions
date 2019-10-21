@@ -2,8 +2,8 @@
   "AfterTaskCompleted": {
     "replies": [
       {
-        "text": "OK, I have completed '{taskContent}' on your {listType} list as complete.",
-        "speak": "OK, I have completed '{taskContent}' on your {listType} list as complete."
+        "text": "OK, I have marked '{taskContent}' on your {listType} list as complete.",
+        "speak": "OK, I have marked '{taskContent}' on your {listType} list as complete."
       }
     ],
     "inputHint": "ignoringInput"

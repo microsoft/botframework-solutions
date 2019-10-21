@@ -2,8 +2,8 @@
   "AfterTaskCompleted": {
     "replies": [
       {
-        "speak": "好的，我已完成 {listType} 列表中的 {taskContent}。",
-        "text": "好的，我已完成 {listType} 列表中的 {taskContent}。"
+        "speak": "好的，我已经在您的{listType}列表上将“ {taskContent}”标记为完成。",
+        "text": "好的，我已经在您的{listType}列表上将“ {taskContent}”标记为完成。"
       }
     ],
     "inputHint": "ignoringInput"
