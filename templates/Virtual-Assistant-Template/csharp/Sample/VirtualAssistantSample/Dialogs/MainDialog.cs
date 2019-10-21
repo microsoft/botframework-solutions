@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -101,7 +102,7 @@ namespace VirtualAssistantSample.Dialogs
                     case GeneralLuis.Intent.Cancel:
                         {
                             // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.Context.TurnState.TryAdd("SuppressCompleteMessage", true);
+                            dc.ShouldSupressCompletionMessages(true);
 
                             var template = _templateEngine.EvaluateTemplate("cancelledMessage", userProfile);
                             var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
@@ -122,7 +123,7 @@ namespace VirtualAssistantSample.Dialogs
                     case GeneralLuis.Intent.Help:
                         {
                             // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.Context.TurnState.TryAdd("SuppressCompleteMessage", true);
+                            dc.ShouldSupressCompletionMessages(true);
 
                             if (isSkill)
                             {
@@ -142,7 +143,7 @@ namespace VirtualAssistantSample.Dialogs
                     case GeneralLuis.Intent.Logout:
                         {
                             // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.Context.TurnState.TryAdd("SupressDialogCompletionMessage", true);
+                            dc.ShouldSupressCompletionMessages(true);
 
                             await LogUserOut(dc);
                             var template = _templateEngine.EvaluateTemplate("logoutMessage", userProfile);
@@ -160,7 +161,7 @@ namespace VirtualAssistantSample.Dialogs
                     case GeneralLuis.Intent.Repeat:
                         {
                             // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.Context.TurnState.TryAdd("SupressDialogCompletionMessage", true);
+                            dc.ShouldSupressCompletionMessages(true);
 
                             // Sends the activities since the last user message again.
                             var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
@@ -304,16 +305,8 @@ namespace VirtualAssistantSample.Dialogs
         {
             var userProfile = await _userProfileState.GetAsync(outerDc.Context, () => new UserProfileState());
 
-            // Default to sending a dialog complete message
-            bool suppressCompleteMessage = false;
-
             // The dialog that is completing can choose to override the automatic dialog completion message if it's performed it's own.
-            if (outerDc.Context.TurnState.TryGetValue("SuppressCompleteMessage", out object supressCompletionMessage))
-            {
-                suppressCompleteMessage = (bool)supressCompletionMessage;
-            }
-
-            if (!suppressCompleteMessage)
+            if (!outerDc.ShouldSupressCompletionMessages())
             {
                 var template = _templateEngine.EvaluateTemplate("completedMessage", userProfile);
                 var response = await _activityGenerator.CreateActivityFromText(template, userProfile, outerDc.Context, _langGenerator);

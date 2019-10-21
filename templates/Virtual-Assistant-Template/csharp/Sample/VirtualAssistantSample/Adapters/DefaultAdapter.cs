@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -10,7 +11,6 @@ using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using System.Collections.Generic;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
