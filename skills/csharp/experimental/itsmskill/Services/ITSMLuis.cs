@@ -31,10 +31,6 @@ namespace Luis
 
         public class _Entities
         {
-            // Simple entities
-            public string[] CloseReason;
-
-            public string[] TicketDescription;
 
             // Lists
             public string[][] AttributeType;
@@ -46,14 +42,19 @@ namespace Luis
             // Regex entities
             public string[] TicketNumber;
 
+            // Pattern.any
+            public string[] CloseReason;
+
+            public string[] TicketTitle;
+
             // Instance
             public class _Instance
             {
                 public InstanceData[] AttributeType;
                 public InstanceData[] CloseReason;
-                public InstanceData[] TicketDescription;
                 public InstanceData[] TicketNumber;
                 public InstanceData[] TicketState;
+                public InstanceData[] TicketTitle;
                 public InstanceData[] UrgencyLevel;
             }
             [JsonProperty("$instance")]

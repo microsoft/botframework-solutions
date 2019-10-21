@@ -92,8 +92,8 @@
   "EventCreated": {
     "replies": [
       {
-        "text": "已经将下列内容加入你的日程表",
-        "speak": "已经将下列内容加入你的日程表"
+        "text": "我已经把{Subject}加入你的日程表",
+        "speak": "我已经把{Subject}加入你的日程表"
       }
     ],
     "inputHint": "expectingInput"

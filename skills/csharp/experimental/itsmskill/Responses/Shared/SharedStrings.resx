@@ -157,25 +157,25 @@
     <value>Opened at </value>
   </data>
   <data name="TicketState" xml:space="preserve">
-    <value>State: </value>
+    <value>State: {0}</value>
   </data>
   <data name="UpdatedAt" xml:space="preserve">
     <value>Updated at </value>
   </data>
   <data name="Urgency" xml:space="preserve">
-    <value>Urgency: </value>
+    <value>Urgency: {0}</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Description: </value>
+    <value>Description: {0}</value>
   </data>
   <data name="ID" xml:space="preserve">
-    <value>ID: </value>
+    <value>ID: {0}</value>
   </data>
   <data name="AttributeState" xml:space="preserve">
     <value>state</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>Number: </value>
+    <value>Number: {0}</value>
   </data>
   <data name="AttributeNumber" xml:space="preserve">
     <value>number</value>
@@ -191,5 +191,47 @@
   </data>
   <data name="GoPrevious" xml:space="preserve">
     <value>"Go previous" to navigate.</value>
+  </data>
+  <data name="InvalidGetUserId" xml:space="preserve">
+    <value>GetUserId is invalid.</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Powered by **{0}**</value>
+  </data>
+  <data name="TicketActionCloseTitle" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="TicketActionCloseValue" xml:space="preserve">
+    <value>close the ticket {0}</value>
+  </data>
+  <data name="TicketActionUpdateTitle" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="TicketActionUpdateValue" xml:space="preserve">
+    <value>update the ticket {0}</value>
+  </data>
+  <data name="AttributeSearch" xml:space="preserve">
+    <value>text</value>
+  </data>
+  <data name="AttributeTitle" xml:space="preserve">
+    <value>title</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search text: {0}</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title: {0}</value>
+  </data>
+  <data name="GoForwardUtterance" xml:space="preserve">
+    <value>go forward</value>
+  </data>
+  <data name="GoPreviousUtterance" xml:space="preserve">
+    <value>go previous</value>
+  </data>
+  <data name="NoUtterance" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="YesUtterance" xml:space="preserve">
+    <value>yes</value>
   </data>
 </root>

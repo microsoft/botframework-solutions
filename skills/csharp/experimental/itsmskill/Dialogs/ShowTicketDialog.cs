@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,9 +40,9 @@ namespace ITSMSkill.Dialogs
             var showTicket = new WaterfallStep[]
             {
                 ShowConstraints,
-                BeginShowTicketLoop,
-                BeginShowAttributeLoop,
-                LoopShowTicket,
+                //BeginShowTicketLoop,
+                //BeginShowAttributeLoop,
+                //LoopShowTicket,
             };
 
             var showAttribute = new WaterfallStep[]
@@ -61,12 +62,21 @@ namespace ITSMSkill.Dialogs
                 IfContinueShow
             };
 
-            var attributesForShow = new AttributeType[] { AttributeType.Number, AttributeType.Description, AttributeType.Urgency, AttributeType.State };
+            var attributesForShow = new AttributeType[] { AttributeType.Number, AttributeType.Search, AttributeType.Urgency, AttributeType.State };
+
+            var navigateYesNo = new HashSet<GeneralLuis.Intent>()
+            {
+                GeneralLuis.Intent.ShowNext,
+                GeneralLuis.Intent.ShowPrevious,
+                GeneralLuis.Intent.Confirm,
+                GeneralLuis.Intent.Reject
+            };
 
             AddDialog(new WaterfallDialog(Actions.ShowTicket, showTicket) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowAttribute, showAttribute) { TelemetryClient = telemetryClient });
             AddDialog(new AttributeWithNoPrompt(Actions.ShowAttributePrompt, attributesForShow));
             AddDialog(new WaterfallDialog(Actions.ShowTicketLoop, showTicketLoop) { TelemetryClient = telemetryClient });
+            AddDialog(new GeneralPrompt(Actions.ShowNavigatePrompt, navigateYesNo, StateAccessor, ShowNavigateValidator));
 
             InitialDialogId = Actions.ShowTicket;
 
@@ -99,22 +109,22 @@ namespace ITSMSkill.Dialogs
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(state.TicketNumber))
             {
-                sb.AppendLine($"{SharedStrings.TicketNumber}{state.TicketNumber}");
+                sb.AppendLine(string.Format(SharedStrings.TicketNumber, state.TicketNumber));
             }
 
-            if (!string.IsNullOrEmpty(state.TicketDescription))
+            if (!string.IsNullOrEmpty(state.TicketTitle))
             {
-                sb.AppendLine($"{SharedStrings.Description}{state.TicketDescription}");
+                sb.AppendLine(string.Format(SharedStrings.Search, state.TicketTitle));
             }
 
             if (state.UrgencyLevel != UrgencyLevel.None)
             {
-                sb.AppendLine($"{SharedStrings.Urgency}{state.UrgencyLevel.ToLocalizedString()}");
+                sb.AppendLine(string.Format(SharedStrings.Urgency, state.UrgencyLevel.ToLocalizedString()));
             }
 
             if (state.TicketState != TicketState.None)
             {
-                sb.AppendLine($"{SharedStrings.TicketState}{state.TicketState.ToLocalizedString()}");
+                sb.AppendLine(string.Format(SharedStrings.TicketState, state.TicketState.ToLocalizedString()));
             }
 
             if (sb.Length == 0)
@@ -131,12 +141,26 @@ namespace ITSMSkill.Dialogs
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(TicketResponses.ShowConstraints, token));
             }
 
-            return await sc.NextAsync();
+            state.PageIndex = -1;
+
+            return await sc.ReplaceDialogAsync(Actions.ShowTicketLoop);
         }
 
         protected async Task<DialogTurnResult> LoopShowTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.ReplaceDialogAsync(Actions.ShowTicket);
+        }
+
+        protected new async Task<DialogTurnResult> SetAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (sc.Result == null)
+            {
+                return await sc.ReplaceDialogAsync(Actions.ShowTicket);
+            }
+
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.AttributeType = (AttributeType)sc.Result;
+            return await sc.NextAsync();
         }
 
         protected async Task<DialogTurnResult> LoopShowAttribute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -147,6 +171,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> ShowTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.InterruptedIntent = ITSMLuis.Intent.None;
 
             bool firstDisplay = false;
             if (state.PageIndex == -1)
@@ -155,7 +180,7 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
 
             var urgencies = new List<UrgencyLevel>();
             if (state.UrgencyLevel != UrgencyLevel.None)
@@ -169,7 +194,7 @@ namespace ITSMSkill.Dialogs
                 states.Add(state.TicketState);
             }
 
-            var countResult = await management.CountTicket(description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
+            var countResult = await management.CountTicket(query: state.TicketTitle, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!countResult.Success)
             {
@@ -181,7 +206,7 @@ namespace ITSMSkill.Dialogs
             state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
 
             // TODO handle consistency with count
-            var result = await management.SearchTicket(state.PageIndex, description: state.TicketDescription, urgencies: urgencies, number: state.TicketNumber, states: states);
+            var result = await management.SearchTicket(state.PageIndex, query: state.TicketTitle, urgencies: urgencies, number: state.TicketNumber, states: states);
 
             if (!result.Success)
             {
@@ -220,37 +245,36 @@ namespace ITSMSkill.Dialogs
                 var cards = new List<Card>();
                 foreach (var ticket in result.Tickets)
                 {
-                    cards.Add(new Card()
-                    {
-                        Name = GetDivergedCardName(sc.Context, "Ticket"),
-                        Data = ConvertTicket(ticket)
-                    });
+                    cards.Add(GetTicketCard(sc.Context, ticket));
                 }
 
-                var token = new StringDictionary()
-                {
-                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
-                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
-                };
+                await sc.Context.SendActivityAsync(GetCardsWithIndicator(state.PageIndex, maxPage, cards));
 
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetCardResponse(TicketResponses.TicketShow, cards, token)
+                    Prompt = GetNavigatePrompt(sc.Context, TicketResponses.TicketShow, state.PageIndex, maxPage),
                 };
 
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
-
-                return await sc.PromptAsync(Actions.NavigateYesNoPrompt, options);
+                return await sc.PromptAsync(Actions.ShowNavigatePrompt, options);
             }
         }
 
         protected async Task<DialogTurnResult> IfContinueShow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (state.InterruptedIntent == ITSMLuis.Intent.TicketClose)
+            {
+                return await sc.ReplaceDialogAsync(nameof(CloseTicketDialog));
+            }
+            else if (state.InterruptedIntent == ITSMLuis.Intent.TicketUpdate)
+            {
+                return await sc.ReplaceDialogAsync(nameof(UpdateTicketDialog));
+            }
+            else if (state.InterruptedIntent != ITSMLuis.Intent.None)
+            {
+                throw new Exception($"Invalid InterruptedIntent {state.InterruptedIntent}");
+            }
+
             var intent = (GeneralLuis.Intent)sc.Result;
             if (intent == GeneralLuis.Intent.Reject)
             {
@@ -259,23 +283,49 @@ namespace ITSMSkill.Dialogs
             }
             else if (intent == GeneralLuis.Intent.Confirm)
             {
-                return await sc.EndDialogAsync();
+                return await sc.ReplaceDialogAsync(Actions.ShowAttribute);
             }
             else if (intent == GeneralLuis.Intent.ShowNext)
             {
-                var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
                 state.PageIndex += 1;
                 return await sc.ReplaceDialogAsync(Actions.ShowTicketLoop);
             }
             else if (intent == GeneralLuis.Intent.ShowPrevious)
             {
-                var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
                 state.PageIndex = Math.Max(0, state.PageIndex - 1);
                 return await sc.ReplaceDialogAsync(Actions.ShowTicketLoop);
             }
             else
             {
-                throw new Exception($"Invalid GeneralLuis.Intent ${intent}");
+                throw new Exception($"Invalid GeneralLuis.Intent {intent}");
+            }
+        }
+
+        protected async Task<bool> ShowNavigateValidator(PromptValidatorContext<GeneralLuis.Intent> promptContext, CancellationToken cancellationToken)
+        {
+            if (promptContext.Recognized.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.CognitiveModelSets[locale];
+                localeConfig.LuisServices.TryGetValue("ITSM", out var service);
+                var result = await service.RecognizeAsync<ITSMLuis>(promptContext.Context, CancellationToken.None);
+                var topIntent = result.TopIntent();
+
+                if (topIntent.score > 0.5 && (topIntent.intent == ITSMLuis.Intent.TicketClose || topIntent.intent == ITSMLuis.Intent.TicketUpdate))
+                {
+                    var state = await StateAccessor.GetAsync(promptContext.Context);
+                    state.DigestLuisResult(result, topIntent.intent);
+                    state.InterruptedIntent = topIntent.intent;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

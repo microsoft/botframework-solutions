@@ -22,7 +22,8 @@ namespace CalendarSkill.Utilities
                 { AskParameterType.AskForLocation, CalendarCommonStrings.AskForLocation },
                 { AskParameterType.AskForAttendee, CalendarCommonStrings.AskForAttendee },
                 { AskParameterType.AskForTitle, CalendarCommonStrings.AskForTitle },
-                { AskParameterType.AskForContent, CalendarCommonStrings.AskForContent }
+                { AskParameterType.AskForContent, CalendarCommonStrings.AskForContent },
+                { AskParameterType.AskForDate, CalendarCommonStrings.AskForDate }
             };
         }
 

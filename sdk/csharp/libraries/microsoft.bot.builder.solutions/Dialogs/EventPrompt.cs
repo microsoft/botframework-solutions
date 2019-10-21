@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -6,12 +7,15 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions
 {
+    /// <summary>
+    /// Event prompt that enables Bots to wait for a incoming event matching a given name to be received.
+    /// </summary>
     public class EventPrompt : ActivityPrompt
     {
         public EventPrompt(string dialogId, string eventName, PromptValidator<Activity> validator)
             : base(dialogId, validator)
         {
-            EventName = eventName;
+            EventName = eventName ?? throw new ArgumentNullException(nameof(eventName));
         }
 
         public string EventName { get; set; }
@@ -21,7 +25,7 @@ namespace Microsoft.Bot.Builder.Solutions
             var result = new PromptRecognizerResult<Activity>();
             var activity = turnContext.Activity;
 
-            if (activity.Type == ActivityTypes.Event)
+            if (activity.Type == ActivityTypes.Event && !string.IsNullOrEmpty(activity.Name))
             {
                 var ev = activity.AsEventActivity();
 

@@ -1,0 +1,47 @@
+﻿# TicketCreate
+
+> add
+
+- add a new ticket
+- add a ticket
+- add a ticket about {TicketTitle}
+- add a ticket for {TicketTitle}
+- add an incident
+- add an issue for {TicketTitle}
+- add issue for {TicketTitle}
+- i would like to add a ticket
+- please add a new issue for {TicketTitle}
+- please add a new ticket about {TicketTitle}
+
+> create
+
+- a new ticket about {TicketTitle} needs to be created
+- create a ticket
+- create a ticket about {TicketTitle}
+- create a ticket for {TicketTitle}
+- create a ticket to {TicketTitle}
+- create an incident for {TicketTitle}
+- create an issue for {TicketTitle}
+- i would like to create for {TicketTitle}
+- i'd like to create a ticket
+
+> open
+
+- a new ticket about {TicketTitle} needs to be opened
+- i would like to open a ticket about {TicketTitle}
+- open a ticket
+- open a ticket about {TicketTitle}
+- open a ticket for {TicketTitle}
+- open an incident about {TicketTitle}
+
+> raise
+
+- raise a ticket
+- raise an incident
+- raise an issue
+- raise an issue for {TicketTitle}
+
+> submit
+
+- submit issue about {TicketTitle}
+- submit issue for {TicketTitle}

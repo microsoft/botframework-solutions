@@ -1,31 +1,31 @@
-﻿                                                                                                                                                                                                                                                                                                                                          using System;
-                                                                                                                                                                                                                                                                                                                                          using System.Collections.Generic;
-                                                                                                                                                                                                                                                                                                                                          using System.Collections.Specialized;
-                                                                                                                                                                                                                                                                                                                                          using System.Linq;
-                                                                                                                                                                                                                                                                                                                                          using System.Text.RegularExpressions;
-                                                                                                                                                                                                                                                                                                                                          using System.Threading;
-                                                                                                                                                                                                                                                                                                                                          using System.Threading.Tasks;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Models;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Models.DialogOptions;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.CreateEvent;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.FindContact;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Responses.Shared;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Services;
-                                                                                                                                                                                                                                                                                                                                          using CalendarSkill.Utilities;
-                                                                                                                                                                                                                                                                                                                                          using Luis;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Dialogs;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Dialogs.Choices;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Skills;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Extensions;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Resources;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Responses;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Builder.Solutions.Util;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Bot.Connector.Authentication;
-                                                                                                                                                                                                                                                                                                                                          using Microsoft.Graph;
-                                                                                                                                                                                                                                                                                                                                          using static CalendarSkill.Models.CalendarSkillState;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
+using CalendarSkill.Responses.CreateEvent;
+using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.Shared;
+using CalendarSkill.Services;
+using CalendarSkill.Utilities;
+using Luis;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Graph;
+using static CalendarSkill.Models.CalendarSkillState;
 
-                                                                                                                                                                                                                                                                                                                                          namespace CalendarSkill.Dialogs
+namespace CalendarSkill.Dialogs
 {
     public class FindContactDialog : CalendarSkillDialogBase
     {
@@ -89,6 +89,9 @@
                 // if got multiple persons, call selectPerson. use replace
                 // if got no person, replace/restart this flow.
                 AfterUpdateUserName,
+                GetAuthToken,
+                AfterGetAuthToken,
+                GetUserFromUserName
             };
 
             // select person, called bt updateName with replace.
@@ -315,10 +318,20 @@
                 }
 
                 var name = confirmedPerson.DisplayName;
+                var userString = string.Empty;
+                if (!name.Equals(confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName))
+                {
+                    userString = name + ": ";
+                }
+
+                userString += confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName;
+
                 if (confirmedPerson.Emails.Count() == 1)
                 {
                     // Highest probability
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+
+                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -340,28 +353,18 @@
                 var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
 
-                // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                if (!(sc.Result is bool) || (bool)sc.Result)
+                var attendee = new EventModel.Attendee
                 {
-                    var attendee = new EventModel.Attendee
-                    {
-                        DisplayName = name,
-                        Address = confirmedPerson.Emails.First().Address,
-                        UserPrincipalName = confirmedPerson.UserPrincipalName
-                    };
-                    if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
-                    {
-                        state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
-                    }
+                    DisplayName = name,
+                    Address = confirmedPerson.Emails.First().Address,
+                    UserPrincipalName = confirmedPerson.UserPrincipalName
+                };
+                if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
+                {
+                    state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
+                }
 
-                    return await sc.EndDialogAsync();
-                }
-                else
-                {
-                    var options = sc.Options as FindContactDialogOptions;
-                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, options);
-                }
+                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -451,8 +454,24 @@
                     return await sc.EndDialogAsync();
                 }
 
-                var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
-                state.MeetingInfor.ContactInfor.CurrentContactName = currentRecipientName;
+                state.MeetingInfor.ContactInfor.CurrentContactName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> GetUserFromUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (FindContactDialogOptions)sc.Options;
+                var currentRecipientName = state.MeetingInfor.ContactInfor.CurrentContactName;
 
                 // if it's an email, add to attendee and kepp the state.MeetingInfor.ContactInfor.ConfirmedContact null
                 if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
@@ -785,8 +804,8 @@
                 var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}") } })
                 }, cancellationToken);
             }
             catch (Exception ex)

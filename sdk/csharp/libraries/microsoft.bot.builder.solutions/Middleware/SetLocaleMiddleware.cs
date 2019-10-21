@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
 
         public SetLocaleMiddleware(string defaultLocale)
         {
-            _defaultLocale = defaultLocale;
+            _defaultLocale = defaultLocale ?? throw new ArgumentNullException(nameof(defaultLocale));
         }
 
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))

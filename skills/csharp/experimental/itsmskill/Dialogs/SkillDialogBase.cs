@@ -56,6 +56,20 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
 
+            var setSearch = new WaterfallStep[]
+            {
+                CheckSearch,
+                InputSearch,
+                SetTitle
+            };
+
+            var setTitle = new WaterfallStep[]
+            {
+                CheckTitle,
+                InputTitle,
+                SetTitle
+            };
+
             var setDescription = new WaterfallStep[]
             {
                 CheckDescription,
@@ -126,6 +140,8 @@ namespace ITSMSkill.Dialogs
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new TicketNumberPrompt(nameof(TicketNumberPrompt)));
+            AddDialog(new WaterfallDialog(Actions.SetSearch, setSearch));
+            AddDialog(new WaterfallDialog(Actions.SetTitle, setTitle));
             AddDialog(new WaterfallDialog(Actions.SetDescription, setDescription));
             AddDialog(new WaterfallDialog(Actions.SetUrgency, setUrgency));
             AddDialog(new WaterfallDialog(Actions.SetId, setId));
@@ -205,20 +221,13 @@ namespace ITSMSkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    state.Token = providerTokenResponse.TokenResponse;
+                    return await sc.NextAsync(providerTokenResponse.TokenResponse);
                 }
                 else
-                {
-                    state.Token = null;
-                }
-
-                if (state.Token == null)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.AuthFailed));
                     return await sc.CancelAllDialogsAsync();
                 }
-
-                return await sc.NextAsync();
             }
             catch (SkillException ex)
             {
@@ -234,7 +243,7 @@ namespace ITSMSkill.Dialogs
 
         protected async Task<DialogTurnResult> BeginInitialDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(InitialDialogId);
+            return await sc.ReplaceDialogAsync(InitialDialogId);
         }
 
         protected async Task<DialogTurnResult> CheckId(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -348,6 +357,16 @@ namespace ITSMSkill.Dialogs
                 state.TicketDescription = null;
                 return await sc.BeginDialogAsync(Actions.SetDescription);
             }
+            else if (attribute == AttributeType.Title)
+            {
+                state.TicketTitle = null;
+                return await sc.BeginDialogAsync(Actions.SetTitle);
+            }
+            else if (attribute == AttributeType.Search)
+            {
+                state.TicketTitle = null;
+                return await sc.BeginDialogAsync(Actions.SetSearch);
+            }
             else if (attribute == AttributeType.Urgency)
             {
                 state.UrgencyLevel = UrgencyLevel.None;
@@ -372,6 +391,96 @@ namespace ITSMSkill.Dialogs
             {
                 throw new Exception($"Invalid AttributeType: {attribute}");
             }
+        }
+
+        // Actually Title
+        protected async Task<DialogTurnResult> CheckSearch(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketTitle))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Search", state.TicketTitle }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmSearch, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputSearch(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketTitle))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputSearch)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketTitle);
+            }
+        }
+
+        protected async Task<DialogTurnResult> CheckTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (string.IsNullOrEmpty(state.TicketTitle))
+            {
+                return await sc.NextAsync(false);
+            }
+            else
+            {
+                var replacements = new StringDictionary
+                {
+                    { "Title", state.TicketTitle }
+                };
+
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.ConfirmTitle, replacements)
+                };
+
+                return await sc.PromptAsync(nameof(ConfirmPrompt), options);
+            }
+        }
+
+        protected async Task<DialogTurnResult> InputTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            if (!(bool)sc.Result || string.IsNullOrEmpty(state.TicketTitle))
+            {
+                var options = new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(SharedResponses.InputTitle)
+                };
+
+                return await sc.PromptAsync(nameof(TextPrompt), options);
+            }
+            else
+            {
+                return await sc.NextAsync(state.TicketTitle);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SetTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
+            state.TicketTitle = (string)sc.Result;
+            return await sc.NextAsync();
         }
 
         protected async Task<DialogTurnResult> CheckDescription(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -498,7 +607,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> SetIdFromNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
             var result = await management.SearchTicket(0, number: state.TicketNumber);
 
             if (!result.Success)
@@ -521,11 +630,7 @@ namespace ITSMSkill.Dialogs
             state.TicketTarget = result.Tickets[0];
             state.Id = state.TicketTarget.Id;
 
-            var card = new Card()
-            {
-                Name = GetDivergedCardName(sc.Context, "Ticket"),
-                Data = ConvertTicket(state.TicketTarget)
-            };
+            var card = GetTicketCard(sc.Context, state.TicketTarget, false);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketTarget, card, null));
             return await sc.NextAsync();
@@ -693,9 +798,9 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, state.Token);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
 
-            var countResult = await management.CountKnowledge(state.TicketDescription);
+            var countResult = await management.CountKnowledge(state.TicketTitle);
 
             if (!countResult.Success)
             {
@@ -707,7 +812,7 @@ namespace ITSMSkill.Dialogs
             state.PageIndex = Math.Max(0, Math.Min(state.PageIndex, maxPage));
 
             // TODO handle consistency with count
-            var result = await management.SearchKnowledge(state.TicketDescription, state.PageIndex);
+            var result = await management.SearchKnowledge(state.TicketTitle, state.PageIndex);
 
             if (!result.Success)
             {
@@ -753,23 +858,12 @@ namespace ITSMSkill.Dialogs
                     });
                 }
 
-                var token = new StringDictionary()
-                {
-                    { "Page", $"{state.PageIndex + 1}/{maxPage + 1}" },
-                    { "Navigate", GetNavigateString(state.PageIndex, maxPage) },
-                };
+                await sc.Context.SendActivityAsync(GetCardsWithIndicator(state.PageIndex, maxPage, cards));
 
                 var options = new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetCardResponse(ShowKnowledgeResponse, cards, token)
+                    Prompt = GetNavigatePrompt(sc.Context, ShowKnowledgeResponse, state.PageIndex, maxPage),
                 };
-
-                // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
-                if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
-                {
-                    await sc.Context.SendActivityAsync(options.Prompt);
-                    options.Prompt = null;
-                }
 
                 return await sc.PromptAsync(ShowKnowledgePrompt, options);
             }
@@ -884,19 +978,97 @@ namespace ITSMSkill.Dialogs
             }
         }
 
+        protected IList<Choice> GetNavigateList(int page, int maxPage)
+        {
+            var result = new List<Choice>() { new Choice(SharedStrings.YesUtterance), new Choice(SharedStrings.NoUtterance) };
+            if (page == 0)
+            {
+                if (maxPage == 0)
+                {
+                }
+                else
+                {
+                    result.Add(new Choice(SharedStrings.GoForwardUtterance));
+                }
+            }
+            else if (page == maxPage)
+            {
+                result.Add(new Choice(SharedStrings.GoPreviousUtterance));
+            }
+            else
+            {
+                result.Add(new Choice(SharedStrings.GoForwardUtterance));
+                result.Add(new Choice(SharedStrings.GoPreviousUtterance));
+            }
+
+            return result;
+        }
+
+        protected Activity GetNavigatePrompt(ITurnContext context, string response, int pageIndex, int maxPage)
+        {
+            var token = new StringDictionary()
+            {
+                { "Navigate", GetNavigateString(pageIndex, maxPage) },
+            };
+
+            var prompt = ResponseManager.GetResponse(response, token);
+
+            return ChoiceFactory.ForChannel(context.Activity.ChannelId, GetNavigateList(pageIndex, maxPage), prompt.Text, prompt.Speak) as Activity;
+        }
+
+        protected Activity GetCardsWithIndicator(int pageIndex, int maxPage, IList<Card> cards)
+        {
+            if (maxPage == 0)
+            {
+                return ResponseManager.GetCardResponse(cards.Count == 1 ? SharedResponses.ResultIndicator : SharedResponses.ResultsIndicator, cards);
+            }
+            else
+            {
+                var token = new StringDictionary()
+                {
+                    { "Current", (pageIndex + 1).ToString() },
+                    { "Total", (maxPage + 1).ToString() },
+                };
+
+                return ResponseManager.GetCardResponse(SharedResponses.PageIndicator, cards, token);
+            }
+        }
+
+        protected Card GetTicketCard(ITurnContext turnContext, Ticket ticket, bool showButton = true)
+        {
+            var name = showButton ? (ticket.State != TicketState.Closed ? "TicketUpdateClose" : "TicketUpdate") : "Ticket";
+
+            return new Card
+            {
+                Name = GetDivergedCardName(turnContext, name),
+                Data = ConvertTicket(ticket)
+            };
+        }
+
         protected TicketCard ConvertTicket(Ticket ticket)
         {
             var card = new TicketCard()
             {
+                Title = ticket.Title,
                 Description = ticket.Description,
-                UrgencyLevel = $"{SharedStrings.Urgency}{ticket.Urgency.ToLocalizedString()}",
-                State = $"{SharedStrings.TicketState}{ticket.State.ToLocalizedString()}",
-                OpenedTime = $"{SharedStrings.OpenedAt}{ticket.OpenedTime.ToString()}",
-                Id = $"{SharedStrings.ID}{ticket.Id}",
+                UrgencyLevel = string.Format(SharedStrings.Urgency, ticket.Urgency.ToLocalizedString()),
+                State = string.Format(SharedStrings.TicketState, ticket.State.ToLocalizedString()),
+                OpenedTime = string.Format(SharedStrings.OpenedAt, ticket.OpenedTime.ToString()),
+                Id = string.Format(SharedStrings.ID, ticket.Id),
                 ResolvedReason = ticket.ResolvedReason,
                 Speak = ticket.Description,
-                Number = $"{SharedStrings.TicketNumber}{ticket.Number}",
+                Number = string.Format(SharedStrings.TicketNumber, ticket.Number),
+                ActionUpdateTitle = SharedStrings.TicketActionUpdateTitle,
+                ActionUpdateValue = string.Format(SharedStrings.TicketActionUpdateValue, ticket.Number),
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, ticket.Provider),
             };
+
+            if (ticket.State != TicketState.Closed)
+            {
+                card.ActionCloseTitle = SharedStrings.TicketActionCloseTitle;
+                card.ActionCloseValue = string.Format(SharedStrings.TicketActionCloseValue, ticket.Number);
+            }
+
             return card;
         }
 
@@ -904,14 +1076,15 @@ namespace ITSMSkill.Dialogs
         {
             var card = new KnowledgeCard()
             {
-                Id = $"{SharedStrings.ID}{knowledge.Id}",
+                Id = string.Format(SharedStrings.ID, knowledge.Id),
                 Title = knowledge.Title,
-                UpdatedTime = $"{SharedStrings.UpdatedAt}{knowledge.UpdatedTime.ToString()}",
+                UpdatedTime = string.Format(SharedStrings.UpdatedAt, knowledge.UpdatedTime.ToString()),
                 Content = knowledge.Content,
                 Speak = knowledge.Title,
-                Number = $"{SharedStrings.TicketNumber}{knowledge.Number}",
+                Number = string.Format(SharedStrings.TicketNumber, knowledge.Number),
                 UrlTitle = SharedStrings.OpenKnowledge,
                 UrlLink = knowledge.Url,
+                ProviderDisplayText = string.Format(SharedStrings.PoweredBy, knowledge.Provider),
             };
             return card;
         }
@@ -930,6 +1103,8 @@ namespace ITSMSkill.Dialogs
 
         protected class Actions
         {
+            public const string SetSearch = "SetSearch";
+            public const string SetTitle = "SetTitle";
             public const string SetDescription = "SetDescription";
             public const string SetUrgency = "SetUrgency";
             public const string SetId = "SetId";
@@ -953,6 +1128,7 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttribute = "ShowAttribute";
             public const string ShowAttributePrompt = "ShowAttributePrompt";
             public const string ShowTicketLoop = "ShowTicketLoop";
+            public const string ShowNavigatePrompt = "ShowNavigatePrompt";
 
             public const string CloseTicket = "CloseTicket";
 

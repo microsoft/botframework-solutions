@@ -36,4 +36,8 @@ public class AppConfiguration {
     @SerializedName("keep_screen_on")
     @Expose
     public Boolean keepScreenOn;
+
+    @SerializedName("app_center_id")
+    @Expose
+    public String appCenterId;
 }

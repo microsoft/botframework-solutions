@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -14,6 +17,9 @@ using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
+    /// <summary>
+    /// Provides the ability to prompt for which Authentication provider the user wishes to use and handles Virtual Assistant and Skill remote authentication scenarios.
+    /// </summary>
     public class MultiProviderAuthDialog : ComponentDialog
     {
         private string _selectedAuthType = string.Empty;
@@ -25,7 +31,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
-            _authenticationConnections = authenticationConnections;
+            _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
             _appCredentials = appCredentials;
 
             _responseManager = new ResponseManager(
@@ -357,7 +363,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
 
             var eventActivity = promptContext.Context.Activity.AsEventActivity();
-            if (eventActivity != null && eventActivity.Name == "tokens/response")
+            if (eventActivity != null && eventActivity.Name == TokenEvents.TokenResponseEventName)
             {
                 promptContext.Recognized.Value = eventActivity.Value as TokenResponse;
                 return Task.FromResult(true);

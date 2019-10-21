@@ -24,7 +24,7 @@ else {
 
 Write-Host "> Getting config file ..."
 $languageMap = @{ }
-$config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
+$config = Get-Content -Encoding utf8 -Raw -Path $configFile | ConvertFrom-Json
 $config.cognitiveModels.PSObject.Properties | Foreach-Object { $languageMap[$_.Name] = $_.Value }
 
 foreach ($langCode in $languageMap.Keys) {

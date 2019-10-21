@@ -1,4 +1,5 @@
 ﻿using Luis;
+using System;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {
@@ -26,6 +27,15 @@ namespace CalendarSkill.Test.Flow.Utterances
             this.Add(WhenNextMeetingMeeting, GetBaseFindMeetingIntent(
                 WhenNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
+            this.Add(FindMeetingByTitle, GetBaseFindMeetingIntent(
+                FindMeetingByTitle,
+                subject: new string[] { Strings.Strings.DefaultEventName }));
+            this.Add(FindMeetingByAttendee, GetBaseFindMeetingIntent(
+                FindMeetingByAttendee,
+                contactName: new string[] { Strings.Strings.DefaultUserName }));
+            this.Add(FindMeetingByLocation, GetBaseFindMeetingIntent(
+                FindMeetingByLocation,
+                location: new string[] { Strings.Strings.DefaultLocation }));
             this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
 
@@ -43,6 +53,12 @@ namespace CalendarSkill.Test.Flow.Utterances
 
         public static string WhenNextMeetingMeeting { get; } = "When is my next meeting";
 
+        public static string FindMeetingByTitle { get; } = $"show my the meeting about {Strings.Strings.DefaultEventName}";
+
+        public static string FindMeetingByAttendee { get; } = $"show my the meeting with {Strings.Strings.DefaultUserName}";
+
+        public static string FindMeetingByLocation { get; } = $"show my the meeting at {Strings.Strings.DefaultLocation}";
+
         private CalendarLuis GetBaseFindMeetingIntent(
             string userInput,
             CalendarLuis.Intent intents = CalendarLuis.Intent.FindCalendarEntry,
@@ -53,7 +69,10 @@ namespace CalendarSkill.Test.Flow.Utterances
             double[] ordinal = null,
             double[] number = null,
             string[] orderReference = null,
-            string[] askParameter = null)
+            string[] askParameter = null,
+            string[] subject = null,
+            string[] contactName = null,
+            string[] location = null)
         {
             return GetCalendarIntent(
                 userInput,
@@ -65,7 +84,10 @@ namespace CalendarSkill.Test.Flow.Utterances
                 ordinal: ordinal,
                 number: number,
                 orderReference: orderReference,
-                askParameter: askParameter);
+                askParameter: askParameter,
+                subject: subject,
+                contactName: contactName,
+                location: location);
         }
     }
 }

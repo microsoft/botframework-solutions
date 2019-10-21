@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Models.ServiceNow;
+using ITSMSkill.Responses.Shared;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers;
@@ -17,6 +18,7 @@ namespace ITSMSkill.Services.ServiceNow
 {
     public class Management : IITServiceManagement
     {
+        private static readonly string Provider = "ServiceNow";
         private static readonly string TicketResource = "now/v1/table/incident";
         private static readonly string TicketCount = "now/v1/stats/incident";
         private static readonly string KnowledgeResource = "now/v1/table/kb_knowledge";
@@ -63,18 +65,16 @@ namespace ITSMSkill.Services.ServiceNow
             this.knowledgeUrl = $"{url}/kb_view.do?sysparm_article={{0}}";
         }
 
-        public async Task<TicketsResult> CreateTicket(string description, UrgencyLevel urgency)
+        public async Task<TicketsResult> CreateTicket(string title, string description, UrgencyLevel urgency)
         {
             try
             {
-                var request = CreateRequest(getUserIdResource);
-                var userId = await client.GetAsync<GetUserIdResponse>(request);
-
-                request = CreateRequest(TicketResource);
+                var request = CreateRequest(TicketResource);
                 var body = new CreateTicketRequest()
                 {
-                    caller_id = userId.result,
-                    short_description = description,
+                    caller_id = await GetUserId(),
+                    short_description = title,
+                    description = description,
                     urgency = UrgencyToString[urgency]
                 };
                 request.AddJsonBody(body);
@@ -96,13 +96,13 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<TicketsResult> SearchTicket(int pageIndex, string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
+        public async Task<TicketsResult> SearchTicket(int pageIndex, string query = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
         {
             try
             {
                 var request = CreateRequest(TicketResource);
 
-                var sysparmQuery = await CreateTicketSearchQuery(description: description, urgencies: urgencies, id: id, states: states, number: number);
+                var sysparmQuery = await CreateTicketSearchQuery(query: query, urgencies: urgencies, id: id, states: states, number: number);
 
                 request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
 
@@ -127,13 +127,13 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<TicketsResult> CountTicket(string description = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
+        public async Task<TicketsResult> CountTicket(string query = null, List<UrgencyLevel> urgencies = null, string id = null, List<TicketState> states = null, string number = null)
         {
             try
             {
                 var request = CreateRequest(TicketCount);
 
-                var sysparmQuery = await CreateTicketSearchQuery(description: description, urgencies: urgencies, id: id, states: states, number: number);
+                var sysparmQuery = await CreateTicketSearchQuery(query: query, urgencies: urgencies, id: id, states: states, number: number);
 
                 request.AddParameter("sysparm_query", string.Join('^', sysparmQuery));
 
@@ -156,12 +156,13 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        public async Task<TicketsResult> UpdateTicket(string id, string description = null, UrgencyLevel urgency = UrgencyLevel.None)
+        public async Task<TicketsResult> UpdateTicket(string id, string title = null, string description = null, UrgencyLevel urgency = UrgencyLevel.None)
         {
             var request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
             var body = new CreateTicketRequest()
             {
-                short_description = description,
+                short_description = title,
+                description = description,
                 urgency = urgency == UrgencyLevel.None ? null : UrgencyToString[urgency]
             };
             request.JsonSerializer = new JsonNoNull();
@@ -191,15 +192,12 @@ namespace ITSMSkill.Services.ServiceNow
             try
             {
                 // minimum field required: https://community.servicenow.com/community?id=community_question&sys_id=84ceb6a5db58dbc01dcaf3231f9619e9
-                var request = CreateRequest(getUserIdResource);
-                var userId = await client.GetAsync<GetUserIdResponse>(request);
-
-                request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
+                var request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
                 var body = new
                 {
                     close_code = "Closed/Resolved by Caller",
                     state = "7",
-                    caller_id = userId.result,
+                    caller_id = await GetUserId(),
                     close_notes = reason
                 };
                 request.JsonSerializer = new JsonNoNull();
@@ -283,19 +281,18 @@ namespace ITSMSkill.Services.ServiceNow
             }
         }
 
-        private async Task<List<string>> CreateTicketSearchQuery(string description, List<UrgencyLevel> urgencies, string id, List<TicketState> states, string number)
+        private async Task<List<string>> CreateTicketSearchQuery(string query, List<UrgencyLevel> urgencies, string id, List<TicketState> states, string number)
         {
-            var request = CreateRequest(getUserIdResource);
-            var userId = await client.GetAsync<GetUserIdResponse>(request);
-
             var sysparmQuery = new List<string>
             {
-                $"caller_id={userId.result}"
+                $"caller_id={await GetUserId()}"
             };
 
-            if (!string.IsNullOrEmpty(description))
+            if (!string.IsNullOrEmpty(query))
             {
-                sysparmQuery.Add($"short_descriptionLIKE{description}");
+                // TODO this does not work well for "issue", "network" etc.
+                // sysparmQuery.Add($"IR_AND_OR_QUERY={query}");
+                sysparmQuery.Add($"short_descriptionLIKE{query}^ORdescriptionLIKE{query}");
             }
 
             if (urgencies != null && urgencies.Count > 0)
@@ -332,16 +329,30 @@ namespace ITSMSkill.Services.ServiceNow
             return sysparmQuery;
         }
 
+        private async Task<string> GetUserId()
+        {
+            var request = CreateRequest(getUserIdResource);
+            var userId = await client.GetAsync<GetUserIdResponse>(request);
+            if (userId == null || string.IsNullOrEmpty(userId.result))
+            {
+                throw new Exception(SharedStrings.InvalidGetUserId);
+            }
+
+            return userId.result;
+        }
+
         private Ticket ConvertTicket(TicketResponse ticketResponse)
         {
             var ticket = new Ticket()
             {
                 Id = ticketResponse.sys_id,
-                Description = ticketResponse.short_description,
+                Title = ticketResponse.short_description,
+                Description = ticketResponse.description,
                 Urgency = StringToUrgency[ticketResponse.urgency],
                 State = StringToTicketState[ticketResponse.state],
                 OpenedTime = DateTime.Parse(ticketResponse.opened_at),
                 Number = ticketResponse.number,
+                Provider = Provider,
             };
 
             if (!string.IsNullOrEmpty(ticketResponse.close_code))
@@ -372,6 +383,7 @@ namespace ITSMSkill.Services.ServiceNow
                 UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on),
                 Number = knowledgeResponse.number,
                 Url = string.Format(knowledgeUrl, knowledgeResponse.number),
+                Provider = Provider,
             };
             if (!string.IsNullOrEmpty(knowledgeResponse.text))
             {
