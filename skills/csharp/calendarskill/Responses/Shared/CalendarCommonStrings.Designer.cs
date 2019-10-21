@@ -160,6 +160,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to what (day|date).
+        /// </summary>
+        public static string AskForDate {
+            get {
+                return ResourceManager.GetString("AskForDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to what (is|are)?.*about.
         /// </summary>
         public static string AskForDetail {
@@ -300,6 +309,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string DefaultTitle {
             get {
                 return ResourceManager.GetString("DefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dddd, MMMM d.
+        /// </summary>
+        public static string DisplayDateLong {
+            get {
+                return ResourceManager.GetString("DisplayDateLong", resourceCulture);
             }
         }
         
