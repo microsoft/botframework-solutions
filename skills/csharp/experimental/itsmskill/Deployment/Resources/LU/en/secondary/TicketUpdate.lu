@@ -1,0 +1,34 @@
+﻿# TicketUpdate
+
+> assign
+
+- Assign incident about {TicketTitle} to medium
+
+> change
+
+- change a ticket
+- change an incident
+- change an issue
+- change ticket's urgency to low
+- change ticket's title to {TicketTitle}
+- i would like to change a ticket
+- i would like to change an incident
+- i would like to change an issue
+- Change incident's urgency to high
+
+> mark
+
+- Mark issue about {TicketTitle} as high importance
+- Mark incident about {TicketTitle} as urgent
+
+> update
+
+- update a ticket
+- update an incident
+- update an issue
+- update ticket's urgency to high
+- update ticket's title to {TicketTitle}
+- i would like to update a ticket
+- i would like to update an incident
+- i would like to update an issue
+- Update issue's title to {TicketTitle}

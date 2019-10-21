@@ -2,11 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
@@ -25,6 +28,12 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
+        public TemplateEngine TemplateEngine { get; set; }
+
+        public ILanguageGenerator LanguageGenerator { get; set; }
+
+        public TextActivityGenerator ActivityGenerator { get; set; }
+
         [TestInitialize]
         public virtual void Initialize()
         {
@@ -38,15 +47,10 @@ namespace VirtualAssistantSample.Tests
                         "en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() }
                             },
-                            QnAServices = new Dictionary<string, ITelemetryQnAMaker>
-                            {
-                                { "Faq", FaqTestUtil.CreateRecognizer() },
-                                { "Chitchat", ChitchatTestUtil.CreateRecognizer() }
-                            }
                         }
                     }
                 }
@@ -63,13 +67,21 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            Services.AddTransient<CancelDialog>();
-            Services.AddTransient<EscalateDialog>();
+            var dir = Directory.GetCurrentDirectory();
+            TemplateEngine = new TemplateEngine()
+                .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
+                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"));
+            LanguageGenerator = new TemplateEngineLanguageGenerator();
+            ActivityGenerator = new TextActivityGenerator();
+
+            Services.AddSingleton(TemplateEngine);
+            Services.AddSingleton(LanguageGenerator);
+            Services.AddSingleton(ActivityGenerator);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()

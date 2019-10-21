@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
@@ -20,18 +19,9 @@ namespace VirtualAssistantSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_Greeting_Message()
-        {
-            await GetTestFlow()
-                .Send(ChitchatUtterances.Greeting)
-                .AssertReply("Hello.")
                 .StartTestAsync();
         }
 
@@ -58,16 +48,7 @@ namespace VirtualAssistantSample.Tests
         {
             await GetTestFlow()
                 .Send("Unhandled message")
-                .AssertReply(MainStrings.CONFUSED)
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_FAQ()
-        {
-            await GetTestFlow()
-                .Send(FaqUtterances.Overview)
-                .AssertReply("Creation of a high quality conversational experience requires a foundational set of capabilities. To help you succeed with building great conversational experiences, we have created an **Enterprise Bot Template**. This template brings together all of the best practices and supporting components we've identified through building of conversational experiences.\n[Learn more](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0)")
+                .AssertReply(TemplateEngine.EvaluateTemplate("confusedMessage"))
                 .StartTestAsync();
         }
     }

@@ -1,0 +1,3 @@
+/build
+!/src/debug
+!**/gradle/wrapper/gradle-wrapper.jar
