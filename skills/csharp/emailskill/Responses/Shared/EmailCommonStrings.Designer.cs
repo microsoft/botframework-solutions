@@ -97,7 +97,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to content.
+        ///   Looks up a localized string similar to body.
         /// </summary>
         public static string Content {
             get {
@@ -106,7 +106,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Content: {0}.
+        ///   Looks up a localized string similar to Body: {0}.
         /// </summary>
         public static string ContentFormat {
             get {
@@ -205,7 +205,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to from {0} recieved {1}.
+        ///   Looks up a localized string similar to recieved {1} from {0}.
         /// </summary>
         public static string FromDetailsFormat {
             get {
@@ -214,7 +214,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to from {0} recieved {1} titled {2}.
+        ///   Looks up a localized string similar to recieved {1} titled {2} from {0}.
         /// </summary>
         public static string FromDetailsFormatAll {
             get {
@@ -223,7 +223,7 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to from {0} recieved {1} titled {2}, content is {3}..
+        ///   Looks up a localized string similar to recieved {1} titled {2} from {0}, content is {3}..
         /// </summary>
         public static string FromDetailsWithContentFormat {
             get {
@@ -304,20 +304,20 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to participants.
-        /// </summary>
-        public static string Participants {
-            get {
-                return ResourceManager.GetString("Participants", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ddd MM/dd.
         /// </summary>
         public static string PreviousDateFormat {
             get {
                 return ResourceManager.GetString("PreviousDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to recipients.
+        /// </summary>
+        public static string Recipients {
+            get {
+                return ResourceManager.GetString("Recipients", resourceCulture);
             }
         }
         
