@@ -37,6 +37,7 @@
     <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.it.json" />
     <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.json" />
     <None Remove="Contextual\Dialogs\ResolveContextualInfoResponses.zh.json" />
+    <None Remove="Contextual\Dialogs\ResolveUnknownUtteranceResponses.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +47,9 @@
     <EmbeddedResource Include="Authentication\AuthenticationResponses.it.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.zh.json" />
+    <EmbeddedResource Include="Contextual\Dialogs\ResolveUnknownUtteranceResponses.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Contextual\Dialogs\ResolveContextualInfoResponses.de.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
@@ -93,6 +97,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AuthenticationResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Contextual\Dialogs\ResolveUnknownUtteranceResponses.cs">
+      <DependentUpon>ResolveUnknownUtteranceResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Contextual\Dialogs\ResolveContextualInfoResponses.cs">
       <DependentUpon>ResolveContextualInfoResponses.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -126,6 +135,10 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Contextual\Dialogs\ResolveUnknownUtteranceResponses.tt">
+      <LastGenOutput>ResolveUnknownUtteranceResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Contextual\Dialogs\ResolveContextualInfoResponses.tt">
       <LastGenOutput>ResolveContextualInfoResponses.cs</LastGenOutput>

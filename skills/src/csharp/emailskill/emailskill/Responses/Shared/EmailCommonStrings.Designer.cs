@@ -376,6 +376,15 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to check my inbox | check my mail box | show my emails | delete this email | forward email | please forward this message | can you read my emails | reply to the email | search my emails | send an email | write email.
+        /// </summary>
+        public static string SkillPrebuildTriggerIntent {
+            get {
+                return ResourceManager.GetString("SkillPrebuildTriggerIntent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to skip | pass | no.
         /// </summary>
         public static string Skip {

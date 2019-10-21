@@ -1,0 +1,21 @@
+{
+  "PromptUnknownUtterance": {
+    "replies": [
+      {
+        "text": "Sorry I don't understand, do you mean {SimularUtterance}?",
+        "speak": "Sorry I don't understand, do you mean {SimularUtterance}?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "DidNotUnderstand": {
+    "replies": [
+      {
+        "text": "Sorry I don't understand.",
+        "speak": "Sorry I don't understand."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+
+}

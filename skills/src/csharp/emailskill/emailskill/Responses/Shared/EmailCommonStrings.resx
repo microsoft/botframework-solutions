@@ -258,4 +258,7 @@
   <data name="DefaultSubject" xml:space="preserve">
     <value />
   </data>
+  <data name="SkillPrebuildTriggerIntent" xml:space="preserve">
+    <value>check my inbox | check my mail box | show my emails | delete this email | forward email | please forward this message | can you read my emails | reply to the email | search my emails | send an email | write email</value>
+  </data>
 </root>

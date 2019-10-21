@@ -15,10 +15,10 @@ using System.Linq;
 
 namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 {
-    public class ResolveContextualInfoDialog : ComponentDialog
+    public class ResolveContextualContactInfoDialog : ComponentDialog
     {
-        private const string _getContextualContactNameDialog = "GetContextualInfoName";
-        private const string _setContextualContactNameDialog = "SetContextualInfoName";
+        private const string _getContextualContactNameDialog = "GetContextualContactName";
+        private const string _setContextualContactNameDialog = "SetContextualContactName";
         private const string _confirmContextualContactNameDialog = "ConfirmContextualContactName";
         private const string _textPrompt = "TextPrompt";
         private const string _confirmPrompt = "ConfirmPrompt";
@@ -27,12 +27,12 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
 
         public IContextResolver ContextResolver { get; set; }
 
-        public ResolveContextualInfoDialog(
+        public ResolveContextualContactInfoDialog(
             UserState userState,
             IBotTelemetryClient telemetryClient,
             UserContextManager userContextManager,
             IContextResolver contextResolver = null)
-            : base(nameof(ResolveContextualInfoDialog))
+            : base(nameof(ResolveContextualContactInfoDialog))
         {
             ContextResolver = contextResolver;
             TelemetryClient = telemetryClient;
@@ -80,7 +80,9 @@ namespace Microsoft.Bot.Builder.Solutions.Contextual.Dialogs
                 var option = sc.Options as UserInfoOptions;
                 var userState = await UserStateAccessor.GetAsync(sc.Context, () => new UserInfoState());
 
-                var result = await UserContextManager.GetResolvedContactAsync(option.QueryItem);
+                var contextResolver = new UserContextManager(userState, ContextResolver);
+                var result = await contextResolver.GetResolvedContactAsync(option.QueryItem);
+                //var result = await UserContextManager.GetResolvedContactAsync(option.QueryItem);
 
                 if (result == null || result.Count() == 0)
                 {

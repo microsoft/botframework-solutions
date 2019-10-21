@@ -23,6 +23,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Solutions.Contextual.Dialogs;
 
 namespace EmailSkill.Dialogs
 {
@@ -35,6 +36,7 @@ namespace EmailSkill.Dialogs
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _emailStateAccessor;
         private IStatePropertyAccessor<UserInfoState> _userStateAccessor;
+        private ResolveUnknownUtteranceDialog _resolveUnknownUtteranceDialog;
 
         public MainDialog(
             BotSettings settings,
@@ -59,11 +61,15 @@ namespace EmailSkill.Dialogs
             _emailStateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             _userStateAccessor = _conversationState.CreateProperty<UserInfoState>(nameof(UserInfoState));
 
+            var prebuildIntent = EmailCommonStrings.SkillPrebuildTriggerIntent;
+            var _resolveUnknownUtteranceDialog = new ResolveUnknownUtteranceDialog(telemetryClient, prebuildIntent.Split('|'));
+
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
             AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
             AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
+            AddDialog(_resolveUnknownUtteranceDialog);
 
             GetReadingDisplayConfig();
         }
@@ -86,6 +92,8 @@ namespace EmailSkill.Dialogs
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Email", out var luisService);
+            var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+            state.LuisResult = emailLuisResult;
 
             if (luisService == null)
             {
@@ -151,8 +159,9 @@ namespace EmailSkill.Dialogs
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                turnResult = await dc.BeginDialogAsync(nameof(ResolveUnknownUtteranceDialog), skillOptions, cancellationToken);
+
+                                break;
                             }
 
                             break;
@@ -160,9 +169,7 @@ namespace EmailSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
+                            turnResult = await dc.BeginDialogAsync(nameof(ResolveUnknownUtteranceDialog), skillOptions, cancellationToken);
                             break;
                         }
                 }
@@ -244,9 +251,9 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+                //var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
                 var state = await _emailStateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
-                state.LuisResult = emailLuisResult;
+                //state.LuisResult = emailLuisResult;
 
                 // check luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
