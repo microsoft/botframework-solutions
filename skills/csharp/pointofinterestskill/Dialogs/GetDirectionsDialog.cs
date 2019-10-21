@@ -82,6 +82,12 @@ namespace PointOfInterestSkill.Dialogs
                 // Update the destination state with user choice.
                 userSelectIndex = (sc.Result as FoundChoice).Index;
 
+                if (userSelectIndex < 0 || userSelectIndex >= state.LastFoundPointOfInterests.Count)
+                {
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(POISharedResponses.CancellingMessage));
+                    return await sc.EndDialogAsync();
+                }
+
                 state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
                 state.LastFoundPointOfInterests = null;
             }
