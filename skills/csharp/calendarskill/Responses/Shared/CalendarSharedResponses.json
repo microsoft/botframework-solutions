@@ -1,45 +1,4 @@
 {
-  "DidntUnderstandMessage": {
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant.",
-        "speak": "Sorry, I didn't understand what you meant."
-      },
-      {
-        "text": "I didn't understand, perhaps try again in a different way.",
-        "speak": "I didn't understand, perhaps try again in a different way."
-      },
-      {
-        "text": "Can you try to ask in a different way?",
-        "speak": "Can you try to ask in a different way?"
-      },
-      {
-        "text": "I didn't get what you mean, can you try in a different way?",
-        "speak": "I didn't get what you mean, can you try in a different way?"
-      },
-      {
-        "text": "Could you elaborate?",
-        "speak": "Could you elaborate?"
-      },
-      {
-        "text": "Please say that again in a different way.",
-        "speak": "Please say that again in a different way."
-      },
-      {
-        "text": "I didn't quite get that.",
-        "speak": "I didn't quite get that."
-      },
-      {
-        "text": "Can you say that in a different way?",
-        "speak": "Can you say that in a different way?"
-      },
-      {
-        "text": "Can you try to ask me again? I didn't get what you mean.",
-        "speak": "Can you try to ask me again? I didn't get what you mean."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "ActionEnded": {
     "replies": [
       {
@@ -87,14 +46,73 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "RetryInput": {
+  "ConfirmMeetingRoomFailed": {
     "replies": [
       {
-        "text": "Sorry, I don't understand what you mean. Could you please try again?",
-        "speak": "Sorry, I don't understand what you mean. Could you please try again?"
+        "text": "I'm ready to create the event. Please confirm the following:",
+        "speak": "I'm ready to create the event. Please confirm the following:"
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ConfirmMeetingRoomPrompt": {
+    "replies": [
+      {
+        "text": "{MeetingRoom} is available at {DateTime}, do you want to reserve it?",
+        "speak": "{MeetingRoom} is available at {DateTime}, do you want to reserve it?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant.",
+        "speak": "Sorry, I didn't understand what you meant."
+      },
+      {
+        "text": "I didn't understand, perhaps try again in a different way.",
+        "speak": "I didn't understand, perhaps try again in a different way."
+      },
+      {
+        "text": "Can you try to ask in a different way?",
+        "speak": "Can you try to ask in a different way?"
+      },
+      {
+        "text": "I didn't get what you mean, can you try in a different way?",
+        "speak": "I didn't get what you mean, can you try in a different way?"
+      },
+      {
+        "text": "Could you elaborate?",
+        "speak": "Could you elaborate?"
+      },
+      {
+        "text": "Please say that again in a different way.",
+        "speak": "Please say that again in a different way."
+      },
+      {
+        "text": "I didn't quite get that.",
+        "speak": "I didn't quite get that."
+      },
+      {
+        "text": "Can you say that in a different way?",
+        "speak": "Can you say that in a different way?"
+      },
+      {
+        "text": "Can you try to ask me again? I didn't get what you mean.",
+        "speak": "Can you try to ask me again? I didn't get what you mean."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MeetingRoomCreated": {
+    "replies": [
+      {
+        "text": "Okey, I'll create a new meeting with that room",
+        "speak": "Okey, I'll create a new meeting with that room"
+      }
+    ],
+    "inputHint": "acceptingInput"
   },
   "MultipleEventsFound": {
     "replies": [
@@ -113,5 +131,68 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoBuilding": {
+    "replies": [
+      {
+        "text": "Okey, which building",
+        "speak": "Okey, which building"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoFloorNumber": {
+    "replies": [
+      {
+        "speak": "Alright, do you have a floor preference?",
+        "text": "Alright, do you have a floor preference?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoInvitees": {
+    "replies": [
+      {
+        "text": "Got it. Do you want to invite anyone?",
+        "speak": "Got it. Do you want to invite anyone?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoSubject": {
+    "replies": [
+      {
+        "text": "What's the meeting subject?",
+        "speak": "What's the meeting subject?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryInput": {
+    "replies": [
+      {
+        "text": "Sorry, I don't understand what you mean. Could you please try again?",
+        "speak": "Sorry, I don't understand what you mean. Could you please try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventDetails": {
+    "replies": [
+      {
+        "text": "Okay, I've got {Building} {MeetingRoom} at {DateTime}{ForSubject}{WithInvitees}",
+        "speak": "Okay, I've got {Building} {MeetingRoom} at {DateTime}{ForSubject}{WithInvitees}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreatePrompt": {
+    "replies": [
+      {
+        "text": "Do you want to confirm?",
+        "speak": "Do you want to confirm?"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

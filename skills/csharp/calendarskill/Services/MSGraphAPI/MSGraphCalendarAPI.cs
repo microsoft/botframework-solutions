@@ -141,6 +141,37 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
+        // Check Available
+        public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            List<bool> availability = new List<bool>();
+            var schedules = users;
+
+            var intervalStartTime = new DateTimeTimeZone
+            {
+                DateTime = startTime.ToString(),
+                TimeZone = "UTC"
+            };
+
+            var intervalEndTime = new DateTimeTimeZone
+            {
+                DateTime = startTime.AddDays(1).ToString(),
+                TimeZone = "UTC"
+            };
+
+            ICalendarGetScheduleCollectionPage collectionPage = await _graphClient.Me.Calendar
+                .GetSchedule(schedules, intervalEndTime, intervalStartTime, availabilityViewInterval)
+                .Request()
+                .PostAsync();
+
+            foreach (var page in collectionPage)
+            {
+                availability.Add(page.AvailabilityView[0] == '0');
+            }
+
+            return availability;
+        }
+
         /// <summary>
         /// Update an event info.
         /// </summary>

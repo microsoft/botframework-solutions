@@ -609,7 +609,7 @@ namespace CalendarSkill.Models
                                     Name = attendee.DisplayName,
                                     Address = attendee.Address,
                                 },
-                                Type = Microsoft.Graph.AttendeeType.Required,
+                                Type = attendee.AttendeeType ?? Microsoft.Graph.AttendeeType.Required,
                             };
                             msftAttendees.Add(ms_attendee);
                         }
@@ -927,6 +927,8 @@ namespace CalendarSkill.Models
             public string DisplayName { get; set; }
 
             public string UserPrincipalName { get; set; }
+
+            public Microsoft.Graph.AttendeeType? AttendeeType { get; set; }
         }
     }
 }

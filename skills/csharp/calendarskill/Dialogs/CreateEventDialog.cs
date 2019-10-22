@@ -35,6 +35,7 @@ namespace CalendarSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             FindContactDialog findContactDialog,
+            FindMeetingRoomDialog findMeetingRoomDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
@@ -122,108 +123,12 @@ namespace CalendarSkill.Dialogs
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
+            AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
         }
 
-        // Create Event waterfall steps
-        private async Task<DialogTurnResult> CollectTitle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(Actions.CollectTitle, sc.Options);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectTitlePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isTitleSkipByDefault = false;
-                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (state.MeetingInfor.RecreateState == RecreateEventState.Subject)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
-                }
-                else if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-                else if (string.IsNullOrEmpty(state.MeetingInfor.Title))
-                {
-                    if (state.MeetingInfor.ContactInfor.Contacts.Count == 0 || state.MeetingInfor.ContactInfor.Contacts == null)
-                    {
-                        state.Clear();
-                        return await sc.EndDialogAsync(true);
-                    }
-
-                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
-                    var data = new StringDictionary() { { "UserName", userNameString } };
-                    var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
-
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> AfterCollectTitlePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isTitleSkipByDefault = false;
-                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (sc.Result != null || (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Subject)
-                {
-                    if (string.IsNullOrEmpty(state.MeetingInfor.Title))
-                    {
-                        if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Subject)
-                        {
-                            state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
-                        }
-                        else
-                        {
-                            sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                            var title = content != null ? content.ToString() : sc.Context.Activity.Text;
-                            if (CreateEventWhiteList.IsSkip(title))
-                            {
-                                state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
-                            }
-                            else
-                            {
-                                state.MeetingInfor.Title = title;
-                            }
-                        }
-                    }
-                }
-
-                return await sc.EndDialogAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
 
         private async Task<DialogTurnResult> CollectContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -349,28 +254,6 @@ namespace CalendarSkill.Dialogs
                 if (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectDuration(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (state.MeetingInfor.EndDateTime == null)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
                 else
                 {
@@ -829,123 +712,6 @@ namespace CalendarSkill.Dialogs
                 }
 
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
-                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        // update duration waterfall steps
-        private async Task<DialogTurnResult> UpdateDurationForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isDurationSkipByDefault = false;
-                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.Duration > 0 || state.MeetingInfor.EndTime.Any() || state.MeetingInfor.EndDate.Any() || (state.MeetingInfor.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time && state.MeetingInfor.RecreateState != RecreateEventState.Duration))
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.DurationPromptForCreate, new PromptOptions
-                {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.NoDuration),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDurationRetry)
-                }, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> AfterUpdateDurationForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isDurationSkipByDefault = false;
-                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.EndDate.Any() || state.MeetingInfor.EndTime.Any())
-                {
-                    var startDate = !state.MeetingInfor.StartDate.Any() ? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()) : state.MeetingInfor.StartDate.Last();
-                    var endDate = startDate;
-                    if (state.MeetingInfor.EndDate.Any())
-                    {
-                        endDate = state.MeetingInfor.EndDate.Last();
-                    }
-
-                    if (state.MeetingInfor.EndTime.Any())
-                    {
-                        foreach (var endtime in state.MeetingInfor.EndTime)
-                        {
-                            var endDateTime = new DateTime(
-                                endDate.Year,
-                                endDate.Month,
-                                endDate.Day,
-                                endtime.Hour,
-                                endtime.Minute,
-                                endtime.Second);
-                            endDateTime = TimeZoneInfo.ConvertTimeToUtc(endDateTime, state.GetUserTimeZone());
-                            if (state.MeetingInfor.EndDateTime == null || endDateTime >= state.MeetingInfor.StartDateTime)
-                            {
-                                state.MeetingInfor.EndDateTime = endDateTime;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        state.MeetingInfor.EndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
-                        state.MeetingInfor.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone());
-                    }
-
-                    var ts = state.MeetingInfor.StartDateTime.Value.Subtract(state.MeetingInfor.EndDateTime.Value).Duration();
-                    state.MeetingInfor.Duration = (int)ts.TotalSeconds;
-                }
-
-                if (state.MeetingInfor.Duration <= 0 && state.MeetingInfor.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time && state.MeetingInfor.RecreateState != RecreateEventState.Duration)
-                {
-                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.DefaultValue;
-                    if (int.TryParse(defaultValue, out var durationMinutes))
-                    {
-                        state.MeetingInfor.Duration = durationMinutes * 60;
-                    }
-                    else
-                    {
-                        state.MeetingInfor.Duration = 1800;
-                    }
-                }
-
-                if (state.MeetingInfor.Duration <= 0 && sc.Result != null)
-                {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-
-                    IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    if (dateTimeResolutions.First().Value != null)
-                    {
-                        int.TryParse(dateTimeResolutions.First().Value, out var duration);
-                        state.MeetingInfor.Duration = duration;
-                    }
-                }
-
-                if (state.MeetingInfor.Duration > 0)
-                {
-                    state.MeetingInfor.EndDateTime = state.MeetingInfor.StartDateTime.Value.AddSeconds(state.MeetingInfor.Duration);
-                }
-                else
-                {
-                    // should not go to this part in current logic.
-                    // place an error handling for save.
-                    await HandleDialogExceptions(sc, new Exception("Unexpect Error On get duration"));
-                }
-
                 return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)

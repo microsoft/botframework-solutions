@@ -14,6 +14,8 @@ namespace CalendarSkill.Models
 
         public Luis.General GeneralLuisResult { get; set; }
 
+        public Luis.CalendarLuis.Intent? InitialIntent { get; set; }
+
         public string APIToken { get; set; }
 
         public int PageSize { get; set; } = 0;
@@ -41,6 +43,7 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
+            InitialIntent = null;
             APIToken = null;
             PageSize = 0;
             EventSource = EventSource.Other;
@@ -121,6 +124,16 @@ namespace CalendarSkill.Models
 
             public RecreateEventState? RecreateState { get; set; }
 
+            public PlaceModel MeetingRoom { get; set; }
+
+            public List<PlaceModel> UnconfirmedMeetingRoom { get; set; } = new List<PlaceModel>();
+
+            public int ShowMeetingRoomIndex { get; set; } = 0;
+
+            public string Building { get; set; }
+
+            public int? FloorNumber { get; set; }
+
             public void Clear()
             {
                 ContactInfor.Clear();
@@ -138,6 +151,11 @@ namespace CalendarSkill.Models
                 Duration = 0;
                 CreateHasDetail = false;
                 RecreateState = null;
+                MeetingRoom = null;
+                UnconfirmedMeetingRoom.Clear();
+                ShowMeetingRoomIndex = 0;
+                Building = null;
+                FloorNumber = null;
             }
 
             public void ClearLocationForRecreate()

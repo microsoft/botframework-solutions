@@ -10,5 +10,7 @@ namespace CalendarSkill.Services
         IUserService InitUserService(string token, EventSource source);
 
         ICalendarService InitCalendarService(string token, EventSource source);
+
+        IPlaceService InitPlaceService(string token, EventSource source);
     }
 }

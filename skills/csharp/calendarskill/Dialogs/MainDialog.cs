@@ -50,6 +50,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
+            FindMeetingRoomDialog findMeetingRoomDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -71,6 +72,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -108,11 +110,17 @@ namespace CalendarSkill.Dialogs
             {
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                state.InitialIntent = intent;
 
                 // switch on general intents
                 switch (intent)
                 {
                     case CalendarLuis.Intent.FindMeetingRoom:
+                        {
+                            await dc.BeginDialogAsync(nameof(FindMeetingRoomDialog), options);
+                            break;
+                        }
+
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(CreateEventDialog), options);

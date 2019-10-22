@@ -8,6 +8,7 @@ using CalendarSkill.Dialogs;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.FindMeetingRoom;
 using CalendarSkill.Responses.JoinEvent;
 using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
@@ -72,6 +73,9 @@ namespace CalendarSkill
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
             services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
+            // Configure azure search
+            services.AddSingleton(new AzureSearchService(settings));
+
             // Configure bot state
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
@@ -112,7 +116,8 @@ namespace CalendarSkill
                 new CalendarSharedResponses(),
                 new SummaryResponses(),
                 new TimeRemainingResponses(),
-                new UpdateEventResponses()));
+                new UpdateEventResponses(),
+                new FindMeetingRoomResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();
@@ -124,7 +129,7 @@ namespace CalendarSkill
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
-            services.AddTransient<FindContactDialog>();
+            services.AddTransient<FindMeetingRoomDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

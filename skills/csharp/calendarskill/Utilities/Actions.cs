@@ -17,6 +17,9 @@
         public const string CollectTitle = "CollectTitle";
         public const string CollectContent = "CollectContent";
         public const string CollectLocation = "CollectLocation";
+        public const string CollectBuilding = "CollectBuilding";
+        public const string CollectFloorNumber = "CollectFloorNumber";
+        public const string CollectInvitees = "CollectInvitees";
         public const string UpdateEventTime = "UpdateEventTime";
         public const string ChangeEventStatus = "ChangeEventStatus";
         public const string UpdateEvent = "UpdateEvent";
@@ -25,8 +28,11 @@
         public const string LoopNameList = "LoopNameList";
         public const string ConfirmAttendee = "ConfirmAttendee";
         public const string ConfirmNameList = "ConfirmNameList";
+        public const string BookMeetingRoom = "BookMeetingRoom";
+        public const string CollectMeetingRoomInfo = "CollectMeetingRoomInfo";
         public const string SelectPerson = "SelectPerson";
         public const string SelectEmail = "SelectEmail";
+        public const string SelectMeetingRoom = "SelectMeetingRoom";
         public const string FindContact = "FindContact";
         public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";
