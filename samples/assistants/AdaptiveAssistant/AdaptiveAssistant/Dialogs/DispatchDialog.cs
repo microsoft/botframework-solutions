@@ -1,14 +1,16 @@
-﻿using AdaptiveAssistant.Actions;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using AdaptiveAssistant.Actions;
 using AdaptiveAssistant.Services;
 using Luis;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
-using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.Bot.Builder.Skills;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace AdaptiveAssistant.Dialogs
 {
@@ -17,7 +19,6 @@ namespace AdaptiveAssistant.Dialogs
         public DispatchDialog(
             BotSettings settings,
             BotServices services,
-            TemplateEngine templateEngine,
             List<SkillDialog> skillDialogs,
             GeneralDialog generalDialog,
             OnboardingDialog onboardingDialog)
@@ -27,9 +28,9 @@ namespace AdaptiveAssistant.Dialogs
 
             var dispatchDialog = new AdaptiveDialog($"{nameof(DispatchDialog)}.adaptive")
             {
-                Recognizer = localizedServices.DispatchService,
-                Generator = new TemplateEngineLanguageGenerator(templateEngine),
-                Events = new List<IOnEvent>()
+                Recognizer = localizedServices.DispatchRecognizer,
+                Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
+                Triggers =
                 {
                     new OnConversationUpdateActivity()
                     {
@@ -62,26 +63,37 @@ namespace AdaptiveAssistant.Dialogs
                     },
                     new OnIntent(DispatchLuis.Intent.q_Chitchat.ToString())
                     {
-                        Actions = { new CallQnAMaker(localizedServices.QnAServices["Chitchat"])}
+                        Actions =
+                        {
+                            new TraceActivity(),
+                            new QnAMakerDialog(
+                                knowledgeBaseId: "settings.cognitiveModels.en.knowledgebases['0'].kbId",
+                                endpointKey: "settings.cognitiveModels.en.knowledgebases['0'].endpointKey",
+                                hostName: "settings.cognitiveModels.en.knowledgebases['0'].hostName",
+                                threshold: 0)
+                        }
                     },
                     new OnIntent(DispatchLuis.Intent.q_Faq.ToString())
                     {
-                        Actions = { new CallQnAMaker(localizedServices.QnAServices["Faq"])}
+                        Actions =
+                        {
+                            new TraceActivity(),
+                            new QnAMakerDialog(
+                                knowledgeBaseId: "settings.cognitiveModels.en.knowledgebases['1'].kbId",
+                                endpointKey: "settings.cognitiveModels.en.knowledgebases['1'].endpointKey",
+                                hostName: "settings.cognitiveModels.en.knowledgebases['1'].hostName",
+                                threshold: 0)
+                        }
                     },
                     new OnDialogEvent()
                     {
                         // If we recognized another intent, try to invoke a skill
-                        Events = { AdaptiveEvents.RecognizedIntent },
+                        Event = AdaptiveEvents.RecognizedIntent,
                         Actions = { new InvokeSkill(settings.Skills) }
                     },
                     new OnDialogEvent()
                     {
-                        Events = { "NoQnAMatch" },
-                        Actions = { new SendActivity("[confusedMessage]") }
-                    },
-                    new OnDialogEvent()
-                    {
-                        Events = { AdaptiveEvents.EndDialog },
+                        Event = DialogEvents.RepromptDialog,
                         Actions = { new SendActivity("[completedMessage]") }
                     },
                     new OnUnknownIntent()

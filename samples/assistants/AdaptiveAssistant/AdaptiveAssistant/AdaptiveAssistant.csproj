@@ -12,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Responses\MainResponses.lg" />
-    <None Remove="Responses\OnboardingResponses.lg" />
+    <None Remove="Responses\MainDialog.lg" />
+    <None Remove="Responses\OnboardingDialog.lg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Responses\MainResponses.lg">
+    <Content Include="Responses\MainDialog.lg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Responses\OnboardingResponses.lg">
+    <Content Include="Responses\OnboardingDialog.lg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-08-13-01" />
+    <!--<PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-08-13-01" />
@@ -50,18 +50,38 @@
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.6.0-Daily-2019-08-13-01" />
-    <!--<PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily9" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily9" />-->
+    --><!--<PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily9" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily9" />--><!--
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-08-13-01" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-08-13-01" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-08-13-01" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-08-13-01" />-->
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.LUIS\Microsoft.Bot.Builder.AI.Luis.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.QnA\Microsoft.Bot.Builder.AI.QnA.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.ApplicationInsights\Microsoft.Bot.Builder.ApplicationInsights.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Azure\Microsoft.Bot.Builder.Azure.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Adaptive\Microsoft.Bot.Builder.Dialogs.Adaptive.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Debugging\Microsoft.Bot.Builder.Dialogs.Debugging.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Declarative\Microsoft.Bot.Builder.Dialogs.Declarative.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Expressions.Parser\Microsoft.Bot.Builder.Expressions.Parser.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Expressions\Microsoft.Bot.Builder.Expressions.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration.Templates\Microsoft.Bot.Builder.LanguageGeneration.Templates.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration\Microsoft.Bot.Builder.LanguageGeneration.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.StreamingExtensions\Microsoft.Bot.Builder.StreamingExtensions.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.TemplateManager\Microsoft.Bot.Builder.TemplateManager.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Configuration\Microsoft.Bot.Configuration.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj" />
+    <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Schema\Microsoft.Bot.Schema.csproj" />
     <ProjectReference Include="..\..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions.skills\Microsoft.Bot.Builder.Solutions.Skills.csproj" />
     <ProjectReference Include="..\..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>

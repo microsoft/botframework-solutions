@@ -1,0 +1,30 @@
+﻿# ContactPrompt
+- ```
+Who would you like to invite?
+```
+
+# AddedContactMessage
+- IF: {dialog.contactsList[0].displayName != null}
+    - I've added @{dialog.contactsList[0].displayName} (@{dialog.emailAddress}) to the recipients list.
+- ELSE: 
+    - I've added @{dialog.emailAddress} to the recipients list.
+
+# MultipleContactsFound
+- ```
+I found multiple contacts with the name \"@{dialog.contactName}\".
+```
+
+# ContactChoicePrompt
+- ```
+Please select an email from this list:
+```
+
+# CouldNotFindContactMessage
+- ```
+Sorry, I couldn't find any contacts with the name: @{dialog.contactName}. Please try again with the full contact name or email address.
+```
+
+# AddContactPrompt
+- ```
+Would you like to invite anyone else?
+```

@@ -3,6 +3,7 @@
 
 using AdaptiveCalendarSkill.Services;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -41,7 +42,7 @@ namespace AdaptiveCalendarSkill.Adapters
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            // Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(AdaptiveCalendarSkill))));
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(AdaptiveCalendarSkill))));
         }
     }
 }

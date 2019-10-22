@@ -48,16 +48,17 @@ namespace AdaptiveAssistant
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            HostingEnvironment = env;
+            Environment = env;
         }
 
-        public IHostingEnvironment HostingEnvironment { get; set; }
-
         public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment Environment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Load settings
@@ -85,15 +86,8 @@ namespace AdaptiveAssistant
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
-            // var resourceExplorer = ResourceExplorer.LoadProject(HostingEnvironment.ContentRootPath);
-            var resourceExplorer = new ResourceExplorer().AddFolder(Directory.GetCurrentDirectory());
+            var resourceExplorer = new ResourceExplorer().AddFolder(Environment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
-
-            services.AddSingleton(sp => new TemplateEngine().AddFiles(new[]
-            {
-                "./Responses/MainResponses.lg",
-                "./Responses/OnboardingResponses.lg",
-            }));
 
             // Register skill dialogs
             services.AddTransient(sp =>

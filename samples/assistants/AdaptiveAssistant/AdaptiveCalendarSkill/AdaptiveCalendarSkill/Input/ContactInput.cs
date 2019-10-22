@@ -1,22 +1,14 @@
-﻿using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
-using Microsoft.Bot.Builder.AI.QnA;
+﻿using System;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Expressions;
-using Microsoft.Bot.Builder.Expressions.Parser;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace AdaptiveAssistant.Actions
+namespace AdaptiveAssistant.Input
 {
     public class ContactInput : InputDialog
     {
-        private Regex EmailRegex = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z");
-
         public string EmailProperty { get; set; }
 
         protected override Task<InputState> OnRecognizeInput(DialogContext dc)
@@ -24,7 +16,7 @@ namespace AdaptiveAssistant.Actions
             var input = dc.State.GetValue<string>(PROCESS_INPUT_PROPERTY);
 
             // check if email
-            if (EmailRegex.IsMatch(input))
+            if (IsEmailValid(input))
             {
                 dc.State.SetValue(EmailProperty, input);
             }
@@ -34,6 +26,19 @@ namespace AdaptiveAssistant.Actions
             }
 
             return input.Length > 0 ? Task.FromResult(InputState.Valid) : Task.FromResult(InputState.Unrecognized);
+        }
+
+        public bool IsEmailValid(string emailaddress)
+        {
+            try
+            {
+                var m = new MailAddress(emailaddress);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }

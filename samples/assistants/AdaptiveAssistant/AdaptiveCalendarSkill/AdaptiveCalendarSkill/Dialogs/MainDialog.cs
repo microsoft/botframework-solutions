@@ -1,10 +1,14 @@
-﻿using AdaptiveCalendarSkill.Services;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AdaptiveCalendarSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 /// <summary>
 /// This dialog is the lowest level of all dialogs. 
@@ -14,18 +18,17 @@ namespace AdaptiveCalendarSkill.Dialogs
     public class MainDialog : ComponentDialog
     {
         public MainDialog(
-            BotSettings settings,
             BotServices services,
-            OAuthPromptDialog oauthDialog,
-            CreateEntryDialog createDialog)
+            CreateDialog createDialog,
+            ViewDialog viewDialog)
             : base(nameof(MainDialog))
         {
             // Create instance of adaptive dialog. 
             var adaptiveDialog = new AdaptiveDialog("root")
             {
                 // Create a LUIS recognizer.
-                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
-                Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
+                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
+                Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
                 Triggers =
                 {
                     new OnConversationUpdateActivity()
@@ -35,12 +38,18 @@ namespace AdaptiveCalendarSkill.Dialogs
 
                     /******************************************************************************/
                     // place to add new dialog
-                    new OnIntent("ScheduleMeeting")
+                    new OnIntent("CreateCalendarEntry") { Actions = { new ReplaceDialog(createDialog.Id) } },
+                    new OnIntent("FindCalendarEntry")
                     {
                         Actions =
                         {
-                            new BeginDialog(createDialog.Id)
-                        },
+                            new SetProperty()
+                            {
+                                Property = "conversation.meetingListPage",// 0-based
+                                Value = "0"
+                            },
+                            new BeginDialog(viewDialog.Id)
+                        }
                     },
 
                     /******************************************************************************/
@@ -58,6 +67,11 @@ namespace AdaptiveCalendarSkill.Dialogs
                             new CancelAllDialogs(),
                         },
                         Condition = "turn.dialogevent.value.intents.Cancel.score > 0.5"
+                    },
+                    new OnDialogEvent()
+                    {
+                        Event = DialogEvents.RepromptDialog,
+                        Actions = { new SendActivity("[Help-Root-Dialog]") }
                     }
                 }
             };
@@ -65,12 +79,22 @@ namespace AdaptiveCalendarSkill.Dialogs
             /******************************************************************************/
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(adaptiveDialog);
-            AddDialog(oauthDialog);
             AddDialog(createDialog);
+            AddDialog(viewDialog);
 
             /******************************************************************************/
             // The initial child Dialog to run.
             InitialDialogId = adaptiveDialog.Id;
+        }
+
+        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            // Send 'handoff' activity
+            var response = outerDc.Context.Activity.CreateReply();
+            response.Type = ActivityTypes.Handoff;
+            await outerDc.Context.SendActivityAsync(response);
+
+            return await base.EndComponentAsync(outerDc, result, cancellationToken);
         }
     }
 }

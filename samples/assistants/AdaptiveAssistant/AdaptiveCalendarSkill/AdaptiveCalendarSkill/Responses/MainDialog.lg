@@ -8,11 +8,10 @@
 ```
 
 # Welcome-Suffix
-- How can I be of help today?
-- What can I do for you today?
+- What can I help you with?
 
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+- \[Suggestions=New Meeting | Get Schedule | Help\]
 
 # WelcomePrefix
 - Hi

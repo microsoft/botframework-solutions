@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -44,9 +45,12 @@ namespace AdaptiveCalendarSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -92,13 +96,15 @@ namespace AdaptiveCalendarSkill
             services.AddHostedService<QueuedHostedService>();
 
             // Configure resource explorer
-            var resourceExplorer = new ResourceExplorer().AddFolder(Directory.GetCurrentDirectory());
+            var resourceExplorer = new ResourceExplorer().AddFolder(Environment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
 
             // Register dialogs
-            services.AddTransient<OAuthPromptDialog>();
-            services.AddTransient<CreateEntryDialog>();
-            services.AddTransient<GetRecipientsDialog>();
+            services.AddTransient(sp => new MultiProviderAuthDialog(settings.OAuthConnections));
+            services.AddTransient<OAuthDialog>();
+            services.AddTransient<CreateDialog>();
+            services.AddTransient<InviteDialog>();
+            services.AddTransient<ViewDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters
@@ -122,6 +128,7 @@ namespace AdaptiveCalendarSkill
             }
 
             app.UseBotApplicationInsights()
+                .UseDeveloperExceptionPage()
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()

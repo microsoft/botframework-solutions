@@ -9,10 +9,10 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 /// </summary>
 namespace AdaptiveCalendarSkill.Dialogs
 {
-    public class OAuthPromptDialog : ComponentDialog
+    public class OAuthDialog : ComponentDialog
     {
-        public OAuthPromptDialog()
-            : base(nameof(OAuthPromptDialog))
+        public OAuthDialog()
+            : base(nameof(OAuthDialog))
         {
             var oauthDialog = new AdaptiveDialog("oauth")
             {

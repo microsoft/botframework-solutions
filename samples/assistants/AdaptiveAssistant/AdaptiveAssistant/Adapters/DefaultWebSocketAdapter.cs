@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
@@ -40,10 +41,10 @@ namespace AdaptiveAssistant.Adapters
             this.UseLanguageGeneration(resourceExplorer);
             this.UseDebugger(configuration.GetValue("debugport", 4712), events: new Events<AdaptiveEvents>());
 
-            Use(new ShowTypingMiddleware());
+            // Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new SetSpeakMiddleware(settings.DefaultLocale ?? "en-us"));
         }
     }
-}
+}   

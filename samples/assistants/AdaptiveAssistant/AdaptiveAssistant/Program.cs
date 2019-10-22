@@ -15,7 +15,6 @@ namespace AdaptiveAssistant
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseEnvironment("development")
                 .UseStartup<Startup>() // Note: Application Insights is added in Startup.  Disabling is also handled there.
                 .Build();
     }

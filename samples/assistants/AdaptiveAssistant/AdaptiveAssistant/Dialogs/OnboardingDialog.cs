@@ -1,22 +1,23 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using System.Collections.Generic;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 
 namespace AdaptiveAssistant.Dialogs
 {
     public class OnboardingDialog : ComponentDialog
     {
-        public OnboardingDialog(TemplateEngine templateEngine)
+        public OnboardingDialog()
             : base(nameof(OnboardingDialog))
         {
             var onboardingDialog = new AdaptiveDialog($"{nameof(OnboardingDialog)}.adaptive")
             {
-                Generator = new TemplateEngineLanguageGenerator(templateEngine),
-                Events =
+                Generator = new ResourceMultiLanguageGenerator("OnboardingDialog.lg"),
+                Triggers =
                 {
                     new OnBeginDialog()
                     {

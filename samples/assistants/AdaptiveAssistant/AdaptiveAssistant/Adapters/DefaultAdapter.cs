@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -39,10 +40,11 @@ namespace AdaptiveAssistant.Adapters
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
             this.UseLanguageGeneration(resourceExplorer);
+            this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseDebugger(configuration.GetValue("debugport", 4712), events: new Events<AdaptiveEvents>());
 
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));           
-            Use(new ShowTypingMiddleware());
+            // Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
         }

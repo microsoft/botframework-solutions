@@ -1,38 +1,31 @@
-﻿using AdaptiveAssistant.Services;
+﻿using System.Globalization;
+using AdaptiveAssistant.Services;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Events;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 
 namespace AdaptiveAssistant.Dialogs
 {
     public class GeneralDialog : ComponentDialog
     {
-        public GeneralDialog(
-            BotSettings settings,
-            BotServices services,
-            TemplateEngine templateEngine)
+        public GeneralDialog(BotServices services)
             : base(nameof(DispatchDialog))
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
             var generalDialog = new AdaptiveDialog($"{nameof(GeneralDialog)}.adaptive")
             {
-                Recognizer = localizedServices.LuisServices["General"],
-                Generator = new TemplateEngineLanguageGenerator(templateEngine),
-                Events = new List<IOnEvent>()
+                Recognizer = localizedServices.LuisRecognizers["General"],
+                Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
+                Triggers =
                 {
                     new OnIntent(GeneralLuis.Intent.Help.ToString())
                     {
                         Actions = { new SendActivity("[helpCard]") },
-                        Constraint = "turn.dialogevent.value.intents.Help.score > 0.5",
+                        Condition = "turn.dialogevent.value.intents.Help.score > 0.5",
                     },
                     new OnIntent(GeneralLuis.Intent.Cancel.ToString())
                     {
@@ -40,7 +33,7 @@ namespace AdaptiveAssistant.Dialogs
                             new SendActivity("[cancelledMessage]"),
                             new CancelAllDialogs(),
                         },
-                        Constraint = "turn.dialogevent.value.intents.Cancel.score > 0.5",
+                        Condition = "turn.dialogevent.value.intents.Cancel.score > 0.5",
                     },
                     new OnIntent(GeneralLuis.Intent.Escalate.ToString())
                     {

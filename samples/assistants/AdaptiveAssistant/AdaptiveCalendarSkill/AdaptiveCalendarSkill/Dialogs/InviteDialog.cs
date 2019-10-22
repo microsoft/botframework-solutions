@@ -1,7 +1,6 @@
-﻿using AdaptiveAssistant.Actions;
+﻿using System.Collections.Generic;
+using AdaptiveAssistant.Input;
 using AdaptiveCalendarSkill.Services;
-using Luis;
-using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
@@ -10,28 +9,18 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.LanguageGeneration.Templates;
-using Microsoft.CodeAnalysis.CodeStyle;
-using Microsoft.Graph;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdaptiveCalendarSkill.Dialogs
 {
-    public class GetRecipientsDialog : ComponentDialog
+    public class InviteDialog : ComponentDialog
     {
-        public GetRecipientsDialog(
-            BotSettings settings,
-            BotServices services)
-            : base(nameof(GetRecipientsDialog))
+        public InviteDialog(BotServices services)
+            : base(nameof(InviteDialog))
         {
             var getAttendees = new AdaptiveDialog("adaptive")
             {
-                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
-                Generator = new ResourceMultiLanguageGenerator("AddContactDialog.lg"),
+                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
+                Generator = new ResourceMultiLanguageGenerator("InviteDialog.lg"),
                 Triggers =
                 {
                     new OnBeginDialog()
@@ -69,7 +58,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                         Url = "https://graph.microsoft.com/v1.0/me/contacts?$search=\"{dialog.contactName}\"",
                                         Headers = new Dictionary<string, string>()
                                         {
-                                            ["Authorization"] = "Bearer {user.token.token}",
+                                            ["Authorization"] = "Bearer {user.token.tokenResponse.token}",
                                         }
                                     },
                                     // remove any contacts without an email address
@@ -115,12 +104,12 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },
-                                                    new SendActivity("I've added {dialog.contactsList[0].displayName} ({dialog.emailAddress}) to the recipients list."),
+                                                    new SendActivity("[AddedContactMessage]"),
                                                 },
                                                 // else disambiguate and add selectedContact.email to attendees list
                                                 ElseActions =
                                                 {
-                                                    new SendActivity("Found multiple contacts with the name \"{dialog.contactName}\"."),
+                                                    new SendActivity("[MultipleContactsFound]"),
                                                     new TraceActivity(),
                                                     new SetProperty()
                                                     {
@@ -129,7 +118,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     },
                                                     new ChoiceInput()
                                                     {
-                                                        Prompt = new ActivityTemplate("Please select an email from this list:"),
+                                                        Prompt = new ActivityTemplate("[ContactChoicePrompt]"),
                                                         Choices = new ChoiceSet("dialog.emailChoiceList"),
                                                         Property = "dialog.emailAddress"
                                                     },
@@ -139,13 +128,13 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                         ChangeType = EditArray.ArrayChangeType.Push,
                                                         Value = "dialog.emailAddress"
                                                     },
-                                                    new SendActivity("I've added {dialog.emailAddress} to the recipients list."),
+                                                    new SendActivity("[AddedContactMessage]"),
                                                 }
                                             }
                                         },
                                         ElseActions =
                                         {
-                                            new SendActivity("Sorry, I couldn't find any contacts with the name: {dialog.contactName}. Please try again."),
+                                            new SendActivity("[CouldNotFindContactMessage]"),
                                             new RepeatDialog(),
                                         }
                                     }
@@ -155,16 +144,13 @@ namespace AdaptiveCalendarSkill.Dialogs
                             new ConfirmInput()
                             {
                                 Property = "dialog.addAnotherContact",
-                                Prompt = new ActivityTemplate("Do you want to add another contact?"),
+                                Prompt = new ActivityTemplate("[AddContactPrompt]"),
                             },
                             new IfCondition()
                             {
                                 Condition = "dialog.addAnotherContact == true",
                                 Actions = { new RepeatDialog() },
-                                ElseActions = {
-                                    new SendActivity("addrecipient: {dialog.recipients}"),
-                                    new EndDialog("dialog.recipients")
-                                }
+                                ElseActions = { new EndDialog(value: "dialog.recipients") }
                             }
                         }
                     },

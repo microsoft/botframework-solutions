@@ -20,7 +20,7 @@ namespace AdaptiveAssistant.Actions
             _skills = skills;
         }
 
-        protected override async Task<DialogTurnResult> OnRunCommandAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default)
         {
             var exp = new ExpressionEngine().Parse("turn.recognized");
             (var recognizedIntent, var error) = exp.TryEvaluate(dc.State);
@@ -40,7 +40,7 @@ namespace AdaptiveAssistant.Actions
 
                     return await dc.BeginDialogAsync(identifiedSkill.Id, options: boundOptions, cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
-             }
+            }
 
             return await dc.EndDialogAsync();
         }
