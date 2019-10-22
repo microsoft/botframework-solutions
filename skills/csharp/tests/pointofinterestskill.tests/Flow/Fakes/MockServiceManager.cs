@@ -4,6 +4,10 @@
 using System;
 using System.Net.Http;
 using PointOfInterestSkill.Services;
+using SkillServiceLibrary.Fakes.AzureMapsAPI.Fakes;
+using SkillServiceLibrary.Services;
+using SkillServiceLibrary.Services.AzureMapsAPI;
+using SkillServiceLibrary.Services.FoursquareAPI;
 
 namespace PointOfInterestSkill.Tests.API.Fakes
 {
