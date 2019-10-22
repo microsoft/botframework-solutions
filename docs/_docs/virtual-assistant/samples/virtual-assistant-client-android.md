@@ -10,27 +10,29 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-![Virtual Assistant Client (Android) overview diagram]({{ site.baseurl }}/assets/images/virtualassistantclient-android-overview.png)
-
 A user can interact with their Assistant using the **Virtual Assistant Client app** via widgets on the home screen or the main UI of the app. 
 These bot responses can optionally be broadcast to an **Event Companion app** that does't need to implement the Speech SDK.
 
 ## Prerequisites
 
-1. Install [Android Studio](https://developer.android.com/studio/) on your PC.
+1. Install [Android Studio](https://developer.android.com/studio/).
 
-1. [Create a Virtual Assistant]({{ site.baseurl }}/tutorials/csharp/create-assistant/1_intro/) to setup your Virtual Assistant environment.
+1. Download the [**Virtual Assistant Client** app source code](https://aka.ms/virtualassistantclient).
 
-1. [Enable speech]({{ site.baseurl }}/tutorials/enable-speech/1_intro) on your new Virtual Assistant, which enables you to retrieve a
-    - [Microsoft Speech Cognitive Service subscription key]({{ site.baseurl }}/tutorials/enable-speech/2_create_speech_instance/)
-    - [Add the Direct Line Speech channel to your Assistant]({{ site.baseurl }}/tutorials/enable-speech/3_add_speech_channel/)
-    
-1. [Download](https://aka.ms/virtualassistantclient) the Virtual Assistant Client (Android) app source code.
+1. [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/csharp/create-assistant/1_intro/) to setup your Virtual Assistant environment.
 
-## Building the project
+1. [Enable speech]({{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1_intro) on your new Virtual Assistant, which enables you to retrieve a
+    - [Microsoft Speech Cognitive Service subscription key]({{site.baseurl}}/virtual-assistant/tutorials/enable-speech/2_create_speech_instance/)
+    - [Add the Direct Line Speech channel to your Assistant]({{site.baseurl}}/virtual-assistant/tutorials/enable-speech/3_add_speech_channel/)
 
-### Provide credentials to the application
+1. Get started with [Visual Studio App Center](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/android) and register your app.
+
+## Build the project
+
+### Add your application settings
 {:.no_toc}
+
+There are two configuration files used
 
 The following configuration values must be supplied to `DefaultConfiguration.java` to connect to the Assistant via the Direct Line Speech channel:
 * `SPEECH_SERVICE_SUBSCRIPTION_KEY`
@@ -101,6 +103,5 @@ Swipe from the left to access the menu, providing the following functionality:
 * Restart conversation
 * Settings
 
-## Features
-
-Learn more about the [Virtual Assistant Client (Android) comprehensive feature set]({{ site.baseurl }}/reference/samples/vaclient_android/)
+## Architecture
+![Virtual Assistant Client (Android) overview diagram]({{ site.baseurl }}/assets/images/virtualassistantclient-android-overview.png)
