@@ -154,15 +154,5 @@ namespace VirtualAssistantSample.Tests
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
         }
-
-        [TestMethod]
-        public async Task Test_No_Cognitive_With_Same_Locale_Root()
-        {
-            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
-            await GetTestFlow()
-                .Send(GeneralUtterances.Escalate)
-                .AssertReply(TemplateEngine.EvaluateTemplate("confusedMessage"))
-                .StartTestAsync();
-        }
     }
 }

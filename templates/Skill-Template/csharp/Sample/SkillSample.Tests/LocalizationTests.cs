@@ -111,5 +111,23 @@ namespace SkillSample.Tests
                 })
                 .StartTestAsync();
         }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                })
+                .AssertReply(activity =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
+                })
+                .StartTestAsync();
+        }
     }
 }

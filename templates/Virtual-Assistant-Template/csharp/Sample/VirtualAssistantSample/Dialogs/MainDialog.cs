@@ -79,95 +79,86 @@ namespace VirtualAssistantSample.Dialogs
             var activity = dc.Context.Activity;
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                try
+                // If the active dialog is a Skill, do not interrupt.
+                var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
+                var isSkill = dialog is SkillDialog;
+
+                // Get localized cognitive models
+                CognitiveModelSet cognitiveModels = GetCognitiveModels();
+
+                // Check dispatch result
+                var luisResult = await cognitiveModels.LuisServices["General"].RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
+                (var intent, var score) = luisResult.TopIntent();
+
+                if (score > 0.5)
                 {
-                    // If the active dialog is a Skill, do not interrupt.
-                    var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
-                    var isSkill = dialog is SkillDialog;
 
-                    // Get localized cognitive models
-                    CognitiveModelSet cognitiveModels = GetCognitiveModels();
-
-                    // Check dispatch result
-                    var luisResult = await cognitiveModels.LuisServices["General"].RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
-                    (var intent, var score) = luisResult.TopIntent();
-
-                    if (score > 0.5)
+                    switch (intent)
                     {
+                        case GeneralLuis.Intent.Cancel:
+                            {
+                                var template = _templateEngine.EvaluateTemplate("cancelledMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
+                                await dc.CancelAllDialogsAsync();
+                                return InterruptionAction.End;
+                            }
 
-                        switch (intent)
-                        {
-                            case GeneralLuis.Intent.Cancel:
+                        case GeneralLuis.Intent.Escalate:
+                            {
+                                var template = _templateEngine.EvaluateTemplate("escalateMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
+                                return InterruptionAction.Resume;
+                            }
+
+                        case GeneralLuis.Intent.Help:
+                            {
+                                if (isSkill)
                                 {
-                                    var template = _templateEngine.EvaluateTemplate("cancelledMessage");
-                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                    await dc.Context.SendActivityAsync(response);
-                                    await dc.CancelAllDialogsAsync();
-                                    return InterruptionAction.End;
+                                    // If current dialog is a skill, allow it to handle its own help intent.
+                                    await dc.ContinueDialogAsync(cancellationToken);
+                                    break;
                                 }
-
-                            case GeneralLuis.Intent.Escalate:
+                                else
                                 {
-                                    var template = _templateEngine.EvaluateTemplate("escalateMessage");
+                                    var template = _templateEngine.EvaluateTemplate("helpCard");
                                     var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
                                     await dc.Context.SendActivityAsync(response);
                                     return InterruptionAction.Resume;
                                 }
+                            }
 
-                            case GeneralLuis.Intent.Help:
-                                {
-                                    if (isSkill)
-                                    {
-                                        // If current dialog is a skill, allow it to handle its own help intent.
-                                        await dc.ContinueDialogAsync(cancellationToken);
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        var template = _templateEngine.EvaluateTemplate("helpCard");
-                                        var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                        await dc.Context.SendActivityAsync(response);
-                                        return InterruptionAction.Resume;
-                                    }
-                                }
+                        case GeneralLuis.Intent.Logout:
+                            {
+                                await LogUserOut(dc);
+                                var template = _templateEngine.EvaluateTemplate("logoutMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
+                                return InterruptionAction.End;
+                            }
 
-                            case GeneralLuis.Intent.Logout:
+                        case GeneralLuis.Intent.Stop:
+                            {
+                                // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
+                                break;
+                            }
+
+                        case GeneralLuis.Intent.Repeat:
+                            {
+                                // Sends the activities since the last user message again.
+                                var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
+
+                                foreach (var response in previousResponse)
                                 {
-                                    await LogUserOut(dc);
-                                    var template = _templateEngine.EvaluateTemplate("logoutMessage");
-                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                    // Reset id of original activity so it can be processed by the channel.
+                                    response.Id = string.Empty;
                                     await dc.Context.SendActivityAsync(response);
-                                    return InterruptionAction.End;
                                 }
 
-                            case GeneralLuis.Intent.Stop:
-                                {
-                                    // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
-                                    break;
-                                }
-
-                            case GeneralLuis.Intent.Repeat:
-                                {
-                                    // Sends the activities since the last user message again.
-                                    var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
-
-                                    foreach (var response in previousResponse)
-                                    {
-                                        // Reset id of original activity so it can be processed by the channel.
-                                        response.Id = string.Empty;
-                                        await dc.Context.SendActivityAsync(response);
-                                    }
-
-                                    return InterruptionAction.Waiting;
-                                }
-                        }
+                                return InterruptionAction.Waiting;
+                            }
                     }
-                }
-                catch (Exception)
-                {
-                    var template = _templateEngine.EvaluateTemplate("confusedMessage");
-                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                    await dc.Context.SendActivityAsync(response);
                 }
             }
 
@@ -203,36 +194,29 @@ namespace VirtualAssistantSample.Dialogs
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
-                try
+                // Get localized cognitive models
+                CognitiveModelSet cognitiveModels = GetCognitiveModels();
+
+                // Check dispatch result
+                var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, CancellationToken.None);
+                var intent = dispatchResult.TopIntent().intent;
+
+                // Identify if the dispatch intent maps to a skill
+                var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
+
+                if (identifiedSkill != null)
                 {
-                    // Get localized cognitive models
-                    CognitiveModelSet cognitiveModels = GetCognitiveModels();
-
-                    // Check dispatch result
-                    var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, CancellationToken.None);
-                    var intent = dispatchResult.TopIntent().intent;
-
-                    // Identify if the dispatch intent maps to a skill
-                    var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
-
-                    if (identifiedSkill != null)
-                    {
-                        await innerDc.BeginDialogAsync(identifiedSkill.Id);
-                    }
-                    else if (intent == DispatchLuis.Intent.q_Faq)
-                    {
-                        await CallQnAMaker(innerDc, cognitiveModels.QnAServices["Faq"]);
-                    }
-                    else if (intent == DispatchLuis.Intent.q_Chitchat)
-                    {
-                        await CallQnAMaker(innerDc, cognitiveModels.QnAServices["Chitchat"]);
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
+                    await innerDc.BeginDialogAsync(identifiedSkill.Id);
                 }
-                catch (Exception)
+                else if (intent == DispatchLuis.Intent.q_Faq)
+                {
+                    await CallQnAMaker(innerDc, cognitiveModels.QnAServices["Faq"]);
+                }
+                else if (intent == DispatchLuis.Intent.q_Chitchat)
+                {
+                    await CallQnAMaker(innerDc, cognitiveModels.QnAServices["Chitchat"]);
+                }
+                else
                 {
                     var template = _templateEngine.EvaluateTemplate("confusedMessage");
                     var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
