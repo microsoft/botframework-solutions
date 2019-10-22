@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -99,7 +99,7 @@ namespace $safeprojectname$.Dialogs
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
                             break;
                         }
-                }
+            	}
             }
         }
 
@@ -243,18 +243,14 @@ namespace $safeprojectname$.Dialogs
         {
             // Get cognitive models for locale
             var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-            CognitiveModelSet cognitiveModels;
 
-            cognitiveModels = _services.CognitiveModelSets.ContainsKey(locale)
+            var cognitiveModel = _services.CognitiveModelSets.ContainsKey(locale)
                 ? _services.CognitiveModelSets[locale]
-                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).First().Value;
+                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
+                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
+                                        "Please review your available locales in your cognitivemodels.json file.");
 
-            if (cognitiveModels == null)
-            {
-                throw new Exception("There is no value in cognitiveModels");
-            }
-
-            return cognitiveModels;
+            return cognitiveModel;
         }
     }
 }

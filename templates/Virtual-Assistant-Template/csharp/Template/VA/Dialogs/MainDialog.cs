@@ -295,41 +295,41 @@ namespace $safeprojectname$.Dialogs
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
-                CognitiveModelSet cognitiveModels = GetCognitiveModels();
+            CognitiveModelSet cognitiveModels = GetCognitiveModels();
 
-                // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
-                if (luisService == null)
-                {
-                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
-                    var intent = luisResult.TopIntent().intent;
+            // check luis intent
+            cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
+            if (luisService == null)
+            {
+                throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
+            }
+            else
+            {
+                var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+                var intent = luisResult.TopIntent().intent;
 
-                    if (luisResult.TopIntent().score > 0.5)
+                if (luisResult.TopIntent().score > 0.5)
+                {
+                    switch (intent)
                     {
-                        switch (intent)
-                        {
-                            case GeneralLuis.Intent.Cancel:
-                                {
-                                    return await OnCancel(dc);
-                                }
+                        case GeneralLuis.Intent.Cancel:
+                            {
+                                return await OnCancel(dc);
+                            }
 
-                            case GeneralLuis.Intent.Help:
-                                {
-                                    return await OnHelp(dc);
-                                }
+                        case GeneralLuis.Intent.Help:
+                            {
+                                return await OnHelp(dc);
+                            }
 
-                            case GeneralLuis.Intent.Logout:
-                                {
-                                    return await OnLogout(dc);
-                                }
-                        }
+                        case GeneralLuis.Intent.Logout:
+                            {
+                                return await OnLogout(dc);
+                            }
                     }
                 }
             }
+        }
 
             return InterruptionAction.NoAction;
         }
@@ -391,18 +391,14 @@ namespace $safeprojectname$.Dialogs
         {
             // Get cognitive models for locale
             var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-            CognitiveModelSet cognitiveModels;
 
-            cognitiveModels = _services.CognitiveModelSets.ContainsKey(locale)
+            var cognitiveModel = _services.CognitiveModelSets.ContainsKey(locale)
                 ? _services.CognitiveModelSets[locale]
-                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).First().Value;
+                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
+                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
+                                        "Please review your available locales in your cognitivemodels.json file.");
 
-            if (cognitiveModels == null)
-            {
-                throw new Exception("There is no value in cognitiveModels");
-            }
-
-            return cognitiveModels;
+            return cognitiveModel;
         }
 
         private class Events

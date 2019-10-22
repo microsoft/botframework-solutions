@@ -128,5 +128,19 @@ namespace $safeprojectname$
                 })
                 .StartTestAsync();
         }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                })
+                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+                .StartTestAsync();
+        }
     }
 }
