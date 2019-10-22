@@ -162,6 +162,8 @@ public class MainActivity extends BaseActivity
         AppCenter.start(getApplication(), appConfigurationManager.getConfiguration().appCenterId,
                 Analytics.class, Crashes.class);
 
+        Crashes.setEnabled(true);
+
         isCreated = true;//keep this as last line in onCreate()
     }
 
