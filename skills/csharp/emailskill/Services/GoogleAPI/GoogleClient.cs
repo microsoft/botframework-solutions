@@ -34,7 +34,7 @@ namespace EmailSkill.Services.GoogleAPI
                 ApplicationName = appName,
                 ClientId = clientId,
                 ClientSecret = clientSecret,
-                Scopes = scopes.Split(" "),
+                Scopes = scopes.Split(","),
             };
 
             return googleClient;
