@@ -136,7 +136,7 @@ The **Virtual Assistant Client** is enabled to work with [events used in the sam
 
 ### Open default apps
 {:.no_toc}
-#### [OpenDefaultApp](https://github.com/microsoft/botframework-solutions/blob/8e05d16bacaac483810807cab67b9120d07c5302/samples/android/clients/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/service/SpeechService.java#L502) event
+#### [OpenDefaultApp](https://github.com/microsoft/botframework-solutions/blob/8e05d16bacaac483810807cab67b9120d07c5302/samples/android/clients/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/service/SpeechService.java#L502)
 This method takes the metadata from an **OpenDefaultApp** event to open default apps on the device.
 
 #### Maps
