@@ -15,7 +15,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
@@ -87,9 +86,6 @@ namespace VirtualAssistantSample
             services.AddSingleton(new TemplateEngine()
                 .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
                 .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg")));
-
-            services.AddSingleton<TextActivityGenerator>();
-            services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
 
             // Register dialogs
             services.AddTransient<MainDialog>();

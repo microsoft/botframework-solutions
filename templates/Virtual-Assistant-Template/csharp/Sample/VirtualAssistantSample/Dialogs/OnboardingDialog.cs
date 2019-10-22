@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -20,7 +20,6 @@ namespace VirtualAssistantSample.Dialogs
     {
         private TemplateEngine _templateEngine;
         private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -29,8 +28,6 @@ namespace VirtualAssistantSample.Dialogs
             : base(nameof(OnboardingDialog))
         {
             _templateEngine = serviceProvider.GetService<TemplateEngine>();
-            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -58,8 +55,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("namePrompt");
-                var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
+                var activity = ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("NamePrompt"));
 
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
@@ -70,17 +66,16 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
+            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
 
             // Ensure the name is capitalised ready for future use.
             var name = (string)sc.Result;
-            state.Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
+            userProfile.Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
 
-            await _accessor.SetAsync(sc.Context, state, cancellationToken);
+            await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            var template = _templateEngine.EvaluateTemplate("haveNameMessage", state);
-            var activity = await _activityGenerator.CreateActivityFromText(template, state, sc.Context, _langGenerator);
-            await sc.Context.SendActivityAsync(activity);
+            await sc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("HaveNameMessage", userProfile)));
+
             return await sc.EndDialogAsync();
         }
 

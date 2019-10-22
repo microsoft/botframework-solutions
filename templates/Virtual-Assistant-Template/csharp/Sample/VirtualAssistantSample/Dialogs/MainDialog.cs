@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -30,8 +30,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
+
         private OnboardingDialog _onboardingDialog;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -45,8 +44,6 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<TemplateEngine>();
-            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
             _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
@@ -104,9 +101,8 @@ namespace VirtualAssistantSample.Dialogs
                             // No need to send the usual dialog completion message for utility capabilities such as these.
                             dc.SuppressCompletionMessage(true);
 
-                            var template = _templateEngine.EvaluateTemplate("cancelledMessage", userProfile);
-                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
-                            await dc.Context.SendActivityAsync(response);
+                            await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("CancelledMessage", userProfile)));
+
                             await dc.CancelAllDialogsAsync();
 
                             return InterruptionAction.End;
@@ -114,9 +110,8 @@ namespace VirtualAssistantSample.Dialogs
 
                     case GeneralLuis.Intent.Escalate:
                         {
-                            var template = _templateEngine.EvaluateTemplate("escalateMessage", userProfile);
-                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
-                            await dc.Context.SendActivityAsync(response);
+                            await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("EscalateMessage", userProfile)));
+
                             return InterruptionAction.Resume;
                         }
 
@@ -133,9 +128,8 @@ namespace VirtualAssistantSample.Dialogs
                             }
                             else
                             {
-                                var template = _templateEngine.EvaluateTemplate("helpCard", userProfile);
-                                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
-                                await dc.Context.SendActivityAsync(response);
+                                await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("HelpCard", userProfile)));
+
                                 return InterruptionAction.Resume;
                             }
                         }
@@ -146,9 +140,9 @@ namespace VirtualAssistantSample.Dialogs
                             dc.SuppressCompletionMessage(true);
 
                             await LogUserOut(dc);
-                            var template = _templateEngine.EvaluateTemplate("logoutMessage", userProfile);
-                            var response = await _activityGenerator.CreateActivityFromText(template, userProfile, dc.Context, _langGenerator);
-                            await dc.Context.SendActivityAsync(response);
+
+                            await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("LogOutMessage", userProfile)));
+
                             return InterruptionAction.End;
                         }
 
@@ -187,10 +181,7 @@ namespace VirtualAssistantSample.Dialogs
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
-                // Send intro card
-                var template = _templateEngine.EvaluateTemplate("newUserIntroCard", userProfile);
-                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("NewUserIntroCard", userProfile)));
 
                 // Start onboarding dialog
                 await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
@@ -198,10 +189,11 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 // Send returning user intro card
-                var template = _templateEngine.EvaluateTemplate("returningUserIntroCard", userProfile);
-                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("ReturningUserIntroCard", userProfile)));
             }
+
+            // No need to send the usual dialog completion message for utility capabilities such as these.
+            innerDc.SuppressCompletionMessage(true);
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
@@ -236,9 +228,7 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    var template = _templateEngine.EvaluateTemplate("confusedMessage", userProfile);
-                    var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
-                    await innerDc.Context.SendActivityAsync(response);
+                    await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("ConfusedMessage", userProfile)));
                 }
             }
         }
@@ -308,9 +298,7 @@ namespace VirtualAssistantSample.Dialogs
             // The dialog that is completing can choose to override the automatic dialog completion message if it's performed it's own.
             if (!outerDc.SuppressCompletionMessage())
             {
-                var template = _templateEngine.EvaluateTemplate("completedMessage", userProfile);
-                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, outerDc.Context, _langGenerator);
-                await outerDc.Context.SendActivityAsync(response);
+                await outerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("CompletedMessage", userProfile)));
             }
         }
 
@@ -350,9 +338,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("confusedMessage", userProfile);
-                var response = await _activityGenerator.CreateActivityFromText(template, userProfile, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("ConfusedMessage", userProfile)));
             }
         }
 

@@ -11,6 +11,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using VirtualAssistantSample.Services;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Adapters
 {
@@ -28,7 +29,8 @@ namespace VirtualAssistantSample.Adapters
             OnTurnError = async (turnContext, exception) =>
             {
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message:{exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
+                await turnContext.SendActivityAsync(ActivityGenerator.GenerateFromLG(templateEngine.EvaluateTemplate("ErrorMessage")));
+
                 telemetryClient.TrackException(exception);
             };
 

@@ -1,17 +1,7 @@
-﻿# namePrompt
+﻿# NamePrompt
 - What is your name?
 
-# haveNameMessage
+# HaveNameMessage
 - Hi, {Name}!
-
-# emailPrompt
-- What is your email?
-
-# haveEmailMessage
-- Got it. I've added {Email} as your primary contact address.
-
-# locationPrompt
-- Finally, where are you located?
-
-# haveLocationMessage
-- Thanks, {Name}. I've added {Location} as your primary location. You're all set up!
+- Hi There, {Name}!
+- Pleased to meet you {Name}

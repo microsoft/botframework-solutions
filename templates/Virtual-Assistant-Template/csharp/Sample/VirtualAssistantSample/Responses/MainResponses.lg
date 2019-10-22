@@ -1,71 +1,79 @@
-﻿# cancelledMessage
-- IF: {Name == null}
-	- OK, let's start again.
-	- No problem, let's start again.
-	- Done, let's start over.
-- ELSE: 
-	- Ok {Name}, let's start over.
-	- Sure thing {Name}, we can start over.
-	- OK, let's start again.
-	- No problem, let's start again.
-	- Done, let's start over.
+﻿# CompletedMessage
+- I’m here if you need anything else.
+- Let me know if there’s anything else you need.
+- Let me know if I can help you with anything else.
+- All done. Let me know if I can do anything else.
 
-# completedMessage
-- IF: {Name == null}
-	- What can I help you with?
-	- What else can I help you with?
-	- Great, anything else I can help with?
-	- All done, let me know if I can do anything else.
-- ELSE: 
-	- What can I help you with?
-	- What else can I help you with?
-	- Great, anything else I can help with?
-	- All done {Name}, let me know if I can do anything else.
+# CancelledMessage
+- OK, {RandName()}, cancelling your request. Let me know if I can do anything else for you.
+- OK, cancelling your request. Let me know if I can do anything else for you.
+- No problem, let me know if I can help you with anything else.
+- Sure, I’ll cancel your request. Let me know if I can help with anything else
 
-# confusedMessage
-- IF: {Name == null}
-	- I'm sorry, I'm not able to help with that.
-	- Sorry, I didn't understand that. 
-	- Apologies, I didn't understand that.
-- ELSE: 
-	- I'm sorry {Name}, I'm not able to help with that.
-	- Sorry {Name}, I didn't understand that. 
-	- Apologies {Darren}, I didn't understand that.
-	- I'm sorry, I'm not able to help with that.
-	- Sorry, I didn't understand that. 
-	- Apologies, I didn't understand that.
+# UnableMessage
+- I'm sorry, I'm not able to help with that.
+- Sorry, that’s not something I can help with yet.
+- Apologies, I don’t know how to do that right now.
+- Unfortunately I can’t help you with that right now. Apologies.
+- Sorry, {RandName()}, that’s not something I can help with yet.
+- Apologies, {RandName()}, I don’t know how to do that right now.
 
-# errorMessage
-- IF: {Name == null}
-	- Sorry, it looks like something went wrong.
-	- Sorry, something went wrong. Please try again later.
-	- Apologies, I wasn't able to do that.
-- ELSE: 
-	- Sorry {Name}, it looks like something went wrong.
-	- Sorry {Name}, something went wrong. Please try again later.
-	- Apologies {Name}, I wasn't able to do that.
+# ConfusedMessage
+- I'm sorry, I didn’t understand that. Can you give me some more information?
+- Sorry, I didn't get that. Can you tell me more?
+- Sorry, {RandName()}, I didn't get that. Can you tell me more?
+- Apologies, I didn't quite understand. Can you give me more information?
 
-# logoutMessage
-- IF: {Name == null}
-	- Ok, you're signed out.
-	- All signed out
-	- You're all signed out.
-- ELSE:
-	- Ok {Name}, you're signed out.
-	- All signed out
-	- You're all signed out.
+# ErrorMessage
+- Sorry, {RandName()}, it looks like something went wrong. Please try again later.
+- Apologies, {RandName()}, it looks like something went wrong. Try your request again later.
+- Sorry, it looks like something went wrong. Please try again later.
+- Hmm, it looks like there was an error. Sorry about that. You can try again later.
+- Apologies, it looks like something went wrong. Try your request again later.
 
-# escalateMessage
-- ```
+#StartOverMessage
+- OK, {RandName()}, let's try that again.
+- No problem, {RandName()}, we can start over.
+- OK, let's try that again.
+- Sure, let's try again.
+- No problem, we can start over.
+
+# LogoutMessage
+- OK, {RandName()}, you're signed out.
+- Alright, {RandName()}, you’re signed out.
+- No problem, {RandName()}, I’ve signed you out.
+- OK, you're signed out.
+- Alright, signed out.
+- Sure, you’ve been signed out.
+- No problem, I’ve signed you out.
+
+# EscalateMessage
 [HeroCard
-{
   subtitle=Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
 ]
-```
 
-# newUserIntroCard
+# NewUserIntroCard
+[Activity
+    Attachments = {json(NewUserIntroCardJson())}
+]
+
+# NewUserIntroCardTitle
+- IF: @{timeOfDay == 'morning'}
+	- Hi There!
+    - Good Morning
+    - Morning!
+- ELSEIF: @{timeOfDay == 'afternoon'}
+	- Hi There!
+    - Good afternoon
+    - Afternoon!
+- ELSE: 
+	- Hi There!
+    - Working late? 
+    - Good Evening!
+    - Evening!
+
+# NewUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "NewUserGreeting",
@@ -93,7 +101,7 @@
           "size": "Large",
           "weight": "Bolder",
           "color": "Light",
-          "text": "Hi, I'm **your** Virtual Assistant!",
+          "text": "@{NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
@@ -128,14 +136,22 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Hi, I'm **your** Virtual Assistant. Now that I'm up and running, explore the links here to learn what I can do."
+  "speak": "@{NewUserIntroCardTitle()}"
 }
-]
 ```
 
-# returningUserIntroCard
+# ReturningUserIntroCard
+[Activity
+    Attachments = {json(ReturningUserIntroCardJson())}
+]
+
+# ReturningUserIntroCardTitle
+- Welcome Back{RandName()}!
+- Good to see you again.
+- Hey, welcome back!
+
+# ReturningUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "ReturningUserGreeting",
@@ -169,7 +185,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "Welcome back @{Name}",
+                  "text": "@{ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -190,15 +206,18 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Welcome back {Name}"
+  "speak": "@{ReturningUserIntroCardTitle()}"
 }
-]
 ```
 
-# helpCard
-- ```
+# HelpCard
 [Herocard 
     title=Help for Virtual Assistant
     subtitle=This card can be used to display information to help your user interact with your bot.
 ]
-```
+
+# RandName 
+- IF: {Name && rand(0, 1000) > 500}
+    - {concat(' ', Name)}
+- ELSE:
+    - 
