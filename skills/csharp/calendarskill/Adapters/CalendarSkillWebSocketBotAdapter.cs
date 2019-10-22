@@ -19,6 +19,7 @@ namespace CalendarSkill.Adapters
             ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
+            : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
