@@ -108,6 +108,18 @@ namespace VirtualAssistantSample.Dialogs
                             return InterruptionAction.End;
                         }
 
+                    case GeneralLuis.Intent.StartOver:
+                        {
+                            // No need to send the usual dialog completion message for utility capabilities such as these.
+                            dc.SuppressCompletionMessage(true);
+
+                            await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("StartOverMessage", userProfile)));
+
+                            await dc.CancelAllDialogsAsync();
+
+                            return InterruptionAction.End;
+                        }
+
                     case GeneralLuis.Intent.Escalate:
                         {
                             await dc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("EscalateMessage", userProfile)));
@@ -228,7 +240,9 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("ConfusedMessage", userProfile)));
+                    innerDc.SuppressCompletionMessage(true);
+
+                    await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("UnableMessage", userProfile)));
                 }
             }
         }
@@ -338,7 +352,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("ConfusedMessage", userProfile)));
+                await innerDc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("UnableMessage", userProfile)));
             }
         }
 

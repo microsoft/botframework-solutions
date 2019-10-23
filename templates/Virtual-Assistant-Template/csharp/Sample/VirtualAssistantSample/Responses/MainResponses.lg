@@ -38,6 +38,12 @@
 - Sure, let's try again.
 - No problem, we can start over.
 
+# FirstPromptMessage
+- What can I help you with today?
+- What can I do for you?
+- Is there anything I can do for you?
+- How can I help you?
+
 # LogoutMessage
 - OK, {RandName()}, you're signed out.
 - Alright, {RandName()}, you’re signed out.

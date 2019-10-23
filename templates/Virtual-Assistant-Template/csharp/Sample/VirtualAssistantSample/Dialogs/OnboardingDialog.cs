@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
@@ -75,6 +76,9 @@ namespace VirtualAssistantSample.Dialogs
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
             await sc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("HaveNameMessage", userProfile)));
+            await sc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("FirstPromptMessage", userProfile)));
+
+            sc.SuppressCompletionMessage(true);
 
             return await sc.EndDialogAsync();
         }
