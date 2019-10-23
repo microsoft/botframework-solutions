@@ -3,10 +3,12 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using VirtualAssistantSample.Models;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -18,6 +20,12 @@ namespace VirtualAssistantSample.Tests
         {
             var testName = "Jane Doe";
 
+            UserProfileState profileState = new UserProfileState();
+            profileState.Name = testName;
+
+            var allNamePromptVariations = TemplateEngine.ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = TemplateEngine.ExpandTemplate("HaveNameMessage", profileState);
+
             dynamic data = new JObject();
             data.name = testName;
 
@@ -28,9 +36,9 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+                .AssertReplyOneOf(allNamePromptVariations.ToArray())
                 .Send(testName)
-                .AssertReply(TemplateEngine.EvaluateTemplate("haveNameMessage", data))
+                .AssertReplyOneOf(allHaveMessageVariations.ToArray())
                 .StartTestAsync();
         }
     }

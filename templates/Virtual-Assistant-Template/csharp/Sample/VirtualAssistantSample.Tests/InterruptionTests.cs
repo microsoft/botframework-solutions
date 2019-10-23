@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Tests.Utterances;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -35,25 +36,30 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
                .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
+            var allResponseVariations = TemplateEngine.ExpandTemplate("CancelledMessage", TestUserProfileState);
+
             await GetTestFlow()
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelledMessage"))
+               .AssertReplyOneOf(allResponseVariations.ToArray())
                .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_Cancel_Interruption_Confirmed()
         {
+            var allNamePromptVariations = TemplateEngine.ExpandTemplate("NamePrompt");
+            var allCancelledVariations = TemplateEngine.ExpandTemplate("CancelledMessage", TestUserProfileState);
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -61,9 +67,9 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .AssertReplyOneOf(allNamePromptVariations.ToArray())
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(TemplateEngine.EvaluateTemplate("cancelledMessage"))
+               .AssertReplyOneOf(allCancelledVariations.ToArray())
                .StartTestAsync();
         }
 
@@ -77,10 +83,10 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
                .Send(GeneralUtterances.Repeat)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+               .AssertReply(ActivityGenerator.GenerateFromLG((TemplateEngine.EvaluateTemplate("NamePrompt"))))
                .StartTestAsync();
         }
     }

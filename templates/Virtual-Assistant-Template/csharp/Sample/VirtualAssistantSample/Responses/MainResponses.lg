@@ -5,7 +5,7 @@
 - All done. Let me know if I can do anything else.
 
 # CancelledMessage
-- OK, {RandName()}, cancelling your request. Let me know if I can do anything else for you.
+- OK{RandName()}, cancelling your request. Let me know if I can do anything else for you.
 - OK, cancelling your request. Let me know if I can do anything else for you.
 - No problem, let me know if I can help you with anything else.
 - Sure, I’ll cancel your request. Let me know if I can help with anything else
@@ -211,7 +211,7 @@
 ```
 
 # HelpCard
-[Herocard 
+[HeroCard 
     title=Help for Virtual Assistant
     subtitle=This card can be used to display information to help your user interact with your bot.
 ]

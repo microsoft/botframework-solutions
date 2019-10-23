@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 using VirtualAssistantSample.Tests.Utilities;
 
@@ -30,9 +31,7 @@ namespace VirtualAssistantSample.Tests
 
         public TemplateEngine TemplateEngine { get; set; }
 
-        public ILanguageGenerator LanguageGenerator { get; set; }
-
-        public TextActivityGenerator ActivityGenerator { get; set; }
+        public UserProfileState TestUserProfileState { get; set; }
 
         [TestInitialize]
         public virtual void Initialize()
@@ -71,17 +70,16 @@ namespace VirtualAssistantSample.Tests
             TemplateEngine = new TemplateEngine()
                 .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
                 .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"));
-            LanguageGenerator = new TemplateEngineLanguageGenerator();
-            ActivityGenerator = new TextActivityGenerator();
 
             Services.AddSingleton(TemplateEngine);
-            Services.AddSingleton(LanguageGenerator);
-            Services.AddSingleton(ActivityGenerator);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            TestUserProfileState = new UserProfileState();
+            TestUserProfileState.Name = "Bot";
         }
 
         public TestFlow GetTestFlow()
