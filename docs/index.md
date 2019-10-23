@@ -6,21 +6,21 @@ title: Bot Framework Solutions Documentation
 # {{ page.title }}
 
 <div class="card-deck">
-    <a href="{{site.baseurl}}/overview/virtual-assistant-overview" class="card">
+    <a href="{{site.baseurl}}/overview/virtual-assistant-solution/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/virtual-assistant.png" alt="Virtual Assistant icon" width="48px">
             <h4 class="card-title">Virtual Assistant Solution Accelerator (preview)</h4>
             <p class="card-text"> Build your own branded assistant tailored to your brand, personalized to your users, made available across a broad range of canvases and devices, and in full ownership of your own data.</p>
         </div>
     </a>
-    <a href="{{site.baseurl}}/overview/skills" class="card">
+    <a href="{{site.baseurl}}/overview/skills/" class="card">
         <div class="card-body">        
           <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">
             <h4 class="card-title">Bot Framework Skills (preview)</h4>
             <p class="card-text">Extend your assistant with reusable conversational Skills to add common functionality such as collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. Try the sample Skills available like Calendar, Email, To Do, Point of Interest, and more.</p>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro" class="card">
+    <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/bi-dashboard.png" alt="Analytics icon" width="48px">
             <h4 class="card-title">Analytics</h4>
