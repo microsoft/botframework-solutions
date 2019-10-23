@@ -17,8 +17,10 @@ img {
 }
 
 #header-content {
-  position:relative;
-  z-index:1;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1071;
 }
 
 .featurette {
@@ -46,14 +48,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .container-lg {
   flex: 1;
-}
-
-#toc .toc-wrap {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 40px;
 }
 
 .flex-1 {
@@ -61,14 +58,24 @@ body {
 }
 
 #toc {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 4rem;
+  overflow-y: auto;
+  height: calc(100vh - 4rem);
+  padding-right: 0;
+  border-right: 1px solid #eee;
+  z-index: 1000;
+
   ul {
     list-style-type: none;
     padding-left: 15px;
   }
 
   a:hover {
-    text-decoration: none;
-  }
+    text-decoration: underline;
+    color: black;
+  }  
 }
 
 #footer {
@@ -76,6 +83,52 @@ body {
   padding-bottom: 20px;
 }
 
-.card-group .card {
-  max-width: calc(25%);
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+#content-navbar {
+    float: right !important;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 4rem;
+    overflow-y: auto;
+    height: calc(100vh - 4rem);
+
+    .nav::before {
+        content: "Contents";
+        font-weight: bold;
+    }
+
+    .nav {
+      border-left: 1px solid #eee;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 15px;
+    }
+}
+
+a.card {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 2px 5px hsla(0,0%,89%,1);
+}
+
+a.card:hover{
+  border: 1px solid var(--primary);
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  background-image: none !important;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9 !important;
 }

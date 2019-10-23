@@ -21,5 +21,7 @@ namespace ITSMSkill.Models
         public string Number { get; set; }
 
         public string Url { get; set; }
+
+        public string Provider { get; set; }
     }
 }

@@ -19,7 +19,7 @@
   },
   "UpdateAttribute": {
     // same with SharedStrings
-    "suggestedActions": [ "description", "urgency", "no" ],
+    "suggestedActions": [ "title", "description", "urgency", "no" ],
     "replies": [
       {
         "text": "Which attribute do you want to update?",
@@ -84,7 +84,7 @@
   },
   "ShowAttribute": {
     // same with SharedStrings
-    "suggestedActions": [ "number", "description", "urgency", "state", "no" ],
+    "suggestedActions": [ "number", "text", "urgency", "state", "no" ],
     "replies": [
       {
         "text": "What attribute do you want to set as search constraint? Or \"No\" for no more attribute.",
@@ -96,8 +96,8 @@
   "TicketShow": {
     "replies": [
       {
-        "text": "Page {Page}. Do you want to update constraints to search again? {Navigate}",
-        "speak": "Page {Page}. Do you want to update constraints to search again? {Navigate}"
+        "text": "Do you want to update constraints to search again? {Navigate}",
+        "speak": "Do you want to update constraints to search again? {Navigate}"
       }
     ],
     "inputHint": "acceptingInput"

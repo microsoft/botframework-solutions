@@ -200,10 +200,12 @@ namespace PointOfInterestSkill.Dialogs
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                     var topIntent = luisResult.TopIntent();
 
                     if (topIntent.score > 0.5)
                     {
+                        state.GeneralIntent = topIntent.intent;
                         switch (topIntent.intent)
                         {
                             case General.Intent.Cancel:
@@ -224,6 +226,10 @@ namespace PointOfInterestSkill.Dialogs
                                     break;
                                 }
                         }
+                    }
+                    else
+                    {
+                        state.GeneralIntent = General.Intent.None;
                     }
                 }
             }

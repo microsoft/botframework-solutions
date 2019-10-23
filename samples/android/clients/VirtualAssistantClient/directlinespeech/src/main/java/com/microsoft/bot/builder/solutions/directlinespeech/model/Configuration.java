@@ -36,5 +36,4 @@ public class Configuration {
     @SerializedName("keyword")
     @Expose
     public String keyword;
-
 }

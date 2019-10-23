@@ -12,7 +12,7 @@ namespace CalendarSkill.Utilities
     {
         public static string ToDisplayParticipantsStringSummary(List<Attendee> participants, int maxShowCount)
         {
-            // return the multiple names with "Alice and 2 more"
+            // return the multiple names with "Alice and 2 other people"
             if (participants == null || participants.Count() == 0)
             {
                 return CalendarCommonStrings.NoAttendees;

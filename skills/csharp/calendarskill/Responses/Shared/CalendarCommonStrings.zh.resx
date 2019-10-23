@@ -300,4 +300,22 @@
   <data name="Manager" xml:space="preserve">
     <value>(经理|老板|上司)</value>
   </data>
+  <data name="ShowEventContactCondition" xml:space="preserve">
+    <value>和{0}</value>
+  </data>
+  <data name="ShowEventDateCondition" xml:space="preserve">
+    <value>在{0}</value>
+  </data>
+  <data name="ShowEventLocationCondition" xml:space="preserve">
+    <value>在{0}</value>
+  </data>
+  <data name="ShowEventTitleCondition" xml:space="preserve">
+    <value>关于{0}</value>
+  </data>
+  <data name="AskForDate" xml:space="preserve">
+    <value>几号|什么日期|星期几|礼拜几</value>
+  </data>
+  <data name="DisplayDateLong" xml:space="preserve">
+    <value>MMMM d，dddd</value>
+  </data>
 </root>

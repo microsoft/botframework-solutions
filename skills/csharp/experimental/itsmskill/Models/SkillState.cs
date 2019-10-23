@@ -15,9 +15,6 @@ namespace ITSMSkill.Models
             ClearLuisResult();
         }
 
-        // always call GetAuthToken before using
-        public TokenResponse Token { get; set; }
-
         // handle manually
         public int PageIndex { get; set; }
 
@@ -26,7 +23,12 @@ namespace ITSMSkill.Models
 
         public Ticket TicketTarget { get; set; }
 
+        public ITSMLuis.Intent InterruptedIntent { get; set; }
+
         public string Id { get; set; }
+
+        // Ticket search text (query) is saved here
+        public string TicketTitle { get; set; }
 
         public string TicketDescription { get; set; }
 
@@ -48,9 +50,9 @@ namespace ITSMSkill.Models
         {
             ClearLuisResult();
 
-            if (luis.Entities.TicketDescription != null)
+            if (luis.Entities.TicketTitle != null)
             {
-                TicketDescription = string.Join(' ', luis.Entities.TicketDescription);
+                TicketTitle = string.Join(' ', luis.Entities.TicketTitle);
             }
 
             if (luis.Entities.CloseReason != null)
@@ -83,7 +85,7 @@ namespace ITSMSkill.Models
             if (topIntent == ITSMLuis.Intent.TicketUpdate)
             {
                 // clear AttributeType if already set
-                if (AttributeType == AttributeType.Description && !string.IsNullOrEmpty(TicketDescription))
+                if (AttributeType == AttributeType.Title && !string.IsNullOrEmpty(TicketTitle))
                 {
                     AttributeType = AttributeType.None;
                 }
@@ -105,6 +107,7 @@ namespace ITSMSkill.Models
         public void ClearLuisResult()
         {
             Id = null;
+            TicketTitle = null;
             TicketDescription = null;
             CloseReason = null;
             UrgencyLevel = UrgencyLevel.None;

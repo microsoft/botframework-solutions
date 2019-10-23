@@ -12,6 +12,8 @@ namespace ITSMSkill.Models
     {
         public string Id { get; set; }
 
+        public string Title { get; set; }
+
         public string Description { get; set; }
 
         public UrgencyLevel Urgency { get; set; }
@@ -23,5 +25,7 @@ namespace ITSMSkill.Models
         public string ResolvedReason { get; set; }
 
         public string Number { get; set; }
+
+        public string Provider { get; set; }
     }
 }

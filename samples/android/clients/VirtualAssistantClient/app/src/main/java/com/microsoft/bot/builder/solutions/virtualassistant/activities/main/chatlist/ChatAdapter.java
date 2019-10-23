@@ -93,40 +93,38 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // render cards when creating view holders for better performance
             ChatModel chatModel = chatList.get(viewType); // use viewType to pass value of position
             BotConnectorActivity botConnectorActivity = chatModel.botConnectorActivity;
-            if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")) {
-                View botCards = view.findViewById(R.id.bot_cards);
-                botCards.setVisibility(View.VISIBLE); // bot cards is hidden by default, set to visible if cards exist
+            View botCards = view.findViewById(R.id.bot_cards);
+            botCards.setVisibility(View.VISIBLE); // bot cards is hidden by default, set to visible if cards exist
 
-                LinearLayout cardsContainer = view.findViewById(R.id.cards_container);
+            LinearLayout cardsContainer = view.findViewById(R.id.cards_container);
 
-                // generate horizontal or vertical carousel of cards
-                for (int x = 0; x < botConnectorActivity.getAttachments().size(); x++) {
-                    String cardJson = gson.toJson(botConnectorActivity.getAttachments().get(x));
-                    try {
-                        JSONObject cardJsonObject = new JSONObject(cardJson);
-                        String contentType = cardJsonObject.getString("contentType");
+            // generate horizontal or vertical carousel of cards
+            for (int x = 0; x < botConnectorActivity.getAttachments().size(); x++) {
+                String cardJson = gson.toJson(botConnectorActivity.getAttachments().get(x));
+                try {
+                    JSONObject cardJsonObject = new JSONObject(cardJson);
+                    String contentType = cardJsonObject.getString("contentType");
 
-                        // only adaptive cards supported for now
-                        if (Objects.equals(contentType, "application/vnd.microsoft.card.adaptive")) {
-                            JSONObject content = cardJsonObject.getJSONObject("content");
-                            ParseContext parseContext = new ParseContext();
-                            ParseResult parseResult = AdaptiveCard.DeserializeFromString(content.toString(), AdaptiveCardRenderer.VERSION, parseContext);
-                            AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
-                            RenderedAdaptiveCard renderedAdaptiveCard = AdaptiveCardRenderer.getInstance().render(
-                                    context, ((FragmentActivity)context).getSupportFragmentManager(), adaptiveCard, (ICardActionHandler) context, hostConfig);
+                    // only adaptive cards supported for now
+                    if (Objects.equals(contentType, "application/vnd.microsoft.card.adaptive")) {
+                        JSONObject content = cardJsonObject.getJSONObject("content");
+                        ParseContext parseContext = new ParseContext();
+                        ParseResult parseResult = AdaptiveCard.DeserializeFromString(content.toString(), AdaptiveCardRenderer.VERSION, parseContext);
+                        AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
+                        RenderedAdaptiveCard renderedAdaptiveCard = AdaptiveCardRenderer.getInstance().render(
+                                context, ((FragmentActivity)context).getSupportFragmentManager(), adaptiveCard, (ICardActionHandler) context, hostConfig);
 
-                            // get view from rendered adaptive card
-                            View renderedAdaptiveCardView = renderedAdaptiveCard.getView();
-                            renderedAdaptiveCardView.setFocusable(false);
-                            renderedAdaptiveCardView.setFocusableInTouchMode(false);
-                            renderedAdaptiveCardView.setBackgroundColor(colorBubbleBot);
+                        // get view from rendered adaptive card
+                        View renderedAdaptiveCardView = renderedAdaptiveCard.getView();
+                        renderedAdaptiveCardView.setFocusable(false);
+                        renderedAdaptiveCardView.setFocusableInTouchMode(false);
+                        renderedAdaptiveCardView.setBackgroundColor(colorBubbleBot);
 
-                            // add the view to the existing card container
-                            cardsContainer.addView(renderedAdaptiveCardView);
-                        }
-                    } catch (Exception e) {
-                        Log.e(LOGTAG, e.getMessage());
+                        // add the view to the existing card container
+                        cardsContainer.addView(renderedAdaptiveCardView);
                     }
+                } catch (Exception e) {
+                    Log.e(LOGTAG, e.getMessage());
                 }
             }
         }

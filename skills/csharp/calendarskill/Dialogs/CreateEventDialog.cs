@@ -56,6 +56,8 @@ namespace CalendarSkill.Dialogs
                 ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
                 AfterConfirmBeforeCreatePrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 CreateEvent,
             };
 
@@ -166,7 +168,7 @@ namespace CalendarSkill.Dialogs
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
+                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}");
                     var data = new StringDictionary() { { "UserName", userNameString } };
                     var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
 

@@ -6,22 +6,22 @@
         {
           "id": "General",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
         },
         {
           "id": "ITSM",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "",
           "region": "",
-          "authoringkey": "",
+          "authoringKey": "",
           "authoringRegion": "",
-          "subscriptionkey": ""
+          "subscriptionKey": ""
         }
       ]
     }

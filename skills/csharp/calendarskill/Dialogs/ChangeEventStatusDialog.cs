@@ -38,6 +38,9 @@ namespace CalendarSkill.Dialogs
                 AfterGetAuthToken,
                 CheckFocusedEvent,
                 ConfirmBeforeAction,
+                AfterConfirmBeforeAction,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ChangeEventStatus
             };
 
@@ -102,6 +105,40 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        private async Task<DialogTurnResult> AfterConfirmBeforeAction(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (ChangeEventStatusDialogOptions)sc.Options;
+
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    if (options.SubFlowMode)
+                    {
+                        state.MeetingInfor.ClearTimes();
+                        state.MeetingInfor.ClearTitle();
+                    }
+                    else
+                    {
+                        state.Clear();
+                    }
+
+                    return await sc.EndDialogAsync(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         private async Task<DialogTurnResult> ChangeEventStatus(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -110,32 +147,24 @@ namespace CalendarSkill.Dialogs
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
 
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult)
+                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                if (options.NewEventStatus == EventStatus.Cancelled)
                 {
-                    var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
-                    if (options.NewEventStatus == EventStatus.Cancelled)
+                    if (deleteEvent.IsOrganizer)
                     {
-                        if (deleteEvent.IsOrganizer)
-                        {
-                            await calendarService.DeleteEventByIdAsync(deleteEvent.Id);
-                        }
-                        else
-                        {
-                            await calendarService.DeclineEventByIdAsync(deleteEvent.Id);
-                        }
-
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventDeleted));
+                        await calendarService.DeleteEventByIdAsync(deleteEvent.Id);
                     }
                     else
                     {
-                        await calendarService.AcceptEventByIdAsync(deleteEvent.Id);
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventAccepted));
+                        await calendarService.DeclineEventByIdAsync(deleteEvent.Id);
                     }
+
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventDeleted));
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
+                    await calendarService.AcceptEventByIdAsync(deleteEvent.Id);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ChangeEventStatusResponses.EventAccepted));
                 }
 
                 if (options.SubFlowMode)
