@@ -80,54 +80,51 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        try {
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
+        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
 
-            // Populate state from SkillContext slots as required
-            await this.populateStateFromSemanticAction(dc.context);
+        // Populate state from SkillContext slots as required
+        await this.populateStateFromSemanticAction(dc.context);
 
-            // Get skill LUIS model from configuration
-            if (localeConfig.luisServices !== undefined) {
+        // Get skill LUIS model from configuration
+        if (localeConfig.luisServices !== undefined) {
 
-                const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
+            const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 
-                if (luisService === undefined) {
-                    throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
-                } else {
-                    let turnResult: DialogTurnResult = Dialog.EndOfTurn;
-                    const result: RecognizerResult = await luisService.recognize(dc.context);
-                    const intent: string = LuisRecognizer.topIntent(result);
+            if (luisService === undefined) {
+                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
+            } else {
+                let turnResult: DialogTurnResult = Dialog.EndOfTurn;
+                const result: RecognizerResult = await luisService.recognize(dc.context);
+                const intent: string = LuisRecognizer.topIntent(result);
 
-                    switch (intent) {
-                        case 'Sample': {
-                            turnResult = await dc.beginDialog(SampleDialog.name);
-                            break;
-                        }
-                        case 'None': {
-                            // No intent was identified, send confused message
-                            await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
-                            turnResult = {
-                                status: DialogTurnStatus.complete
-                            };
-                            break;
-                        }
-                        default: {
-                            // intent was identified but not yet implemented
-                            await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
-                            turnResult = {
-                                status: DialogTurnStatus.complete
-                            };
-                        }
+                switch (intent) {
+                    case 'Sample': {
+                        turnResult = await dc.beginDialog(SampleDialog.name);
+                        break;
                     }
-                    if (turnResult !== Dialog.EndOfTurn) {
-                        await this.complete(dc);
+                    case 'None': {
+                        // No intent was identified, send confused message
+                        await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
+                        turnResult = {
+                            status: DialogTurnStatus.complete
+                        };
+                        break;
+                    }
+                    default: {
+                        // intent was identified but not yet implemented
+                        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
+                        turnResult = {
+                            status: DialogTurnStatus.complete
+                        };
                     }
                 }
+                if (turnResult !== Dialog.EndOfTurn) {
+                    await this.complete(dc);
+                }
             }
-        } catch {
-            await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
         }
     }
+
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
         response.type = ActivityTypes.Handoff;
@@ -168,40 +165,36 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-            try {
-                const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
+            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
 
-                // check general luis intent
-                if (localeConfig.luisServices !== undefined) {
-                    const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
+            // check general luis intent
+            if (localeConfig.luisServices !== undefined) {
+                const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
 
-                    if (luisService === undefined) {
-                        throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
-                    } else {
-                        const luisResult: RecognizerResult = await luisService.recognize(dc.context);
-                        const topIntent: string = LuisRecognizer.topIntent(luisResult);
+                if (luisService === undefined) {
+                    throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
+                } else {
+                    const luisResult: RecognizerResult = await luisService.recognize(dc.context);
+                    const topIntent: string = LuisRecognizer.topIntent(luisResult);
 
-                        if (luisResult.intents[topIntent].score > 0.5) {
-                            switch (topIntent) {
-                                case 'Cancel': {
-                                    result = await this.onCancel(dc);
-                                    break;
-                                }
-                                case 'Help': {
-                                    result = await this.onHelp(dc);
-                                    break;
-                                }
-                                case 'Logout': {
-                                    result = await this.onLogout(dc);
-                                    break;
-                                }
-                                default:
+                    if (luisResult.intents[topIntent].score > 0.5) {
+                        switch (topIntent) {
+                            case 'Cancel': {
+                                result = await this.onCancel(dc);
+                                break;
                             }
+                            case 'Help': {
+                                result = await this.onHelp(dc);
+                                break;
+                            }
+                            case 'Logout': {
+                                result = await this.onLogout(dc);
+                                break;
+                            }
+                            default:
                         }
                     }
                 }
-            } catch {
-                await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
             }
         }
 

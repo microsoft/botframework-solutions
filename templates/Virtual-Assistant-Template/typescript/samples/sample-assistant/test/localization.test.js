@@ -203,18 +203,4 @@ describe("Localization", function() {
             });
         });
     });
-    describe("No matching Cognitive Model", function () {
-        it("Send a confused message notice when there is no matching cognitive models and can't fallback", function (done) {
-            botTestBase.getTestAdapterDefault().then((testAdapter) => {
-                const flow = testAdapter
-                    .send({
-						text: 'hola',
-						locale: "es-es"
-					})
-                    .assertReply("Lo siento, no soy capaz de ayudar con eso.");
-                
-                testNock.resolveWithMocks('localization_no_cognitive_models', done, flow);
-            });
-        });
-	});
 });
