@@ -14,8 +14,6 @@ namespace CalendarSkill.Models
 
         public Luis.General GeneralLuisResult { get; set; }
 
-        public string APIToken { get; set; }
-
         public int PageSize { get; set; } = 0;
 
         public EventSource EventSource { get; set; } = EventSource.Other;
@@ -41,7 +39,6 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
-            APIToken = null;
             PageSize = 0;
             EventSource = EventSource.Other;
             MeetingInfor.Clear();
