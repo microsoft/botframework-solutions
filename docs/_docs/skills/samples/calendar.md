@@ -129,13 +129,17 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
 To use Google account skill you need follow these steps:
-1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
-2. Create an OAuth connection setting in your Web App Bot.
+1. Enable Calendar API in [Google API library](https://console.developers.google.com/apis/library)
+2. Create your calendar API credential in [Google developers console](https://console.developers.google.com/apis/credentials).
+    1. Choose "Create credential" - "OAuth Client ID"
+    2. Choose "Web Application"
+    3. Set Redirect URL as **https://token.botframework.com/.auth/web/redirect**
+3. Create an OAuth connection setting in your Web App Bot.
     - Connection name: **googleapi**
     - Service Provider: **Google**
     - Client id and secret are generated in step 1
     - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
-3. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
+4. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
 ### Authentication connection settings
 {:.no_toc}
