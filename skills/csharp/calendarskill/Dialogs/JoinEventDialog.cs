@@ -8,6 +8,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.JoinEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -162,7 +163,7 @@ namespace CalendarSkill.Dialogs
                     {
                         Prompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
                         RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
-                        MaxReprompt = 5
+                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
             }

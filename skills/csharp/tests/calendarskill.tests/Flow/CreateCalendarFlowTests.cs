@@ -85,8 +85,9 @@ namespace CalendarSkill.Test.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(ShowAuth())
                 .Send(GetAuthResponse())
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -105,10 +106,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForRecreateInfoPrompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForRecreateInfoReprompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForRecreateInfoReprompt())
                 .Send("test")
                 .AssertReplyOneOf(AskForRecreateInfoReprompt())
                 .Send("test")
@@ -911,7 +908,7 @@ namespace CalendarSkill.Test.Flow
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -919,8 +916,9 @@ namespace CalendarSkill.Test.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -928,10 +926,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
                 .AssertReplyOneOf(AskForDatePrompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForDateReprompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForDateReprompt())
                 .Send("test")
                 .AssertReplyOneOf(AskForDateReprompt())
                 .Send("test")
@@ -950,7 +944,7 @@ namespace CalendarSkill.Test.Flow
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -958,8 +952,9 @@ namespace CalendarSkill.Test.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -969,10 +964,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(AskForStartTimePrompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForStartTimeReprompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForStartTimeReprompt())
                 .Send("test")
                 .AssertReplyOneOf(AskForStartTimeReprompt())
                 .Send("test")
@@ -991,7 +982,7 @@ namespace CalendarSkill.Test.Flow
             var testRecipient = Strings.Strings.DefaultUserName;
             var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "User", $"{testRecipient}: {testEmailAddress}" } };
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -999,8 +990,9 @@ namespace CalendarSkill.Test.Flow
                 .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
-                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
@@ -1012,10 +1004,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForDurationReprompt())
-                .Send("test")
-                .AssertReplyOneOf(AskForDurationReprompt())
                 .Send("test")
                 .AssertReplyOneOf(AskForDurationReprompt())
                 .Send("test")

@@ -101,7 +101,7 @@ namespace CalendarSkill.Dialogs
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
                         RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound),
-                        MaxReprompt = 5
+                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
             }
@@ -255,7 +255,7 @@ namespace CalendarSkill.Dialogs
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
                     RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry),
                     TimeZone = state.GetUserTimeZone(),
-                    MaxReprompt = 5
+                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
             }
             catch (Exception ex)

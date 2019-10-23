@@ -9,6 +9,7 @@ using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -215,7 +216,7 @@ namespace CalendarSkill.Dialogs
                         {
                             Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoDeleteStartTime),
                             RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound),
-                            MaxReprompt = 5
+                            MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }
                     else
@@ -224,7 +225,7 @@ namespace CalendarSkill.Dialogs
                         {
                             Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoAcceptStartTime),
                             RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound),
-                            MaxReprompt = 5
+                            MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }
                 }
