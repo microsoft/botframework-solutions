@@ -2,8 +2,8 @@
   "AfterTaskCompleted": {
     "replies": [
       {
-        "text": "已经为你完成{listType}列表上的{taskContent}任务。",
-        "speak": "已经为你完成{listType}列表上的{taskContent}任务。"
+        "speak": "好的，我已经在您的{listType}列表上将“ {taskContent}”标记为完成。",
+        "text": "好的，我已经在您的{listType}列表上将“ {taskContent}”标记为完成。"
       }
     ],
     "inputHint": "ignoringInput"
@@ -61,5 +61,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AfterCompleteCardSummaryMessageForMultipleTasks": {
+    "replies": [
+      {
+        "speak": "现在 {listType} 列表中有 {taskCount} 个项目。",
+        "text": "现在 {listType} 列表中有 {taskCount} 个项目。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterCompleteCardSummaryMessageForSingleTask": {
+    "replies": [
+      {
+        "speak": "现在 {listType} 列表中有 1 个项目。",
+        "text": "现在 {listType} 列表中有 1 个项目。"
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }
