@@ -115,6 +115,7 @@ namespace RestaurantBookingSkill.Dialogs
 
                 await dc.Context.SendActivityAsync(response);
             }
+
             await dc.EndDialogAsync(result);
         }
 
