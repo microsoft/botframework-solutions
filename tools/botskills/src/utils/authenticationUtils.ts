@@ -116,7 +116,7 @@ export class AuthenticationUtils {
                     logger.message('Configuring Azure AD connection ...');
 
                     let connectionName: string = aadConfig.id;
-                    const newScopes: string[] = aadConfig.scopes.split(', ');
+                    const newScopes: string[] = aadConfig.scopes.split(',');
                     let scopes: string[] = newScopes.slice(0);
 
                     // check for existing aad connection
@@ -257,18 +257,18 @@ export class AuthenticationUtils {
         } catch (err) {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
-                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message}`);
+                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`);
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
                     .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
-                logger.warning(`${err.message} You must configure one of the following connection types MANUALLY in the Azure Portal:
+                logger.warning(`${err.message || err} You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
                     .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else {
-                logger.warning(err.message);
+                logger.warning(err.message || err);
             }
 
             return false;
