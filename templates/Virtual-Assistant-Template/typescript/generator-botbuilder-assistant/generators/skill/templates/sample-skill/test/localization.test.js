@@ -3,20 +3,8 @@
  * Licensed under the MIT License.
  */
 
-const assert = require("assert");
 const skillTestBase = require("./helpers/skillTestBase");
 const testNock = require("./helpers/testBase");
-const unhandledRepliesES = [
-  "Lo siento, no entendí lo que quería decir.",
-  "No entendía, tal vez intentarlo de nuevo de una manera diferente.",
-  "¿Puedes intentar preguntar de otra manera?",
-  "No entiendo lo que quieres decir, ¿puedes intentarlo de una manera diferente?",
-  "¿Podrías elaborar?",
-  "Por favor, vuelva a decirlo de otra manera.",
-  "No lo entiendo.",
-  "¿Puedes decir eso de otra manera?",
-  "¿Puedes intentar preguntarme otra vez? No entiendo lo que quieres decir."
-];
 
 describe("localization", function() {
   beforeEach(async function() {
@@ -188,22 +176,6 @@ describe("localization", function() {
           .assertReply("[Enter your intro message here]");
 
         return testNock.resolveWithMocks('localization_response_en-gb', done, flow);
-    });
-  });
-
-  describe("No matching Cognitive Model", function () {
-    it("Send a confused message notice when there is no matching cognitive models and can't fallback", function(done) {
-      const testAdapter = skillTestBase.getTestAdapter();
-      const flow = testAdapter
-        .send({
-          text: "hola",
-          locale: "es-es"
-        })
-        .assertReply(function(activity) {
-          assert.notStrictEqual(-1, unhandledRepliesES.indexOf(activity.text));
-        });
-
-      testNock.resolveWithMocks("mainDialog_no_cognitive_models", done, flow);
     });
   });
 });
