@@ -23,6 +23,8 @@ namespace EmailSkill.Responses.Shared
         public const string EmailErrorMessageAccountProblem = "EmailErrorMessageAccountProblem";
         public const string SentSuccessfully = "SentSuccessfully";
         public const string NoEmailContent = "NoEmailContent";
+        public const string NoEmailContentForReply = "NoEmailContentForReply";
+        public const string NoEmailContentForForward = "NoEmailContentForForward";
         public const string RecipientConfirmed = "RecipientConfirmed";
         public const string ConfirmSend = "ConfirmSend";
         public const string ConfirmSendMessage = "ConfirmSendMessage";

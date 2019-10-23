@@ -2,8 +2,8 @@
   "AfterTaskCompleted": {
     "replies": [
       {
-        "text": "I have completed {taskContent} on your {listType} list.",
-        "speak": "I have completed {taskContent} on your {listType} list."
+        "text": "OK, I have marked '{taskContent}' on your {listType} list as complete.",
+        "speak": "OK, I have marked '{taskContent}' on your {listType} list as complete."
       }
     ],
     "inputHint": "ignoringInput"
@@ -61,5 +61,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AfterCompleteCardSummaryMessageForMultipleTasks": {
+    "replies": [
+      {
+        "text": "You now have {taskCount} items on your {listType} list.",
+        "speak": "You now have {taskCount} items on your {listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterCompleteCardSummaryMessageForSingleTask": {
+    "replies": [
+      {
+        "text": "You now have 1 item on your {listType} list.",
+        "speak": "You now have 1 item on your {listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

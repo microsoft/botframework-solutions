@@ -11,8 +11,8 @@
   "NoMessageBody": {
     "replies": [
       {
-        "text": "What content do you want to add to the email? You can say skip to bypass it.",
-        "speak": "What content do you want to add to the email? You can say skip to bypass it."
+        "text": "What would you like to say in the body of the email? Say skip if you want to keep it blank.",
+        "speak": "What would you like to say in the body of the email? Say skip if you want to keep it blank."
       }
     ],
     "inputHint": "expectingInput"
@@ -29,22 +29,9 @@
   "PlayBackMessage": {
     "replies": [
       {
-        "text": "I will repeat the message for you to confirm:",
-        "speak": "I will repeat the message for you to confirm: {EmailContent}"
+        "text": "Okay, here's what I've got. Do you want to include it in the email? \n {EmailContent}",
+        "speak": "Okay, here's what I've got. Do you want to include it in the email? {EmailContent}"
       }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CheckContent": {
-    "replies": [
-      {
-        "text": "Do you want to include this in the email?",
-        "speak": "Do you want to include this in the email?"
-      }
-    ],
-    "suggestedActions": [
-      "Yes",
-      "No"
     ],
     "inputHint": "expectingInput"
   },
@@ -60,22 +47,22 @@
   "GetRecreateInfo": {
     "replies": [
       {
-        "text": "Would you like to change the Participants, Subject or the Content?",
-        "speak": "Would you like to change the Participants, Subject or the Content?"
+        "text": "Would you like to change the Recipients, Subject or the Body?",
+        "speak": "Would you like to change the Recipients, Subject or the Body?"
       }
     ],
     "suggestedActions": [
-      "Participants",
+      "Recipients",
       "Subject",
-      "Content"
+      "Body"
     ],
     "inputHint": "expectingInput"
   },
   "GetRecreateInfoRetry": {
     "replies": [
       {
-        "text": "You can try Participants, Subject, or Content. Or say cancel.",
-        "speak": "You can try Participants, Subject, or Content. Or say cancel."
+        "text": "You can try Recipients, Subject, or Body. Or say cancel.",
+        "speak": "You can try Recipients, Subject, or Body. Or say cancel."
       }
     ],
     "inputHint": "expectingInput"

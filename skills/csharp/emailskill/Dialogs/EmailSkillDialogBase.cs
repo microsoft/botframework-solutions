@@ -259,9 +259,19 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // End when there is no message.
                 if (state.MessageList.Count == 0)
                 {
                     return await sc.EndDialogAsync(true);
+                }
+
+                // Set focus when there is only one message.
+                if (state.MessageList.Count == 1)
+                {
+                    state.Message.Add(state.MessageList[0]);
+
+                    return await sc.NextAsync();
                 }
 
                 return await sc.PromptAsync(
@@ -490,17 +500,22 @@ namespace EmailSkill.Dialogs
                 if (string.IsNullOrEmpty(state.Content))
                 {
                     var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContent);
-                    if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
+                    if (sc.ActiveDialog.Id == Actions.Forward)
                     {
+                        noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
                         if (state.FindContactInfor.Contacts.Count == 0 || state.FindContactInfor.Contacts == null)
                         {
                             state.FindContactInfor.FirstRetryInFindContact = true;
                             return await sc.EndDialogAsync();
                         }
 
-                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
+                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc, false) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
                         noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+                    }
+                    else if (sc.ActiveDialog.Id == Actions.Reply)
+                    {
+                        noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForReply);
                     }
 
                     return await sc.PromptAsync(
@@ -762,7 +777,7 @@ namespace EmailSkill.Dialogs
         }
 
         // Helpers
-        protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
+        protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc, bool isWithEmailDetail = true)
         {
             var state = await EmailStateAccessor.GetAsync(sc?.Context);
             var recipients = state.FindContactInfor.Contacts;
@@ -773,15 +788,15 @@ namespace EmailSkill.Dialogs
             }
             else if (recipients.Count == 1)
             {
-                return recipients.FirstOrDefault()?.EmailAddress.Name + ": " + recipients.FirstOrDefault()?.EmailAddress.Address;
+                return recipients.FirstOrDefault()?.EmailAddress.Name + (isWithEmailDetail ? ": " + recipients.FirstOrDefault()?.EmailAddress.Address : string.Empty);
             }
 
-            var result = recipients.FirstOrDefault()?.EmailAddress.Name + ": " + recipients.FirstOrDefault()?.EmailAddress.Address;
+            var result = recipients.FirstOrDefault()?.EmailAddress.Name + (isWithEmailDetail ? ": " + recipients.FirstOrDefault()?.EmailAddress.Address : string.Empty);
             for (var i = 1; i < recipients.Count; i++)
             {
                 if (i == recipients.Count - 1)
                 {
-                    result += string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + recipients[i].EmailAddress.Name + ": " + recipients[i].EmailAddress.Address;
+                    result += string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + recipients[i].EmailAddress.Name + (isWithEmailDetail ? ": " + recipients[i].EmailAddress.Address : string.Empty);
                 }
                 else
                 {

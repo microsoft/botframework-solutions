@@ -245,6 +245,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowUpdateCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowUpdateCalendarList())
                 .AssertReplyOneOf(this.AskForShowOverviewAgainPrompt())
                 .Send(Strings.Strings.ConfirmYes)

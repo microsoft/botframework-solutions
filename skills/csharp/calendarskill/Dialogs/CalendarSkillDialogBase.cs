@@ -1687,7 +1687,8 @@ namespace CalendarSkill.Dialogs
                         Name = "CalendarDate",
                         Data = new CalendarDateCardData()
                         {
-                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
+                            // format "dddd, MMMM d"
+                            Date = currentAddedDateUser.Value.ToString(CalendarCommonStrings.DisplayDateLong).ToUpper()
                         }
                     });
                 }

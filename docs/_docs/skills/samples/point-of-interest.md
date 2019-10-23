@@ -96,7 +96,7 @@ Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) t
 ### From assistant to user
 {:.no_toc}
 
-This Skill supports an outgoing **OpenDefaultApp** Event Activity that provides a Geo URI for chat clients to determine how to handle navigation to a user's selected point of interest.
+This Skill supports an outgoing **OpenDefaultApp** Event Activity that provides a [Geo URI](https://en.wikipedia.org/wiki/Geo_URI_scheme) for chat clients to determine how to handle navigation to a user's selected point of interest.
 The [Virtual Assistant Client (Android) sample]({{ site.baseurl }}/howto/samples/vaclient_android/) demonstrates how a client may navigate to a destination using a user's preferred map application.
 
 ```json
@@ -104,7 +104,7 @@ The [Virtual Assistant Client (Android) sample]({{ site.baseurl }}/howto/samples
    "type":"event",
    "name":"OpenDefaultApp",
    "value":{ 
-      "GeoUri":"geo:{LONGITUDE},{LATITUDE}"
+      "GeoUri":"geo:{LATITUDE},{LONGITUDE}"
    }
 }
 ```

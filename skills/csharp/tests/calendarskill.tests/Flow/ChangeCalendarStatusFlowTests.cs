@@ -40,6 +40,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -54,6 +56,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -72,6 +76,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(GeneralTestUtterances.ChooseOne)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -86,6 +92,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AcceptEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
