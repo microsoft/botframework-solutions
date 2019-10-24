@@ -43,7 +43,7 @@ namespace PointOfInterestSkill.Tests.API
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
             var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]);
-            Assert.AreEqual(pointOfInterest.PointOfInterestImageUrl, string.Format("https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={2}&center={0},{1}&width=440&height=240&pins=default|la15+50|al0.75|cod83b01||{0} {1}&subscription-key={3}", pointOfInterestList[0].Geolocation.Longitude, pointOfInterestList[0].Geolocation.Latitude, 14, MockData.Key));
+            Assert.AreEqual(pointOfInterest.PointOfInterestImageUrl.Substring(0, 23), "data:image/jpeg;base64,");
         }
 
         [TestMethod]
