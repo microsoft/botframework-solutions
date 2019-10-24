@@ -2,16 +2,22 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
 {
-    public abstract class DispatchDialog : InterruptableDialog
+    public abstract class ActivityHandlerDialog : InterruptableDialog
     {
-        public DispatchDialog(string dialogId, IBotTelemetryClient telemetryClient)
+        public ActivityHandlerDialog(
+            string dialogId,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId, telemetryClient)
         {
             TelemetryClient = telemetryClient;
