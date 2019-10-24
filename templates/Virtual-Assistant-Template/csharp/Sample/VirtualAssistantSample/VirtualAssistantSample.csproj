@@ -29,8 +29,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview-191005-1" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-Daily-2019-10-04-01" />
-    <!--<PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily62" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily62" />-->
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily62" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily62" />
     <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.6.0-Daily-2019-09-25-01" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-preview-191005-1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-preview-191005-1" />

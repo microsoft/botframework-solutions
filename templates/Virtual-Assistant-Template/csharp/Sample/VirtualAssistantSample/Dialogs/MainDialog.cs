@@ -21,7 +21,7 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class MainDialog : DispatchDialog
+    public class MainDialog : RouterDialog
     {
         private BotServices _services;
         private BotSettings _settings;
