@@ -3,7 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -35,6 +38,10 @@ namespace PointOfInterestSkill.Services
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives={{1}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives={{2}}";
         private static string apiKey;
+
+        // TODO if set to 0, url will be used to generate image directly. However the url contains subscription key.
+        // If set > 0, url will be converted to jpg as data uri, so subscription key is hidden.
+        private static long useDataUriQuality = 75;
         private static string userLocale;
         private static HttpClient httpClient;
 
@@ -178,7 +185,7 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
         /// <returns>PointOfInterestModel.</returns>
-        public Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
@@ -189,9 +196,14 @@ namespace PointOfInterestSkill.Services
                 width <= 0 ? ImageWidth : width,
                 height <= 0 ? ImageHeight : height) + "&subscription-key=" + apiKey;
 
+            if (useDataUriQuality > 0)
+            {
+                imageUrl = await ConvertToDataUri(imageUrl);
+            }
+
             pointOfInterest.PointOfInterestImageUrl = imageUrl;
 
-            return Task.FromResult(pointOfInterest);
+            return pointOfInterest;
         }
 
         /// <summary>
@@ -249,7 +261,14 @@ namespace PointOfInterestSkill.Services
 
             string pins = string.Format(CultureInfo.InvariantCulture, RoutePins, PointOfInterestSharedStrings.START, route.Legs[0].Points[0].Longitude, route.Legs[0].Points[0].Latitude, PointOfInterestSharedStrings.END, destination.Geolocation.Longitude, destination.Geolocation.Latitude);
 
-            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
+            var imageUrl = string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
+
+            if (useDataUriQuality > 0)
+            {
+                imageUrl = await ConvertToDataUri(imageUrl);
+            }
+
+            return imageUrl;
 
             void AddPoint(double longitude, double latitude)
             {
@@ -406,6 +425,20 @@ namespace PointOfInterestSkill.Services
             }
 
             return pointOfInterestList;
+        }
+
+        private async Task<string> ConvertToDataUri(string url)
+        {
+            MemoryStream ms = new MemoryStream();
+            using (var image = Image.FromStream(await httpClient.GetStreamAsync(url)))
+            {
+                var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
+                var encoderParameters = new EncoderParameters(1);
+                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, useDataUriQuality);
+                image.Save(ms, encoder, encoderParameters);
+            }
+
+            return $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
         }
     }
 }
