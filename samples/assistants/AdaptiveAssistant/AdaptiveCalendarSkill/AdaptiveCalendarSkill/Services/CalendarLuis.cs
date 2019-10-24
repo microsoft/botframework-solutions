@@ -22,28 +22,15 @@ namespace Luis
             SelectNone, 
             ShowNext, 
             ShowPrevious, 
-            AcceptEventEntry, 
-            ChangeCalendarEntry, 
-            CheckAvailability, 
-            Confirm, 
-            ConnectToMeeting, 
-            ContactMeetingAttendees, 
             CreateCalendarEntry, 
-            DeleteCalendarEntry, 
-            FindCalendarDetail, 
-            FindCalendarEntry, 
-            FindCalendarWhen, 
-            FindCalendarWhere, 
-            FindCalendarWho, 
-            FindDuration, 
-            FindMeetingRoom, 
-            GoBack, 
-            None, 
-            Reject, 
-            ShowNextCalendar, 
-            ShowPreviousCalendar, 
-            TimeRemaining
+            FindCalendarEntry,
+            SetTitle,
+            SetDateTime,
+            SetLocation,
+            Invite,
+            None
         };
+
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities

@@ -2,10 +2,9 @@
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 
 namespace AdaptiveAssistant.Dialogs
 {
@@ -27,7 +26,7 @@ namespace AdaptiveAssistant.Dialogs
                             {
                                 Property = "user.name",
                                 Prompt = new ActivityTemplate("[namePrompt]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                AllowInterruptions = "false"
                             },
                             new SendActivity("[haveNameMessage]"),
                             //new TextInput()

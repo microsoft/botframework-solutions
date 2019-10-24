@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCalendarSkill.Services;
@@ -8,9 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 
 namespace AdaptiveCalendarSkill.Dialogs
@@ -21,12 +18,12 @@ namespace AdaptiveCalendarSkill.Dialogs
 
         public ViewDialog(
             BotServices services,
-            MultiProviderAuthDialog oauthDialog)
+            OAuthDialog oauthDialog)
             : base(nameof(ViewDialog))
         {
             var showMeetingsDialog = new AdaptiveDialog("showMeetingsDialog")
             {
-                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
+                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("ViewDialog.lg"),
                 AutoEndDialog = false,
                 Triggers =
@@ -35,10 +32,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                     {
                         Actions =
                         {
-                            new BeginDialog(oauthDialog.Id)
-                            {
-                                ResultProperty = "user.token"
-                            },
+                            new BeginDialog(oauthDialog.Id),
                             new SetProperty()
                             {
                                 Property = "dialog.currentDate",
@@ -52,7 +46,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                 ResponseType = HttpRequest.ResponseTypes.Json,
                                 Headers = new Dictionary<string, string>()
                                 {
-                                    ["Authorization"] = "Bearer {user.token.tokenResponse.token}",
+                                    ["Authorization"] = "Bearer {user.token.token}",
                                 },
                             },
                             new TraceActivity(),
@@ -73,7 +67,6 @@ namespace AdaptiveCalendarSkill.Dialogs
                                             new SendActivity($"[MeetingList(dialog.meetingListResult.content.value, conversation.meetingListPage * {_displayCount}, count(dialog.meetingListResult.content.value))]"),
                                         }
                                     },
-                                    new SendActivity($"[Meeting-List-Actions({_displayCount})]")
                                 },
                                 ElseActions =
                                 {
@@ -163,7 +156,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                             {
                                 Condition = "turn.selectMeeting_ordinal != null",
                                 Actions =
-                                {   
+                                {
                                     new SetProperty()
                                     {
                                         Property = "dialog.selectIndex",
@@ -228,11 +221,6 @@ namespace AdaptiveCalendarSkill.Dialogs
 
             AddDialog(showMeetingsDialog);
             AddDialog(oauthDialog);
-        }
-
-        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return base.EndComponentAsync(outerDc, result, cancellationToken);
         }
     }
 }

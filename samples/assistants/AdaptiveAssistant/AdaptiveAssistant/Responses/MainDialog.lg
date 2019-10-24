@@ -13,27 +13,21 @@
 # logoutMessage
 - Ok, you're signed out.
 
-﻿# escalateCard
-- ```
-[Attachment=Content\EscalateCard.json hero]
-```
+﻿# escalateResponse
+- You can call us any time.
 
 # newUserIntroCard
-- ```
-[Attachment=Content\NewUserGreeting.json adaptivecard]
-```
+- Hi!
 
 # returningUserIntroCard
 - IF: {user.name != null}
     - ```
-    [Attachment=Content\ReturningUserGreetingWithName.json adaptivecard]
+    Welcome back, {user.name}!
     ```
 - ELSE:
     -  ```
-    [Attachment=Content\ReturningUserGreeting.json adaptivecard]
+    Welcome back!
     ```
 
 # helpCard
-- ```
-[Attachment=Content\HelpCard.json hero]
-```
+- Help Card

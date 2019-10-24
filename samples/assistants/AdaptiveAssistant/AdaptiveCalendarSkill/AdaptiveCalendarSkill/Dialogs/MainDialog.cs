@@ -6,8 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Schema;
 
 /// <summary>
@@ -20,25 +19,37 @@ namespace AdaptiveCalendarSkill.Dialogs
         public MainDialog(
             BotServices services,
             CreateDialog createDialog,
-            ViewDialog viewDialog)
+            ViewDialog viewDialog,
+            OAuthDialog oauthDialog)
             : base(nameof(MainDialog))
         {
             // Create instance of adaptive dialog. 
             var adaptiveDialog = new AdaptiveDialog("root")
             {
                 // Create a LUIS recognizer.
-                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
+                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
                 Triggers =
                 {
                     new OnConversationUpdateActivity()
                     {
-                        Actions = { new SendActivity("[Help-Root-Dialog]") }
+                        Actions =
+                        {
+                            new BeginDialog(oauthDialog.Id),
+                            new SendActivity("[Welcome]")
+                        }
                     },
 
                     /******************************************************************************/
                     // place to add new dialog
-                    new OnIntent("CreateCalendarEntry") { Actions = { new ReplaceDialog(createDialog.Id) } },
+                    new OnIntent("CreateCalendarEntry")
+                    {
+                        Actions =
+                        {
+                            new ReplaceDialog(createDialog.Id)
+                        },
+                        Condition = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.5"
+                    },
                     new OnIntent("FindCalendarEntry")
                     {
                         Actions =
@@ -49,7 +60,8 @@ namespace AdaptiveCalendarSkill.Dialogs
                                 Value = "0"
                             },
                             new BeginDialog(viewDialog.Id)
-                        }
+                        },
+                        Condition = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.5"
                     },
 
                     /******************************************************************************/
@@ -68,6 +80,10 @@ namespace AdaptiveCalendarSkill.Dialogs
                         },
                         Condition = "turn.dialogevent.value.intents.Cancel.score > 0.5"
                     },
+                    new OnUnknownIntent()
+                    {
+                        Actions = { new SendActivity("Sorry, I'm not sure what you mean.") }
+                    },
                     new OnDialogEvent()
                     {
                         Event = DialogEvents.RepromptDialog,
@@ -81,20 +97,11 @@ namespace AdaptiveCalendarSkill.Dialogs
             AddDialog(adaptiveDialog);
             AddDialog(createDialog);
             AddDialog(viewDialog);
+            AddDialog(oauthDialog);
 
             /******************************************************************************/
             // The initial child Dialog to run.
             InitialDialogId = adaptiveDialog.Id;
-        }
-
-        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            // Send 'handoff' activity
-            var response = outerDc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.Handoff;
-            await outerDc.Context.SendActivityAsync(response);
-
-            return await base.EndComponentAsync(outerDc, result, cancellationToken);
         }
     }
 }

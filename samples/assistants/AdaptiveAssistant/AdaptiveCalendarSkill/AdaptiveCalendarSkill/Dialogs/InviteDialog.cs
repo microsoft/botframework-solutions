@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using AdaptiveAssistant.Input;
 using AdaptiveCalendarSkill.Services;
+using AdaptiveCards.Rendering;
+using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Expressions.Parser;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Expressions;
 
 namespace AdaptiveCalendarSkill.Dialogs
 {
@@ -19,8 +21,8 @@ namespace AdaptiveCalendarSkill.Dialogs
         {
             var getAttendees = new AdaptiveDialog("adaptive")
             {
-                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
-                Generator = new ResourceMultiLanguageGenerator("InviteDialog.lg"),
+                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
+                Generator = new ResourceMultiLanguageGenerator("CreateDialog.lg"),
                 Triggers =
                 {
                     new OnBeginDialog()
@@ -30,9 +32,11 @@ namespace AdaptiveCalendarSkill.Dialogs
                             // Prompts for name or email
                             new ContactInput()
                             {
-                                Property = "dialog.contactName",
-                                EmailProperty = "dialog.emailAddress",
+                                Property = "dialog.contactname",
+                                EmailProperty = "dialog.emailaddress",
                                 Prompt = new ActivityTemplate("[ContactPrompt]"),
+                                AllowInterruptions = "true",
+                                Value = "@Contact"
                             },
                             new IfCondition()
                             {
@@ -55,10 +59,10 @@ namespace AdaptiveCalendarSkill.Dialogs
                                         ResultProperty = "dialog.contactsList",
                                         ResponseType = HttpRequest.ResponseTypes.Json,
                                         Method = HttpRequest.HttpMethod.GET,
-                                        Url = "https://graph.microsoft.com/v1.0/me/contacts?$search=\"{dialog.contactName}\"",
+                                        Url = "https://graph.microsoft.com/v1.0/me/people?$search=\"{dialog.contactName}\"",
                                         Headers = new Dictionary<string, string>()
                                         {
-                                            ["Authorization"] = "Bearer {user.token.tokenResponse.token}",
+                                            ["Authorization"] = "Bearer {user.token.token}",
                                         }
                                     },
                                     // remove any contacts without an email address
@@ -72,7 +76,7 @@ namespace AdaptiveCalendarSkill.Dialogs
 
                                         foreach (var contact in contactsList.value)
                                         {
-                                            if (contact.emailAddresses[0]?.address != null)
+                                            if (contact.scoredEmailAddresses?[0]?.address != null)
                                             {
                                                 cleanList.Add(contact);
                                             }
@@ -96,7 +100,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     new SetProperty()
                                                     {
                                                         Property = "dialog.emailAddress",
-                                                        Value = "dialog.contactsList[0].emailAddresses[0].address"
+                                                        Value = "dialog.contactsList[0].scoredEmailAddresses[0].address"
                                                     },
                                                     new EditArray()
                                                     {
@@ -114,7 +118,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                                     new SetProperty()
                                                     {
                                                         Property = "dialog.emailChoiceList",
-                                                        Value = "foreach(dialog.contactsList, item, item.emailAddresses[0].address)"
+                                                        Value = "foreach(dialog.contactsList, item, item.scoredEmailAddresses[0].address)"
                                                     },
                                                     new ChoiceInput()
                                                     {
@@ -135,25 +139,18 @@ namespace AdaptiveCalendarSkill.Dialogs
                                         ElseActions =
                                         {
                                             new SendActivity("[CouldNotFindContactMessage]"),
-                                            new RepeatDialog(),
                                         }
                                     }
                                 }
-                            },                           
-                            // Prompt for more people
-                            new ConfirmInput()
-                            {
-                                Property = "dialog.addAnotherContact",
-                                Prompt = new ActivityTemplate("[AddContactPrompt]"),
                             },
-                            new IfCondition()
-                            {
-                                Condition = "dialog.addAnotherContact == true",
-                                Actions = { new RepeatDialog() },
-                                ElseActions = { new EndDialog(value: "dialog.recipients") }
-                            }
+                            new EndDialog(value: "dialog.recipients")
                         }
                     },
+                    new OnIntent(CalendarLuis.Intent.Cancel.ToString())
+                    {
+                        Condition = "turn.dialogevent.value.intents.Cancel.score > 0.8",
+                        Actions = { new CancelAllDialogs() }
+                    }
                 }
             };
 

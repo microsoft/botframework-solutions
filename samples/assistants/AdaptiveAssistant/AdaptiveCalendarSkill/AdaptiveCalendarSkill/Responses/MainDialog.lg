@@ -1,19 +1,8 @@
 ﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-# Help-Root-Dialog
-- ```
-@{WelcomePrefix()}, I'm the calendar sample bot. @{Welcome-Suffix()}
-@{Welcome-Actions()}
-```
-
-# Welcome-Suffix
-- What can I help you with?
-
-# Welcome-Actions
-- \[Suggestions=New Meeting | Get Schedule | Help\]
-
-# WelcomePrefix
-- Hi
-- Hello
-- Hiya
+# Welcome
+[Activity
+    Text = Hi, I'm the Calendar Bot! I can help you manage your calendar.
+    SuggestedActions = New Meeting | Get Schedule | Help
+]

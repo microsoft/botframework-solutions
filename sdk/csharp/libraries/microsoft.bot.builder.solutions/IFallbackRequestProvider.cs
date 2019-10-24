@@ -8,6 +8,6 @@ namespace Microsoft.Bot.Builder.Solutions
     /// </summary>
     public interface IFallbackRequestProvider
     {
-         Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken);
+        Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken);
     }
 }

@@ -13,7 +13,8 @@ namespace AdaptiveAssistant.Input
 
         protected override Task<InputState> OnRecognizeInput(DialogContext dc)
         {
-            var input = dc.State.GetValue<string>(PROCESS_INPUT_PROPERTY);
+            var input = dc.State.GetValue<string>(VALUE_PROPERTY);
+            input = input.Replace(" ", string.Empty);
 
             // check if email
             if (IsEmailValid(input))
@@ -22,7 +23,7 @@ namespace AdaptiveAssistant.Input
             }
             else
             {
-                dc.State.SetValue(PROCESS_INPUT_PROPERTY, input);
+                dc.State.SetValue(VALUE_PROPERTY, input);
             }
 
             return input.Length > 0 ? Task.FromResult(InputState.Valid) : Task.FromResult(InputState.Unrecognized);

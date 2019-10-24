@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using AdaptiveAssistant.Adapters;
 using AdaptiveAssistant.Bots;
 using AdaptiveAssistant.Dialogs;
@@ -16,20 +19,14 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace AdaptiveAssistant
 {
@@ -112,7 +109,7 @@ namespace AdaptiveAssistant
 
             // Configure adapters
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
+            // services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
             services.AddSingleton<IBot, DialogBot<DispatchDialog>>();

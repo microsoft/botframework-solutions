@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Builder.Skills
                                         {
                                             _fallbackRequestHandler(activity);
 
-                                             return new ResourceResponse();
+                                            return new ResourceResponse();
                                         }
                                         else
                                         {

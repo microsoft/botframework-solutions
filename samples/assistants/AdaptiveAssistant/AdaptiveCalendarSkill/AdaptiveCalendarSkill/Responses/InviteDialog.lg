@@ -11,7 +11,7 @@ Who would you like to invite?
 
 # MultipleContactsFound
 - ```
-I found multiple contacts with the name \"@{dialog.contactName}\".
+I found multiple contacts with the name \"@{CapitalizeFirstLetter(dialog.contactName)}\".
 ```
 
 # ContactChoicePrompt
@@ -21,10 +21,13 @@ Please select an email from this list:
 
 # CouldNotFindContactMessage
 - ```
-Sorry, I couldn't find any contacts with the name: @{dialog.contactName}. Please try again with the full contact name or email address.
+Sorry, I couldn't find any contacts with the name: \"@{CapitalizeFirstLetter(dialog.contactName)}\". Please try again with the full contact name or email address.
 ```
 
 # AddContactPrompt
 - ```
 Would you like to invite anyone else?
 ```
+
+# CapitalizeFirstLetter(input)
+- {concat(toUpper(substring(input, 0, 1)), substring(input, 1))}

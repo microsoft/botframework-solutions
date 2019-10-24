@@ -7,11 +7,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Expressions.Parser;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Expressions;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Newtonsoft.Json.Linq;
 
@@ -23,13 +22,13 @@ namespace AdaptiveCalendarSkill.Dialogs
 
         public CreateDialog(
             BotServices services,
-            MultiProviderAuthDialog oauthDialog,
-            InviteDialog getRecipientsDialog)
+            OAuthDialog oauthDialog,
+            InviteDialog inviteDialog)
             : base(nameof(CreateDialog))
         {
             var createDialog = new AdaptiveDialog("adaptive")
             {
-                Recognizer = services.CognitiveModelSets["en"].LuisRecognizers["Calendar"],
+                Recognizer = services.CognitiveModelSets["en"].LuisServices["Calendar"],
                 Generator = new ResourceMultiLanguageGenerator("CreateDialog.lg"),
                 Triggers =
                 {
@@ -37,13 +36,10 @@ namespace AdaptiveCalendarSkill.Dialogs
                     {
                         Actions =
                         {
-                            new BeginDialog(oauthDialog.Id)
+                            new BeginDialog(oauthDialog.Id),
+                            new BeginDialog(inviteDialog.Id)
                             {
-                                ResultProperty = "user.token",
-                            },
-                            new BeginDialog(getRecipientsDialog.Id)
-                            {
-                                ResultProperty = "dialog.recipients"
+                                ResultProperty = "dialog.recipients",
                             },
                             new CodeAction((dc, options) =>
                             {
@@ -64,12 +60,20 @@ namespace AdaptiveCalendarSkill.Dialogs
                             {
                                 Property = "dialog.title",
                                 Prompt = new ActivityTemplate("[TitlePrompt]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                Value = "@Subject",
+                                AllowInterruptions = "false"
+                            },
+                            new SetProperty()
+                            {
+                                Property = "dialog.title",
+                                Value = "concat(toUpper(substring(dialog.title, 0, 1)), substring(dialog.title, 1))"
                             },
                             new TimexInput()
                             {
                                 Property = "dialog.datetime",
                                 Prompt = new ActivityTemplate("[DateTimePrompt]"),
+                                Value = "@datetimev2",
+                                AllowInterruptions = "true"
                             },
                             new IfCondition()
                             {
@@ -271,18 +275,19 @@ namespace AdaptiveCalendarSkill.Dialogs
                             {
                                 Property = "dialog.location",
                                 Prompt = new ActivityTemplate("[LocationPrompt]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                AllowInterruptions = "true"
                             },
                             new TextInput()
                             {
                                 Property = "dialog.description",
                                 Prompt = new ActivityTemplate("[DescriptionPrompt]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                AllowInterruptions = "true"
                             },
                             new ConfirmInput()
                             {
                                 Property = "dialog.confirmEntry",
                                 Prompt = new ActivityTemplate("[ConfirmEventPrompt]"),
+                                AllowInterruptions = "true"
                             },
                             new TraceActivity(),
                             new IfCondition()
@@ -296,7 +301,7 @@ namespace AdaptiveCalendarSkill.Dialogs
                                         Method = HttpRequest.HttpMethod.POST,
                                         Url = "https://graph.microsoft.com/v1.0/me/events",
                                         Headers =  new Dictionary<string, string>(){
-                                            ["Authorization"] = "Bearer {user.token.tokenResponse.token}",
+                                            ["Authorization"] = "Bearer {user.token.token}",
                                         },
                                         Body = JObject.FromObject(new {
                                             subject = "{dialog.title}",
@@ -333,11 +338,89 @@ namespace AdaptiveCalendarSkill.Dialogs
                             new EndDialog()
                         }
                     },
-                    new OnIntent(CalendarLuis.Intent.Cancel.ToString())
+                    new OnIntent(CalendarLuis.Intent.Invite.ToString())
                     {
+                        Condition = "turn.dialogevent.value.intents.SetTitle.score > 0.5",
                         Actions =
                         {
-                            new SendActivity("Sure thing."),
+                            new BeginDialog(inviteDialog.Id)
+                            {
+                                ResultProperty = "dialog.addedRecipients"
+                            },
+                            new Foreach()
+                            {
+                                ItemsProperty = "dialog.addedRecipients",
+                                Actions =
+                                {
+                                    new EditArray()
+                                    {
+                                        ChangeType = EditArray.ArrayChangeType.Push,
+                                        ItemsProperty = "dialog.recipients",
+                                        Value = "$foreach.value"
+                                    },
+                                }
+                            },                            
+                            new CodeAction((dc, options) =>
+                            {
+                                var exp = new ExpressionEngine().Parse("dialog.recipients");
+                                (dynamic recipientsList, var error) = exp.TryEvaluate(dc.State);
+
+                                var emailList = new List<object>();
+
+                                foreach (var email in recipientsList)
+                                {
+                                    emailList.Add(new { emailAddress = new { address = email } });
+                                }
+
+                                dc.State.SetValue("dialog.emailList", emailList.ToArray());
+                                return dc.EndDialogAsync();
+                            }),
+                            new TraceActivity()
+                        }
+                    },
+                    new OnIntent(CalendarLuis.Intent.SetTitle.ToString())
+                    {
+                        Condition = "turn.dialogevent.value.intents.SetTitle.score > 0.5",
+                        Actions =
+                        {
+                            new SetProperty()
+                            {
+                                Property = "dialog.title",
+                                Value = "@Subject"
+                            }
+                        }
+                    },
+                    new OnIntent(CalendarLuis.Intent.SetDateTime.ToString())
+                    {
+                        // How to flexibly get the full datetime logic here
+                        Condition = "turn.dialogevent.value.intents.SetDateTime.score > 0.5",
+                        Actions =
+                        {
+                            new SetProperty()
+                            {
+                                Property = "dialog.datetime",
+                                Value = "@datetimev2"
+                            }
+                        }
+                    },
+                    new OnIntent(CalendarLuis.Intent.SetLocation.ToString())
+                    {
+                        Condition = "turn.dialogevent.value.intents.SetLocation.score > 0.5",
+                        Actions =
+                        {
+                            new SetProperty()
+                            {
+                                Property = "dialog.location",
+                                Value = "@Location"
+                            }
+                        }
+                    },
+                    new OnIntent(CalendarLuis.Intent.Cancel.ToString())
+                    {
+                        Condition = "turn.dialogevent.value.intents.Cancel.score > 0.8",
+                        Actions =
+                        {
+                            new SendActivity("Sure, I've cancelled the meeting."),
                             new EndDialog()
                         }
                     },
@@ -346,7 +429,7 @@ namespace AdaptiveCalendarSkill.Dialogs
 
             AddDialog(createDialog);
             AddDialog(oauthDialog);
-            AddDialog(getRecipientsDialog);
+            AddDialog(inviteDialog);
         }
     }
 }

@@ -92,9 +92,7 @@
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Adaptive\Microsoft.Bot.Builder.Dialogs.Adaptive.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Declarative\Microsoft.Bot.Builder.Dialogs.Declarative.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Expressions.Parser\Microsoft.Bot.Builder.Expressions.Parser.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Expressions\Microsoft.Bot.Builder.Expressions.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration.Templates\Microsoft.Bot.Builder.LanguageGeneration.Templates.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Expressions\Microsoft.Bot.Expressions.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration\Microsoft.Bot.Builder.LanguageGeneration.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Configuration\Microsoft.Bot.Configuration.csproj" />

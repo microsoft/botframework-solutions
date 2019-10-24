@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Configuration;
 
 namespace AdaptiveAssistant.Services
 {
@@ -29,14 +28,14 @@ namespace AdaptiveAssistant.Services
 
                 var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
 
-                set.DispatchRecognizer = new LuisRecognizer(dispatchApp, luisOptions);
+                set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
 
                 if (config.LanguageModels != null)
                 {
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisRecognizers.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
                     }
                 }
 
@@ -50,8 +49,7 @@ namespace AdaptiveAssistant.Services
                     };
 
                     var qnaMaker = new QnAMaker(qnaEndpoint, null, null, telemetryClient: telemetryClient, logPersonalInformation: true);
-                    set.QnAMakers.Add(kb.Id, qnaMaker);
-                    set.QnAServices.Add(kb.Id, kb);
+                    set.QnAServices.Add(kb.Id, qnaMaker);
                 }
 
                 CognitiveModelSets.Add(language, set);

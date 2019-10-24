@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace AdaptiveAssistant.Dialogs
 {
@@ -18,7 +18,7 @@ namespace AdaptiveAssistant.Dialogs
 
             var generalDialog = new AdaptiveDialog($"{nameof(GeneralDialog)}.adaptive")
             {
-                Recognizer = localizedServices.LuisRecognizers["General"],
+                Recognizer = localizedServices.LuisServices["General"],
                 Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
                 Triggers =
                 {

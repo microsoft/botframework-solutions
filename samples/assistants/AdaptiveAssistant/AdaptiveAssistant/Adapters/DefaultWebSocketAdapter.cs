@@ -3,20 +3,18 @@
 
 using AdaptiveAssistant.Services;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.StreamingExtensions;
+using Microsoft.Bot.Builder.Streaming;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 
 namespace AdaptiveAssistant.Adapters
 {
-    public class DefaultWebSocketAdapter : WebSocketEnabledHttpAdapter
+    public class DefaultWebSocketAdapter : BotFrameworkHttpAdapterBase
     {
         public DefaultWebSocketAdapter(
             IConfiguration configuration,
@@ -26,7 +24,7 @@ namespace AdaptiveAssistant.Adapters
             ConversationState conversationState,
             ResourceExplorer resourceExplorer,
             ICredentialProvider credentialProvider)
-            : base(configuration, credentialProvider)
+            : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
@@ -47,4 +45,4 @@ namespace AdaptiveAssistant.Adapters
             Use(new SetSpeakMiddleware(settings.DefaultLocale ?? "en-us"));
         }
     }
-}   
+}

@@ -8,8 +8,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Skills;
 
 namespace AdaptiveAssistant.Dialogs
@@ -28,7 +27,7 @@ namespace AdaptiveAssistant.Dialogs
 
             var dispatchDialog = new AdaptiveDialog($"{nameof(DispatchDialog)}.adaptive")
             {
-                Recognizer = localizedServices.DispatchRecognizer,
+                Recognizer = localizedServices.DispatchService,
                 Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
                 Triggers =
                 {
