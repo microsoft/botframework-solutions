@@ -1,14 +1,24 @@
 ﻿namespace RestaurantBookingSkill.Utilities
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
+    using System.Net.Http;
     using Microsoft.AspNetCore.Http;
     using RestaurantBookingSkill.Services;
 
     public class UrlResolver : IUrlResolver
     {
+        private static readonly ConcurrentDictionary<string, string> DataUriCache = new ConcurrentDictionary<string, string>();
+
+        // TODO set this > 0 (like 75) to convert images to data uris when you need transcripts or dislike urls
+        private static readonly long UseDataUriQuality = 0L;
+
         public UrlResolver(IHttpContextAccessor httpContextAccessor, BotSettings settings)
         {
             var httpContext = httpContextAccessor.HttpContext;
@@ -19,7 +29,28 @@
 
         public string GetImageUrl(string imagePath)
         {
-            return GetImageByCulture(imagePath);
+            var url = GetImageByCulture(imagePath);
+
+            if (UseDataUriQuality > 0)
+            {
+                if (!DataUriCache.ContainsKey(url))
+                {
+                    using (var httpClient = new HttpClient())
+                    using (var image = Image.FromStream(httpClient.GetStreamAsync(url).Result))
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
+                        var encoderParameters = new EncoderParameters(1);
+                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, UseDataUriQuality);
+                        image.Save(ms, encoder, encoderParameters);
+                        DataUriCache[url] = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+                    }
+                }
+
+                url = DataUriCache[url];
+            }
+
+            return url;
         }
 
         private string GetImageByCulture(string imagePath)
