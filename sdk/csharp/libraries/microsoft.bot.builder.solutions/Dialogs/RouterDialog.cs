@@ -7,7 +7,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
 {
-    [Obsolete("RouterDialog has been replaced by ActivityHandlerDialog. RouterDialog will no longer be supported.", false)]
+    [Obsolete("Please use ActivityHandlerDialog instead. For more information, refer to https://aka.ms/bfvarouting", false)]
     public abstract class RouterDialog : InterruptableDialog
     {
         public RouterDialog(string dialogId, IBotTelemetryClient telemetryClient)

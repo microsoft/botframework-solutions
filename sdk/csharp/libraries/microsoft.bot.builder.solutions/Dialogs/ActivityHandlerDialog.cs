@@ -1,18 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
 {
+    /// <summary>
+    /// Provides interruption logic and methods for handling incoming activities based on type.
+    /// </summary>
     public abstract class ActivityHandlerDialog : InterruptableDialog
     {
         public ActivityHandlerDialog(
@@ -23,11 +21,38 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
             TelemetryClient = telemetryClient;
         }
 
+        /// <summary>
+        /// Called when the dialog is started and pushed onto the parent's dialog stack.
+        /// </summary>
+        /// <param name="innerDc">The inner <see cref="DialogContext"/> for the current turn of conversation.</param>
+        /// <param name="options">Optional, initial information to pass to the dialog.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>If the task is successful, the result indicates whether the dialog is still
+        /// active after the turn has been processed by the dialog. The result may also contain a
+        /// return value.
+        /// </remarks>
         protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
             return OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
+        /// <summary>
+        /// Called when the dialog is continued, where it is the active dialog and the
+        /// user replies with a new activity.
+        /// </summary>
+        /// <param name="innerDc">The inner <see cref="DialogContext"/> for the current turn of conversation.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>If the task is successful, the result indicates whether the dialog is still
+        /// active after the turn has been processed by the dialog. The result may also contain a
+        /// return value.
+        ///
+        /// By default, this calls <see cref="InterruptableDialog.OnInterruptDialogAsync(DialogContext, CancellationToken)"/>
+        /// then routes the activity to the waiting active dialog, or to a handling method based on its activity type.
+        /// </remarks>
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             // Check for any interruptions.
