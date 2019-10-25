@@ -26,7 +26,6 @@ import {
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
-import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';
 import { SharedResponses } from '../responses/shared/sharedResponses';
@@ -80,7 +79,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
+        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
         // Populate state from SkillContext slots as required
         await this.populateStateFromSemanticAction(dc.context);
@@ -165,7 +164,7 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.getCognitiveModel();
+            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
             // check general luis intent
             if (localeConfig.luisServices !== undefined) {
@@ -251,29 +250,5 @@ export class MainDialog extends RouterDialog {
         //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
         //    state.CurrentCoordinates = locationObj;
         // }
-    }
-
-    private getCognitiveModel(): Partial<ICognitiveModelSet> {
-        // get current activity locale
-        const locale: string = i18next.language;
-        let cognitiveModels: Partial<ICognitiveModelSet> | undefined  = this.services.cognitiveModelSets.get(locale);
-
-        if (cognitiveModels === undefined) {
-            const keyFound: string | undefined = Array.from(this.services.cognitiveModelSets.keys())
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-                .find((key: string) => {
-                    if (key.substring(0, 2) === locale.substring(0, 2)) {
-                        return key;
-                    }
-                });
-            if (keyFound !== undefined) {
-                cognitiveModels = this.services.cognitiveModelSets.get(keyFound);
-            }
-        }
-        if (cognitiveModels === undefined) {
-            throw new Error('There is no value in cognitiveModels');
-        }
-
-        return cognitiveModels;
     }
 }
