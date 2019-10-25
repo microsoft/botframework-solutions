@@ -287,10 +287,10 @@ public class MainActivity extends BaseActivity
                     startActivityForResult(SettingsActivity.getNewIntent(this), REQUEST_CODE_SETTINGS);
                     break;
                 case R.id.nav_menu_restart_conversation:
-                    speechServiceBinder.resetBot();
                     chatAdapter.resetChat();
                     suggActionsAdapter.clear();
                     speechServiceBinder.clearSuggestedActions();
+                    resetSpeechService();
                     break;
             }
 
@@ -335,6 +335,20 @@ public class MainActivity extends BaseActivity
         Log.i(LOGTAG, "Listening again - hideListeningAnimation()");
         animatedAssistant.setVisibility(View.GONE);
         sfxManager.playEarconDoneListening();
+    }
+
+    private void resetSpeechService() {
+        try {
+            detectedSpeechToText.setText(R.string.msg_disconnected);
+            boolean havePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+            speechServiceBinder.initializeSpeechSdk(havePermission);
+            speechServiceBinder.connectAsync();
+            handler.postDelayed(() -> {
+                detectedSpeechToText.setText("");
+            }, 2000);
+        } catch (RemoteException exception){
+            Log.e(LOGTAG, exception.getMessage());
+        }
     }
 
     @OnClick(R.id.kbd_image)
@@ -458,17 +472,7 @@ public class MainActivity extends BaseActivity
     // EventBus: the connection disconnected
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventDisconnected(Disconnected event) {
-        try {
-            detectedSpeechToText.setText(R.string.msg_disconnected);
-            boolean havePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
-            speechServiceBinder.initializeSpeechSdk(havePermission);
-            speechServiceBinder.connectAsync();
-            handler.postDelayed(() -> {
-                detectedSpeechToText.setText("");
-            }, 2000);
-        } catch (RemoteException exception){
-            Log.e(LOGTAG, exception.getMessage());
-        }
+        resetSpeechService();
     }
 
     // EventBus: the Bot is listening
