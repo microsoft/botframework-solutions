@@ -20,7 +20,6 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -108,15 +107,8 @@ namespace VirtualAssistantSample
                 });
             }
 
-            // Configure adapters
-            // DefaultAdapter is for all regular channels that use Http transport
+            // IBotFrameworkHttpAdapter now supports both http and websockt transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
-
-            // DefaultWebSocketAdapter is for directline speech channel
-            // This adapter implementation is currently a workaround as
-            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
-            // both Http for regular channels and websocket for directline speech channel
-            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
