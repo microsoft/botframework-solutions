@@ -1,10 +1,14 @@
-﻿using CalendarSkill.Models.DialogOptions;
+﻿using CalendarSkill.Models;
+using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Services;
+using Google.Apis.Calendar.v3.Data;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.CognitiveServices.ContentModerator.Models;
+using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,16 +39,16 @@ namespace CalendarSkill.Dialogs
                 AfterGetAuthToken,
                 CollectContacts,
                 CheckAvailable,
-                CreateMeetingPrompt,
-                AfterCreateEventPrompt,
-                CreateEvent
+                //CreateMeetingPrompt,
+                //AfterCreateEventPrompt,
+                //CreateEvent
             };
 
             var findNextAvailableTime = new WaterfallStep[]
             {
-                FindNextAvailableTimePrompt,
-                AfterFindNextAvailableTimePrompt,
-                ShowNextAvailableTime
+                //FindNextAvailableTimePrompt,
+                //AfterFindNextAvailableTimePrompt,
+                //ShowNextAvailableTime
             };
 
             // Define the conversation flow using a waterfall model.
@@ -73,7 +77,13 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+
+                var dateTime = new DateTime(2019, 10, 24, 19, 0, 0);
+                var timeSlot = await calendarService.GetUserAvailableTimeSlotAsync(state.MeetingInfor.ContactInfor.Contacts[0], true, dateTime);
+
+                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {

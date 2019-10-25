@@ -124,7 +124,7 @@ namespace CalendarSkill
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
-            services.AddTransient<FindContactDialog>();
+            services.AddTransient<CheckAvailableDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

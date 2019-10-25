@@ -168,6 +168,11 @@ namespace CalendarSkill.Services.GoogleAPI
             return;
         }
 
+        public Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        {
+            return null;
+        }
+
         private Event UpdateEventById(Event updateEvent)
         {
             try

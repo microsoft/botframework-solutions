@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using Microsoft.Graph;
@@ -139,6 +140,90 @@ namespace CalendarSkill.Services.MSGraphAPI
             {
                 throw GraphClient.HandleGraphAPIException(ex);
             }
+        }
+
+        public async Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        {
+            var attendees = new List<AttendeeBase>();
+
+            attendees.Add(new AttendeeBase()
+            {
+                EmailAddress = new EmailAddress()
+                {
+                    Name = user.DisplayName,
+                    Address = user.Address
+                }
+            });
+
+            var timeConstraint = new TimeConstraint()
+            {
+                ActivityDomain = ActivityDomain.Work,
+                TimeSlots = new List<Microsoft.Graph.TimeSlot>()
+                {
+                    new Microsoft.Graph.TimeSlot()
+                    {
+                        Start = new DateTimeTimeZone()
+                        {
+                            DateTime = startTime.ToString("o"),
+                            TimeZone = TimeZoneInfo.Utc.Id
+                        },
+                        End = new DateTimeTimeZone()
+                        {
+                            DateTime = startTime.AddDays(7).ToString("o"),
+                            TimeZone = TimeZoneInfo.Utc.Id
+                        },
+                    }
+                }
+            };
+
+            var suggestion = await FindMeetingTimes(attendees, timeConstraint, true);
+
+            var result = new List<Models.TimeSlot>();
+
+            Models.TimeSlot currentTimeSlot = null;
+
+            foreach (var item in suggestion.MeetingTimeSuggestions)
+            {
+                var timezone = TimeZoneInfo.FindSystemTimeZoneById(item.MeetingTimeSlot.Start.TimeZone);
+                if (timezone == TimeZoneInfo.Utc && !item.MeetingTimeSlot.Start.DateTime.EndsWith("Z"))
+                {
+                    item.MeetingTimeSlot.Start.DateTime = item.MeetingTimeSlot.Start.DateTime + "Z";
+                }
+
+                var start = DateTime.Parse(item.MeetingTimeSlot.Start.DateTime).ToUniversalTime();
+
+                if (currentTimeSlot == null)
+                {
+                    currentTimeSlot = new Models.TimeSlot()
+                    {
+                        Start = startTime,
+                        End = startTime
+                    };
+                }
+
+                if (start.Equals(currentTimeSlot.End))
+                {
+                    if (timezone == TimeZoneInfo.Utc && !item.MeetingTimeSlot.End.DateTime.EndsWith("Z"))
+                    {
+                        item.MeetingTimeSlot.End.DateTime = item.MeetingTimeSlot.End.DateTime + "Z";
+                    }
+
+                    var end = DateTime.Parse(item.MeetingTimeSlot.End.DateTime).ToUniversalTime();
+                    currentTimeSlot.End = end;
+                }
+                else
+                {
+                    result.Add(currentTimeSlot);
+                    currentTimeSlot = null;
+                }
+            }
+
+            if (suggestion.MeetingTimeSuggestions.Any())
+            {
+                result.Add(currentTimeSlot);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -294,11 +379,11 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        private async Task<MeetingTimeSuggestionsResult> FindMeetingTimes(IEnumerable<AttendeeBase> attendees, TimeConstraint timeConstraint = null, Duration meetingDuration = null)
+        private async Task<MeetingTimeSuggestionsResult> FindMeetingTimes(IEnumerable<AttendeeBase> attendees, TimeConstraint timeConstraint = null, bool isOrgnizerOptional = true)
         {
             try
             {
-                var suggestion = await _graphClient.Me.FindMeetingTimes(attendees, timeConstraint: timeConstraint).Request().PostAsync();
+                var suggestion = await _graphClient.Me.FindMeetingTimes(attendees, timeConstraint: timeConstraint, isOrganizerOptional: isOrgnizerOptional).Request().PostAsync();
                 return suggestion;
             }
             catch (ServiceException ex)

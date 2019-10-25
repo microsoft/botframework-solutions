@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using Google.Apis.Calendar.v3.Data;
 
 namespace CalendarSkill.Services
 {
@@ -88,6 +89,11 @@ namespace CalendarSkill.Services
         public async Task AcceptEventByIdAsync(string id)
         {
             await calendarAPI.AcceptEventByIdAsync(id);
+        }
+
+        public async Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        {
+            return await calendarAPI.GetUserAvailableTimeSlotAsync(user, isOrgnizerOptional, startTime);
         }
     }
 }
