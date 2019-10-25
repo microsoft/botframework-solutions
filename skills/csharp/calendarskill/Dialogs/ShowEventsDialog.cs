@@ -88,6 +88,8 @@ namespace CalendarSkill.Dialogs
 
             var readEvent = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ReadEvent,
                 PromptForNextActionAfterRead,
                 HandleNextActionAfterRead,
