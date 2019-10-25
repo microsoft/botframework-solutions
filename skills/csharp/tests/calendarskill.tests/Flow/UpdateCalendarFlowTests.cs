@@ -32,14 +32,12 @@ namespace CalendarSkill.Test.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarUpdateWithStartTimeEntity()
+        public async Task Test_CalendarUpdateWithNewStartDateEntity()
         {
             await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
+                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithNewStartDate)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowAuth())
