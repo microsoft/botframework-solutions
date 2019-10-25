@@ -75,27 +75,43 @@ if (-not $luisAuthoringKey) {
 	}
 }
 
+$app = $null
+
 if (-not $appId) {
 	# Create app registration
-	$app = (az ad app create `
+	$appJson = (az ad app create `
 		--display-name $name `
 		--password `"$($appPassword)`" `
 		--available-to-other-tenants `
 		--reply-urls 'https://token.botframework.com/.auth/web/redirect' `
         --output json)
 
-	# Retrieve AppId
-	if ($app) {
-		$appId = ($app | ConvertFrom-Json) | Select-Object -ExpandProperty appId
-	}
-
-	if(-not $appId) {
+	if(-not $appJson) {
 		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments. See https://aka.ms/vamanualappcreation for more information." -ForegroundColor Magenta
 		Break
 	}
+
+	$app = ($appJson | ConvertFrom-Json)
+} else {
+	# Get the app registration
+	$appsJson = (az ad app list `
+		--app-id $appId `
+		--output json)
+
+	$apps = ($appsJson | ConvertFrom-Json)
+
+	if($apps.Length -eq 0) {
+		Write-Host "! Could not find appId $($appId). Review the log for more information." -ForegroundColor DarkRed
+		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+		Break
+	}
+
+	$app = $apps[0];
 }
+
+$appId = $app.appId
 
 # Get timestamp
 $timestamp = Get-Date -f MMddyyyyHHmmss
@@ -205,7 +221,10 @@ if ($outputs)
 
 	# Deploy cognitive models
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
-	
+
+	# Update app registration homepage to point to skill
+	az ad app update --id $app.objectId --homepage "https://$($outputs.botWebAppName.value).azurewebsites.net"
+
 	# Summary 
 	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow
 
