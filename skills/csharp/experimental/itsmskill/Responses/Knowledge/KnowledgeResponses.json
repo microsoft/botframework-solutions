@@ -1,4 +1,13 @@
 {
+  "ShowExistingToSolve": {
+    "replies": [
+      {
+        "text": "I have searched knowledgebase for you.",
+        "speak": "I have searched knowledgebase for you."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "IfExistingSolve": {
     "replies": [
       {
