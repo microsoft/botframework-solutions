@@ -23,13 +23,13 @@ toc: true
 
 1. Install the [Bot Framework Emulator](https://aka.ms/botframeworkemulator) to use in testing.
 
-## Event Producer
+## Event Producer (Azure Event Hub)
 
 This sample includes an example [Event Producer]({{site.repo}}/samples/EnterpriseNotification/EventProducer) console application that sends an Event to the Event Hub for processing simulating creation of a notification.
 
 - Update `appSettings.json` with the `EventHubName` and `EventHubConnectionString` which you can find by going to your EventHub resource, creating an instance and then a `Shared Access Policy`
 
-### Azure Function - Event Handler
+## Event Handler (Azure Function App)
 {:.no_toc}
 
 This sample includes an example [EventHandler Azure Function]({{site.repo}}/Samples/EnterpriseNotification/EventHandler) which is triggered by Event delivery and handles Event processing.
