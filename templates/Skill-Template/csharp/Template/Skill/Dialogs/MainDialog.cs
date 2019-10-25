@@ -61,7 +61,7 @@ namespace $safeprojectname$.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var localeConfig = GetCognitiveModels();
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
@@ -140,7 +140,7 @@ namespace $safeprojectname$.Dialogs
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var localeConfig = GetCognitiveModels();
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
@@ -237,20 +237,6 @@ namespace $safeprojectname$.Dialogs
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
             // }
-        }
-
-        private CognitiveModelSet GetCognitiveModels()
-        {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-
-            var cognitiveModel = _services.CognitiveModelSets.ContainsKey(locale)
-                ? _services.CognitiveModelSets[locale]
-                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
-                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
-                                        "Please review your available locales in your cognitivemodels.json file.");
-
-            return cognitiveModel;
         }
     }
 }

@@ -145,7 +145,7 @@ namespace $safeprojectname$.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
-                var localeConfig = GetCognitiveModels();
+                var localeConfig = Services.GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["$safeprojectname$"];
 
                 // Get intent and entities for activity
