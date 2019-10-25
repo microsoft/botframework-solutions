@@ -96,14 +96,16 @@ namespace VirtualAssistantSample
             services.AddTransient<OnboardingDialog>();
 
             // Register skill dialogs
-            var provider = services.BuildServiceProvider();
             foreach (var skill in settings.Skills)
             {
-                var userState = provider.GetService<UserState>();
-                var telemetryClient = provider.GetService<IBotTelemetryClient>();
                 var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                 var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                services.AddTransient(sp => new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                services.AddTransient(sp =>
+                {
+                    var userState = sp.GetService<UserState>();
+                    var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                    return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
+                });
             }
 
             // Configure adapters
