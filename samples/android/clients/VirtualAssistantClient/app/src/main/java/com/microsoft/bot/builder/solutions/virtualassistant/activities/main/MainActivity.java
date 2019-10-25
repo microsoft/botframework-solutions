@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity
         super.onStart();
         EventBus.getDefault().register(this);
         if (speechServiceBinder == null) {
-            handler.post(this::doBindService);
+            doBindService();
         }
     }
 
@@ -192,12 +192,12 @@ public class MainActivity extends BaseActivity
     // Unregister EventBus messages and SpeechService
     @Override
     public void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
-        if (speechServiceBinder != null) {
+        if (myConnection != null) {
             unbindService(myConnection);
             speechServiceBinder = null;
         }
-        super.onStop();
     }
 
     private void setupChatRecyclerView() {
