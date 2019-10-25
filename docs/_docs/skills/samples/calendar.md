@@ -22,7 +22,7 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *Reschedule my interview on Monday to 1 pm*
+  - *Reschedule my interview to Tuesday 1 PM*
 - Connect to a Meeting
   - *Connect me to conference call*
   - *Connect me with my 2 o'clock meeting*
@@ -49,7 +49,7 @@ The following scenarios are currently supported by the Skill:
   - *What's the duration of my 4 PM meeting?*
 - Time Remaining
   - *How long until my next meeting?*
-  - *How many days are there until Thanksgiving?*
+  - *How many minutes free do I have before next scheduled appointment?*
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
@@ -100,6 +100,7 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |ContactName| Simple entity|
 |DestinationCalendar| Simple entity|
 |Duration| Simple entity|
+|FromDate| Simple entity|
 |FromTime| Simple entity|
 |Location| Simple entity|
 |MeetingRoom| Simple entity|
@@ -121,7 +122,7 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 
 ### Deployment
 {:.no_toc}
-Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
 {:.no_toc}
@@ -137,7 +138,7 @@ To use Google account skill you need follow these steps:
 1. Create an OAuth connection setting in your Web App Bot.
     - Connection name: **googleapi**
     - Service Provider: **Google**
-    - Client id and secret are generated in step 1
+    - Client id and secret are generated in step 2
     - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
 1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
@@ -153,11 +154,11 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication#manual-authentication) to configure this using the scopes shown above.
 
 ## Events
 {:.toc}
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.
+Learn how to use [events]({{site.baseurl}}/virtual-assistant/handbook/events) to send backend data to a Skill, like a user's location or time zone.
 
 ## Download a transcript
 {:.toc}
