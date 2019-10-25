@@ -145,7 +145,7 @@ namespace SkillSample.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
-                var localeConfig = GetCognitiveModels();
+                var localeConfig = Services.GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["SkillSample"];
 
                 // Get intent and entities for activity
@@ -170,20 +170,6 @@ namespace SkillSample.Dialogs
             // clear state
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
-        }
-
-        private CognitiveModelSet GetCognitiveModels()
-        {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-
-            var cognitiveModel = Services.CognitiveModelSets.ContainsKey(locale)
-                ? Services.CognitiveModelSets[locale]
-                : Services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
-                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
-                                        "Please review your available locales in your cognitivemodels.json file.");
-
-            return cognitiveModel;
         }
     }
 }

@@ -84,7 +84,7 @@ namespace VirtualAssistantSample.Dialogs
                 var isSkill = dialog is SkillDialog;
 
                 // Get localized cognitive models
-                CognitiveModelSet cognitiveModels = GetCognitiveModels();
+                CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
 
                 // Check dispatch result
                 var luisResult = await cognitiveModels.LuisServices["General"].RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
@@ -92,7 +92,6 @@ namespace VirtualAssistantSample.Dialogs
 
                 if (score > 0.5)
                 {
-
                     switch (intent)
                     {
                         case GeneralLuis.Intent.Cancel:
@@ -195,7 +194,7 @@ namespace VirtualAssistantSample.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get localized cognitive models
-                CognitiveModelSet cognitiveModels = GetCognitiveModels();
+                CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
 
                 // Check dispatch result
                 var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, CancellationToken.None);
@@ -351,20 +350,6 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return await next();
-        }
-
-        private CognitiveModelSet GetCognitiveModels()
-        {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-
-            var cognitiveModel = _services.CognitiveModelSets.ContainsKey(locale)
-                ? _services.CognitiveModelSets[locale]
-                : _services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
-                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
-                                        "Please review your available locales in your cognitivemodels.json file.");
-
-            return cognitiveModel;
         }
 
         private class Events
