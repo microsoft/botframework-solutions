@@ -99,7 +99,7 @@ namespace VirtualAssistantSample.Dialogs
             var activity = dc.Context.Activity;
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                // If the active dialog is a skill, do not interrupt.
+                // Check if the active dialog is a skill for conditional interruption.
                 var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
                 var isSkill = dialog is SkillDialog;
 
