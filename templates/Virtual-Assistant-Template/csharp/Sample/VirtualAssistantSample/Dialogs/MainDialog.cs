@@ -23,6 +23,8 @@ namespace VirtualAssistantSample.Dialogs
 {
     public class MainDialog : ActivityHandlerDialog
     {
+        private const string Location = "location";
+        private const string TimeZone = "timezone";
         private BotServices _services;
         private BotSettings _settings;
         private TemplateEngine _templateEngine;
@@ -262,10 +264,10 @@ namespace VirtualAssistantSample.Dialogs
                 case Events.Location:
                     {
                         var locationObj = new JObject();
-                        locationObj.Add(Events.Location, JToken.FromObject(value));
+                        locationObj.Add(Location, JToken.FromObject(value));
 
                         var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                        skillContext[Events.Location] = locationObj;
+                        skillContext[Location] = locationObj;
                         await _skillContext.SetAsync(innerDc.Context, skillContext);
 
                         break;
@@ -277,10 +279,10 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
                             var timeZoneObj = new JObject();
-                            timeZoneObj.Add(Events.TimeZone, JToken.FromObject(timeZoneInfo));
+                            timeZoneObj.Add(TimeZone, JToken.FromObject(timeZoneInfo));
 
                             var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                            skillContext[Events.TimeZone] = timeZoneObj;
+                            skillContext[TimeZone] = timeZoneObj;
                             await _skillContext.SetAsync(innerDc.Context, skillContext);
                         }
                         catch

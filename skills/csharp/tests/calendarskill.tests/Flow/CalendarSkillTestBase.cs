@@ -123,7 +123,7 @@ namespace CalendarSkill.Test.Flow
             {
                 var bot = sp.GetService<IBot>();
                 var state = await CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
-                state.APIToken = "test";
+                //state.APIToken = "test";
                 state.EventSource = EventSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

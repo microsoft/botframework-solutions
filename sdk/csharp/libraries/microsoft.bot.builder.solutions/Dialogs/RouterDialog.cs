@@ -1,14 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
 {
+    [Obsolete("Please use ActivityHandlerDialog instead. For more information, refer to https://aka.ms/bfvarouting.", false)]
     public abstract class RouterDialog : InterruptableDialog
     {
         public RouterDialog(string dialogId, IBotTelemetryClient telemetryClient)
@@ -17,48 +16,80 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
             TelemetryClient = telemetryClient;
         }
 
-        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             return OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Check for any interruptions.
             var status = await OnInterruptDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
 
             if (status == InterruptionAction.Resume)
             {
-                // Interruption message was sent, and the waiting dialog should resume/reprompt.
+                // Resume the waiting dialog after interruption
                 await innerDc.RepromptDialogAsync().ConfigureAwait(false);
+                return EndOfTurn;
             }
             else if (status == InterruptionAction.Waiting)
             {
-                // Interruption intercepted conversation and is waiting for user to respond.
+                // Stack is already waiting for a response, shelve inner stack
                 return EndOfTurn;
             }
-            else if (status == InterruptionAction.End)
+            else
             {
-                // Interruption ended conversation, and current dialog should end.
-                return await innerDc.EndDialogAsync().ConfigureAwait(false);
-            }
-            else if (status == InterruptionAction.NoAction)
-            {
-                // No interruption was detected. Process activity normally.
                 var activity = innerDc.Context.Activity;
+
+                if (activity.IsStartActivity())
+                {
+                    await OnStartAsync(innerDc).ConfigureAwait(false);
+                }
 
                 switch (activity.Type)
                 {
                     case ActivityTypes.Message:
                         {
-                            // Pass message to waiting child dialog.
-                            var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
-
-                            if (result.Status == DialogTurnStatus.Empty
-                                || (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart))
+                            // Note: This check is a workaround for adaptive card buttons that should map to an event (i.e. startOnboarding button in intro card)
+                            if (activity.Value != null)
                             {
-                                // There was no waiting dialog on the stack, process message normally.
-                                await OnMessageActivityAsync(innerDc).ConfigureAwait(false);
+                                await OnEventAsync(innerDc).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
+
+                                switch (result.Status)
+                                {
+                                    case DialogTurnStatus.Empty:
+                                        {
+                                            await RouteAsync(innerDc).ConfigureAwait(false);
+                                            break;
+                                        }
+
+                                    case DialogTurnStatus.Complete:
+                                        {
+                                            if (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart)
+                                            {
+                                                await RouteAsync(innerDc).ConfigureAwait(false);
+                                                break;
+                                            }
+
+                                            // End active dialog
+                                            await innerDc.EndDialogAsync().ConfigureAwait(false);
+                                            break;
+                                        }
+
+                                    default:
+                                        {
+                                            break;
+                                        }
+                                }
+                            }
+
+                            // If the active dialog was ended on this turn (either on single-turn dialog, or on continueDialogAsync) run CompleteAsync method.
+                            if (innerDc.ActiveDialog == null)
+                            {
+                                await CompleteAsync(innerDc).ConfigureAwait(false);
                             }
 
                             break;
@@ -66,51 +97,57 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                     case ActivityTypes.Event:
                         {
-                            await OnEventActivityAsync(innerDc).ConfigureAwait(false);
+                            await OnEventAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
 
-                    case ActivityTypes.ConversationUpdate:
+                    case ActivityTypes.Invoke:
                         {
-                            await OnMembersAddedAsync(innerDc).ConfigureAwait(false);
+                            // Used by Teams for Authentication scenarios.
+                            await innerDc.ContinueDialogAsync().ConfigureAwait(false);
                             break;
                         }
 
                     default:
                         {
-                            // All other activity types will be routed here. Custom handling should be added in implementation.
-                            await OnUnhandledActivityTypeAsync(innerDc).ConfigureAwait(false);
+                            await OnSystemMessageAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
                 }
-            }
 
-            if (innerDc.ActiveDialog == null)
-            {
-                // If the inner dialog stack completed during this turn, this component should be ended.
-                return await innerDc.EndDialogAsync().ConfigureAwait(false);
+                return EndOfTurn;
             }
-
-            return EndOfTurn;
         }
 
-        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // This happens when an inner dialog ends. Could call complete here
-            await OnDialogCompleteAsync(outerDc, result, cancellationToken).ConfigureAwait(false);
-            return await base.EndComponentAsync(outerDc, result, cancellationToken).ConfigureAwait(false);
+            return base.OnEndDialogAsync(context, instance, reason, cancellationToken);
+        }
+
+        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
         }
 
         /// <summary>
-        /// Called on every turn, enabling interruption scenarios.
+        /// Called when the inner dialog stack is empty.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A <see cref="Task"/> returning an <see cref="InterruptionAction">
-        /// which indicates what action should be taken after interruption.</returns>.
-        protected override Task<InterruptionAction> OnInterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected abstract Task RouteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Called when the inner dialog stack is complete.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="result">The dialog result when inner dialog completed.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected virtual Task CompleteAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Task.FromResult(InterruptionAction.NoAction);
+            innerDc.EndDialogAsync(result).Wait(cancellationToken);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -119,54 +156,36 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// Called when a message activity is received.
+        /// Called when a system activity is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// Called when a conversationUpdate activity is received.
+        /// Called when a conversation update activity is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Called when an activity type other than event, message, or conversationUpdate is received.
-        /// </summary>
-        /// <param name="innerDc">The dialog context for the component.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnUnhandledActivityTypeAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Called when the inner dialog stack completes.
-        /// </summary>
-        /// <param name="outerDc">The dialog context for the component.</param>
-        /// <param name="result">The dialog turn result for the component.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
+            return Task.FromResult(InterruptionAction.NoAction);
         }
     }
 }

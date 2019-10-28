@@ -8,9 +8,9 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
-using Microsoft.Bot.StreamingExtensions.Transport;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Microsoft.Bot.Streaming;
+using Microsoft.Bot.Streaming.Transport;
+using Microsoft.Bot.Streaming.Transport.WebSockets;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills

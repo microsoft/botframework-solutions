@@ -312,6 +312,8 @@ This skill demonstrates the following scenarios:
 - Room service: *I want to see a room service menu*
 - Check out: *Can I check out now?*
 
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-hospitality.transcript), you can use the Bot Framework Emulator to open transcripts.
+
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
 The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
@@ -326,6 +328,8 @@ This skill demonstrates the following scenarios:
 - Update Ticket: *Change ticket's urgency to high*
 - Close a ticket: *Close my ticket*
 - Find Knowledgebase item: *Search knowledge articles related to error 1234*
+
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-itsm.transcript), you can use the Bot Framework Emulator to open transcripts.
 
 #### Configuration
 {:.no_toc}
@@ -549,6 +553,8 @@ Here is an example of an event returned by the Phone skill:
 ### Restaurant Booking Skill
 
 The [Restaurant Booking skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/restaurantbooking) provides a simple restaurant booking experience guiding the user through booking a table and leverages Adaptive Cards throughout to demonstrate how Speech, Text and UX can be combined for a compelling user experience. No integration to restaurant booking services exists at this time so is simulated with static data for testing purposes.
+
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript), you can use the Bot Framework Emulator to open transcripts.
 
 ![Restaurant Example]({{site.baseurl}}/assets/images/skills-restaurant-transcript.png)
 
