@@ -2,22 +2,19 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
-using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    /// <summary>
-    /// An example on-boarding dialog to greet the user on their first conversation and collection some initial user profile information.
-    /// </summary>
+    // Example onboarding dialog to initial user profile information.
     public class OnboardingDialog : ComponentDialog
     {
         private LocaleTemplateEngineManager _templateEngine;
@@ -56,11 +53,9 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var activity = _templateEngine.GenerateActivityForLocale("NamePrompt");
-
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = activity,
+                    Prompt = _templateEngine.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
@@ -68,10 +63,10 @@ namespace VirtualAssistantSample.Dialogs
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
-
-            // Ensure the name is capitalised ready for future use.
             var name = (string)sc.Result;
-            userProfile.Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
+
+            // Captialize name
+            userProfile.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
