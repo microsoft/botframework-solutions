@@ -264,8 +264,8 @@ The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
-- Celebrity Information: *Who is Tom Cruise?*
-- Q&A: *What is the gdp of switzerland*
+- Celebrity Information: *Who is Bill Gates?*
+- Q&A: *what's the population of China?*
 - Movie Information: *Tell me about the jurassic park movie*
 
 ![Search Example]({{site.baseurl}}/assets/images/skills-experimental-bingsearch.png)
@@ -355,6 +355,7 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
 To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
 1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+
 ### Music Skill
 
 The [Music skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.

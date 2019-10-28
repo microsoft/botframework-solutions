@@ -1,0 +1,1410 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "43",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "id": "238de301-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:22+08:00",
+    "recipient": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-28T11:00:22.960Z",
+    "from": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "https://15d745d9.ngrok.io"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "text": "Welcome! I can search movie info, celebrity info for you. You can say 'who is Bill Gates' or 'how is Titanic' to start query.",
+    "speak": "Welcome! I can search movie info, celebrity info for you. You can say 'who is Bill Gates' or 'how is Titanic' to start query.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "238de301-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "249085f0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:24+08:00",
+    "timestamp": "2019-10-28T11:00:24.655Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "id": "24f75e11-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:25+08:00",
+    "recipient": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-28T11:00:25.329Z",
+    "from": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "https://15d745d9.ngrok.io"
+  },
+  {
+    "text": "Who is Bill Gates?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15722604321837yn3e00j4s"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T11:00:32.187Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "id": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:32+08:00",
+    "recipient": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://15d745d9.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:33.413Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Who is Bill Gates?",
+        "alteredText": null,
+        "intents": {
+          "Stop": {
+            "score": 0.0336710252
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7608af16-1615-4ac4-b241-45a8f08e0c53"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Who is Bill Gates?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Stop",
+          "score": 0.0336710252
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "29c8e350-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:33+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "29f34eb0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:33+08:00",
+    "timestamp": "2019-10-28T11:00:33.691Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:33.908Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Who is Bill Gates?",
+        "alteredText": null,
+        "intents": {
+          "GetCelebrityInfo": {
+            "score": 0.9999996
+          }
+        },
+        "entities": {
+          "$instance": {
+            "CelebrityName": [
+              {
+                "startIndex": 7,
+                "endIndex": 17,
+                "text": "bill gates",
+                "type": "CelebrityName",
+                "score": 0.918562055
+              }
+            ],
+            "CelebrityNamePatten": [
+              {
+                "startIndex": 7,
+                "endIndex": 18,
+                "text": "bill gates?",
+                "type": "CelebrityNamePatten"
+              }
+            ]
+          },
+          "CelebrityName": [
+            "bill gates"
+          ],
+          "CelebrityNamePatten": [
+            "bill gates?"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Who is Bill Gates?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "GetCelebrityInfo",
+          "score": 0.9999996
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "bill gates",
+            "type": "CelebrityName",
+            "startIndex": 7,
+            "endIndex": 16,
+            "score": 0.918562055
+          },
+          {
+            "entity": "bill gates?",
+            "type": "CelebrityNamePatten",
+            "startIndex": 7,
+            "endIndex": 17,
+            "role": ""
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2a146b40-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:33+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:34.226Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Who is Bill Gates?",
+        "alteredText": null,
+        "intents": {
+          "GetCelebrityInfo": {
+            "score": 0.9999996
+          }
+        },
+        "entities": {
+          "$instance": {
+            "CelebrityName": [
+              {
+                "startIndex": 7,
+                "endIndex": 17,
+                "text": "bill gates",
+                "type": "CelebrityName",
+                "score": 0.918562055
+              }
+            ],
+            "CelebrityNamePatten": [
+              {
+                "startIndex": 7,
+                "endIndex": 18,
+                "text": "bill gates?",
+                "type": "CelebrityNamePatten"
+              }
+            ]
+          },
+          "CelebrityName": [
+            "bill gates"
+          ],
+          "CelebrityNamePatten": [
+            "bill gates?"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Who is Bill Gates?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "GetCelebrityInfo",
+          "score": 0.9999996
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "bill gates",
+            "type": "CelebrityName",
+            "startIndex": 7,
+            "endIndex": 16,
+            "score": 0.918562055
+          },
+          {
+            "entity": "bill gates?",
+            "type": "CelebrityNamePatten",
+            "startIndex": 7,
+            "endIndex": 17,
+            "role": ""
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2a451830-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:34+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "OK, here is information of Bill Gates.",
+    "speak": "OK, here is information of Bill Gates. William Henry Gates III is an American business magnate, investor, author, philanthropist, and humanitarian. He is best known as the principal founder of Microsoft Corporation. During his career at Microsoft, Gates held the positions of chairman, CEO and chief software architect, while also being the largest individual shareholder until May 2014..",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PersonCard",
+          "speak": "",
+          "body": [
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzEyIDExMCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7b3BhY2l0eTowLjI7ZmlsbDp1cmwoI2EpO30uY3tmaWxsOiMwMDU4YTg7b3BhY2l0eTowLjI1O308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjIyOC44NyIgeTE9IjU1IiB4Mj0iNDQ5LjM0IiB5Mj0iNTUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMC41Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHRpdGxlPnBsYXRmb3Jtc0Fzc2V0IDQ4cXVlc2l0b25zPC90aXRsZT48cGF0aCBjbGFzcz0iYSIgZD0iTTIzMC43NCw1NS4wNywyODUuODIsMEgwVjExMEgyNzYuNjFMMjMwLjc0LDY0LjEzQTYuNDMsNi40MywwLDAsMSwyMzAuNzQsNTUuMDdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImMiIGQ9Ik0yNDIuNiwyMi4zMiwzMTIsOTEuNzJWMEgyNTUuODdMMjQyLjYsMTMuMjdBNi40Miw2LjQyLDAsMCwwLDI0Mi42LDIyLjMyWiIvPjwvc3ZnPg==",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "width": "auto",
+                              "items": [
+                                {
+                                  "type": "Image",
+                                  "id": "icon",
+                                  "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjAuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMiAxMC41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMiAxMC41OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCA0PC90aXRsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTIsMS41djIuMmMtMC4xLTAuMS0wLjItMC4yLTAuNC0wLjNjLTAuMS0wLjEtMC4zLTAuMi0wLjQtMC4ydi0xaC0wLjh2MC43bC0wLjQtMC4xYy0wLjEsMC0wLjIsMC0wLjQsMFYwLjgKCQloLTl2NmMwLDAuMSwwLDAuMiwwLjEsMC4zYzAsMC4xLDAuMSwwLjIsMC4yLDAuM2MwLjEsMC4xLDAuMSwwLjEsMC4yLDAuMmMwLjEsMCwwLjIsMC4xLDAuMywwLjFoNC45TDUuNiw4LjJIMS41CgkJYy0wLjIsMC0wLjQsMC0wLjYtMC4xQzAuNyw4LjEsMC42LDgsMC40LDcuOEMwLjMsNy43LDAuMiw3LjUsMC4xLDcuNEMwLDcuMiwwLDcsMCw2LjhWMGgxMC41djEuNUgxMnoiLz4KCTxyZWN0IHg9IjEuNSIgeT0iMS41IiBjbGFzcz0ic3QwIiB3aWR0aD0iNy41IiBoZWlnaHQ9IjAuOCIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTEuNSwzaDMuOHYzLjhIMS41VjN6IE0yLjIsNmgyLjJWMy44SDIuMlY2eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTguNywzQzguNSwzLjEsOC4zLDMuMiw4LjEsMy4zQzcuOSwzLjQsNy43LDMuNiw3LjUsMy44SDZWM0g4Ljd6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNiw0LjVoMC44VjVjMCwwLjEtMC4xLDAuMi0wLjEsMC4zSDZWNC41eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTYuNiw2YzAsMC4xLDAsMC4zLDAsMC40YzAsMC4xLDAsMC4yLDAuMSwwLjRINlY2SDYuNnoiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik05LjgsMy44YzAuMywwLDAuNiwwLjEsMC45LDAuMmMwLjMsMC4xLDAuNSwwLjMsMC43LDAuNWMwLjIsMC4yLDAuNCwwLjQsMC41LDAuN0MxMS45LDUuNCwxMiw1LjcsMTIsNgoJCWMwLDAuMy0wLjEsMC42LTAuMiwwLjljLTAuMSwwLjMtMC4zLDAuNS0wLjUsMC43Yy0wLjIsMC4yLTAuNCwwLjQtMC43LDAuNUMxMC4zLDguMiwxMCw4LjMsOS44LDguMmMtMC4yLDAtMC41LDAtMC43LTAuMQoJCUM4LjgsOC4xLDguNiw4LDguNCw3LjhsLTIuNiwyLjZjLTAuMSwwLjEtMC4yLDAuMS0wLjMsMC4xYy0wLjEsMC0wLjIsMC0wLjMtMC4xYy0wLjEtMC4xLTAuMS0wLjItMC4xLTAuM2MwLTAuMSwwLTAuMiwwLjEtMC4zCgkJbDIuNi0yLjZDNy44LDcuMSw3LjcsNi45LDcuNiw2LjdDNy41LDYuNSw3LjUsNi4yLDcuNSw2YzAtMC4zLDAuMS0wLjYsMC4yLTAuOWMwLjEtMC4zLDAuMy0wLjUsMC41LTAuN0M4LjQsNC4yLDguNiw0LDguOSwzLjkKCQlDOS4xLDMuOCw5LjQsMy43LDkuOCwzLjh6IE05LjgsNy41YzAuMiwwLDAuNCwwLDAuNi0wLjFjMC40LTAuMSwwLjctMC40LDAuOC0wLjhjMC4yLTAuNCwwLjItMC44LDAtMS4yYy0wLjEtMC40LTAuNC0wLjctMC44LTAuOAoJCWMtMC40LTAuMi0wLjgtMC4yLTEuMiwwQzguOCw0LjgsOC41LDUuMSw4LjQsNS40Yy0wLjIsMC40LTAuMiwwLjgsMCwxLjJjMC4xLDAuNCwwLjQsMC43LDAuOCwwLjhDOS40LDcuNSw5LjYsNy41LDkuOCw3LjV6Ii8+CjwvZz4KPC9zdmc+Cg==",
+                                  "horizontalAlignment": "center",
+                                  "width": "35px",
+                                  "height": "35px"
+                                }
+                              ],
+                              "verticalContentAlignment": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "size": "large",
+                  "url": "http://upload.wikimedia.org/wikipedia/commons/0/01/Bill_Gates_July_2014.jpg",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "text": "Bill Gates"
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "large",
+                  "weight": "bolder",
+                  "isSubtle": true,
+                  "text": "Founder of Microsoft"
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "William Henry Gates III is an American business magnate, investor, author, philanthropist, and humanitarian. He is best known as the principal founder of Microsoft Corporation. During his career at Microsoft, Gates held the positions of chairman, CEO and chief software architect, while also being the largest individual shareholder until May 2014.",
+                  "wrap": true,
+                  "maxLines": 8
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2bb65b70-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:36+08:00",
+    "timestamp": "2019-10-28T11:00:36.647Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2bb6d0a0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:36+08:00",
+    "timestamp": "2019-10-28T11:00:36.650Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-28T11:00:36.975Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "290dd0b0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2be867f0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:36+08:00"
+  },
+  {
+    "text": "what's the population of China?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15722604395101qtzmohkvtx"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T11:00:39.515Z",
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "id": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:39+08:00",
+    "recipient": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://15d745d9.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:40.949Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "what's the population of China?",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.09221819
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7608af16-1615-4ac4-b241-45a8f08e0c53"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "what's the population of China?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.09221819
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2e46ca50-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:40+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2e654ed0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:41+08:00",
+    "timestamp": "2019-10-28T11:00:41.149Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:41.371Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "what's the population of China?",
+        "alteredText": null,
+        "intents": {
+          "SearchMovieInfo": {
+            "score": 0.356064171
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "what's the population of China?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SearchMovieInfo",
+          "score": 0.356064171
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2e872eb0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:41+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:41.689Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "what's the population of China?",
+        "alteredText": null,
+        "intents": {
+          "SearchMovieInfo": {
+            "score": 0.356064171
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "what's the population of China?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SearchMovieInfo",
+          "score": 0.356064171
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2eb7b490-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:41+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "text": "1.39 billion (2017). You can find more information here: www.bing.com",
+    "speak": "1.39 billion (2017). You can find more information here.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2f398ec0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:42+08:00",
+    "timestamp": "2019-10-28T11:00:42.540Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-28T11:00:42.855Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "2d6bfab0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "2f699f70-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:42+08:00"
+  },
+  {
+    "text": "Tell me about the jurassic park movie",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15722604484228b6vrrqj56k"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T11:00:48.427Z",
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "id": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:48+08:00",
+    "recipient": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://15d745d9.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:49.667Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Tell me about the jurassic park movie",
+        "alteredText": null,
+        "intents": {
+          "ReadAloud": {
+            "score": 0.2632395
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7608af16-1615-4ac4-b241-45a8f08e0c53"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Tell me about the jurassic park movie",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ReadAloud",
+          "score": 0.2632395
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "33790d30-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:49+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "33a04440-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:49+08:00",
+    "timestamp": "2019-10-28T11:00:49.924Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:50.001Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Tell me about the jurassic park movie",
+        "alteredText": null,
+        "intents": {
+          "SearchMovieInfo": {
+            "score": 0.99999994
+          }
+        },
+        "entities": {
+          "$instance": {
+            "MovieTitle": [
+              {
+                "startIndex": 18,
+                "endIndex": 31,
+                "text": "jurassic park",
+                "type": "MovieTitle",
+                "score": 0.951873958
+              }
+            ],
+            "MovieTitlePatten": [
+              {
+                "startIndex": 18,
+                "endIndex": 31,
+                "text": "jurassic park",
+                "type": "MovieTitlePatten"
+              }
+            ]
+          },
+          "MovieTitle": [
+            "jurassic park"
+          ],
+          "MovieTitlePatten": [
+            "jurassic park"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Tell me about the jurassic park movie",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SearchMovieInfo",
+          "score": 0.99999994
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "jurassic park",
+            "type": "MovieTitle",
+            "startIndex": 18,
+            "endIndex": 30,
+            "score": 0.951873958
+          },
+          {
+            "entity": "jurassic park",
+            "type": "MovieTitlePatten",
+            "startIndex": 18,
+            "endIndex": 30,
+            "role": ""
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "33ac0410-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:50+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T11:00:50.316Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Tell me about the jurassic park movie",
+        "alteredText": null,
+        "intents": {
+          "SearchMovieInfo": {
+            "score": 0.99999994
+          }
+        },
+        "entities": {
+          "$instance": {
+            "MovieTitle": [
+              {
+                "startIndex": 18,
+                "endIndex": 31,
+                "text": "jurassic park",
+                "type": "MovieTitle",
+                "score": 0.951873958
+              }
+            ],
+            "MovieTitlePatten": [
+              {
+                "startIndex": 18,
+                "endIndex": 31,
+                "text": "jurassic park",
+                "type": "MovieTitlePatten"
+              }
+            ]
+          },
+          "MovieTitle": [
+            "jurassic park"
+          ],
+          "MovieTitlePatten": [
+            "jurassic park"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "4b561217-4365-4e4f-88a6-99e90bf6b53e"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Tell me about the jurassic park movie",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SearchMovieInfo",
+          "score": 0.99999994
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "jurassic park",
+            "type": "MovieTitle",
+            "startIndex": 18,
+            "endIndex": 30,
+            "score": 0.951873958
+          },
+          {
+            "entity": "jurassic park",
+            "type": "MovieTitlePatten",
+            "startIndex": 18,
+            "endIndex": 30,
+            "role": ""
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "33dc14c0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:50+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "34fffb50-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:52+08:00",
+    "timestamp": "2019-10-28T11:00:52.229Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "OK, here is information of Jurassic Park.",
+    "speak": "OK, here is information of Jurassic Park. Jurassic Park is a movie starring Sam Neill, Laura Dern, and Jeff Goldblum. A pragmatic Paleontologist visiting an almost complete theme park is tasked with protecting a couple of kids after a power failure causes the park's cloned....",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "MovieCard",
+          "speak": "",
+          "body": [
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzEyIDExMCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7b3BhY2l0eTowLjI7ZmlsbDp1cmwoI2EpO30uY3tmaWxsOiMwMDU4YTg7b3BhY2l0eTowLjI1O308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjIyOC44NyIgeTE9IjU1IiB4Mj0iNDQ5LjM0IiB5Mj0iNTUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMC41Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHRpdGxlPnBsYXRmb3Jtc0Fzc2V0IDQ4cXVlc2l0b25zPC90aXRsZT48cGF0aCBjbGFzcz0iYSIgZD0iTTIzMC43NCw1NS4wNywyODUuODIsMEgwVjExMEgyNzYuNjFMMjMwLjc0LDY0LjEzQTYuNDMsNi40MywwLDAsMSwyMzAuNzQsNTUuMDdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImMiIGQ9Ik0yNDIuNiwyMi4zMiwzMTIsOTEuNzJWMEgyNTUuODdMMjQyLjYsMTMuMjdBNi40Miw2LjQyLDAsMCwwLDI0Mi42LDIyLjMyWiIvPjwvc3ZnPg==",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "width": "stretch",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "id": "title",
+                                  "size": "extraLarge",
+                                  "weight": "bolder",
+                                  "color": "light",
+                                  "text": "Jurassic Park",
+                                  "wrap": true
+                                }
+                              ],
+                              "verticalContentAlignment": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "size": "large",
+                          "url": "https://m.media-amazon.com/images/M/MV5BMjM2MDgxMDg0Nl5BMl5BanBnXkFtZTgwNTM2OTM5NDE@._V1_.jpg"
+                        }
+                      ],
+                      "verticalContentAlignment": "center"
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "size": "large",
+                          "weight": "bolder",
+                          "isSubtle": true,
+                          "text": "PG-13"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "size": "large",
+                          "isSubtle": true,
+                          "text": "1993"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "size": "large",
+                          "isSubtle": true,
+                          "text": "Action ▪ Adventure ▪ Sci-Fi ▪ Thriller",
+                          "wrap": true,
+                          "maxLines": 2
+                        },
+                        {
+                          "type": "TextBlock",
+                          "size": "large",
+                          "isSubtle": true,
+                          "text": "2h 7m"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "size": "large",
+                          "weight": "bolder",
+                          "isSubtle": true,
+                          "text": "8.1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "messageBody",
+                  "size": "medium",
+                  "text": "Jurassic Park is a movie starring Sam Neill, Laura Dern, and Jeff Goldblum. A pragmatic Paleontologist visiting an almost complete theme park is tasked with protecting a couple of kids after a power failure causes the park's cloned...",
+                  "wrap": true,
+                  "maxLines": 3
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "3614edc0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:54+08:00",
+    "timestamp": "2019-10-28T11:00:54.044Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-28T11:00:54.351Z",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "3643c5f0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:54+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://15d745d9.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "43",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "20a6a190-f972-11e9-ad47-5d852eaa4d27|livechat"
+    },
+    "recipient": {
+      "id": "3b9e6e96-5fc1-4956-ac3e-2c9f259d1ab9",
+      "role": "user"
+    },
+    "replyToId": "32bbfec0-f972-11e9-8eaf-51c6e6846fe5",
+    "id": "366075b0-f972-11e9-8eaf-51c6e6846fe5",
+    "localTimestamp": "2019-10-28T19:00:54+08:00",
+    "timestamp": "2019-10-28T11:00:54.539Z",
+    "locale": "en-us"
+  }
+]
