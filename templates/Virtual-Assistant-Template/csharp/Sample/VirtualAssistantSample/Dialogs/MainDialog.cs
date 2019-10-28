@@ -121,23 +121,37 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             case GeneralLuis.Intent.Cancel:
                                 {
-                                    var template = _templateEngine.EvaluateTemplate("cancelledMessage");
-                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                    await dc.Context.SendActivityAsync(response);
+                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    dc.SuppressCompletionMessage(true);
+
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage", userProfile));
+
+                                    await dc.CancelAllDialogsAsync();
+                                    return InterruptionAction.End;
+                                }
+
+                            case GeneralLuis.Intent.StartOver:
+                                {
+                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    dc.SuppressCompletionMessage(true);
+
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("StartOverMessage", userProfile));
+
                                     await dc.CancelAllDialogsAsync();
                                     return InterruptionAction.End;
                                 }
 
                             case GeneralLuis.Intent.Escalate:
                                 {
-                                    var template = _templateEngine.EvaluateTemplate("escalateMessage");
-                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                    await dc.Context.SendActivityAsync(response);
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("EscalateMessage", userProfile));
                                     return InterruptionAction.Resume;
                                 }
 
                             case GeneralLuis.Intent.Help:
                                 {
+                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    dc.SuppressCompletionMessage(true);
+
                                     if (isSkill)
                                     {
                                         // If current dialog is a skill, allow it to handle its own help intent.
@@ -146,19 +160,20 @@ namespace VirtualAssistantSample.Dialogs
                                     }
                                     else
                                     {
-                                        var template = _templateEngine.EvaluateTemplate("helpCard");
-                                        var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                        await dc.Context.SendActivityAsync(response);
+                                        await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard", userProfile));
                                         return InterruptionAction.Resume;
                                     }
                                 }
 
                             case GeneralLuis.Intent.Logout:
                                 {
+                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    dc.SuppressCompletionMessage(true);
+
                                     await LogUserOut(dc);
-                                    var template = _templateEngine.EvaluateTemplate("logoutMessage");
-                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
-                                    await dc.Context.SendActivityAsync(response);
+
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogOutMessage", userProfile));
+
                                     return InterruptionAction.End;
                                 }
 
@@ -170,6 +185,9 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.Repeat:
                                 {
+                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    dc.SuppressCompletionMessage(true);
+
                                     // Sends the activities since the last user message again.
                                     var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
 
@@ -315,12 +333,12 @@ namespace VirtualAssistantSample.Dialogs
         // Runs when the dialog stack completes.
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken = default)
         {
+            var userProfile = await _userProfileState.GetAsync(outerDc.Context, () => new UserProfileState());
+
             // Only send a completion message if the user sent a message activity.
-            if (outerDc.Context.Activity.Type == ActivityTypes.Message)
+            if (outerDc.Context.Activity.Type == ActivityTypes.Message && !outerDc.SuppressCompletionMessage())
             {
-                var template = _templateEngine.EvaluateTemplate("completedMessage");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, outerDc.Context, _langGenerator);
-                await outerDc.Context.SendActivityAsync(response);
+                await outerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CompletedMessage", userProfile));
             }
         }
 
