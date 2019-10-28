@@ -118,6 +118,48 @@
     "qnaMakerWebAppName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
+    },
+    "calendarSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "calendarSkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "emailSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "emailSkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "toDoSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "toDoSkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "weatherSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "weatherSkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "newsSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "newsSkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "phoneSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "SkillMicrosoftAppPassword": {
+      "type": "string"
+    },
+    "itsmSkillMicrosoftAppId": {
+      "type": "string"
+    },
+    "itsmMicrosoftAppPassword": {
+      "type": "string"
     }
   },
   "variables": {
@@ -126,7 +168,8 @@
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
-    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
+    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]",
+    "calendarSkillARMLink": "https://raw.githubusercontent.com/microsoft/botframework-solutions/master/skills/src/csharp/calendarskill/calendarskill/Deployment/Resources/template.json"
   },
   "resources": [
     {
@@ -340,6 +383,57 @@
             "QNAMAKER_EXTENSION_VERSION": "latest"
           }
         }
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('calendarSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('calendarSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('calendarSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ]
     }
   ],

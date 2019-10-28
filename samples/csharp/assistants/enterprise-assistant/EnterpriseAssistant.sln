@@ -27,6 +27,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITSMSkill", "..\..\..\..\sk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{0D14F534-36CE-4C95-B64A-18C5A78274F3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{3B8F2BCF-D248-4C95-97F5-FC89045472AC}"
+	ProjectSection(SolutionItems) = preProject
+		parameters.json = parameters.json
+		template.json = template.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -121,6 +127,7 @@ Global
 		{427C17CA-F952-471D-A7B2-9A798F70C42D} = {C3C4992B-F781-4DF3-9822-78AF2CCC15D0}
 		{E226ECDB-2D28-4515-95B5-5163BADDCBDA} = {C3C4992B-F781-4DF3-9822-78AF2CCC15D0}
 		{0D14F534-36CE-4C95-B64A-18C5A78274F3} = {5E36FFFD-2C9D-48E5-AAFA-460023F19764}
+		{3B8F2BCF-D248-4C95-97F5-FC89045472AC} = {78A5B179-A95B-4A91-BE8D-55035E787EEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0CBBA70E-7242-4EC3-A76B-FF444246A980}
