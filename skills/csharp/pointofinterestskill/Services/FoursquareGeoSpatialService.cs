@@ -266,17 +266,17 @@ namespace PointOfInterestSkill.Services
 
         private void ImageToDataUri(PointOfInterestModel model)
         {
-            // TODO set this > 0 (like 75) to convert images to data uris when you need transcripts or dislike urls
-            long useDataUriQuality = 0L;
+            // TODO set this > 0 (like 75) to convert url links of images to jpeg data uris (e.g. when need transcripts)
+            long useDataUriJpegQuality = 0L;
 
-            if (useDataUriQuality > 0 && !string.IsNullOrEmpty(model.PointOfInterestImageUrl))
+            if (useDataUriJpegQuality > 0 && !string.IsNullOrEmpty(model.PointOfInterestImageUrl))
             {
                 using (var image = Image.FromStream(httpClient.GetStreamAsync(model.PointOfInterestImageUrl).Result))
                 {
                     MemoryStream ms = new MemoryStream();
                     var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
                     var encoderParameters = new EncoderParameters(1);
-                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, useDataUriQuality);
+                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, useDataUriJpegQuality);
                     image.Save(ms, encoder, encoderParameters);
                     model.PointOfInterestImageUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
                 }
