@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using VirtualAssistantSample.Models;
-using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -23,8 +22,8 @@ namespace VirtualAssistantSample.Tests
             UserProfileState profileState = new UserProfileState();
             profileState.Name = testName;
 
-            var allNamePromptVariations = TemplateEngine.ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TemplateEngine.ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
 
             dynamic data = new JObject();
             data.name = testName;

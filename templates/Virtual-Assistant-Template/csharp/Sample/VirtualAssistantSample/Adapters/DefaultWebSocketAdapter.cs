@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -20,7 +21,7 @@ namespace VirtualAssistantSample.Adapters
         public DefaultWebSocketAdapter(
             IConfiguration config,
             BotSettings settings,
-            TemplateEngine templateEngine,
+            LocaleTemplateEngineManager templateEngine,
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
@@ -28,8 +29,8 @@ namespace VirtualAssistantSample.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message:{exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(ActivityGenerator.GenerateFromLG(templateEngine.EvaluateTemplate("ErrorMessage")));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
+                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
 
                 telemetryClient.TrackException(exception);
             };

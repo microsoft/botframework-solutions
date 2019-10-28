@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Builder.Solutions.Extensions
         }
 
         /// <summary>
-        /// Provides an extension method to DialogContext enabling the caller to retrieve whether it should suppress a dialog compleition message
+        /// Provides an extension method to DialogContext enabling the caller to retrieve whether it should suppress a dialog completion message.
         /// </summary>
         /// <param name="dc">DialogContext.</param>
         /// <returns>Indicates whether a dialog completion message should be sent.</param>

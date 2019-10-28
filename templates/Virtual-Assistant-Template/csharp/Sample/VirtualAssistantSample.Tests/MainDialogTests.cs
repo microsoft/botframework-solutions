@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Tests.Utterances;
-using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -48,7 +47,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
-            var allResponseVariations = TemplateEngine.ExpandTemplate("ConfusedMessage", TestUserProfileState);
+            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnableMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send("Unhandled message")

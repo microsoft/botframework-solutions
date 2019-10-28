@@ -1,22 +1,21 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Models;
@@ -29,7 +28,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public TemplateEngine TemplateEngine { get; set; }
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -66,12 +65,36 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            var dir = Directory.GetCurrentDirectory();
-            TemplateEngine = new TemplateEngine()
-                .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"));
+            // For localization testing
 
+            CultureInfo.CurrentUICulture = new CultureInfo("en-us");
+
+            Dictionary<string, List<string>> localeLGFiles = new Dictionary<string, List<string>>();
+            List<string> languageGenerationTemplateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            List<string> supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+            foreach (var locale in supportedLocales)
+            {
+                var templateFiles = new List<string>();
+                foreach (var template in languageGenerationTemplateFiles)
+                {
+                    // EN doesn't have a locale suffix response file.
+                    if (locale.StartsWith("en"))
+                    {
+                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localeLGFiles.Add(locale, templateFiles);
+            }
+
+            TemplateEngine = new LocaleTemplateEngineManager(localeLGFiles, "en-us");
             Services.AddSingleton(TemplateEngine);
+
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<List<SkillDialog>>();

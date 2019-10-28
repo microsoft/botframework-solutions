@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
@@ -19,8 +20,7 @@ namespace VirtualAssistantSample.Dialogs
     /// </summary>
     public class OnboardingDialog : ComponentDialog
     {
-        private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
+        private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -28,7 +28,7 @@ namespace VirtualAssistantSample.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<TemplateEngine>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -56,7 +56,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var activity = ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("NamePrompt"));
+                var activity = _templateEngine.GenerateActivityForLocale("NamePrompt");
 
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
@@ -75,8 +75,8 @@ namespace VirtualAssistantSample.Dialogs
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("HaveNameMessage", userProfile)));
-            await sc.Context.SendActivityAsync(ActivityGenerator.GenerateFromLG(_templateEngine.EvaluateTemplate("FirstPromptMessage", userProfile)));
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
 
             sc.SuppressCompletionMessage(true);
 

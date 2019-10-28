@@ -1,16 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using VirtualAssistantSample.Tests.Utterances;
-using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -29,6 +25,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
+            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -36,17 +34,17 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
+               .AssertReplyOneOf(allNamePromptVariations.ToArray())
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
+               .AssertReplyOneOf(allNamePromptVariations.ToArray())
                .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
-            var allResponseVariations = TemplateEngine.ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                .Send(GeneralUtterances.Cancel)
@@ -57,8 +55,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption_Confirmed()
         {
-            var allNamePromptVariations = TemplateEngine.ExpandTemplate("NamePrompt");
-            var allCancelledVariations = TemplateEngine.ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allCancelledVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -76,6 +74,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
+            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -83,10 +83,10 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(ActivityGenerator.GenerateFromLG(TemplateEngine.EvaluateTemplate("NamePrompt")))
+               .AssertReplyOneOf(allNamePromptVariations.ToArray())
                .Send(GeneralUtterances.Repeat)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReply(ActivityGenerator.GenerateFromLG((TemplateEngine.EvaluateTemplate("NamePrompt"))))
+               .AssertReplyOneOf(allNamePromptVariations.ToArray())
                .StartTestAsync();
         }
     }

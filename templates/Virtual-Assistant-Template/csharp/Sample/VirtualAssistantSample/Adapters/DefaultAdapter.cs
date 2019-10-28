@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using VirtualAssistantSample.Services;
@@ -20,7 +21,7 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
-            TemplateEngine templateEngine,
+            LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
@@ -29,8 +30,8 @@ namespace VirtualAssistantSample.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message:{exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(ActivityGenerator.GenerateFromLG(templateEngine.EvaluateTemplate("ErrorMessage")));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
+                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
 
                 telemetryClient.TrackException(exception);
             };
