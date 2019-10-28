@@ -175,6 +175,8 @@ namespace ITSMSkill.Dialogs
 
         protected string ShowKnowledgeNoResponse { get; set; }
 
+        protected string ShowKnowledgeHasResponse { get; set; }
+
         protected string ShowKnowledgeEndResponse { get; set; }
 
         protected string ShowKnowledgeResponse { get; set; }
@@ -848,6 +850,14 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
+                if (firstDisplay)
+                {
+                    if (!string.IsNullOrEmpty(ShowKnowledgeHasResponse))
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowKnowledgeHasResponse));
+                    }
+                }
+
                 var cards = new List<Card>();
                 foreach (var knowledge in result.Knowledges)
                 {
