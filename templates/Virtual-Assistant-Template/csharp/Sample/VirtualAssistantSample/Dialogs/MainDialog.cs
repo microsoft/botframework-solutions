@@ -8,11 +8,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -21,16 +21,18 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
+    /// <summary>
+    /// The MainDialog class providing core Activity routing and message/event processing.
+    /// </summary>
     public class MainDialog : ActivityHandlerDialog
     {
         private BotServices _services;
         private BotSettings _settings;
-        private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
+        private LocaleTemplateEngineManager _templateEngine;
+
         private OnboardingDialog _onboardingDialog;
         private IStatePropertyAccessor<SkillContext> _skillContext;
-        private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
         public MainDialog(
@@ -40,15 +42,13 @@ namespace VirtualAssistantSample.Dialogs
         {
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
-            _templateEngine = serviceProvider.GetService<TemplateEngine>();
-            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
             _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
-            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
@@ -97,6 +97,8 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             var activity = dc.Context.Activity;
+            var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
+
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Check if the active dialog is a skill for conditional interruption.
@@ -191,14 +193,11 @@ namespace VirtualAssistantSample.Dialogs
         // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            var onboardingState = await _onboardingState.GetAsync(innerDc.Context, () => new OnboardingState());
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
 
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            if (string.IsNullOrEmpty(userProfile.Name))
             {
-                // Send intro card
-                var template = _templateEngine.EvaluateTemplate("newUserIntroCard");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("NewUserIntroCard", userProfile));
 
                 // Start onboarding dialog
                 await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
@@ -206,16 +205,18 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 // Send returning user intro card
-                var template = _templateEngine.EvaluateTemplate("returningUserIntroCard");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
             }
+
+            // No need to send the usual dialog completion message for utility capabilities such as these.
+            innerDc.SuppressCompletionMessage(true);
         }
 
         // Runs when the dialog stack is empty, and a new message activity comes in.
         protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity.AsMessageActivity();
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
@@ -244,9 +245,9 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    var template = _templateEngine.EvaluateTemplate("confusedMessage");
-                    var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
-                    await innerDc.Context.SendActivityAsync(response);
+                    innerDc.SuppressCompletionMessage(true);
+
+                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnableMessage", userProfile));
                 }
             }
         }
@@ -349,6 +350,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task CallQnAMaker(DialogContext innerDc, QnAMaker qnaMaker)
         {
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
+
             var answers = await qnaMaker.GetAnswersAsync(innerDc.Context);
 
             if (answers != null && answers.Count() > 0)
@@ -357,9 +360,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("confusedMessage");
-                var response = await _activityGenerator.CreateActivityFromText(template, null, innerDc.Context, _langGenerator);
-                await innerDc.Context.SendActivityAsync(response);
+                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnableMessage", userProfile));
             }
         }
 

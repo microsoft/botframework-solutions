@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,14 +14,16 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,12 +87,31 @@ namespace VirtualAssistantSample
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
-            services.AddSingleton(new TemplateEngine()
-                .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg")));
+            // Base template supports 6 languages out of the box and two LG templates are provided.
+            Dictionary<string, List<string>> localeLGFiles = new Dictionary<string, List<string>>();
+            List<string> languageGenerationTemplateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            List<string> supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
-            services.AddSingleton<TextActivityGenerator>();
-            services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
+            foreach (var locale in supportedLocales)
+            {
+                var templateFiles = new List<string>();
+                foreach (var template in languageGenerationTemplateFiles)
+                {
+                    // EN doesn't have a locale suffix response file.
+                    if (locale.StartsWith("en"))
+                    {
+                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localeLGFiles.Add(locale, templateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localeLGFiles, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
             services.AddTransient<MainDialog>();

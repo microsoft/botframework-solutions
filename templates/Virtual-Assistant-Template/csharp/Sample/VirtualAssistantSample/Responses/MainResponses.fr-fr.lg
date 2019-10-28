@@ -1,28 +1,76 @@
-﻿# cancelledTemplate
-- OK, recommençons.
+# CompletedMessage
+- Je suis là si tu as besoin d'autre chose.
+- Faites-moi savoir s'il y a autre chose dont vous avez besoin.
+- Faites-moi savoir si je peux vous aider avec autre chose.
+- Tout est fini. Faites-moi savoir si je peux faire autre chose.
 
-# completedTemplate
-- Quoi d'autre puis-je vous aider?
+# CancelledMessage
+- D'accord{RandName()}, l'annulation de votre demande. Faites-moi savoir si je peux faire autre chose pour vous.
+- OK, annuler votre demande. Faites-moi savoir si je peux faire autre chose pour vous.
+- Pas de problème, faites-moi savoir si je peux vous aider avec autre chose.
+- Bien sûr, j'annule votre demande. Faites-moi savoir si je peux aider avec autre chose
 
-# confusedTemplate
+# UnableMessage
 - Je suis désolé, je ne suis pas en mesure d'aider avec ça.
+- Désolé, ce n'est pas quelque chose que je peux aider encore.
+- Mes excuses, je ne sais pas comment faire ça maintenant.
+- Malheureusement, je ne peux pas vous aider avec ça en ce moment. Excuses.
+- Pardon{RandName()}, ce n'est pas quelque chose que je peux aider avec encore.
+- Excuses{RandName()}, je ne sais pas comment le faire en ce moment.
 
-# errorTemplate
-- Désolé, on dirait que quelque chose a mal tourné.
+# ConfusedMessage
+- Je suis désolé, je n'ai pas compris ça. Pouvez-vous me donner plus d'informations?
+- Désolé, je n'ai pas eu ça. Pouvez-vous me dire plus?
+- Pardon{RandName()}, je n'ai pas eu cela. Pouvez-vous me dire plus?
+- Mes excuses, je n'ai pas tout à fait compris. Pouvez-vous me donner plus d'informations?
 
-# logoutTemplate
-- Ok, tu es signé.
+# ErrorMessage
+- Pardon{RandName()}, on dirait que quelque chose s'est mal passé. S'il vous plaît essayer à nouveau plus tard.
+- Excuses{RandName()}, on dirait que quelque chose s'est mal passé. Réessayez votre demande plus tard.
+- Désolé, on dirait que quelque chose a mal tourné. S'il vous plaît essayer à nouveau plus tard.
+- Hmm, on dirait qu'il y a eu une erreur. Désolé. Vous pouvez réessayer plus tard.
+- Toutes mes excuses, on dirait que quelque chose a mal tourné. Réessayez votre demande plus tard.
 
-# escalateMessage
-- ```
+#StartOverMessage
+- D'accord{RandName()}, essayons à nouveau.
+- aucun problème{RandName()}, nous pouvons recommencer à tout recommencer.
+- OK, essayons encore une fois.
+- Bien sûr, essayons encore.
+- Pas de problème, on peut tout recommencer.
+
+# FirstPromptMessage
+- Qu'est-ce que je peux t'aider aujourd'hui ?
+- Que puis-je pour vous?
+- Y a-t-il quelque chose que je puisse faire pour toi ?
+- Comment puis-je vous aider?
+
+# LogoutMessage
+- D'accord{RandName()}, vous êtes signé.
+- d'accord{RandName()}, vous êtes signé.
+- aucun problème{RandName()}, Je vous ai signé.
+- OK, tu es signé.
+- D'accord, je me suis désigné.
+- Bien sûr, vous avez été signé.
+- Pas de problème, je t'ai viré.
+
+# EscalateMessage
 [HeroCard
-  subtitle=Nos agents sont disponibles 24/7 au 1 (800) 555-1234.
+  subtitle=titres Nos agents sont disponibles 24/7 au 1(800)555-1234. Ou connectez-vous avec nous via Microsoft Teams.
 ]
-```
 
-# newUserIntroTemplate
+# NewUserIntroCard
+[Activity
+    Attachments = {json(NewUserIntroCardJson())}
+]
+
+# NewUserIntroCardTitle
+- Salut!
+- accueillir
+- ravi!
+- Bonjour et bienvenue!
+
+# NewUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "NewUserGreeting",
@@ -49,16 +97,16 @@
           "spacing": "Medium",
           "size": "Large",
           "weight": "Bolder",
-          "color": "Dark",
-          "text": "Salut, je suis votre Virtual Assistant",
+          "color": "Light",
+          "text": "@{NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
           "type": "TextBlock",
           "id": "body",
           "size": "Medium",
-          "color": "Dark",
-          "text": "Lire la suite pour voir ce que je peux faire.",
+          "color": "Light",
+          "text": "Maintenant que je suis opérationnel, explorez les liens ici pour apprendre ce que je peux faire.",
           "wrap": true
         }
       ]
@@ -67,7 +115,7 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "Commencer",
+      "title": "Démarrer",
       "data": {
         "action": "startOnboarding"
       }
@@ -79,25 +127,28 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Comptes liés",
-      "url": "https://aka.ms/linkedaccountsdocs"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Compétences",
-      "url": "https://aka.ms/ConversationalAISkills"
+      "title": "Skills",
+      "url": "https://aka.ms/botframeworkskills"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Salut, je suis votre Virtual Assistant! Lire la suite pour voir ce que je peux faire."
+  "speak": "@{NewUserIntroCardTitle()}"
 }
-]
 ```
 
-# returningUserIntroTemplate
+# ReturningUserIntroCard
+[Activity
+    Attachments = {json(ReturningUserIntroCardJson())}
+]
+
+# ReturningUserIntroCardTitle
+- Bienvenue{RandName()}!
+- C'est bon de te revoir.
+- Bienvenue !
+
+# ReturningUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "ReturningUserGreeting",
@@ -131,7 +182,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "Bienvenue!",
+                  "text": "@{ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -139,7 +190,7 @@
                   "id": "body",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "Comment puis-je aider?",
+                  "text": "Comment puis-je vous aider?",
                   "wrap": true
                 }
               ],
@@ -152,15 +203,18 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Bienvenue!"
+  "speak": "@{ReturningUserIntroCardTitle()}"
 }
-]
 ```
 
-# helpTemplate
-- ```
-[Herocard 
-    title=Aide pour Virtual Assistant
-    subtitle=Je suis ton assistante virtuelle! Je peux effectuer un certain nombre de tâches à travers mes compétences connectées. En ce moment je peux vous aider avec le calendrier, email, la tâche et le point d'intérêt des questions. Ou vous pouvez m'aider à faire plus en créant votre propre!
+# HelpCard
+[HeroCard 
+    title=Aide pour assistant virtuel
+    subtitle=La carte peut être utilisée pour afficher des informations pour aider votre utilisateur à interagir avec votre bot.
 ]
-```
+
+# RandName 
+- IF: {Name && rand(0, 1000) > 500}
+    - {concat(' ', Name)}
+- ELSE:
+    - 
