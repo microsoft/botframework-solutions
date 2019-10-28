@@ -14,8 +14,6 @@ namespace CalendarSkill.Models
 
         public Luis.General GeneralLuisResult { get; set; }
 
-        public string APIToken { get; set; }
-
         public int PageSize { get; set; } = 0;
 
         public EventSource EventSource { get; set; } = EventSource.Other;
@@ -41,7 +39,6 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
-            APIToken = null;
             PageSize = 0;
             EventSource = EventSource.Other;
             MeetingInfor.Clear();
@@ -250,6 +247,29 @@ namespace CalendarSkill.Models
 
         public class ShowMeetingInformation
         {
+            public enum SearchMeetingCondition
+            {
+                /// <summary>
+                /// Search meeting by time.
+                /// </summary>
+                Time,
+
+                /// <summary>
+                /// Search meeting by title.
+                /// </summary>
+                Title,
+
+                /// <summary>
+                /// Search meeting by attendee.
+                /// </summary>
+                Attendee,
+
+                /// <summary>
+                /// Search meeting by location.
+                /// </summary>
+                Location
+            }
+
             public string AskParameterContent { get; set; } = null;
 
             public int TotalConflictCount { get; set; } = 0;
@@ -266,6 +286,8 @@ namespace CalendarSkill.Models
 
             // be chosen in ShowingMeetings or in update/change status flow
             public List<EventModel> FocusedEvents { get; set; } = new List<EventModel>();
+
+            public SearchMeetingCondition Condition { get; set; }
 
             public void Clear()
             {

@@ -35,9 +35,9 @@ namespace ITSMSkill.Dialogs
         {
             var showKnowledge = new WaterfallStep[]
             {
-                CheckDescription,
-                InputDescription,
-                SetDescription,
+                CheckSearch,
+                InputSearch,
+                SetTitle,
                 GetAuthToken,
                 AfterGetAuthToken,
                 ShowKnowledgeLoop,

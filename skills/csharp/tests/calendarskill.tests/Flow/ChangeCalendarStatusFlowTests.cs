@@ -23,7 +23,7 @@ namespace CalendarSkill.Test.Flow
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
             botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
             {
-                LuisServices = new Dictionary<string, ITelemetryRecognizer>()
+                LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
                     { "General", new MockLuisRecognizer() },
                     { "Calendar", new MockLuisRecognizer(new ChangeMeetingStatusTestUtterances()) }
@@ -38,8 +38,12 @@ namespace CalendarSkill.Test.Flow
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -52,8 +56,12 @@ namespace CalendarSkill.Test.Flow
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -70,8 +78,12 @@ namespace CalendarSkill.Test.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -84,8 +96,12 @@ namespace CalendarSkill.Test.Flow
                 .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AcceptEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();

@@ -133,10 +133,10 @@
     <value>ddd MM/dd hh:mm tt</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value>Contenu</value>
+    <value>Corps</value>
   </data>
-  <data name="Participants" xml:space="preserve">
-    <value>Participants</value>
+  <data name="Recipients" xml:space="preserve">
+    <value>destinataires</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
     <value>CC: {0}</value>
@@ -187,10 +187,10 @@
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>à partir de {0} reçus {1} intitulés {2}</value>
+    <value>reçus {1} à partir de {0} intitulés {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>à partir de {0} reçus {1}</value>
+    <value>reçus {1} à partir de {0}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0} à {1} et le contenu est {2}</value>
@@ -202,7 +202,7 @@
     <value>Alimenté par **{0}**</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>Contenu: {0}</value>
+    <value>Corps: {0}</value>
   </data>
   <data name="PreviousDateFormat" xml:space="preserve">
     <value>ddd MM/dd</value>
@@ -241,7 +241,7 @@
     <value>----------Message transféré----------</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>à partir de {0} reçu {1} intitulé {2}, le contenu est {3}.</value>
+    <value>reçu {1} à partir de {0} intitulé {2}, le contenu est {3}.</value>
   </data>
   <data name="SearchBySender" xml:space="preserve">
     <value>Messages de {0}</value>

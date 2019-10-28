@@ -133,10 +133,10 @@
     <value>ddd MM/dd hh:mm tt</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value>Inhalt</value>
+    <value>Körper</value>
   </data>
-  <data name="Participants" xml:space="preserve">
-    <value>Teilnehmer</value>
+  <data name="Recipients" xml:space="preserve">
+    <value>empfänger</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc: {0}</value>
@@ -187,10 +187,10 @@
     <value>Fw: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>Von {0} erhalten {1} titelte {2}</value>
+    <value>erhalten {1} von {0} titelte {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>Von {0} erhalten {1}</value>
+    <value>erhalten {1} von {0}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0} bis {1} und Inhalt ist {2}</value>
@@ -202,7 +202,7 @@
     <value>Powered by **{0}**</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>Inhalt: {0}</value>
+    <value>Körper: {0}</value>
   </data>
   <data name="PreviousDateFormat" xml:space="preserve">
     <value>ddd MM/dd</value>
@@ -241,7 +241,7 @@
     <value>----------weiterleitete Nachricht----------</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>Aus {0} erhalten {1} titelte {2}, Inhalt ist {3}.</value>
+    <value>erhalten {1} aus {0} titelte {2}, Inhalt ist {3}.</value>
   </data>
   <data name="SearchBySender" xml:space="preserve">
     <value>Nachrichten aus {0}</value>

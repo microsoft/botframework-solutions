@@ -137,7 +137,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReply(this.CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -174,7 +174,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReply(this.CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -198,7 +198,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ReplyEmailUtterances.ReplyEmailsWithSelection)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReplyOneOf(this.CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -225,7 +225,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ReplyEmailUtterances.ReplyCurrentEmail)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReplyOneOf(this.CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -433,9 +433,9 @@ namespace EmailSkill.Tests.Flow
             return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
-        private string[] CollectEmailContentMessage()
+        private string[] CollectEmailContentMessageForReply()
         {
-            return this.ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
+            return this.ParseReplies(EmailSharedResponses.NoEmailContentForReply, new StringDictionary());
         }
 
         private string[] NotSendingMessage()
@@ -523,6 +523,21 @@ namespace EmailSkill.Tests.Flow
 
                     CollectionAssert.Contains(replies, messageActivity.Text);
                 }
+            };
+        }
+
+        private Action<IActivity> CollectEmailContentMessageForForward(string userName)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", userName } });
+                noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
+                noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+
+                Assert.AreEqual(noEmailContentMessage.Text, messageActivity.Text);
             };
         }
 

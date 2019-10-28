@@ -22,56 +22,6 @@
           "authoringKey": "",
           "authoringRegion": "",
           "subscriptionKey": ""
-        },
-        {
-          "id": "KnowledgeShow",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
-        },
-        {
-          "id": "TicketClose",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
-        },
-        {
-          "id": "TicketCreate",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
-        },
-        {
-          "id": "TicketShow",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
-        },
-        {
-          "id": "TicketUpdate",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
         }
       ]
     }

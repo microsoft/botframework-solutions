@@ -300,4 +300,22 @@
   <data name="Manager" xml:space="preserve">
     <value>(manager | patron)</value>
   </data>
+  <data name="ShowEventContactCondition" xml:space="preserve">
+    <value>avec {0}</value>
+  </data>
+  <data name="ShowEventDateCondition" xml:space="preserve">
+    <value>pour {0}</value>
+  </data>
+  <data name="ShowEventLocationCondition" xml:space="preserve">
+    <value>à {0}</value>
+  </data>
+  <data name="ShowEventTitleCondition" xml:space="preserve">
+    <value>à propos de {0}</value>
+  </data>
+  <data name="AskForDate" xml:space="preserve">
+    <value>quoi (jour|date)</value>
+  </data>
+  <data name="DisplayDateLong" xml:space="preserve">
+    <value>dddd, MMMM d</value>
+  </data>
 </root>

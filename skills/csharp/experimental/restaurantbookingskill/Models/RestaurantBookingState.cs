@@ -6,9 +6,7 @@ namespace RestaurantBookingSkill.Models
     {
         public RestaurantBookingState()
         {
-            Booking = new ReservationBooking();
-            Cuisine = new List<FoodTypeInfo>();
-            AmbiguousTimexExpressions = new Dictionary<string, string>();
+            Clear();
         }
 
         public string Name { get; set; }
@@ -27,9 +25,9 @@ namespace RestaurantBookingSkill.Models
         {
             Name = null;
             LuisResult = null;
-            Booking = null;
-            Cuisine = null;
-            AmbiguousTimexExpressions = null;
+            Booking = new ReservationBooking();
+            Cuisine = new List<FoodTypeInfo>();
+            AmbiguousTimexExpressions = new Dictionary<string, string>();
         }
     }
 }

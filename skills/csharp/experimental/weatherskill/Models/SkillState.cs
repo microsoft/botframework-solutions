@@ -7,6 +7,11 @@ namespace WeatherSkill.Models
 {
     public class SkillState
     {
+        public SkillState()
+        {
+            Clear();
+        }
+
         public string Token { get; internal set; }
 
         public WeatherSkillLuis LuisResult { get; internal set; }

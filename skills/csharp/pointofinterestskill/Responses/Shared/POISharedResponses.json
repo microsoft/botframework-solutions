@@ -290,8 +290,8 @@
   "PromptForCurrentLocation": {
     "replies": [
       {
-        "text": "What's your address?",
-        "speak": "What's your address?"
+        "text": "What's your current address?",
+        "speak": "What's your current address?"
       },
       {
         "text": "Where are you? Try providing a city or address.",

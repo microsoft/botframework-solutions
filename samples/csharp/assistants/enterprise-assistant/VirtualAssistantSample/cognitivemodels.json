@@ -1,0 +1,37 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "dispatchModel": {
+        "authoringkey": "",
+        "appid": "",
+        "name": "",
+        "subscriptionkey": "",
+        "region": "",
+        "authoringRegion": ""
+      },
+      "languageModels": [
+        {
+          "subscriptionkey": "",
+          "appid": "",
+          "id": "",
+          "version": "",
+          "region": "",
+          "name": "",
+          "authoringkey": "",
+          "authoringRegion": ""
+        }
+      ],
+      "knowledgebases": [
+        {
+          "endpointKey": "",
+          "kbId": "",
+          "hostname": "",
+          "subscriptionKey": "",
+          "name": "",
+          "id": ""
+        }        
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

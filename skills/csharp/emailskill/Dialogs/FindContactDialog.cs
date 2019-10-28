@@ -459,27 +459,6 @@ namespace EmailSkill.Dialogs
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
                 state.FindContactInfor.CurrentContactName = currentRecipientName;
 
-                // if it's an email, add to attendee and keep the state.ConfirmedPerson null
-                if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
-                {
-                    var attendee = new Recipient
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Name = currentRecipientName,
-                            Address = currentRecipientName
-                        }
-                    };
-                    if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
-                    {
-                        state.FindContactInfor.Contacts.Add(attendee);
-                    }
-
-                    state.FindContactInfor.CurrentContactName = string.Empty;
-                    state.FindContactInfor.ConfirmedContact = null;
-                    return await sc.EndDialogAsync();
-                }
-
                 var unionList = new List<PersonModel>();
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
@@ -545,6 +524,27 @@ namespace EmailSkill.Dialogs
 
                 if (unionList.Count == 0)
                 {
+                    // If the query is an email address, confirm it directly
+                    if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
+                    {
+                        var attendee = new Recipient
+                        {
+                            EmailAddress = new EmailAddress
+                            {
+                                Name = currentRecipientName,
+                                Address = currentRecipientName
+                            }
+                        };
+                        if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
+                        {
+                            state.FindContactInfor.Contacts.Add(attendee);
+                        }
+
+                        state.FindContactInfor.CurrentContactName = string.Empty;
+                        state.FindContactInfor.ConfirmedContact = null;
+                        return await sc.EndDialogAsync();
+                    }
+
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
                     return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, options);
                 }
@@ -740,7 +740,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var nameString = state.FindContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
+                var nameString = state.FindContactInfor.Contacts.ToSpeechString(
+                    CommonStrings.And,
+                    li => !string.IsNullOrEmpty(li.EmailAddress.Name) && Util.IsEmail(li.EmailAddress.Name) ? li.EmailAddress.Name : $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
                 return await sc.PromptAsync(FindContactAction.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreContactsPrompt, new StringDictionary() { { "NameList", nameString } }),

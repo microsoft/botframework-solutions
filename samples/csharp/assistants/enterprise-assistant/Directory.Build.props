@@ -1,0 +1,32 @@
+<Project>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <RestoreAdditionalProjectSources>
+      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+      https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;
+      https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Microsoft</Company>
+    <Authors>Microsoft</Authors>
+    <Product>Microsoft BotFramework Solutions</Product>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/Microsoft/AI</RepositoryUrl>
+    <LicenseUrl>https://github.com/Microsoft/AI/blob/master/LICENSE</LicenseUrl>
+    <RepositoryType />
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
+  </PropertyGroup>
+</Project>

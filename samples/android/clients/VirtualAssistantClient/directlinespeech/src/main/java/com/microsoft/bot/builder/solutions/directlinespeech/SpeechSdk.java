@@ -11,7 +11,6 @@ import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioOutputStream;
-import com.microsoft.cognitiveservices.speech.dialog.Activity;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConfig;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConnector;
 
@@ -200,7 +199,7 @@ public class SpeechSdk {
         });
 
         botConnector.activityReceived.addEventListener((o, activityEventArgs) -> {
-            final String json = activityEventArgs.getActivity().serialize();
+            final String json = activityEventArgs.getActivity();
             logLongInfoMessage(LOGTAG, "received activity: " + json);
 
             if (activityEventArgs.hasAudio()) {
@@ -334,9 +333,7 @@ public class SpeechSdk {
             if (from_user != null) activityTemplate.setFrom(from_user);
 
             final String activityJson = gson.toJson(activityTemplate);
-            Activity activity = Activity.fromSerializedActivity(activityJson);
-
-            final Future<String> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activityJson);
             setOnTaskCompletedListener(task, result -> {
                 LogInfo("sendActivityAsync done");
                 startResponseTimeoutTimer();
@@ -353,9 +350,7 @@ public class SpeechSdk {
         if (from_user != null) activityTemplate.setFrom(from_user);
 
         final String activityJson = gson.toJson(activityTemplate);
-        Activity activity = Activity.fromSerializedActivity(activityJson);
-
-        final Future<String> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activityJson);
         setOnTaskCompletedListener(task, result -> {
             LogInfo("sendLocationEvent done: "+activityJson);
             dateSentLocationEvent = DateUtils.getCurrentTime();
@@ -370,9 +365,7 @@ public class SpeechSdk {
         client.model.Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
 
         final String activityJson = gson.toJson(activityTemplate);
-        Activity activity = Activity.fromSerializedActivity(activityJson);
-
-        final Future<String> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activityJson);
         setOnTaskCompletedListener(task, result -> {
             LogDebug("sendActivityAsync done: "+activityJson);
         });
@@ -423,9 +416,7 @@ public class SpeechSdk {
             activityTemplate.setValue("");
 
             final String activityJson = gson.toJson(activityTemplate);
-            Activity activity = Activity.fromSerializedActivity(activityJson);
-
-            final Future<String> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activityJson);
             setOnTaskCompletedListener(task, result -> {
                 LogDebug("requestWelcomeCard done: "+activityJson);
             });

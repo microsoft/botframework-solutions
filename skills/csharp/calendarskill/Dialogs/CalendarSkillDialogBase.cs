@@ -12,6 +12,7 @@ using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
@@ -34,6 +35,8 @@ namespace CalendarSkill.Dialogs
 {
     public class CalendarSkillDialogBase : ComponentDialog
     {
+        protected const string APITokenKey = "APITokenKey";
+
         private ConversationState _conversationState;
 
         public CalendarSkillDialogBase(
@@ -125,7 +128,15 @@ namespace CalendarSkill.Dialogs
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await Accessor.GetAsync(sc.Context);
-                    state.APIToken = providerTokenResponse.TokenResponse.Token;
+
+                    if (sc.Context.TurnState.TryGetValue(APITokenKey, out var token))
+                    {
+                        sc.Context.TurnState[APITokenKey] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(APITokenKey, providerTokenResponse.TokenResponse.Token);
+                    }
 
                     var provider = providerTokenResponse.AuthenticationProvider;
 
@@ -162,7 +173,8 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
 
                 // search by time without cancelled meeting
                 if (!state.ShowMeetingInfor.ShowingMeetings.Any())
@@ -173,6 +185,7 @@ namespace CalendarSkill.Dialogs
                         if (item.IsCancelled != true)
                         {
                             state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time;
                         }
                     }
                 }
@@ -186,6 +199,49 @@ namespace CalendarSkill.Dialogs
                         if (item.IsCancelled != true)
                         {
                             state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Title;
+                        }
+                    }
+                }
+
+                // search by participants without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any() && state.MeetingInfor.ContactInfor.ContactsNameList.Any())
+                {
+                    var utcNow = DateTime.UtcNow;
+                    var searchedMeeting = await calendarService.GetEventsByTimeAsync(utcNow, utcNow.AddDays(14));
+
+                    foreach (var item in searchedMeeting)
+                    {
+                        var containsAllContacts = true;
+                        foreach (var contactName in state.MeetingInfor.ContactInfor.ContactsNameList)
+                        {
+                            if (!item.ContainsAttendee(contactName))
+                            {
+                                containsAllContacts = false;
+                                break;
+                            }
+                        }
+
+                        if (containsAllContacts && item.IsCancelled != true)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Attendee;
+                        }
+                    }
+                }
+
+                // search by location without cancelled meeting
+                if (!state.ShowMeetingInfor.ShowingMeetings.Any() && !string.IsNullOrEmpty(state.MeetingInfor.Location))
+                {
+                    var utcNow = DateTime.UtcNow;
+                    var searchedMeeting = await calendarService.GetEventsByTimeAsync(utcNow, utcNow.AddDays(14));
+
+                    foreach (var item in searchedMeeting)
+                    {
+                        if (item.Location.Contains(state.MeetingInfor.Location) && item.IsCancelled != true)
+                        {
+                            state.ShowMeetingInfor.ShowingMeetings.Add(item);
+                            state.ShowMeetingInfor.Condition = CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Location;
                         }
                     }
                 }
@@ -527,7 +583,7 @@ namespace CalendarSkill.Dialogs
                     OverlapEventCount = state.ShowMeetingInfor.TotalConflictCount.ToString(),
                     TotalEventCountUnit = string.Format(
                         state.ShowMeetingInfor.ShowingMeetings.Count == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
-                        state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower),
+                        GetSearchConditionString(state)),
                     OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
                     Provider = string.Format(CalendarCommonStrings.OverviewEventSource, currentEvents[0].SourceString()),
                     UserPhoto = await GetMyPhotoUrlAsync(context),
@@ -620,6 +676,33 @@ namespace CalendarSkill.Dialogs
             participantContainerList.Add(participantContainerCard);
 
             return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+        }
+
+        protected string GetSearchConditionString(CalendarSkillState state)
+        {
+            switch (state.ShowMeetingInfor.Condition)
+            {
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Time:
+                    {
+                        if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TodayLower, StringComparison.InvariantCultureIgnoreCase) ||
+                            state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TomorrowLower, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            return (state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower).ToLower();
+                        }
+
+                        return string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString);
+                    }
+
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Title:
+                    return string.Format(CalendarCommonStrings.ShowEventTitleCondition, state.MeetingInfor.Title);
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Attendee:
+                    return string.Format(CalendarCommonStrings.ShowEventContactCondition, string.Join(", ", state.MeetingInfor.ContactInfor.ContactsNameList));
+                case CalendarSkillState.ShowMeetingInformation.SearchMeetingCondition.Location:
+                    return string.Format(CalendarCommonStrings.ShowEventLocationCondition, state.MeetingInfor.Location);
+            }
+
+            return null;
         }
 
         protected List<EventModel> GetFilteredEvents(CalendarSkillState state, string userInput, string locale, out string showingCardTitle)
@@ -720,8 +803,8 @@ namespace CalendarSkill.Dialogs
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
             var state = await Accessor.GetAsync(context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
 
             PersonModel me = null;
 
@@ -746,8 +829,8 @@ namespace CalendarSkill.Dialogs
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EventModel.Attendee attendee)
         {
             var state = await Accessor.GetAsync(context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
             var displayName = attendee.DisplayName ?? attendee.Address;
 
             try
@@ -1106,6 +1189,21 @@ namespace CalendarSkill.Dialogs
                                 state.MeetingInfor.OrderReference = GetOrderReferenceFromEntity(entity);
                             }
 
+                            if (entity.Subject != null)
+                            {
+                                state.MeetingInfor.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                            }
+
+                            if (entity.Location != null)
+                            {
+                                state.MeetingInfor.Location = GetLocationFromEntity(entity);
+                            }
+
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
@@ -1276,9 +1374,9 @@ namespace CalendarSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
+            if (ex.ExceptionType == SkillExceptionType.APIAccessDenied || ex.ExceptionType == SkillExceptionType.APIUnauthorized || ex.ExceptionType == SkillExceptionType.APIForbidden || ex.ExceptionType == SkillExceptionType.APIBadRequest)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessageAccountProblem));
             }
             else
             {
@@ -1411,8 +1509,8 @@ namespace CalendarSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
 
             // Get users.
             result = await service.GetContactsAsync(name);
@@ -1423,8 +1521,8 @@ namespace CalendarSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
 
             // Get users.
             result = await service.GetPeopleAsync(name);
@@ -1436,8 +1534,8 @@ namespace CalendarSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
 
             // Get users.
             result = await service.GetUserAsync(name);
@@ -1448,24 +1546,24 @@ namespace CalendarSkill.Dialogs
         protected async Task<PersonModel> GetMyManager(WaterfallStepContext sc)
         {
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
             return await service.GetMyManagerAsync();
         }
 
         protected async Task<PersonModel> GetManager(WaterfallStepContext sc, string name)
         {
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
             return await service.GetManagerAsync(name);
         }
 
         protected async Task<PersonModel> GetMe(ITurnContext context)
         {
             var state = await Accessor.GetAsync(context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
+            context.TurnState.TryGetValue(APITokenKey, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.EventSource);
             return await service.GetMeAsync();
         }
 
@@ -1601,7 +1699,8 @@ namespace CalendarSkill.Dialogs
                         Name = "CalendarDate",
                         Data = new CalendarDateCardData()
                         {
-                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
+                            // format "dddd, MMMM d"
+                            Date = currentAddedDateUser.Value.ToString(CalendarCommonStrings.DisplayDateLong).ToUpper()
                         }
                     });
                 }

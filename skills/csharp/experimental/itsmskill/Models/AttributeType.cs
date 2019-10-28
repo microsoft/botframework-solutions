@@ -11,8 +11,12 @@ namespace ITSMSkill.Models
         None,
         [EnumLocalizedDescription("AttributeId", typeof(SharedStrings))]
         Id,
+        [EnumLocalizedDescription("AttributeTitle", typeof(SharedStrings))]
+        Title,
         [EnumLocalizedDescription("AttributeDescription", typeof(SharedStrings))]
         Description,
+        [EnumLocalizedDescription("AttributeSearch", typeof(SharedStrings))]
+        Search,
         [EnumLocalizedDescription("AttributeUrgency", typeof(SharedStrings))]
         Urgency,
         [EnumLocalizedDescription("AttributeState", typeof(SharedStrings))]

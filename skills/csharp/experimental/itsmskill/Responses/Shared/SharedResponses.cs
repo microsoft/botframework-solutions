@@ -18,6 +18,10 @@ namespace ITSMSkill.Responses.Shared
         public const string AuthFailed = "AuthFailed";
         public const string ActionEnded = "ActionEnded";
         public const string ErrorMessage = "ErrorMessage";
+        public const string ConfirmSearch = "ConfirmSearch";
+        public const string InputSearch = "InputSearch";
+        public const string ConfirmTitle = "ConfirmTitle";
+        public const string InputTitle = "InputTitle";
         public const string ConfirmDescription = "ConfirmDescription";
         public const string InputDescription = "InputDescription";
         public const string ConfirmReason = "ConfirmReason";
@@ -29,6 +33,9 @@ namespace ITSMSkill.Responses.Shared
         public const string ConfirmId = "ConfirmId";
         public const string InputId = "InputId";
         public const string InputTicketNumber = "InputTicketNumber";
+        public const string PageIndicator = "PageIndicator";
+        public const string ResultIndicator = "ResultIndicator";
+        public const string ResultsIndicator = "ResultsIndicator";
         public const string ServiceFailed = "ServiceFailed";
     }
 }

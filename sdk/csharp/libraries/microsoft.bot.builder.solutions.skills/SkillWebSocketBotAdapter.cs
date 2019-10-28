@@ -5,9 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Microsoft.Bot.Streaming;
+using Microsoft.Bot.Streaming.Transport.WebSockets;
 using Diagnostics = System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -122,7 +123,7 @@ namespace Microsoft.Bot.Builder.Skills
                 EnsureActivitySemanticAction(turnContext, activity);
 
                 if (activity.Type != ActivityTypes.Trace ||
-                    (activity.Type == ActivityTypes.Trace && activity.ChannelId == "emulator"))
+                    (activity.Type == ActivityTypes.Trace && activity.ChannelId == Channels.Emulator))
                 {
                     var requestPath = $"/activities/{activity.Id}";
                     var request = StreamingRequest.CreatePost(requestPath);

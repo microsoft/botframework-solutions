@@ -26,6 +26,8 @@ namespace VirtualAssistantSample.Dialogs
     /// </summary>
     public class MainDialog : RouterDialog
     {
+        private const string Location = "location";
+        private const string TimeZone = "timezone";
         private BotServices _services;
         private BotSettings _settings;
         private LocaleTemplateEngineManager _templateEngine;
@@ -94,95 +96,76 @@ namespace VirtualAssistantSample.Dialogs
 
                 // Check dispatch result
                 var luisResult = await cognitiveModels.LuisServices["General"].RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
-                var intent = luisResult.TopIntent().intent;
+                (var intent, var score) = luisResult.TopIntent();
 
-                switch (intent)
+                if (score > 0.5)
                 {
-                    case GeneralLuis.Intent.Cancel:
-                        {
-                            // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.SuppressCompletionMessage(true);
-
-                            await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage", userProfile));
-
-                            await dc.CancelAllDialogsAsync();
-
-                            return InterruptionAction.End;
-                        }
-
-                    case GeneralLuis.Intent.StartOver:
-                        {
-                            // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.SuppressCompletionMessage(true);
-
-                            await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("StartOverMessage", userProfile));
-
-                            await dc.CancelAllDialogsAsync();
-
-                            return InterruptionAction.End;
-                        }
-
-                    case GeneralLuis.Intent.Escalate:
-                        {
-                            await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("EscalateMessage", userProfile));
-
-                            return InterruptionAction.Resume;
-                        }
-
-                    case GeneralLuis.Intent.Help:
-                        {
-                            // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.SuppressCompletionMessage(true);
-
-                            if (isSkill)
+                    switch (intent)
+                    {
+                        case GeneralLuis.Intent.Cancel:
                             {
-                                // If current dialog is a skill, allow it to handle its own help intent.
-                                await dc.ContinueDialogAsync(cancellationToken);
-                                break;
+                                var template = _templateEngine.EvaluateTemplate("cancelledMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
+                                await dc.CancelAllDialogsAsync();
+                                return InterruptionAction.End;
                             }
-                            else
-                            {
-                                await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard", userProfile));
 
+                        case GeneralLuis.Intent.Escalate:
+                            {
+                                var template = _templateEngine.EvaluateTemplate("escalateMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
                                 return InterruptionAction.Resume;
                             }
-                        }
 
-                    case GeneralLuis.Intent.Logout:
-                        {
-                            // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.SuppressCompletionMessage(true);
-
-                            await LogUserOut(dc);
-
-                            await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogOutMessage", userProfile));
-
-                            return InterruptionAction.End;
-                        }
-
-                    case GeneralLuis.Intent.Stop:
-                        {
-                            // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
-                            break;
-                        }
-
-                    case GeneralLuis.Intent.Repeat:
-                        {
-                            // No need to send the usual dialog completion message for utility capabilities such as these.
-                            dc.SuppressCompletionMessage(true);
-
-                            // Sends the activities since the last user message again.
-                            var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
-
-                            foreach (var response in previousResponse)
+                        case GeneralLuis.Intent.Help:
                             {
-                                // Reset id of original activity so it can be processed by the channel.
-                                response.Id = string.Empty;
-                                await dc.Context.SendActivityAsync(response);
+                                if (isSkill)
+                                {
+                                    // If current dialog is a skill, allow it to handle its own help intent.
+                                    await dc.ContinueDialogAsync(cancellationToken);
+                                    break;
+                                }
+                                else
+                                {
+                                    var template = _templateEngine.EvaluateTemplate("helpCard");
+                                    var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                    await dc.Context.SendActivityAsync(response);
+                                    return InterruptionAction.Resume;
+                                }
                             }
 
-                            return InterruptionAction.Waiting;
-                        }
+                        case GeneralLuis.Intent.Logout:
+                            {
+                                await LogUserOut(dc);
+                                var template = _templateEngine.EvaluateTemplate("logoutMessage");
+                                var response = await _activityGenerator.CreateActivityFromText(template, null, dc.Context, _langGenerator);
+                                await dc.Context.SendActivityAsync(response);
+                                return InterruptionAction.End;
+                            }
+
+                        case GeneralLuis.Intent.Stop:
+                            {
+                                // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
+                                break;
+                            }
+
+                        case GeneralLuis.Intent.Repeat:
+                            {
+                                // Sends the activities since the last user message again.
+                                var previousResponse = await _previousResponseAccessor.GetAsync(dc.Context, () => new List<Activity>());
+
+                                foreach (var response in previousResponse)
+                                {
+                                    // Reset id of original activity so it can be processed by the channel.
+                                    response.Id = string.Empty;
+                                    await dc.Context.SendActivityAsync(response);
+                                }
+
+                                return InterruptionAction.Waiting;
+                            }
+                    }
                 }
             }
 
@@ -259,10 +242,10 @@ namespace VirtualAssistantSample.Dialogs
                 case Events.Location:
                     {
                         var locationObj = new JObject();
-                        locationObj.Add(Events.Location, JToken.FromObject(value));
+                        locationObj.Add(Location, JToken.FromObject(value));
 
                         var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                        skillContext[Events.Location] = locationObj;
+                        skillContext[Location] = locationObj;
                         await _skillContext.SetAsync(innerDc.Context, skillContext);
 
                         break;
@@ -274,10 +257,10 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
                             var timeZoneObj = new JObject();
-                            timeZoneObj.Add(Events.TimeZone, JToken.FromObject(timeZoneInfo));
+                            timeZoneObj.Add(TimeZone, JToken.FromObject(timeZoneInfo));
 
                             var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                            skillContext[Events.TimeZone] = timeZoneObj;
+                            skillContext[TimeZone] = timeZoneObj;
                             await _skillContext.SetAsync(innerDc.Context, skillContext);
                         }
                         catch

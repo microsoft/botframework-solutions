@@ -53,9 +53,13 @@ namespace CalendarSkill.Dialogs
                 CollectStartTime,
                 CollectDuration,
                 CollectLocation,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
                 AfterConfirmBeforeCreatePrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 CreateEvent,
             };
 
@@ -166,7 +170,7 @@ namespace CalendarSkill.Dialogs
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
+                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}");
                     var data = new StringDictionary() { { "UserName", userNameString } };
                     var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
 
@@ -622,7 +626,8 @@ namespace CalendarSkill.Dialogs
                     Location = state.MeetingInfor.Location,
                 };
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
                     var tokens = new StringDictionary
