@@ -23,8 +23,6 @@ namespace VirtualAssistantSample.Dialogs
 {
     public class MainDialog : ActivityHandlerDialog
     {
-        private const string Location = "location";
-        private const string TimeZone = "timezone";
         private BotServices _services;
         private BotSettings _settings;
         private TemplateEngine _templateEngine;
@@ -190,7 +188,7 @@ namespace VirtualAssistantSample.Dialogs
             return InterruptionAction.NoAction;
         }
 
-        // Runs Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
+        // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var onboardingState = await _onboardingState.GetAsync(innerDc.Context, () => new OnboardingState());
@@ -264,10 +262,10 @@ namespace VirtualAssistantSample.Dialogs
                 case Events.Location:
                     {
                         var locationObj = new JObject();
-                        locationObj.Add(Location, JToken.FromObject(value));
+                        locationObj.Add(StateProperties.Location, JToken.FromObject(value));
 
                         var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                        skillContext[Location] = locationObj;
+                        skillContext[StateProperties.Location] = locationObj;
                         await _skillContext.SetAsync(innerDc.Context, skillContext);
 
                         break;
@@ -279,10 +277,10 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
                             var timeZoneObj = new JObject();
-                            timeZoneObj.Add(TimeZone, JToken.FromObject(timeZoneInfo));
+                            timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
 
                             var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                            skillContext[TimeZone] = timeZoneObj;
+                            skillContext[StateProperties.TimeZone] = timeZoneObj;
                             await _skillContext.SetAsync(innerDc.Context, skillContext);
                         }
                         catch
@@ -316,7 +314,7 @@ namespace VirtualAssistantSample.Dialogs
         // Runs when the dialog stack completes.
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken = default)
         {
-            // Only send a completion message is the user sent an activity.
+            // Only send a completion message if the user sent a message activity.
             if (outerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 var template = _templateEngine.EvaluateTemplate("completedMessage");
@@ -399,6 +397,8 @@ namespace VirtualAssistantSample.Dialogs
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
             public const string PreviousBotResponse = "previousBotReponse";
+            public const string Location = "location";
+            public const string TimeZone = "timezone";
         }
     }
 }
