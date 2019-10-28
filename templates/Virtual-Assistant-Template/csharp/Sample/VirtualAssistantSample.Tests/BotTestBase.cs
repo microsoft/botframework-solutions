@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -12,10 +16,6 @@ using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Threading;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Models;
@@ -66,7 +66,6 @@ namespace VirtualAssistantSample.Tests
             });
 
             // For localization testing
-
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
             Dictionary<string, List<string>> localeLGFiles = new Dictionary<string, List<string>>();
