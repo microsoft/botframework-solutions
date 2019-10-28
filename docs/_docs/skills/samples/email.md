@@ -19,7 +19,7 @@ The following scenarios are currently supported by the Skill:
 
 - Send an Email
   - *Send an email to John Smith*
-  - *Send an email to Harold about team lunch saying same team lunch this tuesday*
+  - *Send an email to Harold about the team lunch this Tuesday*
 - Find Email
   - *Find email from John Smith*
   - *What email do I have*
