@@ -36,7 +36,7 @@ The following scenarios are currently supported by the Skill:
   - *Read email from Philippe*
   - *Read unread email*
 - Reply to an Email
-  - *Reply with "I will call you back"*
+  - *Reply with I will call you back*
   - *Respond to my email*
 - Select an Email
   - *The third search result please*
