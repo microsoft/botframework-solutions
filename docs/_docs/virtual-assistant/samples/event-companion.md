@@ -33,13 +33,42 @@ TODO: If there is any configuration information that can be provided before runn
 
 #### Permissions
 {:.no_toc}
-```
-TODO: If there are any special permissions provide them here.
-```
+No special permission required by this app for now.
 
 ## Create new widgets
 
-```
-TODO: Add screenshots and explanation of how to add new widgets, what types are available, etc.
+Numeric widgets and toggle widgets are available in Event Companion app for now.
+![Event Companion app widgets]({{site.baseurl}}/assets/images/android-event-companion-widgets.jpg)
 
-```
+### Numeric widget
+{:.no_toc}
+1. Long press on the blank area of home screen, then select widgets.
+
+2. Choose and place a numeric widget onto home screen.
+
+3. Configure label, event and icon of the widget. It is also possible to populate a numeric widget from predefined templates.
+![Numeric widget]({{site.baseurl}}/assets/images/android-event-companion-numeric-widget-configuration.jpg)
+
+4. Click **ADD WIDGET** to finish setting up the widget.
+
+### Toggle widget
+{:.no_toc}
+1. Long press on the blank area of home screen, then select widgets to show available widgets.
+
+2. Choose and place a toggle widget onto home screen.
+
+3. Configure label, event, unit and icon of the widget. It is also possible to populate a toggle widget from predefined templates.
+![Toggle widget]({{site.baseurl}}/assets/images/android-event-companion-toggle-widget-configuration.jpg)
+
+4. Click **ADD WIDGET** to finish setting up the widget.
+
+## Manage widgets
+
+All created widgets are avaible for re-configuration on the main screen of the event companion app:
+![Event companion manage widgets]({{site.baseurl}}/assets/images/android-event-companion-manage-widgets.jpg)
+
+1. Select the widget which needs to be re-configured.
+
+2. Modify properties.
+
+3. Click **SAVE WIDGET** to apply the changes.
