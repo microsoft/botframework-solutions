@@ -17,6 +17,7 @@ namespace NewsSkill.Adapters
             UserState userState,
             ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
+            : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {

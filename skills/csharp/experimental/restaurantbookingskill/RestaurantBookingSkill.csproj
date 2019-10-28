@@ -78,6 +78,7 @@
     <PackageReference Include="Microsoft.Recognizers.Text" Version="1.2.2" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.2.2" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.2.2" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Protocol;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
+using Microsoft.Bot.Streaming;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -77,7 +77,6 @@ namespace Microsoft.Bot.Builder.Skills
                                     }
                                     else if (activity.Type == ActivityTypes.Handoff)
                                     {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
                                         if (_handoffActivityHandler != null)
                                         {
                                             _handoffActivityHandler(activity);
