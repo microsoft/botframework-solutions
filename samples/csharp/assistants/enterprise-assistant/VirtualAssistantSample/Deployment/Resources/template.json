@@ -152,13 +152,13 @@
     "phoneSkillMicrosoftAppId": {
       "type": "string"
     },
-    "SkillMicrosoftAppPassword": {
+    "phoneSkillMicrosoftAppPassword": {
       "type": "string"
     },
     "itsmSkillMicrosoftAppId": {
       "type": "string"
     },
-    "itsmMicrosoftAppPassword": {
+    "itsmSkillMicrosoftAppPassword": {
       "type": "string"
     }
   },
@@ -169,7 +169,13 @@
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
     "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]",
-    "calendarSkillARMLink": "https://raw.githubusercontent.com/microsoft/botframework-solutions/master/skills/src/csharp/calendarskill/calendarskill/Deployment/Resources/template.json"
+    "calendarSkillARMLink": "https://aka.ms/bfvacalendarskillarm",
+    "emailSkillARMLink": "https://aka.ms/bfvaemailskillarm",
+    "todoSkillARMLink": "https://aka.ms/bfvatodoskillarm",
+    "weatherSkillARMLink": "https://aka.ms/bfvaweatherskillarm",
+    "newsSkillARMLink": "https://aka.ms/bfvanewsskillarm",
+    "phoneSkillARMLink": "https://aka.ms/bfvaphoneskillarm",
+    "itsmSkillARMLink": "https://aka.ms/bfvaitsmskillarm"
   },
   "resources": [
     {
@@ -407,6 +413,312 @@
           },
           "microsoftAppPassword": {
             "value": "[parameters('calendarSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('emailSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('emailSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('emailSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('todoSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('toDoSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('toDoSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('weatherSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('weatherSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('weatherSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('phoneSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('phoneSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('phoneSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('newsSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('newsSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('newsSkillMicrosoftAppPassword')]"
+          },
+          "cosmosDbName": {
+            "value": "[parameters('cosmosDbName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('appServicePlanName')]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('appServicePlanSku')]"
+          },
+          "luisServiceName": {
+            "value": "[parameters('luisServiceName')]"
+          },
+          "luisServiceSku": {
+            "value": "[parameters('luisServiceSku')]"
+          },
+          "luisServiceLocation": {
+            "value": "[parameters('luisServiceLocation')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "nestedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "incremental",
+        "templateLink": {
+          "uri": "[variables('itsmSkillARMLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[concat(parameters('name'), '-calendar')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "microsoftAppId": {
+            "value": "[parameters('itsmSkillMicrosoftAppId')]"
+          },
+          "microsoftAppPassword": {
+            "value": "[parameters('itsmSkillMicrosoftAppPassword')]"
           },
           "cosmosDbName": {
             "value": "[parameters('cosmosDbName')]"
