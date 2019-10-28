@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
+using VirtualAssistantSample.Models;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -18,6 +19,12 @@ namespace VirtualAssistantSample.Tests
         {
             var testName = "Jane Doe";
 
+            UserProfileState profileState = new UserProfileState();
+            profileState.Name = testName;
+
+            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+
             dynamic data = new JObject();
             data.name = testName;
 
@@ -28,9 +35,9 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .AssertReply(TemplateEngine.EvaluateTemplate("namePrompt"))
+                .AssertReplyOneOf(allNamePromptVariations.ToArray())
                 .Send(testName)
-                .AssertReply(TemplateEngine.EvaluateTemplate("haveNameMessage", data))
+                .AssertReplyOneOf(allHaveMessageVariations.ToArray())
                 .StartTestAsync();
         }
     }
