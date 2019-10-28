@@ -2,30 +2,33 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Enable proactive notifications
-title: Configure a Virtual Assistant
+title: Set up the Virtual Assistant
 order: 4
+toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
-
+{:.no_toc}
 ## {{page.title}}
-
-### Option A: Using the Enterprise Assistant sample
-
-The Enterprise Assistant sample is configured with the **Proactive State Middleware** and the **BroadcastEvent** handling. You may continue to the next step.
-
-### Option B: Using the core Virtual Assistant Template
-
-#### ProactiveState Middleware
 {:.no_toc}
 
-In order to be able to deliver messages to a conversation the end user must already have had an interaction with the assistant. As part of this interaction a `ConversationReference` needs to be persisted and used to resume the conversation.
+### Option: Using the Enterprise Assistant sample
+{:.no_toc}
+The Enterprise Assistant sample is already configured with the **Proactive State Middleware** necessary event handling. Continue to the next step.
 
-We provide a middleware component to perform this ConversationReference storage which can be found in the Bot.Builder.Solutions package.
+### Option: Using the core Virtual Assistant Template
+{:.no_toc}
 
-1. Add this line to your `Startup.cs` to register the proactive state.
+#### Add the Proactive State Middleware
+{:.no_toc}
 
-##### Startup.cs
+For messages to be delivered to a user's conversation, a **ConversationReference** needs to be persisted in the Virtual Assistant and used to resume the existing conversation.
+
+Update both the **Startup** and **DefaultAdapter** classes with references to **ProactiveState** and **ProactiveStateMiddleware**.
+
+#### [Startup.cs]({{site.repo}})
+{:.no_toc}
+
 ```diff
  public void ConfigureServices(IServiceCollection services)
 {
@@ -35,7 +38,9 @@ We provide a middleware component to perform this ConversationReference storage 
 }
 ```
 
-##### DefaultAdapter.cs
+#### [DefaultAdapter.cs]({{site.repo}})
+{:.no_toc}
+
 ```diff
 public DefaultAdapter(
             BotSettings settings,
@@ -68,13 +73,14 @@ public DefaultAdapter(
         }
 ```
 
-#### Handle the **BroadcastEvent** Activity
-The following code handles the `BroadcastEvent` event type sent by the Azure function and is added to the Event Handling code. Within Virtual Assistant this is handled by `OnEventAsync` within MainDialog.cs.
+#### Handle the **BroadcastEvent** activity
 
-The `_proactiveStateAccessor` is the state that contains a mapping between UserId and previously persisted conversation. It retrieves the proactive state from a store previously saved by enabling the `ProactiveStateMiddleware`.
+The Event Handler sends a **BroadcastEvent** activity that must be handled by the Virtual Assistant.
+The **_proactiveStateAccessor** contains the mapping between a user id and a previous conversation.
 
+Update the **MainDialog** class with the below changes to the constructor and **OnEventActivityAsync** method.
 
-##### MainDialog.cs
+#### MainDialog.cs
 {:.no_toc}
 
 ```diff

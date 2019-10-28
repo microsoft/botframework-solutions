@@ -11,15 +11,5 @@ namespace VirtualAssistantSample.Services
     public class BotSettings : BotSettingsBase
     {
         public List<SkillManifest> Skills { get; set; } = new List<SkillManifest>();
-
-        // SAMPLE
-        /// <summary>
-        /// Gets or sets the CosmosDB Configuration for maintaining the conversation reference objects
-        /// for proactively sending messages to users
-        /// </summary>
-        /// <value>
-        /// The CosmosDB Configuration for the bot.
-        /// </value>
-        public CosmosDbStorageOptions CosmosDbProactive { get; set; }
     }
 }

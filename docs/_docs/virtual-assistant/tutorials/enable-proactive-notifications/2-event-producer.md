@@ -2,15 +2,17 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Enable proactive notifications
-title: Send a sample notification
+title: Set up the event producer
 order: 2
+toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
-
-## {{page.title}}
-### Create an Event Hubs Instance resource
 {:.no_toc}
+## {{page.title}}
+{:.no_toc}
+
+### Create an Event Hubs Instance resource
 1. In your **Event Hub Namespace** resource, navigate to **Entities** > **Event Hubs**
 1. Select **+ Event Hub**, provide a name and select **Create**
     1. Make note of the **Event Hub Name** for later
@@ -19,9 +21,12 @@ order: 2
     1. Make note of the **Connection string-primary key** for later
 
 ### Update the Event Producer project
+
+Update the **appSettings.json** of the **EventProducer** project with your  **Event Hubs Instance** name, connection string, and a random user id that you will reference later.
+
+#### [appSettings.json]({{site.repo}})
 {:.no_toc}
 
-Update the [**appSettings.json**]()
 ```json
 {
   "EventHubName": "YOUR_EVENT_HUB_INSTANCE_NAME",
