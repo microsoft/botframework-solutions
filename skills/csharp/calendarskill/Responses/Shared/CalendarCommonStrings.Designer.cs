@@ -88,6 +88,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update)?.*(room).
+        /// </summary>
+        public static string AdjustMeetingRoom {
+            get {
+                return ResourceManager.GetString("AdjustMeetingRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (adjust|change|update|add|delete)?.*(participants|attendee|attendees|people|person).
         /// </summary>
         public static string AdjustParticipants {
@@ -534,6 +543,24 @@ namespace CalendarSkill.Responses.Shared {
         public static string OverviewTotalMeetingPlural {
             get {
                 return ResourceManager.GetString("OverviewTotalMeetingPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to right now.
+        /// </summary>
+        public static string RightNow {
+            get {
+                return ResourceManager.GetString("RightNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}d.
+        /// </summary>
+        public static string ShortDisplayDurationDay {
+            get {
+                return ResourceManager.GetString("ShortDisplayDurationDay", resourceCulture);
             }
         }
         

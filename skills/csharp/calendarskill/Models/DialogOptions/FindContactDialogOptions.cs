@@ -12,13 +12,15 @@
             FindContactReasonType findContactReason = FindContactReasonType.FirstFindContact,
             UpdateUserNameReasonType updateUserNameReason = UpdateUserNameReasonType.NotFound,
             bool promptMoreContact = true,
-            bool firstRetry = true)
+            bool firstRetry = true,
+            bool simplyProcess = false)
         {
             var calendarOptions = options as CalendarSkillDialogOptions;
             FindContactReason = findContactReason;
             UpdateUserNameReason = updateUserNameReason;
             PromptMoreContact = promptMoreContact;
             FirstRetry = firstRetry;
+            SimplyProcess = simplyProcess;
         }
 
         public enum FindContactReasonType
@@ -64,5 +66,7 @@
         public bool PromptMoreContact { get; set; }
 
         public bool FirstRetry { get; set; }
+
+        public bool SimplyProcess { get; set; }
     }
 }

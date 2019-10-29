@@ -41,6 +41,12 @@
     <Content Remove="Responses\FindContact\FindContactResponses.it.json" />
     <Content Remove="Responses\FindContact\FindContactResponses.json" />
     <Content Remove="Responses\FindContact\FindContactResponses.zh.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindContactResponses.de.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindContactResponses.es.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindContactResponses.fr.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindContactResponses.it.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindContactResponses.zh.json" />
+    <Content Remove="Responses\FindMeetingRoom\FindMeetingRoomResponses.json" />
     <Content Remove="Responses\JoinEvent\JoinEventResponses.de.json" />
     <Content Remove="Responses\JoinEvent\JoinEventResponses.es.json" />
     <Content Remove="Responses\JoinEvent\JoinEventResponses.fr.json" />
@@ -96,6 +102,9 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.3.1" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.1.2" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.1" />
@@ -150,6 +159,12 @@
     <EmbeddedResource Include="Responses\FindContact\FindContactResponses.it.json" />
     <EmbeddedResource Include="Responses\FindContact\FindContactResponses.json" />
     <EmbeddedResource Include="Responses\FindContact\FindContactResponses.zh.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.de.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.es.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.fr.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.it.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.json" />
+    <EmbeddedResource Include="Responses\FindMeetingRoom\FindMeetingRoomResponses.zh.json" />
     <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.de.json" />
     <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.es.json" />
     <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.fr.json" />
@@ -216,6 +231,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.cs">
+      <DependentUpon>FindMeetingRoomResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Responses\JoinEvent\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -274,6 +294,10 @@
     <None Update="Responses\FindContact\FindContactResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.tt">
+      <LastGenOutput>FindMeetingRoomResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Responses\JoinEvent\JoinEventResponses.tt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

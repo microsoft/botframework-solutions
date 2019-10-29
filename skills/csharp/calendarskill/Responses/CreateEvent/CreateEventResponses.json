@@ -302,5 +302,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AddMeetingRoom": {
+    "replies": [
+      {
+        "text": "Do you want to add a room?",
+        "speak": "Do you want to add a room?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

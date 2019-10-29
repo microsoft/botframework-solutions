@@ -34,23 +34,24 @@ namespace CalendarSkill.Utilities
                 return string.Empty;
             }
 
-            if (timeSpan.TotalHours < 1)
+            string result = null;
+
+            if (timeSpan.Days > 0)
             {
-                return string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
+                result += string.Format(CalendarCommonStrings.ShortDisplayDurationDay, timeSpan.Days);
             }
-            else
+
+            if (timeSpan.Hours > 0)
             {
-                if (timeSpan.Minutes == 0)
-                {
-                    return string.Format(CalendarCommonStrings.ShortDisplayDurationHour, timeSpan.Hours);
-                }
-                else
-                {
-                    var result = string.Format(CalendarCommonStrings.ShortDisplayDurationHour, timeSpan.Hours);
-                    result += string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
-                    return result;
-                }
+                result += string.Format(CalendarCommonStrings.ShortDisplayDurationHour, timeSpan.Hours);
             }
+
+            if (timeSpan.Minutes > 0)
+            {
+                result += string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
+            }
+
+            return result;
         }
     }
 }

@@ -24,6 +24,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace CalendarSkill.Dialogs
 {
@@ -50,6 +51,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
+            FindMeetingRoomDialog findMeetingRoomDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -71,6 +73,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -108,11 +111,17 @@ namespace CalendarSkill.Dialogs
             {
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                state.InitialIntent = intent;
 
                 // switch on general intents
                 switch (intent)
                 {
                     case CalendarLuis.Intent.FindMeetingRoom:
+                        {
+                            await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
+                            break;
+                        }
+
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
@@ -167,6 +176,16 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.CheckAvailability:
+                        {
+                            if (state.LuisResult.Entities.MeetingRoom != null)
+                            {
+                                await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
+                            }
+
+                            break;
+                        }
+
                     case CalendarLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
@@ -207,6 +226,9 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var ev = dc.Context.Activity.AsEventActivity();
+            var value = ev.Value?.ToString();
+
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
@@ -230,6 +252,17 @@ namespace CalendarSkill.Dialogs
                 case Events.DeviceStart:
                     {
                         await dc.BeginDialogAsync(nameof(UpcomingEventDialog));
+                        break;
+                    }
+
+                case Events.Timezone:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+
+                        // we have a timezone
+                        state.UserInfo.Timezone = TimeZoneInfo.FindSystemTimeZoneById(value);
+                        // we have a timezone
+                        //state.UserInfo.Timezone = timezoneObj;
                         break;
                     }
             }
@@ -387,6 +420,7 @@ namespace CalendarSkill.Dialogs
         private class Events
         {
             public const string DeviceStart = "DeviceStart";
+            public const string Timezone = "Timezone";
         }
     }
 }

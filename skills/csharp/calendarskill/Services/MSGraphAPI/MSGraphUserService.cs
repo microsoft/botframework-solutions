@@ -298,6 +298,52 @@ namespace CalendarSkill.Services.MSGraphAPI
             return items;
         }
 
+        /// <summary>
+        /// FindMeetingTimeAsync.
+        /// </summary>
+        /// <param name="name">name.</param>
+        /// <returns>Task contains List of Contacts.</returns>
+        private async Task<List<Contact>> FindMeetingTimeAsync(string name)
+        {
+            List<Contact> items = new List<Contact>();
+
+            var optionList = new List<QueryOption>();
+            var filterString = $"startswith(displayName, '{name}') or startswith(givenName,'{name}') or startswith(surname,'{name}')";
+            optionList.Add(new QueryOption("$filter", filterString));
+
+            // Get the current user's profile.
+            IUserContactsCollectionPage contacts = null;
+            try
+            {
+                contacts = await this._graphClient.Me.Contacts.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+
+            if (contacts?.Count > 0)
+            {
+                foreach (Contact contact in contacts)
+                {
+                    // Filter out conference rooms.
+                    string displayName = contact.DisplayName ?? string.Empty;
+                    if (!displayName.StartsWith("Conf Room"))
+                    {
+                        // Get user properties.
+                        items.Add(contact);
+                    }
+
+                    if (items.Count >= 10)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return items;
+        }
+
         private byte[] ReadFully(Stream input)
         {
             using (MemoryStream ms = new MemoryStream())

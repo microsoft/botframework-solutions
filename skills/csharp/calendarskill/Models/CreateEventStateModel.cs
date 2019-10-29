@@ -37,7 +37,12 @@
             /// <summary>
             /// Change the content and recreate.
             /// </summary>
-            Content = 6
+            Content = 6,
+
+            /// <summary>
+            /// Change the meeting room and recreate.
+            /// </summary>
+            MeetingRoom = 7
         }
     }
 }

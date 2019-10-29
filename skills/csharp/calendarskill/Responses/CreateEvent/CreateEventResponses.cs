@@ -40,5 +40,6 @@ namespace CalendarSkill.Responses.CreateEvent
         public const string GetRecreateInfoRetry = "GetRecreateInfoRetry";
         public const string ConfirmRecipient = "ConfirmRecipient";
         public const string InvaildDuration = "InvaildDuration";
+        public const string AddMeetingRoom = "AddMeetingRoom";
     }
 }

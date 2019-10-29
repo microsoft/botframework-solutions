@@ -58,5 +58,21 @@ namespace CalendarSkill.Services
 
             return new CalendarService(calendarAPI, source);
         }
+
+        public IPlaceService InitPlaceService(string token, EventSource source)
+        {
+            IPlaceService placeAPI = null;
+            switch (source)
+            {
+                case EventSource.Microsoft:
+                    placeAPI = new MSGraphPlaceAPI(token);
+                    break;
+                case EventSource.Google:
+                default:
+                    throw new Exception("Event Type not Defined");
+            }
+
+            return new PlaceService(placeAPI, source);
+        }
     }
 }

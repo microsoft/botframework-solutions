@@ -318,4 +318,13 @@
   <data name="DisplayDateLong" xml:space="preserve">
     <value>dddd, MMMM d</value>
   </data>
+  <data name="ShortDisplayDurationDay" xml:space="preserve">
+    <value>{0}d</value>
+  </data>
+  <data name="AdjustMeetingRoom" xml:space="preserve">
+    <value>(adjust|change|update)?.*(room)</value>
+  </data>
+  <data name="RightNow" xml:space="preserve">
+    <value>right now</value>
+  </data>
 </root>

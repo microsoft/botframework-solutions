@@ -9,6 +9,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.FindMeetingRoom;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
@@ -149,6 +150,11 @@ namespace CalendarSkill.Dialogs
                 // ask for attendee
                 if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
+                    if (options.SimplyProcess == true)
+                    {
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindMeetingRoomResponses.FindMeetingRoomNoAttendees) }, cancellationToken);
+                    }
+
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
                 }
                 else
@@ -169,10 +175,16 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
 
                 // get name list from sc.result
                 if (sc.Result != null)
                 {
+                    if (options != null && state.LuisResult.TopIntent().intent == CalendarLuis.Intent.Reject)
+                    {
+                        return await sc.EndDialogAsync();
+                    }
+
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
@@ -311,6 +323,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
                 var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 if (confirmedPerson == null)
                 {
@@ -329,7 +342,10 @@ namespace CalendarSkill.Dialogs
                 if (confirmedPerson.Emails.Count() == 1)
                 {
                     // Highest probability
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+                    if (options.SimplyProcess == false)
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+                    }
 
                     return await sc.NextAsync();
                 }

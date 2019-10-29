@@ -89,5 +89,10 @@ namespace CalendarSkill.Services
         {
             await calendarAPI.AcceptEventByIdAsync(id);
         }
+
+        public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            return await calendarAPI.CheckAvailable(users, startTime, availabilityViewInterval);
+        }
     }
 }

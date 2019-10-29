@@ -76,5 +76,14 @@ namespace CalendarSkill.Services
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
         Task AcceptEventByIdAsync(string id);
+
+        /// <summary>
+        /// Check the users availablity.
+        /// </summary>
+        /// <param name="users">the users.</param>
+        /// <param name="startTime">the start time.</param>
+        /// <param name="availabilityViewInterval">the availability View Interval.</param>
+        /// <returns>complete task.</returns>
+        Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval);
     }
 }

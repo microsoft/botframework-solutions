@@ -1,0 +1,218 @@
+{
+  "AddMoreAttendees": {
+    "replies": [
+      {
+        "text": "Which meeting room do you want to book?",
+        "speak": "Which meeting room do you want to book?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreUserPrompt": {
+    "replies": [
+      {
+        "text": "I have included {Users}, do you want to add any other participants?",
+        "speak": "I have included {Users}, do you want to add any other participants?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AlreadyFirstPage": {
+    "replies": [
+      {
+        "text": "This is already the first page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AlreadyLastPage": {
+    "replies": [
+      {
+        "text": "This is already the last page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BeforeSendingMessage": {
+    "replies": [
+      {
+        "text": "Okay, I understand you want to send the event to {NameList}.",
+        "speak": "Okay, I understand you want to send the event to {NameList}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultiplContactEmailMultiPage": {
+    "replies": [
+      {
+        "text": "I found multiple contact details for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultiplContactEmailSinglePage": {
+    "replies": [
+      {
+        "text": "I found multiple contact details for {UserName}. Which one would you like?",
+        "speak": "I found multiple contact details for {UserName}. Which one would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleContactNameMultiPage": {
+    "replies": [
+      {
+        "text": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleContactNameSinglePage": {
+    "replies": [
+      {
+        "text": "I found multiple contacts for {UserName}. Which one would you like?",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleMeetingRoomMultiPage": {
+    "replies": [
+      {
+        "text": "I found multiple meeting rooms for {RoomName}. Which one would you like? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple meeting rooms for {RoomName}. Which one would you like? You can also ask me to show you the previous or more options."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleMeetingRoomSinglePage": {
+    "replies": [
+      {
+        "text": "I found multiple meeting rooms for {RoomName}. Which one would you like?",
+        "speak": "I found multiple meeting rooms {RoomName}. Which one would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindMeetingRoomNoAttendees": {
+    "replies": [
+      {
+        "text": "Got it. Do you want to invite anyone?",
+        "speak": "Got it. Do you want to invite anyone?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindMeetingRoomNoDuration": {
+    "replies": [
+      {
+        "text": "How long will your meeting be?",
+        "speak": "How long will your meeting be?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindMeetingRoomNoDurationRetry": {
+    "replies": [
+      {
+        "text": "I don't understand the duration you provided, can you try again?",
+        "speak": "I don't understand the duration you provided, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindMeetingRoomNoTitle": {
+    "replies": [
+      {
+        "text": "what's the meeting subject?",
+        "speak": "what's the meeting subject?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindMeetingRoomNoTitleShort": {
+    "replies": [
+      {
+        "text": "What is the subject of the meeting?",
+        "speak": "What is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MeetingBooked": {
+    "replies": [
+      {
+        "text": "Alright, your meeting is confirmed.",
+        "speak": "Alright, your meeting is confirmed."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "MeetingRoomNotFound": {
+    "replies": [
+      {
+        "text": "It looks like {MeetingRoom} does not exist",
+        "speak": "It looks like {MeetingRoom} does not exist"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MeetingRoomUnavailable": {
+    "replies": [
+      {
+        "text": "It looks like {MeetingRoom} is unavailable {DateTime}",
+        "speak": "It looks like {MeetingRoom} is unavailable {DateTime}"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+      {
+        "text": "Sure, who will join?",
+        "speak": "Sure, who will join?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoMeetingRoom": {
+    "replies": [
+      {
+        "speak": "What's the name of the meeting room?",
+        "text": "What's the name of the meeting room?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptOneNameOneAddress": {
+    "replies": [
+      {
+        "text": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "UserNotFound": {
+    "replies": [
+      {
+        "text": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible.",
+        "speak": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "UserNotFoundAgain": {
+    "replies": [
+      {
+        "text": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.",
+        "speak": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

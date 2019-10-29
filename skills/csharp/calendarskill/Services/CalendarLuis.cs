@@ -43,6 +43,8 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
+            public string[] Building;
+            public string[] FloorNumber;
             public string[] Subject;
             public string[] FromDate;
             public string[] FromTime;
@@ -71,6 +73,8 @@ namespace Luis
             // Instance
             public class _Instance
             {
+                public InstanceData[] Building;
+                public InstanceData[] FloorNumber;
                 public InstanceData[] Subject;
                 public InstanceData[] FromDate;
                 public InstanceData[] FromTime;
