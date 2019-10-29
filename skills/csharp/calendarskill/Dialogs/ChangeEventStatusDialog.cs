@@ -101,7 +101,7 @@ namespace CalendarSkill.Dialogs
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse, responseParams);
 
-                var retryMessage = ResponseManager.GetResponse(retryResponse);
+                var retryMessage = ResponseManager.GetResponse(retryResponse, responseParams);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
