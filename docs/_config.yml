@@ -27,6 +27,7 @@ defaults:
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
 
 sass:
   style: :compressed
@@ -42,6 +43,7 @@ plugins:
   - jekyll-octicons
   - jekyll-sitemap
   - jekyll-toc
+  - jekyll-rouge
   - jemoji  
 
 toc:

@@ -6,6 +6,7 @@
 @import "colors.scss";
 @import "markdown.scss";
 @import "switcher.scss";
+@import "syntax.css";
 
 img {
   max-width: 100%;
@@ -131,4 +132,8 @@ a.card:hover{
 
 .btn-primary:hover {
   background-color: #0069d9 !important;
+}
+
+.markdown-body pre > code {
+    font-size: 95% !important;
 }

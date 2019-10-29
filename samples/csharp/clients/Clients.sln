@@ -11,6 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectLine.Console", "direc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebChatWithLinkedAccounts.Web", "webchat-with-linkedaccounts.web\WebChatWithLinkedAccounts.Web.csproj", "{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{88089BB6-78F6-4FE6-B46E-D05A8DEEA3B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linked Accounts", "Linked Accounts", "{B0BB8288-8E3B-482B-A4F7-B10DE8023F15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct Line", "Direct Line", "{5F06C9BF-6FD8-4499-A97A-E88CD777A307}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "event-handler.functionapp\EventHandler.csproj", "{56A11F08-6604-4648-9CB0-0116414209F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProducer", "event-producer.eventhub\EventProducer.csproj", "{BF581061-3732-4DD8-B10B-3655E1BD8F97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +43,25 @@ Global
 		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56A11F08-6604-4648-9CB0-0116414209F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A11F08-6604-4648-9CB0-0116414209F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A11F08-6604-4648-9CB0-0116414209F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A11F08-6604-4648-9CB0-0116414209F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF581061-3732-4DD8-B10B-3655E1BD8F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF581061-3732-4DD8-B10B-3655E1BD8F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF581061-3732-4DD8-B10B-3655E1BD8F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF581061-3732-4DD8-B10B-3655E1BD8F97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2C15C6D-720B-46B7-B1B1-F1B015487A9E} = {B0BB8288-8E3B-482B-A4F7-B10DE8023F15}
+		{A3E62E6A-7EEE-48B5-998D-FD733DB29B53} = {B0BB8288-8E3B-482B-A4F7-B10DE8023F15}
+		{D8A3BBAF-67CB-4F6A-919B-7ADF70BB8F5F} = {5F06C9BF-6FD8-4499-A97A-E88CD777A307}
+		{2E692536-60D6-47BC-BD8A-DC1AA80E6C01} = {B0BB8288-8E3B-482B-A4F7-B10DE8023F15}
+		{56A11F08-6604-4648-9CB0-0116414209F2} = {88089BB6-78F6-4FE6-B46E-D05A8DEEA3B6}
+		{BF581061-3732-4DD8-B10B-3655E1BD8F97} = {88089BB6-78F6-4FE6-B46E-D05A8DEEA3B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A781834D-DC50-470B-92E1-A5CF12F07365}
