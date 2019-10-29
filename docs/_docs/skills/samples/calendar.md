@@ -22,7 +22,7 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *Reschedule my interview to Tuesday 1 PM*
+  - *Reschedule my interview to Tuesday at 1 PM*
 - Connect to a Meeting
   - *Connect me to conference call*
   - *Connect me with my 2 o'clock meeting*
