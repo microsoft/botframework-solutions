@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -88,7 +91,15 @@ namespace CalendarSkill.Dialogs
                     retryResponse = ChangeEventStatusResponses.ConfirmAcceptFailed;
                 }
 
-                var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse);
+                var startTime = TimeConverter.ConvertUtcToUserTime(deleteEvent.StartTime, state.GetUserTimeZone());
+
+                var responseParams = new StringDictionary()
+                {
+                    { "Time", startTime.ToString(CommonStrings.DisplayTime) },
+                    { "Title", deleteEvent.Title }
+                };
+
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse, responseParams);
 
                 var retryMessage = ResponseManager.GetResponse(retryResponse);
 
