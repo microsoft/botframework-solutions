@@ -80,8 +80,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                var dateTime = new DateTime(2019, 10, 24, 19, 0, 0);
-                var timeSlot = await calendarService.GetUserAvailableTimeSlotAsync(state.MeetingInfor.ContactInfor.Contacts[0], true, dateTime);
+                var dateTime = new DateTime(2019, 10, 27, 19, 15, 0);
+                var timeSlot = await calendarService.GetUserAvailableTimeSlotAsync(new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime);
 
                 return await sc.EndDialogAsync();
             }

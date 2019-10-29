@@ -91,9 +91,9 @@ namespace CalendarSkill.Services
             await calendarAPI.AcceptEventByIdAsync(id);
         }
 
-        public async Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        public async Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
         {
-            return await calendarAPI.GetUserAvailableTimeSlotAsync(user, isOrgnizerOptional, startTime);
+            return await calendarAPI.GetUserAvailableTimeSlotAsync(users, startTime);
         }
     }
 }

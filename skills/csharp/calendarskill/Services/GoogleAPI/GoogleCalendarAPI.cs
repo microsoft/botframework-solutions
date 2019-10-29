@@ -168,7 +168,7 @@ namespace CalendarSkill.Services.GoogleAPI
             return;
         }
 
-        public Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        public Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
         {
             return null;
         }

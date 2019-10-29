@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Services.MSGraphAPI
@@ -142,83 +143,69 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        public async Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime)
+        public async Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
         {
-            var attendees = new List<AttendeeBase>();
+            List<bool> availability = new List<bool>();
+            var schedules = users;
+            var endTime = startTime.AddDays(1);
 
-            attendees.Add(new AttendeeBase()
+            var intervalStartTime = new DateTimeTimeZone
             {
-                EmailAddress = new EmailAddress()
-                {
-                    Name = user.DisplayName,
-                    Address = user.Address
-                }
-            });
-
-            var timeConstraint = new TimeConstraint()
-            {
-                ActivityDomain = ActivityDomain.Work,
-                TimeSlots = new List<Microsoft.Graph.TimeSlot>()
-                {
-                    new Microsoft.Graph.TimeSlot()
-                    {
-                        Start = new DateTimeTimeZone()
-                        {
-                            DateTime = startTime.ToString("o"),
-                            TimeZone = TimeZoneInfo.Utc.Id
-                        },
-                        End = new DateTimeTimeZone()
-                        {
-                            DateTime = startTime.AddDays(7).ToString("o"),
-                            TimeZone = TimeZoneInfo.Utc.Id
-                        },
-                    }
-                }
+                DateTime = startTime.ToString(),
+                TimeZone = "UTC"
             };
 
-            var suggestion = await FindMeetingTimes(attendees, timeConstraint, true);
+            var intervalEndTime = new DateTimeTimeZone
+            {
+                DateTime = endTime.ToString(),
+                TimeZone = "UTC"
+            };
+
+            ICalendarGetScheduleCollectionPage collectionPage = await _graphClient.Me.Calendar
+                .GetSchedule(schedules, intervalEndTime, intervalStartTime)
+                .Request()
+                .PostAsync();
 
             var result = new List<Models.TimeSlot>();
+            var currentTimeSlot = new Models.TimeSlot() { Start = startTime };
 
-            Models.TimeSlot currentTimeSlot = null;
-
-            foreach (var item in suggestion.MeetingTimeSuggestions)
+            foreach (var scheduleItem in collectionPage[0].ScheduleItems)
             {
-                var timezone = TimeZoneInfo.FindSystemTimeZoneById(item.MeetingTimeSlot.Start.TimeZone);
-                if (timezone == TimeZoneInfo.Utc && !item.MeetingTimeSlot.Start.DateTime.EndsWith("Z"))
+                var timezone = TimeZoneInfo.FindSystemTimeZoneById(scheduleItem.Start.TimeZone);
+                if (timezone == TimeZoneInfo.Utc && !scheduleItem.Start.DateTime.EndsWith("Z"))
                 {
-                    item.MeetingTimeSlot.Start.DateTime = item.MeetingTimeSlot.Start.DateTime + "Z";
+                    scheduleItem.Start.DateTime = scheduleItem.Start.DateTime + "Z";
                 }
 
-                var start = DateTime.Parse(item.MeetingTimeSlot.Start.DateTime).ToUniversalTime();
+                var start = DateTime.Parse(scheduleItem.Start.DateTime).ToUniversalTime();
 
-                if (currentTimeSlot == null)
+                if (timezone == TimeZoneInfo.Utc && !scheduleItem.End.DateTime.EndsWith("Z"))
                 {
-                    currentTimeSlot = new Models.TimeSlot()
-                    {
-                        Start = startTime,
-                        End = startTime
-                    };
+                    scheduleItem.End.DateTime = scheduleItem.End.DateTime + "Z";
                 }
 
-                if (start.Equals(currentTimeSlot.End))
+                var end = DateTime.Parse(scheduleItem.End.DateTime).ToUniversalTime();
+
+                if (currentTimeSlot.End == null || start >= currentTimeSlot.End)
                 {
-                    if (timezone == TimeZoneInfo.Utc && !item.MeetingTimeSlot.End.DateTime.EndsWith("Z"))
+                    currentTimeSlot.End = start;
+                    if (!currentTimeSlot.Start.Equals(currentTimeSlot.End))
                     {
-                        item.MeetingTimeSlot.End.DateTime = item.MeetingTimeSlot.End.DateTime + "Z";
+                        result.Add(currentTimeSlot);
                     }
 
-                    var end = DateTime.Parse(item.MeetingTimeSlot.End.DateTime).ToUniversalTime();
-                    currentTimeSlot.End = end;
+                    currentTimeSlot = new Models.TimeSlot() { Start = end };
                 }
                 else
                 {
-                    result.Add(currentTimeSlot);
-                    currentTimeSlot = null;
+                    currentTimeSlot.Start = end;
                 }
             }
 
-            if (suggestion.MeetingTimeSuggestions.Any())
+            currentTimeSlot.Start = currentTimeSlot.Start == null ? startTime : currentTimeSlot.Start;
+            currentTimeSlot.End = currentTimeSlot.End == null ? endTime : currentTimeSlot.End;
+
+            if (!currentTimeSlot.Start.Equals(currentTimeSlot.End))
             {
                 result.Add(currentTimeSlot);
             }

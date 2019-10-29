@@ -81,10 +81,9 @@ namespace CalendarSkill.Services
         /// <summary>
         /// find the available time slot of user at the time.
         /// </summary>
-        /// <param name="user">the user need to check availability.</param>
-        /// <param name="isOrgnizerOptional">is orgnizer optional.</param>
+        /// <param name="users">the user need to check availability.</param>
         /// <param name="startTime">the start time of available time slot.</param>
         /// <returns>the user available time slot from start time.</returns>
-        Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(EventModel.Attendee user, bool isOrgnizerOptional, DateTime startTime);
+        Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime);
     }
 }
