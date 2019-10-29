@@ -1,0 +1,54 @@
+# AskDeletionAllConfirmation.Text(ListType)
+- Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
+
+# AskDeletionAllConfirmation.Speak(ListType)
+- Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
+
+# AskDeletionAllConfirmationFailed.Text(ListType)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
+
+# AskDeletionAllConfirmationFailed.Speak(ListType)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
+
+# AfterAllTasksDeleted(ListType)
+- J'ai effacé votre {ListType} liste.
+
+# AfterTaskDeleted(TaskContent, ListType)
+- J'ai supprimé {TaskContent} de votre {ListType} liste.
+
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
+- Ok, je n'ai pas supprimé toutes vos tâches. Vous avez encore {TaskCount} tâches sur votre {ListType} liste aujourd'hui.
+
+# DeletionAllConfirmationRefused.Speak(TaskCount, ListType)
+- Ok, je n'ai pas supprimé toutes vos tâches. Vous avez encore {TaskCount} tâches sur votre {ListType} liste aujourd'hui.
+
+# ListTypePromptForDelete.Text
+- Pouvez-vous être précis à partir de quelle liste vous souhaitez supprimer une tâche. Est-ce votre liste à faire, liste d'achats ou de l'épicerie?
+
+# ListTypePromptForDelete.Speak
+- Pouvez-vous être précis à partir de quelle liste vous souhaitez supprimer une tâche. Est-ce votre liste à faire, liste d'achats ou de l'épicerie?
+
+# AskTaskIndexForDelete.Text
+- Quelle tâche souhaitez-vous supprimer ? Il est également possible de supprimer toutes vos tâches en nommant supprimer toutes les tâches.
+
+# AskTaskIndexForDelete.Speak
+- Quelle tâche souhaitez-vous supprimer ? Il est également possible de supprimer toutes vos tâches en nommant supprimer toutes les tâches.
+
+# AskTaskIndexRetryForDelete.Text
+- Désolé, je n'ai pas pu trouver cette tâche. S'll vous plaît, réessayez. Quelle tâche souhaitez-vous supprimer ?
+
+# AskTaskIndexRetryForDelete.Speak
+- Désolé, je n'ai pas pu trouver cette tâche. S'll vous plaît, réessayez. Quelle tâche souhaitez-vous supprimer ?
+
+# DeleteAnotherTaskPrompt.Text
+- Voulez-vous supprimer une autre tâche?
+
+# DeleteAnotherTaskPrompt.Speak
+- Voulez-vous supprimer une autre tâche?
+
+# DeleteAnotherTaskConfirmFailed.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous supprimer une autre tâche?
+
+# DeleteAnotherTaskConfirmFailed.Speak
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous supprimer une autre tâche?
+

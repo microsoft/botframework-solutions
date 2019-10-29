@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Schema;
 
 namespace ToDoSkill.Utilities

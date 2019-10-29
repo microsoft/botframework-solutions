@@ -10,10 +10,8 @@ using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -395,7 +393,7 @@ namespace ToDoSkill.Dialogs
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[Readmore]").BindToData(turnContext, new
+            var activity = await new ActivityTemplate("[ReadMore]").BindToData(turnContext, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -588,19 +586,19 @@ namespace ToDoSkill.Dialogs
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", sc.Context, null);
-                            await sc.Context.SendActivityAsync(activity);
+                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(settingActivity);
 
-                            var activity2 = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", sc.Context, null);
-                            await sc.Context.SendActivityAsync(activity);
+                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
                         else
                         {
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOutlookMessage}]", sc.Context, null);
-                            await sc.Context.SendActivityAsync(activity);
+                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOutlookMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(settingActivity);
 
-                            var activity2 = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", sc.Context, null);
-                            await sc.Context.SendActivityAsync(activity);
+                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", sc.Context, null);
+                            await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
 
                         var taskWebLink = await taskServiceInit.GetTaskWebLink();

@@ -1,4 +1,6 @@
-﻿> [import](MarkToDoTexts.lg)
+﻿[import](Card.lg)
+[import](MarkToDoTexts.lg)
+[import](ShowToDoActivities.lg)
 
 # ListTypePromptForComplete
 [Activity
@@ -45,19 +47,6 @@
 
 # TaskCompletedSpeak(IsCompleteAll, ListType, TaskContent)
 - IF: {IsCompleteAll == true}
-  - {AfterAllTasksCompletedTmp(ListType).Text}
+  - [AfterAllTasksCompleted(ListType)]
 - ELSE:
-  - {AfterTaskCompletedTmp(TaskContent, ListType).Text}
-
-
-> ToDo: Get rid of 'Tmp'.
-
-# AfterAllTasksCompletedTmp(ListType)
-[Activity
-    Text = {AfterAllTasksCompleted(ListType)}
-]
-
-# AfterTaskCompletedTmp(TaskContent, ListType)
-[Activity
-    Text = {AfterTaskCompleted(TaskContent, ListType)}
-]
+  - [AfterTaskCompleted(TaskContent, ListType)]

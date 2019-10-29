@@ -1,0 +1,68 @@
+# DidntUnderstandMessage.Text
+- Lo siento, no entendí lo que querías decir.
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+- ¿Puedes tratar de preguntar de una manera diferente?
+- No entendí lo que quieres decir, ¿puedes intentarlo de otra manera?
+- ¿Podrías explicarlo?
+- Por favor, di eso de otra manera de una manera diferente.
+- No lo entendí del todo.
+- ¿Puedes decir eso de una manera diferente?
+- ¿Puedes intentar preguntarme otra vez? No entendí lo que querías decir.
+
+# DidntUnderstandMessage.Speak
+- Lo siento, no entendí lo que querías decir.
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+- ¿Puedes tratar de preguntar de una manera diferente?
+- No entendí lo que quieres decir, ¿puedes intentarlo de otra manera?
+- ¿Podrías explicarlo?
+- Por favor, di eso de otra manera de una manera diferente.
+- No lo entendí del todo.
+- ¿Puedes decir eso de una manera diferente?
+- ¿Puedes intentar preguntarme otra vez? No entendí lo que querías decir.
+
+# ToDoWelcomeMessage.Text
+- Hola. Soy el robot to do. Puedo ayudarte a administrar tus listas de Tareas, Compras o Abarrotes.
+
+# ToDoWelcomeMessage.Speak
+- Hola. Soy el robot to do. Puedo ayudarte a administrar tus listas de Tareas, Compras o Abarrotes.
+
+# ToDoWelcomeMessage.S1
+- Leer para hacer
+
+# ToDoWelcomeMessage.S2
+- Crea una tarea para mí
+
+# ToDoWelcomeMessage.S3
+- Marque la segunda tarea como completada
+
+# ToDoWelcomeMessage.S4
+- Eliminar la tercera tarea
+
+# HelpMessage.Text
+- Puedo leer tus artículos de To Do, compras o comestibles, crear un nuevo artículo de compra o de compra, o completar y eliminar un artículo de hacer, de compras o de comestibles para ti.
+
+# HelpMessage.Speak
+- Puedo leer tus artículos de To Do, compras o comestibles, crear un nuevo artículo de compra o de compra, o completar y eliminar un artículo de hacer, de compras o de comestibles para ti.
+
+# LogOut.Text
+- Tu cierre de sesión fue exitoso.
+- Ha cerrado sesión correctamente.
+- Ha cerrado la sesión.
+
+# LogOut.Speak
+- Tu cierre de sesión fue exitoso.
+- Ha cerrado sesión correctamente.
+- Ha cerrado la sesión.
+
+# FeatureNotAvailable.Text
+- Esta función aún no está disponible en la habilidad Para hacer. Por favor, intente preguntar algo más.
+
+# FeatureNotAvailable.Speak
+- Esta función aún no está disponible en la habilidad Para hacer. Por favor, intente preguntar algo más.
+
+# CancelMessage.Text
+- Bien, empecemos de nuevo.
+
+# CancelMessage.Speak
+- Bien, empecemos de nuevo.
+

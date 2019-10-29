@@ -33,28 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-Daily-2019-07-31-01" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-Daily-2019-10-08-01" />
-    <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Content\ShowTodoCard.1.0.json" />
     <EmbeddedResource Include="Content\ShowTodoCard.json" />
     <EmbeddedResource Include="Content\ShowTodoItem.1.0.json" />
@@ -95,6 +73,19 @@
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.it.json" />
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.json" />
     <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.7.0-preview-191026-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.7.0-preview-191026-1" />
+    <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.0-preview-191026-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.0-preview-191026-1" />
   </ItemGroup>
 
   <ItemGroup>

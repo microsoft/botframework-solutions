@@ -1,4 +1,5 @@
-﻿> [import](DeleteToDoTexts.lg)
+﻿[import](Card.lg)
+[import](DeleteToDoTexts.lg)
 
 # AskDeletionAllConfirmation
 [Activity
@@ -67,19 +68,6 @@
 
 # TaskDeletedText(IsDeleteAll, ListType, TaskContent)
 - IF: {IsDeleteAll == true}
-  - {AfterAllTasksDeletedTmp(ListType).Text}
+  - [AfterAllTasksDeleted(ListType)]
 - ELSE:
-  - {AfterTaskDeletedTmp(TaskContent, ListType).Text}
-
-
-> ToDo: Get rid of 'Tmp'.
-
-# AfterAllTasksDeletedTmp(ListType)
-[Activity
-    Text = {AfterAllTasksDeleted(ListType)}
-]
-
-# AfterTaskDeletedTmp(TaskContent, ListType)
-[Activity
-    Text = {AfterTaskDeleted(TaskContent, ListType)}
-]
+  - [AfterTaskDeleted(TaskContent, ListType)]

@@ -1,0 +1,36 @@
+# AfterAllTasksCompleted(ListType)
+- Ich habe alle Ihre Aufgaben als abgeschlossen auf Ihrem {ListType} liste.
+
+# AfterTaskCompleted(TaskContent, ListType)
+- ich habe abgeschlossen {TaskContent} auf Ihrem {ListType} liste.
+
+# ListTypePromptForComplete.Text
+- Können Sie anhand der Liste, die Sie ausführen möchten, spezifisch sein? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+
+# ListTypePromptForComplete.Speak
+- Können Sie anhand der Liste, die Sie ausführen möchten, spezifisch sein? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+
+# AskTaskIndexForComplete.Text
+- Welche Aufgabe möchten Sie abschließen? Es ist auch möglich, alle Ihre Aufgaben zu erfüllen, indem Sie sagen, alles vollständig.
+
+# AskTaskIndexForComplete.Speak
+- Welche Aufgabe möchten Sie abschließen? Es ist auch möglich, alle Ihre Aufgaben zu erfüllen, indem Sie sagen, alles vollständig.
+
+# AskTaskIndexRetryForComplete.Text
+- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie abschließen?
+
+# AskTaskIndexRetryForComplete.Speak
+- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie abschließen?
+
+# CompleteAnotherTaskPrompt.Text
+- Möchten Sie eine andere Aufgabe ausführen?
+
+# CompleteAnotherTaskPrompt.Speak
+- Möchten Sie eine andere Aufgabe ausführen?
+
+# CompleteAnotherTaskConfirmFailed.Text
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe ausführen?
+
+# CompleteAnotherTaskConfirmFailed.Speak
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe ausführen?
+

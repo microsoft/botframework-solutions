@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -18,6 +21,7 @@ using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Bots;
@@ -109,23 +113,35 @@ namespace ToDoSkillTest.Flow
 
             Services.AddSingleton<TestAdapter>(sp =>
             {
-                var adapter = Services.BuildServiceProvider().GetService<BotStateSet>();
-                return new DefaultTestAdapter(adapter, OauthConnection, OauthConnection);
+                var botStateSet = sp.GetService<BotStateSet>();
+                var adapter = new DefaultTestAdapter(botStateSet, OauthConnection, OauthConnection);
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var resource = sp.GetService<ResourceExplorer>();
+
+                adapter.UseState(userState, conversationState);
+                adapter.UseResourceExplorer(resource);
+                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
+
+                return adapter;
             });
 
             Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
-			Services.AddTransient<AddToDoItemDialog>();
-			Services.AddTransient<DeleteToDoItemDialog>();
-			Services.AddTransient<MarkToDoItemDialog>();
-			Services.AddTransient<ShowToDoItemDialog>();
-			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<AddToDoItemDialog>();
+            Services.AddTransient<DeleteToDoItemDialog>();
+            Services.AddTransient<MarkToDoItemDialog>();
+            Services.AddTransient<ShowToDoItemDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             var path = Environment.CurrentDirectory;
             path = Path.Combine(path + @"\..\..\..\..\todoskill\");
             var resourceExplorer = ResourceExplorer.LoadProject(path);
             Services.AddSingleton(resourceExplorer);
+
             Services.AddSingleton<IStorage>(new MemoryStorage());
+
+            TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
         public Activity GetAuthResponse()

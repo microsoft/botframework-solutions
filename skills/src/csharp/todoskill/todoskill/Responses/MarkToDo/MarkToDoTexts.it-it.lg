@@ -1,0 +1,36 @@
+# AfterAllTasksCompleted(ListType)
+- Ho contrassegnato tutti i vostri compiti come completi sul vostro {ListType} elenco.
+
+# AfterTaskCompleted(TaskContent, ListType)
+- Ho completato {TaskContent} sul vostro {ListType} elenco.
+
+# ListTypePromptForComplete.Text
+- Puoi essere specifico da quale elenco desideri completare un'attività. È la tua lista Da fare, la lista della spesa o la lista della spesa?
+
+# ListTypePromptForComplete.Speak
+- Puoi essere specifico da quale elenco desideri completare un'attività. È la tua lista Da fare, la lista della spesa o la lista della spesa?
+
+# AskTaskIndexForComplete.Text
+- Quale attività si desidera completare? E 'anche possibile completare tutte le vostre attività dicendo completa tutto.
+
+# AskTaskIndexForComplete.Speak
+- Quale attività si desidera completare? E 'anche possibile completare tutte le vostre attività dicendo completa tutto.
+
+# AskTaskIndexRetryForComplete.Text
+- Spiacenti, non sono riuscito a trovare questa attività. Riprovare. Quale attività si desidera completare?
+
+# AskTaskIndexRetryForComplete.Speak
+- Spiacenti, non sono riuscito a trovare questa attività. Riprovare. Quale attività si desidera completare?
+
+# CompleteAnotherTaskPrompt.Text
+- Vuoi completare un'altra attività?
+
+# CompleteAnotherTaskPrompt.Speak
+- Vuoi completare un'altra attività?
+
+# CompleteAnotherTaskConfirmFailed.Text
+- Scusa, non capivo cosa intendevi. Vuoi completare un'altra attività?
+
+# CompleteAnotherTaskConfirmFailed.Speak
+- Scusa, non capivo cosa intendevi. Vuoi completare un'altra attività?
+

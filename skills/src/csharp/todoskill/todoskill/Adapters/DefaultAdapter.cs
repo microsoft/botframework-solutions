@@ -4,13 +4,11 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
@@ -25,7 +23,9 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResourceExplorer resourceExplorer)
+            ResourceExplorer resourceExplorer,
+            UserState userState,
+            ConversationState conversationState)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -36,6 +36,7 @@ namespace ToDoSkill.Adapters
 
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
+
                 telemetryClient.TrackException(exception);
             };
 
@@ -45,6 +46,7 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
 
+            this.UseState(userState, conversationState);
             this.UseResourceExplorer(resourceExplorer);
             this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }

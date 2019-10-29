@@ -1,4 +1,5 @@
-﻿> [import](AddToDoTexts.lg)
+﻿[import](Card.lg)
+[import](AddToDoTexts.lg)
 
 # AskTaskContentText
 [Activity

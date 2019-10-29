@@ -1,15 +1,6 @@
-﻿[import](Card.lg)
-
-[import](AddToDoActivities.lg)
+﻿[import](AddToDoActivities.lg)
 [import](DeleteToDoActivities.lg)
 [import](ToDoMainActivities.lg)
 [import](ToDoSharedActivities.lg)
 [import](MarkToDoActivities.lg)
 [import](ShowToDoActivities.lg)
-
-[import](AddToDoTexts.lg)
-[import](DeleteToDoTexts.lg)
-[import](ToDoMainTexts.lg)
-[import](ToDoSharedTexts.lg)
-[import](MarkToDoTexts.lg)
-[import](ShowToDoTexts.lg)

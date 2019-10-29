@@ -1,0 +1,54 @@
+# AskDeletionAllConfirmation.Text(ListType)
+- Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+
+# AskDeletionAllConfirmation.Speak(ListType)
+- Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+
+# AskDeletionAllConfirmationFailed.Text(ListType)
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+
+# AskDeletionAllConfirmationFailed.Speak(ListType)
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+
+# AfterAllTasksDeleted(ListType)
+- Ich habe Ihre {ListType} liste.
+
+# AfterTaskDeleted(TaskContent, ListType)
+- ich habe gelöscht {TaskContent} von Ihrem {ListType} liste.
+
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
+- Okay, ich habe nicht alle Ihre Aufgaben gelöscht. Sie haben noch {TaskCount} Aufgabe(en) auf Ihrem {ListType} Liste heute.
+
+# DeletionAllConfirmationRefused.Speak(TaskCount, ListType)
+- Okay, ich habe nicht alle Ihre Aufgaben gelöscht. Sie haben noch {TaskCount} Aufgabe(en) auf Ihrem {ListType} Liste heute.
+
+# ListTypePromptForDelete.Text
+- Können Sie spezifisch aus der Liste sein, die Sie eine Aufgabe löschen möchten? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+
+# ListTypePromptForDelete.Speak
+- Können Sie spezifisch aus der Liste sein, die Sie eine Aufgabe löschen möchten? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+
+# AskTaskIndexForDelete.Text
+- Welche Aufgabe möchten Sie löschen? Es ist auch möglich, alle Ihre Aufgaben zu löschen, indem Sie alle löschen.
+
+# AskTaskIndexForDelete.Speak
+- Welche Aufgabe möchten Sie löschen? Es ist auch möglich, alle Ihre Aufgaben zu löschen, indem Sie alle löschen.
+
+# AskTaskIndexRetryForDelete.Text
+- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie löschen?
+
+# AskTaskIndexRetryForDelete.Speak
+- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie löschen?
+
+# DeleteAnotherTaskPrompt.Text
+- Möchten Sie eine andere Aufgabe löschen?
+
+# DeleteAnotherTaskPrompt.Speak
+- Möchten Sie eine andere Aufgabe löschen?
+
+# DeleteAnotherTaskConfirmFailed.Text
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe löschen?
+
+# DeleteAnotherTaskConfirmFailed.Speak
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe löschen?
+

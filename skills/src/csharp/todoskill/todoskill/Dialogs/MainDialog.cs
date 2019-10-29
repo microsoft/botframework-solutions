@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
-using Microsoft.Bot.Builder.LanguageGeneration.Templates;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -31,7 +29,6 @@ namespace ToDoSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
             BotSettings settings,
@@ -48,8 +45,6 @@ namespace ToDoSkill.Dialogs
             _services = services;
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
-
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg");
 
             // RegisterDialogs
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));

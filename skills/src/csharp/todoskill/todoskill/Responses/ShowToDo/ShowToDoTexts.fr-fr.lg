@@ -1,0 +1,105 @@
+# AskAddOrCompleteTaskMessage.Text
+- Vous pouvez me faire savoir si vous voulez ajouter ou terminer une tâche.
+
+# AskAddOrCompleteTaskMessage.Speak
+- Vous pouvez me faire savoir si vous voulez ajouter ou terminer une tâche.
+
+# ReadMoreTasksPrompt.Text
+- Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksPrompt.Speak
+- Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksConfirmFailed.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksConfirmFailed.Speak
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksPrompt2.Text
+- Il y a plus d'articles sur votre liste. Voulez-vous en voir plus?
+
+# ReadMoreTasksPrompt2.Speak
+- Il y a plus d'articles sur votre liste. Voulez-vous en voir plus?
+
+# RetryReadMoreTasksPrompt2.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous en voir plus?
+
+# RetryReadMoreTasksPrompt2.Speak
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous en voir plus?
+
+# NoTasksMessage.Text(ListType)
+- Il semble que vous n'avez pas de tâches dans votre {ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
+
+# NoTasksMessage.Speak(ListType)
+- Il semble que vous n'avez pas de tâches dans votre {ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
+
+# TaskSummaryMessage.Text(TaskCount, ListType)
+- Vous avez {TaskCount} articles sur votre {ListType} liste.
+
+# TaskSummaryMessage.Speak(TaskCount, ListType)
+- Vous avez {TaskCount} articles sur votre {ListType} liste.
+
+# RepeatFirstPagePrompt.Text(TaskCount, ListType)
+- Vous êtes déjà au début de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# RepeatFirstPagePrompt.Speak(TaskCount, ListType)
+- Vous êtes déjà au début de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# RepeatFirstPageConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# RepeatFirstPageConfirmFailed.Speak(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
+- C'est la dernière tâche sur votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForSingleTask.Speak(TaskCount, ListType)
+- C'est la dernière tâche sur votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartForSingleTaskConfirmFailed.Speak(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
+- Ce sont les dernières tâches de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForTasks.Speak(TaskCount, ListType)
+- Ce sont les dernières tâches de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# GoBackToStartForTasksConfirmFailed.Speak(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
+
+# CardSummaryMessageForSingleTask(ListType)
+- Vous avez 1 tâche sur votre {ListType} liste: Voici le 1 plus récent, il est
+
+# CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)
+- Vous avez {AllTasksCount} tâches sur votre {ListType} liste: Voici le {count(ToDos)} plus récents, ils sont
+
+# LatestTask 
+- Votre dernière tâche est
+
+# LatestTasks
+- Vos dernières tâches sont
+
+# NextTask
+- La tâche suivante est
+
+# NextTasks
+- Les tâches suivantes sont
+
+# PreviousTasks
+- Vos tâches précédentes sont
+
+# PreviousFirstSingleTask(taskCount)
+- Votre premier {taskCount} tâche est
+
+# PreviousFirstTasks(taskCount)
+- Votre premier {taskCount} les tâches sont
+

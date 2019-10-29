@@ -1,4 +1,5 @@
-﻿> [import](ShowToDoTexts.lg)
+﻿[import](ShowToDoTexts.lg)
+[import](Card.lg)
 
 # AskAddOrCompleteTaskMessage
 [Activity
@@ -101,15 +102,15 @@
 
 # CardSummary(AllTasksCount, ListType, ToDos)
 - IF: {AllTasksCount == 1}
-  - {CardSummaryMessageForSingleTaskTmp(ListType).Text}
+  - {CardSummaryMessageForSingleTask(ListType)}
 - ELSE:
-  - {CardSummaryMessageForMultipleTasksTmp(AllTasksCount, ListType, ToDos).Text}
+  - {CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)}
 
 # ShowToDoTextForSinglePage(ToDos)
 - IF: {count(ToDos) == 1}
-  - {LatestTaskTmp().Text}
+  - [LatestTask]
 - ELSE:
-  - {LatestTasksTmp().Text}
+  - [LatestTasks]
 
 # ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)
 - [CardSummary(AllTasksCount, ListType, ToDos)]
@@ -130,9 +131,9 @@
 
 # ReadMoreText(ToDos)
 - IF: {count(ToDos) == 1}
-  - {NextTaskTmp().Text}
+  - [NextTask]
 - ELSE:
-  - {NextTasksTmp().Text}
+  - [NextTasks]
 
 # PreviousPage
 [Activity
@@ -144,56 +145,8 @@
 
 # PreviousPageText(ToDos)
 - IF: {isFirst == false}
-  - {PreviousTasksTmp().Text}
+  - [PreviousTasks]
 - ELSEIF: {count(ToDos) == 1}
-  - {PreviousFirstSingleTaskTmp(count(ToDos)).Text}
+  - [PreviousFirstSingleTask(taskCount)]
 - ELSE:
-  - {PreviousFirstTasksTmp(count(ToDos)).Text}
-
-
-> ToDo: Get rid of 'Tmp'.
-
-# CardSummaryMessageForSingleTaskTmp(ListType)
-[Activity
-    Text = {CardSummaryMessageForSingleTask(ListType)}
-]
-
-# CardSummaryMessageForMultipleTasksTmp(AllTasksCount, ListType, ToDos)
-[Activity
-    Text = {CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)}
-]
-
-# LatestTaskTmp
-[Activity
-    Text = {LatestTask()}
-]
-
-# LatestTasksTmp
-[Activity
-    Text = {LatestTasks()}
-]
-
-# NextTaskTmp
-[Activity
-    Text = {NextTask()}
-]
-
-# NextTasksTmp
-[Activity
-    Text = {NextTasks()}
-]
-
-# PreviousTasksTmp
-[Activity
-    Text = {PreviousTasks()}
-]
-
-# PreviousFirstSingleTaskTmp(taskCount)
-[Activity
-    Text = {PreviousFirstSingleTask(taskCount)}
-]
-
-# PreviousFirstTasksTmp(taskCount)
-[Activity
-    Text = {PreviousFirstTasks(taskCount)}
-]
+  - [PreviousFirstTasks(taskCount)]
