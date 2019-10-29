@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
 import com.microsoft.bot.builder.solutions.directlinespeech.SpeechSdk;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
@@ -161,6 +162,7 @@ public class SpeechService extends Service {
             public void sendActivityMessageAsync(String msg){
                 if (speechSdk != null) {
                     speechSdk.sendActivityMessageAsync(msg);
+                    Analytics.trackEvent("Activity sent");
                     previousRequestWasTyped = true;
                 }
             }
@@ -224,6 +226,7 @@ public class SpeechService extends Service {
                     final String locLon = String.valueOf(location.getLongitude());
                     if (speechSdk != null) {
                         speechSdk.sendLocationEvent(locLat, locLon);
+                        Analytics.trackEvent("VA.Location event sent");
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Location is unknown", Toast.LENGTH_LONG).show();
@@ -447,6 +450,7 @@ public class SpeechService extends Service {
     public void onEventActivityReceived(ActivityReceived activityReceived) throws IOException {
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
+            Analytics.trackEvent("Activity received");
 
             switch (botConnectorActivity.getType()) {
                 case "message":

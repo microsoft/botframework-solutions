@@ -86,7 +86,7 @@ The **OpenDefaultApp** example event is used in conjunction with the [Virtual As
    "name":"OpenDefaultApp",
    "value":{ 
       "MusicUri":"{Music player link}",
-      "MapsUri":"geo:{Latitude},{Longitude}",
+      "MapsUri":"geo:{LATITUDE},{LONGITUDE}",
       "TelephoneUri":"{Telephone number}",
       "MeetingUri":"{Microsoft Teams meeting link}"
    }
@@ -97,4 +97,4 @@ The **OpenDefaultApp** example event is used in conjunction with the [Virtual As
 Native event activities are not supported on the [Bot Framework Emulator](https://aka.ms/botframework-emulator), you can work around this using the [**EventDebugMiddleware**]({{site.baseurl}}/overview/virtual-assistant-template/#middleware) class that comes with the Virtual Assistan template.
 You can send messages with a string payload following the format: 
 **/event:{ "Name": "{Event name}", "Value": "{Event value}" }**. 
-The middleware tranposes these values onto an event activity to be processed.
+The middleware transposes these values onto an event activity to be processed.
