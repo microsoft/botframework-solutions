@@ -16,19 +16,20 @@ Now events can be sent to a user through your Virtual Assistant in an active con
 
 ### Start a new conversation with your Virtual Assistant
 
-The sample notification event has to match the same **user id** as in an existing conversation.
+In order for the notification to be received, the sample event has to use the same **user id** as in an existing conversation.
+![Bot Framework Emulator settings]({{site.baseurl}}/assets/images/proactive-notifications/emulator-settings.png)
 
-![UserId Settings]({{ site.baseurl }}/assets/images/emulator-userid.png)
+1. Open the **Bot Framework Emulator**.
 
-1. Open the **Bot Framework Emulator** 
+1. Navigate to **Settings** and provide the same **user id** you set in the **EventProducer**.
 
-1. In the **Bot Framework Emulator**, navigate to **Settings** and provide a guid to represent a simulated user ID. This will ensure any conversations with your Assistant use the same user ID.
+1. Run your Virtual Assistant project.
 
-1. Begin a conversation with your Assistant to create a proactive state record for future user.
+1. Start a new conversation with your Virtual Assistant to create a proactive state record for future user.
 
 ## Send a sample notification with the Event Producer
 
-1. Run the **Event Producer** project to generate a sample notification message. The message will appear in the existing 
-and observe that the message is shown within your session.
+1. Run the **EventProducer** project to generate a sample notification message.
 
-![Enterprise Notification Demo]({{ site.baseurl }}/assets/images/enterprisenotification-demo.png)
+1. Congratulations, you’ve received a proactive noficiation through your Virtual Assistant!
+![Demonstration of a notification received in an existing bot conversation]({{site.baseurl}}/assets/images/enterprisenotification-demo.png)

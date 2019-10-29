@@ -11,7 +11,6 @@ toc: true
 {:.no_toc}
 ## {{page.title}}
 {:.no_toc}
-
 ### Option: Using the Enterprise Assistant sample
 {:.no_toc}
 The Enterprise Assistant sample is already configured with the **Proactive State Middleware** necessary event handling. Continue to the next step.
