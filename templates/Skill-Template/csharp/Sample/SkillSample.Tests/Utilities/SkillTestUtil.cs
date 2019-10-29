@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
+using SkillSample.Tests.Mocks;
 using SkillSample.Tests.Utterances;
 
 namespace SkillSample.Tests.Utilities

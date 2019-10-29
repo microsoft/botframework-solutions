@@ -1,0 +1,6 @@
+﻿# NamePrompt
+- Comment vous appelez-vous?
+
+# HaveNameMessage
+- Bonjour, {Name}!
+- Enchanté, {Name}!
