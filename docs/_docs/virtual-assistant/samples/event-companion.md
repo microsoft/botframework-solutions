@@ -7,7 +7,6 @@ language: Android
 order: 2
 toc: true
 ---
-
 # {{ page.title }}
 {:.no_toc}
 {{page.description}}

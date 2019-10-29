@@ -31,5 +31,6 @@ In order for the notification to be received, the sample event has to use the sa
 
 1. Run the **EventProducer** project to generate a sample notification message.
 
-1. Congratulations, you’ve received a proactive noficiation through your Virtual Assistant!
+1. Congratulations, you've received a proactive notification through your Virtual Assistant!
+
 ![Demonstration of a notification received in an existing bot conversation]({{site.baseurl}}/assets/images/enterprisenotification-demo.png)
