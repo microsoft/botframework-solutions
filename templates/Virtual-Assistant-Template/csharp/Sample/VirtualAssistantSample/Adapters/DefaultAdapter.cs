@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -8,9 +9,11 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using VirtualAssistantSample.Services;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Adapters
 {
@@ -18,7 +21,7 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
-            TemplateEngine templateEngine,
+            LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
@@ -27,9 +30,9 @@ namespace VirtualAssistantSample.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
+                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
+
                 telemetryClient.TrackException(exception);
             };
 
@@ -42,6 +45,16 @@ namespace VirtualAssistantSample.Adapters
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()
+            {
+                FeedbackActions = new List<CardAction>()
+                {
+                new CardAction(ActionTypes.PostBack, title: "🙂", value: "positive"),
+                new CardAction(ActionTypes.PostBack, title: "😐", value: "neutral"),
+                new CardAction(ActionTypes.PostBack, title: "🙁", value: "negative"),
+                },
+                CommentsEnabled = true
+            }));
         }
     }
 }

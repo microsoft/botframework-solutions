@@ -12,6 +12,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Responses\TestResponses.es.lg" />
+    <None Remove="Responses\TestResponses.lg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Responses\TestResponses.es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Responses\TestResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Responses\TestResponses.es.json" />
     <EmbeddedResource Include="Responses\TestResponses.json" />
   </ItemGroup>

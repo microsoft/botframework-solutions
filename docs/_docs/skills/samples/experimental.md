@@ -336,17 +336,17 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 To test this skill you will need to follow the ServiceNow configuration steps shown below:
 
-1. Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
-1. Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
+- Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
+- Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
 `"serviceNowUrl": "{YOUR_SERVICENOW_INSTANCE_URL}`
-1. Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
+- Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
     - In System Web Services/Scripted REST APIs, click New to create an API
     - In API's Resources, click New to add a resource
     - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
     - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
-1. Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
+- Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
-1. Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
+- Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
     - Set Authorization URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_auth.do
     - Set Token URL, Refresh URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
     - No Scopes are needed
@@ -354,7 +354,7 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
 
 To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
-1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+- Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
 
 ### Music Skill
 
