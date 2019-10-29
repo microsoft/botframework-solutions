@@ -264,8 +264,8 @@ The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
-- Celebrity Information: *Who is Tom Cruise?*
-- Q&A: *What is the gdp of switzerland*
+- Celebrity Information: *Who is Bill Gates?*
+- Q&A: *what's the population of China?*
 - Movie Information: *Tell me about the jurassic park movie*
 
 ![Search Example]({{site.baseurl}}/assets/images/skills-experimental-bingsearch.png)
