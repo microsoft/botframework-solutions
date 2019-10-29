@@ -53,6 +53,8 @@ namespace CalendarSkill.Dialogs
                 CollectStartTime,
                 CollectDuration,
                 CollectLocation,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEventInfo,
                 ConfirmBeforeCreatePrompt,
                 AfterConfirmBeforeCreatePrompt,
@@ -624,7 +626,8 @@ namespace CalendarSkill.Dialogs
                     Location = state.MeetingInfor.Location,
                 };
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
                     var tokens = new StringDictionary

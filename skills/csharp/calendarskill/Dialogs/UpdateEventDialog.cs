@@ -42,6 +42,8 @@ namespace CalendarSkill.Dialogs
                 AfterGetAuthToken,
                 CheckFocusedEvent,
                 GetNewEventTime,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeUpdate,
                 AfterConfirmBeforeUpdate,
                 GetAuthToken,
@@ -96,7 +98,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
@@ -209,7 +212,8 @@ namespace CalendarSkill.Dialogs
                     updateEvent.Id = origin.RecurringId;
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 var newEvent = await calendarService.UpdateEventByIdAsync(updateEvent);
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);

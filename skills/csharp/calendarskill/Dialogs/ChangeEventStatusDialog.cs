@@ -37,6 +37,8 @@ namespace CalendarSkill.Dialogs
                 GetAuthToken,
                 AfterGetAuthToken,
                 CheckFocusedEvent,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeAction,
                 AfterConfirmBeforeAction,
                 GetAuthToken,
@@ -145,8 +147,9 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
                 if (options.NewEventStatus == EventStatus.Cancelled)
                 {
@@ -208,7 +211,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     if (options.NewEventStatus == EventStatus.Cancelled)
                     {
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())

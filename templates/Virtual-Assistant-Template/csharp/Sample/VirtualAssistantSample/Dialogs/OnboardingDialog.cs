@@ -7,32 +7,31 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
+using ActivityGenerator = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace VirtualAssistantSample.Dialogs
 {
+    /// <summary>
+    /// An example on-boarding dialog to greet the user on their first conversation and collection some initial user profile information.
+    /// </summary>
     public class OnboardingDialog : ComponentDialog
     {
-        private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
-        private IStatePropertyAccessor<OnboardingState> _accessor;
-        private OnboardingState _state;
+        private LocaleTemplateEngineManager _templateEngine;
+        private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<TemplateEngine>();
-            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
 
             var userState = serviceProvider.GetService<UserState>();
-            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 
             var onboarding = new WaterfallStep[]
             {
@@ -49,16 +48,15 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
 
-            if (!string.IsNullOrEmpty(_state.Name))
+            if (!string.IsNullOrEmpty(state.Name))
             {
-                return await sc.NextAsync(_state.Name);
+                return await sc.NextAsync(state.Name);
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("namePrompt");
-                var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
+                var activity = _templateEngine.GenerateActivityForLocale("NamePrompt");
 
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
@@ -69,15 +67,19 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var name = _state.Name = (string)sc.Result;
-            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
+            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
 
-            dynamic data = new JObject();
-            data.name = name;
-            var template = _templateEngine.EvaluateTemplate("haveNameMessage", data);
-            var activity = await _activityGenerator.CreateActivityFromText(template, data, sc.Context, _langGenerator);
-            await sc.Context.SendActivityAsync(activity);
+            // Ensure the name is capitalised ready for future use.
+            var name = (string)sc.Result;
+            userProfile.Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
+
+            await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
+
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
+
+            sc.SuppressCompletionMessage(true);
+
             return await sc.EndDialogAsync();
         }
 

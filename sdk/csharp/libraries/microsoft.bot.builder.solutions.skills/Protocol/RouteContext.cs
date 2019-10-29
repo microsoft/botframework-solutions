@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.StreamingExtensions;
+﻿using Microsoft.Bot.Streaming;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {

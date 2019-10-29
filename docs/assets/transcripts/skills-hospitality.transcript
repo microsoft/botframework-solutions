@@ -3,97 +3,97 @@
     "type": "conversationUpdate",
     "membersAdded": [
       {
-        "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+        "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
         "name": "Bot"
       }
     ],
     "channelId": "emulator",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "41ae2590-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:30:43-07:00",
+    "id": "056db4e1-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:25+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "timestamp": "2019-08-29T21:30:43.689Z",
+    "timestamp": "2019-10-24T04:23:25.230Z",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User"
     },
     "locale": "en-US",
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Welcome to the Hospitality Skill!",
     "speak": "Welcome to the Hospitality Skill!",
     "inputHint": "acceptingInput",
     "attachments": [],
-    "replyToId": "41ae2590-caa4-11e9-8be7-794c558b5c5c",
-    "id": "4381fb30-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:30:46-07:00",
-    "timestamp": "2019-08-29T21:30:46.755Z",
+    "replyToId": "056db4e1-f616-11e9-9a5c-9588330456bc",
+    "id": "06f60290-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:27+08:00",
+    "timestamp": "2019-10-24T04:23:27.800Z",
     "locale": "en-US"
   },
   {
     "type": "conversationUpdate",
     "membersAdded": [
       {
-        "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+        "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
         "name": "User"
       }
     ],
     "channelId": "emulator",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "43aed790-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:30:47-07:00",
+    "id": "08247071-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:29+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "timestamp": "2019-08-29T21:30:47.049Z",
+    "timestamp": "2019-10-24T04:23:29.783Z",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User"
     },
     "locale": "en-US",
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
   },
   {
     "text": "What is my current check out date?",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114338708umasxbwjj7o"
+      "clientActivityID": "1571891019083q3jk50vnwa8"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:32:18.720Z",
+    "timestamp": "2019-10-24T04:23:39.087Z",
     "entities": [
       {
         "requiresBotState": true,
@@ -103,35 +103,57 @@
       }
     ],
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:18-07:00",
+    "id": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:39+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
   },
   {
-    "type": "trace",
-    "timestamp": "2019-08-29T21:32:19.235Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "id": "0f300730-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:41+08:00",
+    "timestamp": "2019-10-24T04:23:41.603Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-24T04:23:42.320Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -140,7 +162,7 @@
         "alteredText": null,
         "intents": {
           "ReadAloud": {
-            "score": 0.424966782
+            "score": 0.3515667
           }
         },
         "entities": {
@@ -148,7 +170,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -166,7 +188,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ReadAloud",
-          "score": 0.424966782
+          "score": 0.3515667
         },
         "intents": null,
         "entities": [],
@@ -176,28 +198,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "7aa14f30-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:19-07:00",
+    "id": "0f9d6f00-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:42+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:19.435Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:23:43.920Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -206,7 +228,7 @@
         "alteredText": null,
         "intents": {
           "GetReservationDetails": {
-            "score": 0.692990661
+            "score": 0.692775965
           }
         },
         "entities": {
@@ -214,7 +236,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -232,7 +254,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "GetReservationDetails",
-          "score": 0.692990661
+          "score": 0.692775965
         },
         "intents": null,
         "entities": [],
@@ -242,28 +264,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "7abffac0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:19-07:00",
+    "id": "1091ba10-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:43+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:19.614Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:23:44.797Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -272,7 +294,7 @@
         "alteredText": null,
         "intents": {
           "GetReservationDetails": {
-            "score": 0.692990661
+            "score": 0.692775965
           }
         },
         "entities": {
@@ -280,7 +302,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -298,7 +320,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "GetReservationDetails",
-          "score": 0.692990661
+          "score": 0.692775965
         },
         "intents": null,
         "entities": [],
@@ -308,46 +330,68 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "7adb23e0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:19-07:00",
+    "id": "111764d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:44+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
-    "id": "7af1e030-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:19-07:00",
-    "timestamp": "2019-08-29T21:32:19.763Z",
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "id": "1262d090-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:46+08:00",
+    "timestamp": "2019-10-24T04:23:46.969Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "id": "13f41ef0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:49+08:00",
+    "timestamp": "2019-10-24T04:23:49.599Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
@@ -424,11 +468,11 @@
                   "facts": [
                     {
                       "title": "Check-in Date",
-                      "value": "August 29, 2019"
+                      "value": "October 24, 2019"
                     },
                     {
                       "title": "Check-out Date",
-                      "value": "September 2, 2019"
+                      "value": "October 28, 2019"
                     },
                     {
                       "title": "Check-out Time",
@@ -443,112 +487,134 @@
       }
     ],
     "entities": [],
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
-    "id": "7b12fcc0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:19-07:00",
-    "timestamp": "2019-08-29T21:32:19.979Z",
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "id": "13f50950-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:49+08:00",
+    "timestamp": "2019-10-24T04:23:49.605Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:32:20.150Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:23:50.280Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "7a52ba00-caa4-11e9-8be7-794c558b5c5c",
-    "id": "7b2ced60-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:20-07:00"
+    "replyToId": "0db01df0-f616-11e9-9a5c-9588330456bc",
+    "id": "145c0880-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:23:50+08:00"
   },
   {
-    "text": "Can i extend my stay until sept 6",
+    "text": "Can i extend my stay until october 30",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114356714mfgmcqgejd"
+      "clientActivityID": "1571891116643tq76jloet5e"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:32:36.725Z",
+    "timestamp": "2019-10-24T04:25:16.648Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "850e1250-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:36-07:00",
+    "id": "47d6be80-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:16+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
+    "id": "496092d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:19+08:00",
+    "timestamp": "2019-10-24T04:25:19.229Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:37.161Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:19.454Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "850e1250-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "Can i extend my stay until sept 6",
+        "text": "Can i extend my stay until october 30",
         "alteredText": null,
         "intents": {
           "ReadAloud": {
-            "score": 0.128275126
+            "score": 0.08683863
           }
         },
         "entities": {
           "$instance": {
             "number": [
               {
-                "startIndex": 32,
-                "endIndex": 33,
-                "text": "6",
+                "startIndex": 35,
+                "endIndex": 37,
+                "text": "30",
                 "type": "builtin.number",
                 "subtype": "integer"
               }
             ]
           },
           "number": [
-            6
+            30
           ]
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -562,22 +628,22 @@
         "LogPersonalInformation": false
       },
       "luisResult": {
-        "query": "Can i extend my stay until sept 6",
+        "query": "Can i extend my stay until october 30",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ReadAloud",
-          "score": 0.128275126
+          "score": 0.08683863
         },
         "intents": null,
         "entities": [
           {
-            "entity": "6",
+            "entity": "30",
             "type": "builtin.number",
-            "startIndex": 32,
-            "endIndex": 32,
+            "startIndex": 35,
+            "endIndex": 36,
             "resolution": {
               "subtype": "integer",
-              "value": "6"
+              "value": "30"
             }
           }
         ],
@@ -587,37 +653,37 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "85509990-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:37-07:00",
+    "id": "4982e7e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:19+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:37.345Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:20.944Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "850e1250-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "Can i extend my stay until sept 6",
+        "text": "Can i extend my stay until october 30",
         "alteredText": null,
         "intents": {
           "ExtendStay": {
-            "score": 0.9485771
+            "score": 0.9798835
           }
         },
         "entities": {
@@ -625,16 +691,16 @@
             "datetime": [
               {
                 "startIndex": 21,
-                "endIndex": 33,
-                "text": "until sept 6",
+                "endIndex": 37,
+                "text": "until october 30",
                 "type": "builtin.datetimeV2.daterange"
               }
             ],
             "number": [
               {
-                "startIndex": 32,
-                "endIndex": 33,
-                "text": "6",
+                "startIndex": 35,
+                "endIndex": 37,
+                "text": "30",
                 "type": "builtin.number",
                 "subtype": "integer"
               }
@@ -644,17 +710,17 @@
             {
               "type": "daterange",
               "timex": [
-                "XXXX-09-06"
+                "XXXX-10-30"
               ]
             }
           ],
           "number": [
-            6
+            30
           ]
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -668,46 +734,46 @@
         "LogPersonalInformation": false
       },
       "luisResult": {
-        "query": "Can i extend my stay until sept 6",
+        "query": "Can i extend my stay until october 30",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ExtendStay",
-          "score": 0.9485771
+          "score": 0.9798835
         },
         "intents": null,
         "entities": [
           {
-            "entity": "until sept 6",
+            "entity": "until october 30",
             "type": "builtin.datetimeV2.daterange",
             "startIndex": 21,
-            "endIndex": 32,
+            "endIndex": 36,
             "resolution": {
               "values": [
                 {
-                  "timex": "XXXX-09-06",
+                  "timex": "XXXX-10-30",
                   "Mod": "before",
                   "type": "daterange",
                   "sourceEntity": "datetimepoint",
-                  "end": "2018-09-06"
+                  "end": "2018-10-30"
                 },
                 {
-                  "timex": "XXXX-09-06",
+                  "timex": "XXXX-10-30",
                   "Mod": "before",
                   "type": "daterange",
                   "sourceEntity": "datetimepoint",
-                  "end": "2019-09-06"
+                  "end": "2019-10-30"
                 }
               ]
             }
           },
           {
-            "entity": "6",
+            "entity": "30",
             "type": "builtin.number",
-            "startIndex": 32,
-            "endIndex": 32,
+            "startIndex": 35,
+            "endIndex": 36,
             "resolution": {
               "subtype": "integer",
-              "value": "6"
+              "value": "30"
             }
           }
         ],
@@ -717,180 +783,180 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "856cad10-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:37-07:00",
+    "id": "4a664300-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:20+08:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-24T04:25:21.780Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can i extend my stay until october 30",
+        "alteredText": null,
+        "intents": {
+          "ExtendStay": {
+            "score": 0.9798835
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 21,
+                "endIndex": 37,
+                "text": "until october 30",
+                "type": "builtin.datetimeV2.daterange"
+              }
+            ],
+            "number": [
+              {
+                "startIndex": 35,
+                "endIndex": 37,
+                "text": "30",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "daterange",
+              "timex": [
+                "XXXX-10-30"
+              ]
+            }
+          ],
+          "number": [
+            30
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can i extend my stay until october 30",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "ExtendStay",
+          "score": 0.9798835
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "until october 30",
+            "type": "builtin.datetimeV2.daterange",
+            "startIndex": 21,
+            "endIndex": 36,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "XXXX-10-30",
+                  "Mod": "before",
+                  "type": "daterange",
+                  "sourceEntity": "datetimepoint",
+                  "end": "2018-10-30"
+                },
+                {
+                  "timex": "XXXX-10-30",
+                  "Mod": "before",
+                  "type": "daterange",
+                  "sourceEntity": "datetimepoint",
+                  "end": "2019-10-30"
+                }
+              ]
+            }
+          },
+          {
+            "entity": "30",
+            "type": "builtin.number",
+            "startIndex": 35,
+            "endIndex": 36,
+            "resolution": {
+              "subtype": "integer",
+              "value": "30"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "4ae5d340-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:21+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "850e1250-caa4-11e9-8be7-794c558b5c5c",
-    "id": "857622f0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:37-07:00",
-    "timestamp": "2019-08-29T21:32:37.407Z",
-    "locale": "en-US"
-  },
-  {
-    "type": "trace",
-    "timestamp": "2019-08-29T21:32:37.531Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "850e1250-caa4-11e9-8be7-794c558b5c5c",
-    "label": "Luis Trace",
-    "valueType": "https://www.luis.ai/schemas/trace",
-    "value": {
-      "recognizerResult": {
-        "text": "Can i extend my stay until sept 6",
-        "alteredText": null,
-        "intents": {
-          "ExtendStay": {
-            "score": 0.9485771
-          }
-        },
-        "entities": {
-          "$instance": {
-            "datetime": [
-              {
-                "startIndex": 21,
-                "endIndex": 33,
-                "text": "until sept 6",
-                "type": "builtin.datetimeV2.daterange"
-              }
-            ],
-            "number": [
-              {
-                "startIndex": 32,
-                "endIndex": 33,
-                "text": "6",
-                "type": "builtin.number",
-                "subtype": "integer"
-              }
-            ]
-          },
-          "datetime": [
-            {
-              "type": "daterange",
-              "timex": [
-                "XXXX-09-06"
-              ]
-            }
-          ],
-          "number": [
-            6
-          ]
-        }
-      },
-      "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
-      },
-      "luisOptions": {
-        "BingSpellCheckSubscriptionKey": null,
-        "IncludeAllIntents": null,
-        "IncludeInstanceData": null,
-        "Log": null,
-        "SpellCheck": null,
-        "Staging": null,
-        "Timeout": 100000,
-        "TimezoneOffset": null,
-        "LogPersonalInformation": false
-      },
-      "luisResult": {
-        "query": "Can i extend my stay until sept 6",
-        "alteredQuery": null,
-        "topScoringIntent": {
-          "intent": "ExtendStay",
-          "score": 0.9485771
-        },
-        "intents": null,
-        "entities": [
-          {
-            "entity": "until sept 6",
-            "type": "builtin.datetimeV2.daterange",
-            "startIndex": 21,
-            "endIndex": 32,
-            "resolution": {
-              "values": [
-                {
-                  "timex": "XXXX-09-06",
-                  "Mod": "before",
-                  "type": "daterange",
-                  "sourceEntity": "datetimepoint",
-                  "end": "2018-09-06"
-                },
-                {
-                  "timex": "XXXX-09-06",
-                  "Mod": "before",
-                  "type": "daterange",
-                  "sourceEntity": "datetimepoint",
-                  "end": "2019-09-06"
-                }
-              ]
-            }
-          },
-          {
-            "entity": "6",
-            "type": "builtin.number",
-            "startIndex": 32,
-            "endIndex": 32,
-            "resolution": {
-              "subtype": "integer",
-              "value": "6"
-            }
-          }
-        ],
-        "compositeEntities": null,
-        "sentimentAnalysis": null,
-        "connectedServiceResult": null
-      }
-    },
-    "name": "LuisRecognizer",
-    "id": "85890eb0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:37-07:00",
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
+    "id": "4b07da30-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:22+08:00",
+    "timestamp": "2019-10-24T04:25:22.003Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "text": "Ok. Should I go ahead and extend your stay until September 6, 2019?",
-    "speak": "Ok. Should I go ahead and extend your stay until September 6, 2019?",
+    "text": "Ok. Should I go ahead and extend your stay until October 30, 2019?",
+    "speak": "Ok. Should I go ahead and extend your stay until October 30, 2019?",
     "inputHint": "expectingInput",
     "suggestedActions": {
       "actions": [
@@ -907,10 +973,10 @@
       ]
     },
     "attachments": [],
-    "replyToId": "850e1250-caa4-11e9-8be7-794c558b5c5c",
-    "id": "85a7ba40-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:37-07:00",
-    "timestamp": "2019-08-29T21:32:37.732Z",
+    "replyToId": "47d6be80-f616-11e9-9a5c-9588330456bc",
+    "id": "4b87b890-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:22+08:00",
+    "timestamp": "2019-10-24T04:25:22.841Z",
     "locale": "en-US"
   },
   {
@@ -918,46 +984,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114361860d3i6g29l625"
+      "clientActivityID": "1571891125578gscdsmrowkf"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:32:41.865Z",
+    "timestamp": "2019-10-24T04:25:25.580Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:41-07:00",
+    "id": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:25+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "id": "4eec6760-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:28+08:00",
+    "timestamp": "2019-10-24T04:25:28.534Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:42.314Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:28.758Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -966,7 +1054,7 @@
         "alteredText": null,
         "intents": {
           "Confirm": {
-            "score": 0.983040333
+            "score": 0.9907774
           }
         },
         "entities": {
@@ -974,7 +1062,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -992,7 +1080,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Confirm",
-          "score": 0.983040333
+          "score": 0.9907774
         },
         "intents": null,
         "entities": [],
@@ -1002,28 +1090,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "8862e2a0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:42-07:00",
+    "id": "4f0e9560-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:28+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:42.502Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:29.592Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1032,7 +1120,7 @@
         "alteredText": null,
         "intents": {
           "None": {
-            "score": 0.6773788
+            "score": 0.5590091
           }
         },
         "entities": {
@@ -1040,7 +1128,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1058,7 +1146,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "None",
-          "score": 0.6773788
+          "score": 0.5590091
         },
         "intents": null,
         "entities": [],
@@ -1068,51 +1156,51 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "887f9260-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:42-07:00",
+    "id": "4f8dfe90-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:29+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
-    "id": "8880f1f0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:42-07:00",
-    "timestamp": "2019-08-29T21:32:42.511Z",
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "id": "50813830-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:31+08:00",
+    "timestamp": "2019-10-24T04:25:31.187Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
-    "text": "Ok. Your check out date is now September 6, 2019.",
-    "speak": "Ok. Your check out date is now September 6, 2019.",
+    "text": "Ok. Your check out date is now October 30, 2019.",
+    "speak": "Ok. Your check out date is now October 30, 2019.",
     "inputHint": "acceptingInput",
     "attachments": [
       {
@@ -1184,11 +1272,11 @@
                   "facts": [
                     {
                       "title": "Check-in Date",
-                      "value": "August 29, 2019"
+                      "value": "October 24, 2019"
                     },
                     {
                       "title": "Check-out Date",
-                      "value": "September 6, 2019"
+                      "value": "October 30, 2019"
                     },
                     {
                       "title": "Check-out Time",
@@ -1203,82 +1291,126 @@
       }
     ],
     "entities": [],
-    "replyToId": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
-    "id": "88b7e070-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:42-07:00",
-    "timestamp": "2019-08-29T21:32:42.871Z",
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "id": "5133e660-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:32+08:00",
+    "timestamp": "2019-10-24T04:25:32.358Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:32:43.033Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:25:32.932Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "881e5f90-caa4-11e9-8be7-794c558b5c5c",
-    "id": "88d09890-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:43-07:00"
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "id": "518b7c40-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:32+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "4d29a8c0-f616-11e9-9a5c-9588330456bc",
+    "id": "52058e40-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:33+08:00",
+    "timestamp": "2019-10-24T04:25:33.732Z",
+    "locale": "en-US"
   },
   {
     "text": "I want a late check out time also",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114371357052vw0ryy33"
+      "clientActivityID": "15718911410679001mqgjys"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:32:51.363Z",
+    "timestamp": "2019-10-24T04:25:41.073Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:51-07:00",
+    "id": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:41+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "id": "57f88910-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:43+08:00",
+    "timestamp": "2019-10-24T04:25:43.713Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:51.848Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:44.556Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1287,7 +1419,7 @@
         "alteredText": null,
         "intents": {
           "SelectItem": {
-            "score": 0.2183984
+            "score": 0.129787743
           }
         },
         "entities": {
@@ -1295,7 +1427,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1313,7 +1445,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "SelectItem",
-          "score": 0.2183984
+          "score": 0.129787743
         },
         "intents": null,
         "entities": [],
@@ -1323,28 +1455,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "8e11a880-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:51-07:00",
+    "id": "58792ac0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:44+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:52.034Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:45.409Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1353,7 +1485,7 @@
         "alteredText": null,
         "intents": {
           "LateCheckOut": {
-            "score": 0.9597036
+            "score": 0.959225953
           }
         },
         "entities": {
@@ -1361,7 +1493,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1379,7 +1511,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "LateCheckOut",
-          "score": 0.9597036
+          "score": 0.959225953
         },
         "intents": null,
         "entities": [],
@@ -1389,138 +1521,160 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "8e2e0a20-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:52-07:00",
+    "id": "58fb5310-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:45+08:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-24T04:25:46.237Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I want a late check out time also",
+        "alteredText": null,
+        "intents": {
+          "LateCheckOut": {
+            "score": 0.959225953
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "I want a late check out time also",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "LateCheckOut",
+          "score": 0.959225953
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "5979aad0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:46+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "id": "8e35d250-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:52-07:00",
-    "timestamp": "2019-08-29T21:32:52.085Z",
-    "locale": "en-US"
-  },
-  {
-    "type": "trace",
-    "timestamp": "2019-08-29T21:32:52.211Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "label": "Luis Trace",
-    "valueType": "https://www.luis.ai/schemas/trace",
-    "value": {
-      "recognizerResult": {
-        "text": "I want a late check out time also",
-        "alteredText": null,
-        "intents": {
-          "LateCheckOut": {
-            "score": 0.9597036
-          }
-        },
-        "entities": {
-          "$instance": {}
-        }
-      },
-      "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
-      },
-      "luisOptions": {
-        "BingSpellCheckSubscriptionKey": null,
-        "IncludeAllIntents": null,
-        "IncludeInstanceData": null,
-        "Log": null,
-        "SpellCheck": null,
-        "Staging": null,
-        "Timeout": 100000,
-        "TimezoneOffset": null,
-        "LogPersonalInformation": false
-      },
-      "luisResult": {
-        "query": "I want a late check out time also",
-        "alteredQuery": null,
-        "topScoringIntent": {
-          "intent": "LateCheckOut",
-          "score": 0.9597036
-        },
-        "intents": null,
-        "entities": [],
-        "compositeEntities": null,
-        "sentimentAnalysis": null,
-        "connectedServiceResult": null
-      }
-    },
-    "name": "LuisRecognizer",
-    "id": "8e490c30-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:52-07:00",
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "id": "599c7510-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:46+08:00",
+    "timestamp": "2019-10-24T04:25:46.465Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Let me check if this is available.",
     "speak": "Let me check if this is available.",
     "inputHint": "ignoringInput",
     "attachments": [],
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "id": "8e663120-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:52-07:00",
-    "timestamp": "2019-08-29T21:32:52.402Z",
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "id": "5a057010-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:47+08:00",
+    "timestamp": "2019-10-24T04:25:47.153Z",
     "locale": "en-US"
   },
   {
-    "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "id": "5b25d430-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:49+08:00",
+    "timestamp": "2019-10-24T04:25:49.042Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "We can move your check out time to 4:00 pm. Would you like to confirm this?",
@@ -1541,32 +1695,10 @@
       ]
     },
     "attachments": [],
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "id": "8f75f370-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:54-07:00",
-    "timestamp": "2019-08-29T21:32:54.183Z",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "8dc7a730-caa4-11e9-8be7-794c558b5c5c",
-    "id": "8f802ca0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:54-07:00",
-    "timestamp": "2019-08-29T21:32:54.250Z",
+    "replyToId": "5665b410-f616-11e9-9a5c-9588330456bc",
+    "id": "5b4e91e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:49+08:00",
+    "timestamp": "2019-10-24T04:25:49.310Z",
     "locale": "en-US"
   },
   {
@@ -1574,46 +1706,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114375708emh0iaw94kg"
+      "clientActivityID": "1571891151323idzl4bm19gc"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:32:55.710Z",
+    "timestamp": "2019-10-24T04:25:51.327Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:55-07:00",
+    "id": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:51+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "id": "5e3dc290-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:54+08:00",
+    "timestamp": "2019-10-24T04:25:54.233Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:56.158Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:54.454Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1622,7 +1776,7 @@
         "alteredText": null,
         "intents": {
           "Confirm": {
-            "score": 0.983040333
+            "score": 0.9907774
           }
         },
         "entities": {
@@ -1630,7 +1784,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1648,7 +1802,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Confirm",
-          "score": 0.983040333
+          "score": 0.9907774
         },
         "intents": null,
         "entities": [],
@@ -1658,28 +1812,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "90a34fe0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:56-07:00",
+    "id": "5e5f7b60-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:54+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:32:56.329Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:25:55.316Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1688,7 +1842,7 @@
         "alteredText": null,
         "intents": {
           "None": {
-            "score": 0.6773788
+            "score": 0.5590091
           }
         },
         "entities": {
@@ -1696,7 +1850,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1714,7 +1868,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "None",
-          "score": 0.6773788
+          "score": 0.5590091
         },
         "intents": null,
         "entities": [],
@@ -1724,51 +1878,51 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "90bd6790-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:56-07:00",
+    "id": "5ee30340-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:55+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "90d5aa80-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:56-07:00",
-    "timestamp": "2019-08-29T21:32:56.488Z",
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "id": "5fcbdca0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:56+08:00",
+    "timestamp": "2019-10-24T04:25:56.842Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
-    "text": "Ok. Your check out time is now 4:00 pm on September 6, 2019.",
-    "speak": "Ok. Your check out time is now 4:00 pm on September 6, 2019.",
+    "text": "Ok. Your check out time is now 4:00 pm on October 30, 2019.",
+    "speak": "Ok. Your check out time is now 4:00 pm on October 30, 2019.",
     "inputHint": "acceptingInput",
     "attachments": [
       {
@@ -1840,11 +1994,11 @@
                   "facts": [
                     {
                       "title": "Check-in Date",
-                      "value": "August 29, 2019"
+                      "value": "October 24, 2019"
                     },
                     {
                       "title": "Check-out Date",
-                      "value": "September 6, 2019"
+                      "value": "October 30, 2019"
                     },
                     {
                       "title": "Check-out Time",
@@ -1859,82 +2013,126 @@
       }
     ],
     "entities": [],
-    "replyToId": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "90f89bd0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:56-07:00",
-    "timestamp": "2019-08-29T21:32:56.717Z",
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "id": "60998ce0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:58+08:00",
+    "timestamp": "2019-10-24T04:25:58.190Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:32:56.878Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:25:58.808Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "905ef3e0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "91112ce0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:32:56-07:00"
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "id": "60f7d980-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:58+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "5c8256f0-f616-11e9-9a5c-9588330456bc",
+    "id": "615562d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:25:59+08:00",
+    "timestamp": "2019-10-24T04:25:59.421Z",
+    "locale": "en-US"
   },
   {
     "text": "Can you bring me 2 hand towels and a shampoo bottle",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114395401efoc1sfuw7b"
+      "clientActivityID": "1571891165796sci4jtzejsn"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:15.407Z",
+    "timestamp": "2019-10-24T04:26:05.801Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:15-07:00",
+    "id": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:05+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "66a789c0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:08+08:00",
+    "timestamp": "2019-10-24T04:26:08.348Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:15.877Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:08.570Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -1943,7 +2141,7 @@
         "alteredText": null,
         "intents": {
           "ReadAloud": {
-            "score": 0.3283108
+            "score": 0.24322693
           }
         },
         "entities": {
@@ -1964,7 +2162,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -1982,7 +2180,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ReadAloud",
-          "score": 0.3283108
+          "score": 0.24322693
         },
         "intents": null,
         "entities": [
@@ -2003,28 +2201,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "9c645860-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:15-07:00",
+    "id": "66c969a0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:08+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:16.057Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:09.547Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2033,7 +2231,7 @@
         "alteredText": null,
         "intents": {
           "RequestItem": {
-            "score": 0.999894142
+            "score": 0.999866
           }
         },
         "entities": {
@@ -2044,7 +2242,7 @@
                 "endIndex": 30,
                 "text": "2 hand towels",
                 "type": "ItemRequest",
-                "score": 0.9860238
+                "score": 0.955425
               }
             ],
             "Item": [
@@ -2053,7 +2251,7 @@
                 "endIndex": 44,
                 "text": "shampoo",
                 "type": "Item",
-                "score": 0.9840121
+                "score": 0.9668767
               }
             ]
           },
@@ -2075,7 +2273,7 @@
                     "endIndex": 30,
                     "text": "hand towels",
                     "type": "Item",
-                    "score": 0.5600887
+                    "score": 0.537924349
                   }
                 ]
               },
@@ -2093,7 +2291,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -2111,7 +2309,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RequestItem",
-          "score": 0.999894142
+          "score": 0.999866
         },
         "intents": null,
         "entities": [
@@ -2120,21 +2318,21 @@
             "type": "Item",
             "startIndex": 19,
             "endIndex": 29,
-            "score": 0.5600887
+            "score": 0.537924349
           },
           {
             "entity": "shampoo",
             "type": "Item",
             "startIndex": 37,
             "endIndex": 43,
-            "score": 0.9840121
+            "score": 0.9668767
           },
           {
             "entity": "2 hand towels",
             "type": "ItemRequest",
             "startIndex": 17,
             "endIndex": 29,
-            "score": 0.9860238
+            "score": 0.955425
           },
           {
             "entity": "2",
@@ -2168,211 +2366,233 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "9c7fa890-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:16-07:00",
+    "id": "675e7db0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:09+08:00",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-24T04:26:10.404Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Can you bring me 2 hand towels and a shampoo bottle",
+        "alteredText": null,
+        "intents": {
+          "RequestItem": {
+            "score": 0.999866
+          }
+        },
+        "entities": {
+          "$instance": {
+            "ItemRequest": [
+              {
+                "startIndex": 17,
+                "endIndex": 30,
+                "text": "2 hand towels",
+                "type": "ItemRequest",
+                "score": 0.955425
+              }
+            ],
+            "Item": [
+              {
+                "startIndex": 37,
+                "endIndex": 44,
+                "text": "shampoo",
+                "type": "Item",
+                "score": 0.9668767
+              }
+            ]
+          },
+          "ItemRequest": [
+            {
+              "$instance": {
+                "number": [
+                  {
+                    "startIndex": 17,
+                    "endIndex": 18,
+                    "text": "2",
+                    "type": "builtin.number",
+                    "subtype": "integer"
+                  }
+                ],
+                "Item": [
+                  {
+                    "startIndex": 19,
+                    "endIndex": 30,
+                    "text": "hand towels",
+                    "type": "Item",
+                    "score": 0.537924349
+                  }
+                ]
+              },
+              "number": [
+                2
+              ],
+              "Item": [
+                "hand towels"
+              ]
+            }
+          ],
+          "Item": [
+            "shampoo"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": false
+      },
+      "luisResult": {
+        "query": "Can you bring me 2 hand towels and a shampoo bottle",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "RequestItem",
+          "score": 0.999866
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "hand towels",
+            "type": "Item",
+            "startIndex": 19,
+            "endIndex": 29,
+            "score": 0.537924349
+          },
+          {
+            "entity": "shampoo",
+            "type": "Item",
+            "startIndex": 37,
+            "endIndex": 43,
+            "score": 0.9668767
+          },
+          {
+            "entity": "2 hand towels",
+            "type": "ItemRequest",
+            "startIndex": 17,
+            "endIndex": 29,
+            "score": 0.955425
+          },
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 17,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": [
+          {
+            "parentType": "ItemRequest",
+            "value": "2 hand towels",
+            "children": [
+              {
+                "type": "builtin.number",
+                "value": "2"
+              },
+              {
+                "type": "Item",
+                "value": "hand towels"
+              }
+            ]
+          }
+        ],
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "67e14240-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:10+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "9c84ffc0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:16-07:00",
-    "timestamp": "2019-08-29T21:33:16.092Z",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "68296ed0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:10+08:00",
+    "timestamp": "2019-10-24T04:26:10.877Z",
     "locale": "en-US"
   },
   {
-    "type": "trace",
-    "timestamp": "2019-08-29T21:33:16.234Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "label": "Luis Trace",
-    "valueType": "https://www.luis.ai/schemas/trace",
-    "value": {
-      "recognizerResult": {
-        "text": "Can you bring me 2 hand towels and a shampoo bottle",
-        "alteredText": null,
-        "intents": {
-          "RequestItem": {
-            "score": 0.999894142
-          }
-        },
-        "entities": {
-          "$instance": {
-            "ItemRequest": [
-              {
-                "startIndex": 17,
-                "endIndex": 30,
-                "text": "2 hand towels",
-                "type": "ItemRequest",
-                "score": 0.9860238
-              }
-            ],
-            "Item": [
-              {
-                "startIndex": 37,
-                "endIndex": 44,
-                "text": "shampoo",
-                "type": "Item",
-                "score": 0.9840121
-              }
-            ]
-          },
-          "ItemRequest": [
-            {
-              "$instance": {
-                "number": [
-                  {
-                    "startIndex": 17,
-                    "endIndex": 18,
-                    "text": "2",
-                    "type": "builtin.number",
-                    "subtype": "integer"
-                  }
-                ],
-                "Item": [
-                  {
-                    "startIndex": 19,
-                    "endIndex": 30,
-                    "text": "hand towels",
-                    "type": "Item",
-                    "score": 0.5600887
-                  }
-                ]
-              },
-              "number": [
-                2
-              ],
-              "Item": [
-                "hand towels"
-              ]
-            }
-          ],
-          "Item": [
-            "shampoo"
-          ]
-        }
-      },
-      "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
-      },
-      "luisOptions": {
-        "BingSpellCheckSubscriptionKey": null,
-        "IncludeAllIntents": null,
-        "IncludeInstanceData": null,
-        "Log": null,
-        "SpellCheck": null,
-        "Staging": null,
-        "Timeout": 100000,
-        "TimezoneOffset": null,
-        "LogPersonalInformation": false
-      },
-      "luisResult": {
-        "query": "Can you bring me 2 hand towels and a shampoo bottle",
-        "alteredQuery": null,
-        "topScoringIntent": {
-          "intent": "RequestItem",
-          "score": 0.999894142
-        },
-        "intents": null,
-        "entities": [
-          {
-            "entity": "hand towels",
-            "type": "Item",
-            "startIndex": 19,
-            "endIndex": 29,
-            "score": 0.5600887
-          },
-          {
-            "entity": "shampoo",
-            "type": "Item",
-            "startIndex": 37,
-            "endIndex": 43,
-            "score": 0.9840121
-          },
-          {
-            "entity": "2 hand towels",
-            "type": "ItemRequest",
-            "startIndex": 17,
-            "endIndex": 29,
-            "score": 0.9860238
-          },
-          {
-            "entity": "2",
-            "type": "builtin.number",
-            "startIndex": 17,
-            "endIndex": 17,
-            "resolution": {
-              "subtype": "integer",
-              "value": "2"
-            }
-          }
-        ],
-        "compositeEntities": [
-          {
-            "parentType": "ItemRequest",
-            "value": "2 hand towels",
-            "children": [
-              {
-                "type": "builtin.number",
-                "value": "2"
-              },
-              {
-                "type": "Item",
-                "value": "hand towels"
-              }
-            ]
-          }
-        ],
-        "sentimentAnalysis": null,
-        "connectedServiceResult": null
-      }
-    },
-    "name": "LuisRecognizer",
-    "id": "9c9aaaa0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:16-07:00",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "69cf2f90-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:13+08:00",
+    "timestamp": "2019-10-24T04:26:13.641Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
@@ -2522,108 +2742,152 @@
       }
     ],
     "entities": [],
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "9cf9ba90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:16-07:00",
-    "timestamp": "2019-08-29T21:33:16.857Z",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "6adef1e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:15+08:00",
+    "timestamp": "2019-10-24T04:26:15.422Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "These items will be brought to your room shortly.",
     "speak": "These items will be brought to your room shortly.",
     "inputHint": "acceptingInput",
     "attachments": [],
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "9d122490-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:17-07:00",
-    "timestamp": "2019-08-29T21:33:17.017Z",
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "6b3a5850-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:16+08:00",
+    "timestamp": "2019-10-24T04:26:16.020Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:33:17.182Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "6b5a6370-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:16+08:00",
+    "timestamp": "2019-10-24T04:26:16.231Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:26:16.613Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "9c1c79f0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "9d2b78f0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:17-07:00"
+    "replyToId": "6522e590-f616-11e9-9a5c-9588330456bc",
+    "id": "6b94ad50-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:16+08:00"
   },
   {
     "text": "I want to see a room service menu",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "15671144061724aquceiao97"
+      "clientActivityID": "1571891179132v2dljrc5drc"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:26.191Z",
+    "timestamp": "2019-10-24T04:26:19.137Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:26-07:00",
+    "id": "6d15cf10-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:19+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
+    "id": "6eee3890-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:22+08:00",
+    "timestamp": "2019-10-24T04:26:22.233Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:26.689Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:22.237Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2632,7 +2896,7 @@
         "alteredText": null,
         "intents": {
           "Escalate": {
-            "score": 0.3038648
+            "score": 0.2728723
           }
         },
         "entities": {
@@ -2640,7 +2904,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -2658,7 +2922,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Escalate",
-          "score": 0.3038648
+          "score": 0.2728723
         },
         "intents": null,
         "entities": [],
@@ -2668,28 +2932,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "a2d5f910-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:26-07:00",
+    "id": "6eeed4d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:22+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:26.864Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:23.078Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2698,7 +2962,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.99348557
+            "score": 0.991696
           }
         },
         "entities": {
@@ -2706,7 +2970,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -2724,7 +2988,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.99348557
+          "score": 0.991696
         },
         "intents": null,
         "entities": [],
@@ -2734,50 +2998,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "a2f0ad00-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:26-07:00",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
-    "id": "a2fda550-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:26-07:00",
-    "timestamp": "2019-08-29T21:33:26.948Z",
+    "id": "6f6f2860-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:23+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:27.054Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:23.919Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2786,7 +3028,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.99348557
+            "score": 0.991696
           }
         },
         "entities": {
@@ -2794,7 +3036,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -2812,7 +3054,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.99348557
+          "score": 0.991696
         },
         "intents": null,
         "entities": [],
@@ -2822,24 +3064,24 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "a30daae0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:27-07:00",
+    "id": "6fef7bf0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:23+08:00",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "There are 4 menus: **Breakfast, Lunch, Dinner and 24 Hour Options**. Which menu would you like to see?",
@@ -2870,10 +3112,32 @@
     },
     "attachments": [],
     "entities": [],
-    "replyToId": "a28a2300-caa4-11e9-8be7-794c558b5c5c",
-    "id": "a32a0c80-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:27-07:00",
-    "timestamp": "2019-08-29T21:33:27.240Z",
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
+    "id": "70837e90-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:24+08:00",
+    "timestamp": "2019-10-24T04:26:24.889Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "6d15cf10-f616-11e9-9a5c-9588330456bc",
+    "id": "70849000-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:24+08:00",
+    "timestamp": "2019-10-24T04:26:24.896Z",
     "locale": "en-US"
   },
   {
@@ -2881,46 +3145,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114408553zq5mrldcjdm"
+      "clientActivityID": "1571891188283pq0cjb41gr"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:28.556Z",
+    "timestamp": "2019-10-24T04:26:28.287Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:28-07:00",
+    "id": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:28+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "746db110-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:31+08:00",
+    "timestamp": "2019-10-24T04:26:31.457Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:28.993Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:31.678Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2929,7 +3215,7 @@
         "alteredText": null,
         "intents": {
           "Confirm": {
-            "score": 0.1067155
+            "score": 0.158344775
           }
         },
         "entities": {
@@ -2937,7 +3223,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -2955,7 +3241,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Confirm",
-          "score": 0.1067155
+          "score": 0.158344775
         },
         "intents": null,
         "entities": [],
@@ -2965,28 +3251,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "a4358910-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:28-07:00",
+    "id": "748f69e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:31+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:29.169Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:32.792Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -2995,7 +3281,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.3105053
+            "score": 0.192977175
           }
         },
         "entities": {
@@ -3017,7 +3303,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -3035,7 +3321,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.3105053
+          "score": 0.192977175
         },
         "intents": null,
         "entities": [
@@ -3057,46 +3343,68 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "a4506410-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:29-07:00",
+    "id": "75396580-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:32+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "a4b2cf60-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:29-07:00",
-    "timestamp": "2019-08-29T21:33:29.814Z",
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "75f9f660-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:34+08:00",
+    "timestamp": "2019-10-24T04:26:34.054Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "778662c0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:36+08:00",
+    "timestamp": "2019-10-24T04:26:36.652Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
@@ -3412,36 +3720,58 @@
       }
     ],
     "entities": [],
-    "replyToId": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "a5005320-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:30-07:00",
-    "timestamp": "2019-08-29T21:33:30.322Z",
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "78e0e9b0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:38+08:00",
+    "timestamp": "2019-10-24T04:26:38.923Z",
     "locale": "en-US"
   },
   {
-    "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "790895f0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:39+08:00",
+    "timestamp": "2019-10-24T04:26:39.183Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "What would you like to order?",
     "speak": "What would you like to order?",
     "inputHint": "expectingInput",
     "attachments": [],
-    "replyToId": "a3f2dac0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "a518e430-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:30-07:00",
-    "timestamp": "2019-08-29T21:33:30.483Z",
+    "replyToId": "7289fcf0-f616-11e9-9a5c-9588330456bc",
+    "id": "79359960-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:39+08:00",
+    "timestamp": "2019-10-24T04:26:39.478Z",
     "locale": "en-US"
   },
   {
@@ -3449,46 +3779,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114421273yroq2w831q8"
+      "clientActivityID": "1571891201154or13c469yv"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:41.289Z",
+    "timestamp": "2019-10-24T04:26:41.159Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:41-07:00",
+    "id": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:41+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "id": "7c111b00-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:44+08:00",
+    "timestamp": "2019-10-24T04:26:44.272Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:41.689Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:44.496Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -3497,7 +3849,7 @@
         "alteredText": null,
         "intents": {
           "ReadAloud": {
-            "score": 0.1086327
+            "score": 0.07551881
           }
         },
         "entities": {
@@ -3505,7 +3857,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -3523,7 +3875,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ReadAloud",
-          "score": 0.1086327
+          "score": 0.07551881
         },
         "intents": null,
         "entities": [],
@@ -3533,28 +3885,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "abc6ca90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:41-07:00",
+    "id": "7c334900-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:44+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:41.867Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:26:45.347Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -3563,7 +3915,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.8496057
+            "score": 0.8534935
           }
         },
         "entities": {
@@ -3574,7 +3926,7 @@
                 "endIndex": 24,
                 "text": "egg burrito",
                 "type": "Food",
-                "score": 0.706058741
+                "score": 0.689783633
               }
             ]
           },
@@ -3584,7 +3936,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -3602,7 +3954,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.8496057
+          "score": 0.8534935
         },
         "intents": null,
         "entities": [
@@ -3611,7 +3963,7 @@
             "type": "Food",
             "startIndex": 13,
             "endIndex": 23,
-            "score": 0.706058741
+            "score": 0.689783633
           }
         ],
         "compositeEntities": null,
@@ -3620,46 +3972,46 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "abe1f3b0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:41-07:00",
+    "id": "7cb52330-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:45+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
-    "id": "abeb6990-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:41-07:00",
-    "timestamp": "2019-08-29T21:33:41.929Z",
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "id": "7d9dfc90-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:46+08:00",
+    "timestamp": "2019-10-24T04:26:46.873Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
@@ -3846,36 +4198,58 @@
       }
     ],
     "entities": [],
-    "replyToId": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
-    "id": "ac33bd30-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:42-07:00",
-    "timestamp": "2019-08-29T21:33:42.403Z",
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "id": "7e5d7c00-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:48+08:00",
+    "timestamp": "2019-10-24T04:26:48.128Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Would you like to add anything else?",
     "speak": "Would you like to add anything else?",
     "inputHint": "expectingInput",
     "attachments": [],
-    "replyToId": "ab89c190-caa4-11e9-8be7-794c558b5c5c",
-    "id": "ac4d1190-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:42-07:00",
-    "timestamp": "2019-08-29T21:33:42.569Z",
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "id": "7eb279d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:48+08:00",
+    "timestamp": "2019-10-24T04:26:48.685Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "7a361970-f616-11e9-9a5c-9588330456bc",
+    "id": "7f523c40-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:49+08:00",
+    "timestamp": "2019-10-24T04:26:49.732Z",
     "locale": "en-US"
   },
   {
@@ -3883,46 +4257,46 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114429952zb5t24yfzn"
+      "clientActivityID": "1571891217683ky9ymm3ree"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:49.973Z",
+    "timestamp": "2019-10-24T04:26:57.691Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:49-07:00",
+    "id": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:26:57+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:51.045Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:00.637Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -3931,7 +4305,7 @@
         "alteredText": null,
         "intents": {
           "SelectItem": {
-            "score": 0.243414655
+            "score": 0.1818083
           }
         },
         "entities": {
@@ -3952,7 +4326,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -3970,7 +4344,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "SelectItem",
-          "score": 0.243414655
+          "score": 0.1818083
         },
         "intents": null,
         "entities": [
@@ -3991,28 +4365,50 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b15a6750-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:51-07:00",
+    "id": "85d234d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:00+08:00",
     "locale": "en-US"
   },
   {
-    "type": "trace",
-    "timestamp": "2019-08-29T21:33:51.224Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "id": "864ac030-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:01+08:00",
+    "timestamp": "2019-10-24T04:27:01.427Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-24T04:27:01.650Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4021,7 +4417,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.8688377
+            "score": 0.8166053
           }
         },
         "entities": {
@@ -4032,7 +4428,7 @@
                 "endIndex": 24,
                 "text": "2 croissants",
                 "type": "FoodRequest",
-                "score": 0.978450537
+                "score": 0.9810567
               }
             ]
           },
@@ -4054,7 +4450,7 @@
                     "endIndex": 24,
                     "text": "croissants",
                     "type": "Food",
-                    "score": 0.9641604
+                    "score": 0.961110651
                   }
                 ]
               },
@@ -4069,7 +4465,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4087,7 +4483,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.8688377
+          "score": 0.8166053
         },
         "intents": null,
         "entities": [
@@ -4096,14 +4492,14 @@
             "type": "Food",
             "startIndex": 14,
             "endIndex": 23,
-            "score": 0.9641604
+            "score": 0.961110651
           },
           {
             "entity": "2 croissants",
             "type": "FoodRequest",
             "startIndex": 12,
             "endIndex": 23,
-            "score": 0.978450537
+            "score": 0.9810567
           },
           {
             "entity": "2",
@@ -4137,46 +4533,46 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b175b780-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:51-07:00",
+    "id": "866cc720-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:01+08:00",
     "locale": "en-US"
   },
   {
     "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b1812930-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:51-07:00",
-    "timestamp": "2019-08-29T21:33:51.299Z",
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "id": "87d3d130-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:04+08:00",
+    "timestamp": "2019-10-24T04:27:04.003Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "attachmentLayout": "list",
@@ -4407,26 +4803,26 @@
       }
     ],
     "entities": [],
-    "replyToId": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b1dc4180-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:51-07:00",
-    "timestamp": "2019-08-29T21:33:51.896Z",
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "id": "88b27160-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:05+08:00",
+    "timestamp": "2019-10-24T04:27:05.462Z",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Shall I place your order? It will be billed to your room.",
@@ -4447,10 +4843,32 @@
       ]
     },
     "attachments": [],
-    "replyToId": "b0b6d450-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b1f71c80-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:52-07:00",
-    "timestamp": "2019-08-29T21:33:52.072Z",
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "id": "890aa380-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:06+08:00",
+    "timestamp": "2019-10-24T04:27:06.040Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "8410aeb0-f616-11e9-9a5c-9588330456bc",
+    "id": "895ba9b0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:06+08:00",
+    "timestamp": "2019-10-24T04:27:06.571Z",
     "locale": "en-US"
   },
   {
@@ -4458,46 +4876,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "15671144354699x2cn2uyahl"
+      "clientActivityID": "15718912316420m9pv8r76qi"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:33:55.472Z",
+    "timestamp": "2019-10-24T04:27:11.645Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:55-07:00",
+    "id": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:11+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
+    "id": "8dd2b2e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:14+08:00",
+    "timestamp": "2019-10-24T04:27:14.062Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:55.857Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:14.768Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4506,7 +4946,7 @@
         "alteredText": null,
         "intents": {
           "Confirm": {
-            "score": 0.983040333
+            "score": 0.9907774
           }
         },
         "entities": {
@@ -4514,7 +4954,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4532,7 +4972,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Confirm",
-          "score": 0.983040333
+          "score": 0.9907774
         },
         "intents": null,
         "entities": [],
@@ -4542,28 +4982,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b438a810-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:55-07:00",
+    "id": "8e3e6d00-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:14+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:33:56.025Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:15.630Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4572,7 +5012,7 @@
         "alteredText": null,
         "intents": {
           "None": {
-            "score": 0.6773788
+            "score": 0.5590091
           }
         },
         "entities": {
@@ -4580,7 +5020,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4598,7 +5038,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "None",
-          "score": 0.6773788
+          "score": 0.5590091
         },
         "intents": null,
         "entities": [],
@@ -4608,128 +5048,150 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b4524a90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:56-07:00",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b461daf0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:56-07:00",
-    "timestamp": "2019-08-29T21:33:56.127Z",
+    "id": "8ec1f4e0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:15+08:00",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Ok! Your order will be brought to your room shortly.",
     "speak": "Ok! Your order will be brought to your room shortly.",
     "inputHint": "ignoringInput",
     "attachments": [],
-    "replyToId": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b46c1420-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:56-07:00",
-    "timestamp": "2019-08-29T21:33:56.193Z",
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
+    "id": "8f1e6cc0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:16+08:00",
+    "timestamp": "2019-10-24T04:27:16.236Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:33:56.358Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
+    "id": "8f533860-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:16+08:00",
+    "timestamp": "2019-10-24T04:27:16.581Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:27:16.830Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "b3fde900-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b4851a60-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:33:56-07:00"
+    "replyToId": "8c61e4d0-f616-11e9-9a5c-9588330456bc",
+    "id": "8f790fe0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:16+08:00"
   },
   {
     "text": "Can i check out now",
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "15671144414645cxsigbvdb4"
+      "clientActivityID": "1571891242388zx0abgyhmrq"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:34:01.485Z",
+    "timestamp": "2019-10-24T04:27:22.395Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:01-07:00",
+    "id": "92ca36b0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:22+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
+    "id": "945850c0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:25+08:00",
+    "timestamp": "2019-10-24T04:27:25.004Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:01.974Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:25.011Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4738,7 +5200,7 @@
         "alteredText": null,
         "intents": {
           "Stop": {
-            "score": 0.05188858
+            "score": 0.06100272
           }
         },
         "entities": {
@@ -4746,7 +5208,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4764,7 +5226,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Stop",
-          "score": 0.05188858
+          "score": 0.06100272
         },
         "intents": null,
         "entities": [],
@@ -4774,28 +5236,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b7de0960-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:01-07:00",
+    "id": "94596230-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:25+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:02.172Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:25.872Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4804,7 +5266,7 @@
         "alteredText": null,
         "intents": {
           "CheckOut": {
-            "score": 0.9389051
+            "score": 0.939959168
           }
         },
         "entities": {
@@ -4829,7 +5291,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4847,7 +5309,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "CheckOut",
-          "score": 0.9389051
+          "score": 0.939959168
         },
         "intents": null,
         "entities": [
@@ -4861,7 +5323,7 @@
                 {
                   "timex": "PRESENT_REF",
                   "type": "datetime",
-                  "value": "2019-08-29 21:34:02"
+                  "value": "2019-10-24 04:27:25"
                 }
               ]
             }
@@ -4873,50 +5335,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b7fc3fc0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:02-07:00",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b807ff90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:02-07:00",
-    "timestamp": "2019-08-29T21:34:02.249Z",
+    "id": "94dcc300-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:25+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:02.344Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:26.688Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -4925,7 +5365,7 @@
         "alteredText": null,
         "intents": {
           "CheckOut": {
-            "score": 0.9389051
+            "score": 0.939959168
           }
         },
         "entities": {
@@ -4950,7 +5390,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -4968,7 +5408,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "CheckOut",
-          "score": 0.9389051
+          "score": 0.939959168
         },
         "intents": null,
         "entities": [
@@ -4982,7 +5422,7 @@
                 {
                   "timex": "PRESENT_REF",
                   "type": "datetime",
-                  "value": "2019-08-29 21:34:02"
+                  "value": "2019-10-24 04:27:26"
                 }
               ]
             }
@@ -4994,24 +5434,24 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b8167e80-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:02-07:00",
+    "id": "95596d10-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:26+08:00",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Would you like me to check you out now?",
@@ -5032,10 +5472,32 @@
       ]
     },
     "attachments": [],
-    "replyToId": "b7936bd0-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b831a7a0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:02-07:00",
-    "timestamp": "2019-08-29T21:34:02.522Z",
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
+    "id": "95e72e20-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:27+08:00",
+    "timestamp": "2019-10-24T04:27:27.618Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "92ca36b0-f616-11e9-9a5c-9588330456bc",
+    "id": "960eda60-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:27+08:00",
+    "timestamp": "2019-10-24T04:27:27.878Z",
     "locale": "en-US"
   },
   {
@@ -5043,46 +5505,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114444199uah7dd2kan"
+      "clientActivityID": "1571891254180w3m8vp2a83e"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:34:04.208Z",
+    "timestamp": "2019-10-24T04:27:34.185Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "b932eb00-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:04-07:00",
+    "id": "99d13990-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:34+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "99d13990-f616-11e9-9a5c-9588330456bc",
+    "id": "9b4d0420-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:36+08:00",
+    "timestamp": "2019-10-24T04:27:36.674Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:04.623Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:36.972Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b932eb00-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "99d13990-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -5091,7 +5575,7 @@
         "alteredText": null,
         "intents": {
           "Confirm": {
-            "score": 0.983040333
+            "score": 0.9907774
           }
         },
         "entities": {
@@ -5099,7 +5583,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -5117,7 +5601,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Confirm",
-          "score": 0.983040333
+          "score": 0.9907774
         },
         "intents": null,
         "entities": [],
@@ -5127,28 +5611,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b9723df0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:04-07:00",
+    "id": "9b7a7cc0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:36+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:04.793Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:37.793Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "b932eb00-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "99d13990-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -5157,7 +5641,7 @@
         "alteredText": null,
         "intents": {
           "None": {
-            "score": 0.6773788
+            "score": 0.5590091
           }
         },
         "entities": {
@@ -5165,7 +5649,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -5183,7 +5667,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "None",
-          "score": 0.6773788
+          "score": 0.5590091
         },
         "intents": null,
         "entities": [],
@@ -5193,56 +5677,56 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "b98c2e90-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:04-07:00",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "b932eb00-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b9949300-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:04-07:00",
-    "timestamp": "2019-08-29T21:34:04.848Z",
+    "id": "9bf7c310-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:37+08:00",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "What email should I send your receipt to?",
     "speak": "What email should I send your receipt to?",
     "inputHint": "expectingInput",
     "attachments": [],
-    "replyToId": "b932eb00-caa4-11e9-8be7-794c558b5c5c",
-    "id": "b9ab7660-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:04-07:00",
-    "timestamp": "2019-08-29T21:34:04.998Z",
+    "replyToId": "99d13990-f616-11e9-9a5c-9588330456bc",
+    "id": "9c82ec10-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:38+08:00",
+    "timestamp": "2019-10-24T04:27:38.705Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "99d13990-f616-11e9-9a5c-9588330456bc",
+    "id": "9cd06fd0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:39+08:00",
+    "timestamp": "2019-10-24T04:27:39.213Z",
     "locale": "en-US"
   },
   {
@@ -5250,46 +5734,68 @@
     "textFormat": "plain",
     "type": "message",
     "channelData": {
-      "clientActivityID": "1567114454245an7jh2qnom"
+      "clientActivityID": "15718912665961stc7jh0ioy"
     },
     "channelId": "emulator",
     "from": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "name": "User",
       "role": "user"
     },
     "locale": "en-US",
-    "timestamp": "2019-08-29T21:34:14.264Z",
+    "timestamp": "2019-10-24T04:27:46.605Z",
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
-    "id": "bf315780-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:14-07:00",
+    "id": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:46+08:00",
     "recipient": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
-    "serviceUrl": "https://1cfdeac6.ngrok.io"
+    "serviceUrl": "https://089202dd.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "id": "a2c3b8c0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:49+08:00",
+    "timestamp": "2019-10-24T04:27:49.196Z",
+    "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:14.633Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:49.507Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -5298,7 +5804,7 @@
         "alteredText": null,
         "intents": {
           "Stop": {
-            "score": 0.04617888
+            "score": 0.0414555073
           }
         },
         "entities": {
@@ -5306,7 +5812,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "9a1f5e62-ba31-4748-a800-b2c3ec96caab"
+        "ModelID": "29834b2c-3501-4bff-a58e-cc549302ed54"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -5324,7 +5830,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Stop",
-          "score": 0.04617888
+          "score": 0.0414555073
         },
         "intents": null,
         "entities": [],
@@ -5334,28 +5840,28 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "bf69cca0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:14-07:00",
+    "id": "a2f32d30-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:49+08:00",
     "locale": "en-US"
   },
   {
     "type": "trace",
-    "timestamp": "2019-08-29T21:34:14.807Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "timestamp": "2019-10-24T04:27:50.358Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
     "label": "Luis Trace",
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
@@ -5364,7 +5870,7 @@
         "alteredText": null,
         "intents": {
           "RoomService": {
-            "score": 0.27349776
+            "score": 0.180561811
           }
         },
         "entities": {
@@ -5372,7 +5878,7 @@
         }
       },
       "luisModel": {
-        "ModelID": "73b41b0f-9ab9-4719-b871-187c3e6a2c10"
+        "ModelID": "e1430f03-9105-47e1-9aba-a56001753afd"
       },
       "luisOptions": {
         "BingSpellCheckSubscriptionKey": null,
@@ -5390,7 +5896,7 @@
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "RoomService",
-          "score": 0.27349776
+          "score": 0.180561811
         },
         "intents": null,
         "entities": [],
@@ -5400,107 +5906,107 @@
       }
     },
     "name": "LuisRecognizer",
-    "id": "bf843270-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:14-07:00",
-    "locale": "en-US"
-  },
-  {
-    "type": "typing",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
-    "channelId": "emulator",
-    "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
-      "name": "Bot",
-      "role": "bot"
-    },
-    "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
-    },
-    "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
-      "role": "user"
-    },
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
-    "id": "bf9374b0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:14-07:00",
-    "timestamp": "2019-08-29T21:34:14.907Z",
+    "id": "a3750760-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:50+08:00",
     "locale": "en-US"
   },
   {
     "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "Ok, I'll send the receipt to guest@outlook.com.",
     "speak": "Ok, I'll send the receipt to guest@outlook.com.",
     "inputHint": "acceptingInput",
     "attachments": [],
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
-    "id": "bfa28fe0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:15-07:00",
-    "timestamp": "2019-08-29T21:34:15.006Z",
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "id": "a3fb9c80-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:51+08:00",
+    "timestamp": "2019-10-24T04:27:51.240Z",
     "locale": "en-US"
   },
   {
-    "type": "message",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "typing",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
+      "role": "user"
+    },
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "id": "a449e390-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:51+08:00",
+    "timestamp": "2019-10-24T04:27:51.752Z",
+    "locale": "en-US"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://089202dd.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
+    },
+    "recipient": {
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "text": "You're all checked out! We look forward to seeing you again.",
     "speak": "You're all checked out! We look forward to seeing you again.",
     "inputHint": "acceptingInput",
     "attachments": [],
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
-    "id": "bfba5da0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:15-07:00",
-    "timestamp": "2019-08-29T21:34:15.162Z",
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "id": "a4529620-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:51+08:00",
+    "timestamp": "2019-10-24T04:27:51.810Z",
     "locale": "en-US"
   },
   {
-    "type": "endOfConversation",
-    "timestamp": "2019-08-29T21:34:15.324Z",
-    "serviceUrl": "https://1cfdeac6.ngrok.io",
+    "type": "handoff",
+    "timestamp": "2019-10-24T04:27:52.364Z",
+    "serviceUrl": "https://089202dd.ngrok.io",
     "channelId": "emulator",
     "from": {
-      "id": "413b3f80-caa4-11e9-83c6-7f8a32f3a42b",
+      "id": "70bf4a80-8cd8-11e9-9331-753e1f3ed15b",
       "name": "Bot",
       "role": "bot"
     },
     "conversation": {
-      "id": "413c7800-caa4-11e9-8be7-794c558b5c5c|livechat"
+      "id": "0568f9f1-f616-11e9-b9af-5d7ba574cbf4|livechat"
     },
     "recipient": {
-      "id": "b72e0b93-e98b-4c0a-9e77-a73275d5e6b3",
+      "id": "df154ee7-a56a-4b60-b3b3-97523f04c677",
       "role": "user"
     },
     "locale": "en-US",
     "text": "",
     "attachments": [],
     "entities": [],
-    "replyToId": "bf315780-caa4-11e9-8be7-794c558b5c5c",
-    "id": "bfd315c0-caa4-11e9-8be7-794c558b5c5c",
-    "localTimestamp": "2019-08-29T14:34:15-07:00"
+    "replyToId": "a1385dd0-f616-11e9-9a5c-9588330456bc",
+    "id": "a4a71ec0-f616-11e9-9a5c-9588330456bc",
+    "localTimestamp": "2019-10-24T12:27:52+08:00"
   }
 ]

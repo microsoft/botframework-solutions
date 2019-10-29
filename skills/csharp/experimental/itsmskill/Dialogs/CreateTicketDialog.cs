@@ -66,6 +66,7 @@ namespace ITSMSkill.Dialogs
 
             // intended null
             // ShowKnowledgeNoResponse
+            ShowKnowledgeHasResponse = KnowledgeResponses.ShowExistingToSolve;
             ShowKnowledgeEndResponse = KnowledgeResponses.KnowledgeEnd;
             ShowKnowledgeResponse = KnowledgeResponses.IfExistingSolve;
             ShowKnowledgePrompt = Actions.NavigateYesNoPrompt;

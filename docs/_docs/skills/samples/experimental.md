@@ -264,8 +264,8 @@ The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
-- Celebrity Information: *Who is Tom Cruise?*
-- Q&A: *What is the gdp of switzerland*
+- Celebrity Information: *Who is Bill Gates?*
+- Q&A: *what's the population of China?*
 - Movie Information: *Tell me about the jurassic park movie*
 
 ![Search Example]({{site.baseurl}}/assets/images/skills-experimental-bingsearch.png)
@@ -312,6 +312,8 @@ This skill demonstrates the following scenarios:
 - Room service: *I want to see a room service menu*
 - Check out: *Can I check out now?*
 
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-hospitality.transcript), you can use the Bot Framework Emulator to open transcripts.
+
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
 The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
@@ -327,22 +329,24 @@ This skill demonstrates the following scenarios:
 - Close a ticket: *Close my ticket*
 - Find Knowledgebase item: *Search knowledge articles related to error 1234*
 
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-itsm.transcript), you can use the Bot Framework Emulator to open transcripts.
+
 #### Configuration
 {:.no_toc}
 
 To test this skill you will need to follow the ServiceNow configuration steps shown below:
 
-1. Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
-1. Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
+- Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
+- Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
 `"serviceNowUrl": "{YOUR_SERVICENOW_INSTANCE_URL}`
-1. Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
+- Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
     - In System Web Services/Scripted REST APIs, click New to create an API
     - In API's Resources, click New to add a resource
     - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
     - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
-1. Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
+- Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
-1. Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
+- Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
     - Set Authorization URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_auth.do
     - Set Token URL, Refresh URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
     - No Scopes are needed
@@ -350,7 +354,8 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
 
 To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
-1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+- Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+
 ### Music Skill
 
 The [Music skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.
@@ -549,6 +554,8 @@ Here is an example of an event returned by the Phone skill:
 ### Restaurant Booking Skill
 
 The [Restaurant Booking skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/restaurantbooking) provides a simple restaurant booking experience guiding the user through booking a table and leverages Adaptive Cards throughout to demonstrate how Speech, Text and UX can be combined for a compelling user experience. No integration to restaurant booking services exists at this time so is simulated with static data for testing purposes.
+
+An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript), you can use the Bot Framework Emulator to open transcripts.
 
 ![Restaurant Example]({{site.baseurl}}/assets/images/skills-restaurant-transcript.png)
 
