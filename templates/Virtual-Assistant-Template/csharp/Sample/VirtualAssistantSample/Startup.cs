@@ -83,31 +83,31 @@ namespace VirtualAssistantSample
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
-            // Base template supports 6 languages out of the box and two LG templates are provided.
-            Dictionary<string, List<string>> localeLGFiles = new Dictionary<string, List<string>>();
-            List<string> languageGenerationTemplateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
-            List<string> supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            // Configure localized responses
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var templateFiles = new List<string>();
-                foreach (var template in languageGenerationTemplateFiles)
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
                 {
-                    // EN doesn't have a locale suffix response file.
-                    if (locale.StartsWith("en"))
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
                     {
-                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
                     }
                     else
                     {
-                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
                     }
                 }
 
-                localeLGFiles.Add(locale, templateFiles);
+                localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            services.AddSingleton(new LocaleTemplateEngineManager(localeLGFiles, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
             services.AddTransient<MainDialog>();
