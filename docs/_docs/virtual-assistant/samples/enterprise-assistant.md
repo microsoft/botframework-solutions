@@ -19,7 +19,7 @@ In many cases, you can leverage [Azure Active Directory (AAD)](https://azure.mic
 
 ![Enterprise Notifications sample architecture]({{site.baseurl}}/assets/images/enterprisenotifications-architecture.png)
 
-## Enterprise notifications
+## Proactive notifications
 The Enterprise Assistant sample includes proactive notifications, enabling scenarios such as: 
 
 - Send notifications to your users that the Enterprise Assistant would like to start a conversation, thus allowing the user to trigger when they are ready to have this discussion (e.g., a user receives a notification "your training is due", allowing them to initiate the conversation about what training is required) 

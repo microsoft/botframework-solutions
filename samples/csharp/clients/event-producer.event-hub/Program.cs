@@ -10,6 +10,9 @@ namespace EventProducer
     class Program
     {
         private static EventHubClient eventHubClient;
+        private static string eventHubConnectionString;
+        private static string eventHubName;
+        private static string userId;
         private static IConfigurationRoot configurationRoot;
 
         static void Main(string[] args)
@@ -19,14 +22,20 @@ namespace EventProducer
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             configurationRoot = builder.Build();
+            eventHubConnectionString = configurationRoot.GetValue<string>("EventHubConnectionString");
+            eventHubName = configurationRoot.GetValue<string>("EventHubName");
+            userId = configurationRoot.GetValue<string>("UserId");
             MainAsync(args).GetAwaiter().GetResult();
         }
 
         private static async Task MainAsync(string[] args)
         {
-            var connectionStringBuilder = new EventHubsConnectionStringBuilder(configurationRoot.GetValue<string>("EventHubConnectionString"))
+            // Creates an EventHubsConnectionStringBuilder object from a the connection string, and sets the EntityPath.
+            // Typically the connection string should have the Entity Path in it, but for the sake of this simple scenario
+            // we are using the connection string from the namespace.
+            var connectionStringBuilder = new EventHubsConnectionStringBuilder(eventHubConnectionString)
             {
-                EntityPath = configurationRoot.GetValue<string>("EventHubName")
+                EntityPath = eventHubName
             };
 
             eventHubClient = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
@@ -43,7 +52,7 @@ namespace EventProducer
         {
             try
             {
-                var message = "{'userid':'c7879ddc-9b7a-4ffb-b934-abc1b34a41ba','message':'Here is a notification message!'}";
+                var message = "{'userid':'" + userId + "','message':'Here is a notification message!'}";
                 Console.WriteLine($"Sending message: {message}");
                 await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(message)));
             }

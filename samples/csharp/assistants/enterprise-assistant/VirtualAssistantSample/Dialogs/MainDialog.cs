@@ -13,9 +13,14 @@ using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using VirtualAssistant.Models;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 
@@ -33,9 +38,15 @@ namespace VirtualAssistantSample.Dialogs
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
+        // SAMPLE
+        private MicrosoftAppCredentials _appCredentials;
+        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials,
+            ProactiveState proactiveState)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = serviceProvider.GetService<BotServices>();
@@ -45,6 +56,10 @@ namespace VirtualAssistantSample.Dialogs
             _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
             _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
+
+            // SAMPLE
+            _appCredentials = appCredentials;
+            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
@@ -262,6 +277,14 @@ namespace VirtualAssistantSample.Dialogs
                         break;
                     }
 
+                case Events.Broadcast:
+                    var eventData = JsonConvert.DeserializeObject<EventData>(innerDc.Context.Activity.Value.ToString());
+                    var proactiveModel = await _proactiveStateAccessor.GetAsync(innerDc.Context, () => new ProactiveModel());
+                    var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
+
+                    await innerDc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(innerDc.Context, eventData.Message), cancellationToken);
+                    break;
+
                 case TokenEvents.TokenResponseEventName:
                     {
                         await innerDc.ContinueDialogAsync();
@@ -351,10 +374,54 @@ namespace VirtualAssistantSample.Dialogs
             return await next();
         }
 
+        // SAMPLE
+
+        /// <summary>
+        /// Continue the conversation callback.
+        /// </summary>
+        /// <param name="context">Turn context.</param>
+        /// <param name="message">Activity text.</param>
+        /// <returns>Bot Callback Handler.</returns>
+        private BotCallbackHandler ContinueConversationCallback(ITurnContext context, string message)
+        {
+            return async (turnContext, cancellationToken) =>
+            {
+                var activity = turnContext.Activity.CreateReply(message);
+                EnsureActivity(activity);
+                await turnContext.SendActivityAsync(activity);
+            };
+        }
+
+        /// <summary>
+        /// This method is required for proactive notifications to work in Web Chat.
+        /// </summary>
+        /// <param name="activity">Proactive Activity.</param>
+        private void EnsureActivity(Activity activity)
+        {
+            if (activity != null)
+            {
+                if (activity.From != null)
+                {
+                    activity.From.Name = "User";
+                    activity.From.Properties["role"] = "user";
+                }
+
+                if (activity.Recipient != null)
+                {
+                    activity.Recipient.Id = "1";
+                    activity.Recipient.Name = "Bot";
+                    activity.Recipient.Properties["role"] = "bot";
+                }
+            }
+        }
+
         private class Events
         {
             public const string Location = "VA.Location";
             public const string TimeZone = "VA.Timezone";
+
+            // SAMPLE
+            public const string Broadcast = "BroadcastEvent";
         }
     }
 }

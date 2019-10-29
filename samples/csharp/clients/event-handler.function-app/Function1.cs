@@ -29,13 +29,16 @@ namespace EventHandler
                     await SendEventToBot(data);
                     await Task.Yield();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Could not send event to bot due to exception: {ex.Message}");
+                }
             }
         }
 
         private static async Task SendEventToBot(EventDataType eventData)
         {
-            // read from user preference store to determine where to send notifications
+            // Read from the user preference store to determine where to send notifications
             var databaseName = "UserPreference";
             var databaseCollectionName = "UserPreferenceCollection";
             await documentDbclient.CreateDatabaseIfNotExistsAsync(new Database { Id = databaseName });
@@ -64,10 +67,10 @@ namespace EventHandler
                 await documentDbclient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(databaseName, databaseCollectionName), userPreference);
             }
 
-            // Post the notification to devices
+            // If the SendNotificationToConversation flag is true, send an event activity to a user's active conversation with the message.
             if (userPreference.SendNotificationToMobileDevice)
             {
-                // post the notification to devices using NotificationHub library Microsoft.Azure.NotificationHubs
+                // Optional: You can use Azure Notification Hubs to push notifications to devices
                 // https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-aspnet-backend-ios-apple-apns-notification
             }
             else
@@ -75,22 +78,21 @@ namespace EventHandler
                 Console.WriteLine($"Not sending the message to the device because the user preference has the setting as disabled for user {eventData.UserId}");
             }
 
-            // Post the message to the Bot
+            // If the SendNotificationToConversation flag is true, send an event activity to a user's active conversation with the message.
             if (userPreference.SendNotificationToConversation)
             {
-                // Connect to the DirectLine service
+                // Connect to the Direct Line channel
                 var client = new DirectLineClient(Environment.GetEnvironmentVariable("DirectLineSecret"));
 
                 var conversation = await client.Conversations.StartConversationAsync();
 
-                // Use the text passed to the method (by the user)
-                // to create a new message
+                // Use the text passed to the method (by the user) to create a new message
                 var userMessage = Activity.CreateMessageActivity() as Activity;
                 userMessage.Text = eventData.Message;
                 userMessage.Type = ActivityTypes.Event;
                 userMessage.Name = "BroadcastEvent";
                 userMessage.Value = eventData;
-                userMessage.From = new ChannelAccount("user1");
+                userMessage.From = new ChannelAccount(userPreference.UserId);
 
                 var response = await client.Conversations.PostActivityAsync(conversation.ConversationId, userMessage);
             }
