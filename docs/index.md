@@ -31,6 +31,10 @@ title: Bot Framework Solutions Documentation
 
 ## What's new
 
+For Ignite 2019 we are releasing the v0.7 of the **Virtual Assistant**. We focused on providing support for the Bot Framework SDK v4.6, Language Generation (LG), a new documentation site, scenarios to support an Enterprise Assistant, and more.
+
+You can get more details in the [What's New overview]({{site.baseurl}}/overview/whats-new).
+
 ## Step-by-Step Tutorials
 <div class="card-deck">
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/" class="card">
