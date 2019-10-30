@@ -1,7 +1,7 @@
 ---
 category: Overview
 title: What is the Virtual Assistant Solution Accelerator?
-order: 1
+order: 2
 toc: true
 ---
 

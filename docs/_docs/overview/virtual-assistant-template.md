@@ -2,7 +2,7 @@
 category: Overview
 title: What's in the Virtual Assistant template?
 description: The Virtual Assistant Template brings together many best practices identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does with links to detailed information where appropriate.
-order: 2
+order: 3
 toc: true
 ---
 
