@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         protected Task<bool> TokenResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event)
+            if (activity != null && (activity.Type == ActivityTypes.Event || activity.Type == ActivityTypes.Invoke))
             {
                 return Task.FromResult(true);
             }
