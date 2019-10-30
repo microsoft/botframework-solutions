@@ -1,6 +1,6 @@
 ---
-category: Virtual Assistant
-subcategory: Samples
+category: Clients and Channels
+subcategory: Clients
 title:  Event Companion
 description: The **Event Companion** app enables you to create widgets that will responds to custom events sent from your Virtual Assistant
 language: Android

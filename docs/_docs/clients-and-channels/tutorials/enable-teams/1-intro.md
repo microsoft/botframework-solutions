@@ -1,8 +1,8 @@
 ---
 layout: tutorial
-category: Virtual Assistant
-subcategory: Extend to Microsoft Teams
-title: Intro
+category: Clients and Channels
+subcategory: Channels
+title: Add your Virtual Assistant to Teams
 order: 1
 ---
 

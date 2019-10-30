@@ -1,6 +1,6 @@
 ---
-category: Virtual Assistant
-subcategory: Samples
+category: Clients and Channels
+subcategory: Clients
 title:  Virtual Assistant Client
 description: Chat with your Virtual Assistant using the **Virtual Assistant Client**  app and set it up as the default assistant on a device.
 language: Android

@@ -1,9 +1,9 @@
 ---
-category: Virtual Assistant
+category: Solution Accelerators
 subcategory: Samples
 title: Linked accounts
 description: Enable users to link third party accounts (e.g. Office 365) to your Assistant.
-order: 4
+order: 1
 toc: true
 ---
 

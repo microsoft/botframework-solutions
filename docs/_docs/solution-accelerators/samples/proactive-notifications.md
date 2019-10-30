@@ -1,8 +1,8 @@
 ---
-category: Virtual Assistant
+category: Solution Accelerators
 subcategory: Samples
 title: Proactive Notifications
-order: 5
+order: 2
 toc: true
 ---
 # {{ page.title }}

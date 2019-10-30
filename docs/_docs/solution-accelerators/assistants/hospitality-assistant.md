@@ -1,6 +1,6 @@
 ---
-category: Virtual Assistant
-subcategory: Samples
+category: Solution Accelerators
+subcategory: Assistants
 title: Hospitality Assistant
 order: 2
 toc: true

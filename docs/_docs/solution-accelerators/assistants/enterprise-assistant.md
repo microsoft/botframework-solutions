@@ -1,6 +1,6 @@
 ---
-category: Virtual Assistant
-subcategory: Samples
+category: Solution Accelerators
+subcategory: Assistants
 title: Enterprise Assistant
 order: 1
 toc: true
