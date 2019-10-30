@@ -3,8 +3,6 @@ Virtual Assistant:
 - Create a Virtual Assistant
 - Customize a Virtual Assistant
 - Deploy a Virtual Assistant
-- Enable speech
-- Extend to Microsoft Teams
 - Enable proactive notifications
 - View analytics using Power BI
 - Handbook
@@ -21,6 +19,8 @@ Solution Accelerators:
 - Assistants
 - Samples
 Clients and Channels:
+- Enable speech
+- Extend to Microsoft Teams
 - Clients
 - Channels
 Additional resources:

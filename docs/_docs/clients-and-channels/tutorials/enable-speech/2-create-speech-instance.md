@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-category: Virtual Assistant
+category: Clients and Channels
 subcategory: Enable speech 
 title: Create a Microsoft Speech instance
 order: 2

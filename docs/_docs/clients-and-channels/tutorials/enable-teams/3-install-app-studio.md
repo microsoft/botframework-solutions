@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-category: Virtual Assistant
+category: Clients and Channels
 subcategory: Extend to Microsoft Teams
 title: Install App Studio
 order: 3
