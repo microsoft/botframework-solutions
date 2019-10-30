@@ -15,10 +15,10 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReplyOneOf(GetTemplates("NamePrompt"))
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-               .AssertReplyOneOf(GetTemplates("NamePrompt"))
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .StartTestAsync();
         }
 
@@ -27,9 +27,9 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReplyOneOf(GetTemplates("NamePrompt"))
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReplyOneOf(GetTemplates("CancelledMessage"))
+               .AssertReplyOneOf(GetTemplates("CancelledText"))
                .StartTestAsync();
         }
     }

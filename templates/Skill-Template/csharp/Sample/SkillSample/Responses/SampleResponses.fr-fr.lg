@@ -1,6 +1,23 @@
-﻿# NamePrompt
-- Comment vous appelez-vous?
+﻿> ------------ Activity templates ------------
+
+# NamePrompt
+[Activity
+    Text = {NamePromptText()}
+    InputHint = expectingInput
+]
 
 # HaveNameMessage
+[Activity
+    Text = {HaveNameMessageText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Text templates ------------
+
+# NamePromptText
+- Comment vous appelez-vous?
+
+# HaveNameMessageText
 - Bonjour, {Name}!
 - Enchanté, {Name}!

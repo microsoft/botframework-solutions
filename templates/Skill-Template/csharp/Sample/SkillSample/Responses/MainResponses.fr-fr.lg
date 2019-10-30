@@ -1,55 +1,104 @@
+> ------------ Activity templates ------------
+
+# IntroMessage
+[Activity
+    Text = {IntroText()}
+    SuggestedActions = Aide
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Attachments = {HelpCard()}
+    InputHint = acceptingInput
+]
+
+# CancelledMessage
+[Activity
+    Text = {CancelledText()}
+    InputHint = acceptingInput
+]
+
 # CompletedMessage
+[Activity
+    Text = {CompletedText()}
+    InputHint = acceptingInput
+]
+
+# UnsupportedMessage
+[Activity
+    Text = {UnsupportedText()}
+    InputHint = acceptingInput
+]
+
+# ConfusedMessage
+[Activity
+    Text = {ConfusedText()}
+    InputHint = acceptingInput
+]
+
+# ErrorMessage
+[Activity
+    Text = {ErrorText()}
+    InputHint = acceptingInput
+]
+
+# LogoutMessage
+[Activity
+    Text = {LogoutText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Attachment templates ------------
+
+# HelpCard
+[HeroCard 
+    title= {HelpTitle()}
+    subtitle= {HelpSubtitle()}
+]
+
+
+> ------------ Text templates ------------
+
+# IntroText
+- Bienvenue à vos skill personnalisées!
+
+# HelpTitle
+- Aide
+
+# HelpSubtitle
+- La carte peut être utilisée pour afficher des informations pour aider votre utilisateur à interagir avec votre bot.
+
+# CompletedText
 - Je suis là si tu as besoin d'autre chose.
 - Faites-moi savoir s'il y a autre chose dont vous avez besoin.
 - Faites-moi savoir si je peux vous aider avec autre chose.
 - Tout est fini. Faites-moi savoir si je peux faire autre chose.
 
-# CancelledMessage
+# CancelledText
 - OK, annuler votre demande. Faites-moi savoir si je peux faire autre chose pour vous.
 - Pas de problème, faites-moi savoir si je peux vous aider avec autre chose.
 - Bien sûr, j'annule votre demande. Faites-moi savoir si je peux aider avec autre chose
 
-# UnsupportedMessage
+# UnsupportedText
 - Je suis désolé, je ne suis pas en mesure d'aider avec ça.
 - Désolé, ce n'est pas quelque chose que je peux aider encore.
 - Mes excuses, je ne sais pas comment faire ça maintenant.
 - Malheureusement, je ne peux pas vous aider avec ça en ce moment. Excuses.
 
-# ConfusedMessage
+# ConfusedText
 - Je suis désolé, je n'ai pas compris ça. Pouvez-vous me donner plus d'informations?
 - Désolé, je n'ai pas eu ça. Pouvez-vous me dire plus?
 - Mes excuses, je n'ai pas tout à fait compris. Pouvez-vous me donner plus d'informations?
 
-# ErrorMessage
+# ErrorText
 - Désolé, on dirait que quelque chose a mal tourné. S'il vous plaît essayer à nouveau plus tard.
 - Hmm, on dirait qu'il y a eu une erreur. Désolé. Vous pouvez réessayer plus tard.
 - Toutes mes excuses, on dirait que quelque chose a mal tourné. Réessayez votre demande plus tard.
 
-#StartOverMessage
-- OK, essayons encore une fois.
-- Bien sûr, essayons encore.
-- Pas de problème, on peut tout recommencer.
-
-# FirstPromptMessage
-- Qu'est-ce que je peux t'aider aujourd'hui ?
-- Que puis-je pour vous?
-- Y a-t-il quelque chose que je puisse faire pour toi ?
-- Comment puis-je vous aider?
-
-# LogoutMessage
+# LogoutText
 - OK, tu es signé.
 - D'accord, je me suis désigné.
 - Bien sûr, vous avez été signé.
 - Pas de problème, je t'ai viré.
-
-# IntroMessage
-[Activity
-    Text = Bienvenue à vos skill personnalisées!
-    SuggestedActions = Aide
-]
-
-# HelpMessage
-[HeroCard 
-    title=Aide
-    subtitle=La carte peut être utilisée pour afficher des informations pour aider votre utilisateur à interagir avec votre bot.
-]

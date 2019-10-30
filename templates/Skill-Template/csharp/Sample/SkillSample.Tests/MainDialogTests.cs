@@ -21,7 +21,7 @@ namespace SkillSample.Tests
                     Type = ActivityTypes.ConversationUpdate,
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroText"))
                 .StartTestAsync();
         }
 
@@ -39,7 +39,7 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                 .Send(GeneralUtterances.None)
-                .AssertReplyOneOf(GetTemplates("UnsupportedMessage"))
+                .AssertReplyOneOf(GetTemplates("UnsupportedText"))
                 .StartTestAsync();
         }
 
@@ -48,7 +48,7 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                 .Send(GeneralUtterances.None)
-                .AssertReplyOneOf(GetTemplates("UnsupportedMessage"))
+                .AssertReplyOneOf(GetTemplates("UnsupportedText"))
                 .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
                 .StartTestAsync();
         }

@@ -15,9 +15,9 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReplyOneOf(GetTemplates("NamePrompt"))
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .Send(SampleDialogUtterances.NamePromptResponse)
-               .AssertReplyOneOf(GetTemplates("HaveNameMessage", new { Name = SampleDialogUtterances.NamePromptResponse }))
+               .AssertReplyOneOf(GetTemplates("HaveNameMessageText", new { Name = SampleDialogUtterances.NamePromptResponse }))
                .StartTestAsync();
         }
     }
