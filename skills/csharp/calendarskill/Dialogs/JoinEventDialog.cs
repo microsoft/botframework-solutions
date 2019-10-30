@@ -254,7 +254,7 @@ namespace CalendarSkill.Dialogs
                         var eventJoinLink = new OpenDefaultApp
                         {
                             MeetingUri = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent),
-                            TelephoneUri = GetDialInNumberFromMeeting(selectedEvent)
+                            TelephoneUri = "tel:" + GetDialInNumberFromMeeting(selectedEvent)
                         };
                         replyEvent.Value = JsonConvert.SerializeObject(eventJoinLink);
                         await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
