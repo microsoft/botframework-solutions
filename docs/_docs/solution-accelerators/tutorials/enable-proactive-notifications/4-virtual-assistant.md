@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-category: Virtual Assistant
+category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Set up the Virtual Assistant
 order: 4

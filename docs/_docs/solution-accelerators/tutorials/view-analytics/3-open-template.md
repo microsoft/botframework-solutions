@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-category: Virtual Assistant
+category: Solution Accelerators
 subcategory: View analytics using Power BI
 title: Open the Power BI template
 order: 3
