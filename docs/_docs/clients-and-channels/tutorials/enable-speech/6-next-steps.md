@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Clients and Channels
-subcategory: Enable speech
+subcategory: Extend to Direct Line Speech
 title: Next steps
 order: 6
 ---
