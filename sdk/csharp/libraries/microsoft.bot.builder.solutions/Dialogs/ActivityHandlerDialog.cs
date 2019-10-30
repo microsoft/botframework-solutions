@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             await innerDc.ContinueDialogAsync().ConfigureAwait(false);
                             break;
                         }
-
+                        
                     case ActivityTypes.ConversationUpdate:
                         {
                             await OnMembersAddedAsync(innerDc).ConfigureAwait(false);
