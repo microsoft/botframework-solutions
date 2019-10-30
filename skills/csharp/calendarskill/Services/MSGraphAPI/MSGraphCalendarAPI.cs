@@ -84,13 +84,12 @@ namespace CalendarSkill.Services.MSGraphAPI
             var result = new List<EventModel>();
             if (!string.IsNullOrEmpty(title))
             {
-                var allEvents = await GetMyStartTimeEvents(DateTime.UtcNow.AddDays(-1));
+                var allEvents = await GetEventsByTimeAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(7));
                 foreach (var item in allEvents)
                 {
-                    var modelItem = new EventModel(item);
-                    if (modelItem.Title.ToLower().Contains(title.ToLower()))
+                    if (item.Title.ToLower().Contains(title.ToLower()))
                     {
-                        result.Add(modelItem);
+                        result.Add(item);
                     }
                 }
             }

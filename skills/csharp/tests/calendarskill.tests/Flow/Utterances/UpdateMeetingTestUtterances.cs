@@ -22,11 +22,19 @@ namespace CalendarSkill.Test.Flow.Utterances
                 UpdateMeetingWithMoveLaterTimeSpan,
                 subject: new string[] { Strings.Strings.DefaultEventName },
                 moveLaterTimeSpan: new string[] { "30 minutes" }));
+            this.Add(UpdateMeetingWithNewStartDate, GetBaseUpdateMeetingIntent(
+                UpdateMeetingWithNewStartDate,
+                fromDate: new string[] { "tomorrow" },
+                fromTime: new string[] { "6 pm" },
+                toDate: new string[] { "today" }
+                ));
         }
 
         public static string BaseUpdateMeeting { get; } = "update meeting";
 
         public static string UpdateMeetingWithStartTime { get; } = "update meeting at tomorrow 6 pm";
+
+        public static string UpdateMeetingWithNewStartDate { get; } = "update meeting at tomorrow 6 pm to today";
 
         public static string UpdateMeetingWithTitle { get; } = $"update {Strings.Strings.DefaultEventName} meeting";
 

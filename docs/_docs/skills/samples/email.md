@@ -117,7 +117,7 @@ To use Google account skill you need follow these steps:
 1. Create an OAuth connection setting in your Web App Bot.
     - Connection name: **googleapi**
     - Service Provider: **Google**
-    - Client id and secret are generated in step 1
+    - Client id and secret are generated in step 2
     - Scopes: **https://mail.google.com/ https://www.googleapis.com/auth/contacts**.
 1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
