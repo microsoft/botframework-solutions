@@ -26,11 +26,16 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static Microsoft.Bot.Builder.Dialogs.Choices.Channel;
 
 namespace CalendarSkill.Test.Flow
 {
     public class CalendarSkillTestBase : BotTestBase
     {
+        public static readonly string MagicCode = "123456";
+
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
@@ -48,7 +53,7 @@ namespace CalendarSkill.Test.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -118,6 +123,7 @@ namespace CalendarSkill.Test.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken(Provider, Microsoft.Bot.Connector.Channels.Test, adapter.Conversation.User.Id, "testToken", MagicCode);
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {

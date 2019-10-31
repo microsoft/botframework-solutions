@@ -39,7 +39,7 @@ namespace CalendarSkill.Test.Flow
             await this.GetTestFlow()
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.ShowNextMeetingRemainingTime())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();

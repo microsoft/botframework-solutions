@@ -984,8 +984,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
-                    var recreateState = sc.Result as RecreateEventState?;
-                    switch (recreateState.Value)
+                    Enum.TryParse((string)sc.Result, out RecreateEventState recreateState);
+                    switch (recreateState)
                     {
                         case RecreateEventState.Cancel:
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded), cancellationToken);

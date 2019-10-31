@@ -12,9 +12,9 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Prompts
 {
-    public class GetRecreateInfoPrompt : Prompt<RecreateEventState?>
+    public class GetRecreateInfoPrompt : Prompt<string>
     {
-        public GetRecreateInfoPrompt(string dialogId, PromptValidator<RecreateEventState?> validator = null, string defaultLocale = null)
+        public GetRecreateInfoPrompt(string dialogId, PromptValidator<string> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
         {
             DefaultLocale = defaultLocale;
@@ -44,14 +44,14 @@ namespace CalendarSkill.Prompts
             }
         }
 
-        protected override async Task<PromptRecognizerResult<RecreateEventState?>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<PromptRecognizerResult<string>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
             {
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            var result = new PromptRecognizerResult<RecreateEventState?>();
+            var result = new PromptRecognizerResult<string>();
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 var message = turnContext.Activity.AsMessageActivity();
@@ -60,7 +60,7 @@ namespace CalendarSkill.Prompts
                 if (recreateState != null)
                 {
                     result.Succeeded = true;
-                    result.Value = recreateState;
+                    result.Value = recreateState.ToString();
                 }
             }
 
