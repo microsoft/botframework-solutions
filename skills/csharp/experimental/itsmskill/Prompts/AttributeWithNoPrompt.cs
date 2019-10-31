@@ -15,11 +15,11 @@ using Microsoft.Bot.Schema;
 
 namespace ITSMSkill.Prompts
 {
-    public class AttributeWithNoPrompt : Prompt<AttributeType?>
+    public class AttributeWithNoPrompt : Prompt<string>
     {
         private readonly AttributeType[] attributes;
 
-        public AttributeWithNoPrompt(string dialogId, AttributeType[] attributes, PromptValidator<AttributeType?> validator = null, string defaultLocale = null)
+        public AttributeWithNoPrompt(string dialogId, AttributeType[] attributes, PromptValidator<string> validator = null, string defaultLocale = null)
        : base(dialogId, validator)
         {
             this.attributes = attributes;
@@ -50,14 +50,14 @@ namespace ITSMSkill.Prompts
             }
         }
 
-        protected override async Task<PromptRecognizerResult<AttributeType?>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<PromptRecognizerResult<string>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
             {
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            var result = new PromptRecognizerResult<AttributeType?>();
+            var result = new PromptRecognizerResult<string>();
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 var message = turnContext.Activity.AsMessageActivity();
@@ -77,7 +77,7 @@ namespace ITSMSkill.Prompts
                         if (IsMessageAttributeMatch(text, attribute))
                         {
                             result.Succeeded = true;
-                            result.Value = attribute;
+                            result.Value = attribute.ToString();
                             break;
                         }
                     }

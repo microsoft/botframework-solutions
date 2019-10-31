@@ -12,12 +12,12 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace ITSMSkill.Prompts
 {
-    public class GeneralPrompt : Prompt<GeneralLuis.Intent>
+    public class GeneralPrompt : Prompt<string>
     {
         private readonly ISet<GeneralLuis.Intent> intents;
         private readonly IStatePropertyAccessor<SkillState> stateAccessor;
 
-        public GeneralPrompt(string dialogId, ISet<GeneralLuis.Intent> intents, IStatePropertyAccessor<SkillState> stateAccessor, PromptValidator<GeneralLuis.Intent> validator = null, string defaultLocale = null)
+        public GeneralPrompt(string dialogId, ISet<GeneralLuis.Intent> intents, IStatePropertyAccessor<SkillState> stateAccessor, PromptValidator<string> validator = null, string defaultLocale = null)
 : base(dialogId, validator)
         {
             this.intents = intents;
@@ -49,21 +49,21 @@ namespace ITSMSkill.Prompts
             }
         }
 
-        protected override async Task<PromptRecognizerResult<GeneralLuis.Intent>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<PromptRecognizerResult<string>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
             {
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            var result = new PromptRecognizerResult<GeneralLuis.Intent>();
+            var result = new PromptRecognizerResult<string>();
 
             var skillState = await stateAccessor.GetAsync(turnContext);
 
             if (intents.Contains(skillState.GeneralIntent))
             {
                 result.Succeeded = true;
-                result.Value = skillState.GeneralIntent;
+                result.Value = skillState.GeneralIntent.ToString();
             }
 
             return await Task.FromResult(result);

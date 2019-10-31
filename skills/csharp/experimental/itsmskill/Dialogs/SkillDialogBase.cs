@@ -345,7 +345,8 @@ namespace ITSMSkill.Dialogs
             }
 
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.AttributeType = (AttributeType)sc.Result;
+            Enum.TryParse((string)sc.Result, out AttributeType attributeType);
+            state.AttributeType = attributeType;
             return await sc.NextAsync();
         }
 
@@ -881,7 +882,7 @@ namespace ITSMSkill.Dialogs
 
         protected async Task<DialogTurnResult> IfKnowledgeHelp(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var intent = (GeneralLuis.Intent)sc.Result;
+            Enum.TryParse((string)sc.Result, out GeneralLuis.Intent intent);
             if (intent == GeneralLuis.Intent.Confirm)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));

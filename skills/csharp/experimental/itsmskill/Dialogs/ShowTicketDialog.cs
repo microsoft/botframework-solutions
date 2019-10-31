@@ -159,7 +159,8 @@ namespace ITSMSkill.Dialogs
             }
 
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            state.AttributeType = (AttributeType)sc.Result;
+            Enum.TryParse((string)sc.Result, out AttributeType attributeType);
+            state.AttributeType = attributeType;
             return await sc.NextAsync();
         }
 
@@ -275,7 +276,7 @@ namespace ITSMSkill.Dialogs
                 throw new Exception($"Invalid InterruptedIntent {state.InterruptedIntent}");
             }
 
-            var intent = (GeneralLuis.Intent)sc.Result;
+            Enum.TryParse((string)sc.Result, out GeneralLuis.Intent intent);
             if (intent == GeneralLuis.Intent.Reject)
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
@@ -301,7 +302,7 @@ namespace ITSMSkill.Dialogs
             }
         }
 
-        protected async Task<bool> ShowNavigateValidator(PromptValidatorContext<GeneralLuis.Intent> promptContext, CancellationToken cancellationToken)
+        protected async Task<bool> ShowNavigateValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
             if (promptContext.Recognized.Succeeded)
             {
