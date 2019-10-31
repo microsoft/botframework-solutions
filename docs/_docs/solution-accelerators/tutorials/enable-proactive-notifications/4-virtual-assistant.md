@@ -118,15 +118,62 @@ public class MainDialog : RouterDialog
     protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
     {
     ...
-+        case "BroadcastEvent":
-+            var eventData = JsonConvert.DeserializeObject<EventData>(dc.Context.Activity.Value.ToString());
++    case Events.Broadcast:
++        {
++            var eventData = JsonConvert.DeserializeObject<EventData>(innerDc.Context.Activity.Value.ToString());
 +
-+            var proactiveModel = await _proactiveStateAccessor.GetAsync(dc.Context, () => new ProactiveModel());
++            var proactiveModel = await _proactiveStateAccessor.GetAsync(innerDc.Context, () => new ProactiveModel());
 +
 +            var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
-+            await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
++            await innerDc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(innerDc.Context, eventData.Message), cancellationToken);
 +            break;
++        }
     ...
++    /// <summary>
++    /// Continue the conversation callback.
++    /// </summary>
++    /// <param name="context">Turn context.</param>
++    /// <param name="message">Activity text.</param>
++    /// <returns>Bot Callback Handler.</returns>
++    private BotCallbackHandler ContinueConversationCallback(ITurnContext context, string message)
++    {
++        return async (turnContext, cancellationToken) =>
++        {
++            var activity = turnContext.Activity.CreateReply(message);
++            EnsureActivity(activity);
++            await turnContext.SendActivityAsync(activity);
++        };
++    }
++
++    /// <summary>
++    /// This method is required for proactive notifications to work in Web Chat.
++    /// </summary>
++    /// <param name="activity">Proactive Activity.</param>
++    private void EnsureActivity(Activity activity)
++    {
++        if (activity != null)
++        {
++            if (activity.From != null)
++            {
++                activity.From.Name = "User";
++                activity.From.Properties["role"] = "user";
++            }
++
++            if (activity.Recipient != null)
++            {
++                activity.Recipient.Id = "1";
++                activity.Recipient.Name = "Bot";
++                activity.Recipient.Properties["role"] = "bot";
++            }
++        }
++    }
++
+    private class Events
+    {
+        public const string Location = "VA.Location";
+        public const string TimeZone = "VA.Timezone";
++        public const string Broadcast = "BroadcastEvent";
     }
+   ...
 }
 ```
