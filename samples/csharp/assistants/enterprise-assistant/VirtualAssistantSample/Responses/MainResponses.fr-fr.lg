@@ -1,61 +1,61 @@
-﻿# CompletedMessage
-- I’m here if you need anything else.
-- Let me know if there’s anything else you need.
-- Let me know if I can help you with anything else.
-- All done. Let me know if I can do anything else.
+# CompletedMessage
+- Je suis là si tu as besoin d'autre chose.
+- Faites-moi savoir s'il y a autre chose dont vous avez besoin.
+- Faites-moi savoir si je peux vous aider avec autre chose.
+- Tout est fini. Faites-moi savoir si je peux faire autre chose.
 
 # CancelledMessage
-- OK{RandName()}, cancelling your request. Let me know if I can do anything else for you.
-- OK, cancelling your request. Let me know if I can do anything else for you.
-- No problem, let me know if I can help you with anything else.
-- Sure, I’ll cancel your request. Let me know if I can help with anything else
+- D'accord{RandName()}, l'annulation de votre demande. Faites-moi savoir si je peux faire autre chose pour vous.
+- OK, annuler votre demande. Faites-moi savoir si je peux faire autre chose pour vous.
+- Pas de problème, faites-moi savoir si je peux vous aider avec autre chose.
+- Bien sûr, j'annule votre demande. Faites-moi savoir si je peux aider avec autre chose
 
 # UnsupportedMessage
-- I'm sorry, I'm not able to help with that.
-- Sorry, that’s not something I can help with yet.
-- Apologies, I don’t know how to do that right now.
-- Unfortunately I can’t help you with that right now. Apologies.
-- Sorry{RandName()}, that’s not something I can help with yet.
-- Apologies{RandName()}, I don’t know how to do that right now.
+- Je suis désolé, je ne suis pas en mesure d'aider avec ça.
+- Désolé, ce n'est pas quelque chose que je peux aider encore.
+- Mes excuses, je ne sais pas comment faire ça maintenant.
+- Malheureusement, je ne peux pas vous aider avec ça en ce moment. Excuses.
+- Pardon{RandName()}, ce n'est pas quelque chose que je peux aider avec encore.
+- Excuses{RandName()}, je ne sais pas comment le faire en ce moment.
 
 # ConfusedMessage
-- I'm sorry, I didn’t understand that. Can you give me some more information?
-- Sorry, I didn't get that. Can you tell me more?
-- Sorry{RandName()}, I didn't get that. Can you tell me more?
-- Apologies, I didn't quite understand. Can you give me more information?
+- Je suis désolé, je n'ai pas compris ça. Pouvez-vous me donner plus d'informations?
+- Désolé, je n'ai pas eu ça. Pouvez-vous me dire plus?
+- Pardon{RandName()}, je n'ai pas eu cela. Pouvez-vous me dire plus?
+- Mes excuses, je n'ai pas tout à fait compris. Pouvez-vous me donner plus d'informations?
 
 # ErrorMessage
-- Sorry{RandName()}, it looks like something went wrong. Please try again later.
-- Apologies{RandName()}, it looks like something went wrong. Try your request again later.
-- Sorry, it looks like something went wrong. Please try again later.
-- Hmm, it looks like there was an error. Sorry about that. You can try again later.
-- Apologies, it looks like something went wrong. Try your request again later.
+- Pardon{RandName()}, on dirait que quelque chose s'est mal passé. S'il vous plaît essayer à nouveau plus tard.
+- Excuses{RandName()}, on dirait que quelque chose s'est mal passé. Réessayez votre demande plus tard.
+- Désolé, on dirait que quelque chose a mal tourné. S'il vous plaît essayer à nouveau plus tard.
+- Hmm, on dirait qu'il y a eu une erreur. Désolé. Vous pouvez réessayer plus tard.
+- Toutes mes excuses, on dirait que quelque chose a mal tourné. Réessayez votre demande plus tard.
 
 #StartOverMessage
-- OK{RandName()}, let's try that again.
-- No problem{RandName()}, we can start over.
-- OK, let's try that again.
-- Sure, let's try again.
-- No problem, we can start over.
+- D'accord{RandName()}, essayons à nouveau.
+- aucun problème{RandName()}, nous pouvons recommencer à tout recommencer.
+- OK, essayons encore une fois.
+- Bien sûr, essayons encore.
+- Pas de problème, on peut tout recommencer.
 
 # FirstPromptMessage
-- What can I help you with today?
-- What can I do for you?
-- Is there anything I can do for you?
-- How can I help you?
+- Qu'est-ce que je peux t'aider aujourd'hui ?
+- Que puis-je pour vous?
+- Y a-t-il quelque chose que je puisse faire pour toi ?
+- Comment puis-je vous aider?
 
 # LogoutMessage
-- OK{RandName()}, you're signed out.
-- Alright{RandName()}, you’re signed out.
-- No problem{RandName()}, I’ve signed you out.
-- OK, you're signed out.
-- Alright, signed out.
-- Sure, you’ve been signed out.
-- No problem, I’ve signed you out.
+- D'accord{RandName()}, vous êtes signé.
+- d'accord{RandName()}, vous êtes signé.
+- aucun problème{RandName()}, Je vous ai signé.
+- OK, tu es signé.
+- D'accord, je me suis désigné.
+- Bien sûr, vous avez été signé.
+- Pas de problème, je t'ai viré.
 
 # EscalateMessage
 [HeroCard
-  subtitle=Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
+  subtitle=titres Nos agents sont disponibles 24/7 au 1(800)555-1234. Ou connectez-vous avec nous via Microsoft Teams.
 ]
 
 # NewUserIntroCard
@@ -64,10 +64,10 @@
 ]
 
 # NewUserIntroCardTitle
-- Hi There!
-- Welcome
-- Pleased to meet you!
-- Hello and welcome!
+- Salut!
+- accueillir
+- ravi!
+- Bonjour et bienvenue!
 
 # NewUserIntroCardJson
 - ```
@@ -106,7 +106,7 @@
           "id": "body",
           "size": "Medium",
           "color": "Light",
-          "text": "Now that I'm up and running, explore the links here to learn what I can do.",
+          "text": "Maintenant que je suis opérationnel, explorez les liens ici pour apprendre ce que je peux faire.",
           "wrap": true
         }
       ]
@@ -115,7 +115,7 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "Get started",
+      "title": "Démarrer",
       "data": {
         "action": "startOnboarding"
       }
@@ -143,9 +143,9 @@
 ]
 
 # ReturningUserIntroCardTitle
-- Welcome Back{RandName()}!
-- Good to see you again.
-- Hey, welcome back!
+- Bienvenue{RandName()}!
+- C'est bon de te revoir.
+- Bienvenue !
 
 # ReturningUserIntroCardJson
 - ```
@@ -190,7 +190,7 @@
                   "id": "body",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "How can I help?",
+                  "text": "Comment puis-je vous aider?",
                   "wrap": true
                 }
               ],
@@ -209,8 +209,8 @@
 
 # HelpCard
 [HeroCard 
-    title=Help for Virtual Assistant
-    subtitle=This card can be used to display information to help your user interact with your bot.
+    title=Aide pour assistant virtuel
+    subtitle=La carte peut être utilisée pour afficher des informations pour aider votre utilisateur à interagir avec votre bot.
 ]
 
 # RandName 
