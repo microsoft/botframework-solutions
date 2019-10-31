@@ -1,0 +1,20 @@
+{
+  "AskForCheckAvailableTime": {
+    "replies": [
+      {
+        "text": "What time?",
+        "speak": "What time?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NotAvailable": {
+    "replies": [
+      {
+        "text": "It looks like {UserName} is unavailable at {Time} {Date}.",
+        "speak": "It looks like {UserName} is unavailable at {Time} {Date}"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

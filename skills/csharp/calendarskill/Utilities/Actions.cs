@@ -60,5 +60,6 @@
         public const string RetryUnknown = "retryUnknown";
         public const string CheckAvailable = "CheckAvailable";
         public const string FindNextAvailableTime = "FindNextAvailableTime";
+        public const string CollectTime = "CollectTime";
     }
 }

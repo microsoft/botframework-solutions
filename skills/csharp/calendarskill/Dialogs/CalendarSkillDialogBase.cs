@@ -11,6 +11,7 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
+using Google.Apis.Calendar.v3.Data;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -996,6 +997,7 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.CheckAvailability:
                     case CalendarLuis.Intent.ConnectToMeeting:
                     case CalendarLuis.Intent.TimeRemaining:
                     case CalendarLuis.Intent.AcceptEventEntry:
@@ -1009,6 +1011,11 @@ namespace CalendarSkill.Dialogs
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.FromDate != null)
@@ -1638,7 +1645,7 @@ namespace CalendarSkill.Dialogs
         // Workaround until adaptive card renderer in teams is upgraded to v1.2
         private string GetDivergedCardName(ITurnContext turnContext, string card)
         {
-            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            if (Microsoft.Bot.Builder.Dialogs.Choices.Channel.GetChannelId(turnContext) == Channels.Msteams)
             {
                 return card + ".1.0";
             }
