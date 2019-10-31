@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -118,6 +119,9 @@ namespace VirtualAssistantSample
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            // SAMPLE
+            services.AddSingleton<ProactiveState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

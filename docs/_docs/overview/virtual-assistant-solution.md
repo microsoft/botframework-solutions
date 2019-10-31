@@ -1,7 +1,7 @@
 ---
 category: Overview
 title: What is the Virtual Assistant Solution Accelerator?
-order: 1
+order: 2
 toc: true
 ---
 
@@ -13,7 +13,7 @@ At it's core is the [Virtual Assistant template]({{site.baseurl}}//overview/virt
 
 Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
-Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/).
+Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/).
 
 ![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
 

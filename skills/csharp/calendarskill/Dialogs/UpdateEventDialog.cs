@@ -42,6 +42,8 @@ namespace CalendarSkill.Dialogs
                 AfterGetAuthToken,
                 CheckFocusedEvent,
                 GetNewEventTime,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeUpdate,
                 AfterConfirmBeforeUpdate,
                 GetAuthToken,
@@ -96,7 +98,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
@@ -209,7 +212,8 @@ namespace CalendarSkill.Dialogs
                     updateEvent.Id = origin.RecurringId;
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 var newEvent = await calendarService.UpdateEventByIdAsync(updateEvent);
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);
@@ -283,26 +287,32 @@ namespace CalendarSkill.Dialogs
                         var newStartTime = new List<DateTime>();
                         if (state.UpdateMeetingInfor.NewStartTime.Any())
                         {
-                            foreach (var time in state.UpdateMeetingInfor.NewStartTime)
+                            newStartTime.AddRange(state.UpdateMeetingInfor.NewStartTime);
+                        }
+                        else
+                        {
+                            newStartTime.Add(originalStartDateTime);
+                        }
+
+                        foreach (var time in newStartTime)
+                        {
+                            var newStartDateTime = new DateTime(
+                                newStartDate.Year,
+                                newStartDate.Month,
+                                newStartDate.Day,
+                                time.Hour,
+                                time.Minute,
+                                time.Second);
+
+                            if (state.UpdateMeetingInfor.NewStartDateTime == null)
                             {
-                                var newStartDateTime = new DateTime(
-                                    newStartDate.Year,
-                                    newStartDate.Month,
-                                    newStartDate.Day,
-                                    time.Hour,
-                                    time.Minute,
-                                    time.Second);
+                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                            }
 
-                                if (state.UpdateMeetingInfor.NewStartDateTime == null)
-                                {
-                                    state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
-                                }
-
-                                if (newStartDateTime >= userNow)
-                                {
-                                    state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
-                                    break;
-                                }
+                            if (newStartDateTime >= userNow)
+                            {
+                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                                break;
                             }
                         }
                     }

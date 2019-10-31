@@ -7,8 +7,8 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Microsoft.Bot.Streaming;
+using Microsoft.Bot.Streaming.Transport.WebSockets;
 using Diagnostics = System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Skills
