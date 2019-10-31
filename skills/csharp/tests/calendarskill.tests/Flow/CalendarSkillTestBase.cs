@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +49,7 @@ namespace CalendarSkill.Test.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = "Azure Active Directory v2", Provider = "Azure Active Directory v2" }
                 }
             });
 
@@ -105,25 +106,16 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetAllToDefault();
         }
 
-        public Activity GetAuthResponse()
-        {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test")
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
-        }
-
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = sp.GetService<IBot>();
                 var state = await CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
-                //state.APIToken = "test";
                 state.EventSource = EventSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

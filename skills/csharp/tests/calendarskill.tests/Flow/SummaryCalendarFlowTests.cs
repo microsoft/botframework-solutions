@@ -39,10 +39,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -55,10 +51,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"about {Strings.Strings.DefaultEventName}"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -71,10 +63,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByAttendee)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"with {Strings.Strings.DefaultUserName}"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -87,10 +75,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByLocation)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventAgainPrompt($"at {Strings.Strings.DefaultLocation}"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -104,8 +88,6 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NoEventResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -118,9 +100,6 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                //.AssertReply(this.ShowReadOutEventList())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -133,10 +112,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -151,13 +126,9 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.ChooseOne)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowReadOutEventList("0"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -172,13 +143,9 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.DefaultEventName + "0")
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowReadOutEventList("0"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -193,13 +160,9 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.DefaultUserName + "0")
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowReadOutEventList("0"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -223,10 +186,6 @@ namespace CalendarSkill.Test.Flow
 
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("for next week", "next week"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt("next week"))
                 .Send(Strings.Strings.ConfirmNo)
@@ -239,10 +198,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow", "tomorrow"))
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt("tomorrow"))
                 .Send(Strings.Strings.ConfirmNo)
@@ -255,30 +210,16 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowUpdateCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowUpdateCalendarList())
                 .AssertReplyOneOf(this.AskForShowOverviewAgainPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventAgainPrompt())
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -347,14 +288,6 @@ namespace CalendarSkill.Test.Flow
             };
 
             return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private string[] ReadOutMorePrompt()
