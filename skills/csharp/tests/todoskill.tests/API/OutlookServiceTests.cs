@@ -22,7 +22,7 @@ namespace ToDoSkill.Tests.API
         [TestMethod]
         public void LoadCustomizedListTypesFromSettingsTests()
         {
-            var listType = ServiceHelper.GetListTypes(MockConfiguration.Configuration);
+            var listType = ServiceHelper.GetListTypes(MockConfiguration.GetConfiguration());
             Assert.IsTrue(listType.Count == 4 && listType.Contains(MockData.Homework));
         }
 
