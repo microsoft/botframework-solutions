@@ -12,9 +12,9 @@ order: 1
 
 ### Purpose
 
-The Virtual Assistant template creates and deploys an Assistant with all speech enablement steps provided out of the box.
+The Virtual Assistant template creates and deploys a bot enabled to work in speech-voice scenarios.
 
-This tutorial covers the steps required to connect the [Direct Line Speech channel](https://docs.microsoft.com/en-us/azure/bot-service/directline-speech-bot?view=azure-bot-service-4.0) to your assistant and build a simple application integrated with the Speech SDK to demonstrate Speech interactions working.
+This tutorial covers the steps required to connect the [Direct Line Speech](https://docs.microsoft.com/en-us/azure/bot-service/directline-speech-bot?view=azure-bot-service-4.0) channel to your assistant and build a simple application integrated with the Speech SDK to demonstrate Speech interactions working.
 
 ### Prerequisites
 
@@ -32,7 +32,7 @@ This tutorial covers the steps required to connect the [Direct Line Speech chann
 
 ### Scenario
 
-Create a simple application that enables you to speak to your newly created Virtual Assistant.
+Run an application that enables you to speak to your Virtual Assistant on the Direct Line Speech channel.
 
 
 
