@@ -1,14 +1,12 @@
 ---
 category: Overview
-title: What is New
+title: What's new?
 order: 1
 toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-
-## Introduction
 
 ![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
 
@@ -22,14 +20,10 @@ Common assistant scenarios are provided as reusable conversational Skills, incre
 
 Further skills can be created and made available either through your own assistant or made available through a broader ecosystem enabling assistant owners to curate the capabilities that make sense for their scenario and work across industries.
 
+## Virtual Assistant components
+{:.no_toc}
 
-## Virtual Assistant Components
-
-Within Virtual Assistant there are four major capabilities: 
-- Virtual Assistant Core
-- Skills
-- Assistant Solution Accelerators
-- Clients and Channels
+There are for major components within the Virtual Assistant: 
 
 ### Virtual Assistant Core
 {:.no_toc}
@@ -58,8 +52,7 @@ Clients and Channels are the ways that users can interact with the Virtual Assis
 We also offer sample client applications which are implementations of clients that will integrate seamlessly with your Assistant and enable Speech scenarios. Currently, Microsoft offers client samples for both Android and PowerApps and custom clients can be built using Direct Line.
 
 
-## What's New since Build 2019?
-
+## What's new since Build 2019?
 In this section, we will cover the new features to each of the Components of Virtual Assistant since the Build 2019 Conference. These new features are targeted for Ignite 2019 timeframe.
 
 ### Virtual Assistant Core

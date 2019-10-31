@@ -158,7 +158,7 @@ namespace VirtualAssistantSample.Dialogs
                                     // Log user out of all accounts.
                                     await LogUserOut(dc);
 
-                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogOutMessage", userProfile));
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage", userProfile));
                                     return InterruptionAction.End;
                                 }
 
