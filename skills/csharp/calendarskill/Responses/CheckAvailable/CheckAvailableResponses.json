@@ -16,5 +16,50 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AttendeeIsAvailable": {
+    "replies": [
+      {
+        "text": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}.",
+        "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict": {
+    "replies": [
+      {
+        "text": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have a meeting, \"{Title}\" from {EventStartTime} to {EventEndTime}.",
+        "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have a meeting, \"{Title}\" from {EventStartTime} to {EventEndTime}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts": {
+    "replies": [
+      {
+        "text": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have {ConflictEventsCount} other meetings scheduled during that time.",
+        "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have {ConflictEventsCount} other meetings scheduled during that time."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskForCreateNewMeeting": {
+    "replies": [
+      {
+        "text": "Do you want to schedule a new meeting?",
+        "speak": "Do you want to schedule a new meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskForCreateNewMeetingAnyway": {
+    "replies": [
+      {
+        "text": "Do you want to schedule a new meeting with {UserName} at {StartTime} anyway?",
+        "speak": "Do you want to schedule a new meeting with {UserName} at {StartTime} anyway?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

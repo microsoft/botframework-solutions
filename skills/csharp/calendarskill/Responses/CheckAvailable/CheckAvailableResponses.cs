@@ -14,5 +14,10 @@ namespace CalendarSkill.Responses.CheckAvailable
         // Generated accessors
         public const string AskForCheckAvailableTime = "AskForCheckAvailableTime";
         public const string NotAvailable = "NotAvailable";
+        public const string AttendeeIsAvailable = "AttendeeIsAvailable";
+        public const string AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict = "AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict";
+        public const string AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts = "AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts";
+        public const string AskForCreateNewMeeting = "AskForCreateNewMeeting";
+        public const string AskForCreateNewMeetingAnyway = "AskForCreateNewMeetingAnyway";
     }
 }

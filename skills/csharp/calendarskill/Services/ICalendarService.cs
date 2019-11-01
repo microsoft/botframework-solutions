@@ -81,9 +81,11 @@ namespace CalendarSkill.Services
         /// <summary>
         /// find the available time slot of user at the time.
         /// </summary>
+        /// <param name="userEmail">the current user's Email.</param>
         /// <param name="users">the user need to check availability.</param>
         /// <param name="startTime">the start time of available time slot.</param>
+        /// <param name="availabilityViewInterval">Represents the duration of a time slot in an availabilityView in the response. The default is 30 minutes, minimum is 5, maximum is 1440. Optional.</param>
         /// <returns>the user available time slot from start time.</returns>
-        Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime);
+        Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval);
     }
 }

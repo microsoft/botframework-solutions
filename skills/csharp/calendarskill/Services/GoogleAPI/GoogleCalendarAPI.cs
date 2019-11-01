@@ -168,7 +168,7 @@ namespace CalendarSkill.Services.GoogleAPI
             return;
         }
 
-        public Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
+        public Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
         {
             return null;
         }

@@ -91,9 +91,9 @@ namespace CalendarSkill.Services
             await calendarAPI.AcceptEventByIdAsync(id);
         }
 
-        public async Task<List<TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
+        public async Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
         {
-            return await calendarAPI.GetUserAvailableTimeSlotAsync(users, startTime);
+            return await calendarAPI.GetUserAvailableTimeSlotAsync(userEmail, users, startTime, availabilityViewInterval);
         }
     }
 }

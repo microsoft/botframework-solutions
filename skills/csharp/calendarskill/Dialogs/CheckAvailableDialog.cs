@@ -6,8 +6,10 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Google.Apis.Calendar.v3.Data;
+using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -48,9 +50,6 @@ namespace CalendarSkill.Dialogs
                 CollectContacts,
                 CollectTime,
                 CheckAvailable,
-                //CreateMeetingPrompt,
-                //AfterCreateEventPrompt,
-                //CreateEvent
             };
 
             var collectTime = new WaterfallStep[]
@@ -66,10 +65,17 @@ namespace CalendarSkill.Dialogs
                 //ShowNextAvailableTime
             };
 
+            var createMeetingWithAvailableTime = new WaterfallStep[]
+            {
+                CreateMeetingPrompt,
+                AfterCreateMeetingPrompt
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckAvailable, checkAvailable) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindNextAvailableTime, findNextAvailableTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectTime, collectTime) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CreateMeetingWithAvailableTime, createMeetingWithAvailableTime) { TelemetryClient = telemetryClient });
             AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
 
             // Set starting dialog for component
@@ -202,10 +208,16 @@ namespace CalendarSkill.Dialogs
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 var dateTime = state.MeetingInfor.StartDateTime;
-                var timeSlot = await calendarService.GetUserAvailableTimeSlotAsync(new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime.Value);
 
-                if (timeSlot == null || !timeSlot.Any() || !timeSlot.FirstOrDefault().Equals(state.MeetingInfor.StartDateTime))
+                var me = await GetMe(sc.Context);
+
+                // todo: change 5 to const
+                // the last one in result is the current user
+                var availabilityResult = await calendarService.GetUserAvailableTimeSlotAsync(me.Emails[0], new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime.Value, 5);
+
+                if (!availabilityResult.AvailabilityViewList.First().StartsWith("0"))
                 {
+                    // the attendee is not available
                     var timeString = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime);
                     var dateString = string.Empty;
                     if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
@@ -225,9 +237,97 @@ namespace CalendarSkill.Dialogs
                         { "Time", timeString },
                         { "Date", dateString }
                     }));
-                }
 
-                return await sc.EndDialogAsync();
+                    return await sc.BeginDialogAsync(Actions.FindNextAvailableTime, sc.Options);
+                }
+                else
+                {
+                    // find the attendee's available time
+                    var availableTime = 1;
+                    var availabilityView = availabilityResult.AvailabilityViewList.First();
+                    for (int i = 1; i < availabilityView.Length; i++)
+                    {
+                        if (availabilityView[i] == availabilityView[i - 1])
+                        {
+                            availableTime = i + 1;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    availableTime *= 5;
+                    var startAvailableTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+                    var endAvailableTime = startAvailableTime.AddMinutes(availableTime);
+
+                    if (availabilityResult.AvailabilityViewList.Last().StartsWith("0"))
+                    {
+                        // both attendee and current user is available
+                        var responseParams = new StringDictionary()
+                        {
+                            { "StartTime", startAvailableTime.ToString(CommonStrings.DisplayTime) },
+                            { "EndTime", endAvailableTime.ToString(CommonStrings.DisplayTime) },
+                            { "User", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
+
+                        };
+
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailable, responseParams));
+                    }
+                    else
+                    {
+                        // attendee is available but current user is not available
+                        var responseParams = new StringDictionary()
+                        {
+                            { "StartTime", startAvailableTime.ToString(CommonStrings.DisplayTime) },
+                            { "EndTime", endAvailableTime.ToString(CommonStrings.DisplayTime) },
+                            { "User", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
+                        };
+
+                        // todo: check conflict meetings
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, responseParams));
+                    }
+
+                    return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> CreateMeetingPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCreateNewMeeting),
+                    RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCreateNewMeeting)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> AfterCreateMeetingPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    return await sc.BeginDialogAsync(nameof(CreateEventDialog), sc.Options);
+                }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
             }
             catch (Exception ex)
             {

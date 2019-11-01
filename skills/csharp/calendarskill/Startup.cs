@@ -6,6 +6,7 @@ using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.CheckAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -112,7 +113,8 @@ namespace CalendarSkill
                 new CalendarSharedResponses(),
                 new SummaryResponses(),
                 new TimeRemainingResponses(),
-                new UpdateEventResponses()));
+                new UpdateEventResponses(),
+                new CheckAvailableResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();

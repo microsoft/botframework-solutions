@@ -143,10 +143,11 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        public async Task<List<Models.TimeSlot>> GetUserAvailableTimeSlotAsync(List<string> users, DateTime startTime)
+        public async Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> attendees, DateTime startTime, int availabilityViewInterval)
         {
             List<bool> availability = new List<bool>();
-            var schedules = users;
+            attendees.Add(userEmail);
+            var schedules = attendees;
             var endTime = startTime.AddDays(1);
 
             var intervalStartTime = new DateTimeTimeZone
@@ -162,53 +163,20 @@ namespace CalendarSkill.Services.MSGraphAPI
             };
 
             ICalendarGetScheduleCollectionPage collectionPage = await _graphClient.Me.Calendar
-                .GetSchedule(schedules, intervalEndTime, intervalStartTime)
+                .GetSchedule(schedules, intervalEndTime, intervalStartTime, availabilityViewInterval)
                 .Request()
                 .PostAsync();
 
-            var result = new List<Models.TimeSlot>();
-            var currentTimeSlot = new Models.TimeSlot() { Start = startTime };
+            var result = new AvailabilityResult();
 
-            foreach (var scheduleItem in collectionPage[0].ScheduleItems)
+            result.AvailabilityViewList.AddRange(collectionPage.Select(li => li.AvailabilityView));
+            result.MySchedule.AddRange(collectionPage.Last().ScheduleItems.Select(li => new EventModel(EventSource.Microsoft)
             {
-                var timezone = TimeZoneInfo.FindSystemTimeZoneById(scheduleItem.Start.TimeZone);
-                if (timezone == TimeZoneInfo.Utc && !scheduleItem.Start.DateTime.EndsWith("Z"))
-                {
-                    scheduleItem.Start.DateTime = scheduleItem.Start.DateTime + "Z";
-                }
-
-                var start = DateTime.Parse(scheduleItem.Start.DateTime).ToUniversalTime();
-
-                if (timezone == TimeZoneInfo.Utc && !scheduleItem.End.DateTime.EndsWith("Z"))
-                {
-                    scheduleItem.End.DateTime = scheduleItem.End.DateTime + "Z";
-                }
-
-                var end = DateTime.Parse(scheduleItem.End.DateTime).ToUniversalTime();
-
-                if (currentTimeSlot.End == null || start >= currentTimeSlot.End)
-                {
-                    currentTimeSlot.End = start;
-                    if (!currentTimeSlot.Start.Equals(currentTimeSlot.End))
-                    {
-                        result.Add(currentTimeSlot);
-                    }
-
-                    currentTimeSlot = new Models.TimeSlot() { Start = end };
-                }
-                else
-                {
-                    currentTimeSlot.Start = end;
-                }
-            }
-
-            currentTimeSlot.Start = currentTimeSlot.Start == null ? startTime : currentTimeSlot.Start;
-            currentTimeSlot.End = currentTimeSlot.End == null ? endTime : currentTimeSlot.End;
-
-            if (!currentTimeSlot.Start.Equals(currentTimeSlot.End))
-            {
-                result.Add(currentTimeSlot);
-            }
+                Title = li.Subject,
+                StartTime = DateTime.Parse(li.Start.DateTime + "Z").ToUniversalTime(),
+                EndTime = DateTime.Parse(li.End.DateTime + "Z").ToUniversalTime(),
+                Location = li.Location
+            }));
 
             return result;
         }
