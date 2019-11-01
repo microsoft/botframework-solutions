@@ -177,3 +177,16 @@ public class MainDialog : RouterDialog
    ...
 }
 ```
+
+#### EventData.cs
+
+Add a new class named **EventData** with the following properties.
+
+```diff
++    public class EventData
++    {
++        public string UserId { get; set; }
+
++        public string Message { get; set; }
++    }
+```

@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -118,6 +119,9 @@ namespace VirtualAssistantSample
             // SAMPLE: Multi-turn QnA dialog
             var currentLocale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             services.AddTransient(s => new QnADialog(botservices.CognitiveModelSets[currentLocale].QnAServices["HRBenefits"]));
+
+            // SAMPLE: Proactive notifications
+            services.AddSingleton<ProactiveState>();
 
             // Register skill dialogs
             foreach (var skill in settings.Skills)

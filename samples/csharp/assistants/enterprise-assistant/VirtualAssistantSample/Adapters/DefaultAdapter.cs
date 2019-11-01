@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -22,7 +23,8 @@ namespace VirtualAssistantSample.Adapters
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            ProactiveState proactiveState)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
@@ -42,6 +44,9 @@ namespace VirtualAssistantSample.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
+
+            // SAMPLE: Proactive notifications
+            Use(new ProactiveStateMiddleware(proactiveState));
         }
     }
 }
