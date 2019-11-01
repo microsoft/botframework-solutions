@@ -82,7 +82,7 @@ Due to a limitation with the LUIS authoring APIs the original deployment scripts
 
 This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
+This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/help/reference/deployment-scripts/#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
 
 1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 

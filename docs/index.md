@@ -20,7 +20,7 @@ title: Bot Framework Solutions Documentation
             <p class="card-text">Extend your assistant with reusable conversational Skills to add common functionality such as collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. Try the sample Skills available like Calendar, Email, To Do, Point of Interest, and more.</p>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/" class="card">
+    <a href="{{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/bi-dashboard.png" alt="Analytics icon" width="48px">
             <h4 class="card-title">Analytics</h4>
@@ -83,7 +83,7 @@ You can get more details in the [What's New overview]({{site.baseurl}}/overview/
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1-intro/" class="card">
+    <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/speech.png" alt="Speech icon" width="48px">
             <h4 class="card-title">Enable Speech</h4>
@@ -91,7 +91,7 @@ You can get more details in the [What's New overview]({{site.baseurl}}/overview/
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-teams/1-intro/" class="card">
+    <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/teams.png" alt="Microsoft Teams icon" width="48px">
             <h4 class="card-title">Extend to Microsoft Teams</h4>
@@ -104,7 +104,7 @@ You can get more details in the [What's New overview]({{site.baseurl}}/overview/
 ## Need help?
 For questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 
 
-If you are running into an issue, please refer to our [Known Issues]({{ site.baseurl }}/reference/knownissues) documentation where we've compiled some common problems and solutions first. If your problem is not listed, please use our [GitHub](https://aka.ms/bfsolutions) to raise [issues](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Suggestion&template=feature_request.md&title=).
+If you are running into an issue, please refer to the [known issues]({{site.baseurl}}/help/known-issues/) documentation where we've compiled some common problems and solutions first. If your problem is not listed, please use our [GitHub](https://aka.ms/bfsolutions) to raise [issues](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Suggestion&template=feature_request.md&title=).
 
 ## License
 {:.no_toc}

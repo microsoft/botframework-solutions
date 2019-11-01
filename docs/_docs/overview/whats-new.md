@@ -12,7 +12,7 @@ toc: true
 
 Customers and partners have increasing need to deliver advanced conversational assistant experiences tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience and data.
 
-At it's core is the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices to developing a bot on the Microsoft Azure platform.
+At it's core is the [Virtual Assistant]({{site.baseurl}}/overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices to developing a bot on the Microsoft Azure platform.
 
 For more details on Virtual Assistant review [What is the Virtual Assistant Solution?]({{site.baseurl}}/overview/virtual-assistant-solution).
 
@@ -73,7 +73,7 @@ Microsoft continues to grow its skills library and enhance skills that are provi
 #### Improved Conversation Flows and Capabilities
 {:.no_toc}
 
-Microsoft has also improved the conversations in many of the existing skills that were previously announced that allow for better customer experiences with skills such as Calendar, POI, and others. You can find more details on the other skills and download their [latest versions]().
+Microsoft has also improved the conversations in many of the existing skills that were previously announced that allow for better customer experiences with skills such as Calendar, POI, and others.
 
 #### Hospitality Skill (Experimental)
 {:.no_toc}
@@ -83,17 +83,17 @@ Microsoft has released a new experimental skill focused on Hospitality scenarios
 #### Event Skill (Experimental)
 {:.no_toc}
 
-Microsoft has released a new experimental skill focused on finding events from the popular platform [Eventbrite](http://www.eventbrite.com/). More details on scenarios that this supports can be found in the [Event Skill documentation]().
+Microsoft has released a new experimental skill focused on finding events from the popular platform [Eventbrite](http://www.eventbrite.com/). More details on scenarios that this supports can be found in the [Event Skill documentation]({{site.baseurl}}/skills/samples/event/).
 
 #### IT Service Management (ITSM) Skill (Experimental)
 {:.no_toc}
 
-Microsoft has released a new experimental skill focused on popular IT Service Management scenarios. The IT Service Management skill provides a basic skill that provides ticket and knowledge base related capabilities and supports [ServiceNow](http://www.servicenow.com/). More details around the ITSM skill can be found [here]().
+Microsoft has released a new experimental skill focused on popular IT Service Management scenarios. The IT Service Management skill provides a basic skill that provides ticket and knowledge base related capabilities and supports [ServiceNow](http://www.servicenow.com/). More details around the ITSM skill can be found [here]({{site.baseurl}}/skills/samples/itsm/).
 
 #### Music Skill (Experimental)
 {:.no_toc}
 
-Microsoft has released a new experimental skill focused on demonstrating artists and playlist lookup for the popular music service [Spotify](https://developer.spotify.com/documentation/web-api/libraries/). Playback information is then signalled back to the device through Events enabling native device playback. More details around the Music skill can be found [here]().
+Microsoft has released a new experimental skill focused on demonstrating artists and playlist lookup for the popular music service [Spotify](https://developer.spotify.com/documentation/web-api/libraries/). Playback information is then signalled back to the device through Events enabling native device playback. More details around the Music skill can be found [here]({{site.baseurl}}/skills/samples/music/).
 
 
 ### Assistant Solution Accelerators
@@ -108,17 +108,17 @@ Microsoft has not necessarily released a new capability as much as the concept o
 #### Enterprise Assistant Sample
 {:.no_toc}
 
-Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Enterprise community. You can get more details around this sample [here]().
+Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Enterprise community. You can get more details around this sample [here]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant/).
 
 #### Hospitality Assistant Sample
 {:.no_toc}
 
-Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Hospitality community. You can get more details around this sample [here]().
+Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Hospitality community. You can get more details around this sample [here]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant/).
 
 #### Automotive Assistant Sample
 {:.no_toc}
 
-Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Automotive community. You can get more details around this sample [here]().
+Microsoft has assembled a typical configuration of a Virtual Assistant that is common from what we have seen working with our customer base implementation of a Virtual Assistant that is targeted at the Automotive community. You can get more details around this sample are coming soon.
 
 ### Clients and Channels
 
@@ -140,7 +140,7 @@ Microsoft understands the need to be able to have devices such as phones, tablet
 - Configuration options to allow for customization of colors
 - Light and Dark Mode support
 
-This sample application can be used to quickly test your Virtual Assistant or any BF Bot on Android Devices (8.x and greater). More details can be found [here]().
+This sample application can be used to quickly test your Virtual Assistant or any BF Bot on Android Devices (8.x and greater). More details can be found [here]({{site.baseurl}}/clients-and-channels/clients/virtual-assistant-client/).
 
 #### Teams Channel Support
 {:.no_toc}
