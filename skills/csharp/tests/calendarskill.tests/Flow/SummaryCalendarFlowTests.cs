@@ -309,7 +309,7 @@ namespace CalendarSkill.Test.Flow
                     this.ParseReplies(SummaryResponses.ReadOutMessage, new StringDictionary()
                     {
                         {
-                            "Date", DateTime.Now.AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
+                            "Date", DateTime.Now.ToUniversalTime().AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
                         },
                         {
                             "Time", "at 6:00 PM"
