@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -74,7 +75,8 @@ namespace VirtualAssistantSample
             services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure bot services
-            services.AddSingleton<BotServices>();
+            var botservices = new BotServices(settings, new BotTelemetryClient(new Microsoft.ApplicationInsights.TelemetryClient()));
+            services.AddSingleton(botservices);
 
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
@@ -112,6 +114,10 @@ namespace VirtualAssistantSample
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
+
+            // SAMPLE: Multi-turn QnA dialog
+            var currentLocale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            services.AddTransient(s => new QnADialog(botservices.CognitiveModelSets[currentLocale].QnAServices["HRBenefits"]));
 
             // Register skill dialogs
             foreach (var skill in settings.Skills)

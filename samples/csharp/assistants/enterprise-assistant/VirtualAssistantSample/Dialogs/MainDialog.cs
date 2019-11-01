@@ -27,6 +27,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
+        private QnADialog _qnaDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -55,6 +56,9 @@ namespace VirtualAssistantSample.Dialogs
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
             AddDialog(_onboardingDialog);
+
+            _qnaDialog = serviceProvider.GetService<QnADialog>();
+            AddDialog(_qnaDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -260,6 +264,10 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
                 }
+                else if (dispatchIntent == DispatchLuis.Intent.q_HRBenefits)
+                {
+                    await CallMultiturnQnAMaker(innerDc);
+                }
                 else
                 {
                     innerDc.SuppressCompletionMessage(true);
@@ -382,6 +390,12 @@ namespace VirtualAssistantSample.Dialogs
             {
                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
             }
+        }
+
+        private async Task CallMultiturnQnAMaker(DialogContext innerDc)
+        {
+            // Start QnA dialog.
+            await innerDc.BeginDialogAsync(nameof(QnADialog));
         }
 
         private async Task<ResourceResponse[]> StoreOutgoingActivities(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
