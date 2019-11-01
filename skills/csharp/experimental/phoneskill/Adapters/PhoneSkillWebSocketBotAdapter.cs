@@ -23,6 +23,7 @@ namespace PhoneSkill.Adapters
             BotStateSet botStateSet,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
+            : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {

@@ -246,5 +246,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "ReadStartDate": {
+    "replies": [
+      {
+        "text": "这个会议在{EventStartDate}开始。",
+        "speak": "这个会议在{EventStartDate}开始。"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

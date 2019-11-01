@@ -1,13 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
-using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.Responses.Main;
-using SkillSample.Responses.Sample;
 using SkillSample.Tests.Utterances;
 
 namespace SkillSample.Tests
@@ -20,10 +15,10 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReply(NamePrompt())
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .Send(GeneralUtterances.Help)
-               .AssertReply(HelpResponse())
-               .AssertReply(NamePrompt())
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .StartTestAsync();
         }
 
@@ -32,37 +27,10 @@ namespace SkillSample.Tests
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReply(NamePrompt())
+               .AssertReplyOneOf(GetTemplates("NamePromptText"))
                .Send(GeneralUtterances.Cancel)
-               .AssertReply(CancelResponse())
+               .AssertReplyOneOf(GetTemplates("CancelledText"))
                .StartTestAsync();
-        }
-
-        private Action<IActivity> NamePrompt()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.NamePrompt, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> HelpResponse()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(MainResponses.HelpMessage, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> CancelResponse()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(MainResponses.CancelMessage, new StringDictionary()), messageActivity.Text);
-            };
         }
     }
 }

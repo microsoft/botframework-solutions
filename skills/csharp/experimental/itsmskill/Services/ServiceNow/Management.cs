@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Models.ServiceNow;
+using ITSMSkill.Responses.Shared;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers;
@@ -68,13 +69,10 @@ namespace ITSMSkill.Services.ServiceNow
         {
             try
             {
-                var request = CreateRequest(getUserIdResource);
-                var userId = await client.GetAsync<GetUserIdResponse>(request);
-
-                request = CreateRequest(TicketResource);
+                var request = CreateRequest(TicketResource);
                 var body = new CreateTicketRequest()
                 {
-                    caller_id = userId.result,
+                    caller_id = await GetUserId(),
                     short_description = title,
                     description = description,
                     urgency = UrgencyToString[urgency]
@@ -194,15 +192,12 @@ namespace ITSMSkill.Services.ServiceNow
             try
             {
                 // minimum field required: https://community.servicenow.com/community?id=community_question&sys_id=84ceb6a5db58dbc01dcaf3231f9619e9
-                var request = CreateRequest(getUserIdResource);
-                var userId = await client.GetAsync<GetUserIdResponse>(request);
-
-                request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
+                var request = CreateRequest($"{TicketResource}/{id}?sysparm_exclude_ref_link=true");
                 var body = new
                 {
                     close_code = "Closed/Resolved by Caller",
                     state = "7",
-                    caller_id = userId.result,
+                    caller_id = await GetUserId(),
                     close_notes = reason
                 };
                 request.JsonSerializer = new JsonNoNull();
@@ -288,12 +283,9 @@ namespace ITSMSkill.Services.ServiceNow
 
         private async Task<List<string>> CreateTicketSearchQuery(string query, List<UrgencyLevel> urgencies, string id, List<TicketState> states, string number)
         {
-            var request = CreateRequest(getUserIdResource);
-            var userId = await client.GetAsync<GetUserIdResponse>(request);
-
             var sysparmQuery = new List<string>
             {
-                $"caller_id={userId.result}"
+                $"caller_id={await GetUserId()}"
             };
 
             if (!string.IsNullOrEmpty(query))
@@ -335,6 +327,18 @@ namespace ITSMSkill.Services.ServiceNow
             };
 
             return sysparmQuery;
+        }
+
+        private async Task<string> GetUserId()
+        {
+            var request = CreateRequest(getUserIdResource);
+            var userId = await client.GetAsync<GetUserIdResponse>(request);
+            if (userId == null || string.IsNullOrEmpty(userId.result))
+            {
+                throw new Exception(SharedStrings.InvalidGetUserId);
+            }
+
+            return userId.result;
         }
 
         private Ticket ConvertTicket(TicketResponse ticketResponse)

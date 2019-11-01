@@ -81,7 +81,7 @@ namespace PointOfInterestSkill.Dialogs
 
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
+            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt, CanNoInterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectActionPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
@@ -106,7 +106,7 @@ namespace PointOfInterestSkill.Dialogs
             switch (type)
             {
                 case OpenDefaultAppType.Map: value.MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}"; break;
-                case OpenDefaultAppType.Telephone: value.TelephoneUri = destination.Phone; break;
+                case OpenDefaultAppType.Telephone: value.TelephoneUri = "tel:" + destination.Phone; break;
             }
 
             replyEvent.Value = value;
@@ -226,15 +226,18 @@ namespace PointOfInterestSkill.Dialogs
                         }
                         else
                         {
-                            await sc.Context.SendActivityAsync(cancelMessage);
-
-                            return await sc.EndDialogAsync();
+                            return await sc.ReplaceDialogAsync(Actions.CheckForCurrentLocation);
                         }
                     }
                     else if (sc.Result is FoundChoice)
                     {
                         // Update the current coordinates state with user choice.
                         userSelectIndex = (sc.Result as FoundChoice).Index;
+
+                        if (userSelectIndex < 0 || userSelectIndex >= state.LastFoundPointOfInterests.Count)
+                        {
+                            return await sc.ReplaceDialogAsync(Actions.CheckForCurrentLocation);
+                        }
 
                         state.CurrentCoordinates = state.LastFoundPointOfInterests[userSelectIndex].Geolocation;
                         state.LastFoundPointOfInterests = null;
@@ -376,6 +379,12 @@ namespace PointOfInterestSkill.Dialogs
 
                         // Update the destination state with user choice.
                         userSelectIndex = (sc.Result as FoundChoice).Index;
+
+                        if (userSelectIndex < 0 || userSelectIndex >= state.LastFoundPointOfInterests.Count)
+                        {
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(POISharedResponses.CancellingMessage));
+                            return await sc.EndDialogAsync();
+                        }
 
                         state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
                         state.LastFoundPointOfInterests = null;
@@ -888,6 +897,27 @@ namespace PointOfInterestSkill.Dialogs
                 else
                 {
                     return false;
+                }
+            }
+        }
+
+        private async Task<bool> CanNoInterruptablePromptValidator(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
+        {
+            if (promptContext.Recognized.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                var state = await Accessor.GetAsync(promptContext.Context);
+                if (state.GeneralIntent == General.Intent.Reject || state.GeneralIntent == General.Intent.SelectNone)
+                {
+                    promptContext.Recognized.Value = new FoundChoice { Index = -1 };
+                    return true;
+                }
+                else
+                {
+                    return await InterruptablePromptValidator(promptContext, cancellationToken);
                 }
             }
         }

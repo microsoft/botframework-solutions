@@ -32,6 +32,7 @@ namespace CalendarSkill.Responses.Summary
         public const string ReadDuration = "ReadDuration";
         public const string ReadLocation = "ReadLocation";
         public const string ReadNoLocation = "ReadNoLocation";
+        public const string ReadStartDate = "ReadStartDate";
         public const string AskForChangeStatus = "AskForChangeStatus";
         public const string AskForAction = "AskForAction";
         public const string AskForOrgnizerAction = "AskForOrgnizerAction";

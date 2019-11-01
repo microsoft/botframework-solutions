@@ -105,7 +105,9 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         protected Task<bool> TokenResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event)
+            if (activity != null &&
+               ((activity.Type == ActivityTypes.Event && activity.Name == "tokens/response") ||
+               (activity.Type == ActivityTypes.Invoke && activity.Name == "signin/verifyState")))
             {
                 return Task.FromResult(true);
             }
@@ -363,7 +365,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
 
             var eventActivity = promptContext.Context.Activity.AsEventActivity();
-            if (eventActivity != null && eventActivity.Name == "tokens/response")
+            if (eventActivity != null && eventActivity.Name == TokenEvents.TokenResponseEventName)
             {
                 promptContext.Recognized.Value = eventActivity.Value as TokenResponse;
                 return Task.FromResult(true);

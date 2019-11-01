@@ -38,7 +38,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -69,7 +69,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -98,7 +98,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -244,9 +244,19 @@ namespace EmailSkill.Tests.Flow
             return ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
-        private string[] CollectEmailContentMessage()
+        private Action<IActivity> CollectEmailContentMessageForForward(string userName)
         {
-            return ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", userName } });
+                noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
+                noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+
+                Assert.AreEqual(noEmailContentMessage.Text, messageActivity.Text);
+            };
         }
 
         private Action<IActivity> ShowAuth()

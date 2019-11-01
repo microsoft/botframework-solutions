@@ -142,7 +142,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to who.*(with|attend|join|come).
+        ///   Looks up a localized string similar to who.*(with|attend|join|come|meet).
         /// </summary>
         public static string AskForAttendee {
             get {
@@ -160,6 +160,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to what (day|date).
+        /// </summary>
+        public static string AskForDate {
+            get {
+                return ResourceManager.GetString("AskForDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to what (is|are)?.*about.
         /// </summary>
         public static string AskForDetail {
@@ -169,7 +178,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to how long.
+        ///   Looks up a localized string similar to (how long|what.*duration).
         /// </summary>
         public static string AskForDuration {
             get {
@@ -300,6 +309,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string DefaultTitle {
             get {
                 return ResourceManager.GetString("DefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dddd, MMMM d.
+        /// </summary>
+        public static string DisplayDateLong {
+            get {
+                return ResourceManager.GetString("DisplayDateLong", resourceCulture);
             }
         }
         

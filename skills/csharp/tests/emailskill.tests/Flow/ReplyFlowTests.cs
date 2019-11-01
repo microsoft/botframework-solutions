@@ -30,7 +30,7 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(ShowEmailList())
                 .AssertReplyOneOf(NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReplyOneOf(CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -49,7 +49,7 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(ShowEmailList())
                 .AssertReplyOneOf(NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReplyOneOf(CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -139,9 +139,9 @@ namespace EmailSkill.Tests.Flow
             };
         }
 
-        private string[] CollectEmailContentMessage()
+        private string[] CollectEmailContentMessageForReply()
         {
-            return this.ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
+            return this.ParseReplies(EmailSharedResponses.NoEmailContentForReply, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

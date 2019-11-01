@@ -211,6 +211,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ReadStartDate": {
+    "replies": [
+      {
+        "text": "It starts on {EventStartDate}.",
+        "speak": "It starts on {EventStartDate}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "AskForChangeStatus": {
     "replies": [
       {
