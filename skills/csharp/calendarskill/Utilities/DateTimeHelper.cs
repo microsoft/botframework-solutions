@@ -1,4 +1,7 @@
-﻿using CalendarSkill.Responses.Shared;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CalendarSkill.Responses.Shared;
 
 namespace CalendarSkill.Utilities
 {

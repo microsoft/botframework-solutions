@@ -1,4 +1,7 @@
-﻿using EmailSkill.Responses.Shared;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Models
