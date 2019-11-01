@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 
@@ -31,24 +32,23 @@ namespace EmailSkill.Dialogs
     {
         public EmailSkillDialogBase(
              string dialogId,
-             BotSettings settings,
-             BotServices services,
-             ResponseManager responseManager,
-             ConversationState conversationState,
-             IServiceManager serviceManager,
-             IBotTelemetryClient telemetryClient,
-             MicrosoftAppCredentials appCredentials)
+             IServiceProvider serviceProvider,
+             IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
-            Settings = settings;
-            Services = services;
-            ResponseManager = responseManager;
+            Settings = serviceProvider.GetService<BotSettings>();
+            Services = serviceProvider.GetService<BotServices>();
+            ResponseManager = serviceProvider.GetService<ResponseManager>();
+
+            var conversationState = serviceProvider.GetService<ConversationState>();
             EmailStateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            ServiceManager = serviceManager;
+
+            ServiceManager = serviceProvider.GetService<IServiceManager>();
             TelemetryClient = telemetryClient;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
+            var appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
+            AddDialog(new MultiProviderAuthDialog(Settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -72,15 +72,13 @@ namespace EmailSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult, true);
+            await DigestEmailLuisResult(dc, true);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult, false);
+            await DigestEmailLuisResult(dc, false);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -105,16 +103,16 @@ namespace EmailSkill.Dialogs
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var skillLuisResult = luisResult?.TopIntent().intent;
-                var generalLuisResult = state.GeneralLuisResult;
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (skillOptions == null || !skillOptions.SubFlowMode)
                 {
                     // Clear email state data
                     await ClearConversationState(sc);
-                    await DigestEmailLuisResult(sc, luisResult, true);
+                    await DigestEmailLuisResult(sc, true);
 
                     state.GeneralSearchTexts = state.SearchTexts;
                     state.GeneralSenderName = state.SenderName;
@@ -159,9 +157,9 @@ namespace EmailSkill.Dialogs
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var skillLuisResult = luisResult?.TopIntent().intent;
-                var generalLuisResult = state.GeneralLuisResult;
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (skillLuisResult == EmailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
@@ -292,7 +290,7 @@ namespace EmailSkill.Dialogs
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
 
                 await DigestFocusEmailAsync(sc);
                 var focusedMessage = state.Message.FirstOrDefault();
@@ -698,8 +696,10 @@ namespace EmailSkill.Dialogs
 
                 var messages = state.MessageList;
 
-                if (((state.LuisResult.Entities.ordinal != null) && (state.LuisResult.Entities.ordinal.Count() > 0))
-                    || ((state.GeneralLuisResult?.Entities?.number != null) && (state.GeneralLuisResult.Entities.number.Count() > 0)))
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                if (((luisResult.Entities.ordinal != null) && (luisResult.Entities.ordinal.Count() > 0))
+                    || ((generalLuisResult?.Entities?.number != null) && (generalLuisResult.Entities.number.Count() > 0)))
                 {
                     // Search by ordinal and number
                     if (state.MessageList.Count > state.UserSelectIndex)
@@ -1277,17 +1277,17 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLuis luisResult, bool isBeginDialog)
+        protected async Task DigestEmailLuisResult(DialogContext dc, bool isBeginDialog)
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(dc.Context);
-
+                var state = await EmailStateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+                var luisResult = dc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
+                var generalResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var intent = luisResult.TopIntent().intent;
 
                 var entity = luisResult.Entities;
-
-                var generalEntity = state.GeneralLuisResult.Entities;
+                var generalEntity = generalResult.Entities;
 
                 if (entity != null)
                 {

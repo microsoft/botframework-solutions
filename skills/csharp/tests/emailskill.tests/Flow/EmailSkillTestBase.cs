@@ -33,6 +33,10 @@ namespace EmailSkill.Tests.Flow
 {
     public class EmailSkillTestBase : BotTestBase
     {
+        public static readonly string MagicCode = "123456";
+
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -49,7 +53,7 @@ namespace EmailSkill.Tests.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -60,7 +64,7 @@ namespace EmailSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new MockGeneralLuisRecognizer() },
                                 {
@@ -112,26 +116,19 @@ namespace EmailSkill.Tests.Flow
             Services.AddTransient<ReplyEmailDialog>();
             Services.AddTransient<SendEmailDialog>();
             Services.AddTransient<ShowEmailDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;
         }
 
-        public Activity GetAuthResponse()
-        {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test"),
-                AuthenticationProvider = OAuthProvider.AzureAD
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
-        }
-
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
+
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken(Provider, Microsoft.Bot.Connector.Channels.Test, adapter.Conversation.User.Id, "testToken", MagicCode);
+
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 

@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkill.Services;
-using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Strings;
 using EmailSkill.Tests.Flow.Utterances;
-using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkill.Tests.Flow
@@ -32,7 +26,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
@@ -62,7 +56,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
@@ -94,7 +88,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipient)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -124,7 +118,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubjectAndContext)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -148,7 +142,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.ConfirmEmail(recipientDict))
@@ -179,7 +173,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.ConfirmEmail(recipientDict))
@@ -209,7 +203,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
@@ -237,7 +231,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToNobody)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReply(this.CoundNotFindUser(recipientDict))
                 .Send(testRecipientConfirm)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -269,7 +263,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToMultiRecipient)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReply(this.BeforeConfirmMultiName(recipientDict, recipientDupDict))
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -300,7 +294,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestEmptyRecipient)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
@@ -334,7 +328,7 @@ namespace EmailSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
+                .Send(MagicCode)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send("wrong name")
                 .AssertReplyOneOf(this.UserNotFoundPrompt("wrong name"))

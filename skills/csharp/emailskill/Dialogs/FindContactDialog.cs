@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailSkill.Dialogs
 {
@@ -28,20 +29,18 @@ namespace EmailSkill.Dialogs
         public static readonly int MaxAcceptContactsNum = 20;
 
         public FindContactDialog(
-             BotSettings settings,
-             BotServices services,
-             ResponseManager responseManager,
-             ConversationState conversationState,
-             IServiceManager serviceManager,
+             IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
              : base(nameof(FindContactDialog))
         {
             TelemetryClient = telemetryClient;
-            Services = services;
-            ResponseManager = responseManager;
+            Services = serviceProvider.GetService<BotServices>();
+            ResponseManager = serviceProvider.GetService<ResponseManager>();
+
+            var conversationState = serviceProvider.GetService<ConversationState>();
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            ServiceManager = serviceManager;
+            ServiceManager = serviceProvider.GetService<IServiceManager>();
             TelemetryClient = telemetryClient;
 
             // entry, get the name list
@@ -601,9 +600,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generlLuisResult = state.GeneralLuisResult;
+                var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
                 if (sc.Result == null)
@@ -684,9 +683,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generlLuisResult = state.GeneralLuisResult;
+                var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
                 if (sc.Result == null)
@@ -933,9 +932,9 @@ namespace EmailSkill.Dialogs
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(pc.Context);
-            var generalLuisResult = state.GeneralLuisResult;
+            var generalLuisResult = pc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
             var generalTopIntent = generalLuisResult?.TopIntent().intent;
-            var emailLuisResult = state.LuisResult;
+            var emailLuisResult = pc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
             var emailTopIntent = emailLuisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic

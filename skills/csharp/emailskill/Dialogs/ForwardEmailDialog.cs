@@ -19,15 +19,9 @@ namespace EmailSkill.Dialogs
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
         public ForwardEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            FindContactDialog findContactDialog,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ForwardEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -71,7 +65,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(serviceProvider, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
