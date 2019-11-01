@@ -119,7 +119,7 @@ namespace ToDoSkill
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
-            services.AddSingleton<IBot, DialogBot<MainDialog>>();
+            services.AddSingleton<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         /// <summary>

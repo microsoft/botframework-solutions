@@ -69,7 +69,7 @@ namespace ToDoSkillTest.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
                                 {
@@ -111,10 +111,15 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
 
+            //Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+
             Services.AddSingleton<TestAdapter>(sp =>
             {
-                var botStateSet = sp.GetService<BotStateSet>();
-                var adapter = new DefaultTestAdapter(botStateSet, OauthConnection, OauthConnection);
+                //   var adapter = sp.GetService<DefaultTestAdapter>();
+                var adapter = new DefaultTestAdapter();
+
+                //var adapter = sp.GetService<TestAdapter>();
+
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
                 var resource = sp.GetService<ResourceExplorer>();
@@ -132,7 +137,7 @@ namespace ToDoSkillTest.Flow
             Services.AddTransient<DeleteToDoItemDialog>();
             Services.AddTransient<MarkToDoItemDialog>();
             Services.AddTransient<ShowToDoItemDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var path = Environment.CurrentDirectory;
             path = Path.Combine(path + @"\..\..\..\..\todoskill\");

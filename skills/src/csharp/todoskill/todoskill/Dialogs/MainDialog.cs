@@ -24,7 +24,7 @@ using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotSettings _settings;
         private BotServices _services;
@@ -53,13 +53,13 @@ namespace ToDoSkill.Dialogs
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = await ToDoCommonUtil.GetToDoResponseActivity("[ToDoWelcomeMessage]", dc.Context, null);
             await dc.Context.SendActivityAsync(activity);
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
@@ -145,12 +145,12 @@ namespace ToDoSkill.Dialogs
 
                 if (turnResult != EndOfTurn)
                 {
-                    await CompleteAsync(dc);
+                    await OnDialogCompleteAsync(dc);
                 }
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
@@ -165,7 +165,7 @@ namespace ToDoSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             switch (dc.Context.Activity.Name)
             {
@@ -247,9 +247,8 @@ namespace ToDoSkill.Dialogs
             var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoMainResponses.CancelMessage}]", dc.Context, null);
             await dc.Context.SendActivityAsync(activity);
 
-            await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
@@ -257,7 +256,7 @@ namespace ToDoSkill.Dialogs
             var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoMainResponses.HelpMessage}]", dc.Context, null);
             await dc.Context.SendActivityAsync(activity);
 
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -285,7 +284,7 @@ namespace ToDoSkill.Dialogs
             var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoMainResponses.LogOut}]", dc.Context, null);
             await dc.Context.SendActivityAsync(activity);
 
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private void InitializeConfig(ToDoSkillState state)
