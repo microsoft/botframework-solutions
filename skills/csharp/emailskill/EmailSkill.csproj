@@ -5,6 +5,9 @@
     <UserSecretsId>3383fcc5-4017-4e0a-9103-68603b68fe1d</UserSecretsId>
     <NoWarn>NU1701</NoWarn>
     <LangVersion>7.1</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
