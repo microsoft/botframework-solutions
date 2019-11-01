@@ -138,7 +138,7 @@ The Virtual Assistant analytics sample provides a Power BI template that can be 
 ### Prerequisites
 * [Install Power BI Desktop](https://powerbi.microsoft.com/desktop/)
 * [Download the Virtual Assistant analytics Power BI template]({{site.baseurl}}/assets/analytics/virtual-assistant-analytics-sample.pbit)
-* [Create a Virtual Assistant]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro) to deploy your Azure resources
+* [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) to deploy your Azure resources
 
 ### Time To Complete
 10 minutes
