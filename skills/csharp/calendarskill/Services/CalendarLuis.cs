@@ -15,7 +15,8 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AcceptEventEntry, 
+            AcceptEventEntry,
+            AddAttendee,
             Cancel, 
             ChangeCalendarEntry, 
             CheckAvailability, 
@@ -31,6 +32,9 @@ namespace Luis
             FindCalendarWho, 
             FindDuration, 
             FindMeetingRoom, 
+            AddMeetingRoom,
+            ChangeMeetingRoom,
+            CancelMeetingRoom,
             GoBack, 
             None, 
             Reject, 
@@ -60,6 +64,7 @@ namespace Luis
             public string[] Message;
             public string[] Duration;
             public string[] DestinationCalendar;
+            public string[] ContactName;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
@@ -69,6 +74,8 @@ namespace Luis
             // Lists
             public string[][] PossessivePronoun;
             public string[][] RelationshipName;
+            public string[][] BuildingName;
+            public string[][] MeetingRoomName;
 
             // Instance
             public class _Instance
@@ -95,6 +102,9 @@ namespace Luis
                 public InstanceData[] ordinal;
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
+                public InstanceData[] ContactName;
+                public InstanceData[] BuildingName;
+                public InstanceData[] MeetingRoomName;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

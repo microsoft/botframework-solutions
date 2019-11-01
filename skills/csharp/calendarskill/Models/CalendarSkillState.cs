@@ -40,7 +40,7 @@ namespace CalendarSkill.Models
 
         public void Clear()
         {
-            UserInfo = new UserInformation();
+            //UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
             InitialIntent = null;

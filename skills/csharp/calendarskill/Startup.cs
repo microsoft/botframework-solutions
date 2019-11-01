@@ -130,6 +130,7 @@ namespace CalendarSkill
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
             services.AddTransient<FindMeetingRoomDialog>();
+            services.AddTransient<UpdateMeetingRoomDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

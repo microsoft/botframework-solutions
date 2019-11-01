@@ -180,7 +180,7 @@ namespace CalendarSkill.Dialogs
                 // get name list from sc.result
                 if (sc.Result != null)
                 {
-                    if (options != null && state.LuisResult.TopIntent().intent == CalendarLuis.Intent.Reject)
+                    if (options != null && state.LuisResult.TopIntent().intent == CalendarLuis.Intent.Reject && state.LuisResult.TopIntent().score > 0.5)
                     {
                         return await sc.EndDialogAsync();
                     }
@@ -188,13 +188,19 @@ namespace CalendarSkill.Dialogs
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                    // if is skip. set the name list to be myself only.
-                    if (CreateEventWhiteList.IsSkip(userInput))
+                    if (state.LuisResult.TopIntent().intent == CalendarLuis.Intent.AddAttendee && state.LuisResult.Entities.ContactName != null)
                     {
-                        state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>
+                        userInput = state.LuisResult.Entities.ContactName[0];
+                    }
+
+                    // if is skip/myself, ignore it
+                    if (CreateEventWhiteList.IsSkip(userInput.ToLower()) || CreateEventWhiteList.GetMyself(userInput.ToLower()))
+                    {
+                        /*state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>
                         {
                             CalendarCommonStrings.MyselfConst
-                        };
+                        };*/
+                        return await sc.EndDialogAsync();
                     }
                     else
                     if (state.EventSource != EventSource.Other)
@@ -255,7 +261,7 @@ namespace CalendarSkill.Dialogs
                     state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
                     state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = 0;
                     var options = sc.Options as FindContactDialogOptions;
-                    if (options.PromptMoreContact && state.MeetingInfor.ContactInfor.Contacts.Count < 20)
+                    if (options.PromptMoreContact && state.MeetingInfor.ContactInfor.Contacts.Count < 20 && state.MeetingInfor.ContactInfor.Contacts.Count != 0)
                     {
                         return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);
                     }
@@ -470,6 +476,30 @@ namespace CalendarSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
+                if (!string.IsNullOrEmpty(userInput))
+                {
+                    if (state.LuisResult.TopIntent().intent == CalendarLuis.Intent.Reject && state.LuisResult.TopIntent().score > 0.5)
+                    {
+                        return await sc.EndDialogAsync();
+                    }
+
+                    if (state.LuisResult.TopIntent().intent == CalendarLuis.Intent.AddAttendee && state.LuisResult.Entities.ContactName != null)
+                    {
+                        userInput = state.LuisResult.Entities.ContactName[0];
+                    }
+
+                    // if is skip/myself, ignore it
+                    if (CreateEventWhiteList.IsSkip(userInput.ToLower()) || CreateEventWhiteList.GetMyself(userInput.ToLower()))
+                    {
+                        /*state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>
+                        {
+                            CalendarCommonStrings.MyselfConst
+                        };*/
+                        return await sc.EndDialogAsync();
+                    }
+
+                }
+
                 state.MeetingInfor.ContactInfor.CurrentContactName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
 
                 return await sc.NextAsync();
@@ -510,7 +540,7 @@ namespace CalendarSkill.Dialogs
 
                 var unionList = new List<CustomizedPerson>();
 
-                if (CreateEventWhiteList.GetMyself(currentRecipientName))
+                if (CreateEventWhiteList.GetMyself(currentRecipientName.ToLower()))
                 {
                     var me = await GetMe(sc.Context);
                     unionList.Add(new CustomizedPerson(me));
@@ -818,6 +848,11 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                if (state.MeetingInfor.ContactInfor.Contacts.Count() == 0)
+                {
+                    sc.EndDialogAsync();
+                }
+
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}") } }),

@@ -151,6 +151,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to any.
+        /// </summary>
+        public static string Any {
+            get {
+                return ResourceManager.GetString("Any", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to who.*(with|attend|join|come).
         /// </summary>
         public static string AskForAttendee {
@@ -421,7 +430,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^(me|myself)$.
+        ///   Looks up a localized string similar to (^| )(me|myself)($|[^a-z0-9]).
         /// </summary>
         public static string Myself {
             get {
@@ -453,6 +462,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string NoAttendees {
             get {
                 return ResourceManager.GetString("NoAttendees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a meeting.
+        /// </summary>
+        public static string NoSubject {
+            get {
+                return ResourceManager.GetString("NoSubject", resourceCulture);
             }
         }
         
@@ -628,11 +646,20 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^(skip|no).
+        ///   Looks up a localized string similar to (^| )(skip|ignore|no)($|[^a-z0-9]).
         /// </summary>
         public static string SkipPhrases {
             get {
                 return ResourceManager.GetString("SkipPhrases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         
@@ -669,6 +696,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string WeeklyToken {
             get {
                 return ResourceManager.GetString("WeeklyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .*(else|other).*.
+        /// </summary>
+        public static string WhatElse {
+            get {
+                return ResourceManager.GetString("WhatElse", resourceCulture);
             }
         }
         

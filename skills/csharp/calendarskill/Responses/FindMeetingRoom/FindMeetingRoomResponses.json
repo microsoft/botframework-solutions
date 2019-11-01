@@ -1,85 +1,4 @@
 {
-  "AddMoreAttendees": {
-    "replies": [
-      {
-        "text": "Which meeting room do you want to book?",
-        "speak": "Which meeting room do you want to book?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AddMoreUserPrompt": {
-    "replies": [
-      {
-        "text": "I have included {Users}, do you want to add any other participants?",
-        "speak": "I have included {Users}, do you want to add any other participants?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AlreadyFirstPage": {
-    "replies": [
-      {
-        "text": "This is already the first page.",
-        "speak": " "
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AlreadyLastPage": {
-    "replies": [
-      {
-        "text": "This is already the last page.",
-        "speak": " "
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "BeforeSendingMessage": {
-    "replies": [
-      {
-        "text": "Okay, I understand you want to send the event to {NameList}.",
-        "speak": "Okay, I understand you want to send the event to {NameList}."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ConfirmMultiplContactEmailMultiPage": {
-    "replies": [
-      {
-        "text": "I found multiple contact details for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ConfirmMultiplContactEmailSinglePage": {
-    "replies": [
-      {
-        "text": "I found multiple contact details for {UserName}. Which one would you like?",
-        "speak": "I found multiple contact details for {UserName}. Which one would you like?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ConfirmMultipleContactNameMultiPage": {
-    "replies": [
-      {
-        "text": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ConfirmMultipleContactNameSinglePage": {
-    "replies": [
-      {
-        "text": "I found multiple contacts for {UserName}. Which one would you like?",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "ConfirmMultipleMeetingRoomMultiPage": {
     "replies": [
       {
@@ -143,15 +62,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "MeetingBooked": {
-    "replies": [
-      {
-        "text": "Alright, your meeting is confirmed.",
-        "speak": "Alright, your meeting is confirmed."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "MeetingRoomNotFound": {
     "replies": [
       {
@@ -170,15 +80,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoAttendees": {
-    "replies": [
-      {
-        "text": "Sure, who will join?",
-        "speak": "Sure, who will join?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "NoMeetingRoom": {
     "replies": [
       {
@@ -188,31 +89,130 @@
     ],
     "inputHint": "expectingInput"
   },
-  "PromptOneNameOneAddress": {
+  "CannotFindMeetingRoom": {
     "replies": [
       {
-        "text": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?",
-        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?"
+        "text": "It doesn't look like any rooms are available{InBulding}{OnFloorNumber} {DateTime}.",
+        "speak": "It doesn't look like any rooms are available{InBulding}{OnFloorNumber} {DateTime}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+    "CannotFindOtherMeetingRoom": {
+    "replies": [
+      {
+        "text": "It doesn't look like there are any OTHER rooms available{InBulding}{OnFloorNumber} {DateTime}.",
+        "speak": "It doesn't look like there are any OTHER rooms available{InBulding}{OnFloorNumber} {DateTime}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "IgnoreMeetingRoom": {
+    "replies": [
+      {
+        "text": "No problem.",
+        "speak": "No problem."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "RejectConfirmMeetingRoom": {
+    "replies": [
+      {
+        "text": "No problem.",
+        "speak": "No problem."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "RecreateMeetingRoom": {
+    "replies": [
+      {
+        "text": "You can look for a different time, a different room, or you can cancel your request.",
+        "speak": "You can look for a different time, a different room, or you can cancel your request."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "RecreateMeetingRoomAgain": {
+    "replies": [
+      {
+        "text": "I didn't understand, perhaps try again in a different way",
+        "speak": "I didn't understand, perhaps try again in a different way."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BookNewMeetingWithRoom": {
+    "replies": [
+      {
+        "text": "Okay, I'll create a new meeting with that room.",
+        "speak": "Okay, I'll create a new meeting with that room."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+    "NoBuilding": {
+    "replies": [
+      {
+        "text": "OK, which building?",
+        "speak": "OK, which building?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "UserNotFound": {
+  "BuildingNonexistent": {
     "replies": [
       {
-        "text": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible.",
-        "speak": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible."
+        "text": "Sorry, I couldn't find that building. Can you say it differently, or choose another building?",
+        "speak": "Sorry, I couldn't find that building. Can you say it differently, or choose another building?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "UserNotFoundAgain": {
+  "NoFloorNumber": {
     "replies": [
       {
-        "text": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.",
-        "speak": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
+        "speak": "Alright, do you have a floor preference?",
+        "text": "Alright, do you have a floor preference?"
       }
     ],
     "inputHint": "expectingInput"
-  }
+  },
+  "FloorNumberRetry": {
+    "replies": [
+      {
+        "speak": "Sorry, I didn't get that. Can you say it differently?",
+        "text": "Sorry, I didn't get that. Can you say it differently?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MeetingRoomCreated": {
+    "replies": [
+      {
+        "text": "Okey, I'll create a new meeting with that room",
+        "speak": "Okey, I'll create a new meeting with that room"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmMeetingRoomFailed": {
+    "replies": [
+      {
+        "text": "I'm ready to create the event. Please confirm the following:",
+        "speak": "I'm ready to create the event. Please confirm the following:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMeetingRoomPrompt": {
+    "replies": [
+      {
+        "text": "{MeetingRoom} is available {DateTime}, do you want to reserve it?",
+        "speak": "{MeetingRoom} is available {DateTime}, do you want to reserve it?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
 }

@@ -30,13 +30,24 @@ namespace CalendarSkill.Services
             _collectionId = settings.AzureSearch.SourceCollectionName;
         }
 
-        public async Task<List<PlaceModel>> GetMeetingRoomByTitleAsync(string name)
+        public async Task<List<PlaceModel>> GetMeetingRoomAsync(string name)
         {
             try
             {
                 List<PlaceModel> meetingRooms = new List<PlaceModel>();
                 _indexClient = _searchClient.Indexes.GetClient(_searchIndexName);
-                DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(name);
+                SearchParameters parameters = new SearchParameters()
+                {
+                    SearchMode = SearchMode.All
+                };
+                DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(name, parameters);
+
+                if (searchResult.Results.Count() == 0)
+                {
+                    parameters.SearchMode = SearchMode.Any;
+                    searchResult = await _indexClient.Documents.SearchAsync(name, parameters);
+                }
+
                 foreach (var item in searchResult.Results)
                 {
                     meetingRooms.Add(new PlaceModel()
@@ -65,9 +76,16 @@ namespace CalendarSkill.Services
                 _indexClient = _searchClient.Indexes.GetClient(_searchIndexName);
                 SearchParameters parameters = new SearchParameters()
                 {
-                    //SearchFields = new[] { "Building" }
+                    SearchMode = SearchMode.All
                 };
                 DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(building, parameters);
+
+                if (searchResult.Results.Count() == 0)
+                {
+                    parameters.SearchMode = SearchMode.Any;
+                    searchResult = await _indexClient.Documents.SearchAsync(building, parameters);
+                }
+
                 foreach (var item in searchResult.Results)
                 {
                     meetingRooms.Add(new PlaceModel()
@@ -98,8 +116,16 @@ namespace CalendarSkill.Services
                 {
                     //SearchFields = new[] { "Building" },
                     Filter = "FloorNumber eq " + floorNumber.ToString(),
+                    SearchMode = SearchMode.All,
                 };
                 DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(building, parameters);
+
+                if (searchResult.Results.Count() == 0)
+                {
+                    parameters.SearchMode = SearchMode.Any;
+                    searchResult = await _indexClient.Documents.SearchAsync(building, parameters);
+                }
+
                 foreach (var item in searchResult.Results)
                 {
                     meetingRooms.Add(new PlaceModel()

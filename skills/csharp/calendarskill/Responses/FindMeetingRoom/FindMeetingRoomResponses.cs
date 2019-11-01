@@ -12,15 +12,6 @@ namespace CalendarSkill.Responses.FindMeetingRoom
     public class FindMeetingRoomResponses : IResponseIdCollection
     {
         // Generated accessors
-        public const string AddMoreAttendees = "AddMoreAttendees";
-        public const string AddMoreUserPrompt = "AddMoreUserPrompt";
-        public const string AlreadyFirstPage = "AlreadyFirstPage";
-        public const string AlreadyLastPage = "AlreadyLastPage";
-        public const string BeforeSendingMessage = "BeforeSendingMessage";
-        public const string ConfirmMultiplContactEmailMultiPage = "ConfirmMultiplContactEmailMultiPage";
-        public const string ConfirmMultiplContactEmailSinglePage = "ConfirmMultiplContactEmailSinglePage";
-        public const string ConfirmMultipleContactNameMultiPage = "ConfirmMultipleContactNameMultiPage";
-        public const string ConfirmMultipleContactNameSinglePage = "ConfirmMultipleContactNameSinglePage";
         public const string ConfirmMultipleMeetingRoomMultiPage = "ConfirmMultipleMeetingRoomMultiPage";
         public const string ConfirmMultipleMeetingRoomSinglePage = "ConfirmMultipleMeetingRoomSinglePage";
         public const string FindMeetingRoomNoAttendees = "FindMeetingRoomNoAttendees";
@@ -28,13 +19,22 @@ namespace CalendarSkill.Responses.FindMeetingRoom
         public const string FindMeetingRoomNoDurationRetry = "FindMeetingRoomNoDurationRetry";
         public const string FindMeetingRoomNoTitle = "FindMeetingRoomNoTitle";
         public const string FindMeetingRoomNoTitleShort = "FindMeetingRoomNoTitleShort";
-        public const string MeetingBooked = "MeetingBooked";
         public const string MeetingRoomNotFound = "MeetingRoomNotFound";
         public const string MeetingRoomUnavailable = "MeetingRoomUnavailable";
-        public const string NoAttendees = "NoAttendees";
         public const string NoMeetingRoom = "NoMeetingRoom";
-        public const string PromptOneNameOneAddress = "PromptOneNameOneAddress";
-        public const string UserNotFound = "UserNotFound";
-        public const string UserNotFoundAgain = "UserNotFoundAgain";
+        public const string CannotFindMeetingRoom = "CannotFindMeetingRoom";
+        public const string CannotFindOtherMeetingRoom = "CannotFindOtherMeetingRoom";
+        public const string IgnoreMeetingRoom = "IgnoreMeetingRoom";
+        public const string RejectConfirmMeetingRoom = "RejectConfirmMeetingRoom";
+        public const string RecreateMeetingRoom = "RecreateMeetingRoom";
+        public const string RecreateMeetingRoomAgain = "RecreateMeetingRoomAgain";
+        public const string BookNewMeetingWithRoom = "BookNewMeetingWithRoom";
+        public const string NoBuilding = "NoBuilding";
+        public const string BuildingNonexistent = "BuildingNonexistent";
+        public const string NoFloorNumber = "NoFloorNumber";
+        public const string FloorNumberRetry = "FloorNumberRetry";
+        public const string MeetingRoomCreated = "MeetingRoomCreated";
+        public const string ConfirmMeetingRoomFailed = "ConfirmMeetingRoomFailed";
+        public const string ConfirmMeetingRoomPrompt = "ConfirmMeetingRoomPrompt";
     }
 }

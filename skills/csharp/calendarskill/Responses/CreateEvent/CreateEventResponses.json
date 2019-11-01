@@ -2,8 +2,8 @@
   "NoTitle": {
     "replies": [
       {
-        "text": "OK, I will send an invite to {UserName}, what is the subject of the meeting?",
-        "speak": "OK, I will send an invite to {UserName}, what is the subject of the meeting?"
+        "text": "what is the subject of the meeting?",
+        "speak": "what is the subject of the meeting?"
       }
     ],
     "inputHint": "expectingInput"
@@ -51,8 +51,8 @@
   "ConfirmCreateSubject": {
     "replies": [
       {
-        "text": " The subject of the event is {Subject}.",
-        "speak": " The subject of the event is {Subject}."
+        "text": " \"{Subject}\"",
+        "speak": " \"{Subject}\""
       }
     ],
     "inputHint": "acceptingInput"
@@ -60,8 +60,8 @@
   "ConfirmCreateLocation": {
     "replies": [
       {
-        "text": " The event will take place at {Location}.",
-        "speak": " The event will take place at {Location}."
+        "text": " at {Location}.",
+        "speak": " at {Location}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -78,13 +78,21 @@
   "ConfirmCreate": {
     "replies": [
       {
+        "text": "OK, I\\'ve got {SubjectConfirm} {Date} from {Time} to {EndTime}{AttendeesConfirm}{LocationConfirm}",
+        "speak": "OK, I\\'ve got {SubjectConfirm} {Date} from {Time} to {EndTime}{AttendeesConfirm}{LocationConfirm} Can you confirm this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateBackup": {
+    "replies": [
+      {
         "text": "I'm ready to create the event. The event is {Date}, from {Time} until {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}",
         "speak": "I'm ready to create the event. The event is {Date}, from {Time} until {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
       }
     ],
     "inputHint": "acceptingInput"
   },
-
   "ConfirmCreatePrompt": {
     "replies": [
       {
@@ -157,6 +165,15 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "MeetingBooked": {
+    "replies": [
+      {
+        "text": "Alright, your meeting is confirmed.",
+        "speak": "Alright, your meeting is confirmed."
+      }
+    ],
+    "inputHint": "acceptingInput"
   },
   "PromptTooManyPeople": {
     "replies": [

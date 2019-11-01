@@ -46,24 +46,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ConfirmMeetingRoomFailed": {
-    "replies": [
-      {
-        "text": "I'm ready to create the event. Please confirm the following:",
-        "speak": "I'm ready to create the event. Please confirm the following:"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ConfirmMeetingRoomPrompt": {
-    "replies": [
-      {
-        "text": "{MeetingRoom} is available {DateTime}, do you want to reserve it?",
-        "speak": "{MeetingRoom} is available {DateTime}, do you want to reserve it?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "DidntUnderstandMessage": {
     "replies": [
       {
@@ -105,15 +87,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "MeetingRoomCreated": {
-    "replies": [
-      {
-        "text": "Okey, I'll create a new meeting with that room",
-        "speak": "Okey, I'll create a new meeting with that room"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
+
   "MultipleEventsFound": {
     "replies": [
 
@@ -128,42 +102,6 @@
       {
         "text": "There are multiple events, please select the relevant event.",
         "speak": "There are multiple events, please select the relevant event."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoBuilding": {
-    "replies": [
-      {
-        "text": "Okey, which building?",
-        "speak": "Okey, which building?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "BuildingNonexistent": {
-    "replies": [
-      {
-        "text": "Sorry, this building can not be found, any other preference?",
-        "speak": "Sorry, this building can not be found, any other preference?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoFloorNumber": {
-    "replies": [
-      {
-        "speak": "Alright, do you have a floor preference?",
-        "text": "Alright, do you have a floor preference?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "FloorNumberRetry": {
-    "replies": [
-      {
-        "speak": "I don't understand the floor number you provided, can you try again?",
-        "text": "I don't understand the floor number you provided, can you try again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -222,74 +160,11 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "FindNewMeetingRoomPrompt": {
-    "replies": [
-      {
-        "text": "Do you want to find other meeting room?",
-        "speak": "Do you want to find other meeting room?"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "CancelRequest": {
     "replies": [
       {
         "text": "Okey, your request has been cancelled.",
         "speak": "Okey, your request has been cancelled."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "CannotFindMeetingRoom": {
-    "replies": [
-      {
-        "text": "It doesn't look like any rooms are available{InBulding}{OnFloorNumber} {DateTime}.",
-        "speak": "It doesn't look like any rooms are available{InBulding}{OnFloorNumber} {DateTime}."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "IgnoreMeetingRoom": {
-    "replies": [
-      {
-        "text": "OKey, this room has been ignored.",
-        "speak": "OKey, this room has been ignored."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "RejectConfirmMeetingRoom": {
-    "replies": [
-      {
-        "text": "No problem.",
-        "speak": "No problem."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "RecreateMeetingRoom": {
-    "replies": [
-      {
-        "text": "You can look for a different time, a different room, or you can cancel your request.",
-        "speak": "You can look for a different time, a different room, or you can cancel your request."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "RecreateMeetingRoomAgain": {
-    "replies": [
-      {
-        "text": "I didn't understand, perhaps try again in a different way",
-        "speak": "I didn't understand, perhaps try again in a different way."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "BookNewMeetingWithRoom": {
-    "replies": [
-      {
-        "text": "Okay, I'll create a new meeting with that room.",
-        "speak": "Okay, I'll create a new meeting with that room."
       }
     ],
     "inputHint": "acceptingInput"

@@ -156,6 +156,10 @@ namespace CalendarSkill.Dialogs
                 {
                     return await sc.BeginDialogAsync(nameof(FindMeetingRoomDialog), sc.Options, cancellationToken);
                 }
+                else if (state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom || state.LuisResult.TopIntent().intent == CalendarLuis.Intent.ChangeMeetingRoom)
+                {
+                    return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
+                }
                 else
                 {
                     return await sc.NextAsync();
@@ -403,8 +407,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (state.MeetingInfor.MeetingRoom == null || state.MeetingInfor.RecreateState == RecreateEventState.MeetingRoom)
+                if ((state.MeetingInfor.RecreateState == null && state.MeetingInfor.MeetingRoom == null) || state.MeetingInfor.RecreateState == RecreateEventState.MeetingRoom)
                 {
                     state.MeetingInfor.MeetingRoom = null;
                     return await sc.BeginDialogAsync(Actions.CollectMeetingRoom, sc.Options);
@@ -523,7 +526,7 @@ namespace CalendarSkill.Dialogs
                     {
                         { "Subject", string.IsNullOrEmpty(state.MeetingInfor.Title) ? CalendarCommonStrings.Empty : state.MeetingInfor.Title }
                     });
-                    subjectConfirmString = subjectConfirmResponse.Text;
+                    subjectConfirmString = state.MeetingInfor.Title == CreateEventWhiteList.GetDefaultTitle() ? CalendarCommonStrings.NoSubject : subjectConfirmResponse.Text;
                 }
 
                 var locationConfirmString = string.Empty;
@@ -531,7 +534,7 @@ namespace CalendarSkill.Dialogs
                 {
                     var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateLocation, new StringDictionary()
                     {
-                        { "Location", string.IsNullOrEmpty(state.MeetingInfor.Location) ? CalendarCommonStrings.Empty : state.MeetingInfor.Location },
+                        { "Location", string.IsNullOrEmpty(state.MeetingInfor.Location) ? CalendarCommonStrings.Empty : state.MeetingInfor.MeetingRoom == null ? state.MeetingInfor.Location : state.MeetingInfor.MeetingRoom.DisplayName },
                     });
                     locationConfirmString = subjectConfirmResponse.Text;
                 }
@@ -551,7 +554,7 @@ namespace CalendarSkill.Dialogs
                 var tokens = new StringDictionary
                 {
                     { "AttendeesConfirm", attendeeConfirmTextString },
-                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false) },
+                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false).ToLower() },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(false) },
                     { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(false) },
                     { "SubjectConfirm", subjectConfirmString },
@@ -653,6 +656,7 @@ namespace CalendarSkill.Dialogs
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
+                    /*
                     var tokens = new StringDictionary
                     {
                         { "Subject", state.MeetingInfor.Title },
@@ -663,6 +667,9 @@ namespace CalendarSkill.Dialogs
                     var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
 
                     await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
+                    */
+
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CreateEventResponses.MeetingBooked));
                 }
                 else
                 {

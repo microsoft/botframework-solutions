@@ -144,7 +144,6 @@ namespace CalendarSkill.Services.MSGraphAPI
         // Check Available
         public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
         {
-
             try
             {
                 List<bool> availability = new List<bool>();

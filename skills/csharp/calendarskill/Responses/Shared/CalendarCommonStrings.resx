@@ -178,10 +178,10 @@
     <value>Meeting</value>
   </data>
   <data name="Myself" xml:space="preserve">
-    <value>^(me|myself)$</value>
+    <value>(^| )(me|myself)($|[^a-z0-9])</value>
   </data>
   <data name="SkipPhrases" xml:space="preserve">
-    <value>^(skip|no)</value>
+    <value>(^| )(skip|ignore|no)($|[^a-z0-9])</value>
   </data>
   <data name="OrdinalSuffixNd" xml:space="preserve">
     <value>{0}nd</value>
@@ -326,5 +326,17 @@
   </data>
   <data name="RightNow" xml:space="preserve">
     <value>right now</value>
+  </data>
+  <data name="WhatElse" xml:space="preserve">
+    <value>.*(else|other).*</value>
+  </data>
+  <data name="Any" xml:space="preserve">
+    <value>any</value>
+  </data>
+  <data name="NoSubject" xml:space="preserve">
+    <value>a meeting</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>time</value>
   </data>
 </root>
