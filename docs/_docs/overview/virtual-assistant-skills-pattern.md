@@ -1,6 +1,6 @@
 ---
 category: Overview
-title: How do the Virtual Assistant and Skills work together?
+title: How does Virtual Assistant and Skills work together?
 description:As you develop your Virtual Assistant, you will find that the ability to manage individual domains of a conversation (Skills) and aggregate them into a singular *parent* Assistant becomes attractive for a number of reasons:
 order: 5
 toc: true

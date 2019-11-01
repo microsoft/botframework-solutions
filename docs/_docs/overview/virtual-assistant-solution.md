@@ -1,48 +1,31 @@
 ---
 category: Overview
-title: What is the Virtual Assistant Solution Accelerator?
+title: What is Virtual Assistant?
 order: 2
 toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
-The Virtual Assistant Solution Accelerator is an open-sourced solution based on the [Microsoft Bot Framework](https://aka.ms/botframework) providing you with a set of core foundational capabilities and full ownership of a conversational assistant tailored to your brand, personalized to your users, and made available across a broad range of canvases and devices. Owning and enriching user relationships is vital to the goals of the Virtual Assistant Solution Accelerator. You can modify the name, voice, and personality to suit your brand's requirements and style guide. 
 
-At it's core is the [Virtual Assistant template]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript), a project template with the best practices to developing a bot on the Microsoft Azure platform.
+![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
+
+Customers and partners have increasing need to deliver advanced conversational assistant experiences tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience and data.
+
+At it's core is the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices to developing a bot on the Microsoft Azure platform.
+
+Common assistant scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual skills can be added to an assistant, for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
+
+Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. This contrasts with established in-market assistants that do not enable white-labelling, customization or privacy placed in control of the customer.
+
+Further skills can be created and made available either through your own assistant or made available through a broader ecosystem enabling assistant owners to curate the capabilities that make sense for their scenario and work across industries.
 
 Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
 Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/).
 
-![Virtual Assistant diagram]({{site.baseurl}}/assets/images/virtualassistant-diagram.jpg)
 
-## Example scenarios
-
-The Virtual Assistant Solution Accelerator can be applied to a variety of industry-specific scenarios. Sample Virtual Assistants are provided.
-
-### Automotive
-{:.no_toc}
-
-A voice-enabled Virtual Assistant integrated in a car providing passengers the ability to perform expected operations, like finding navigation or using the radio.  Drivers can personalize this by linking to their preferences and enabling scenarios such as notifying someone they are running late, managing their tasks, or searching for ports of interest.
-
-### Hospitality
-{:.no_toc}
-
-![Diagram of the Hospitality Assistant]({{site.baseurl}}/assets/images/hospitalitysample-diagram.png)
-
-A voice-enabled Virtual Assistant integrated in a hotel room can provide support for hospitality-focused scenarios such as room service, concierge, and local events. This can be further personalized by linking a guest to their preferences. This represnets An evolution of the current TV personalization experienced in room today.
-
-For more information, view the [Hospitality Assistant sample]({{site.baseurl}}/virtual-assistant/samples/hospitality-assistant/).
-
-### Enterprise
-{:.no_toc}
-
-A voice- and text-enabled Virtual Assistant integrated into enterprise devices and existing channels such as Microsoft Teams, Web Chat, and Slack. Enable employees to manage their calendars, find available meeting rooms, search for co-workers, or perform HR-related operations.
-
-For more information, view the [Enterprise Assistant sample]({{site.baseurl}}/virtual-assistant/samples/enterprise-assistant/).
-
-## Principles
+## Key Principles
 
 ### Your data, brand, and experience
 {:.no_toc}
@@ -73,6 +56,41 @@ The Virtual Assistant Solution Accelerator architecture is flexible and can be i
 
 A Virtual Assistant often needs to extend it's capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
 This is further complicated should you require your Virtual Assistant to support multiple languages. The Solution Accelerator includes a Skill capability that enables external bots to be plugged into an existing Virtual Assistant.
+
+
+## Virtual Assistant components
+
+There are four major components within Virtual Assistant: 
+
+### Virtual Assistant Core
+{:.no_toc}
+
+The [Virtual Assistant Core]() is the basic building blocks that bring together the virtual assistant capabilities and the Microsoft technologies required to build a Virtual Assistant including Bot Framework SDK, LUIS, QnA Maker, Skills registration, Linked Accounts, etc.
+
+### Skills
+{:.no_toc}
+
+Bot Framework Skills leverage the new Bot Framework SDK capabilities and provide re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customize and extend as required. Provided are Calendar, Email, To Do, Point of Interest skills and a number of other experimental skills. You can find more details in the [Skills]() section of this site.
+
+### Assistant Solution Accelerators
+{:.no_toc}
+
+Microsoft has assembled these samples to allow for acceleration of customers in building a Virtual Assistant for specific Industries or scenarios. These samples have pre-packaged skill configurations, additional capabilities and suggested channels that are leveraged in typical scenarios.
+- [Base Virtual Assistant]()
+- [Automotive Assistant]() (In and out of Vehicle Experiences for Customers)
+- [Enterprise Assistant]() (Employee Focused Experiences)
+- [Hospitality Assistant]() (In Room Assistant for hotel guests)
+
+### Clients and Channels
+{:.no_toc}
+
+Clients and Channels are the ways that users can interact with the Virtual Assistant. 
+
+Microsoft offers a variety of channels such as Facebook Messenger, Teams, Slack, WeChat, and many others. You can find many details around available channels in the [Bot Framework Channels documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channels-reference?view=azure-bot-service-4.0).  
+
+Sample client applications are implementations of clients that will integrate seamlessly with your Assistant and enable Speech scenarios.
+- [Virtual Assistant Client for Android]()
+- Virtual Assistant Client for PowerApps *(Comming Soon)*
 
 ## Next steps
 {:.toc}
