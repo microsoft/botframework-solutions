@@ -93,7 +93,7 @@ namespace CalendarSkill.Test.Flow
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();
             Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
