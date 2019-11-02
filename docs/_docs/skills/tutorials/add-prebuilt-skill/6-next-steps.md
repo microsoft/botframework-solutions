@@ -19,7 +19,7 @@ Now that you've connected a pre-built skill to your assitant, try out these othe
             <p class="card-text">Build a custom skill for your scenario.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro" class="btn btn-primary">Get Started</a>
         </div>
     </div>
     <div class="card">

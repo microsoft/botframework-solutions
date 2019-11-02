@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Customize a Virtual Assistant
+subcategory: Customize
 language: TypeScript
 title: Edit your cognitive models
 order: 4

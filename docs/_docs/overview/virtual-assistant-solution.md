@@ -22,7 +22,7 @@ Further skills can be created and made available either through your own assista
 
 Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
-Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/).
+Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/).
 
 
 ## Key Principles
@@ -62,10 +62,10 @@ This is further complicated should you require your Virtual Assistant to support
 
 There are four major components within Virtual Assistant: 
 
-### Virtual Assistant Core
+### Virtual Assistant core
 {:.no_toc}
 
-The [Virtual Assistant Core]() is the basic building blocks that bring together the virtual assistant capabilities and the Microsoft technologies required to build a Virtual Assistant including Bot Framework SDK, LUIS, QnA Maker, Skills registration, Linked Accounts, etc.
+The [Virtual Assistant core template]({{site.baseurl}}/overview/virtual-assistant-template) is the basic building blocks that bring together the virtual assistant capabilities and the Microsoft technologies required to build a Virtual Assistant including Bot Framework SDK, LUIS, QnA Maker, Skills registration, Linked Accounts, etc.
 
 ### Skills
 {:.no_toc}
@@ -76,10 +76,10 @@ Bot Framework Skills leverage the new Bot Framework SDK capabilities and provide
 {:.no_toc}
 
 Microsoft has assembled these samples to allow for acceleration of customers in building a Virtual Assistant for specific Industries or scenarios. These samples have pre-packaged skill configurations, additional capabilities and suggested channels that are leveraged in typical scenarios.
-- [Base Virtual Assistant]()
+- [Base Virtual Assistant]({{site.baseurl}}/overview/virtual-assistant-template)
 - [Automotive Assistant]() (In and out of Vehicle Experiences for Customers)
-- [Enterprise Assistant]() (Employee Focused Experiences)
-- [Hospitality Assistant]() (In Room Assistant for hotel guests)
+- [Enterprise Assistant]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant/) (Employee Focused Experiences)
+- [Hospitality Assistant]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant/) (In Room Assistant for hotel guests)
 
 ### Clients and Channels
 {:.no_toc}
@@ -89,8 +89,8 @@ Clients and Channels are the ways that users can interact with the Virtual Assis
 Microsoft offers a variety of channels such as Facebook Messenger, Teams, Slack, WeChat, and many others. You can find many details around available channels in the [Bot Framework Channels documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channels-reference?view=azure-bot-service-4.0).  
 
 Sample client applications are implementations of clients that will integrate seamlessly with your Assistant and enable Speech scenarios.
-- [Virtual Assistant Client for Android]()
-- Virtual Assistant Client for PowerApps *(Comming Soon)*
+- [Virtual Assistant Client for Android]({site.baseurl}}/clients-and-channels/clients/virtual-assistant-client/)
+- Virtual Assistant Client for PowerApps *(Coming Soon)*
 
 ## Next steps
 {:.toc}

@@ -20,7 +20,7 @@ Enable the proactive notifications sample on a Virtual Assistant, which demonstr
 - A user preference store in **Azure Cosmos DB** used by the function app to look up notification settings.
 - A Virtual Assistant project that handles incoming notification events.
 
-![Enterprise Notifications sample architecture]({{site.baseurl}}/assets/images/enterprisenotifications-architecture.png)
+![Proactive Notifications sample architecture]({{site.baseurl}}/assets/images/ProactiveNotificationsDrawing.PNG)
 
 ### Prerequisites
 #### Option: Using the Enterprise Assistant sample

@@ -2,7 +2,7 @@
 category: Skills
 subcategory: Samples
 language: Experimental Skills
-title: Experimental Skills Overview
+title: Overview
 description: These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started. These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
 order: 1
 toc: true
@@ -26,7 +26,7 @@ The Experimental Skills require the following dependencies for end to end operat
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
+**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) from the folder where your have cloned the GitHub repo.**
 
 
 
