@@ -17,6 +17,6 @@ The Virtual Assistant comes with a set of scripts to simplify the deployment pro
 
 
 ### Time To Complete
-XX minutes
+10 minutes
 
 ### Scenario
