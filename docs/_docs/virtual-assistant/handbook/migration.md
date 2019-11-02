@@ -17,7 +17,7 @@ The Enterprise Template, released last year, brought together the required capab
 
 Thanks to strong feedback from our customers, we are bringing the two approaches together. These complex, assistant-like conversational experiences are proving critical to digital transformation and customer/employee engagement.
 
-The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}/overview/virtualassistant) and introduces the following capabilities:
+The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template) and introduces the following capabilities:
 
 - C# template simplified and aligned to ASP.NET MVC pattern with dependency injection
 - Typescript generator

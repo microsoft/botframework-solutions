@@ -19,11 +19,11 @@ The same Activity schema supports the attachment of User Experience elements thr
 
 ## Activity schema
 
-The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events]({{site.baseurl}}/reference/virtual-assistant/events).
+The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events]({{site.baseurl}}/virtual-assistant/handbook/events).
 
 ## Messages and Events
 
-Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events]({{site.baseurl}}/reference/virtual-assistant/events) section.
+Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events]({{site.baseurl}}/virtual-assistant/handbook/events) section.
 
 ## Adaptive Cards
 

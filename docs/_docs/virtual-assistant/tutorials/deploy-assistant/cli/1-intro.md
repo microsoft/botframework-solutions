@@ -15,8 +15,9 @@ The Virtual Assistant comes with a set of scripts to simplify the deployment pro
 
 ### Prerequisites
 
-
 ### Time To Complete
 10 minutes
 
 ### Scenario
+
+Deploy Virtual Assistant resources manually by using CLI tools.
