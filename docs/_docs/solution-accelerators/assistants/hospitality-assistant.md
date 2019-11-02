@@ -82,7 +82,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 ## Deploy
 To configure this sample follow the steps below:
 1. Clone the [Hospitality Sample from our repository]({{site.repo}}/tree/master/samples/assistants/HospitalitySample).
-1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
+1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
 1. Clone the following skills from our repository:
     - [Hospitality Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/hospitalityskill)
     - [Event Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/eventskill)
