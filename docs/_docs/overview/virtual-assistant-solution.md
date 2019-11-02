@@ -62,10 +62,10 @@ This is further complicated should you require your Virtual Assistant to support
 
 There are four major components within Virtual Assistant: 
 
-### Virtual Assistant Core
+### Virtual Assistant core
 {:.no_toc}
 
-The [Virtual Assistant Core]({{site.baseurl}}/overview/virtual-assistant-template) is the basic building blocks that bring together the virtual assistant capabilities and the Microsoft technologies required to build a Virtual Assistant including Bot Framework SDK, LUIS, QnA Maker, Skills registration, Linked Accounts, etc.
+The [Virtual Assistant core template]({{site.baseurl}}/overview/virtual-assistant-template) is the basic building blocks that bring together the virtual assistant capabilities and the Microsoft technologies required to build a Virtual Assistant including Bot Framework SDK, LUIS, QnA Maker, Skills registration, Linked Accounts, etc.
 
 ### Skills
 {:.no_toc}
