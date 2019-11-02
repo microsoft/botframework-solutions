@@ -17,5 +17,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
+    
+  <ItemGroup>
+    <None Update="API\Fakes\MockAppSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
