@@ -19,7 +19,7 @@ The Hospitality Sample builds off of the [Virtual Assistant Template]({{site.bas
 
 ## Supported scenarios
 
-The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/reference/skills/experimental), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
+The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/skills/samples/experimental), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
 
 #### Hotel FAQ
 {:.no_toc}
@@ -27,20 +27,20 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *What time is breakfast?*
 - *Do you allow pets?*
 
-#### [Bing Search Skill]({{site.baseurl}}/reference/skills/experimental/#bing-search-skill)
+#### [Bing Search Skill]({{site.baseurl}}/skills/samples/experimental/#bing-search-skill)
 {:.no_toc}
 ##### Search the web
 {:.no_toc}
 - *Tell me about the jurassic park movie*
 - *Who is Bill Gates?*
 
-#### [Event Skill]({{site.baseurl}}/reference/skills/experimental/#event-skill)
+#### [Event Skill]({{site.baseurl}}/skills/samples/experimental/#event-skill)
 {:.no_toc}
 ##### Find local events
 {:.no_toc}
 - *What's happening nearby?* 
 
-#### [Hospitality Skill]({{site.baseurl}}/reference/skills/experimental/#hospitality-skill)
+#### [Hospitality Skill]({{site.baseurl}}/skills/samples/experimental/#hospitality-skill)
 {:.no_toc}
 ##### Guest reservation changes
 {:.no_toc}
@@ -54,14 +54,14 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *Can you get me 2 croissants and a yogurt parfait?*
 - *Can you bring me a toothbrush and toothpaste?*
 
-#### [News Skill]({{site.baseurl}}/reference/skills/experimental/#news-skill)
+#### [News Skill]({{site.baseurl}}/skills/samples/experimental/#news-skill)
 {:.no_toc}
 ##### Find news articles 
 {:.no_toc}
 - *What's the latest news on surfing?*
 - *What news is currently trending?*
 
-#### [Restaurant Booking Skill]({{site.baseurl}}/reference/skills/experimental/#restaurant-booking-skill)
+#### [Restaurant Booking Skill]({{site.baseurl}}/skills/samples/experimental/#restaurant-booking-skill)
 {:.no_toc}
 ##### Make a restaurant reservation
 {:.no_toc}
@@ -73,7 +73,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 {:.no_toc}
 - *Find me nearby coffee shops*
 
-#### [Weather Skill]({{site.baseurl}}/skills/samples/experimental/#weather-skill)
+#### [Weather Skill]({{site.baseurl}}/skills/samples/weather)
 {:.no_toc}
 ##### Get the forecast
 {:.no_toc}

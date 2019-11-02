@@ -9,13 +9,13 @@ toc: true
 {:.no_toc}
 Many organizations are looking to provide a centralized conversational experience across many canvases for employees. This concept allows for a consolidation of many disparate bots across the organization to a more centralized solution where a master bot handles finding the right bot to handle the conversation, thus avoiding bot explosion through parent bot/skills approach. This, in turn, gets the user productive quicker and allows for a true Enterprise Virtual Assistant Experience. 
 
-The [Enterprise Assistant sample]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant) is an example of a Virtual Assistant that helps conceptualize and demonstrate how an assistant could be used in common enterprise scenarios. It also provides a starting point for those interested in creating an assistant customized for this scenario. 
+The [Enterprise Assistant sample]({{site.repo}}/tree/next/samples/csharp/assistants/enterprise-assistant) is an example of a Virtual Assistant that helps conceptualize and demonstrate how an assistant could be used in common enterprise scenarios. It also provides a starting point for those interested in creating an assistant customized for this scenario. 
 
 ![Enterprise Assistant Overview Drawing]({{site.baseurl}}/assets/images/EnterpriseAssistantSampleOverview.PNG)
 
 This sample works off the basis that the assistant would be provided through common employee channels such as Microsoft Teams, a mobile application, and Web Chat to help improve employee productivity, but also assist them in getting work tasks completed such as opening an IT Service Management (ITSM) ticket. It also provides additional capabilities that might be useful for employees, like getting the weather forecast or showing current news articles. 
 
-The Enterprise Assistant Sample is based on the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template), with the addition of a [QnA Maker knowledge base](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/knowledge-base) for answering common enterprise FAQs (such as Benefits and HR Information) and customized Adaptive Cards.  It also connects 7 different Skills; which are [Calendar]({{site.baseurl}}/skills/samples/calendar), [Email]({{site.baseurl}}/skills/samples/email), and [To Do]({{site.baseurl}}/skills/samples/to-do)  along with the experimental skills of [Weather]({{site.baseurl}}/skills/samples/experimental/#weather-skill), [News]({{site.baseurl}}/skills/samples/experimenta/#news-skill), [Phone]({{site.baseurl}}/skills/samples/experimenta/#phone-skill) and [ITSM]({{site.baseurl}}/skills/samples/experimenta/#it-service-management-skill). 
+The Enterprise Assistant Sample is based on the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template), with the addition of a [QnA Maker knowledge base](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/knowledge-base) for answering common enterprise FAQs (such as Benefits and HR Information) and customized Adaptive Cards.  It also connects 7 different Skills; which are [Calendar]({{site.baseurl}}/skills/samples/calendar), [Email]({{site.baseurl}}/skills/samples/email), and [To Do]({{site.baseurl}}/skills/samples/to-do)  along with the experimental skills of [Weather]({{site.baseurl}}/skills/samples/weather), [News]({{site.baseurl}}/skills/samples/next), [Phone]({{site.baseurl}}/skills/samples/phone) and [ITSM]({{site.baseurl}}/skills/samples/itsm). 
 
 In many cases, you can leverage [Azure Active Directory (AAD)](https://azure.microsoft.com/en-us/services/active-directory/) for single sign-on (SSO), though this may be limited by the channel itself and your specific requirements. 
 
@@ -31,7 +31,7 @@ The Enterprise Assistant sample includes [Proactive Notifications]({{site.baseur
 
 ## Supported scenarios
 
-The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/reference/skills/experimental), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
+The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/skills/samples/experimental), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
 
 #### HR FAQ
 {:.no_toc}
@@ -76,20 +76,20 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *Put milk on my grocery list* 
 - *Create task to meet Leon after 5:00 PM* 
 
-#### [Weather Skill]({{site.baseurl}}/skills/samples/experimental/#weather-skill)
+#### [Weather Skill]({{site.baseurl}}/skills/samples/weather)
 {:.no_toc}
 ##### Get the forecast
 {:.no_toc}
 - *What’s the weather today?* 
 
-#### [News Skill]({{site.baseurl}}/skills/samples/experimenta/#news-skill)
+#### [News Skill]({{site.baseurl}}/skills/samples/next)
 {:.no_toc}
 ##### Find news articles 
 {:.no_toc}
 - *What’s the latest news on technology?* 
 - *What news is currently trending?* 
 
-#### [Phone Skill]({{site.baseurl}}/skills/samples/experimenta/#phone-skill)
+#### [Phone Skill]({{site.baseurl}}/skills/samples/phone)
 {:.no_toc}
 ##### Make an outgoing call
 {:.no_toc}
@@ -97,7 +97,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *Call 867 5309* 
 - *Make a call* 
 
-#### [IT Service Management (ITSM) Skill]({{site.baseurl}}/skills/samples/experimenta/#it-service-management-skill)
+#### [IT Service Management (ITSM) Skill]({{site.baseurl}}/skills/samples/itsm)
 {:.no_toc}
 ##### Create a ticket 
 {:.no_toc}

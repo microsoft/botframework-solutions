@@ -86,8 +86,8 @@ You can get more details in the [What's New overview]({{site.baseurl}}/overview/
     <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/speech.png" alt="Speech icon" width="48px">
-            <h4 class="card-title">Enable Speech</h4>
-            <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
+            <h4 class="card-title">Extend to Direct Line Speech</h4>
+            <p class="card-text">Enable speech for your assistant.</p>
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
