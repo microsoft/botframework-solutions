@@ -52,7 +52,7 @@ namespace EventProducer
         {
             try
             {
-                var message = "{'userid':'" + userId + "','message':'Here is a notification message!'}";
+                var message = "{'userid':'" + userId + "','message':'You have a new notification!'}";
                 Console.WriteLine($"Sending message: {message}");
                 await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(message)));
             }
