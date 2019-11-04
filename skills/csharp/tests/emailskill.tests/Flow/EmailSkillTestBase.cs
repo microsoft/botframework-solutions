@@ -123,7 +123,7 @@ namespace EmailSkill.Tests.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
+            adapter.AddUserToken("Azure Active Directory v2", Channels.Test, adapter.Conversation.User.Id, "test");
 
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
