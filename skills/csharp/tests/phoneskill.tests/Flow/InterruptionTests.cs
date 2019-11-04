@@ -14,8 +14,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(GeneralUtterances.Help)
                .AssertReply(Message(PhoneMainResponses.HelpMessage))
@@ -28,8 +26,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(GeneralUtterances.Cancel)
                .AssertReply(Message(PhoneMainResponses.CancelMessage))

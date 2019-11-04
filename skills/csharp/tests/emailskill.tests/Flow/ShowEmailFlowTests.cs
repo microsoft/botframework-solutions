@@ -29,8 +29,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -51,8 +49,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmailsFromTestRecipient)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailFromSomeoneList())
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())
                 .Send(GeneralTestUtterances.No)
@@ -66,8 +62,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
@@ -84,8 +78,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.NumberOne)
@@ -102,8 +94,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -124,13 +114,9 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(ForwardEmailUtterances.ForwardEmailsToSelection)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
@@ -158,16 +144,12 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ForwardEmailUtterances.ForwardCurrentEmail)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
@@ -191,13 +173,9 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(ReplyEmailUtterances.ReplyEmailsWithSelection)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -215,16 +193,12 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ReplyEmailUtterances.ReplyCurrentEmail)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectEmailContentMessageForReply())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -242,13 +216,9 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(DeleteEmailUtterances.DeleteEmailsWithSelection)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
@@ -264,16 +234,12 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(DeleteEmailUtterances.DeleteCurrentEmail)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
@@ -289,8 +255,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
@@ -310,8 +274,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
@@ -334,8 +296,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(ShowEmailUtterances.ReadMore)
@@ -356,8 +316,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.EmailNotFoundPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -372,8 +330,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList(1))
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -588,16 +544,6 @@ namespace EmailSkill.Tests.Flow
                 var confirmSend = this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary());
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }
