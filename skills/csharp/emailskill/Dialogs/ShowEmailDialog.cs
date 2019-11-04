@@ -20,8 +20,8 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Graph;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs
 {

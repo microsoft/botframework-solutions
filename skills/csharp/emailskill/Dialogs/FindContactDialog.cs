@@ -18,9 +18,9 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailSkill.Dialogs
 {
