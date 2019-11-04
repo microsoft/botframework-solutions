@@ -48,7 +48,7 @@ The manifest header provides high level information relating to your skill, the 
   "name": "Calendar Skill",
   "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
   "iconUrl": "calendarSkill.png",
-  "msaAppId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "msaAppId": "10101010-1010-1010-1010-101010101010",
   "endpoint": "http://localhost:3980/api/skill/messages",
 ```
 

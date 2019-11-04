@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Customize a Virtual Assistant
+subcategory: Customize
 language: C#
 title: Intro
 order: 1
@@ -17,7 +17,7 @@ Learn how to navigate your assistant's project and make common customizations.
 
 ### Prerequisites
 
-[Create a Virtual Assistant]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro) to setup your environment.
+[Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) to setup your environment.
 
 ### Time to Complete
 

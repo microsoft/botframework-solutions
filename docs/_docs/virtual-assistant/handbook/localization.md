@@ -111,7 +111,7 @@ var cognitiveModels = _services.CognitiveModelSets[locale];
 ```
 
 ## Responses
-Responses can be localized in a variety of ways. If you use resource files (.resx) the correct response will be chosen based on the CurrentUICulture. The ResponseManager class in Microsoft.Bot.Builder.Solutions can also be used to localize responses in the json format described [here]({{site.baseurl}}/reference/skills/responses).
+Responses can be localized in a variety of ways. If you use resource files (.resx) the correct response will be chosen based on the CurrentUICulture. The ResponseManager class in Microsoft.Bot.Builder.Solutions can also be used to localize responses in the json format described [here]({{site.baseurl}}/skills/handbook/language-generation).
 
 ## Channel Support
 The localization approach is currently supported in the following channels:
