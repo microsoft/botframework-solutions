@@ -1,4 +1,7 @@
-﻿using $ext_safeprojectname$.Dialogs.Cancel.Resources;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using $ext_safeprojectname$.Dialogs.Cancel.Resources;
 using $ext_safeprojectname$.Dialogs.Onboarding.Resources;
 using $safeprojectname$.Utterances;
 using Microsoft.Bot.Connector;
