@@ -1,4 +1,6 @@
-﻿using CalendarSkill.Bots;
+﻿using System.Collections.Generic;
+using System.Threading;
+using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
@@ -24,13 +26,13 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace CalendarSkill.Test.Flow
 {
     public class CalendarSkillTestBase : BotTestBase
     {
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
@@ -48,7 +50,7 @@ namespace CalendarSkill.Test.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Azure Active Directory v2", Provider = "Azure Active Directory v2" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -109,7 +111,7 @@ namespace CalendarSkill.Test.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken("Azure Active Directory v2", Channels.Test, adapter.Conversation.User.Id, "test");
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {

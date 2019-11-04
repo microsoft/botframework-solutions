@@ -34,6 +34,8 @@ namespace ToDoSkill.Tests.Flow
 {
     public class ToDoSkillTestBase : BotTestBase
     {
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -50,7 +52,7 @@ namespace ToDoSkill.Tests.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Azure Active Directory v2", Provider = "Azure Active Directory v2" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -116,7 +118,7 @@ namespace ToDoSkill.Tests.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken("Azure Active Directory v2", Channels.Test, adapter.Conversation.User.Id, "test");
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
