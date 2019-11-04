@@ -122,15 +122,6 @@ public class SpeechService extends Service {
             }
 
             @Override
-            public void resetBot(){
-                if (speechSdk != null) {
-                    shouldListenAgain = false;
-                    previousRequestWasTyped = false;
-                    speechSdk.resetBot(configurationManager.getConfiguration());
-                }
-            }
-
-            @Override
             public String getConfiguration(){
                 return gson.toJson(configurationManager.getConfiguration());
             }
@@ -381,6 +372,8 @@ public class SpeechService extends Service {
     private void initializeSpeechSdk(boolean haveRecordAudioPermission){
         if (speechSdk != null) {
             Log.d(TAG_FOREGROUND_SERVICE, "resetting SpeechSDK");
+            shouldListenAgain = false;
+            previousRequestWasTyped = false;
             speechSdk.reset();
         }
         speechSdk = new SpeechSdk();
