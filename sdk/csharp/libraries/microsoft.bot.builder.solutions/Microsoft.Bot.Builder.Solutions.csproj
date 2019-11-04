@@ -15,7 +15,6 @@
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for Conversational AI Virtual Assistants and Skills.</Description>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
