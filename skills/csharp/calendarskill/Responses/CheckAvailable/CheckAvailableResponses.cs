@@ -19,5 +19,8 @@ namespace CalendarSkill.Responses.CheckAvailable
         public const string AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts = "AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts";
         public const string AskForCreateNewMeeting = "AskForCreateNewMeeting";
         public const string AskForCreateNewMeetingAnyway = "AskForCreateNewMeetingAnyway";
+        public const string AskForNextAvailableTime = "AskForNextAvailableTime";
+        public const string NextBothAvailableTime = "NextBothAvailableTime";
+        public const string NoNextBothAvailableTime = "NoNextBothAvailableTime";
     }
 }

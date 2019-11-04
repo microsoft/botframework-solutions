@@ -118,6 +118,8 @@ namespace CalendarSkill.Models
 
             public RecreateEventState? RecreateState { get; set; }
 
+            public AvailabilityResult AvailabilityResult { get; set; }
+
             public void Clear()
             {
                 ContactInfor.Clear();
@@ -135,6 +137,7 @@ namespace CalendarSkill.Models
                 Duration = 0;
                 CreateHasDetail = false;
                 RecreateState = null;
+                AvailabilityResult = null;
             }
 
             public void ClearLocationForRecreate()

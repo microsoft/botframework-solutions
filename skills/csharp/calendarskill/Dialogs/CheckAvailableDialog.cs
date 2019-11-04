@@ -1,30 +1,23 @@
-﻿using CalendarSkill.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Options;
 using CalendarSkill.Responses.CheckAvailable;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
-using Google.Apis.Calendar.v3.Data;
-using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.CognitiveServices.ContentModerator.Models;
-using Microsoft.Graph;
-using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
+using Microsoft.Bot.Schema;
 
 namespace CalendarSkill.Dialogs
 {
@@ -60,9 +53,8 @@ namespace CalendarSkill.Dialogs
 
             var findNextAvailableTime = new WaterfallStep[]
             {
-                //FindNextAvailableTimePrompt,
-                //AfterFindNextAvailableTimePrompt,
-                //ShowNextAvailableTime
+                FindNextAvailableTimePrompt,
+                AfterFindNextAvailableTimePrompt,
             };
 
             var createMeetingWithAvailableTime = new WaterfallStep[]
@@ -205,7 +197,8 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
 
                 var dateTime = state.MeetingInfor.StartDateTime;
 
@@ -237,6 +230,8 @@ namespace CalendarSkill.Dialogs
                         { "Time", timeString },
                         { "Date", dateString }
                     }));
+
+                    state.MeetingInfor.AvailabilityResult = availabilityResult;
 
                     return await sc.BeginDialogAsync(Actions.FindNextAvailableTime, sc.Options);
                 }
@@ -298,6 +293,99 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        private async Task<DialogTurnResult> FindNextAvailableTimePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime),
+                    RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> AfterFindNextAvailableTimePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    // todo: show next available time
+                    var availabilityResult = state.MeetingInfor.AvailabilityResult;
+
+                    var startAvailableTimeIndex = -1;
+                    var endAvailableTimeIndex = -1;
+
+                    for (int i = 0; i < availabilityResult.AvailabilityViewList.First().Length; i++)
+                    {
+                        if (availabilityResult.AvailabilityViewList[0][i] == '0' && availabilityResult.AvailabilityViewList[1][i] == '0')
+                        {
+                            if (startAvailableTimeIndex < 0)
+                            {
+                                startAvailableTimeIndex = i;
+                            }
+                        }
+                        else
+                        {
+                            if (startAvailableTimeIndex >= 0)
+                            {
+                                endAvailableTimeIndex = i - 1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (startAvailableTimeIndex > 0)
+                    {
+                        endAvailableTimeIndex = endAvailableTimeIndex == -1 ? availabilityResult.AvailabilityViewList.First().Length - 1 : endAvailableTimeIndex;
+                        var queryAvailableTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+
+                        var startAvailableTime = queryAvailableTime.AddMinutes(startAvailableTimeIndex * 5);
+                        var endAvailableTime = queryAvailableTime.AddMinutes(endAvailableTimeIndex * 5);
+
+                        state.MeetingInfor.StartDateTime = startAvailableTime;
+                        state.MeetingInfor.EndDateTime = endAvailableTime;
+
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.NextBothAvailableTime, new StringDictionary()
+                        {
+                            { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address },
+                            { "StartTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
+                            { "EndTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
+                            { "EndDate", DisplayHelper.ToDisplayDate(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()) }
+                        }));
+
+                        return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);
+                    }
+
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.NoNextBothAvailableTime, new StringDictionary
+                    {
+                        { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
+                    }));
+
+                    state.Clear();
+                    return await sc.EndDialogAsync();
+                }
+                else
+                {
+                    state.Clear();
+                    return await sc.EndDialogAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         private async Task<DialogTurnResult> CreateMeetingPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -319,6 +407,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -326,6 +415,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
+                    state.Clear();
                     return await sc.EndDialogAsync();
                 }
             }

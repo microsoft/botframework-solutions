@@ -4,6 +4,7 @@ using System.Linq;
 using CalendarSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using static CalendarSkill.Models.EventModel;
 
 namespace CalendarSkill.Utilities
@@ -50,6 +51,25 @@ namespace CalendarSkill.Utilities
                     result += string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
                     return result;
                 }
+            }
+        }
+
+        public static string ToDisplayDate(DateTime dateTime, TimeZoneInfo userTimezone)
+        {
+            // today/tomorrow/on date
+            var userToday = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimezone);
+            var userDateTime = TimeConverter.ConvertUtcToUserTime(dateTime, userTimezone);
+            if (userToday.Date.Equals(userDateTime.Date))
+            {
+                return CalendarCommonStrings.TodayLower;
+            }
+            else if (userToday.AddDays(1).Date.Equals(userDateTime.Date))
+            {
+                return CalendarCommonStrings.TomorrowLower;
+            }
+            else
+            {
+                return string.Format(CalendarCommonStrings.ShowEventDateCondition, userDateTime.ToShortDateString());
             }
         }
     }

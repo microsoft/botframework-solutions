@@ -61,5 +61,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AskForNextAvailableTime": {
+    "replies": [
+      {
+        "text": "Do you want me to look for the next time you and {UserName} are both available?",
+        "speak": "Do you want me to look for the next time you and {UserName} are both available?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NextBothAvailableTime": {
+    "replies": [
+      {
+        "text": "Okay. You can {UserName} are both available from {StartTime} to {EndTime} {EndDate}.",
+        "speak": "Okay. You can {UserName} are both available from {StartTime} to {EndTime} {EndDate}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoNextBothAvailableTime": {
+    "replies": [
+      {
+        "text": "You don't have both available time with {UserName} recently.",
+        "speak": "You don't have both available time with {UserName} recently."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
