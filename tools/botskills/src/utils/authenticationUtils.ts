@@ -13,7 +13,8 @@ import {
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest } from '../models';
+    ISkillManifest
+} from '../models';
 import { ChildProcessUtils, isValidAzVersion } from './';
 
 export class AuthenticationUtils {
@@ -82,16 +83,30 @@ export class AuthenticationUtils {
         return this.scopeMap.get(scope) || '';
     }
 
-    private createScopeManifest(scopes: string[]): IScopeManifest[] {
+    private createScopeManifest(scopes: string[], logger: ILogger): IScopeManifest[] {
+        const scopesRecognized: string [] = [];
+        const scopesNotRecognized: string [] = [];
+        scopes.forEach((scope: string) => {
+            if (scope.trim().length > 0) {
+                if (this.scopeMap.has(scope)) {
+                    scopesRecognized.push(scope);
+                } else {
+                    scopesNotRecognized.push(scope);
+                }
+            }
+        });
+        if (scopesNotRecognized.length > 0) {
+            logger.warning(`The following scopes were not recognized: ${scopesNotRecognized.join(',')}`);
+        }
+
         return [{
             resourceAppId: '00000003-0000-0000-c000-000000000000',
-            resourceAccess: scopes.filter((scope: string) => this.scopeMap.has(scope))
-                .map((scope: string) => {
-                    return {
-                        id: this.getScopeId(scope),
-                        type: 'Scope'
-                    };
-                })
+            resourceAccess: scopesRecognized.map((scope: string) => {
+                return {
+                    id: this.getScopeId(scope),
+                    type: 'Scope'
+                };
+            })
         }];
     }
 
@@ -188,7 +203,7 @@ export class AuthenticationUtils {
 
                     // Remove duplicate scopes
                     scopes = [...new Set(scopes)];
-                    const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes);
+                    const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes, logger);
 
                     // get the information of the app
                     const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
@@ -262,12 +277,12 @@ export class AuthenticationUtils {
                 logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message}`);
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                    .join(', ')}`);
+                        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 logger.warning(`${err.message} You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                    .join(', ')}`);
+                        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else {
                 logger.warning(err.message);
