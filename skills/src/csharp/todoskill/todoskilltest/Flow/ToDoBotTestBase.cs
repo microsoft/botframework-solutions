@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
@@ -40,7 +41,7 @@ namespace ToDoSkillTest.Flow
 {
     public class ToDoBotTestBase : BotTestBase
     {
-        private const string OauthConnection = "Azure Active Directory";
+        private const string OauthConnection = "Azure Active Directory v2";
 
         public IServiceCollection Services { get; set; }
 
@@ -111,18 +112,15 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
 
-            //Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-
             Services.AddSingleton<TestAdapter>(sp =>
             {
-                //   var adapter = sp.GetService<DefaultTestAdapter>();
                 var adapter = new DefaultTestAdapter();
-
-                //var adapter = sp.GetService<TestAdapter>();
 
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
                 var resource = sp.GetService<ResourceExplorer>();
+
+                adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
 
                 adapter.UseState(userState, conversationState);
                 adapter.UseResourceExplorer(resource);

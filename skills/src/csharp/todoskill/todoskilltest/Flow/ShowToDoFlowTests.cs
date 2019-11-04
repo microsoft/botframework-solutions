@@ -22,23 +22,13 @@ namespace ToDoSkillTest.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
-                //.AssertReply(this.see())
                 .AssertReplyOneOf(this.SettingUpOneNote())
-                //.AssertReplyOneOf(this.AfterSettingUpOneNote())
-                //.AssertReply(this.ShowToDoCard())
-                //.AssertReplyOneOf(this.ReadMoreTasksPrompt())
-                //.Send(MockData.ConfirmNo)
-                //.AssertReplyOneOf(this.FirstReadMoreRefused())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
+                .AssertReply(this.ShowToDoCard())
+                .AssertReplyOneOf(this.ReadMoreTasksPrompt())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.FirstReadMoreRefused())
                 .StartTestAsync();
-        }
-
-        private Action<IActivity> see()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                var t = 65;
-            };
         }
 
         [TestMethod]
@@ -209,16 +199,6 @@ namespace ToDoSkillTest.Flow
         private string[] FirstReadMoreRefused()
         {
             return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
 
         private string[] ActionEndMessage()
