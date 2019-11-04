@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Connect to a sample Skill
+subcategory: Connect to a sample
 title: Intro
 order: 1
 ---

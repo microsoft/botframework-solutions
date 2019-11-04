@@ -22,53 +22,9 @@ This sample includes proactive notifications, enabling scenarios such as:
 
 ![Proactive notifications sample architecture]({{site.baseurl}}/assets/images/ProactiveNotificationsDrawing.PNG)
 
-### Event Producer
-{:.no_toc}
-
-Azure Functions are used to collect events from upstream systems and convert them into a canonical event schema before handing over to the Event Hub for centralized handling. In this sample, we simulate this event generation functionality for ease of testing by using the console application located [here](/samples/EnterpriseNotification/EventProducer).
-
-### Azure Event Hub
-{:.no_toc}
-
-In this sample, the Azure Event Hub is the centralized service that manages events gathered from different parts of the system and sent through the Azure Function aforementioned. For any event to reach an end user, it has to flow into the Azure Event Hub first.
-
-### Azure Functions - Event Handler
-{:.no_toc}
-
-After an event is posted to the Azure Event Hub, an Azure Function service is triggered to process them. The background to the use of Azure Functions is as follows:
-
-- Azure Functions natively support triggers against a variety of Azure services, Event Hub trigger is one of these.
-- Azure Functions scales against Event Hub services by managing locks on partitions of the Azure Event Hub internally as part of the framework.
-
-#### Notification Handler (Trigger)
-{:.no_toc}
-
-The triggering element of the Azure function is handled as part of the [EventHandler](/samples/EnterpriseNotification/EventHandler). The **Run** method within [Function1.cs]({{site.repo}}/samples/EnterpriseNotification/EventHandler/Function1.cs) is automatically invoked once an event is available.
-
-#### Notification Handler (Run)
-{:.no_toc}
-
-Following the trigger the following steps are performed as part of the same [EventHandler]({{site.repo}}/samples/EnterpriseNotification/EventHandler) example:
-
-- Unpack the event
-- Read from a UserPreference store to check user's profile settings
-- If the user has 'SendNotificationToMobileDevice' flag to be true, then send a notification to user's mobile device with the event content.
-- If the user has 'SendNotificationToConversation' flag to be true, then send a message to the bot with the event content.
-
-This sample uses CosmosDB as the UserPreference store but can be modified to reflect an existing store you may already have in place. The code will check if there's a record for the particular user. If not, it will then add a record with default settings of both destinations set to true.
-
-This sample doesn't include the implementation for sending a notification to mobile devices as this requires additional configuration. You can refer to [this documentation](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-aspnet-backend-ios-apple-apns-notification) for more information.
-
-The message the Event Handler sends to the bot is an event Activity, with the name **BroadcastEvent** and value is set to the data received rom the Event Hub.
-
-### Notification Hub
-{:.no_toc}
-
-[Notification Hubs](https://azure.microsoft.com/en-us/services/notification-hubs) provide the capability to delivery notifications to end user devices. Please refer to [this documentation](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-aspnet-backend-ios-apple-apns-notification) for additional steps to perform this integration as needed.
-
-
 ## Deploy
-Test
+
+An automated deployment will be available in the [Enterprise Assistant sample]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant), otherwise you can follow the tutorial in **Next steps** to manually provision the necessary Azure resources.
 
 ## Next Steps
 

@@ -20,13 +20,15 @@ The Enterprise Assistant Sample is based on the [Virtual Assistant Template]({{s
 In many cases, you can leverage [Azure Active Directory (AAD)](https://azure.microsoft.com/en-us/services/active-directory/) for single sign-on (SSO), though this may be limited by the channel itself and your specific requirements. 
 
 
-## Proactive Notifications
+## Proactive notifications
 
-The Enterprise Assistant sample includes [Proactive Notifications]({{site.baseurl}}/virtual-assistant/samples/proactive-notifications), enabling scenarios such as: 
+The Enterprise Assistant sample includes [proactive notifications]({{site.baseurl}}/virtual-assistant/samples/proactive-notifications), enabling scenarios such as: 
 
-- Send notifications to your users that the Enterprise Assistant would like to start a conversation, thus allowing the user to trigger when they are ready to have this discussion (e.g., a user receives a notification "your training is due", allowing them to initiate the conversation about what training is required) 
+- Send notifications to your users that the Enterprise Assistant would like to start a conversation, thus allowing the user to indicate when they are ready to have this discussion 
+    - e.g., a user receives a notification "your training is due", allowing them to initiate the conversation about what training is required) 
 
-- Initiate a proactive dialog with your users through an open channel such as Microsoft Teams (e.g., "Benefits enrollment just opened; would you like to know more about benefits?") 
+- Initiate a proactive dialog with your users through an open channel such as Microsoft Teams 
+    - e.g., "Benefits enrollment just opened; would you like to know more about benefits?"
 
 
 ## Supported scenarios
@@ -116,7 +118,9 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *Close my ticket* 
 
 ## Deploy
-Test
+
+An automated deployment (including proactive notifications) will be available soon.
 
 ## Download transcripts
-Test
+
+Sample transcripts for the Enterprise Assistant will be available soon.

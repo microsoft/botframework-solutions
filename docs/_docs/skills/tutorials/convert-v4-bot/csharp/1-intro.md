@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Convert a v4 Bot to a Skill
+subcategory: Convert a v4 Bot
 language: C#
 title: Intro
 order: 1
