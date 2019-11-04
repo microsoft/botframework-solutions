@@ -49,12 +49,12 @@ The **appsettings.json** file in the LinkedAccounts sample project has the follo
    * **Directory (tenant) ID** maps to **TenantId**
    * **Application (client) ID** maps to **ClientId**
 
-```json
+```diff
 "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
-    "Domain": "[Enter the domain of your tenant, e.g. contoso.onmicrosoft.com]",
-    "TenantId": "[Enter 'common', or 'organizations' or the Tenant Id (Obtained from the Azure portal. Select 'Endpoints' from the 'App registrations' blade and use the GUID in any of the URLs)]",
-    "ClientId": "[Enter the Client Id (Application ID obtained from the Azure portal)]",
++    "Domain": "[Enter the domain of your tenant, e.g. contoso.onmicrosoft.com]",
++    "TenantId": "[Enter 'common', or 'organizations' or the Tenant Id (Obtained from the Azure portal. Select 'Endpoints' from the 'App registrations' blade and use the GUID in any of the URLs)]",
++    "ClientId": "[Enter the Client Id (Application ID obtained from the Azure portal)]",
     "CallbackPath": "/signin-oidc"
   }
 ```

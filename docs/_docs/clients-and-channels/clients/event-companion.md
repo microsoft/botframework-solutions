@@ -14,59 +14,58 @@ toc: true
 ![Virtual Assistant Client (Android) overview diagram]({{site.baseurl}}/assets/images/android-virtual-assistant-client-architecture.png)
 
 ## Prerequisites
+1. Set up your own [Virtual Assistant Client]({{site.baseurl}}/clients-and-channels/clients/virtual-assistant-client).
 
-1. Set up your own [Virtual Assistant Client]({{site.baseurl/virtual-assistant/samples/virtual-assistant-client/}}).
-
-1. Download the [Event Companion app source code]({{site.baseurl}}/tree/master/samples/android/clients/EventCompanion).
+1. Download the [Event Companion app source code]({{site.repo}}/tree/next/samples/android/clients/EventCompanion).
 
 ## Build and run
-
-```
-TODO: If there is any configuration information that can be provided before running the app, add it here.
-```
-
 ### Run
 {:.no_toc}
 [Build and run your app](https://developer.android.com/studio/run) to deploy to the Android Emulator or a connected device.
 
-#### Permissions
-{:.no_toc}
-No special permission required by this app for now.
-
 ## Create new widgets
+
+Create sample numeric and toggle widgets.
 
 Numeric widgets and toggle widgets are available in Event Companion app for now.
 ![Event Companion app widgets]({{site.baseurl}}/assets/images/android-event-companion-widgets.jpg)
 
 ### Numeric widget
 {:.no_toc}
-1. Long press on the blank area of home screen, then select widgets.
+1. Long press on a blank area of the home screen, then select **Widgets**.
 
-2. Choose and place a numeric widget onto home screen.
+1. Select a numeric widget and drag onto the the home screen.
 
-3. Configure label, event and icon of the widget. It is also possible to populate a numeric widget from predefined templates.
+1. Configure:
+- **Label**: Widget label
+- **Event**: The name value of an event activity
+- **Icon**: Widget icon
+Predefined templates are available to populate a numeric widget for common scenarios.
 ![Numeric widget]({{site.baseurl}}/assets/images/android-event-companion-numeric-widget-configuration.jpg)
 
-4. Click **ADD WIDGET** to finish setting up the widget.
+1. Click **Add Widget** to finish placing on the home screen.
 
 ### Toggle widget
 {:.no_toc}
-1. Long press on the blank area of home screen, then select widgets to show available widgets.
+1. Long press on a blank area of the home screen, then select **Widgets**.
 
-2. Choose and place a toggle widget onto home screen.
+1. Select a toggle widget and drag onto the the home screen.
 
-3. Configure label, event, unit and icon of the widget. It is also possible to populate a toggle widget from predefined templates.
+1. Configure:
+- **Label**: Widget label
+- **Event**: The name value of an event activity
+- **Icon**: Widget icon
+Predefined templates are available to populate a toggle widget for common scenarios.
 ![Toggle widget]({{site.baseurl}}/assets/images/android-event-companion-toggle-widget-configuration.jpg)
 
-4. Click **ADD WIDGET** to finish setting up the widget.
+1. Click **Add Widget** to finish setting up the widget.
 
 ## Manage widgets
-
-All created widgets are avaible for re-configuration on the main screen of the event companion app:
+All created widgets can be reconfigured from the main screen of the **Event Companion** app.
 ![Event companion manage widgets]({{site.baseurl}}/assets/images/android-event-companion-manage-widgets.jpg)
 
-1. Select the widget which needs to be re-configured.
+1. Select the widget which needs to be reconfigured.
 
-2. Modify properties.
+1. Modify properties.
 
-3. Click **SAVE WIDGET** to apply the changes.
+1. Select **Save Widget** to apply the changes.
