@@ -305,22 +305,24 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(
-                    this.ParseReplies(SummaryResponses.ReadOutMessage, new StringDictionary()
+                var startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Today.AddHours(18)).AddDays(1);
+                var data = new StringDictionary()
+                {
                     {
-                        {
-                            "Date", DateTime.Now.ToUniversalTime().AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
-                        },
-                        {
-                            "Time", "at 6:00 PM"
-                        },
-                        {
-                            "Participants", Strings.Strings.DefaultUserName + suffix
-                        },
-                        {
-                            "Subject", Strings.Strings.DefaultEventName + suffix
-                        }
-                    }), messageActivity.Text);
+                        "Date", startTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
+                    },
+                    {
+                        "Time", "at 6:00 PM"
+                    },
+                    {
+                        "Participants", Strings.Strings.DefaultUserName + suffix
+                    },
+                    {
+                        "Subject", Strings.Strings.DefaultEventName + suffix
+                    }
+                };
+
+                CollectionAssert.Contains(this.ParseReplies(SummaryResponses.ReadOutMessage, data), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
