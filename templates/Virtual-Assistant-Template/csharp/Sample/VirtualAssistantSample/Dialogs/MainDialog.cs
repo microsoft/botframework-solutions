@@ -27,10 +27,13 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
+        private IntentSwitchDialog _intentSwitchDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private IStatePropertyAccessor<string> _intentSwitchValueAccessor;
+        private IStatePropertyAccessor<Activity> _intentSwitchActivityAccessor;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -40,7 +43,6 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
@@ -51,10 +53,15 @@ namespace VirtualAssistantSample.Dialogs
             // Create conversation state properties
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
+            _intentSwitchValueAccessor = conversationState.CreateProperty<string>(StateProperties.IntentSwitchValue);
+            _intentSwitchActivityAccessor = conversationState.CreateProperty<Activity>(StateProperties.IntentSwitchActivity);
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
             AddDialog(_onboardingDialog);
+
+            _intentSwitchDialog = new IntentSwitchDialog();
+            AddDialog(_intentSwitchDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -95,16 +102,49 @@ namespace VirtualAssistantSample.Dialogs
         {
             var activity = dc.Context.Activity;
             var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
+            var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Check if the active dialog is a skill for conditional interruption.
-                var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
                 var isSkill = dialog is SkillDialog;
 
                 // Get Dispatch LUIS result from turn state.
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
-                var dispatchIntent = dispatchResult.TopIntent().intent;
+                (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
+
+                // Check if we're in the middle of an intent switch.
+                if (dialog is IntentSwitchDialog)
+                {
+                    var result = await dc.ContinueDialogAsync(cancellationToken);
+                    if ((bool)result.Result)
+                    {
+                        var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(dc.Context, () => null);
+                        var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(dc.Context, () => null);
+                        dc.Context.Activity.Text = intentSwitchActivity.Text;
+
+                        // Start new skill dialog
+                        var dialogResult = await dc.BeginDialogAsync(intentSwitchValue);
+                        return InterruptionAction.Waiting;
+                    }
+                }
+
+                // Check if we need to switch skills.
+                if (isSkill)
+                {
+                    if (dispatchScore > 0.9)
+                    {
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
+
+                        if (identifiedSkill != null)
+                        {
+                            await _intentSwitchValueAccessor.SetAsync(dc.Context, identifiedSkill.Id);
+                            await _intentSwitchActivityAccessor.SetAsync(dc.Context, dc.Context.Activity);
+                            await dc.BeginDialogAsync(_intentSwitchDialog.Id, options: new { newSkill = identifiedSkill });
+                            return InterruptionAction.Waiting;
+                        }
+                    }
+                }
 
                 if (dispatchIntent == DispatchLuis.Intent.l_General)
                 {
@@ -417,7 +457,9 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
-            public const string PreviousBotResponse = "previousBotReponse";
+            public const string PreviousBotResponse = "previousBotResponse";
+            public const string IntentSwitchValue = "intentSwitchValue";
+            public const string IntentSwitchActivity = "intentSwitchActivity";
             public const string Location = "location";
             public const string TimeZone = "timezone";
         }
