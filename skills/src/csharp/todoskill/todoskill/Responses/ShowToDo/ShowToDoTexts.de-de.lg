@@ -1,41 +1,20 @@
 # AskAddOrCompleteTaskMessage.Text
 - Sie können mir mitteilen, ob Sie eine Aufgabe hinzufügen oder abschließen möchten.
 
-# AskAddOrCompleteTaskMessage.Speak
-- Sie können mir mitteilen, ob Sie eine Aufgabe hinzufügen oder abschließen möchten.
-
 # ReadMoreTasksPrompt.Text
-- Möchten Sie die nächsten Aufgaben anzeigen?
-
-# ReadMoreTasksPrompt.Speak
 - Möchten Sie die nächsten Aufgaben anzeigen?
 
 # ReadMoreTasksConfirmFailed.Text
 - Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie die nächsten Aufgaben anzeigen?
 
-# ReadMoreTasksConfirmFailed.Speak
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie die nächsten Aufgaben anzeigen?
-
 # ReadMoreTasksPrompt2.Text
-- Weitere Elemente befinden sich in Ihrer Liste. Möchten Sie mehr sehen?
-
-# ReadMoreTasksPrompt2.Speak
 - Weitere Elemente befinden sich in Ihrer Liste. Möchten Sie mehr sehen?
 
 # RetryReadMoreTasksPrompt2.Text
 - Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie mehr sehen?
 
-# RetryReadMoreTasksPrompt2.Speak
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie mehr sehen?
-
 # NoTasksMessage.Text(ListType)
 - Es scheint, dass Sie keine Aufgaben in Ihrem {ListType} liste. Lassen Sie mich wissen, ob Sie eine neue Aufgabe erstellen möchten.
-
-# NoTasksMessage.Text(ListType)
-- Es scheint, dass Sie keine Aufgaben in Ihrem {ListType} liste. Lassen Sie mich wissen, ob Sie eine neue Aufgabe erstellen möchten.
-
-# TaskSummaryMessage.Text(TaskCount, ListType)
-- Sie haben {TaskCount} Artikel auf Ihrem {ListType} liste.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
 - Sie haben {TaskCount} Artikel auf Ihrem {ListType} liste.
@@ -43,17 +22,8 @@
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
 - Sie stehen bereits am Anfang Ihrer {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
 
-# RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- Sie stehen bereits am Anfang Ihrer {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
 - Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
-# RepeatFirstPageConfirmFailed.Text(TaskCount)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
-# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- Dies ist die letzte Aufgabe auf Ihrem {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
 - Dies ist die letzte Aufgabe auf Ihrem {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
@@ -61,17 +31,8 @@
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
 - Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
 
-# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
 - Dies sind die letzten Aufgaben auf Ihrem {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
-# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- Dies sind die letzten Aufgaben auf Ihrem {ListType} liste. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
-
-# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Ihre erste {TaskCount} Aufgaben wieder?

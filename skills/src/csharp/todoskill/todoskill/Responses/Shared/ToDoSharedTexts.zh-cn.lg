@@ -5,18 +5,7 @@
 - 你能登录，以便我进一步帮助您吗？
 - 您需要登录，以便我采取进一步操作。
 
-# NoAuth.Speak
-- 请在采取进一步操作之前登录。
-- 请登录，以便我能够提供帮助。
-- 请登录，以便我继续您的请求。
-- 你能登录，以便我进一步帮助您吗？
-- 您需要登录，以便我采取进一步操作。
-
 # ActionEnded.Text
-- 如果你需要我的帮助，请告诉我。
-- 好吧，如果你需要我，我在这里。
-
-# ActionEnded.Speak
 - 如果你需要我的帮助，请告诉我。
 - 好吧，如果你需要我，我在这里。
 
@@ -27,52 +16,24 @@
 - 好像出了什么问题。您以后再试一次吗？
 - 对不起，我现在帮不上忙。请稍后再试。
 
-# ToDoErrorMessage.Speak
-- 对不起，好像出了什么问题！
-- 发生错误，请稍后重试。
-- 出问题了，对不起！
-- 好像出了什么问题。您以后再试一次吗？
-- 对不起，我现在帮不上忙。请稍后再试。
-
 # ToDoErrorMessageBotProblem.Text
-- 对不起，目前机器人有问题。开发人员已接到通知，以便您很快能够再次执行该操作。
-
-# ToDoErrorMessageBotProblem.Speak
 - 对不起，目前机器人有问题。开发人员已接到通知，以便您很快能够再次执行该操作。
 
 # ToDoErrorMessageAccountProblem.Text
 - 很抱歉，您的电子邮件帐户似乎出现问题。请按照收件箱中的说明验证您的帐户。
 
-# ToDoErrorMessageAccountProblem.Speak
-- 很抱歉，您的电子邮件帐户似乎出现问题。请按照收件箱中的说明验证您的帐户。
-
 # SettingUpOneNoteMessage.Text
-- 我注意到你不再有OneNote了。我正在为您创建新的 OneNote，包括待办事项列表。
-
-# SettingUpOneNoteMessage.Speak
 - 我注意到你不再有OneNote了。我正在为您创建新的 OneNote，包括待办事项列表。
 
 # AfterOneNoteSetupMessage.Text
 - 全部设置。我已经向您发送了一封电子邮件，其中的链接指向您的新 OneNote。我准备记下你的事。
 
-# AfterOneNoteSetupMessage.Speak
-- 全部设置。我已经向您发送了一封电子邮件，其中的链接指向您的新 OneNote。我准备记下你的事。
-
 # SettingUpOutlookMessage.Text
-- 我注意到您没有任何 Outlook 任务文件夹了。我正在为您创建新的任务文件夹，包括"任务"文件夹。
-
-# SettingUpOutlookMessage.Speak
 - 我注意到您没有任何 Outlook 任务文件夹了。我正在为您创建新的任务文件夹，包括"任务"文件夹。
 
 # AfterOutlookSetupMessage.Text
 - 全部设置。我已经向您发送了一封电子邮件，其中包含指向您新 Outlook 任务文件夹的链接。我准备记下你的事。
 
-# AfterOutlookSetupMessage.Speak
-- 全部设置。我已经向您发送了一封电子邮件，其中包含指向您新 Outlook 任务文件夹的链接。我准备记下你的事。
-
 # NoTasksInList.Text
-- 您的列表为空。
-
-# NoTasksInList.Speak
 - 您的列表为空。
 

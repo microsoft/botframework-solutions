@@ -9,21 +9,7 @@
 - Pouvez-vous dire cela d'une manière différente?
 - Tu peux essayer de me le redemander ? Je n'ai pas eu ce que tu voulais dire.
 
-# DidntUnderstandMessage.Speak
-- Désolé, je ne comprenais pas ce que tu voulais dire.
-- Je ne comprenais pas, peut-être essayer à nouveau d'une manière différente.
-- Pouvez-vous essayer de demander d'une manière différente?
-- Je n'ai pas eu ce que tu veux dire, tu peux essayer d'une autre façon ?
-- Pourriez-vous nous donner des précisions?
-- S'il vous plaît dire que de nouveau d'une manière différente.
-- Je n'ai pas tout à fait eu ça.
-- Pouvez-vous dire cela d'une manière différente?
-- Tu peux essayer de me le redemander ? Je n'ai pas eu ce que tu voulais dire.
-
 # ToDoWelcomeMessage.Text
-- Salut. Je suis à faire bot. Je peux vous aider à gérer vos listes à faire, shopping ou épicerie.
-
-# ToDoWelcomeMessage.Speak
 - Salut. Je suis à faire bot. Je peux vous aider à gérer vos listes à faire, shopping ou épicerie.
 
 # ToDoWelcomeMessage.S1
@@ -41,15 +27,7 @@
 # HelpMessage.Text
 - Je peux lire vos articles à faire, d'achat ou d'épicerie, créer un nouveau to Do, faire du shopping ou un article d'épicerie, ou compléter et supprimer un article à faire, d'achat ou d'épicerie pour vous.
 
-# HelpMessage.Speak
-- Je peux lire vos articles à faire, d'achat ou d'épicerie, créer un nouveau to Do, faire du shopping ou un article d'épicerie, ou compléter et supprimer un article à faire, d'achat ou d'épicerie pour vous.
-
 # LogOut.Text
-- Votre signature a été un succès.
-- Vous avez signé avec succès.
-- Vous avez été déconnecté.
-
-# LogOut.Speak
 - Votre signature a été un succès.
 - Vous avez signé avec succès.
 - Vous avez été déconnecté.
@@ -57,12 +35,6 @@
 # FeatureNotAvailable.Text
 - Cette fonctionnalité n'est pas encore disponible dans la compétence To Do. S'il vous plaît essayer de demander autre chose.
 
-# FeatureNotAvailable.Speak
-- Cette fonctionnalité n'est pas encore disponible dans la compétence To Do. S'il vous plaît essayer de demander autre chose.
-
 # CancelMessage.Text
-- Ok, recommençons à tout recommencer.
-
-# CancelMessage.Speak
 - Ok, recommençons à tout recommencer.
 

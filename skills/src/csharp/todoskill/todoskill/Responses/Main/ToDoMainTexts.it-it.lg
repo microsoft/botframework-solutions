@@ -9,21 +9,7 @@
 - Puoi dirlo in un modo diverso?
 - Puoi provare a chiedermelo di nuovo? Non ho capito quello che intendevi.
 
-# DidntUnderstandMessage.Speak
-- Scusa, non capivo cosa intendevi.
-- Non ho capito, forse riprovare in un modo diverso.
-- Puoi provare a chiedere in un modo diverso?
-- Non ho capito quello che vuoi dire, puoi provare in un modo diverso?
-- Potresti spiegarmi meglio?
-- Si prega di dirlo di nuovo in un modo diverso.
-- Non l'ho capito bene.
-- Puoi dirlo in un modo diverso?
-- Puoi provare a chiedermelo di nuovo? Non ho capito quello che intendevi.
-
 # ToDoWelcomeMessage.Text
-- ciao. Sono To Do bot. Posso aiutarti a gestire le tue liste Da fare, Shopping o Alimentari.
-
-# ToDoWelcomeMessage.Speak
 - ciao. Sono To Do bot. Posso aiutarti a gestire le tue liste Da fare, Shopping o Alimentari.
 
 # ToDoWelcomeMessage.S1
@@ -41,15 +27,7 @@
 # HelpMessage.Text
 - Posso leggere le tue To Do's, fare shopping o fare la spesa, creare un nuovo To Do, fare shopping o fare la spesa, o completare ed eliminare un to Do, shopping o articoli di alimentari per te.
 
-# HelpMessage.Speak
-- Posso leggere le tue To Do's, fare shopping o fare la spesa, creare un nuovo To Do, fare shopping o fare la spesa, o completare ed eliminare un to Do, shopping o articoli di alimentari per te.
-
 # LogOut.Text
-- La tua disconnessione è riuscita.
-- Ti sei disconnesso.
-- Sei stato disconnesso.
-
-# LogOut.Speak
 - La tua disconnessione è riuscita.
 - Ti sei disconnesso.
 - Sei stato disconnesso.
@@ -57,12 +35,6 @@
 # FeatureNotAvailable.Text
 - Questa funzione non è ancora disponibile nell'abilità Da fare. Si è verificato un problema sconosciuto.
 
-# FeatureNotAvailable.Speak
-- Questa funzione non è ancora disponibile nell'abilità Da fare. Si è verificato un problema sconosciuto.
-
 # CancelMessage.Text
-- Ok, ricominciamo da capo.
-
-# CancelMessage.Speak
 - Ok, ricominciamo da capo.
 

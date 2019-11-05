@@ -1,41 +1,20 @@
 # AskAddOrCompleteTaskMessage.Text
 - Puedes hacerme saber si quieres agregar o completar una tarea.
 
-# AskAddOrCompleteTaskMessage.Speak
-- Puedes hacerme saber si quieres agregar o completar una tarea.
-
 # ReadMoreTasksPrompt.Text
-- ¿Desea ver las siguientes tareas?
-
-# ReadMoreTasksPrompt.Speak
 - ¿Desea ver las siguientes tareas?
 
 # ReadMoreTasksConfirmFailed.Text
 - Lo siento, no entendí lo que querías decir. ¿Desea ver las siguientes tareas?
 
-# ReadMoreTasksConfirmFailed.Speak
-- Lo siento, no entendí lo que querías decir. ¿Desea ver las siguientes tareas?
-
 # ReadMoreTasksPrompt2.Text
-- Hay más elementos en su lista. ¿Quieres ver más?
-
-# ReadMoreTasksPrompt2.Speak
 - Hay más elementos en su lista. ¿Quieres ver más?
 
 # RetryReadMoreTasksPrompt2.Text
 - Lo siento, no entendí lo que querías decir. ¿Quieres ver más?
 
-# RetryReadMoreTasksPrompt2.Speak
-- Lo siento, no entendí lo que querías decir. ¿Quieres ver más?
-
 # NoTasksMessage.Text(ListType)
 - Parece que no tiene tareas en su {ListType} Lista. Avísame si quieres crear una nueva tarea.
-
-# NoTasksMessage.Text(ListType)
-- Parece que no tiene tareas en su {ListType} Lista. Avísame si quieres crear una nueva tarea.
-
-# TaskSummaryMessage.Text(TaskCount, ListType)
-- Usted tiene {TaskCount} artículos en su {ListType} Lista.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
 - Usted tiene {TaskCount} artículos en su {ListType} Lista.
@@ -43,17 +22,8 @@
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
 - Usted ya está al comienzo de su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
 
-# RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- Usted ya está al comienzo de su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
 - Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
-# RepeatFirstPageConfirmFailed.Text(TaskCount)
-- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
-# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- Esta es la última tarea en su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
 - Esta es la última tarea en su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
@@ -61,17 +31,8 @@
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
 - Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
 
-# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
 - Estas son las últimas tareas en su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
-# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- Estas son las últimas tareas en su {ListType} Lista. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
-
-# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
