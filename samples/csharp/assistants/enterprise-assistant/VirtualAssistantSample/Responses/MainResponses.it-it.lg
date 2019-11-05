@@ -1,28 +1,76 @@
-﻿# cancelledTemplate
-- 好的，我们从头再来。
+# CompletedMessage
+- Sono qui se hai bisogno di qualcos'altro.
+- Fammi sapere se c'è qualcos'altro di cui hai bisogno.
+- Fammi sapere se posso aiutarti con qualcos'altro.
+- Tutto fatto. Fammi sapere se posso fare qualcos'altro.
 
-# completedTemplate
-- 我还能帮你什么？
+# CancelledMessage
+- Ok{RandName()}, annullando la richiesta. Fammi sapere se posso fare qualcos'altro per te.
+- Ok, cancellando la tua richiesta. Fammi sapere se posso fare qualcos'altro per te.
+- Nessun problema, fammi sapere se posso aiutarti con qualcos'altro.
+- Certo, annullerò la tua richiesta. Fammi sapere se posso aiutare con qualsiasi altra cosa
 
-# confusedTemplate
-- 对不起，我帮不了。
+# UnsupportedMessage
+- Mi dispiace, non sono in grado di aiutarti.
+- Si è verificato un problema sconosciuto.
+- Mi scuso, non so come farlo in questo momento.
+- Sfortunatamente non posso aiutarti in questo momento. Scuse.
+- mi dispiace{RandName()}, questo non è qualcosa che posso aiutare con ancora.
+- Scuse{RandName()}, non so come farlo in questo momento.
 
-# errorTemplate
-- 对不起, 看起来出了问题。
+# ConfusedMessage
+- Mi dispiace, non l'ho capito. Puoi darmi qualche informazione in più?
+- Scusa, non l'ho capito. Puoi dirmi di più?
+- mi dispiace{RandName()}, non l'ho capito. Puoi dirmi di più?
+- Mi scuso, non ho capito bene. Puoi darmi maggiori informazioni?
 
-# logoutTemplate
-- 好了，您已注销。
+# ErrorMessage
+- mi dispiace{RandName()}, sembra che qualcosa sia andato storto. Riprova più tardi.
+- Scuse{RandName()}, sembra che qualcosa sia andato storto. Riprovare la richiesta in un secondo momento.
+- Mi dispiace, sembra che qualcosa sia andato storto. Riprova più tardi.
+- Hmm, sembra che ci sia stato un errore. Mi dispiace per questo. È possibile riprovare in un secondo momento.
+- Mi scuso, sembra che qualcosa sia andato storto. Riprovare la richiesta in un secondo momento.
 
-# escalateMessage
-- ```
+#StartOverMessage
+- Ok{RandName()}, proviamo di nuovo.
+- Non c'è problema{RandName()}, possiamo ricominciare da capo.
+- Ok, proviamo di nuovo.
+- Certo, proviamo di nuovo.
+- Nessun problema, possiamo ricominciare da capo.
+
+# FirstPromptMessage
+- Con cosa posso aiutarti oggi?
+- Cosa posso fare per te?
+- C'è qualcosa che posso fare per te?
+- Come posso aiutarla?
+
+# LogoutMessage
+- Ok{RandName()}, sei disconnesso.
+- forma alternativa britannica di "all right"{RandName()}, sei disconnesso.
+- Non c'è problema{RandName()}, ti ho disconnesso.
+- Ok, sei disconnesso.
+- Va bene, ti sei disconnesso.
+- Certo, sei stato disconnesso.
+- Non c'è problema, ti ho disconnesso.
+
+# EscalateMessage
 [HeroCard
-  subtitle=我们的客服在 1 (800) 555-1234 提供全天候服务。
+  subtitle=i nostri agenti sono disponibili 24 ore su 24, 7 giorni su 7, al numero 1(800)555-1234. Oppure connettiti con noi tramite Microsoft Teams.
 ]
-```
 
-# newUserIntroTemplate
+# NewUserIntroCard
+[Activity
+    Attachments = {json(NewUserIntroCardJson())}
+]
+
+# NewUserIntroCardTitle
+- Ehilà!
+- benvenuto
+- Piacere di conoscerti!
+- Ciao e benvenuto!
+
+# NewUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "NewUserGreeting",
@@ -49,16 +97,16 @@
           "spacing": "Medium",
           "size": "Large",
           "weight": "Bolder",
-          "color": "Dark",
-          "text": "嗨, 我是你的虚拟助理",
+          "color": "Light",
+          "text": "@{NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
           "type": "TextBlock",
           "id": "body",
           "size": "Medium",
-          "color": "Dark",
-          "text": "在这里探索, 看看我能做些什么。",
+          "color": "Light",
+          "text": "Ora che sono in funzione, esplora i link qui per scoprire cosa posso fare.",
           "wrap": true
         }
       ]
@@ -67,37 +115,40 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "开始吧",
+      "title": "Guida introduttiva",
       "data": {
         "action": "startOnboarding"
       }
     },
     {
       "type": "Action.OpenUrl",
-      "title": "文档",
+      "title": "Documentazione",
       "url": "https://aka.ms/virtualassistantdocs"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "关联账户",
-      "url": "https://aka.ms/linkedaccountsdocs"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "技能",
-      "url": "https://aka.ms/ConversationalAISkills"
+      "title": "Skills",
+      "url": "https://aka.ms/botframeworkskills"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "嗨, 我是你的虚拟助理! 在这里探索, 看看我能做些什么。"
+  "speak": "@{NewUserIntroCardTitle()}"
 }
-]
 ```
 
-# returningUserIntroTemplate
+# ReturningUserIntroCard
+[Activity
+    Attachments = {json(ReturningUserIntroCardJson())}
+]
+
+# ReturningUserIntroCardTitle
+- Bentornato{RandName()}!
+- È bello rivederti.
+- Ehi, bentornato!
+
+# ReturningUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "ReturningUserGreeting",
@@ -131,7 +182,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "欢迎回来",
+                  "text": "@{ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -139,7 +190,7 @@
                   "id": "body",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "我能帮上什么忙吗",
+                  "text": "Come posso essere d'aiuto?",
                   "wrap": true
                 }
               ],
@@ -152,15 +203,18 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "欢迎回来!"
+  "speak": "@{ReturningUserIntroCardTitle()}"
 }
-]
 ```
 
-# helpTemplate
-- ```
-[Herocard 
-    title=智能助手的帮助
-    subtitle=我是您的智能助理!我有不少技能，可以帮您完成很多任务。现在我可以帮您管理您的日历, 电子邮件, 任务和查找地图兴趣点。或者, 您可以教我更多的技能！
+# HelpCard
+[HeroCard 
+    title=Guida per l'Assistente virtuale
+    subtitle=questa scheda può essere usata per visualizzare informazioni che consentano all'utente di interagire con il bot.
 ]
-```
+
+# RandName 
+- IF: {Name && rand(0, 1000) > 500}
+    - {concat(' ', Name)}
+- ELSE:
+    - 

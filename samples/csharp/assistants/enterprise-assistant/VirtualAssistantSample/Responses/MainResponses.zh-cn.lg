@@ -1,28 +1,76 @@
-﻿# cancelledTemplate
-- Ok, ricominciamo da qui.
+# CompletedMessage
+- 如果你还需要什么，我会在这里。
+- 如果还有什么需要，请告诉我。
+- 让我知道，如果我可以帮你什么。
+- 全部完成。让我知道我能不能做别的事。
 
-# completedTemplate
-- Che altro posso aiutarvi?
+# CancelledMessage
+- 还行{RandName()}，取消您的请求。让我知道，如果我能为你做点什么。
+- 好了，取消您的请求。让我知道，如果我能为你做点什么。
+- 没问题，请告诉我，如果我能帮到你什么。
+- 当然，我会取消你的请求。让我知道，如果我可以帮忙做别的
 
-# confusedTemplate
-- Mi dispiace, non sono in grado di aiutarti.
+# UnsupportedMessage
+- 对不起，我帮不上忙。
+- 对不起，我还不能帮忙。
+- 对不起，我现在不知道如何做。
+- 很不幸，我现在帮不了你。道歉。
+- 对不起{RandName()}，这还不是我能帮忙的。
+- 道歉{RandName()}，我不知道现在怎么做。
 
-# errorTemplate
-- Mi dispiace, sembra che qualcosa sia andato storto.
+# ConfusedMessage
+- 对不起，我不明白。你能给我一些更多的信息吗？
+- 对不起，我不明白。能告诉我更多吗？
+- 对不起{RandName()}"我没明白能告诉我更多吗？
+- 道歉，我不太明白。你能给我更多的信息吗？
 
-# logoutTemplate
-- Ok, sei disconnesso.
+# ErrorMessage
+- 对不起{RandName()}，看起来好像出了什么问题。请稍后再试。
+- 道歉{RandName()}，看起来好像出了什么问题。请稍后重试您的请求。
+- 对不起，好像出了什么问题。请稍后再试。
+- 嗯，看起来好像有一个错误。很抱歉您可以稍后再试。
+- 道歉，看起来好像出了什么问题。请稍后重试您的请求。
 
-# escalateMessage
-- ```
+#StartOverMessage
+- 还行{RandName()}，让我们再试一次。
+- 没关系{RandName()}，我们可以重新开始。
+- 好，让我们再试一次。
+- 当然，让我们再试一次。
+- 没问题，我们可以重新开始。
+
+# FirstPromptMessage
+- 今天我能帮到你什么？
+- 我能为你做什么？
+- 有什么我能为你做什么的吗？
+- 我能帮你什么？
+
+# LogoutMessage
+- 还行{RandName()}，您已注销。
+- 好{RandName()}，您已注销。
+- 没关系{RandName()}我已经签了你
+- 好了，您已注销。
+- 好了，签了字了
+- 当然，您已经注销了。
+- 没问题，我已经签了名。
+
+# EscalateMessage
 [HeroCard
-  subtitle=I nostri agenti sono disponibili 24/7 a 1 (800) 555-1234.
+  subtitle=我们的代理商全天候提供 1（800）555-1234。或者通过微软团队与我们联系。
 ]
-```
 
-# newUserIntroTemplate
+# NewUserIntroCard
+[Activity
+    Attachments = {json(NewUserIntroCardJson())}
+]
+
+# NewUserIntroCardTitle
+- 嘿，你好！
+- 欢迎
+- 很高兴见到你！
+- 您好，欢迎光临！
+
+# NewUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "NewUserGreeting",
@@ -49,16 +97,16 @@
           "spacing": "Medium",
           "size": "Large",
           "weight": "Bolder",
-          "color": "Dark",
-          "text": "Ciao, sono il **tuo** Virtual Assistant",
+          "color": "Light",
+          "text": "@{NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
           "type": "TextBlock",
           "id": "body",
           "size": "Medium",
-          "color": "Dark",
-          "text": "Ora che sono pronto, leggi di più per vedere cosa posso fare.",
+          "color": "Light",
+          "text": "现在，我启动并运行，浏览此处的链接，了解我能做什么。",
           "wrap": true
         }
       ]
@@ -67,37 +115,40 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "Iniziare",
+      "title": "入门",
       "data": {
         "action": "startOnboarding"
       }
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Documentazione",
+      "title": "文档",
       "url": "https://aka.ms/virtualassistantdocs"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Account collegati",
-      "url": "https://aka.ms/linkedaccountsdocs"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Abilità",
-      "url": "https://aka.ms/ConversationalAISkills"
+      "title": "技能",
+      "url": "https://aka.ms/botframeworkskills"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Ciao, sono il **tuo** Virtual Assistant! Ora che sono pronto, leggi di più per vedere cosa posso fare."
+  "speak": "@{NewUserIntroCardTitle()}"
 }
-]
 ```
 
-# returningUserIntroTemplate
+# ReturningUserIntroCard
+[Activity
+    Attachments = {json(ReturningUserIntroCardJson())}
+]
+
+# ReturningUserIntroCardTitle
+- 欢迎回来{RandName()}!
+- 很高兴看到你再次。
+- 嘿，欢迎回来！
+
+# ReturningUserIntroCardJson
 - ```
-[AdaptiveCard
 {
   "type": "AdaptiveCard",
   "id": "ReturningUserGreeting",
@@ -131,7 +182,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "Benvenuto!",
+                  "text": "@{ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -139,7 +190,7 @@
                   "id": "body",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "Come posso aiutarla?",
+                  "text": "我该如何提供帮助？",
                   "wrap": true
                 }
               ],
@@ -152,15 +203,18 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "Benvenuto!"
+  "speak": "@{ReturningUserIntroCardTitle()}"
 }
-]
 ```
 
-# helpTemplate
-- ```
-[Herocard 
-    title=Aiuto per Virtual Assistant
-    subtitle=Sono il tuo assistente virtuale! Posso effettuare un certo numero di mansioni con le mie abilità collegate. In questo momento posso aiutarvi con calendario, e-mail, compito e punto di domande di interesse. Oppure puoi aiutarmi a fare di più creando il tuo!
+# HelpCard
+[HeroCard 
+    title=虚拟助理的帮助
+    subtitle=此卡可用于显示信息，以帮助用户与您的机器人进行交互。
 ]
-```
+
+# RandName 
+- IF: {Name && rand(0, 1000) > 500}
+    - {concat(' ', Name)}
+- ELSE:
+    - 

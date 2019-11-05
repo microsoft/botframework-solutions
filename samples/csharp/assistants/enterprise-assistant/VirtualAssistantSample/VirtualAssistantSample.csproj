@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.2.0" />
+    <PackageReference Include="AdaptiveCards" Version="1.2.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.10.0" />
@@ -19,64 +19,61 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-10-04-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-Daily-2019-10-04-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-daily62" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-daily62" />
-    <PackageReference Include="Microsoft.Bot.Builder.StreamingExtensions" Version="4.6.0-Daily-2019-09-25-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.0-preview-191005-1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-preview-rc3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-preview-rc3" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\MainResponses.de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\MainResponses.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\MainResponses.es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\MainResponses.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\MainResponses.fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\MainResponses.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\MainResponses.it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\MainResponses.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\MainResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\MainResponses.zh.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\MainResponses.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\OnboardingResponses.de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\OnboardingResponses.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\OnboardingResponses.es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\OnboardingResponses.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\OnboardingResponses.fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\OnboardingResponses.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\OnboardingResponses.it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\OnboardingResponses.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\OnboardingResponses.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\OnboardingResponses.zh.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Responses\OnboardingResponses.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
