@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "..\..\..\..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITSMSkill", "..\..\..\..\skills\csharp\experimental\itsmskill\ITSMSkill.csproj", "{E226ECDB-2D28-4515-95B5-5163BADDCBDA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{BF9FBA28-C28B-4B15-81B1-C3E23D915551}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "..\..\clients\event-handler.function-app\EventHandler.csproj", "{8258DB79-6B35-4F2D-8450-B3139B9B64FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProducer", "..\..\clients\event-producer.event-hub\EventProducer.csproj", "{F83F9D1F-8689-410F-9C84-4953E733EF16}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{BF9FBA28-C28B-4B15-81B1-C3E23D915551}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

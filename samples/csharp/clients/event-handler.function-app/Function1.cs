@@ -86,12 +86,12 @@ namespace EventHandler
 
                 var conversation = await client.Conversations.StartConversationAsync();
 
-                // Use the text passed to the method (by the user) to create a new message
+                // Send an event activity with the user id and message
                 var userMessage = Activity.CreateEventActivity() as Activity;
                 userMessage.Text = eventData.Message;
                 userMessage.Name = "BroadcastEvent";
                 userMessage.Value = eventData;
-                userMessage.From = new ChannelAccount(userPreference.UserId);
+                userMessage.From = new ChannelAccount("user1");
 
                 var response = await client.Conversations.PostActivityAsync(conversation.ConversationId, userMessage);
             }

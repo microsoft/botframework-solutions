@@ -335,7 +335,10 @@ namespace VirtualAssistantSample.Dialogs
 
                         var proactiveModel = await _proactiveStateAccessor.GetAsync(innerDc.Context, () => new ProactiveModel());
 
-                        var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
+                        var hashedUserId = MD5Util.ComputeHash(eventData.UserId);
+
+                        var conversationReference = proactiveModel[hashedUserId].Conversation;
+
                         await innerDc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(innerDc.Context, eventData.Message), cancellationToken);
                         break;
                     }

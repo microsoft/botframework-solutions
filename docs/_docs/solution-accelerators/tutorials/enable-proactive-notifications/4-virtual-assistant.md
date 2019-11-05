@@ -118,13 +118,13 @@ public class MainDialog : RouterDialog
     protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
     {
     ...
-+    case Events.Broadcast:
++    case "BroadcastEvent":
 +        {
 +            var eventData = JsonConvert.DeserializeObject<EventData>(innerDc.Context.Activity.Value.ToString());
-+
 +            var proactiveModel = await _proactiveStateAccessor.GetAsync(innerDc.Context, () => new ProactiveModel());
++            var hashedUserId = MD5Util.ComputeHash(eventData.UserId);
++            var conversationReference = proactiveModel[hashedUserId].Conversation;
 +
-+            var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
 +            await innerDc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(innerDc.Context, eventData.Message), cancellationToken);
 +            break;
 +        }
@@ -167,13 +167,6 @@ public class MainDialog : RouterDialog
 +            }
 +        }
 +    }
-+
-    private class Events
-    {
-        public const string Location = "VA.Location";
-        public const string TimeZone = "VA.Timezone";
-+        public const string Broadcast = "BroadcastEvent";
-    }
    ...
 }
 ```
