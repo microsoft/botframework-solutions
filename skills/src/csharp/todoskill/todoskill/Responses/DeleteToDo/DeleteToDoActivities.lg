@@ -4,21 +4,21 @@
 # AskDeletionAllConfirmation
 [Activity
     Text = {AskDeletionAllConfirmation.Text(ListType)}
-    Speak = {AskDeletionAllConfirmation.Speak(ListType)}
+    Speak = {AskDeletionAllConfirmation.Text(ListType)}
     InputHint = expectingInput
 ]
 
 # AskDeletionAllConfirmationFailed
 [Activity
     Text = {AskDeletionAllConfirmationFailed.Text(ListType)}
-    Speak = {AskDeletionAllConfirmationFailed.Speak(ListType)}
+    Speak = {AskDeletionAllConfirmationFailed.Text(ListType)}
     InputHint = expectingInput
 ]
 
 # DeletionAllConfirmationRefused
 [Activity
     Text = {DeletionAllConfirmationRefused.Text(TaskCount, ListType)}
-    Speak = {DeletionAllConfirmationRefused.Speak(TaskCount, ListType)}
+    Speak = {DeletionAllConfirmationRefused.Text(TaskCount, ListType)}
     Attachments = {json(ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl))}
     InputHint = ignoringInput
 ]
@@ -26,35 +26,35 @@
 # ListTypePromptForDelete
 [Activity
     Text = {ListTypePromptForDelete.Text()}
-    Speak = {ListTypePromptForDelete.Speak()}
+    Speak = {ListTypePromptForDelete.Text()}
     InputHint = expectingInput
 ]
 
 # AskTaskIndexForDelete
 [Activity
     Text = {AskTaskIndexForDelete.Text()}
-    Speak = {AskTaskIndexForDelete.Speak()}
+    Speak = {AskTaskIndexForDelete.Text()}
     InputHint = expectingInput
 ]
 
 # AskTaskIndexRetryForDelete
 [Activity
     Text = {AskTaskIndexRetryForDelete.Text()}
-    Speak = {AskTaskIndexRetryForDelete.Speak()}
+    Speak = {AskTaskIndexRetryForDelete.Text()}
     InputHint = expectingInput
 ]
 
 # DeleteAnotherTaskPrompt
 [Activity
     Text = {DeleteAnotherTaskPrompt.Text()}
-    Speak = {DeleteAnotherTaskPrompt.Speak()}
+    Speak = {DeleteAnotherTaskPrompt.Text()}
     InputHint = expectingInput
 ]
 
 # DeleteAnotherTaskConfirmFailed
 [Activity
     Text = {DeleteAnotherTaskConfirmFailed.Text()}
-    Speak = {DeleteAnotherTaskConfirmFailed.Speak()}
+    Speak = {DeleteAnotherTaskConfirmFailed.Text()}
     InputHint = expectingInput
 ]
 

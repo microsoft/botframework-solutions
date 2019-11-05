@@ -131,7 +131,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -174,7 +174,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.AskTaskContentText}]", sc.Context, null);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, sc.Context, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -247,12 +247,12 @@ namespace ToDoSkill.Dialogs
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
 
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.SwitchListType}]", sc.Context, new
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListType, sc.Context, new
                 {
                     ListType = state.ListType
                 });
 
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.SwitchListTypeConfirmFailed}]", sc.Context, new
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListTypeConfirmFailed, sc.Context, new
                 {
                     ListType = state.ListType
                 });
@@ -321,12 +321,12 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.AskAddDupTaskPrompt}]", sc.Context, new
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskPrompt, sc.Context, new
                     {
                         TaskContent = state.TaskContent
                     });
 
-                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.AskAddDupTaskConfirmFailed}]", sc.Context, new
+                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskConfirmFailed, sc.Context, new
                     {
                         TaskContent = state.TaskContent
                     });
@@ -383,12 +383,12 @@ namespace ToDoSkill.Dialogs
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
 
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.AddMoreTask}]", sc.Context, new
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTask, sc.Context, new
                 {
                     ListType = state.ListType
                 });
 
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{AddToDoResponses.AddMoreTaskConfirmFailed}]", sc.Context, new
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTaskConfirmFailed, sc.Context, new
                 {
                     ListType = state.ListType
                 });
@@ -424,7 +424,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }

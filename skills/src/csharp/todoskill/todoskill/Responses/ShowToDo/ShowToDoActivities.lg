@@ -4,91 +4,91 @@
 # AskAddOrCompleteTaskMessage
 [Activity
     Text = {AskAddOrCompleteTaskMessage.Text()}
-    Speak = {AskAddOrCompleteTaskMessage.Speak()}
+    Speak = {AskAddOrCompleteTaskMessage.Text()}
     InputHint = ignoringInput
 ]
 
 # ReadMoreTasksPrompt
 [Activity
     Text = {ReadMoreTasksPrompt.Text()}
-    Speak = {ReadMoreTasksPrompt.Speak()}
+    Speak = {ReadMoreTasksPrompt.Text()}
     InputHint = expectingInput
 ]
 
 # ReadMoreTasksConfirmFailed
 [Activity
     Text = {ReadMoreTasksConfirmFailed.Text()}
-    Speak = {ReadMoreTasksConfirmFailed.Speak()}
+    Speak = {ReadMoreTasksConfirmFailed.Text()}
     InputHint = expectingInput
 ]
 
 # ReadMoreTasksPrompt2
 [Activity
     Text = {ReadMoreTasksPrompt2.Text()}
-    Speak = {ReadMoreTasksPrompt2.Speak()}
+    Speak = {ReadMoreTasksPrompt2.Text()}
     InputHint = expectingInput
 ]
 
 # RetryReadMoreTasksPrompt2
 [Activity
     Text = {RetryReadMoreTasksPrompt2.Text()}
-    Speak = {RetryReadMoreTasksPrompt2.Speak()}
+    Speak = {RetryReadMoreTasksPrompt2.Text()}
     InputHint = expectingInput
 ]
 
 # NoTasksMessage
 [Activity
     Text = {NoTasksMessage.Text(ListType)}
-    Speak = {NoTasksMessage.Speak(ListType)}
+    Speak = {NoTasksMessage.Text(ListType)}
     InputHint = acceptingInput
 ]
 
 # TaskSummaryMessage
 [Activity
     Text = {TaskSummaryMessage.Text(TaskCount, ListType)}
-    Speak = {TaskSummaryMessage.Speak(TaskCount, ListType)}
+    Speak = {TaskSummaryMessage.Text(TaskCount, ListType)}
     InputHint = ignoringInput
 ]
 
 # RepeatFirstPagePrompt
 [Activity
     Text = {RepeatFirstPagePrompt.Text(TaskCount, ListType)}
-    Speak = {RepeatFirstPagePrompt.Speak(TaskCount, ListType)}
+    Speak = {RepeatFirstPagePrompt.Text(TaskCount, ListType)}
     InputHint = expectingInput
 ]
 
 # RepeatFirstPageConfirmFailed
 [Activity
     Text = {RepeatFirstPageConfirmFailed.Text(TaskCount)}
-    Speak = {RepeatFirstPageConfirmFailed.Speak(TaskCount)}
+    Speak = {RepeatFirstPageConfirmFailed.Text(TaskCount)}
     InputHint = expectingInput
 ]
 
 # GoBackToStartPromptForSingleTask
 [Activity
     Text = {GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)}
-    Speak = {GoBackToStartPromptForSingleTask.Speak(TaskCount, ListType)}
+    Speak = {GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)}
     InputHint = expectingInput
 ]
 
 # GoBackToStartForSingleTaskConfirmFailed
 [Activity
     Text = {GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)}
-    Speak = {GoBackToStartForSingleTaskConfirmFailed.Speak(TaskCount)}
+    Speak = {GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)}
     InputHint = expectingInput
 ]
 
 # GoBackToStartPromptForTasks
 [Activity
     Text = {GoBackToStartPromptForTasks.Text(TaskCount, ListType)}
-    Speak = {GoBackToStartPromptForTasks.Speak(TaskCount, ListType)}
+    Speak = {GoBackToStartPromptForTasks.Text(TaskCount, ListType)}
     InputHint = expectingInput
 ]
 
 # GoBackToStartForTasksConfirmFailed
 [Activity
     Text = {GoBackToStartForTasksConfirmFailed.Text(TaskCount)}
-    Speak = {GoBackToStartForTasksConfirmFailed.Speak(TaskCount)}
+    Speak = {GoBackToStartForTasksConfirmFailed.Text(TaskCount)}
     InputHint = expectingInput
 ]
 

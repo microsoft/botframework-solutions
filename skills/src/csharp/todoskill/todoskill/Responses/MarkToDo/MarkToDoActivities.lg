@@ -5,35 +5,35 @@
 # ListTypePromptForComplete
 [Activity
     Text = {ListTypePromptForComplete.Text()}
-    Speak = {ListTypePromptForComplete.Speak()}
+    Speak = {ListTypePromptForComplete.Text()}
     InputHint = expectingInput
 ]
 
 # AskTaskIndexForComplete
 [Activity
     Text = {AskTaskIndexForComplete.Text()}
-    Speak = {AskTaskIndexForComplete.Speak()}
+    Speak = {AskTaskIndexForComplete.Text()}
     InputHint = expectingInput
 ]
 
 # AskTaskIndexRetryForComplete
 [Activity
     Text = {AskTaskIndexRetryForComplete.Text()}
-    Speak = {AskTaskIndexRetryForComplete.Speak()}
+    Speak = {AskTaskIndexRetryForComplete.Text()}
     InputHint = expectingInput
 ]
 
 # CompleteAnotherTaskPrompt
 [Activity
     Text = {CompleteAnotherTaskPrompt.Text()}
-    Speak = {CompleteAnotherTaskPrompt.Speak()}
+    Speak = {CompleteAnotherTaskPrompt.Text()}
     InputHint = expectingInput
 ]
 
 # CompleteAnotherTaskConfirmFailed
 [Activity
     Text = {CompleteAnotherTaskConfirmFailed.Text()}
-    Speak = {CompleteAnotherTaskConfirmFailed.Speak()}
+    Speak = {CompleteAnotherTaskConfirmFailed.Text()}
     InputHint = expectingInput
 ]
 

@@ -1,13 +1,13 @@
 # AskDeletionAllConfirmation.Text(ListType)
 - 是否确实要删除所有任务？{ListType}列表？
 
-# AskDeletionAllConfirmation.Speak(ListType)
+# AskDeletionAllConfirmation.Text(ListType)
 - 是否确实要删除所有任务？{ListType}列表？
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - 对不起，我不明白你的意思。是否确实要删除所有任务？{ListType}列表？
 
-# AskDeletionAllConfirmationFailed.Speak(ListType)
+# AskDeletionAllConfirmationFailed.Text(ListType)
 - 对不起，我不明白你的意思。是否确实要删除所有任务？{ListType}列表？
 
 # AfterAllTasksDeleted(ListType)
@@ -19,7 +19,7 @@
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
 - 好吧，我没有删除你所有的任务。你仍然有{TaskCount}任务（s）上{ListType}列出今天。
 
-# DeletionAllConfirmationRefused.Speak(TaskCount, ListType)
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
 - 好吧，我没有删除你所有的任务。你仍然有{TaskCount}任务（s）上{ListType}列出今天。
 
 # ListTypePromptForDelete.Text

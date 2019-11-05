@@ -1,13 +1,13 @@
 # AskDeletionAllConfirmation.Text(ListType)
 - Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
 
-# AskDeletionAllConfirmation.Speak(ListType)
+# AskDeletionAllConfirmation.Text(ListType)
 - Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
 
-# AskDeletionAllConfirmationFailed.Speak(ListType)
+# AskDeletionAllConfirmationFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
 
 # AfterAllTasksDeleted(ListType)
@@ -19,7 +19,7 @@
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
 - Ok, je n'ai pas supprimé toutes vos tâches. Vous avez encore {TaskCount} tâches sur votre {ListType} liste aujourd'hui.
 
-# DeletionAllConfirmationRefused.Speak(TaskCount, ListType)
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
 - Ok, je n'ai pas supprimé toutes vos tâches. Vous avez encore {TaskCount} tâches sur votre {ListType} liste aujourd'hui.
 
 # ListTypePromptForDelete.Text

@@ -1,13 +1,7 @@
 ﻿# AskDeletionAllConfirmation.Text(ListType)
 - Are you sure you want to delete all tasks from your {ListType} list?
 
-# AskDeletionAllConfirmation.Speak(ListType)
-- Are you sure you want to delete all tasks from your {ListType} list?
-
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your {ListType} list?
-
-# AskDeletionAllConfirmationFailed.Speak(ListType)
 - Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your {ListType} list?
 
 # AfterAllTasksDeleted(ListType)
@@ -19,35 +13,17 @@
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
 - Okay, I did not delete all your tasks. You still have {TaskCount} task(s) on your {ListType} list today.
 
-# DeletionAllConfirmationRefused.Speak(TaskCount, ListType)
-- Okay, I did not delete all your tasks. You still have {TaskCount} task(s) on your {ListType} list today.
-
 # ListTypePromptForDelete.Text
-- Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?
-
-# ListTypePromptForDelete.Speak
 - Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?
 
 # AskTaskIndexForDelete.Text
 - What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.
 
-# AskTaskIndexForDelete.Speak
-- What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.
-
 # AskTaskIndexRetryForDelete.Text
-- Sorry, I could not find this task. Please try again. What task do you want to delete?
-
-# AskTaskIndexRetryForDelete.Speak
 - Sorry, I could not find this task. Please try again. What task do you want to delete?
 
 # DeleteAnotherTaskPrompt.Text
 - Do you want to delete another task?
 
-# DeleteAnotherTaskPrompt.Speak
-- Do you want to delete another task?
-
 # DeleteAnotherTaskConfirmFailed.Text
-- Sorry, I didn't understand what you meant. Do you want to delete another task?
-
-# DeleteAnotherTaskConfirmFailed.Speak
 - Sorry, I didn't understand what you meant. Do you want to delete another task?

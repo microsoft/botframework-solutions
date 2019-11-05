@@ -132,7 +132,7 @@ namespace ToDoSkill.Dialogs
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.NoTasksMessage}]", sc.Context, new
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.NoTasksMessage, sc.Context, new
                     {
                         ListType = state.ListType
                     });
@@ -157,7 +157,7 @@ namespace ToDoSkill.Dialogs
                         if (allTasksCount <= state.Tasks.Count)
                         {
 
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.AskAddOrCompleteTaskMessage}]", sc.Context, null);
+                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.AskAddOrCompleteTaskMessage, sc.Context, null);
                             await sc.Context.SendActivityAsync(activity);
                         }
                     }
@@ -257,8 +257,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.ReadMoreTasksPrompt}]", sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.ReadMoreTasksConfirmFailed}]", sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksConfirmFailed, sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -282,7 +282,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.CancelAllDialogsAsync();
@@ -351,8 +351,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.ReadMoreTasksPrompt2}]", sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.RetryReadMoreTasksPrompt2}]", sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt2, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.RetryReadMoreTasksPrompt2, sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -376,7 +376,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.CancelAllDialogsAsync();
@@ -440,13 +440,13 @@ namespace ToDoSkill.Dialogs
 
                 if (state.Tasks.Count <= 1)
                 {
-                    prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.GoBackToStartPromptForSingleTask}]", sc.Context, new
+                    prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.GoBackToStartPromptForSingleTask, sc.Context, new
                     {
                         ListType = state.ListType,
                         TaskCount = taskCount
                     });
 
-                    retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.GoBackToStartForSingleTaskConfirmFailed}]", sc.Context, new
+                    retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.GoBackToStartForSingleTaskConfirmFailed, sc.Context, new
                     {
                         ListType = state.ListType,
                         TaskCount = taskCount
@@ -454,13 +454,13 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.GoBackToStartPromptForTasks}]", sc.Context, new
+                    prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.GoBackToStartPromptForTasks, sc.Context, new
                     {
                         ListType = state.ListType,
                         TaskCount = taskCount
                     });
 
-                    retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.GoBackToStartForTasksConfirmFailed}]", sc.Context, new
+                    retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.GoBackToStartForTasksConfirmFailed, sc.Context, new
                     {
                         ListType = state.ListType,
                         TaskCount = taskCount
@@ -490,7 +490,7 @@ namespace ToDoSkill.Dialogs
             {
                 state.GoBackToStart = false;
 
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                 await sc.Context.SendActivityAsync(activity);
 
                 return await sc.EndDialogAsync(true);
@@ -504,13 +504,13 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var taskCount = Math.Min(state.PageSize, state.AllTasks.Count);
 
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.RepeatFirstPagePrompt}]", sc.Context, new
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.RepeatFirstPagePrompt, sc.Context, new
                 {
                     ListType = state.ListType,
                     TaskCount = taskCount
                 });
 
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ShowToDoResponses.RepeatFirstPageConfirmFailed}]", sc.Context, new
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.RepeatFirstPageConfirmFailed, sc.Context, new
                 {
                     ListType = state.ListType,
                     TaskCount = taskCount
@@ -539,7 +539,7 @@ namespace ToDoSkill.Dialogs
             {
                 state.GoBackToStart = false;
 
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                 await sc.Context.SendActivityAsync(activity);
 
                 return await sc.EndDialogAsync(true);

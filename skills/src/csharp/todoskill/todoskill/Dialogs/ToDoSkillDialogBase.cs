@@ -107,7 +107,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.NoAuth}]", sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.NoAuth, sc.Context, null);
 
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retryPrompt });
             }
@@ -228,7 +228,7 @@ namespace ToDoSkill.Dialogs
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.NoTasksInList}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.NoTasksInList, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.EndDialogAsync(true);
@@ -530,7 +530,7 @@ namespace ToDoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessage}]", sc.Context, null);
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, sc.Context, null);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -551,17 +551,17 @@ namespace ToDoSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessageBotProblem}]", sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessageBotProblem, sc.Context, null);
                 await sc.Context.SendActivityAsync(activity);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessageAccountProblem}]", sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessageAccountProblem, sc.Context, null);
                 await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ToDoErrorMessage}]", sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, sc.Context, null);
                 await sc.Context.SendActivityAsync(activity);
             }
 
@@ -586,18 +586,18 @@ namespace ToDoSkill.Dialogs
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOneNoteMessage}]", sc.Context, null);
+                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.SettingUpOneNoteMessage, sc.Context, null);
                             await sc.Context.SendActivityAsync(settingActivity);
 
-                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOneNoteSetupMessage}]", sc.Context, null);
+                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterOneNoteSetupMessage, sc.Context, null);
                             await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
                         else
                         {
-                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.SettingUpOutlookMessage}]", sc.Context, null);
+                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.SettingUpOutlookMessage, sc.Context, null);
                             await sc.Context.SendActivityAsync(settingActivity);
 
-                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.AfterOutlookSetupMessage}]", sc.Context, null);
+                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterOutlookSetupMessage, sc.Context, null);
                             await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
 

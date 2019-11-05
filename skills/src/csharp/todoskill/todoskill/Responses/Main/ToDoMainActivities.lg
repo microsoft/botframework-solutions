@@ -3,14 +3,14 @@
 # DidntUnderstandMessage
 [Activity
     Text = {DidntUnderstandMessage.Text()}
-    Speak = {DidntUnderstandMessage.Speak()}
+    Speak = {DidntUnderstandMessage.Text()}
     InputHint = expectingInput
 ]
 
 # ToDoWelcomeMessage
 [Activity
     Text = {ToDoWelcomeMessage.Text()}
-    Speak = {ToDoWelcomeMessage.Speak()}
+    Speak = {ToDoWelcomeMessage.Text()}
     SuggestedActions = {ToDoWelcomeMessage.S1()} | {ToDoWelcomeMessage.S2()} | {ToDoWelcomeMessage.S3()} | {ToDoWelcomeMessage.S4()}
     InputHint = expectingInput
 ]
@@ -18,27 +18,27 @@
 # HelpMessage
 [Activity
     Text = {HelpMessage.Text()}
-    Speak = {HelpMessage.Speak()}
+    Speak = {HelpMessage.Text()}
     InputHint = acceptingInput
 ]
 
 # LogOut
 [Activity
     Text = {LogOut.Text()}
-    Speak = {LogOut.Speak()}
+    Speak = {LogOut.Text()}
     InputHint = acceptingInput
 ]
 
 # FeatureNotAvailable
 [Activity
     Text = {FeatureNotAvailable.Text()}
-    Speak = {FeatureNotAvailable.Speak()}
+    Speak = {FeatureNotAvailable.Text()}
     InputHint = acceptingInput
 ]
 
 # CancelMessage
 [Activity
     Text = {CancelMessage.Text()}
-    Speak = {CancelMessage.Speak()}
+    Speak = {CancelMessage.Text()}
     InputHint = acceptingInput
 ]

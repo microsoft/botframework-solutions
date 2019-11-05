@@ -110,15 +110,9 @@ namespace ToDoSkillTest.Flow
 
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
-
-              //  var resource = sp.GetService<ResourceExplorer>();
-
-                adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
-
                 adapter.UseState(userState, conversationState);
 
-                //adapter.UseResourceExplorer(resource);
-                //adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
+                adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
 
                 return adapter;
             });
@@ -155,14 +149,6 @@ namespace ToDoSkillTest.Flow
             context.TurnState.Add<ILanguageGenerator>(languageGenerator);
             return context;
         }
-
-        //public class MockLanguageGenerator : ILanguageGenerator
-        //{
-        //    public Task<string> Generate(ITurnContext turnContext, string template, object data)
-        //    {
-        //        return Task.FromResult(template);
-        //    }
-        //}
 
         public TestFlow GetTestFlow()
         {

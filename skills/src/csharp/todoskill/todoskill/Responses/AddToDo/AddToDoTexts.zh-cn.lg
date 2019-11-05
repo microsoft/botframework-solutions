@@ -11,37 +11,37 @@
 # AfterTaskAdded.Text(TaskContent, ListType)
 - 我已经添加{TaskContent}到您的{ListType}列表。
 
-# AfterTaskAdded.Speak(TaskContent, ListType)
+# AfterTaskAdded.Text(TaskContent, ListType)
 - 我已经添加{TaskContent}到您的{ListType}列表。
 
 # SwitchListType.Text(ListType)
 - 好，这看起来像是您的任务{ListType}列表。要我将其添加到您的{ListType}列表中吗？
 
-# SwitchListType.Speak(ListType)
+# SwitchListType.Text(ListType)
 - 好，这看起来像是您的任务{ListType}列表。要我将其添加到您的{ListType}列表中吗？
 
 # SwitchListTypeConfirmFailed.Text(ListType)
 - 对不起，我不明白你的意思。你想让我添加这个到你的{ListType}列表？
 
-# SwitchListTypeConfirmFailed.Speak(ListType)
+# SwitchListTypeConfirmFailed.Text(ListType)
 - 对不起，我不明白你的意思。你想让我添加这个到你的{ListType}列表？
 
 # AddMoreTask.Text(ListType)
 - 是否要向{ListType}列表？
 
-# AddMoreTask.Speak(ListType)
+# AddMoreTask.Text(ListType)
 - 是否要向{ListType}列表？
 
 # AddMoreTaskConfirmFailed.Text(ListType)
 - 对不起，我不明白你的意思。是否要向{ListType}列表？
 
-# AddMoreTaskConfirmFailed.Speak(ListType)
+# AddMoreTaskConfirmFailed.Text(ListType)
 - 对不起，我不明白你的意思。是否要向{ListType}列表？
 
 # AskAddDupTaskPrompt.Text(TaskContent)
 - 看起来你已经有{TaskContent}在列表中，您仍要添加此任务吗？
 
-# AskAddDupTaskPrompt.Speak(TaskContent)
+# AskAddDupTaskPrompt.Text(TaskContent)
 - 看起来你已经有{TaskContent}在列表中，您仍要添加此任务吗？
 
 # AskAddDupTaskConfirmFailed.Text

@@ -3,49 +3,23 @@
 - OK, what do you want to add to the list?
 - What do you want to add to the list?
 
-# AskTaskContentText.Speak
-- Sure. What do you want to add to the list?
-- OK, what do you want to add to the list?
-- What do you want to add to the list?
-
 # AfterTaskAdded.Text(TaskContent, ListType)
-- I have added {TaskContent} to your {ListType} list.
-
-# AfterTaskAdded.Speak(TaskContent, ListType)
 - I have added {TaskContent} to your {ListType} list.
 
 # SwitchListType.Text(ListType)
 - OK, this looks like a task for your {ListType} list. Would you like me to add this to your {ListType} list?
 
-# SwitchListType.Speak(ListType)
-- OK, this looks like a task for your {ListType} list. Would you like me to add this to your {ListType} list?
-
 # SwitchListTypeConfirmFailed.Text(ListType)
-- Sorry, I didn't understand what you meant. Would you like me to add this to your {ListType} list?
-
-# SwitchListTypeConfirmFailed.Speak(ListType)
 - Sorry, I didn't understand what you meant. Would you like me to add this to your {ListType} list?
 
 # AddMoreTask.Text(ListType)
 - Do you want to add another task to your {ListType} list?
 
-# AddMoreTask.Speak(ListType)
-- Do you want to add another task to your {ListType} list?
-
 # AddMoreTaskConfirmFailed.Text(ListType)
-- Sorry, I didn't understand what you meant. Do you want to add another task to your {ListType} list?
-
-# AddMoreTaskConfirmFailed.Speak(ListType)
 - Sorry, I didn't understand what you meant. Do you want to add another task to your {ListType} list?
 
 # AskAddDupTaskPrompt.Text(TaskContent)
 - Looks like you already have {TaskContent} on your list, do you still want to add this task?
 
-# AskAddDupTaskPrompt.Speak(TaskContent)
-- Looks like you already have {TaskContent} on your list, do you still want to add this task?
-
 # AskAddDupTaskConfirmFailed.Text
-- Sorry, I didn't understand what you meant. Do you still want to add this task?
-
-# AskAddDupTaskConfirmFailed.Speak
 - Sorry, I didn't understand what you meant. Do you still want to add this task?

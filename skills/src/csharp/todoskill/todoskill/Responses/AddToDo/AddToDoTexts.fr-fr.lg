@@ -11,37 +11,37 @@
 # AfterTaskAdded.Text(TaskContent, ListType)
 - J'ai ajouté {TaskContent} à votre {ListType} liste.
 
-# AfterTaskAdded.Speak(TaskContent, ListType)
+# AfterTaskAdded.Text(TaskContent, ListType)
 - J'ai ajouté {TaskContent} à votre {ListType} liste.
 
 # SwitchListType.Text(ListType)
 - OK, cela ressemble à une tâche pour votre {ListType}'ListType'{ListType} liste. Souhaitez-vous que j'ajoute ceci à votre liste de 'ListType'?
 
-# SwitchListType.Speak(ListType)
+# SwitchListType.Text(ListType)
 - OK, cela ressemble à une tâche pour votre {ListType}'ListType'{ListType} liste. Souhaitez-vous que j'ajoute ceci à votre liste de 'ListType'?
 
 # SwitchListTypeConfirmFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Souhaitez-vous que j'ajoute ceci à votre {ListType} liste?
 
-# SwitchListTypeConfirmFailed.Speak(ListType)
+# SwitchListTypeConfirmFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Souhaitez-vous que j'ajoute ceci à votre {ListType} liste?
 
 # AddMoreTask.Text(ListType)
 - Voulez-vous ajouter une autre tâche à votre {ListType} liste?
 
-# AddMoreTask.Speak(ListType)
+# AddMoreTask.Text(ListType)
 - Voulez-vous ajouter une autre tâche à votre {ListType} liste?
 
 # AddMoreTaskConfirmFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous ajouter une autre tâche à votre {ListType} liste?
 
-# AddMoreTaskConfirmFailed.Speak(ListType)
+# AddMoreTaskConfirmFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous ajouter une autre tâche à votre {ListType} liste?
 
 # AskAddDupTaskPrompt.Text(TaskContent)
 - On dirait que vous avez déjà {TaskContent} sur votre liste, voulez-vous toujours ajouter cette tâche?
 
-# AskAddDupTaskPrompt.Speak(TaskContent)
+# AskAddDupTaskPrompt.Text(TaskContent)
 - On dirait que vous avez déjà {TaskContent} sur votre liste, voulez-vous toujours ajouter cette tâche?
 
 # AskAddDupTaskConfirmFailed.Text

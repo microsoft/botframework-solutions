@@ -31,49 +31,49 @@
 # NoTasksMessage.Text(ListType)
 - Il semble que vous n'avez pas de tâches dans votre {ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
 
-# NoTasksMessage.Speak(ListType)
+# NoTasksMessage.Text(ListType)
 - Il semble que vous n'avez pas de tâches dans votre {ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
 - Vous avez {TaskCount} articles sur votre {ListType} liste.
 
-# TaskSummaryMessage.Speak(TaskCount, ListType)
+# TaskSummaryMessage.Text(TaskCount, ListType)
 - Vous avez {TaskCount} articles sur votre {ListType} liste.
 
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
 - Vous êtes déjà au début de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# RepeatFirstPagePrompt.Speak(TaskCount, ListType)
+# RepeatFirstPagePrompt.Text(TaskCount, ListType)
 - Vous êtes déjà au début de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# RepeatFirstPageConfirmFailed.Speak(TaskCount)
+# RepeatFirstPageConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
 - C'est la dernière tâche sur votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# GoBackToStartPromptForSingleTask.Speak(TaskCount, ListType)
+# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
 - C'est la dernière tâche sur votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# GoBackToStartForSingleTaskConfirmFailed.Speak(TaskCount)
+# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
 - Ce sont les dernières tâches de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# GoBackToStartPromptForTasks.Speak(TaskCount, ListType)
+# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
 - Ce sont les dernières tâches de votre {ListType} liste. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
-# GoBackToStartForTasksConfirmFailed.Speak(TaskCount)
+# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier {TaskCount} tâches à nouveau?
 
 # CardSummaryMessageForSingleTask(ListType)

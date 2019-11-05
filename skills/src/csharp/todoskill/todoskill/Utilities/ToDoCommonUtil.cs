@@ -11,7 +11,8 @@ namespace ToDoSkill.Utilities
 
         public static async Task<Activity> GetToDoResponseActivity(string templateName, ITurnContext turnContext, object data)
         {
-            return await new ActivityTemplate(templateName).BindToData(turnContext, data);
+            string formatTemplateName = "@{" + templateName + "()}";
+            return await new ActivityTemplate(formatTemplateName).BindToData(turnContext, data);
         }
     }
 }

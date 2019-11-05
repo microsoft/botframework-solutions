@@ -176,7 +176,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.ListTypePromptForComplete}]", sc.Context, null);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.ListTypePromptForComplete, sc.Context, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -245,11 +245,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.AskTaskIndexRetryForComplete}]", sc.Context, null);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AskTaskIndexRetryForComplete, sc.Context, null);
                     }
                     else
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.AskTaskIndexForComplete}]", sc.Context, null);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AskTaskIndexForComplete, sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -337,8 +337,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.CompleteAnotherTaskPrompt}]", sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{MarkToDoResponses.CompleteAnotherTaskConfirmFailed}]", sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.CompleteAnotherTaskPrompt, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.CompleteAnotherTaskConfirmFailed, sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -369,7 +369,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.EndDialogAsync(true);

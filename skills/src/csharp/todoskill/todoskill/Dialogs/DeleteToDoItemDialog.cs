@@ -214,7 +214,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.ListTypePromptForDelete}]", sc.Context, null);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.ListTypePromptForDelete, sc.Context, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -283,11 +283,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskTaskIndexRetryForDelete}]", sc.Context, null);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexRetryForDelete, sc.Context, null);
                     }
                     else
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskTaskIndexForDelete}]", sc.Context, null);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexForDelete, sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -378,12 +378,12 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskDeletionAllConfirmation}]", sc.Context, new
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmation, sc.Context, new
                     {
                         ListType = state.ListType
                     });
 
-                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.AskDeletionAllConfirmationFailed}]", sc.Context, new
+                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmationFailed, sc.Context, new
                     {
                         ListType = state.ListType
                     });
@@ -446,8 +446,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.DeleteAnotherTaskPrompt}]", sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity($"[{DeleteToDoResponses.DeleteAnotherTaskConfirmFailed}]", sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskPrompt, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed, sc.Context, null);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -478,7 +478,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity($"[{ToDoSharedResponses.ActionEnded}]", sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.EndDialogAsync(true);
