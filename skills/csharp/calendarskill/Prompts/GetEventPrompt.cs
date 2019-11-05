@@ -128,9 +128,6 @@ namespace CalendarSkill.Prompts
                             continue;
                         }
 
-                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
-                        endTimeValue = TimeConverter.ConvertLuisLocalToUtc(endTimeValue, userTimeZone);
-
                         startDateList.Add(startTimeValue);
                         startTimeList.Add(startTimeValue);
                         endDateList.Add(endTimeValue);
@@ -145,8 +142,6 @@ namespace CalendarSkill.Prompts
                         }
 
                         var dateTimeConvertType = resolution.Timex;
-
-                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
                         if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
                         {
                             startTimeList.Add(startTimeValue);
