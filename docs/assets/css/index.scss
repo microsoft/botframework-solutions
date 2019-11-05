@@ -100,18 +100,15 @@ body {
     overflow-y: auto;
     height: calc(100vh - 4rem);
 
-    .nav::before {
-        content: "Contents";
+    ul::before {
+        content: "On this page";
         font-weight: bold;
     }
-
-    .nav {
-      border-left: 1px solid #eee;
-    }
-
+    
     ul {
-      list-style-type: none;
-      padding-left: 15px;
+        list-style-type: none;
+        padding-left: 15px;
+        border-left: 1px solid #eee;
     }
 }
 
