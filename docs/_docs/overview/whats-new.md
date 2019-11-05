@@ -17,7 +17,6 @@ At it's core is the [Virtual Assistant]({{site.baseurl}}/overview/virtual-assist
 For more details on Virtual Assistant review [What is the Virtual Assistant Solution?]({{site.baseurl}}/overview/virtual-assistant-solution).
 
 ## Virtual Assistant components
-{:.no_toc}
 
 There are four major components within the Virtual Assistant: 
 
