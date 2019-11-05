@@ -812,25 +812,77 @@ namespace CalendarSkill.Dialogs
 
                 var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
                 var startDate = state.MeetingInfor.StartDate.Last();
+
+                List<DateTime> invalidStartTime = new List<DateTime>();
                 foreach (var startTime in state.MeetingInfor.StartTime)
                 {
-                    var startDateTime = new DateTime(
-                        startDate.Year,
-                        startDate.Month,
-                        startDate.Day,
-                        startTime.Hour,
-                        startTime.Minute,
-                        startTime.Second);
+                    var startDateTime = startDate.AddSeconds(startTime.TimeOfDay.TotalSeconds);
+                    if (startDateTime >= userNow)
+                    {
+                        invalidStartTime.Add(startDateTime);
+                    }
+                }
+
+                if (invalidStartTime.Any())
+                {
+                    state.MeetingInfor.StartTime = new List<DateTime>(invalidStartTime);
+                    invalidStartTime.Clear();
+                }
+
+                if (state.MeetingInfor.StartTime.Count > state.MeetingInfor.EndTime.Count && state.MeetingInfor.EndTime.Any())
+                {
+                    var endDateTime = startDate.AddSeconds(state.MeetingInfor.EndTime.First().TimeOfDay.TotalSeconds);
+                    double minDuration = endDateTime.TimeOfDay.TotalSeconds;
+                    foreach (var startTime in state.MeetingInfor.StartTime)
+                    {
+                        var startDateTime = startDate.AddSeconds(startTime.TimeOfDay.TotalSeconds);
+                        double duration = endDateTime.Subtract(startDateTime).TotalSeconds;
+                        if (!invalidStartTime.Any() || duration < minDuration)
+                        {
+                            invalidStartTime.Clear();
+                            invalidStartTime.Add(startDateTime);
+                        }
+                        else if (duration == minDuration)
+                        {
+                            invalidStartTime.Add(startDateTime);
+                        }
+                    }
+                }
+
+                if (invalidStartTime.Any())
+                {
+                    state.MeetingInfor.StartTime = new List<DateTime>(invalidStartTime);
+                }
+
+                var isStartTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.IsRestricted;
+                var isEndTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.IsRestricted;
+                DateTime baseTime = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+                DateTime startTimeRestricted = baseTime;
+                DateTime endTimeRestricted = baseTime.AddDays(1);
+                if (isStartTimeRestricted.GetValueOrDefault())
+                {
+                    startTimeRestricted = baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.Value).TimeOfDay.TotalSeconds);
+                }
+
+                if (isEndTimeRestricted.GetValueOrDefault())
+                {
+                    endTimeRestricted = baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.Value).TimeOfDay.TotalSeconds);
+                }
+
+                foreach (var startTime in state.MeetingInfor.StartTime)
+                {
+                    var startDateTime = startDate.AddSeconds(startTime.TimeOfDay.TotalSeconds);
+                    if (startDateTime.CompareTo(startTimeRestricted) >= 0 && startDateTime.CompareTo(endTimeRestricted) <= 0)
+                    {
+                        state.MeetingInfor.StartDateTime = startDateTime;
+                        break;
+                    }
+
                     if (state.MeetingInfor.StartDateTime == null)
                     {
                         state.MeetingInfor.StartDateTime = startDateTime;
                     }
 
-                    if (startDateTime >= userNow)
-                    {
-                        state.MeetingInfor.StartDateTime = startDateTime;
-                        break;
-                    }
                 }
 
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
@@ -899,9 +951,15 @@ namespace CalendarSkill.Dialogs
                                 endtime.Minute,
                                 endtime.Second);
                             endDateTime = TimeZoneInfo.ConvertTimeToUtc(endDateTime, state.GetUserTimeZone());
-                            if (state.MeetingInfor.EndDateTime == null || endDateTime >= state.MeetingInfor.StartDateTime)
+                            if (state.MeetingInfor.EndDateTime == null)
                             {
                                 state.MeetingInfor.EndDateTime = endDateTime;
+                            }
+
+                            if (endDateTime >= state.MeetingInfor.StartDateTime)
+                            {
+                                state.MeetingInfor.EndDateTime = endDateTime;
+                                break;
                             }
                         }
                     }
