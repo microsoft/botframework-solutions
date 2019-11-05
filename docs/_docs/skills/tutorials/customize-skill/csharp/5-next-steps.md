@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Customize a Skill
+subcategory: Customize
 language: C#
 title: Next steps
 order: 5

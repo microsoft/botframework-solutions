@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Customize a Skill
+subcategory: Customize
 language: C#
 title: Intro
 order: 1
@@ -17,7 +17,7 @@ Learn how to navigate your skill project and make common customizations.
 
 ### Prerequisites
 
-[Create a skill]({{site.baseurl}}/tutorials/csharp/create-skill/1_intro) to setup your environment.
+[Create a skill]({{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro) to setup your environment.
 
 ### Time to Complete
 

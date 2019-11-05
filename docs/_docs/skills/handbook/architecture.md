@@ -44,7 +44,7 @@ The **SkillManifest** provides the endpoint for the SkillDialog to communicate w
 
 When a Skill wants to terminate an ongoing dialog, it sends back an Activity with **Handoff** type to signal the completion of the current dialog. 
 
-See the [SkillAuthentication]({{site.baseurl}}/reference/skills/skillauthentication) section for information on how Bot->Skill invocation is secured.
+See the [SkillAuthentication]({{site.baseurl}}/skills/handbook/authentication/) section for information on how Bot->Skill invocation is secured.
 
 ## Skill Middleware
 

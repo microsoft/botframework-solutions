@@ -18,7 +18,7 @@ This tutorial covers the steps required to connect your Virtual Assistant to Mic
 
 ### Prerequisites
 
-- [Create a Virtual Assistant]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro) to setup your environment.
+- [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) to setup your environment.
 
 - Microsoft Teams installed and configured to work with your Office 365 tenant.
 
