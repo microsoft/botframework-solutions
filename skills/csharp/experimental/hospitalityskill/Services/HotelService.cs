@@ -35,10 +35,10 @@ namespace HospitalitySkill.Services
                 .First();
         }
 
-        public async Task<string> GetLateCheckOutAsync()
+        public async Task<TimeSpan> GetLateCheckOutAsync()
         {
             // make request for the late check out time
-            var lateTime = "4:00 pm";
+            var lateTime = new TimeSpan(16, 0, 0);
 
             return await Task.FromResult(lateTime);
         }

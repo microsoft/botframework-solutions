@@ -101,11 +101,12 @@ namespace HospitalitySkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await StateAccessor.GetAsync(sc.Context);
-                    state.Token = providerTokenResponse.TokenResponse.Token;
+                    return await sc.NextAsync(providerTokenResponse);
                 }
-
-                return await sc.NextAsync();
+                else
+                {
+                    return await sc.NextAsync();
+                }
             }
             catch (SkillException ex)
             {
@@ -152,15 +153,7 @@ namespace HospitalitySkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 var state = await StateAccessor.GetAsync(dc.Context, () => new HospitalitySkillState());
-
-                // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
-                var luisService = localeConfig.LuisServices["Hospitality"];
-
-                // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<HospitalityLuis>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
+                state.LuisResult = dc.Context.TurnState.Get<HospitalityLuis>(StateProperties.SkillLuisResult);
             }
         }
 
