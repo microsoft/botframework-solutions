@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
+using Moq;
 
 namespace ToDoSkill.Tests.API.Fakes
 {
     public static class MockConfiguration
     {
-        static MockConfiguration()
+        public static IConfiguration GetConfiguration()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            var customizedListTypeItem = new Mock<IConfigurationSection>();
+            customizedListTypeItem.Setup(x => x.Value).Returns("Homework");
 
-            string mockAppSettingpath = Path.GetFullPath("../../../API/Fakes/MockAppSettings.json");
-            configurationBuilder.AddJsonFile(mockAppSettingpath);
-            Configuration = configurationBuilder.Build();
+            var customizedListType = new Mock<IConfigurationSection>();
+            customizedListType.Setup(x => x.GetChildren()).Returns(new List<IConfigurationSection> { customizedListTypeItem.Object });
+
+            var configuration = new Mock<IConfiguration>();
+            configuration.Setup(x => x.GetSection("customizeListTypes")).Returns(customizedListType.Object);
+
+            return configuration.Object;
         }
-
-        public static IConfiguration Configuration { get; set; }
     }
 }

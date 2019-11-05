@@ -24,8 +24,8 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,6 +33,8 @@ namespace EmailSkill.Tests.Flow
 {
     public class EmailSkillTestBase : BotTestBase
     {
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -49,7 +51,7 @@ namespace EmailSkill.Tests.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -118,20 +120,12 @@ namespace EmailSkill.Tests.Flow
             ConfigData.GetInstance().MaxReadSize = 3;
         }
 
-        public Activity GetAuthResponse()
-        {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test"),
-                AuthenticationProvider = OAuthProvider.AzureAD
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
-        }
-
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
+
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 

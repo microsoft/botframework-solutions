@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -14,13 +15,11 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.StreamingExtensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,12 +83,31 @@ namespace VirtualAssistantSample
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
-            services.AddSingleton(new TemplateEngine()
-                .AddFile(Path.Combine(".", "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(".", "Responses", "OnboardingResponses.lg")));
+            // Configure localized responses
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
-            services.AddSingleton<TextActivityGenerator>();
-            services.AddSingleton<ILanguageGenerator, TemplateEngineLanguageGenerator>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
             services.AddTransient<MainDialog>();
@@ -108,15 +126,8 @@ namespace VirtualAssistantSample
                 });
             }
 
-            // Configure adapters
-            // DefaultAdapter is for all regular channels that use Http transport
+            // IBotFrameworkHttpAdapter now supports both http and websocket transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
-
-            // DefaultWebSocketAdapter is for directline speech channel
-            // This adapter implementation is currently a workaround as
-            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
-            // both Http for regular channels and websocket for directline speech channel
-            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

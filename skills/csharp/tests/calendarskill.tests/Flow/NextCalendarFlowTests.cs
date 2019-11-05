@@ -36,8 +36,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -49,8 +47,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.HowLongNextMeetingMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadDurationPrompt())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
@@ -64,8 +60,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.WhereNextMeetingMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadLocationPrompt())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
@@ -79,8 +73,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.WhenNextMeetingMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadTimePrompt())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
@@ -95,8 +87,6 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NoMeetingResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -109,8 +99,6 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -162,14 +150,6 @@ namespace CalendarSkill.Test.Flow
         private string[] ReadNoLocationPrompt()
         {
             return this.ParseReplies(SummaryResponses.ReadNoLocation, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

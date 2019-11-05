@@ -1,37 +1,37 @@
 {
     "ConfirmDelete": {
         "replies": [
-            {
-                "text": "Are you sure you want to delete this from your calendar?",
-                "speak": "Are you sure you want to delete this from your calendar?"
-            }
+          {
+            "text": "Are you sure you want to cancel your {Time} \"{Title}\" meeting?",
+            "speak": "Are you sure you want to cancel your {Time} \"{Title}\" meeting?"
+          }
         ],
         "inputHint": "expectingInput"
     },
     "ConfirmDeleteFailed": {
         "replies": [
-            {
-                "text": "Are you sure you want to delete this from your calendar? You can say 'yes' or 'no'",
-                "speak": "Are you sure you want to delete this from your calendar? You can say yes or no"
-            }
+          {
+            "text": "Are you sure you want to cancel your {Time} \"{Title}\" meeting? You can say 'yes' or 'no'",
+            "speak": "Are you sure you want to cancel your {Time} \"{Title}\" meeting? You can say yes or no"
+          }
         ],
         "inputHint": "expectingInput"
     },
     "ConfirmAccept": {
         "replies": [
-            {
-                "text": "Are you sure you want to accept the following event?",
-                "speak": "Are you sure you want to accept the following event?"
-            }
+          {
+            "text": "Are you sure you want to accept your {Time} \"{Title}\" meeting?",
+            "speak": "Are you sure you want to accept your {Time} \"{Title}\" meeting?"
+          }
         ],
         "inputHint": "expectingInput"
     },
     "ConfirmAcceptFailed": {
         "replies": [
-            {
-                "text": "Are you sure you want to accept the following from your calendar? You can say 'yes' or 'no'",
-                "speak": "Are you sure you want to accept the following from your calendar? You can say yes or no"
-            }
+          {
+            "text": "Are you sure you want to accept your {Time} \"{Title}\" meeting? You can say 'yes' or 'no'",
+            "speak": "Are you sure you want to accept your {Time} \"{Title}\" meeting? You can say yes or no"
+          }
         ],
         "inputHint": "expectingInput"
     },

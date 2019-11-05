@@ -1,7 +1,7 @@
 ---
 category: Overview
 title: What is a Bot Framework Skill?
-order: 2
+order: 4
 toc: true
 ---
 

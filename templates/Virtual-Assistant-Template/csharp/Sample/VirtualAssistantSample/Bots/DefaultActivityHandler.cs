@@ -4,12 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace VirtualAssistantSample.Bots
 {
-    public class DefaultActivityHandler<T> : ActivityHandler
+    public class DefaultActivityHandler<T> : TeamsActivityHandler
         where T : Dialog
     {
         private readonly Dialog _dialog;
@@ -40,6 +41,11 @@ namespace VirtualAssistantSample.Bots
         }
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+        }
+
+        protected override Task OnTeamsSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }

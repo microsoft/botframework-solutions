@@ -1018,6 +1018,12 @@ namespace CalendarSkill.Dialogs
                                 state.MeetingInfor.OrderReference = GetOrderReferenceFromEntity(entity);
                             }
 
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                            }
+
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = GetSubjectFromEntity(entity);
@@ -1075,6 +1081,12 @@ namespace CalendarSkill.Dialogs
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.CreateHasDetail = true;
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.FromDate != null)

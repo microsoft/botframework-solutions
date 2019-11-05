@@ -1,16 +1,19 @@
 ---
 category: Skills
 subcategory: Samples
-title: Experimental Skills
+language: Experimental Skills
+title: Overview
 description: These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started. These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
-order: 5
+order: 1
 toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-### Skill Deployment
+This is a definition of an Experimental Skill
+
+## Skill Deployment
 {:.toc}
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
@@ -23,10 +26,15 @@ The Experimental Skills require the following dependencies for end to end operat
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
+**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) from the folder where your have cloned the GitHub repo.**
 
-## Skills
-{:.no_toc}
+
+
+
+
+
+
+
 
 ### Automotive Skill
 {:.toc}
@@ -142,7 +150,7 @@ You will be prompted to provide the following parameters:
 
 - Name - A name for your bot and resource group. This must be **unique**.
 - Location - The Azure region for your services (e.g. westus)
-- LUIS Authoring Key - Refer to [this documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro) for retrieving this key.
+- LUIS Authoring Key - Refer to [this documentation page]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) for retrieving this key.
 
 The MSBot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
@@ -264,8 +272,8 @@ The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
-- Celebrity Information: *Who is Tom Cruise?*
-- Q&A: *What is the gdp of switzerland*
+- Celebrity Information: *Who is Bill Gates?*
+- Q&A: *what's the population of China?*
 - Movie Information: *Tell me about the jurassic park movie*
 
 ![Search Example]({{site.baseurl}}/assets/images/skills-experimental-bingsearch.png)
@@ -336,17 +344,17 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 To test this skill you will need to follow the ServiceNow configuration steps shown below:
 
-1. Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
-1. Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
+- Create a ServiceNow instance in the [ServiceNow Developer Site](https://developer.servicenow.com/app.do#!/instance).
+- Update this configuration entry in your `appsettings.json` file with your Service Now instance URL:
 `"serviceNowUrl": "{YOUR_SERVICENOW_INSTANCE_URL}`
-1. Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
+- Create a [scripted REST API](https://docs.servicenow.com/bundle/geneva-servicenow-platform/page/integrate/custom_web_services/task/t_CreateAScriptedRESTService.html) to get current user's sys_id and please raise an issue if simpler way is found
     - In System Web Services/Scripted REST APIs, click New to create an API
     - In API's Resources, click New to add a resource
     - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
     - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
-1. Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
+- Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
-1. Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
+- Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'
     - Set Authorization URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_auth.do
     - Set Token URL, Refresh URL to the following, replacing YOUR_INSTANCE with your instance name: https://YOUR_INSTANCE.service-now.com/oauth_token.do
     - No Scopes are needed
@@ -354,7 +362,8 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
 
 To test this skill with your Virtual Assistant one manual step is required over and above the usual skill connection steps.
 
-1. Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+- Add OAuth Connection to your Virtual Assistant manually as per the step above. This connection type cannot be automatically configured as part of botskills.
+
 ### Music Skill
 
 The [Music skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.

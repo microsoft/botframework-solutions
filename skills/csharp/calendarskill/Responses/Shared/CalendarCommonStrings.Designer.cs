@@ -142,7 +142,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to who.*(with|attend|join|come).
+        ///   Looks up a localized string similar to who.*(with|attend|join|come|meet).
         /// </summary>
         public static string AskForAttendee {
             get {
@@ -178,7 +178,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to how long.
+        ///   Looks up a localized string similar to (how long|what.*duration).
         /// </summary>
         public static string AskForDuration {
             get {

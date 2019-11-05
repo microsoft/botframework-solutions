@@ -48,8 +48,6 @@ namespace CalendarSkill.Test.Flow
             });
             await this.GetTestFlow()
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmPhoneNumberPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
@@ -74,8 +72,6 @@ namespace CalendarSkill.Test.Flow
             });
             await this.GetTestFlow()
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmMeetingLinkPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
@@ -97,14 +93,6 @@ namespace CalendarSkill.Test.Flow
         private string[] JoinMeetingResponse()
         {
             return this.ParseReplies(JoinEventResponses.JoinMeeting, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> JoinMeetingEvent()
