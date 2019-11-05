@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Create a Skill
+subcategory: Create
 language: C#
 title: Add your skill to a Virtual Assistant
 order: 6
@@ -25,4 +25,4 @@ Run the following command from a command prompt **within the directory of your a
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>/Deployment/Resources/LU/en/" --cs
 ```
 
-See the [Adding Skills]({{site.baseurl}}/howto/skills/addingskills) for more detail on how to add skills.
+See the [Adding Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) for more detail on how to add skills.

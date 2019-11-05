@@ -137,7 +137,7 @@ Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authenti
 ## Events
 {:.toc}
 
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.
+Learn how to use [events]({{site.baseurl}}/virtual-assistant/handbook/events) to send backend data to a Skill, like a user's location or time zone.
 
 ## Download a transcript
 {:.toc}

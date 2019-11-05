@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Connect to a sample Skill
+subcategory: Connect to a sample
 title: Test skill
 order: 5
 ---
@@ -14,8 +14,8 @@ Refer to the documentation page in the table below for an example question that 
 
 | Name | Description |
 | ---- | ----------- |
-|[Calendar Skill]({{site.baseurl}}/reference/skills/productivity-calendar)|Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
-|[Email Skill]({{site.baseurl}}/reference/skills/productivity-email)|Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
-|[To Do Skill]({{site.baseurl}}/reference/skills/productivity-todo)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
-|[Point of Interest Skill]({{site.baseurl}}/reference/skills/pointofinterest)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
-|[Experimental Skills]({{site.baseurl}}/reference/skills/experimental)|News, Search, Restaurant Booking and Weather.|
+|[Calendar Skill]({{site.baseurl}}/skills/samples/calendar)|Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
+|[Email Skill]({{site.baseurl}}/skills/samples/email)|Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
+|[To Do Skill]({{site.baseurl}}/skills/samples/to-do)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
+|[Point of Interest Skill]({{site.baseurl}}/skills/samples/point-of-interest)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
+|[Experimental Skills]({{site.baseurl}}/skills/samples/experimental)|News, Search, Restaurant Booking and Weather.|

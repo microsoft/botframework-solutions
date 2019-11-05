@@ -78,7 +78,6 @@ namespace EmailSkill.Models
 
         public int ShowEmailIndex { get; set; }
 
-
         public EmailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
