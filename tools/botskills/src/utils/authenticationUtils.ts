@@ -86,6 +86,8 @@ export class AuthenticationUtils {
     private createScopeManifest(scopes: string[], logger: ILogger): IScopeManifest[] {
         const scopesRecognized: string [] = [];
         const scopesNotRecognized: string [] = [];
+        // Check the scopes that are recognized and set to scopesRecognized
+        // If it's not recognized, it will be set to scopesNotRecognized
         scopes.forEach((scope: string) => {
             if (scope.trim().length > 0) {
                 if (this.scopeMap.has(scope)) {
@@ -95,6 +97,7 @@ export class AuthenticationUtils {
                 }
             }
         });
+        // If any of the scopes were not recognized, it will log a warning showing the list of scopes
         if (scopesNotRecognized.length > 0) {
             logger.warning(`The following scopes were not recognized: ${scopesNotRecognized.join(',')}`);
         }
