@@ -22,6 +22,38 @@
         "tslib": "^1.9.3"
       }
     },
+    "@azure/cosmos": {
+      "version": "3.4.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/cosmos/-/@azure/cosmos-3.4.1.tgz",
+      "integrity": "sha1-EtApKZGZL500VjONo0ZFlVPfGFQ=",
+      "requires": {
+        "@types/debug": "^4.1.4",
+        "debug": "^4.1.1",
+        "fast-json-stable-stringify": "^2.0.0",
+        "node-abort-controller": "^1.0.4",
+        "node-fetch": "^2.6.0",
+        "os-name": "^3.1.0",
+        "priorityqueuejs": "^1.0.0",
+        "semaphore": "^1.0.5",
+        "tslib": "^1.9.3",
+        "uuid": "^3.3.2"
+      },
+      "dependencies": {
+        "debug": {
+          "version": "4.1.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/debug/-/debug-4.1.1.tgz",
+          "integrity": "sha1-O3ImAlUQnGtYnO4FDx1RYTlmR5E=",
+          "requires": {
+            "ms": "^2.1.1"
+          }
+        },
+        "ms": {
+          "version": "2.1.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ms/-/ms-2.1.2.tgz",
+          "integrity": "sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk="
+        }
+      }
+    },
     "@azure/ms-rest-js": {
       "version": "1.8.7",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/ms-rest-js/-/@azure/ms-rest-js-1.8.7.tgz",
@@ -46,41 +78,40 @@
       }
     },
     "@babel/generator": {
-      "version": "7.5.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/generator/-/@babel/generator-7.5.5.tgz",
-      "integrity": "sha1-hzp/k2o8iUkbQ1NtEiRbYmZk488=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/generator/-/@babel/generator-7.7.0.tgz",
+      "integrity": "sha1-xtTR96DW4TnL0BrKcxcLC/9UJbQ=",
       "requires": {
-        "@babel/types": "^7.5.5",
+        "@babel/types": "^7.7.0",
         "jsesc": "^2.5.1",
         "lodash": "^4.17.13",
-        "source-map": "^0.5.0",
-        "trim-right": "^1.0.1"
+        "source-map": "^0.5.0"
       }
     },
     "@babel/helper-function-name": {
-      "version": "7.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-function-name/-/@babel/helper-function-name-7.1.0.tgz",
-      "integrity": "sha1-oM6wFoX3M1XUNgwSR/WCv6/I/1M=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-function-name/-/@babel/helper-function-name-7.7.0.tgz",
+      "integrity": "sha1-RKWtFRz/+O0lmckWgt2i7CyEMKM=",
       "requires": {
-        "@babel/helper-get-function-arity": "^7.0.0",
-        "@babel/template": "^7.1.0",
-        "@babel/types": "^7.0.0"
+        "@babel/helper-get-function-arity": "^7.7.0",
+        "@babel/template": "^7.7.0",
+        "@babel/types": "^7.7.0"
       }
     },
     "@babel/helper-get-function-arity": {
-      "version": "7.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-get-function-arity/-/@babel/helper-get-function-arity-7.0.0.tgz",
-      "integrity": "sha1-g1ctQyDipGVyY3NBE8QoaLZOScM=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-get-function-arity/-/@babel/helper-get-function-arity-7.7.0.tgz",
+      "integrity": "sha1-xgSIa8lyh6HROYCSvGZrw9fXqi0=",
       "requires": {
-        "@babel/types": "^7.0.0"
+        "@babel/types": "^7.7.0"
       }
     },
     "@babel/helper-split-export-declaration": {
-      "version": "7.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-split-export-declaration/-/@babel/helper-split-export-declaration-7.4.4.tgz",
-      "integrity": "sha1-/5SJSjQL549T8GrwOLIFxJ2ZNnc=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/helper-split-export-declaration/-/@babel/helper-split-export-declaration-7.7.0.tgz",
+      "integrity": "sha1-E2XnTqbGFN7rVuv/q9cQBqDrIwA=",
       "requires": {
-        "@babel/types": "^7.4.4"
+        "@babel/types": "^7.7.0"
       }
     },
     "@babel/highlight": {
@@ -94,39 +125,39 @@
       }
     },
     "@babel/parser": {
-      "version": "7.5.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/parser/-/@babel/parser-7.5.5.tgz",
-      "integrity": "sha1-AvB3rIgX099Kgy71neZ1Zeccyks="
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/parser/-/@babel/parser-7.7.0.tgz",
+      "integrity": "sha1-IyYY9uiUe8VLQH+h8ckaInWOcVk="
     },
     "@babel/runtime": {
-      "version": "7.5.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/runtime/-/@babel/runtime-7.5.5.tgz",
-      "integrity": "sha1-dPulbTXvvspEQJHHhQzNSU/S8TI=",
+      "version": "7.7.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/runtime/-/@babel/runtime-7.7.1.tgz",
+      "integrity": "sha1-siNJe7+8u7OBFmc5BN68cUcMpSg=",
       "requires": {
         "regenerator-runtime": "^0.13.2"
       }
     },
     "@babel/template": {
-      "version": "7.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/template/-/@babel/template-7.4.4.tgz",
-      "integrity": "sha1-9LiNEiVomgj1vDoXSDVFvp5O0jc=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/template/-/@babel/template-7.7.0.tgz",
+      "integrity": "sha1-T63BuOc02X9W3jnHfedvJWLll9A=",
       "requires": {
         "@babel/code-frame": "^7.0.0",
-        "@babel/parser": "^7.4.4",
-        "@babel/types": "^7.4.4"
+        "@babel/parser": "^7.7.0",
+        "@babel/types": "^7.7.0"
       }
     },
     "@babel/traverse": {
-      "version": "7.5.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/traverse/-/@babel/traverse-7.5.5.tgz",
-      "integrity": "sha1-9mT482jtMpiM1kjan3LVynDxZbs=",
+      "version": "7.7.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/traverse/-/@babel/traverse-7.7.0.tgz",
+      "integrity": "sha1-n1dENGuNEAl/0uwu7/yvGYE8v68=",
       "requires": {
         "@babel/code-frame": "^7.5.5",
-        "@babel/generator": "^7.5.5",
-        "@babel/helper-function-name": "^7.1.0",
-        "@babel/helper-split-export-declaration": "^7.4.4",
-        "@babel/parser": "^7.5.5",
-        "@babel/types": "^7.5.5",
+        "@babel/generator": "^7.7.0",
+        "@babel/helper-function-name": "^7.7.0",
+        "@babel/helper-split-export-declaration": "^7.7.0",
+        "@babel/parser": "^7.7.0",
+        "@babel/types": "^7.7.0",
         "debug": "^4.1.0",
         "globals": "^11.1.0",
         "lodash": "^4.17.13"
@@ -148,9 +179,9 @@
       }
     },
     "@babel/types": {
-      "version": "7.5.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/types/-/@babel/types-7.5.5.tgz",
-      "integrity": "sha1-l7n3KOGCeFkJqkq1YmTwkKAo0Yo=",
+      "version": "7.7.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/types/-/@babel/types-7.7.1.tgz",
+      "integrity": "sha1-iwjqNo8rr/I2YTUSz2cQnnYoWCc=",
       "requires": {
         "esutils": "^2.0.2",
         "lodash": "^4.17.13",
@@ -217,16 +248,30 @@
       }
     },
     "@microsoft/recognizers-text-suite": {
-      "version": "1.1.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-suite/-/@microsoft/recognizers-text-suite-1.1.2.tgz",
-      "integrity": "sha1-2sRcXNgN3TEq05wUbQMktm1+Zk8=",
+      "version": "1.1.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-suite/-/@microsoft/recognizers-text-suite-1.1.4.tgz",
+      "integrity": "sha1-itshKO06pgoEK+AI1ONEnXEo8d8=",
       "requires": {
-        "@microsoft/recognizers-text": "~1.1.2",
-        "@microsoft/recognizers-text-choice": "~1.1.2",
-        "@microsoft/recognizers-text-date-time": "~1.1.2",
-        "@microsoft/recognizers-text-number": "~1.1.2",
-        "@microsoft/recognizers-text-number-with-unit": "~1.1.2",
-        "@microsoft/recognizers-text-sequence": "~1.1.2"
+        "@microsoft/recognizers-text": "~1.1.4",
+        "@microsoft/recognizers-text-choice": "~1.1.4",
+        "@microsoft/recognizers-text-date-time": "~1.1.4",
+        "@microsoft/recognizers-text-number": "~1.1.4",
+        "@microsoft/recognizers-text-number-with-unit": "~1.1.4",
+        "@microsoft/recognizers-text-sequence": "~1.1.4"
+      },
+      "dependencies": {
+        "@microsoft/recognizers-text-date-time": {
+          "version": "1.1.4",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-date-time/-/@microsoft/recognizers-text-date-time-1.1.4.tgz",
+          "integrity": "sha1-08zdvJufgb+lZN9blX2910ADZCU=",
+          "requires": {
+            "@microsoft/recognizers-text": "~1.1.4",
+            "@microsoft/recognizers-text-number": "~1.1.4",
+            "@microsoft/recognizers-text-number-with-unit": "~1.1.4",
+            "lodash.isequal": "^4.5.0",
+            "lodash.tonumber": "^4.0.3"
+          }
+        }
       }
     },
     "@netflix/nerror": {
@@ -248,7 +293,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-LR4fki9fIFa3UmqsP4wXKVBZAKk+YngeEfeg/rGZUShE3PLUbNdEe0WZPS41D35Gfx3Oc3pFBA+B8vztLilwKg==",
+      "integrity": "sha512-C/D6KzUFDAeTZjeixU2ULDOadp1ghkxVOfWfGb4J3fwNVE1gAO83/1n9juvby1bRDcvR6SABeXKLWFt8h2nHRg==",
       "requires": {
         "@azure/cognitiveservices-luis-authoring": "^2.1.0",
         "@azure/ms-rest-js": "1.8.7",
@@ -259,14 +304,14 @@
         "@typescript-eslint/eslint-plugin": "^1.10.2",
         "@typescript-eslint/eslint-plugin-tslint": "^1.10.2",
         "@typescript-eslint/parser": "^1.10.2",
-        "botbuilder": "^4.5.3",
-        "botbuilder-ai": "^4.5.3",
-        "botbuilder-azure": "^4.5.3",
-        "botbuilder-core": "^4.5.3",
-        "botbuilder-dialogs": "^4.5.3",
-        "botframework-config": "^4.5.3",
-        "botframework-connector": "^4.5.3",
-        "botframework-schema": "^4.5.3",
+        "botbuilder": "^4.6.0",
+        "botbuilder-ai": "^4.6.0",
+        "botbuilder-azure": "^4.6.0",
+        "botbuilder-core": "^4.6.0",
+        "botbuilder-dialogs": "^4.6.0",
+        "botframework-config": "^4.6.0",
+        "botframework-connector": "^4.6.0",
+        "botframework-schema": "^4.6.0",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
         "i18n": "^0.8.3",
@@ -289,7 +334,7 @@
     },
     "@rush-temp/botbuilder-solutions": {
       "version": "file:projects/botbuilder-solutions.tgz",
-      "integrity": "sha512-8ALRcHTWj9zNmp3jM6MfNvfG05zoBrLtRVvG0Pg+d8QOXp+nkgv08KLZJU2zIehUaPV37i9JY7GIijg5T33dYA==",
+      "integrity": "sha512-dhMwYTQ8G+JWyMDosowvu//L2bCduz6X57pe11d+kVoLECvKePNqhOoIoSP09vIqgOVO6WYa1OzpxG9Ptt8eeg==",
       "requires": {
         "@microsoft/recognizers-text": "^1.1.4",
         "@microsoft/recognizers-text-choice": "^1.1.4",
@@ -298,14 +343,14 @@
         "@typescript-eslint/parser": "^1.10.2",
         "adaptivecards": "^1.1.3",
         "azure-cognitiveservices-contentmoderator": "^4.0.0",
-        "botbuilder": "^4.5.3",
-        "botbuilder-ai": "^4.5.3",
-        "botbuilder-azure": "^4.5.3",
-        "botbuilder-core": "^4.5.3",
-        "botbuilder-dialogs": "^4.5.3",
-        "botframework-config": "^4.5.3",
-        "botframework-connector": "^4.5.3",
-        "botframework-schema": "^4.5.3",
+        "botbuilder": "^4.6.0",
+        "botbuilder-ai": "^4.6.0",
+        "botbuilder-azure": "^4.6.0",
+        "botbuilder-core": "^4.6.0",
+        "botbuilder-dialogs": "^4.6.0",
+        "botframework-config": "^4.6.0",
+        "botframework-connector": "^4.6.0",
+        "botframework-schema": "^4.6.0",
         "copyfiles": "^2.1.0",
         "dayjs": "^1.8.14",
         "eslint": "^5.16.0",
@@ -325,9 +370,9 @@
       }
     },
     "@types/body-parser": {
-      "version": "1.17.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/body-parser/-/@types/body-parser-1.17.0.tgz",
-      "integrity": "sha1-n1ydm9BLtUvjLV65/A2Ml05s9Yw=",
+      "version": "1.17.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/body-parser/-/@types/body-parser-1.17.1.tgz",
+      "integrity": "sha1-GPz2F2j7XDDMxQjCHW/S6LO/eJc=",
       "requires": {
         "@types/connect": "*",
         "@types/node": "*"
@@ -354,6 +399,11 @@
         "@types/node": "*"
       }
     },
+    "@types/debug": {
+      "version": "4.1.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/debug/-/@types/debug-4.1.5.tgz",
+      "integrity": "sha1-sU76iFK3do2JiQZhPCP2iHE+As0="
+    },
     "@types/documentdb": {
       "version": "1.10.5",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/documentdb/-/@types/documentdb-1.10.5.tgz",
@@ -368,9 +418,9 @@
       "integrity": "sha1-HuMNeVRMqE1o1LPNsK9PIFZj3S0="
     },
     "@types/express": {
-      "version": "4.17.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express/-/@types/express-4.17.0.tgz",
-      "integrity": "sha1-SertsglYKobxLtm3JRYPEtBO8oc=",
+      "version": "4.17.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express/-/@types/express-4.17.2.tgz",
+      "integrity": "sha1-oPt6I9iFW6wxvAHVpYyt2bIXPmw=",
       "requires": {
         "@types/body-parser": "*",
         "@types/express-serve-static-core": "*",
@@ -387,9 +437,9 @@
       }
     },
     "@types/express-serve-static-core": {
-      "version": "4.16.7",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.7.tgz",
-      "integrity": "sha1-ULpvimkcCKPdn6f7ol7zEz0pgEk=",
+      "version": "4.16.11",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.11.tgz",
+      "integrity": "sha1-RujLCR3hnVFzGgXCWB5RWFWXna0=",
       "requires": {
         "@types/node": "*",
         "@types/range-parser": "*"
@@ -430,9 +480,9 @@
       }
     },
     "@types/node": {
-      "version": "12.7.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-12.7.1.tgz",
-      "integrity": "sha1-O1w6Jjk8GbQAhErEIr0PYxqU1p0="
+      "version": "12.12.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-12.12.5.tgz",
+      "integrity": "sha1-ZhA9Lt3FQ9RKBDlKu3vlJQbX8pA="
     },
     "@types/range-parser": {
       "version": "1.2.3",
@@ -440,9 +490,9 @@
       "integrity": "sha1-fuMwunyq+5gJC+zoal7kQRWQTCw="
     },
     "@types/request": {
-      "version": "2.48.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/request/-/@types/request-2.48.2.tgz",
-      "integrity": "sha1-k2N0y+EXnX7VKfwCVD3rRZdFD+0=",
+      "version": "2.48.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/request/-/@types/request-2.48.3.tgz",
+      "integrity": "sha1-lwuO0jF1aMOQNh0pxVWpXnS9YTU=",
       "requires": {
         "@types/caseless": "*",
         "@types/node": "*",
@@ -451,9 +501,9 @@
       }
     },
     "@types/request-promise-native": {
-      "version": "1.0.16",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/request-promise-native/-/@types/request-promise-native-1.0.16.tgz",
-      "integrity": "sha1-oyam+1QdpjxscTKTwZNeVLfYTTs=",
+      "version": "1.0.17",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/request-promise-native/-/@types/request-promise-native-1.0.17.tgz",
+      "integrity": "sha1-dKLXJprr8Yub3zXwFFnPCnv8f6s=",
       "requires": {
         "@types/request": "*"
       }
@@ -469,9 +519,9 @@
       }
     },
     "@types/serve-static": {
-      "version": "1.13.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/serve-static/-/@types/serve-static-1.13.2.tgz",
-      "integrity": "sha1-9axNemQgqZpqRa9HGfTc2M2Qekg=",
+      "version": "1.13.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/serve-static/-/@types/serve-static-1.13.3.tgz",
+      "integrity": "sha1-634cQcRGgnJVfol+kXHe1eLe2dE=",
       "requires": {
         "@types/express-serve-static-core": "*",
         "@types/mime": "*"
@@ -499,9 +549,9 @@
       }
     },
     "@types/uuid": {
-      "version": "3.4.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/uuid/-/@types/uuid-3.4.5.tgz",
-      "integrity": "sha1-1NwQeFtJehR06uC6fwywnA3f1us=",
+      "version": "3.4.6",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/uuid/-/@types/uuid-3.4.6.tgz",
+      "integrity": "sha1-0sTEjrhadXvykn91+TmULVIeMBY=",
       "requires": {
         "@types/node": "*"
       }
@@ -563,14 +613,14 @@
       "integrity": "sha1-+PLIh60Qv2f2NPAFtph/7TF5qsg="
     },
     "acorn": {
-      "version": "6.2.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/acorn/-/acorn-6.2.1.tgz",
-      "integrity": "sha1-PthCLW3sCeYSHMeoQ8qGozCoa1E="
+      "version": "6.3.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/acorn/-/acorn-6.3.0.tgz",
+      "integrity": "sha1-AIdQkRn/pPwKAEHR6TpBfmjLhW4="
     },
     "acorn-jsx": {
-      "version": "5.0.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/acorn-jsx/-/acorn-jsx-5.0.1.tgz",
-      "integrity": "sha1-MqBk/ZJUKSFqCbFBECv90YX65A4="
+      "version": "5.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/acorn-jsx/-/acorn-jsx-5.1.0.tgz",
+      "integrity": "sha1-KUrbcbVzmLBoABXwo4xWPuHbU4Q="
     },
     "adal-node": {
       "version": "0.1.28",
@@ -589,16 +639,21 @@
       },
       "dependencies": {
         "@types/node": {
-          "version": "8.10.51",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-8.10.51.tgz",
-          "integrity": "sha1-gGAIV8Ckeo6Lr8La5trtbbWONic="
+          "version": "8.10.58",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-8.10.58.tgz",
+          "integrity": "sha1-mMFM6VpjRwG9LVnVLfiCwGEN0Os="
         }
       }
     },
     "adaptivecards": {
-      "version": "1.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/adaptivecards/-/adaptivecards-1.2.0.tgz",
-      "integrity": "sha1-CJGuHASwx8TlO9mS/D/e4swrDpc="
+      "version": "1.2.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/adaptivecards/-/adaptivecards-1.2.3.tgz",
+      "integrity": "sha1-tpMZx1vSFKXsSBGSQMmESeffaFo="
+    },
+    "adm-zip": {
+      "version": "0.4.11",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/adm-zip/-/adm-zip-0.4.11.tgz",
+      "integrity": "sha1-KqVMhMSwGp0PuJuxGYKlHxPj1io="
     },
     "ajv": {
       "version": "6.10.2",
@@ -609,41 +664,6 @@
         "fast-json-stable-stringify": "^2.0.0",
         "json-schema-traverse": "^0.4.1",
         "uri-js": "^4.2.2"
-      }
-    },
-    "ambi": {
-      "version": "2.5.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ambi/-/ambi-2.5.0.tgz",
-      "integrity": "sha1-fI43K+SIkRV+fOoBy2+RQ9H3QiA=",
-      "requires": {
-        "editions": "^1.1.1",
-        "typechecker": "^4.3.0"
-      },
-      "dependencies": {
-        "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
-        },
-        "typechecker": {
-          "version": "4.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/typechecker/-/typechecker-4.7.0.tgz",
-          "integrity": "sha1-Ukn0JzWPRbclDEkk/U0B7ZukNek=",
-          "requires": {
-            "editions": "^2.1.0"
-          },
-          "dependencies": {
-            "editions": {
-              "version": "2.1.3",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/editions/-/editions-2.1.3.tgz",
-              "integrity": "sha1-cnzPPsLHsS3MZSxxAA8WxIJNb30=",
-              "requires": {
-                "errlop": "^1.1.1",
-                "semver": "^5.6.0"
-              }
-            }
-          }
-        }
       }
     },
     "ansi-colors": {
@@ -712,20 +732,18 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/assert-plus/-/assert-plus-1.0.0.tgz",
       "integrity": "sha1-8S4PPF13sLHN2RRpQuTpbB5N1SU="
     },
-    "assertion-error": {
-      "version": "1.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/assertion-error/-/assertion-error-1.1.0.tgz",
-      "integrity": "sha1-5gtrDo8wG9l+U3UhW9pAbIURjAs="
-    },
     "astral-regex": {
       "version": "1.0.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/astral-regex/-/astral-regex-1.0.0.tgz",
       "integrity": "sha1-bIw/uCfdQ+45GPJ7gngqt2WKb9k="
     },
     "async": {
-      "version": "1.5.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async/-/async-1.5.2.tgz",
-      "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
+      "version": "2.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async/-/async-2.6.0.tgz",
+      "integrity": "sha1-YaKau2/MAm/qd+VtHG7FOnlZUfQ=",
+      "requires": {
+        "lodash": "^4.14.0"
+      }
     },
     "async-limiter": {
       "version": "1.0.1",
@@ -794,6 +812,11 @@
           "requires": {
             "sax": "0.5.x"
           }
+        },
+        "xmlbuilder": {
+          "version": "9.0.7",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xmlbuilder/-/xmlbuilder-9.0.7.tgz",
+          "integrity": "sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0="
         }
       }
     },
@@ -816,9 +839,9 @@
       }
     },
     "big-integer": {
-      "version": "1.6.44",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/big-integer/-/big-integer-1.6.44.tgz",
-      "integrity": "sha1-TumuX1g5/BGt4zj+oha0UTRUpTk="
+      "version": "1.6.47",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/big-integer/-/big-integer-1.6.47.tgz",
+      "integrity": "sha1-4ekyDibEzIH2T79LO7IOAlvxji0="
     },
     "bignumber.js": {
       "version": "7.2.1",
@@ -831,34 +854,34 @@
       "integrity": "sha1-X/hhbW3SylOIvIWy1iZuK52lAtw="
     },
     "botbuilder": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder/-/botbuilder-4.5.3.tgz",
-      "integrity": "sha1-Z8wYksu4WRGU/Uoh+RgG4AN1iGQ=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder/-/botbuilder-4.6.0.tgz",
+      "integrity": "sha1-JxqPCRWbdYN547q4c5GMctZ0n98=",
       "requires": {
         "@types/node": "^10.12.18",
-        "botbuilder-core": "^4.5.3",
-        "botframework-connector": "^4.5.3",
+        "botbuilder-core": "^4.6.0",
+        "botframework-connector": "^4.6.0",
         "filenamify": "^4.1.0",
         "fs-extra": "^7.0.1"
       },
       "dependencies": {
         "@types/node": {
-          "version": "10.14.15",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.14.15.tgz",
-          "integrity": "sha1-6Pdym2Mb4bAq4TD/C2Hz4BgABkA="
+          "version": "10.17.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.17.3.tgz",
+          "integrity": "sha1-ZajZpqD2r1VZWi0AIGF5WRMNZJU="
         }
       }
     },
     "botbuilder-ai": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-ai/-/botbuilder-ai-4.5.3.tgz",
-      "integrity": "sha1-u8UvOiUhx/ATI7/52BJ6hyKKUJk=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-ai/-/botbuilder-ai-4.6.0.tgz",
+      "integrity": "sha1-Y1qT8ZqIdzgFep+U34/Oly8Mk4M=",
       "requires": {
         "@azure/cognitiveservices-luis-runtime": "2.0.0",
         "@azure/ms-rest-js": "1.8.13",
         "@microsoft/recognizers-text-date-time": "1.1.2",
         "@types/node": "^10.12.18",
-        "botbuilder-core": "^4.5.3",
+        "botbuilder-core": "^4.6.0",
         "moment": "^2.20.1",
         "node-fetch": "^2.3.0",
         "url-parse": "^1.4.4"
@@ -880,9 +903,9 @@
           }
         },
         "@types/node": {
-          "version": "10.14.15",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.14.15.tgz",
-          "integrity": "sha1-6Pdym2Mb4bAq4TD/C2Hz4BgABkA="
+          "version": "10.17.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.17.3.tgz",
+          "integrity": "sha1-ZajZpqD2r1VZWi0AIGF5WRMNZJU="
         },
         "axios": {
           "version": "0.19.0",
@@ -896,101 +919,92 @@
       }
     },
     "botbuilder-azure": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-azure/-/botbuilder-azure-4.5.3.tgz",
-      "integrity": "sha1-UWYIseWgugUBhDvyRNZymfzzuQE=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-azure/-/botbuilder-azure-4.6.0.tgz",
+      "integrity": "sha1-Z+9bxfQ+VNISPzQUrv6GLh6RXjA=",
       "requires": {
+        "@azure/cosmos": "^3.3.1",
         "@types/documentdb": "^1.10.5",
         "@types/node": "^10.12.18",
         "azure-storage": "2.10.2",
-        "botbuilder": "^4.5.3",
+        "botbuilder": "^4.6.0",
         "documentdb": "1.14.5",
         "flat": "^4.0.0",
         "semaphore": "^1.1.0"
       },
       "dependencies": {
         "@types/node": {
-          "version": "10.14.15",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.14.15.tgz",
-          "integrity": "sha1-6Pdym2Mb4bAq4TD/C2Hz4BgABkA="
+          "version": "10.17.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.17.3.tgz",
+          "integrity": "sha1-ZajZpqD2r1VZWi0AIGF5WRMNZJU="
         }
       }
     },
     "botbuilder-core": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-core/-/botbuilder-core-4.5.3.tgz",
-      "integrity": "sha1-p+qqlLxR77HNnLnf1wb/Evai66M=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-core/-/botbuilder-core-4.6.0.tgz",
+      "integrity": "sha1-3XVG830vdMtRNmjrbVB588hlR88=",
       "requires": {
         "assert": "^1.4.1",
-        "botframework-schema": "^4.5.3"
+        "botframework-schema": "^4.6.0"
       }
     },
     "botbuilder-dialogs": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-dialogs/-/botbuilder-dialogs-4.5.3.tgz",
-      "integrity": "sha1-zycjvFJ7BgZfyfvyqMo0JvrXzTc=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-dialogs/-/botbuilder-dialogs-4.6.0.tgz",
+      "integrity": "sha1-LcQZHlYJyXaG/HO8Iv3/+8E+Lho=",
       "requires": {
-        "@microsoft/recognizers-text-choice": "1.1.2",
-        "@microsoft/recognizers-text-date-time": "1.1.2",
-        "@microsoft/recognizers-text-number": "1.1.2",
-        "@microsoft/recognizers-text-suite": "1.1.2",
+        "@microsoft/recognizers-text-choice": "1.1.4",
+        "@microsoft/recognizers-text-date-time": "1.1.4",
+        "@microsoft/recognizers-text-number": "1.1.4",
+        "@microsoft/recognizers-text-suite": "1.1.4",
         "@types/node": "^10.12.18",
-        "botbuilder-core": "^4.5.3"
+        "botbuilder-core": "^4.6.0",
+        "cldr-data": "^35.1.0",
+        "globalize": "^1.4.2"
       },
       "dependencies": {
-        "@microsoft/recognizers-text-choice": {
-          "version": "1.1.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-choice/-/@microsoft/recognizers-text-choice-1.1.2.tgz",
-          "integrity": "sha1-9HWbwSFM2sZ32HQCIIBpy8DGD4g=",
+        "@microsoft/recognizers-text-date-time": {
+          "version": "1.1.4",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-date-time/-/@microsoft/recognizers-text-date-time-1.1.4.tgz",
+          "integrity": "sha1-08zdvJufgb+lZN9blX2910ADZCU=",
           "requires": {
-            "@microsoft/recognizers-text": "~1.1.2",
-            "grapheme-splitter": "^1.0.2"
-          }
-        },
-        "@microsoft/recognizers-text-number": {
-          "version": "1.1.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@microsoft/recognizers-text-number/-/@microsoft/recognizers-text-number-1.1.2.tgz",
-          "integrity": "sha1-tydc9UC6AY4CJcXV4H7AsENSZ+w=",
-          "requires": {
-            "@microsoft/recognizers-text": "~1.1.2",
-            "bignumber.js": "^7.2.1",
-            "lodash.escaperegexp": "^4.1.2",
-            "lodash.sortby": "^4.7.0",
-            "lodash.trimend": "^4.5.1"
+            "@microsoft/recognizers-text": "~1.1.4",
+            "@microsoft/recognizers-text-number": "~1.1.4",
+            "@microsoft/recognizers-text-number-with-unit": "~1.1.4",
+            "lodash.isequal": "^4.5.0",
+            "lodash.tonumber": "^4.0.3"
           }
         },
         "@types/node": {
-          "version": "10.14.15",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.14.15.tgz",
-          "integrity": "sha1-6Pdym2Mb4bAq4TD/C2Hz4BgABkA="
+          "version": "10.17.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.17.3.tgz",
+          "integrity": "sha1-ZajZpqD2r1VZWi0AIGF5WRMNZJU="
         }
       }
     },
     "botframework-config": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-config/-/botframework-config-4.5.3.tgz",
-      "integrity": "sha1-oVEnypSXg1VhxjVOvTD4xbWSd3c=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-config/-/botframework-config-4.6.0.tgz",
+      "integrity": "sha1-B7ww9VyuK63s3FDzkBLkZ5EgkCs=",
       "requires": {
         "fs-extra": "^7.0.0",
-        "process": "^0.11.10",
         "read-text-file": "^1.1.0",
-        "url": "^0.11.0",
         "uuid": "^3.3.2"
       }
     },
     "botframework-connector": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-connector/-/botframework-connector-4.5.3.tgz",
-      "integrity": "sha1-bphCPYwMX38enNb7rMztz6oIQEI=",
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-connector/-/botframework-connector-4.6.0.tgz",
+      "integrity": "sha1-wzZ3Qyg32Qyb8AtSmMy8HmFg9Tg=",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/jsonwebtoken": "7.2.8",
         "@types/node": "^10.12.18",
         "base64url": "^3.0.0",
-        "botframework-schema": "^4.5.3",
+        "botframework-schema": "^4.6.0",
         "form-data": "^2.3.3",
         "jsonwebtoken": "8.0.1",
-        "nock": "^10.0.3",
         "node-fetch": "^2.2.1",
         "rsa-pem-from-mod-exp": "^0.8.4"
       },
@@ -1009,9 +1023,9 @@
           }
         },
         "@types/node": {
-          "version": "10.14.15",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.14.15.tgz",
-          "integrity": "sha1-6Pdym2Mb4bAq4TD/C2Hz4BgABkA="
+          "version": "10.17.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/node/-/@types/node-10.17.3.tgz",
+          "integrity": "sha1-ZajZpqD2r1VZWi0AIGF5WRMNZJU="
         },
         "jsonwebtoken": {
           "version": "8.0.1",
@@ -1033,9 +1047,9 @@
       }
     },
     "botframework-schema": {
-      "version": "4.5.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-schema/-/botframework-schema-4.5.3.tgz",
-      "integrity": "sha1-j0F2bsPGJD3QZf0bYvzw7x+4xY8="
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-schema/-/botframework-schema-4.6.0.tgz",
+      "integrity": "sha1-yuBTYtVmDB68/uMgkWpnYV3v0LU="
     },
     "brace-expansion": {
       "version": "1.1.11",
@@ -1103,19 +1117,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/caseless/-/caseless-0.12.0.tgz",
       "integrity": "sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw="
     },
-    "chai": {
-      "version": "4.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/chai/-/chai-4.2.0.tgz",
-      "integrity": "sha1-dgqnLPION5XoSxKHfODoNzeqKeU=",
-      "requires": {
-        "assertion-error": "^1.1.0",
-        "check-error": "^1.0.2",
-        "deep-eql": "^3.0.1",
-        "get-func-name": "^2.0.0",
-        "pathval": "^1.1.0",
-        "type-detect": "^4.0.5"
-      }
-    },
     "chalk": {
       "version": "2.4.2",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/chalk/-/chalk-2.4.2.tgz",
@@ -1136,10 +1137,120 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/charenc/-/charenc-0.0.2.tgz",
       "integrity": "sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc="
     },
-    "check-error": {
-      "version": "1.0.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/check-error/-/check-error-1.0.2.tgz",
-      "integrity": "sha1-V00xLt2Iu13YkS6Sht1sCu1KrII="
+    "cldr-data": {
+      "version": "35.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/cldr-data/-/cldr-data-35.1.0.tgz",
+      "integrity": "sha1-DDTionFpfO5YpP+pZ/XtCXnnToI=",
+      "requires": {
+        "cldr-data-downloader": "0.3.x",
+        "glob": "5.x.x"
+      }
+    },
+    "cldr-data-downloader": {
+      "version": "0.3.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/cldr-data-downloader/-/cldr-data-downloader-0.3.5.tgz",
+      "integrity": "sha1-9URcudIiv3+oQmxi4K6dfUiXskM=",
+      "requires": {
+        "adm-zip": "0.4.11",
+        "mkdirp": "0.5.0",
+        "nopt": "3.0.x",
+        "progress": "1.1.8",
+        "q": "1.0.1",
+        "request": "~2.87.0",
+        "request-progress": "0.3.1"
+      },
+      "dependencies": {
+        "ajv": {
+          "version": "5.5.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ajv/-/ajv-5.5.2.tgz",
+          "integrity": "sha1-c7Xuyj+rZT49P5Qis0GtQiBdyWU=",
+          "requires": {
+            "co": "^4.6.0",
+            "fast-deep-equal": "^1.0.0",
+            "fast-json-stable-stringify": "^2.0.0",
+            "json-schema-traverse": "^0.3.0"
+          }
+        },
+        "fast-deep-equal": {
+          "version": "1.1.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/fast-deep-equal/-/fast-deep-equal-1.1.0.tgz",
+          "integrity": "sha1-wFNHeBfIa1HaqFPIHgWbcz0CNhQ="
+        },
+        "form-data": {
+          "version": "2.3.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/form-data/-/form-data-2.3.3.tgz",
+          "integrity": "sha1-3M5SwF9kTymManq5Nr1yTO/786Y=",
+          "requires": {
+            "asynckit": "^0.4.0",
+            "combined-stream": "^1.0.6",
+            "mime-types": "^2.1.12"
+          }
+        },
+        "har-validator": {
+          "version": "5.0.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/har-validator/-/har-validator-5.0.3.tgz",
+          "integrity": "sha1-ukAsJmGU8VlW7xXg/PJCmT9qff0=",
+          "requires": {
+            "ajv": "^5.1.0",
+            "har-schema": "^2.0.0"
+          }
+        },
+        "json-schema-traverse": {
+          "version": "0.3.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz",
+          "integrity": "sha1-NJptRMU6Ud6JtAgFxdXlm0F9M0A="
+        },
+        "oauth-sign": {
+          "version": "0.8.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/oauth-sign/-/oauth-sign-0.8.2.tgz",
+          "integrity": "sha1-Rqarfwrq2N6unsBWV4C31O/rnUM="
+        },
+        "punycode": {
+          "version": "1.4.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/punycode/-/punycode-1.4.1.tgz",
+          "integrity": "sha1-wNWmOycYgArY4esPpSachN1BhF4="
+        },
+        "request": {
+          "version": "2.87.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request/-/request-2.87.0.tgz",
+          "integrity": "sha1-MvACNc0I1IK00NaNuTqCnA7VdW4=",
+          "requires": {
+            "aws-sign2": "~0.7.0",
+            "aws4": "^1.6.0",
+            "caseless": "~0.12.0",
+            "combined-stream": "~1.0.5",
+            "extend": "~3.0.1",
+            "forever-agent": "~0.6.1",
+            "form-data": "~2.3.1",
+            "har-validator": "~5.0.3",
+            "http-signature": "~1.2.0",
+            "is-typedarray": "~1.0.0",
+            "isstream": "~0.1.2",
+            "json-stringify-safe": "~5.0.1",
+            "mime-types": "~2.1.17",
+            "oauth-sign": "~0.8.2",
+            "performance-now": "^2.1.0",
+            "qs": "~6.5.1",
+            "safe-buffer": "^5.1.1",
+            "tough-cookie": "~2.3.3",
+            "tunnel-agent": "^0.6.0",
+            "uuid": "^3.1.0"
+          }
+        },
+        "tough-cookie": {
+          "version": "2.3.4",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tough-cookie/-/tough-cookie-2.3.4.tgz",
+          "integrity": "sha1-7GDO44rGdQY//JelwYlwV47oNlU=",
+          "requires": {
+            "punycode": "^1.4.1"
+          }
+        }
+      }
+    },
+    "cldrjs": {
+      "version": "0.5.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/cldrjs/-/cldrjs-0.5.1.tgz",
+      "integrity": "sha1-tdxL6uAlVWNLBLlN644i4T/xAxk="
     },
     "cli-cursor": {
       "version": "2.1.0",
@@ -1163,6 +1274,16 @@
         "strip-ansi": "^5.2.0",
         "wrap-ansi": "^5.1.0"
       }
+    },
+    "clone": {
+      "version": "1.0.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/clone/-/clone-1.0.4.tgz",
+      "integrity": "sha1-2jCcwmPfFZlMaIypAheco8fNfH4="
+    },
+    "co": {
+      "version": "4.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/co/-/co-4.6.0.tgz",
+      "integrity": "sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ="
     },
     "code-point-at": {
       "version": "1.1.0",
@@ -1196,9 +1317,9 @@
       }
     },
     "commander": {
-      "version": "2.20.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/commander/-/commander-2.20.0.tgz",
-      "integrity": "sha1-1YuytcHuj4ew00ACfp6U4iLFpCI="
+      "version": "2.20.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/commander/-/commander-2.20.3.tgz",
+      "integrity": "sha1-/UhehMA+tIgcIHIrpIA16FMa6zM="
     },
     "commondir": {
       "version": "1.0.1",
@@ -1246,6 +1367,29 @@
         "noms": "0.0.0",
         "through2": "^2.0.1",
         "yargs": "^13.2.4"
+      },
+      "dependencies": {
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
+          }
+        }
       }
     },
     "core-util-is": {
@@ -1282,20 +1426,15 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/crypt/-/crypt-0.0.2.tgz",
       "integrity": "sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs="
     },
-    "csextends": {
-      "version": "1.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csextends/-/csextends-1.2.0.tgz",
-      "integrity": "sha1-Y3SyEJhLVNRJXynJnT3QabgFQ+U="
-    },
     "csv": {
-      "version": "5.1.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv/-/csv-5.1.1.tgz",
-      "integrity": "sha1-vXFfFaTtkUEwmiTsbasckDq3n5I=",
+      "version": "5.1.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv/-/csv-5.1.3.tgz",
+      "integrity": "sha1-C6IohU8DdpcRzEXXH3cSdtLMvbs=",
       "requires": {
-        "csv-generate": "^3.2.0",
-        "csv-parse": "^4.3.0",
-        "csv-stringify": "^5.1.2",
-        "stream-transform": "^1.0.8"
+        "csv-generate": "^3.2.3",
+        "csv-parse": "^4.4.6",
+        "csv-stringify": "^5.3.3",
+        "stream-transform": "^2.0.1"
       }
     },
     "csv-generate": {
@@ -1304,14 +1443,17 @@
       "integrity": "sha1-JABPId5hwuocRHTT5loYJh9jioA="
     },
     "csv-parse": {
-      "version": "4.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv-parse/-/csv-parse-4.4.4.tgz",
-      "integrity": "sha1-VwOXUa5BXRQEziF09CLHrppU18E="
+      "version": "4.6.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv-parse/-/csv-parse-4.6.5.tgz",
+      "integrity": "sha1-5RdRZt2IPW2J4prYF0pjIkywIYI=",
+      "requires": {
+        "pad": "^3.2.0"
+      }
     },
     "csv-stringify": {
-      "version": "5.3.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv-stringify/-/csv-stringify-5.3.1.tgz",
-      "integrity": "sha1-5KJSVVSogz2CV28Kz8EVYZx47b8="
+      "version": "5.3.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/csv-stringify/-/csv-stringify-5.3.3.tgz",
+      "integrity": "sha1-xHJWhqM9ufYecNh69xIoW67+viE="
     },
     "dashdash": {
       "version": "1.14.1",
@@ -1327,9 +1469,9 @@
       "integrity": "sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q="
     },
     "dayjs": {
-      "version": "1.8.15",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dayjs/-/dayjs-1.8.15.tgz",
-      "integrity": "sha1-cSG8BOan8mIe1ttWa+SoqvjDkT4="
+      "version": "1.8.16",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dayjs/-/dayjs-1.8.16.tgz",
+      "integrity": "sha1-Kjdx3lNyVRkblHlXry/ZABLnHmQ="
     },
     "debug": {
       "version": "3.1.0",
@@ -1344,19 +1486,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/decamelize/-/decamelize-1.2.0.tgz",
       "integrity": "sha1-9lNNFRSCabIDUue+4m9QH5oZEpA="
     },
-    "deep-eql": {
-      "version": "3.0.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/deep-eql/-/deep-eql-3.0.1.tgz",
-      "integrity": "sha1-38lARACtHI/gI+faHfHBR8S0RN8=",
-      "requires": {
-        "type-detect": "^4.0.0"
-      }
-    },
-    "deep-equal": {
-      "version": "1.0.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/deep-equal/-/deep-equal-1.0.1.tgz",
-      "integrity": "sha1-9dJgKStmDghO/0zbyfCK0yR0SLU="
-    },
     "deep-is": {
       "version": "0.1.3",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/deep-is/-/deep-is-0.1.3.tgz",
@@ -1368,6 +1497,14 @@
       "integrity": "sha1-9fj7sYp9bVCyH2QfZJ67Uiz+JPc=",
       "requires": {
         "strip-bom": "^3.0.0"
+      }
+    },
+    "defaults": {
+      "version": "1.0.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/defaults/-/defaults-1.0.3.tgz",
+      "integrity": "sha1-xlYFHpgX2f8I7YgUd/P+QBnz730=",
+      "requires": {
+        "clone": "^1.0.2"
       }
     },
     "define-properties": {
@@ -1438,25 +1575,17 @@
       }
     },
     "dtrace-provider": {
-      "version": "0.8.7",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dtrace-provider/-/dtrace-provider-0.8.7.tgz",
-      "integrity": "sha1-3JObTT4GIM/gwc2APQ0tftBP/QQ=",
+      "version": "0.8.8",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dtrace-provider/-/dtrace-provider-0.8.8.tgz",
+      "integrity": "sha1-KZbVSQw34TR74mO0I+17KX+w2X4=",
       "requires": {
-        "nan": "^2.10.0"
+        "nan": "^2.14.0"
       }
     },
     "duplexer": {
       "version": "0.1.1",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/duplexer/-/duplexer-0.1.1.tgz",
       "integrity": "sha1-rOb/gIwc5mtX0ev5eXessCM0z8E="
-    },
-    "eachr": {
-      "version": "2.0.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/eachr/-/eachr-2.0.4.tgz",
-      "integrity": "sha1-Rm98qhBwj2EFCeMsgHqv5X/BIr8=",
-      "requires": {
-        "typechecker": "^2.0.8"
-      }
     },
     "ecc-jsbn": {
       "version": "0.1.2",
@@ -1475,11 +1604,6 @@
         "safe-buffer": "^5.0.1"
       }
     },
-    "editions": {
-      "version": "1.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/editions/-/editions-1.3.4.tgz",
-      "integrity": "sha1-NmLLWSNHwxaOuOSYoP9zJx1n9Qs="
-    },
     "ee-first": {
       "version": "1.1.1",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ee-first/-/ee-first-1.1.1.tgz",
@@ -1496,35 +1620,11 @@
       "integrity": "sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k="
     },
     "end-of-stream": {
-      "version": "1.4.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/end-of-stream/-/end-of-stream-1.4.1.tgz",
-      "integrity": "sha1-7SljTRm6ukY7bOa4CjchPqtx7EM=",
+      "version": "1.4.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/end-of-stream/-/end-of-stream-1.4.4.tgz",
+      "integrity": "sha1-WuZKX0UFe682JuwU2gyl5LJDHrA=",
       "requires": {
         "once": "^1.4.0"
-      }
-    },
-    "errlop": {
-      "version": "1.1.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/errlop/-/errlop-1.1.1.tgz",
-      "integrity": "sha1-2a5MdsPmSVbF155uA11jQ7/WIlA=",
-      "requires": {
-        "editions": "^2.1.2"
-      },
-      "dependencies": {
-        "editions": {
-          "version": "2.1.3",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/editions/-/editions-2.1.3.tgz",
-          "integrity": "sha1-cnzPPsLHsS3MZSxxAA8WxIJNb30=",
-          "requires": {
-            "errlop": "^1.1.1",
-            "semver": "^5.6.0"
-          }
-        },
-        "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
-        }
       }
     },
     "error-ex": {
@@ -1536,16 +1636,20 @@
       }
     },
     "es-abstract": {
-      "version": "1.13.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/es-abstract/-/es-abstract-1.13.0.tgz",
-      "integrity": "sha1-rIYUX91QmdjdSVWMy6Lq+biOJOk=",
+      "version": "1.16.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/es-abstract/-/es-abstract-1.16.0.tgz",
+      "integrity": "sha1-06JtycMoOsl1DcpWlYbpdtncwG0=",
       "requires": {
         "es-to-primitive": "^1.2.0",
         "function-bind": "^1.1.1",
         "has": "^1.0.3",
+        "has-symbols": "^1.0.0",
         "is-callable": "^1.1.4",
         "is-regex": "^1.0.4",
-        "object-keys": "^1.0.12"
+        "object-inspect": "^1.6.0",
+        "object-keys": "^1.1.1",
+        "string.prototype.trimleft": "^2.1.0",
+        "string.prototype.trimright": "^2.1.0"
       }
     },
     "es-to-primitive": {
@@ -1634,15 +1738,41 @@
             "ms": "^2.1.1"
           }
         },
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
+          }
+        },
         "ms": {
           "version": "2.1.2",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ms/-/ms-2.1.2.tgz",
           "integrity": "sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk="
         },
+        "progress": {
+          "version": "2.0.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/progress/-/progress-2.0.3.tgz",
+          "integrity": "sha1-foz42PW48jnBvGi+tOt4Vn1XLvg="
+        },
         "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
+          "version": "5.7.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.1.tgz",
+          "integrity": "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
         },
         "strip-ansi": {
           "version": "4.0.0",
@@ -1664,17 +1794,17 @@
       }
     },
     "eslint-utils": {
-      "version": "1.4.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/eslint-utils/-/eslint-utils-1.4.0.tgz",
-      "integrity": "sha1-4sPI26doQl+JfPD55R/i4kFIXUw=",
+      "version": "1.4.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/eslint-utils/-/eslint-utils-1.4.3.tgz",
+      "integrity": "sha1-dP7HxU0Hdrb2fgJRBAtYBlZOmB8=",
       "requires": {
-        "eslint-visitor-keys": "^1.0.0"
+        "eslint-visitor-keys": "^1.1.0"
       }
     },
     "eslint-visitor-keys": {
-      "version": "1.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz",
-      "integrity": "sha1-PzGA+y4pEBdxastMnW1bXDSmqB0="
+      "version": "1.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/eslint-visitor-keys/-/eslint-visitor-keys-1.1.0.tgz",
+      "integrity": "sha1-4qgs6oT/JGrW+1f5veW0ZiFFnsI="
     },
     "espree": {
       "version": "5.0.1",
@@ -1708,9 +1838,9 @@
       }
     },
     "estraverse": {
-      "version": "4.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/estraverse/-/estraverse-4.2.0.tgz",
-      "integrity": "sha1-De4/7TH81GlhjOc0IJn8GvoL2xM="
+      "version": "4.3.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/estraverse/-/estraverse-4.3.0.tgz",
+      "integrity": "sha1-OYrT88WiSUi+dyXoPRGn3ijNvR0="
     },
     "esutils": {
       "version": "2.0.3",
@@ -1754,21 +1884,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/extend/-/extend-3.0.2.tgz",
       "integrity": "sha1-+LETa0Bx+9jrFAr/hYsQGewpFfo="
     },
-    "extendr": {
-      "version": "2.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/extendr/-/extendr-2.1.0.tgz",
-      "integrity": "sha1-MBqgu+pWX00tyPVw8qImEahSe1Y=",
-      "requires": {
-        "typechecker": "~2.0.1"
-      },
-      "dependencies": {
-        "typechecker": {
-          "version": "2.0.8",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/typechecker/-/typechecker-2.0.8.tgz",
-          "integrity": "sha1-6D2oS7ZMWEzLNFg4V2xAsDN9uC4="
-        }
-      }
-    },
     "external-editor": {
       "version": "3.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/external-editor/-/external-editor-3.1.0.tgz",
@@ -1777,21 +1892,6 @@
         "chardet": "^0.7.0",
         "iconv-lite": "^0.4.24",
         "tmp": "^0.0.33"
-      }
-    },
-    "extract-opts": {
-      "version": "2.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/extract-opts/-/extract-opts-2.2.0.tgz",
-      "integrity": "sha1-H6KOunNSxttID4hc63GkaBC+bX0=",
-      "requires": {
-        "typechecker": "~2.0.1"
-      },
-      "dependencies": {
-        "typechecker": {
-          "version": "2.0.8",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/typechecker/-/typechecker-2.0.8.tgz",
-          "integrity": "sha1-6D2oS7ZMWEzLNFg4V2xAsDN9uC4="
-        }
       }
     },
     "extsprintf": {
@@ -1861,9 +1961,9 @@
       }
     },
     "find-my-way": {
-      "version": "2.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/find-my-way/-/find-my-way-2.1.0.tgz",
-      "integrity": "sha1-3Jv+KrEs6Pll9Il5QTR4no/VaIE=",
+      "version": "2.2.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/find-my-way/-/find-my-way-2.2.1.tgz",
+      "integrity": "sha1-JI6TkkOvG53zaLzJuMgoYwbKrn0=",
       "requires": {
         "fast-decode-uri-component": "^1.0.0",
         "safe-regex2": "^2.0.0",
@@ -1894,6 +1994,29 @@
         "flatted": "^2.0.0",
         "rimraf": "2.6.3",
         "write": "1.0.3"
+      },
+      "dependencies": {
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        },
+        "rimraf": {
+          "version": "2.6.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/rimraf/-/rimraf-2.6.3.tgz",
+          "integrity": "sha1-stEE/g2Psnz54KHNqCYt04M8bKs=",
+          "requires": {
+            "glob": "^7.1.3"
+          }
+        }
       }
     },
     "flatted": {
@@ -1935,9 +2058,9 @@
       "integrity": "sha1-+8cfDEGt6zf5bFd60e1C2P2sypE="
     },
     "form-data": {
-      "version": "2.5.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/form-data/-/form-data-2.5.0.tgz",
-      "integrity": "sha1-CU7DWdxLVefWLg20rNduif6HTTc=",
+      "version": "2.5.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/form-data/-/form-data-2.5.1.tgz",
+      "integrity": "sha1-8svsV7XlniNxbhKP5E1OXdI4lfQ=",
       "requires": {
         "asynckit": "^0.4.0",
         "combined-stream": "^1.0.6",
@@ -1984,11 +2107,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/get-caller-file/-/get-caller-file-2.0.5.tgz",
       "integrity": "sha1-T5RBKoLbMvNuOwuXQfipf+sDH34="
     },
-    "get-func-name": {
-      "version": "2.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/get-func-name/-/get-func-name-2.0.0.tgz",
-      "integrity": "sha1-6td0q+5y4gQJQzoGY2YCPdaIekE="
-    },
     "get-stream": {
       "version": "4.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/get-stream/-/get-stream-4.1.0.tgz",
@@ -2006,16 +2124,23 @@
       }
     },
     "glob": {
-      "version": "7.1.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.4.tgz",
-      "integrity": "sha1-qmCKL2xXetNX4a5aXCbZqNGWklU=",
+      "version": "5.0.15",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-5.0.15.tgz",
+      "integrity": "sha1-G8k2ueAvSmA/zCIuz3Yz0wuLk7E=",
       "requires": {
-        "fs.realpath": "^1.0.0",
         "inflight": "^1.0.4",
         "inherits": "2",
-        "minimatch": "^3.0.4",
+        "minimatch": "2 || 3",
         "once": "^1.3.0",
         "path-is-absolute": "^1.0.0"
+      }
+    },
+    "globalize": {
+      "version": "1.4.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/globalize/-/globalize-1.4.2.tgz",
+      "integrity": "sha1-P/NUx87Qu/q0z3iW2Mu29MD8N/U=",
+      "requires": {
+        "cldrjs": "^0.5.0"
       }
     },
     "globals": {
@@ -2024,9 +2149,9 @@
       "integrity": "sha1-q4eVM4hooLq9hSV1gBjCp+uVxC4="
     },
     "graceful-fs": {
-      "version": "4.2.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/graceful-fs/-/graceful-fs-4.2.1.tgz",
-      "integrity": "sha1-HB8MNkiCyGj1v/ZRIUYygzahGx0="
+      "version": "4.2.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/graceful-fs/-/graceful-fs-4.2.3.tgz",
+      "integrity": "sha1-ShL/G2A3bvCYYsIJPt2Qgyi+hCM="
     },
     "grapheme-splitter": {
       "version": "1.0.4",
@@ -2044,9 +2169,9 @@
       "integrity": "sha1-DgOWlf9QyT/CiFV9aW88HcZ3Z1Q="
     },
     "handlebars": {
-      "version": "4.1.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/handlebars/-/handlebars-4.1.2.tgz",
-      "integrity": "sha1-trN8HO0DBrIh4JT8eso+wjsTG2c=",
+      "version": "4.5.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/handlebars/-/handlebars-4.5.1.tgz",
+      "integrity": "sha1-igHDgsGAJyJg0H8tGqOudFcVx7o=",
       "requires": {
         "neo-async": "^2.6.0",
         "optimist": "^0.6.1",
@@ -2116,27 +2241,9 @@
       "integrity": "sha1-hK5l+n6vsWX922FWauFLrwVmTw8="
     },
     "hosted-git-info": {
-      "version": "2.8.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/hosted-git-info/-/hosted-git-info-2.8.2.tgz",
-      "integrity": "sha1-o1w/NVrBJJ8Qk8DCpUKs6IGMFxo=",
-      "requires": {
-        "lru-cache": "^5.1.1"
-      },
-      "dependencies": {
-        "lru-cache": {
-          "version": "5.1.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/lru-cache/-/lru-cache-5.1.1.tgz",
-          "integrity": "sha1-HaJ+ZxAnGUdpXa9oSOhH8B2EuSA=",
-          "requires": {
-            "yallist": "^3.0.2"
-          }
-        },
-        "yallist": {
-          "version": "3.0.3",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yallist/-/yallist-3.0.3.tgz",
-          "integrity": "sha1-tLBJ4xS+VF486AIjbWzSLNkcPek="
-        }
-      }
+      "version": "2.8.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/hosted-git-info/-/hosted-git-info-2.8.5.tgz",
+      "integrity": "sha1-dZz88sTRVq3lmwst+r3cQqa5xww="
     },
     "hpack.js": {
       "version": "2.1.6",
@@ -2183,16 +2290,23 @@
       }
     },
     "i18n": {
-      "version": "0.8.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/i18n/-/i18n-0.8.3.tgz",
-      "integrity": "sha1-LYzxwkciYCwgQdAbpq5eqlE4jw4=",
+      "version": "0.8.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/i18n/-/i18n-0.8.4.tgz",
+      "integrity": "sha1-lI4e593v7xiyeFlpOI4JcycDG9A=",
       "requires": {
         "debug": "*",
-        "make-plural": "^3.0.3",
-        "math-interval-parser": "^1.1.0",
-        "messageformat": "^0.3.1",
+        "make-plural": "^6.0.1",
+        "math-interval-parser": "^2.0.1",
+        "messageformat": "^2.3.0",
         "mustache": "*",
-        "sprintf-js": ">=1.0.3"
+        "sprintf-js": "^1.1.2"
+      },
+      "dependencies": {
+        "sprintf-js": {
+          "version": "1.1.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/sprintf-js/-/sprintf-js-1.1.2.tgz",
+          "integrity": "sha1-2hdlJiv4wPVxdJ8q1sJjACB65nM="
+        }
       }
     },
     "i18next": {
@@ -2225,20 +2339,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ignore/-/ignore-4.0.6.tgz",
       "integrity": "sha1-dQ49tYYgh7RzfrrIIH/9HvJ7Jfw="
     },
-    "ignorefs": {
-      "version": "1.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ignorefs/-/ignorefs-1.2.0.tgz",
-      "integrity": "sha1-2ln7hYl25KXkNwLM0fKC/byeV1Y=",
-      "requires": {
-        "editions": "^1.3.3",
-        "ignorepatterns": "^1.1.0"
-      }
-    },
-    "ignorepatterns": {
-      "version": "1.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ignorepatterns/-/ignorepatterns-1.1.0.tgz",
-      "integrity": "sha1-rI9DbyI5td+2bV8NOpBKh6xnzF4="
-    },
     "import-fresh": {
       "version": "3.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/import-fresh/-/import-fresh-3.1.0.tgz",
@@ -2268,9 +2368,9 @@
       "integrity": "sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE="
     },
     "inquirer": {
-      "version": "6.5.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inquirer/-/inquirer-6.5.0.tgz",
-      "integrity": "sha1-IwMxfvyaTqfsLi32+GVptzSsz0I=",
+      "version": "6.5.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inquirer/-/inquirer-6.5.2.tgz",
+      "integrity": "sha1-rVCUI3XQNtMn/1KMCL1fqwiZKMo=",
       "requires": {
         "ansi-escapes": "^3.2.0",
         "chalk": "^2.4.2",
@@ -2329,9 +2429,9 @@
       "integrity": "sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0="
     },
     "is-buffer": {
-      "version": "2.0.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/is-buffer/-/is-buffer-2.0.3.tgz",
-      "integrity": "sha1-Ts8/z3ScvR5HJonhCaxmJhol5yU="
+      "version": "2.0.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/is-buffer/-/is-buffer-2.0.4.tgz",
+      "integrity": "sha1-PlcvI8hBGlz9lVfISeNmXgspBiM="
     },
     "is-callable": {
       "version": "1.1.4",
@@ -2601,9 +2701,9 @@
           "integrity": "sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk="
         },
         "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
+          "version": "5.7.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.1.tgz",
+          "integrity": "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
         }
       }
     },
@@ -2832,6 +2932,11 @@
         "very-fast-args": "^1.1.0"
       }
     },
+    "macos-release": {
+      "version": "2.3.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/macos-release/-/macos-release-2.3.0.tgz",
+      "integrity": "sha1-6xkwsDbAgArevM1fF7xMEt6Ltx8="
+    },
     "make-dir": {
       "version": "2.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/make-dir/-/make-dir-2.1.0.tgz",
@@ -2842,27 +2947,16 @@
       },
       "dependencies": {
         "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
+          "version": "5.7.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.1.tgz",
+          "integrity": "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
         }
       }
     },
     "make-plural": {
-      "version": "3.0.6",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/make-plural/-/make-plural-3.0.6.tgz",
-      "integrity": "sha1-IDOgO6wpC487uRJY9lud9+iwHKc=",
-      "requires": {
-        "minimist": "^1.2.0"
-      },
-      "dependencies": {
-        "minimist": {
-          "version": "1.2.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/minimist/-/minimist-1.2.0.tgz",
-          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=",
-          "optional": true
-        }
-      }
+      "version": "6.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/make-plural/-/make-plural-6.0.1.tgz",
+      "integrity": "sha1-7Tg5+sP0aeu+UFdR1I/jMZdp7fw="
     },
     "map-age-cleaner": {
       "version": "0.1.3",
@@ -2873,12 +2967,9 @@
       }
     },
     "math-interval-parser": {
-      "version": "1.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/math-interval-parser/-/math-interval-parser-1.1.0.tgz",
-      "integrity": "sha1-2+2lsGsySZc8bfYXD94jhvCv2JM=",
-      "requires": {
-        "xregexp": "^2.0.0"
-      }
+      "version": "2.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/math-interval-parser/-/math-interval-parser-2.0.1.tgz",
+      "integrity": "sha1-4izW0VoKf0wDrsVg23ZRPaYVvtQ="
     },
     "md5": {
       "version": "2.2.1",
@@ -2939,30 +3030,40 @@
       }
     },
     "messageformat": {
-      "version": "0.3.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/messageformat/-/messageformat-0.3.1.tgz",
-      "integrity": "sha1-5Y//gkXps5cXmeW0PbWLPpQX9aI=",
+      "version": "2.3.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/messageformat/-/messageformat-2.3.0.tgz",
+      "integrity": "sha1-3iY8SQKdXq5l1+4l4HVPV/QlrZE=",
       "requires": {
-        "async": "~1.5.2",
-        "glob": "~6.0.4",
-        "make-plural": "~3.0.3",
-        "nopt": "~3.0.6",
-        "watchr": "~2.4.13"
+        "make-plural": "^4.3.0",
+        "messageformat-formatters": "^2.0.1",
+        "messageformat-parser": "^4.1.2"
       },
       "dependencies": {
-        "glob": {
-          "version": "6.0.4",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-6.0.4.tgz",
-          "integrity": "sha1-DwiGD2oVUSey+t1PnOJLGqtuTSI=",
+        "make-plural": {
+          "version": "4.3.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/make-plural/-/make-plural-4.3.0.tgz",
+          "integrity": "sha1-8j3gjv2wysLgybqfMVsN/2tMJzU=",
           "requires": {
-            "inflight": "^1.0.4",
-            "inherits": "2",
-            "minimatch": "2 || 3",
-            "once": "^1.3.0",
-            "path-is-absolute": "^1.0.0"
+            "minimist": "^1.2.0"
           }
+        },
+        "minimist": {
+          "version": "1.2.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/minimist/-/minimist-1.2.0.tgz",
+          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=",
+          "optional": true
         }
       }
+    },
+    "messageformat-formatters": {
+      "version": "2.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/messageformat-formatters/-/messageformat-formatters-2.0.1.tgz",
+      "integrity": "sha1-BJLBQCpId191HJsXwDVOkr4BKwg="
+    },
+    "messageformat-parser": {
+      "version": "4.1.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/messageformat-parser/-/messageformat-parser-4.1.2.tgz",
+      "integrity": "sha1-/TTsOZEqFIaKFZXq63QkhauKs3I="
     },
     "methods": {
       "version": "1.1.2",
@@ -3030,18 +3131,23 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/minimist/-/minimist-0.0.8.tgz",
       "integrity": "sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0="
     },
+    "mixme": {
+      "version": "0.3.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mixme/-/mixme-0.3.2.tgz",
+      "integrity": "sha1-y9pT4wCdoLUDU2GVQjIBnXdnINo="
+    },
     "mkdirp": {
-      "version": "0.5.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
-      "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+      "version": "0.5.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.0.tgz",
+      "integrity": "sha1-HXMHam35hs2TROFecfzAWkyavxI=",
       "requires": {
         "minimist": "0.0.8"
       }
     },
     "mocha": {
-      "version": "6.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mocha/-/mocha-6.2.0.tgz",
-      "integrity": "sha1-+Ja2QoQ0RdG7i8pg6r2SBriRblY=",
+      "version": "6.2.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mocha/-/mocha-6.2.2.tgz",
+      "integrity": "sha1-XYmH4olAyviVen12ZLkQ3Fsv6iA=",
       "requires": {
         "ansi-colors": "3.2.3",
         "browser-stdout": "1.3.1",
@@ -3063,37 +3169,11 @@
         "supports-color": "6.0.0",
         "which": "1.3.1",
         "wide-align": "1.1.3",
-        "yargs": "13.2.2",
-        "yargs-parser": "13.0.0",
-        "yargs-unparser": "1.5.0"
+        "yargs": "13.3.0",
+        "yargs-parser": "13.1.1",
+        "yargs-unparser": "1.6.0"
       },
       "dependencies": {
-        "ansi-regex": {
-          "version": "3.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ansi-regex/-/ansi-regex-3.0.0.tgz",
-          "integrity": "sha1-7QMXwyIGT3lGbAKWa922Bas32Zg="
-        },
-        "cliui": {
-          "version": "4.1.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/cliui/-/cliui-4.1.0.tgz",
-          "integrity": "sha1-NIQi2+gtgAswIu709qwQvy5NG0k=",
-          "requires": {
-            "string-width": "^2.1.1",
-            "strip-ansi": "^4.0.0",
-            "wrap-ansi": "^2.0.0"
-          },
-          "dependencies": {
-            "string-width": {
-              "version": "2.1.1",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string-width/-/string-width-2.1.1.tgz",
-              "integrity": "sha1-q5Pyeo3BPSjKyBXEYhQ6bZASrp4=",
-              "requires": {
-                "is-fullwidth-code-point": "^2.0.0",
-                "strip-ansi": "^4.0.0"
-              }
-            }
-          }
-        },
         "debug": {
           "version": "3.2.6",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/debug/-/debug-3.2.6.tgz",
@@ -3115,18 +3195,18 @@
             "path-is-absolute": "^1.0.0"
           }
         },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
+          }
+        },
         "ms": {
           "version": "2.1.1",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ms/-/ms-2.1.1.tgz",
           "integrity": "sha1-MKWGTrPrsKZvLr5tcnrwagnYbgo="
-        },
-        "strip-ansi": {
-          "version": "4.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/strip-ansi/-/strip-ansi-4.0.0.tgz",
-          "integrity": "sha1-qEeQIusaw2iocTibY1JixQXuNo8=",
-          "requires": {
-            "ansi-regex": "^3.0.0"
-          }
         },
         "supports-color": {
           "version": "6.0.0",
@@ -3134,75 +3214,6 @@
           "integrity": "sha1-ds/nQs8fQbubHCmtAwaMBbTA5Ao=",
           "requires": {
             "has-flag": "^3.0.0"
-          }
-        },
-        "wrap-ansi": {
-          "version": "2.1.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/wrap-ansi/-/wrap-ansi-2.1.0.tgz",
-          "integrity": "sha1-2Pw9KE3QV5T+hJc8rs3Rz4JP3YU=",
-          "requires": {
-            "string-width": "^1.0.1",
-            "strip-ansi": "^3.0.1"
-          },
-          "dependencies": {
-            "ansi-regex": {
-              "version": "2.1.1",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ansi-regex/-/ansi-regex-2.1.1.tgz",
-              "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8="
-            },
-            "is-fullwidth-code-point": {
-              "version": "1.0.0",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/is-fullwidth-code-point/-/is-fullwidth-code-point-1.0.0.tgz",
-              "integrity": "sha1-754xOG8DGn8NZDr4L95QxFfvAMs=",
-              "requires": {
-                "number-is-nan": "^1.0.0"
-              }
-            },
-            "string-width": {
-              "version": "1.0.2",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string-width/-/string-width-1.0.2.tgz",
-              "integrity": "sha1-EYvfW4zcUaKn5w0hHgfisLmxB9M=",
-              "requires": {
-                "code-point-at": "^1.0.0",
-                "is-fullwidth-code-point": "^1.0.0",
-                "strip-ansi": "^3.0.0"
-              }
-            },
-            "strip-ansi": {
-              "version": "3.0.1",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/strip-ansi/-/strip-ansi-3.0.1.tgz",
-              "integrity": "sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=",
-              "requires": {
-                "ansi-regex": "^2.0.0"
-              }
-            }
-          }
-        },
-        "yargs": {
-          "version": "13.2.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs/-/yargs-13.2.2.tgz",
-          "integrity": "sha1-DBAfWArpXOp/Odkn53cOP9yX+ZM=",
-          "requires": {
-            "cliui": "^4.0.0",
-            "find-up": "^3.0.0",
-            "get-caller-file": "^2.0.1",
-            "os-locale": "^3.1.0",
-            "require-directory": "^2.1.1",
-            "require-main-filename": "^2.0.0",
-            "set-blocking": "^2.0.0",
-            "string-width": "^3.0.0",
-            "which-module": "^2.0.0",
-            "y18n": "^4.0.0",
-            "yargs-parser": "^13.0.0"
-          }
-        },
-        "yargs-parser": {
-          "version": "13.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs-parser/-/yargs-parser-13.0.0.tgz",
-          "integrity": "sha1-P8RPPnaovbHMNgLoYBCGAuXM3os=",
-          "requires": {
-            "camelcase": "^5.0.0",
-            "decamelize": "^1.2.0"
           }
         }
       }
@@ -3230,6 +3241,14 @@
           "integrity": "sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=",
           "requires": {
             "ms": "2.0.0"
+          }
+        },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
           }
         },
         "strip-ansi": {
@@ -3290,22 +3309,12 @@
         "ms-rest": "^2.3.2",
         "request": "^2.88.0",
         "uuid": "^3.2.1"
-      },
-      "dependencies": {
-        "async": {
-          "version": "2.6.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async/-/async-2.6.0.tgz",
-          "integrity": "sha1-YaKau2/MAm/qd+VtHG7FOnlZUfQ=",
-          "requires": {
-            "lodash": "^4.14.0"
-          }
-        }
       }
     },
     "mustache": {
-      "version": "3.0.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mustache/-/mustache-3.0.1.tgz",
-      "integrity": "sha1-hzhV8jqoqVsVD7ltmDbtvFodJIo="
+      "version": "3.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mustache/-/mustache-3.1.0.tgz",
+      "integrity": "sha1-n7om5678Vwnwf/WFq7fgq87Ww3I="
     },
     "mute-stream": {
       "version": "0.0.7",
@@ -3334,6 +3343,15 @@
             "minimatch": "2 || 3",
             "once": "^1.3.0",
             "path-is-absolute": "^1.0.0"
+          }
+        },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "optional": true,
+          "requires": {
+            "minimist": "0.0.8"
           }
         },
         "rimraf": {
@@ -3383,36 +3401,10 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/nice-try/-/nice-try-1.0.5.tgz",
       "integrity": "sha1-ozeKdpbOfSI+iPybdkvX7xCJ42Y="
     },
-    "nock": {
-      "version": "10.0.6",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/nock/-/nock-10.0.6.tgz",
-      "integrity": "sha1-5tkO56aLjPwqt/YSfn2Zqn0T0RE=",
-      "requires": {
-        "chai": "^4.1.2",
-        "debug": "^4.1.0",
-        "deep-equal": "^1.0.0",
-        "json-stringify-safe": "^5.0.1",
-        "lodash": "^4.17.5",
-        "mkdirp": "^0.5.0",
-        "propagate": "^1.0.0",
-        "qs": "^6.5.1",
-        "semver": "^5.5.0"
-      },
-      "dependencies": {
-        "debug": {
-          "version": "4.1.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/debug/-/debug-4.1.1.tgz",
-          "integrity": "sha1-O3ImAlUQnGtYnO4FDx1RYTlmR5E=",
-          "requires": {
-            "ms": "^2.1.1"
-          }
-        },
-        "ms": {
-          "version": "2.1.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ms/-/ms-2.1.2.tgz",
-          "integrity": "sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk="
-        }
-      }
+    "node-abort-controller": {
+      "version": "1.0.4",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/node-abort-controller/-/node-abort-controller-1.0.4.tgz",
+      "integrity": "sha1-QJXkHViy+uFp0vmJKQTWA+Ecejk="
     },
     "node-environment-flags": {
       "version": "1.0.5",
@@ -3424,9 +3416,9 @@
       },
       "dependencies": {
         "semver": {
-          "version": "5.7.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.0.tgz",
-          "integrity": "sha1-eQp89v6lRZuslhELKbYEEtyP+Ws="
+          "version": "5.7.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-5.7.1.tgz",
+          "integrity": "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
         }
       }
     },
@@ -3524,6 +3516,21 @@
         "uuid": "^3.3.2",
         "yargs": "^13.2.2",
         "yargs-parser": "^13.0.0"
+      },
+      "dependencies": {
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        }
       }
     },
     "oauth-sign": {
@@ -3535,6 +3542,11 @@
       "version": "4.1.1",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/object-assign/-/object-assign-4.1.1.tgz",
       "integrity": "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="
+    },
+    "object-inspect": {
+      "version": "1.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/object-inspect/-/object-inspect-1.6.0.tgz",
+      "integrity": "sha1-xwtsv3LydKq0w0wMgvUWe/gs8Vs="
     },
     "object-keys": {
       "version": "1.1.1",
@@ -3634,6 +3646,15 @@
         "mem": "^4.0.0"
       }
     },
+    "os-name": {
+      "version": "3.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/os-name/-/os-name-3.1.0.tgz",
+      "integrity": "sha1-3sGdlmKW4c1i1wGlpm7h3ernCAE=",
+      "requires": {
+        "macos-release": "^2.2.0",
+        "windows-release": "^3.1.0"
+      }
+    },
     "os-tmpdir": {
       "version": "1.0.2",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/os-tmpdir/-/os-tmpdir-1.0.2.tgz",
@@ -3655,9 +3676,9 @@
       "integrity": "sha1-kYzrrqJIpiz3/6uOO8qMX4gvxC4="
     },
     "p-limit": {
-      "version": "2.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/p-limit/-/p-limit-2.2.0.tgz",
-      "integrity": "sha1-QXyZQeYCepq8ulCS3SkE4lW1+8I=",
+      "version": "2.2.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/p-limit/-/p-limit-2.2.1.tgz",
+      "integrity": "sha1-qgeniMwxUck5tRMfY1cPDdIAlTc=",
       "requires": {
         "p-try": "^2.0.0"
       }
@@ -3692,6 +3713,14 @@
         "hasha": "^3.0.0",
         "lodash.flattendeep": "^4.4.0",
         "release-zalgo": "^1.0.0"
+      }
+    },
+    "pad": {
+      "version": "3.2.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/pad/-/pad-3.2.0.tgz",
+      "integrity": "sha1-vnodHLZ1cEm0rVtw5xl3FY/qldE=",
+      "requires": {
+        "wcwidth": "^1.0.1"
       }
     },
     "parent-module": {
@@ -3751,11 +3780,6 @@
         }
       }
     },
-    "pathval": {
-      "version": "1.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/pathval/-/pathval-1.1.0.tgz",
-      "integrity": "sha1-uULm1L3mUwBe9rcTYd74cn0GReA="
-    },
     "performance-now": {
       "version": "2.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/performance-now/-/performance-now-2.1.0.tgz",
@@ -3792,35 +3816,25 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/priorityqueuejs/-/priorityqueuejs-1.0.0.tgz",
       "integrity": "sha1-LuTyPCVgkT4IwHzlzN1t498sWvg="
     },
-    "process": {
-      "version": "0.11.10",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/process/-/process-0.11.10.tgz",
-      "integrity": "sha1-czIwDoQBYb2j5podHZGn1LwW8YI="
-    },
     "process-nextick-args": {
       "version": "1.0.7",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/process-nextick-args/-/process-nextick-args-1.0.7.tgz",
       "integrity": "sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M="
     },
     "progress": {
-      "version": "2.0.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/progress/-/progress-2.0.3.tgz",
-      "integrity": "sha1-foz42PW48jnBvGi+tOt4Vn1XLvg="
+      "version": "1.1.8",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/progress/-/progress-1.1.8.tgz",
+      "integrity": "sha1-4mDHj2Fhzdmw5WzD4Khd4Xx6V74="
     },
     "promise.prototype.finally": {
-      "version": "3.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/promise.prototype.finally/-/promise.prototype.finally-3.1.0.tgz",
-      "integrity": "sha1-ZvFhsWQ2NuUOfPIB3BuEqFfzhk4=",
+      "version": "3.1.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/promise.prototype.finally/-/promise.prototype.finally-3.1.1.tgz",
+      "integrity": "sha1-yyedOlAgymQDs9kjV/jiLVDtkqo=",
       "requires": {
-        "define-properties": "^1.1.2",
-        "es-abstract": "^1.9.0",
+        "define-properties": "^1.1.3",
+        "es-abstract": "^1.13.0",
         "function-bind": "^1.1.1"
       }
-    },
-    "propagate": {
-      "version": "1.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/propagate/-/propagate-1.0.0.tgz",
-      "integrity": "sha1-AMLa7t2iDofjeCs0Stuhzd1q1wk="
     },
     "pseudomap": {
       "version": "1.0.2",
@@ -3828,9 +3842,9 @@
       "integrity": "sha1-8FKijacOYYkX7wqKw0wa5aaChrM="
     },
     "psl": {
-      "version": "1.3.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/psl/-/psl-1.3.0.tgz",
-      "integrity": "sha1-4ev2o7VWT6g3bz2iJ12nbYdcob0="
+      "version": "1.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/psl/-/psl-1.4.0.tgz",
+      "integrity": "sha1-XdJhVs22n6H9uKsZkWZ9P4DO18I="
     },
     "pump": {
       "version": "3.0.0",
@@ -3846,15 +3860,15 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/punycode/-/punycode-2.1.1.tgz",
       "integrity": "sha1-tYsBCsQMIsVldhbI0sLALHv0eew="
     },
-    "qs": {
-      "version": "6.7.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/qs/-/qs-6.7.0.tgz",
-      "integrity": "sha1-QdwaAV49WB8WIXdr4xr7KHapsbw="
+    "q": {
+      "version": "1.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/q/-/q-1.0.1.tgz",
+      "integrity": "sha1-EYcq7t7okmgRCxCnGESP+xARKhQ="
     },
-    "querystring": {
-      "version": "0.2.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/querystring/-/querystring-0.2.0.tgz",
-      "integrity": "sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA="
+    "qs": {
+      "version": "6.5.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/qs/-/qs-6.5.2.tgz",
+      "integrity": "sha1-yzroBuh0BERYTvFUzo7pjUA/PjY="
     },
     "querystringify": {
       "version": "2.1.1",
@@ -3926,9 +3940,9 @@
       }
     },
     "replace": {
-      "version": "1.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/replace/-/replace-1.1.0.tgz",
-      "integrity": "sha1-TLBPE40U83xHufLSFOtKBXvZSyI=",
+      "version": "1.1.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/replace/-/replace-1.1.1.tgz",
+      "integrity": "sha1-PRteWJa9VcNlpCqNbiILB6b11jU=",
       "requires": {
         "colors": "1.2.4",
         "minimatch": "3.0.4",
@@ -4091,11 +4105,6 @@
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/punycode/-/punycode-1.4.1.tgz",
           "integrity": "sha1-wNWmOycYgArY4esPpSachN1BhF4="
         },
-        "qs": {
-          "version": "6.5.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/qs/-/qs-6.5.2.tgz",
-          "integrity": "sha1-yzroBuh0BERYTvFUzo7pjUA/PjY="
-        },
         "tough-cookie": {
           "version": "2.4.3",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tough-cookie/-/tough-cookie-2.4.3.tgz",
@@ -4107,20 +4116,28 @@
         }
       }
     },
-    "request-promise-core": {
-      "version": "1.1.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request-promise-core/-/request-promise-core-1.1.2.tgz",
-      "integrity": "sha1-M59qq6vK/bMceZ/xWHADNjAdM0Y=",
+    "request-progress": {
+      "version": "0.3.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request-progress/-/request-progress-0.3.1.tgz",
+      "integrity": "sha1-ByHBBdipasayzossia4tXs/Pazo=",
       "requires": {
-        "lodash": "^4.17.11"
+        "throttleit": "~0.0.2"
+      }
+    },
+    "request-promise-core": {
+      "version": "1.1.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request-promise-core/-/request-promise-core-1.1.3.tgz",
+      "integrity": "sha1-6aPAgbUTgN/qZ3M2Bh/qh5qCnuk=",
+      "requires": {
+        "lodash": "^4.17.15"
       }
     },
     "request-promise-native": {
-      "version": "1.0.7",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request-promise-native/-/request-promise-native-1.0.7.tgz",
-      "integrity": "sha1-pJhopiS96lBp8SUdCoNuDYmqLFk=",
+      "version": "1.0.8",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/request-promise-native/-/request-promise-native-1.0.8.tgz",
+      "integrity": "sha1-pFW5YLgm5E4r+Jma9k3/K/5YyzY=",
       "requires": {
-        "request-promise-core": "1.1.2",
+        "request-promise-core": "1.1.3",
         "stealthy-require": "^1.1.1",
         "tough-cookie": "^2.3.3"
       }
@@ -4190,15 +4207,20 @@
             "yallist": "^3.0.2"
           }
         },
+        "qs": {
+          "version": "6.9.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/qs/-/qs-6.9.0.tgz",
+          "integrity": "sha1-0Sl+KgScUxGctJzKNmrbusyAtAk="
+        },
         "semver": {
           "version": "6.3.0",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-6.3.0.tgz",
           "integrity": "sha1-7gpkyK9ejO6mdoexM3YeG+y9HT0="
         },
         "yallist": {
-          "version": "3.0.3",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yallist/-/yallist-3.0.3.tgz",
-          "integrity": "sha1-tLBJ4xS+VF486AIjbWzSLNkcPek="
+          "version": "3.1.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yallist/-/yallist-3.1.1.tgz",
+          "integrity": "sha1-27fa+b/YusmrRev2ArjLrQ1dCP0="
         }
       }
     },
@@ -4228,11 +4250,26 @@
       "integrity": "sha1-toYXgqH0di3OQ0Aqcet6KD9EVzw="
     },
     "rimraf": {
-      "version": "2.6.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/rimraf/-/rimraf-2.6.3.tgz",
-      "integrity": "sha1-stEE/g2Psnz54KHNqCYt04M8bKs=",
+      "version": "2.7.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/rimraf/-/rimraf-2.7.1.tgz",
+      "integrity": "sha1-NXl/E6f9rcVmFCwp1PB8ytSD4+w=",
       "requires": {
         "glob": "^7.1.3"
+      },
+      "dependencies": {
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        }
       }
     },
     "rsa-pem-from-mod-exp": {
@@ -4249,9 +4286,9 @@
       }
     },
     "rxjs": {
-      "version": "6.5.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/rxjs/-/rxjs-6.5.2.tgz",
-      "integrity": "sha1-LjXOgVzUbYTQKiCftOWSHgUdvsc=",
+      "version": "6.5.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/rxjs/-/rxjs-6.5.3.tgz",
+      "integrity": "sha1-UQ4mMX9NuRp+sd532d2boKSJmjo=",
       "requires": {
         "tslib": "^1.9.0"
       }
@@ -4275,14 +4312,6 @@
         "ret": "~0.2.0"
       }
     },
-    "safefs": {
-      "version": "3.2.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/safefs/-/safefs-3.2.2.tgz",
-      "integrity": "sha1-gXDBRE1wOOCMrqBaN0+uL6NJ4Vw=",
-      "requires": {
-        "graceful-fs": "*"
-      }
-    },
     "safer-buffer": {
       "version": "2.1.2",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/safer-buffer/-/safer-buffer-2.1.2.tgz",
@@ -4292,16 +4321,6 @@
       "version": "1.2.4",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/sax/-/sax-1.2.4.tgz",
       "integrity": "sha1-KBYjTiN4vdxOU1T6tcqold9xANk="
-    },
-    "scandirectory": {
-      "version": "2.5.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/scandirectory/-/scandirectory-2.5.0.tgz",
-      "integrity": "sha1-bOA/VKCQtmjjy+2/IO354xBZPnI=",
-      "requires": {
-        "ignorefs": "^1.0.0",
-        "safefs": "^3.1.2",
-        "taskgroup": "^4.0.5"
-      }
     },
     "select-hose": {
       "version": "2.0.0",
@@ -4402,9 +4421,9 @@
       "integrity": "sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w="
     },
     "spawn-wrap": {
-      "version": "1.4.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/spawn-wrap/-/spawn-wrap-1.4.2.tgz",
-      "integrity": "sha1-z/WOc6giRhe2Vhq9wyWG6gyCJIw=",
+      "version": "1.4.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/spawn-wrap/-/spawn-wrap-1.4.3.tgz",
+      "integrity": "sha1-gbdnDhcMyiR9gL9frwz7cTvc+Eg=",
       "requires": {
         "foreground-child": "^1.5.6",
         "mkdirp": "^0.5.0",
@@ -4552,9 +4571,12 @@
       "integrity": "sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks="
     },
     "stream-transform": {
-      "version": "1.0.8",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/stream-transform/-/stream-transform-1.0.8.tgz",
-      "integrity": "sha1-VPchEi0xDsqFWhbJeTmIGrW7t2w="
+      "version": "2.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/stream-transform/-/stream-transform-2.0.1.tgz",
+      "integrity": "sha1-ES7ytNi5tRf5pplLC/e5RvpNUbw=",
+      "requires": {
+        "mixme": "^0.3.1"
+      }
     },
     "string-width": {
       "version": "3.1.0",
@@ -4564,6 +4586,24 @@
         "emoji-regex": "^7.0.1",
         "is-fullwidth-code-point": "^2.0.0",
         "strip-ansi": "^5.1.0"
+      }
+    },
+    "string.prototype.trimleft": {
+      "version": "2.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string.prototype.trimleft/-/string.prototype.trimleft-2.1.0.tgz",
+      "integrity": "sha1-bMR/DX641isPNwFhFxWjlUWR1jQ=",
+      "requires": {
+        "define-properties": "^1.1.3",
+        "function-bind": "^1.1.1"
+      }
+    },
+    "string.prototype.trimright": {
+      "version": "2.1.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string.prototype.trimright/-/string.prototype.trimright-2.1.0.tgz",
+      "integrity": "sha1-Zp0WS+nfm291WfqOiZRbFopabFg=",
+      "requires": {
+        "define-properties": "^1.1.3",
+        "function-bind": "^1.1.1"
       }
     },
     "string_decoder": {
@@ -4681,23 +4721,14 @@
       }
     },
     "table": {
-      "version": "5.4.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/table/-/table-5.4.5.tgz",
-      "integrity": "sha1-yPTqLY/uCMACf6wnsOwKT+Ad+kI=",
+      "version": "5.4.6",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/table/-/table-5.4.6.tgz",
+      "integrity": "sha1-EpLRlQDOP4YFOwXw6Ofko7shB54=",
       "requires": {
         "ajv": "^6.10.2",
         "lodash": "^4.17.14",
         "slice-ansi": "^2.1.0",
         "string-width": "^3.0.0"
-      }
-    },
-    "taskgroup": {
-      "version": "4.3.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/taskgroup/-/taskgroup-4.3.1.tgz",
-      "integrity": "sha1-feGT/r12gnPEV3MElwJNUSwnkVo=",
-      "requires": {
-        "ambi": "^2.2.0",
-        "csextends": "^1.0.3"
       }
     },
     "test-exclude": {
@@ -4709,12 +4740,32 @@
         "minimatch": "^3.0.4",
         "read-pkg-up": "^4.0.0",
         "require-main-filename": "^2.0.0"
+      },
+      "dependencies": {
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        }
       }
     },
     "text-table": {
       "version": "0.2.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/text-table/-/text-table-0.2.0.tgz",
       "integrity": "sha1-f17oI66AUgfACvLfSoTsP8+lcLQ="
+    },
+    "throttleit": {
+      "version": "0.0.2",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/throttleit/-/throttleit-0.0.2.tgz",
+      "integrity": "sha1-z+34jmDADdlpe2H90qg0OptoDq8="
     },
     "through": {
       "version": "2.3.8",
@@ -4799,26 +4850,21 @@
         "escape-string-regexp": "^1.0.2"
       }
     },
-    "trim-right": {
-      "version": "1.0.1",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/trim-right/-/trim-right-1.0.1.tgz",
-      "integrity": "sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM="
-    },
     "tslib": {
       "version": "1.10.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tslib/-/tslib-1.10.0.tgz",
       "integrity": "sha1-w8GflZc/sKYpc/sJ2Q2WHuQ+XIo="
     },
     "tslint": {
-      "version": "5.18.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tslint/-/tslint-5.18.0.tgz",
-      "integrity": "sha1-9hpt3PNyNErF5BcICVu/BDoUesY=",
+      "version": "5.20.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tslint/-/tslint-5.20.1.tgz",
+      "integrity": "sha1-5AHortoBUrxE3QfmFANPP4DGe30=",
       "requires": {
         "@babel/code-frame": "^7.0.0",
         "builtin-modules": "^1.1.1",
         "chalk": "^2.3.0",
         "commander": "^2.12.1",
-        "diff": "^3.2.0",
+        "diff": "^4.0.1",
         "glob": "^7.1.1",
         "js-yaml": "^3.13.1",
         "minimatch": "^3.0.4",
@@ -4829,6 +4875,32 @@
         "tsutils": "^2.29.0"
       },
       "dependencies": {
+        "diff": {
+          "version": "4.0.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/diff/-/diff-4.0.1.tgz",
+          "integrity": "sha1-DGZ8tGfru1zqfxTxNcwtuneAqP8="
+        },
+        "glob": {
+          "version": "7.1.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/glob/-/glob-7.1.5.tgz",
+          "integrity": "sha1-ZxTGm+4g88PmTE3ZBVU+UytAzcA=",
+          "requires": {
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        },
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
+          }
+        },
         "tsutils": {
           "version": "2.29.0",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tsutils/-/tsutils-2.29.0.tgz",
@@ -4891,28 +4963,18 @@
         "prelude-ls": "~1.1.2"
       }
     },
-    "type-detect": {
-      "version": "4.0.8",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/type-detect/-/type-detect-4.0.8.tgz",
-      "integrity": "sha1-dkb7XxiHHPu3dJ5pvTmmOI63RQw="
-    },
-    "typechecker": {
-      "version": "2.1.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/typechecker/-/typechecker-2.1.0.tgz",
-      "integrity": "sha1-0cIJOlT/ihn1jP+HfuqlTyJC04M="
-    },
     "typescript": {
       "version": "3.4.5",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/typescript/-/typescript-3.4.5.tgz",
       "integrity": "sha1-LSYY0Qu1ZlcrjXqtUYDYQlfXCpk="
     },
     "uglify-js": {
-      "version": "3.6.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uglify-js/-/uglify-js-3.6.0.tgz",
-      "integrity": "sha1-cEaBNFxTqLIHn7bOwpSwXq0kL/U=",
+      "version": "3.6.7",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uglify-js/-/uglify-js-3.6.7.tgz",
+      "integrity": "sha1-FfSSEd9rigHukTIrvkb6MyIxddw=",
       "optional": true,
       "requires": {
-        "commander": "~2.20.0",
+        "commander": "~2.20.3",
         "source-map": "~0.6.1"
       },
       "dependencies": {
@@ -4942,22 +5004,6 @@
         "punycode": "^2.1.0"
       }
     },
-    "url": {
-      "version": "0.11.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/url/-/url-0.11.0.tgz",
-      "integrity": "sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=",
-      "requires": {
-        "punycode": "1.3.2",
-        "querystring": "0.2.0"
-      },
-      "dependencies": {
-        "punycode": {
-          "version": "1.3.2",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/punycode/-/punycode-1.3.2.tgz",
-          "integrity": "sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0="
-        }
-      }
-    },
     "url-parse": {
       "version": "1.4.7",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/url-parse/-/url-parse-1.4.7.tgz",
@@ -4980,10 +5026,19 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/util-deprecate/-/util-deprecate-1.0.2.tgz",
       "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
     },
+    "util.promisify": {
+      "version": "1.0.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/util.promisify/-/util.promisify-1.0.0.tgz",
+      "integrity": "sha1-RA9xZaRZyaFtwUXrjnLzVocJcDA=",
+      "requires": {
+        "define-properties": "^1.1.2",
+        "object.getownpropertydescriptors": "^2.0.3"
+      }
+    },
     "uuid": {
-      "version": "3.3.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uuid/-/uuid-3.3.2.tgz",
-      "integrity": "sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE="
+      "version": "3.3.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uuid/-/uuid-3.3.3.tgz",
+      "integrity": "sha1-RWjwIW54dg7h2/Ok0s9T4iQRKGY="
     },
     "validate-npm-package-license": {
       "version": "3.0.4",
@@ -5022,21 +5077,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/very-fast-args/-/very-fast-args-1.1.0.tgz",
       "integrity": "sha1-4W0dH6+KbllqJGQh/ZCneWPQs5Y="
     },
-    "watchr": {
-      "version": "2.4.13",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/watchr/-/watchr-2.4.13.tgz",
-      "integrity": "sha1-10hHu01vkPYf4sdPn2hmKqDgdgE=",
-      "requires": {
-        "eachr": "^2.0.2",
-        "extendr": "^2.1.0",
-        "extract-opts": "^2.2.0",
-        "ignorefs": "^1.0.0",
-        "safefs": "^3.1.2",
-        "scandirectory": "^2.5.0",
-        "taskgroup": "^4.2.0",
-        "typechecker": "^2.0.8"
-      }
-    },
     "watershed": {
       "version": "0.4.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/watershed/-/watershed-0.4.0.tgz",
@@ -5059,6 +5099,14 @@
       "integrity": "sha1-wdjRSTFtPqhShIiVy2oL/oh7h98=",
       "requires": {
         "minimalistic-assert": "^1.0.0"
+      }
+    },
+    "wcwidth": {
+      "version": "1.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/wcwidth/-/wcwidth-1.0.1.tgz",
+      "integrity": "sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=",
+      "requires": {
+        "defaults": "^1.0.3"
       }
     },
     "which": {
@@ -5106,6 +5154,14 @@
         }
       }
     },
+    "windows-release": {
+      "version": "3.2.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/windows-release/-/windows-release-3.2.0.tgz",
+      "integrity": "sha1-gSLa1a/DA9gzQiOAaAp5zfqReF8=",
+      "requires": {
+        "execa": "^1.0.0"
+      }
+    },
     "wordwrap": {
       "version": "1.0.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/wordwrap/-/wordwrap-1.0.0.tgz",
@@ -5132,6 +5188,16 @@
       "integrity": "sha1-CADhRSO5I6OH5BUSPIZWFqrg9cM=",
       "requires": {
         "mkdirp": "^0.5.1"
+      },
+      "dependencies": {
+        "mkdirp": {
+          "version": "0.5.1",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/mkdirp/-/mkdirp-0.5.1.tgz",
+          "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
+          "requires": {
+            "minimist": "0.0.8"
+          }
+        }
       }
     },
     "write-file-atomic": {
@@ -5166,18 +5232,19 @@
       }
     },
     "xml2js": {
-      "version": "0.4.19",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xml2js/-/xml2js-0.4.19.tgz",
-      "integrity": "sha1-aGwg8hMgnpSr8NG88e+qKRx4J6c=",
+      "version": "0.4.22",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xml2js/-/xml2js-0.4.22.tgz",
+      "integrity": "sha1-T6LYRuyAMjfehvMKqbX3C2YA3gI=",
       "requires": {
         "sax": ">=0.6.0",
-        "xmlbuilder": "~9.0.1"
+        "util.promisify": "~1.0.0",
+        "xmlbuilder": "~11.0.0"
       }
     },
     "xmlbuilder": {
-      "version": "9.0.7",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xmlbuilder/-/xmlbuilder-9.0.7.tgz",
-      "integrity": "sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0="
+      "version": "11.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xmlbuilder/-/xmlbuilder-11.0.1.tgz",
+      "integrity": "sha1-vpuuHIoEbnazESdyY0fQrXACvrM="
     },
     "xmldom": {
       "version": "0.1.27",
@@ -5188,11 +5255,6 @@
       "version": "1.1.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xpath.js/-/xpath.js-1.1.0.tgz",
       "integrity": "sha1-OBakTtS7NSCRCD0AKjg91RBKX/E="
-    },
-    "xregexp": {
-      "version": "2.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/xregexp/-/xregexp-2.0.0.tgz",
-      "integrity": "sha1-UqY+VsoLhKfzpfPWGHLxJq16WUM="
     },
     "xtend": {
       "version": "4.0.2",
@@ -5236,127 +5298,13 @@
       }
     },
     "yargs-unparser": {
-      "version": "1.5.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs-unparser/-/yargs-unparser-1.5.0.tgz",
-      "integrity": "sha1-8rsqfoPLyHu5XI5XKCigbJrdbg0=",
+      "version": "1.6.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs-unparser/-/yargs-unparser-1.6.0.tgz",
+      "integrity": "sha1-7yXCx2n/a9CeSw+dfGBfsnhG6p8=",
       "requires": {
         "flat": "^4.1.0",
-        "lodash": "^4.17.11",
-        "yargs": "^12.0.5"
-      },
-      "dependencies": {
-        "ansi-regex": {
-          "version": "3.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ansi-regex/-/ansi-regex-3.0.0.tgz",
-          "integrity": "sha1-7QMXwyIGT3lGbAKWa922Bas32Zg="
-        },
-        "cliui": {
-          "version": "4.1.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/cliui/-/cliui-4.1.0.tgz",
-          "integrity": "sha1-NIQi2+gtgAswIu709qwQvy5NG0k=",
-          "requires": {
-            "string-width": "^2.1.1",
-            "strip-ansi": "^4.0.0",
-            "wrap-ansi": "^2.0.0"
-          }
-        },
-        "get-caller-file": {
-          "version": "1.0.3",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/get-caller-file/-/get-caller-file-1.0.3.tgz",
-          "integrity": "sha1-+Xj6TJDR3+f/LWvtoqUV5xO9z0o="
-        },
-        "require-main-filename": {
-          "version": "1.0.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/require-main-filename/-/require-main-filename-1.0.1.tgz",
-          "integrity": "sha1-l/cXtp1IeE9fUmpsWqj/3aBVpNE="
-        },
-        "string-width": {
-          "version": "2.1.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string-width/-/string-width-2.1.1.tgz",
-          "integrity": "sha1-q5Pyeo3BPSjKyBXEYhQ6bZASrp4=",
-          "requires": {
-            "is-fullwidth-code-point": "^2.0.0",
-            "strip-ansi": "^4.0.0"
-          }
-        },
-        "strip-ansi": {
-          "version": "4.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/strip-ansi/-/strip-ansi-4.0.0.tgz",
-          "integrity": "sha1-qEeQIusaw2iocTibY1JixQXuNo8=",
-          "requires": {
-            "ansi-regex": "^3.0.0"
-          }
-        },
-        "wrap-ansi": {
-          "version": "2.1.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/wrap-ansi/-/wrap-ansi-2.1.0.tgz",
-          "integrity": "sha1-2Pw9KE3QV5T+hJc8rs3Rz4JP3YU=",
-          "requires": {
-            "string-width": "^1.0.1",
-            "strip-ansi": "^3.0.1"
-          },
-          "dependencies": {
-            "ansi-regex": {
-              "version": "2.1.1",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/ansi-regex/-/ansi-regex-2.1.1.tgz",
-              "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8="
-            },
-            "is-fullwidth-code-point": {
-              "version": "1.0.0",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/is-fullwidth-code-point/-/is-fullwidth-code-point-1.0.0.tgz",
-              "integrity": "sha1-754xOG8DGn8NZDr4L95QxFfvAMs=",
-              "requires": {
-                "number-is-nan": "^1.0.0"
-              }
-            },
-            "string-width": {
-              "version": "1.0.2",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/string-width/-/string-width-1.0.2.tgz",
-              "integrity": "sha1-EYvfW4zcUaKn5w0hHgfisLmxB9M=",
-              "requires": {
-                "code-point-at": "^1.0.0",
-                "is-fullwidth-code-point": "^1.0.0",
-                "strip-ansi": "^3.0.0"
-              }
-            },
-            "strip-ansi": {
-              "version": "3.0.1",
-              "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/strip-ansi/-/strip-ansi-3.0.1.tgz",
-              "integrity": "sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=",
-              "requires": {
-                "ansi-regex": "^2.0.0"
-              }
-            }
-          }
-        },
-        "yargs": {
-          "version": "12.0.5",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs/-/yargs-12.0.5.tgz",
-          "integrity": "sha1-BfWZe2CWR7ZPZrgeO0sQo2jnrRM=",
-          "requires": {
-            "cliui": "^4.0.0",
-            "decamelize": "^1.2.0",
-            "find-up": "^3.0.0",
-            "get-caller-file": "^1.0.1",
-            "os-locale": "^3.0.0",
-            "require-directory": "^2.1.1",
-            "require-main-filename": "^1.0.1",
-            "set-blocking": "^2.0.0",
-            "string-width": "^2.0.0",
-            "which-module": "^2.0.0",
-            "y18n": "^3.2.1 || ^4.0.0",
-            "yargs-parser": "^11.1.1"
-          }
-        },
-        "yargs-parser": {
-          "version": "11.1.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/yargs-parser/-/yargs-parser-11.1.1.tgz",
-          "integrity": "sha1-h5oIZZc7yp9rq1y987HGfsfTvPQ=",
-          "requires": {
-            "camelcase": "^5.0.0",
-            "decamelize": "^1.2.0"
-          }
-        }
+        "lodash": "^4.17.15",
+        "yargs": "^13.3.0"
       }
     }
   }
