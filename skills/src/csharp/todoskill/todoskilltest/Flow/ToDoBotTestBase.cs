@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
@@ -99,16 +101,6 @@ namespace ToDoSkillTest.Flow
                 return new BotStateSet(userState, conversationState);
             });
 
-            ResponseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new AddToDoResponses(),
-                new DeleteToDoResponses(),
-                new ToDoMainResponses(),
-                new MarkToDoResponses(),
-                new ToDoSharedResponses(),
-                new ShowToDoResponses());
-            Services.AddSingleton(ResponseManager);
-
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
 
@@ -118,13 +110,15 @@ namespace ToDoSkillTest.Flow
 
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
-                var resource = sp.GetService<ResourceExplorer>();
+
+              //  var resource = sp.GetService<ResourceExplorer>();
 
                 adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
 
                 adapter.UseState(userState, conversationState);
-                adapter.UseResourceExplorer(resource);
-                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
+
+                //adapter.UseResourceExplorer(resource);
+                //adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
 
                 return adapter;
             });
@@ -137,24 +131,38 @@ namespace ToDoSkillTest.Flow
             Services.AddTransient<ShowToDoItemDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
-            var path = Environment.CurrentDirectory;
-            path = Path.Combine(path + @"\..\..\..\..\todoskill\");
-            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\todoskill\";
+            var resourceExplorer = ResourceExplorer.LoadProject(projPath);
             Services.AddSingleton(resourceExplorer);
+
+            var defaultLG = "ResponsesAndTexts.lg";
+            var languageGenerator = new ResourceMultiLanguageGenerator(defaultLG);
+            Services.AddSingleton(languageGenerator);
 
             Services.AddSingleton<IStorage>(new MemoryStorage());
 
             TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
-        public Activity GetAuthResponse()
+        public ITurnContext GetTurnContext()
         {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test")
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
+            var context = new TurnContext(new TestAdapter(), new Activity());
+            var sp = Services.BuildServiceProvider();
+            var resourceExplorer = sp.GetService<ResourceExplorer>();
+            var languageGenerator = sp.GetService<ResourceMultiLanguageGenerator>();
+            context.TurnState.Add<ResourceExplorer>(resourceExplorer);
+            context.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(resourceExplorer));
+            context.TurnState.Add<ILanguageGenerator>(languageGenerator);
+            return context;
         }
+
+        //public class MockLanguageGenerator : ILanguageGenerator
+        //{
+        //    public Task<string> Generate(ITurnContext turnContext, string template, object data)
+        //    {
+        //        return Task.FromResult(template);
+        //    }
+        //}
 
         public TestFlow GetTestFlow()
         {

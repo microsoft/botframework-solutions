@@ -37,42 +37,6 @@
     <EmbeddedResource Include="Content\ShowTodoCard.json" />
     <EmbeddedResource Include="Content\ShowTodoItem.1.0.json" />
     <EmbeddedResource Include="Content\ShowTodoItem.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.de.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.es.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.fr.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.it.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.json" />
-    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.zh.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.de.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.es.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.fr.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.it.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.json" />
-    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.de.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.es.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.it.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.json" />
-    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.de.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.es.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.fr.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.it.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.json" />
-    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.de.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.es.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.it.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.json" />
-    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.zh.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.de.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.es.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.fr.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.it.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.json" />
-    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>

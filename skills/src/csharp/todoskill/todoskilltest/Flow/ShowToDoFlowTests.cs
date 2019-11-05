@@ -8,6 +8,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
+using ToDoSkill.Utilities;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
 
@@ -19,6 +20,10 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowToDoItems()
         {
+            var context = GetTurnContext();
+            var ac = await ToDoCommonUtil.GetToDoResponseActivity("@{" + ToDoSharedResponses.SettingUpOutlookMessage + "()}", context, null);
+            // var ac = await ToDoCommonUtil.GetToDoResponseActivity("adsfadsf", context, null);
+
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)

@@ -43,7 +43,7 @@
     InputHint = acceptingInput
 ]
 
-# TaskSummaryMessage(TaskCount, ListType)
+# TaskSummaryMessage
 [Activity
     Text = {TaskSummaryMessage.Text(TaskCount, ListType)}
     Speak = {TaskSummaryMessage.Speak(TaskCount, ListType)}
