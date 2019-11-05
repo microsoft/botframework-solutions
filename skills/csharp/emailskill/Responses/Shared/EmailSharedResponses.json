@@ -169,8 +169,8 @@
   "EmailErrorMessageBotProblem": {
     "replies": [
       {
-        "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
-        "speak": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon."
+        "text": "I'm sorry, I'm unable to access your account right now.",
+        "speak": "I'm sorry, I'm unable to access your account right now."
       }
     ],
     "inputHint": "acceptingInput"

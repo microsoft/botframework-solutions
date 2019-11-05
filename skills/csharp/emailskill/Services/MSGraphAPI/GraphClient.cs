@@ -47,6 +47,18 @@ namespace EmailSkill.Services.MSGraphAPI
             {
                 skillExceptionType = SkillExceptionType.AccountNotActivated;
             }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                skillExceptionType = SkillExceptionType.APIUnauthorized;
+            }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                skillExceptionType = SkillExceptionType.APIForbidden;
+            }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                skillExceptionType = SkillExceptionType.APIBadRequest;
+            }
 
             return new SkillException(skillExceptionType, ex.Message, ex);
         }
