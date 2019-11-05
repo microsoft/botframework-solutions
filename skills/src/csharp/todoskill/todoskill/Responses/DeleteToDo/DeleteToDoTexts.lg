@@ -4,10 +4,10 @@
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your {ListType} list?
 
-# AfterAllTasksDeleted(ListType)
+# AfterAllTasksDeleted.Text(ListType)
 - I have cleared out your {ListType} list.
 
-# AfterTaskDeleted(TaskContent, ListType)
+# AfterTaskDeleted.Text(TaskContent, ListType)
 - I have deleted {TaskContent} from your {ListType} list.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)

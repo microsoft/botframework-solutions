@@ -38,34 +38,32 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  messageActivity.Speak);
+                 this.AfterAllTasksCompleted(new
+                 {
+                     ListType = MockData.ToDo
+                 }), messageActivity.Speak);
             };
+        }
+
+        private string[] AfterAllTasksCompleted(object data)
+        {
+            return GetTemplates(MarkToDoResponses.AfterAllTasksCompleted, data);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete, null);
         }
 
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
-        }
     }
 }

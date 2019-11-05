@@ -4,10 +4,10 @@
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - 对不起，我不明白你的意思。是否确实要删除所有任务？{ListType}列表？
 
-# AfterAllTasksDeleted(ListType)
+# AfterAllTasksDeleted.Text(ListType)
 - 我已经清除了你的{ListType}列表。
 
-# AfterTaskDeleted(TaskContent, ListType)
+# AfterTaskDeleted.Text(TaskContent, ListType)
 - 我已删除{TaskContent}从你的{ListType}列表。
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)

@@ -4,10 +4,10 @@
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - Scusa, non capivo cosa intendevi. Sei sicuro di voler eliminare tutte le attività dal tuo {ListType} elenco?
 
-# AfterAllTasksDeleted(ListType)
+# AfterAllTasksDeleted.Text(ListType)
 - Ho eliminato il vostro {ListType} elenco.
 
-# AfterTaskDeleted(TaskContent, ListType)
+# AfterTaskDeleted.Text(TaskContent, ListType)
 - Ho cancellato {TaskContent} dal vostro {ListType} elenco.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)

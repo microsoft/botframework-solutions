@@ -1,7 +1,7 @@
-# AfterAllTasksCompleted(ListType)
+# AfterAllTasksCompleted.Text(ListType)
 - 我已经标记你的所有任务完成{ListType}列表。
 
-# AfterTaskCompleted(TaskContent, ListType)
+# AfterTaskCompleted.Text(TaskContent, ListType)
 - 我已经完成了{TaskContent}在你的{ListType}列表。
 
 # ListTypePromptForComplete.Text

@@ -92,11 +92,11 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.MockTaskItems[0].Topic },
-                        { MockData.ListType, MockData.ToDo }
-                    }), messageActivity.Speak);
+                  this.AfterTaskDeleted(new
+                  {
+                      TaskContent = MockData.MockTaskItems[0].Topic,
+                      ListType = MockData.ToDo
+                  }), messageActivity.Speak);
             };
         }
 
@@ -108,52 +108,47 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.MockShoppingItems[1].Topic },
-                        { MockData.ListType, MockData.Shopping }
-                    }), messageActivity.Speak);
+                 this.AfterTaskDeleted(new
+                 {
+                     TaskContent = MockData.MockShoppingItems[1].Topic,
+                     ListType = MockData.Shopping
+                 }), messageActivity.Speak);
             };
+        }
+
+        private string[] AfterTaskDeleted(object data)
+        {
+            return GetTemplates(DeleteToDoResponses.AfterTaskDeleted, data);
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskTaskIndexForDelete, new StringDictionary());
+            return GetTemplates(DeleteToDoResponses.AskTaskIndexForDelete, null);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
         }
 
         private string[] DeleteAnotherTask()
         {
-            return this.ParseReplies(DeleteToDoResponses.DeleteAnotherTaskPrompt, new StringDictionary());
+            return GetTemplates(DeleteToDoResponses.DeleteAnotherTaskPrompt, null);
         }
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePromptForDelete, new StringDictionary());
+            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete, null);
         }
     }
 }

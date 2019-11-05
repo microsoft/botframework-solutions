@@ -37,30 +37,30 @@
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer {TaskCount} tareas de nuevo?
 
-# CardSummaryMessageForSingleTask(ListType)
+# CardSummaryMessageForSingleTask.Text(ListType)
 - Usted tiene 1 tarea en su {ListType} lista: Aquí están los 1 más recientes, es
 
-# CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)
+# CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
 - Usted tiene {AllTasksCount} tareas en su {ListType} lista: Aquí están los {count(ToDos)} más recientes, son
 
-# LatestTask 
+# LatestTask.Text
 - Su última tarea es
 
-# LatestTasks
+# LatestTasks.Text
 - Sus últimas tareas son
 
-# NextTask
+# NextTask.Text
 - La siguiente tarea es
 
-# NextTasks
+# NextTasks.Text
 - Las siguientes tareas son
 
-# PreviousTasks
+# PreviousTasks.Text
 - Sus tareas anteriores son
 
-# PreviousFirstSingleTask(taskCount)
+# PreviousFirstSingleTask.Text(taskCount)
 - Su primera {taskCount} tarea es
 
-# PreviousFirstTasks(taskCount)
+# PreviousFirstTasks.Text(taskCount)
 - Su primera {taskCount} las tareas son
 

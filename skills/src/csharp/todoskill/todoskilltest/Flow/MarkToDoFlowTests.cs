@@ -92,11 +92,11 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.MockTaskItems[index].Topic },
-                        { MockData.ListType, MockData.ToDo }
-                    }), messageActivity.Speak);
+                   this.AfterTaskCompleted(new
+                   {
+                       TaskContent = MockData.MockTaskItems[index].Topic,
+                       ListType = MockData.ToDo
+                   }), messageActivity.Speak);
             };
         }
 
@@ -108,52 +108,47 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
+                    this.AfterTaskCompleted(new
                     {
-                        { MockData.TaskContent, MockData.MockGroceryItems[index].Topic },
-                        { MockData.ListType, MockData.Grocery }
+                        TaskContent = MockData.MockGroceryItems[index].Topic,
+                        ListType = MockData.Grocery
                     }), messageActivity.Speak);
             };
         }
 
+        private string[] AfterTaskCompleted(object data)
+        {
+            return GetTemplates(MarkToDoResponses.AfterTaskCompleted, data);
+        }
+
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete, null);
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(MarkToDoResponses.AskTaskIndexForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.AskTaskIndexForComplete, null);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
         }
 
         private string[] CompleteAnotherTask()
         {
-            return this.ParseReplies(MarkToDoResponses.CompleteAnotherTaskPrompt, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.CompleteAnotherTaskPrompt, null);
         }
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
         }
     }
 }

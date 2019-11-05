@@ -102,15 +102,15 @@
 
 # CardSummary(AllTasksCount, ListType, ToDos)
 - IF: {AllTasksCount == 1}
-  - {CardSummaryMessageForSingleTask(ListType)}
+  - {CardSummaryMessageForSingleTask.Text(ListType)}
 - ELSE:
-  - {CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)}
+  - {CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)}
 
 # ShowToDoTextForSinglePage(ToDos)
 - IF: {count(ToDos) == 1}
-  - [LatestTask]
+  - [LatestTask.Text]
 - ELSE:
-  - [LatestTasks]
+  - [LatestTasks.Text]
 
 # ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)
 - [CardSummary(AllTasksCount, ListType, ToDos)]
@@ -131,9 +131,9 @@
 
 # ReadMoreText(ToDos)
 - IF: {count(ToDos) == 1}
-  - [NextTask]
+  - [NextTask.Text]
 - ELSE:
-  - [NextTasks]
+  - [NextTasks.Text]
 
 # PreviousPage
 [Activity
@@ -145,8 +145,8 @@
 
 # PreviousPageText(ToDos)
 - IF: {isFirst == false}
-  - [PreviousTasks]
+  - [PreviousTasks.Text]
 - ELSEIF: {count(ToDos) == 1}
-  - [PreviousFirstSingleTask(taskCount)]
+  - [PreviousFirstSingleTask.Text(taskCount)]
 - ELSE:
-  - [PreviousFirstTasks(taskCount)]
+  - [PreviousFirstTasks.Text(taskCount)]

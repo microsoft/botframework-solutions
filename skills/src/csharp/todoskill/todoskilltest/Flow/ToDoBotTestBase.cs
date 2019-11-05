@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -112,6 +113,10 @@ namespace ToDoSkillTest.Flow
                 var conversationState = sp.GetService<ConversationState>();
                 adapter.UseState(userState, conversationState);
 
+                var resource = sp.GetService<ResourceExplorer>();
+                adapter.UseResourceExplorer(resource);
+                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
+
                 adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
 
                 return adapter;
@@ -125,29 +130,35 @@ namespace ToDoSkillTest.Flow
             Services.AddTransient<ShowToDoItemDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
-            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\todoskill\";
+            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\todoskill";
+            var templateFiles = new List<string>()
+            {
+                @"AddToDo\AddToDoTexts.lg",
+                @"DeleteToDo\DeleteToDoTexts.lg",
+                @"Main\ToDoMainTexts.lg",
+                @"MarkToDo\MarkToDoTexts.lg",
+                @"Shared\ToDoSharedTexts.lg",
+                @"ShowToDo\ShowToDoTexts.lg",
+            };
+            var templates = new List<string>();
+            templateFiles.ForEach(s => templates.Add(Path.Combine(projPath, "Responses", s)));
+            var engine = new TemplateEngine().AddFiles(templates);
+            Services.AddSingleton(engine);
+
             var resourceExplorer = ResourceExplorer.LoadProject(projPath);
             Services.AddSingleton(resourceExplorer);
-
-            var defaultLG = "ResponsesAndTexts.lg";
-            var languageGenerator = new ResourceMultiLanguageGenerator(defaultLG);
-            Services.AddSingleton(languageGenerator);
 
             Services.AddSingleton<IStorage>(new MemoryStorage());
 
             TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
-        public ITurnContext GetTurnContext()
+        public string[] GetTemplates(string templateName, object data)
         {
-            var context = new TurnContext(new TestAdapter(), new Activity());
             var sp = Services.BuildServiceProvider();
-            var resourceExplorer = sp.GetService<ResourceExplorer>();
-            var languageGenerator = sp.GetService<ResourceMultiLanguageGenerator>();
-            context.TurnState.Add<ResourceExplorer>(resourceExplorer);
-            context.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(resourceExplorer));
-            context.TurnState.Add<ILanguageGenerator>(languageGenerator);
-            return context;
+            var engine = sp.GetService<TemplateEngine>();
+            var formatTemplateName = templateName + ".Text";
+            return engine.ExpandTemplate(formatTemplateName, data).ToArray();
         }
 
         public TestFlow GetTestFlow()

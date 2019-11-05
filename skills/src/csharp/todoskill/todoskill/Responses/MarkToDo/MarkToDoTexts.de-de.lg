@@ -1,7 +1,7 @@
-# AfterAllTasksCompleted(ListType)
+# AfterAllTasksCompleted.Text(ListType)
 - Ich habe alle Ihre Aufgaben als abgeschlossen auf Ihrem {ListType} liste.
 
-# AfterTaskCompleted(TaskContent, ListType)
+# AfterTaskCompleted.Text(TaskContent, ListType)
 - ich habe abgeschlossen {TaskContent} auf Ihrem {ListType} liste.
 
 # ListTypePromptForComplete.Text

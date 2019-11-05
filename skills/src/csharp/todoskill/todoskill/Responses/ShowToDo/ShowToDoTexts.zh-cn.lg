@@ -37,30 +37,30 @@
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
 - 对不起，我不明白你的意思。你想先看看你的{TaskCount}任务再次？
 
-# CardSummaryMessageForSingleTask(ListType)
+# CardSummaryMessageForSingleTask.Text(ListType)
 - 您有 1 个任务{ListType}列表：这里是1最近，它是
 
-# CardSummaryMessageForMultipleTasks(AllTasksCount, ListType, ToDos)
+# CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
 - 你有{AllTasksCount}任务{ListType}列表：这里是{count(ToDos)}最近，他们是
 
-# LatestTask 
+# LatestTask.Text
 - 您的最新任务是
 
-# LatestTasks
+# LatestTasks.Text
 - 您的最新任务是
 
-# NextTask
+# NextTask.Text
 - 下一个任务是
 
-# NextTasks
+# NextTasks.Text
 - 接下来的任务是
 
-# PreviousTasks
+# PreviousTasks.Text
 - 您以前的任务是
 
-# PreviousFirstSingleTask(taskCount)
+# PreviousFirstSingleTask.Text(taskCount)
 - 您的第一个{taskCount}任务是
 
-# PreviousFirstTasks(taskCount)
+# PreviousFirstTasks.Text(taskCount)
 - 您的第一个{taskCount}任务是
 

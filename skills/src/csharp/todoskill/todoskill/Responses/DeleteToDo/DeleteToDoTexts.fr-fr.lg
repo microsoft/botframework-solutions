@@ -4,10 +4,10 @@
 # AskDeletionAllConfirmationFailed.Text(ListType)
 - Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre {ListType} liste?
 
-# AfterAllTasksDeleted(ListType)
+# AfterAllTasksDeleted.Text(ListType)
 - J'ai effacé votre {ListType} liste.
 
-# AfterTaskDeleted(TaskContent, ListType)
+# AfterTaskDeleted.Text(TaskContent, ListType)
 - J'ai supprimé {TaskContent} de votre {ListType} liste.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)

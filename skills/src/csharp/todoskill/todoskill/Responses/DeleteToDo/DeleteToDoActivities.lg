@@ -68,6 +68,6 @@
 
 # TaskDeletedText(IsDeleteAll, ListType, TaskContent)
 - IF: {IsDeleteAll == true}
-  - [AfterAllTasksDeleted(ListType)]
+  - [AfterAllTasksDeleted.Text(ListType)]
 - ELSE:
-  - [AfterTaskDeleted(TaskContent, ListType)]
+  - [AfterTaskDeleted.Text(TaskContent, ListType)]
