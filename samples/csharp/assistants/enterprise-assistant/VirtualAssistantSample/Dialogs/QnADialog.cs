@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Schema;
 
 namespace VirtualAssistantSample.Dialogs
@@ -29,20 +30,29 @@ namespace VirtualAssistantSample.Dialogs
             IActivity outputActivity = new Activity();
             var query = inputActivity.Text;
             var qnaResult = await _qnaMaker.GetAnswersAsync(dialogContext.Context);
-            var qnaAnswer = qnaResult[0].Answer;
-            var prompts = qnaResult[0].Context?.Prompts;
-
-            if (prompts == null || prompts.Length < 1)
+            if (qnaResult.Any())
             {
-                outputActivity = MessageFactory.Text(qnaAnswer);
-            }
-            else
-            {
-                outputActivity = MessageFactory.SuggestedActions(text: qnaAnswer, actions: prompts.Select(p => p.DisplayText));
+                var qnaAnswer = qnaResult[0].Answer;
+                var prompts = qnaResult[0].Context?.Prompts;
+
+                if (prompts == null || prompts.Length < 1)
+                {
+                    outputActivity = MessageFactory.Text(qnaAnswer);
+                }
+                else
+                {
+                    outputActivity = MessageFactory.SuggestedActions(text: qnaAnswer, actions: prompts.Select(p => p.DisplayText));
+                }
+
+                await dialogContext.Context.SendActivityAsync(outputActivity);
+                return EndOfTurn;
             }
 
-            await dialogContext.Context.SendActivityAsync(outputActivity);
-            return EndOfTurn;
+            dialogContext.SuppressCompletionMessage(true);
+
+            await dialogContext.EndDialogAsync();
+
+            return await dialogContext.ContinueDialogAsync();
         }
     }
 }
