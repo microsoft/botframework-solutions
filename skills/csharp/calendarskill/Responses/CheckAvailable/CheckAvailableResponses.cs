@@ -13,6 +13,7 @@ namespace CalendarSkill.Responses.CheckAvailable
     {
         // Generated accessors
         public const string AskForCheckAvailableTime = "AskForCheckAvailableTime";
+        public const string AskForCheckAvailableUserName = "AskForCheckAvailableUserName";
         public const string NotAvailable = "NotAvailable";
         public const string AttendeeIsAvailable = "AttendeeIsAvailable";
         public const string AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict = "AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict";

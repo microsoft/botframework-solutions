@@ -58,7 +58,7 @@ namespace CalendarSkill.Utilities
         {
             // today/tomorrow/on date
             var userToday = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimezone);
-            var userDateTime = TimeConverter.ConvertUtcToUserTime(dateTime, userTimezone);
+            var userDateTime = dateTime;
             if (userToday.Date.Equals(userDateTime.Date))
             {
                 return CalendarCommonStrings.TodayLower;

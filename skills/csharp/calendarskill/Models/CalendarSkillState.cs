@@ -120,6 +120,8 @@ namespace CalendarSkill.Models
 
             public AvailabilityResult AvailabilityResult { get; set; }
 
+            public bool IsOrgnizerAvailable { get; set; }
+
             public void Clear()
             {
                 ContactInfor.Clear();

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
+using CalendarSkill.Responses.CheckAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.Shared;
@@ -132,6 +133,11 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = sc.Options as FindContactDialogOptions;
 
+                if (options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                {
+                    options.PromptMoreContact = false;
+                }
+
                 // got attendee name list already.
                 if (state.MeetingInfor.ContactInfor.ContactsNameList.Any())
                 {
@@ -147,7 +153,11 @@ namespace CalendarSkill.Dialogs
                 }
 
                 // ask for attendee
-                if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
+                if (options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableUserName) }, cancellationToken);
+                }
+                else if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
                 }

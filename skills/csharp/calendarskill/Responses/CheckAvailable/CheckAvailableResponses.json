@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskForCheckAvailableUserName": {
+    "replies": [
+      {
+        "text": "Who do you want to ask about?",
+        "speak": "Who do you want to ask about?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NotAvailable": {
     "replies": [
       {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Options;
 using CalendarSkill.Responses.CheckAvailable;
@@ -18,6 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Graph;
 
 namespace CalendarSkill.Dialogs
 {
@@ -42,6 +44,8 @@ namespace CalendarSkill.Dialogs
                 AfterGetAuthToken,
                 CollectContacts,
                 CollectTime,
+                GetAuthToken,
+                AfterGetAuthToken,
                 CheckAvailable,
             };
 
@@ -78,7 +82,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
+                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options, scenario: nameof(CheckAvailableDialog)), cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -136,10 +140,12 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions()
                 {
                     Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableTime),
                     RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableTime),
+                    TimeZone = state.GetUserTimeZone()
                 });
             }
             catch (Exception ex)
@@ -208,27 +214,27 @@ namespace CalendarSkill.Dialogs
                 // the last one in result is the current user
                 var availabilityResult = await calendarService.GetUserAvailableTimeSlotAsync(me.Emails[0], new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime.Value, 5);
 
+                var timeString = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime);
+                var startDateString = string.Empty;
+                if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
+                    state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TodayLower, StringComparison.InvariantCultureIgnoreCase) ||
+                    state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TomorrowLower, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    startDateString = (state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower).ToLower();
+                }
+                else
+                {
+                    startDateString = string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString);
+                }
+
                 if (!availabilityResult.AvailabilityViewList.First().StartsWith("0"))
                 {
                     // the attendee is not available
-                    var timeString = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime);
-                    var dateString = string.Empty;
-                    if (string.IsNullOrEmpty(state.MeetingInfor.StartDateString) ||
-                        state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TodayLower, StringComparison.InvariantCultureIgnoreCase) ||
-                        state.MeetingInfor.StartDateString.Equals(CalendarCommonStrings.TomorrowLower, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        dateString = (state.MeetingInfor.StartDateString ?? CalendarCommonStrings.TodayLower).ToLower();
-                    }
-                    else
-                    {
-                        dateString = string.Format(CalendarCommonStrings.ShowEventDateCondition, state.MeetingInfor.StartDateString);
-                    }
-
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.NotAvailable, new StringDictionary()
                     {
                         { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address },
                         { "Time", timeString },
-                        { "Date", dateString }
+                        { "Date", startDateString }
                     }));
 
                     state.MeetingInfor.AvailabilityResult = availabilityResult;
@@ -259,12 +265,14 @@ namespace CalendarSkill.Dialogs
                     if (availabilityResult.AvailabilityViewList.Last().StartsWith("0"))
                     {
                         // both attendee and current user is available
+                        state.MeetingInfor.IsOrgnizerAvailable = true;
+
                         var responseParams = new StringDictionary()
                         {
                             { "StartTime", startAvailableTime.ToString(CommonStrings.DisplayTime) },
                             { "EndTime", endAvailableTime.ToString(CommonStrings.DisplayTime) },
-                            { "User", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
-
+                            { "Date", DisplayHelper.ToDisplayDate(endAvailableTime, state.GetUserTimeZone()) },
+                            { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
                         };
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailable, responseParams));
@@ -276,11 +284,33 @@ namespace CalendarSkill.Dialogs
                         {
                             { "StartTime", startAvailableTime.ToString(CommonStrings.DisplayTime) },
                             { "EndTime", endAvailableTime.ToString(CommonStrings.DisplayTime) },
-                            { "User", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
+                            { "Date", DisplayHelper.ToDisplayDate(endAvailableTime, state.GetUserTimeZone()) },
+                            { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
                         };
 
                         // todo: check conflict meetings
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, responseParams));
+                        var conflictMeetingTitleList = new List<EventModel>();
+                        foreach (var meeting in availabilityResult.MySchedule)
+                        {
+                            if (state.MeetingInfor.StartDateTime.Value >= meeting.StartTime && state.MeetingInfor.StartDateTime.Value < meeting.EndTime)
+                            {
+                                conflictMeetingTitleList.Add(meeting);
+                            }
+                        }
+
+                        if (conflictMeetingTitleList.Count == 1)
+                        {
+                            responseParams.Add("Title", conflictMeetingTitleList.First().Title);
+                            responseParams.Add("EventStartTime", TimeConverter.ConvertUtcToUserTime(conflictMeetingTitleList.First().StartTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime));
+                            responseParams.Add("EventEndTime", TimeConverter.ConvertUtcToUserTime(conflictMeetingTitleList.First().EndTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime));
+
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, responseParams));
+                        }
+                        else
+                        {
+                            responseParams.Add("ConflictEventsCount", conflictMeetingTitleList.Count.ToString());
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts, responseParams));
+                        }
                     }
 
                     return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);
@@ -297,10 +327,16 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var responseParams = new StringDictionary()
+                {
+                    { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
+                };
+
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime),
-                    RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime)
+                    Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime, responseParams),
+                    RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForNextAvailableTime, responseParams)
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -318,7 +354,7 @@ namespace CalendarSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    // todo: show next available time
+                    state.MeetingInfor.IsOrgnizerAvailable = true;
                     var availabilityResult = state.MeetingInfor.AvailabilityResult;
 
                     var startAvailableTimeIndex = -1;
@@ -346,20 +382,19 @@ namespace CalendarSkill.Dialogs
                     if (startAvailableTimeIndex > 0)
                     {
                         endAvailableTimeIndex = endAvailableTimeIndex == -1 ? availabilityResult.AvailabilityViewList.First().Length - 1 : endAvailableTimeIndex;
-                        var queryAvailableTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+                        var queryAvailableTime = state.MeetingInfor.StartDateTime.Value;
 
                         var startAvailableTime = queryAvailableTime.AddMinutes(startAvailableTimeIndex * 5);
-                        var endAvailableTime = queryAvailableTime.AddMinutes(endAvailableTimeIndex * 5);
+                        var endAvailableTime = queryAvailableTime.AddMinutes((endAvailableTimeIndex + 1) * 5);
 
                         state.MeetingInfor.StartDateTime = startAvailableTime;
-                        state.MeetingInfor.EndDateTime = endAvailableTime;
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckAvailableResponses.NextBothAvailableTime, new StringDictionary()
                         {
                             { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address },
                             { "StartTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
                             { "EndTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
-                            { "EndDate", DisplayHelper.ToDisplayDate(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()) }
+                            { "EndDate", DisplayHelper.ToDisplayDate(TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()), state.GetUserTimeZone()) }
                         }));
 
                         return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);
@@ -390,10 +425,18 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var responseId = state.MeetingInfor.IsOrgnizerAvailable ? CheckAvailableResponses.AskForCreateNewMeeting : CheckAvailableResponses.AskForCreateNewMeetingAnyway;
+                var responseParams = new StringDictionary()
+                {
+                    { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address },
+                    { "StartTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) }
+                };
+
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCreateNewMeeting),
-                    RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCreateNewMeeting)
+                    Prompt = ResponseManager.GetResponse(responseId, responseParams),
+                    RetryPrompt = ResponseManager.GetResponse(responseId, responseParams)
                 }, cancellationToken);
             }
             catch (Exception ex)
