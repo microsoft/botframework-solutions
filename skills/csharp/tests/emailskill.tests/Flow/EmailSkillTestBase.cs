@@ -24,8 +24,8 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,8 +33,6 @@ namespace EmailSkill.Tests.Flow
 {
     public class EmailSkillTestBase : BotTestBase
     {
-        public static readonly string MagicCode = "123456";
-
         public static readonly string Provider = "Azure Active Directory v2";
 
         public IServiceCollection Services { get; set; }
@@ -127,7 +125,7 @@ namespace EmailSkill.Tests.Flow
             var sp = Services.BuildServiceProvider();
 
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken(Provider, Microsoft.Bot.Connector.Channels.Test, adapter.Conversation.User.Id, "testToken", MagicCode);
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
 
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));

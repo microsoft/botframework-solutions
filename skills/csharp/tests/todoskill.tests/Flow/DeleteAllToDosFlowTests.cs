@@ -22,8 +22,6 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
@@ -40,8 +38,6 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
@@ -102,16 +98,6 @@ namespace ToDoSkill.Tests.Flow
         private string[] AfterSettingUpOneNote()
         {
             return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
     }
 }
