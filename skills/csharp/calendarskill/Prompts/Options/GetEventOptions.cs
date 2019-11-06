@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace CalendarSkill.Prompts.Options
 {
-    public class GetEventOptions : PromptOptions
+    public class GetEventOptions : CalendarPromptOptions
     {
-        public GetEventOptions(ICalendarService calendarService, TimeZoneInfo timeZone)
-            : base()
+        public GetEventOptions(ICalendarService calendarService, TimeZoneInfo timeZone, int maxReprompt = -1)
+            : base(maxReprompt)
         {
             CalendarService = calendarService;
             TimeZone = timeZone;

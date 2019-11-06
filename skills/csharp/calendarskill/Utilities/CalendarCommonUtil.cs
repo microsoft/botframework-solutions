@@ -14,6 +14,8 @@ namespace CalendarSkill.Utilities
     {
         public const int MaxDisplaySize = 3;
 
+        public const int MaxRepromptCount = 3;
+
         public static async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
             // todo: check input datetime is utc

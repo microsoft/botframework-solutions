@@ -6,10 +6,10 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace CalendarSkill.Prompts.Options
 {
-    public class DatePromptOptions : PromptOptions
+    public class DatePromptOptions : CalendarPromptOptions
     {
-        public DatePromptOptions()
-            : base()
+        public DatePromptOptions(int maxReprompt = -1)
+            : base(maxReprompt)
         {
         }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Options;
+using CalendarSkill.Prompts.Options;
 using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -17,7 +18,11 @@ namespace CalendarSkill.Prompts
 {
     public class TimePrompt : Prompt<IList<DateTimeResolution>>
     {
+        internal const string AttemptCountKey = "AttemptCount";
+
         private static TimeZoneInfo userTimeZone = null;
+
+        private static int maxReprompt = -1;
 
         public TimePrompt(string dialogId, PromptValidator<IList<DateTimeResolution>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
@@ -54,6 +59,7 @@ namespace CalendarSkill.Prompts
             }
 
             userTimeZone = ((TimePromptOptions)options).TimeZone;
+            maxReprompt = ((CalendarPromptOptions)options).MaxReprompt;
         }
 
         protected override async Task<PromptRecognizerResult<IList<DateTimeResolution>>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -74,6 +80,11 @@ namespace CalendarSkill.Prompts
                     result.Succeeded = true;
                     result.Value = date;
                 }
+            }
+
+            if (maxReprompt > 0 && Convert.ToInt32(state[AttemptCountKey]) >= maxReprompt)
+            {
+                result.Succeeded = true;
             }
 
             return await Task.FromResult(result);

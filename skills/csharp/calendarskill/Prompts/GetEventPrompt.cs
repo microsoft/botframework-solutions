@@ -22,8 +22,11 @@ namespace CalendarSkill.Prompts
     /// </summary>
     public class GetEventPrompt : Prompt<IList<EventModel>>
     {
+        internal const string AttemptCountKey = "AttemptCount";
+
         private static ICalendarService calendarService = null;
         private static TimeZoneInfo userTimeZone = null;
+        private static int maxReprompt = -1;
 
         public GetEventPrompt(string dialogId, PromptValidator<IList<EventModel>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
@@ -65,6 +68,8 @@ namespace CalendarSkill.Prompts
             {
                 await turnContext.SendActivityAsync(options.Prompt, cancellationToken).ConfigureAwait(false);
             }
+
+            maxReprompt = ((CalendarPromptOptions)options).MaxReprompt;
         }
 
         protected override async Task<PromptRecognizerResult<IList<EventModel>>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -100,6 +105,11 @@ namespace CalendarSkill.Prompts
                         result.Value = results;
                     }
                 }
+            }
+
+            if (maxReprompt > 0 && Convert.ToInt32(state[AttemptCountKey]) >= maxReprompt)
+            {
+                result.Succeeded = true;
             }
 
             return await Task.FromResult(result);
