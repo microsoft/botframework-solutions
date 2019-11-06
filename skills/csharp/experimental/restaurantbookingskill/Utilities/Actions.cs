@@ -1,4 +1,7 @@
-﻿namespace RestaurantBookingSkill.Utilities
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace RestaurantBookingSkill.Utilities
 {
     public class Actions
     {

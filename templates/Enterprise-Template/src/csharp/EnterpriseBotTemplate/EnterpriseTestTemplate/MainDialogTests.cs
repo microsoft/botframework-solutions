@@ -1,4 +1,7 @@
-﻿using $ext_safeprojectname$.Dialogs.Main.Resources;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using $ext_safeprojectname$.Dialogs.Main.Resources;
 using $safeprojectname$.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
