@@ -8,11 +8,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -28,9 +28,9 @@ namespace VirtualAssistantSample.Dialogs
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
         private LocaleTemplateEngineManager _templateEngine;
-        private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private SkillDialog _skillDialog;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -46,7 +46,6 @@ namespace VirtualAssistantSample.Dialogs
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
             _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
             var conversationState = serviceProvider.GetService<ConversationState>();
@@ -56,12 +55,9 @@ namespace VirtualAssistantSample.Dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
             AddDialog(_onboardingDialog);
 
-            // Register skill dialogs
-            var skillDialogs = serviceProvider.GetServices<SkillDialog>();
-            foreach (var dialog in skillDialogs)
-            {
-                AddDialog(dialog);
-            }
+            // Register skill dialog
+            _skillDialog = serviceProvider.GetService<SkillDialog>();
+            AddDialog(_skillDialog);
         }
 
         // Runs on every turn of the conversation.
@@ -80,7 +76,7 @@ namespace VirtualAssistantSample.Dialogs
                 if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
-                    var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                    var generalResult = await localizedServices.LuisServices["general"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                     innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
                 }
             }
@@ -250,15 +246,15 @@ namespace VirtualAssistantSample.Dialogs
                 if (identifiedSkill != null)
                 {
                     // Start the skill dialog.
-                    await innerDc.BeginDialogAsync(identifiedSkill.Id);
+                    await innerDc.BeginDialogAsync(_skillDialog.Id, new SkillDialogArgs { SkillId = identifiedSkill.Id });
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Faq"]);
+                    await CallQnAMaker(innerDc, localizedServices.QnAServices["faq"]);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
+                    await CallQnAMaker(innerDc, localizedServices.QnAServices["chitchat"]);
                 }
                 else
                 {
@@ -279,13 +275,13 @@ namespace VirtualAssistantSample.Dialogs
             {
                 case Events.Location:
                     {
-                        var locationObj = new JObject();
-                        locationObj.Add(StateProperties.Location, JToken.FromObject(value));
+                        //var locationObj = new JObject();
+                        //locationObj.Add(StateProperties.Location, JToken.FromObject(value));
 
-                        // Store location for use by skills.
-                        var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                        skillContext[StateProperties.Location] = locationObj;
-                        await _skillContext.SetAsync(innerDc.Context, skillContext);
+                        //// Store location for use by skills.
+                        //var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
+                        //skillContext[StateProperties.Location] = locationObj;
+                        //await _skillContext.SetAsync(innerDc.Context, skillContext);
 
                         break;
                     }
@@ -299,9 +295,9 @@ namespace VirtualAssistantSample.Dialogs
                             timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
 
                             // Store location for use by skills.
-                            var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                            skillContext[StateProperties.TimeZone] = timeZoneObj;
-                            await _skillContext.SetAsync(innerDc.Context, skillContext);
+                            //var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
+                            //skillContext[StateProperties.TimeZone] = timeZoneObj;
+                            //await _skillContext.SetAsync(innerDc.Context, skillContext);
                         }
                         catch
                         {

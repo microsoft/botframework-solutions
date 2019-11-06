@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill.Tests", "tests\todoskill.tests\ToDoSkill.Tests.csproj", "{5882D204-F86A-47D1-8685-BFD357E5EBF6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -217,6 +219,14 @@ Global
 		{5882D204-F86A-47D1-8685-BFD357E5EBF6}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{5882D204-F86A-47D1-8685-BFD357E5EBF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5882D204-F86A-47D1-8685-BFD357E5EBF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC15C4B5-4F4B-48E3-8BC4-67699412DF09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

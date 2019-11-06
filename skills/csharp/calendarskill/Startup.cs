@@ -24,8 +24,6 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -127,10 +125,6 @@ namespace CalendarSkill
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
-
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();

@@ -15,11 +15,12 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.Skills.Adapters;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -107,30 +108,43 @@ namespace VirtualAssistantSample
                 localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            var localeTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us");
+            services.AddSingleton(localeTemplateEngineManager);
 
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
+            services.AddSingleton<SkillDialog>();
 
-            // Register skill dialogs
-            foreach (var skill in settings.Skills)
-            {
-                var authDialog = BuildAuthDialog(skill, settings, appCredentials);
-                var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                services.AddTransient(sp =>
-                {
-                    var userState = sp.GetService<UserState>();
-                    var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                    return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
-                });
-            }
+            // Create skills server and skills host adapter.
+            services.AddSingleton<BotFrameworkSkillHostAdapter>();
+            services.AddSingleton<BotFrameworkHttpSkillsServer>();
 
             // IBotFrameworkHttpAdapter now supports both http and websocket transport
-            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            var defaultAdapter = new DefaultAdapter(
+                settings,
+                localeTemplateEngineManager,
+                services.BuildServiceProvider().GetService<ConversationState>(),
+                services.BuildServiceProvider().GetService<ICredentialProvider>(),
+                services.BuildServiceProvider().GetService<TelemetryInitializerMiddleware>(),
+                services.BuildServiceProvider().GetService<IBotTelemetryClient>());
+            services.AddSingleton<IBotFrameworkHttpAdapter>(defaultAdapter);
+            services.AddSingleton<BotAdapter>(defaultAdapter);
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            // force this to be resolved
+            var skillAdapter = services.BuildServiceProvider().GetService<BotFrameworkSkillHostAdapter>();
+            settings.Skills.ForEach(s =>
+            {
+                skillAdapter.Skills.Add(new BotFrameworkSkill
+                {
+                    AppId = s.MSAappId,
+                    Id = s.Id,
+                    SkillEndpoint = s.Endpoint
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

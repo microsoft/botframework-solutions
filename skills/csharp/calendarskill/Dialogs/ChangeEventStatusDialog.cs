@@ -8,14 +8,13 @@ using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 

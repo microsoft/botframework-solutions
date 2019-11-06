@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.0-preview-191104-1" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-preview-rc1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />

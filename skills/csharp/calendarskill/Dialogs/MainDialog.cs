@@ -16,7 +16,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -209,22 +209,22 @@ namespace CalendarSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
-                case SkillEvents.FallbackHandledEventName:
-                    {
-                        // Auth dialog completion
-                        var result = await dc.ContinueDialogAsync();
+                //case SkillEvents.FallbackHandledEventName:
+                //    {
+                //        // Auth dialog completion
+                //        var result = await dc.ContinueDialogAsync();
 
-                        // If the dialog completed when we sent the token, end the skill conversation
-                        if (result.Status != DialogTurnStatus.Waiting)
-                        {
-                            var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                //        // If the dialog completed when we sent the token, end the skill conversation
+                //        if (result.Status != DialogTurnStatus.Waiting)
+                //        {
+                //            var response = dc.Context.Activity.CreateReply();
+                //            response.Type = ActivityTypes.Handoff;
 
-                            await dc.Context.SendActivityAsync(response);
-                        }
+                //            await dc.Context.SendActivityAsync(response);
+                //        }
 
-                        break;
-                    }
+                //        break;
+                //    }
 
                 case Events.DeviceStart:
                     {
