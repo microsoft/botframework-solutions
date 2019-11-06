@@ -9,7 +9,6 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -20,8 +19,8 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs
@@ -29,17 +28,9 @@ namespace EmailSkill.Dialogs
     public class ShowEmailDialog : EmailSkillDialogBase
     {
         public ShowEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            DeleteEmailDialog deleteEmailDialog,
-            ReplyEmailDialog replyEmailDialog,
-            ForwardEmailDialog forwardEmailDialog,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ShowEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -106,6 +97,10 @@ namespace EmailSkill.Dialogs
                 RetryInput,
                 HandleMore,
             };
+
+            var forwardEmailDialog = serviceProvider.GetService<ForwardEmailDialog>();
+            var replyEmailDialog = serviceProvider.GetService<ReplyEmailDialog>();
+            var deleteEmailDialog = serviceProvider.GetService<DeleteEmailDialog>();
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
@@ -192,7 +187,7 @@ namespace EmailSkill.Dialogs
                 skillOptions.SubFlowMode = true;
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
 
                 var topIntent = luisResult?.TopIntent().intent;
                 if (topIntent == null)
@@ -233,9 +228,9 @@ namespace EmailSkill.Dialogs
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generalLuisResult = state.GeneralLuisResult;
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (topIntent == null)
@@ -349,10 +344,11 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
-
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var topGeneralIntent = state.GeneralLuisResult?.TopIntent().intent;
+
+                var generalIntent = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                var topGeneralIntent = generalIntent?.TopIntent().intent;
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
@@ -388,7 +384,7 @@ namespace EmailSkill.Dialogs
                     var cachedMessageList = state.MessageList;
                     var cachedFocusedMessages = state.Message;
 
-                    await DigestEmailLuisResult(sc, state.LuisResult, true);
+                    await DigestEmailLuisResult(sc, true);
                     await SearchEmailsFromList(sc, cancellationToken);
 
                     if (state.MessageList.Count > 0)

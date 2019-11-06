@@ -44,8 +44,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.6.0-preview-rc2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0-preview-rc2" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.6.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.1" />

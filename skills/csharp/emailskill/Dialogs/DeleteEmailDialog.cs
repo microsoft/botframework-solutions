@@ -22,14 +22,9 @@ namespace EmailSkill.Dialogs
     public class DeleteEmailDialog : EmailSkillDialogBase
     {
         public DeleteEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(DeleteEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+             IServiceProvider serviceProvider,
+             IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

@@ -62,7 +62,7 @@ namespace EmailSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new MockGeneralLuisRecognizer() },
                                 {
@@ -114,7 +114,7 @@ namespace EmailSkill.Tests.Flow
             Services.AddTransient<ReplyEmailDialog>();
             Services.AddTransient<SendEmailDialog>();
             Services.AddTransient<ShowEmailDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;
@@ -123,6 +123,7 @@ namespace EmailSkill.Tests.Flow
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
+
             var adapter = sp.GetService<TestAdapter>();
             adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
 
