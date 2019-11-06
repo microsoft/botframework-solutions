@@ -10,8 +10,8 @@ Param(
 	[string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
 	[switch] $useDispatch = $true,
-    [string] $languages = "en-us",
-    [string] $outFolder = $(Get-Location),
+	[string] $languages = "en-us",
+	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
 )
 

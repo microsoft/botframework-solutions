@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
@@ -24,8 +27,8 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,6 +36,8 @@ namespace EmailSkill.Tests.Flow
 {
     public class EmailSkillTestBase : BotTestBase
     {
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
@@ -49,7 +54,7 @@ namespace EmailSkill.Tests.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -60,7 +65,7 @@ namespace EmailSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new MockGeneralLuisRecognizer() },
                                 {
@@ -112,26 +117,19 @@ namespace EmailSkill.Tests.Flow
             Services.AddTransient<ReplyEmailDialog>();
             Services.AddTransient<SendEmailDialog>();
             Services.AddTransient<ShowEmailDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;
         }
 
-        public Activity GetAuthResponse()
-        {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test"),
-                AuthenticationProvider = OAuthProvider.AzureAD
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
-        }
-
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
+
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
+
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 

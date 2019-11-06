@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Bot.Builder.Skills.Protocol
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Microsoft.Bot.Builder.Skills.Protocol
 {
     public class RouteTemplate
     {

@@ -112,11 +112,11 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void onStop() {
-        if (speechServiceBinder != null) {
+        super.onStop();
+        if (myConnection != null) {
             unbindService(myConnection);
             speechServiceBinder = null;
         }
-        super.onStop();
     }
 
     @Override

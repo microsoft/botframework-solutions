@@ -91,11 +91,6 @@ namespace HospitalitySample.Dialogs
             {
                 // We have identiifed a skill so initialize the skill connection with the target skill
                 var result = await dc.BeginDialogAsync(identifiedSkill.Id);
-
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    await CompleteAsync(dc);
-                }
             }
             else if (intent == DispatchLuis.Intent.l_General)
             {

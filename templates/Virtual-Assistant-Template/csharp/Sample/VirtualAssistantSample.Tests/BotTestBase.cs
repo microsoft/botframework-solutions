@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 using VirtualAssistantSample.Tests.Utilities;
 
@@ -28,11 +28,9 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public TemplateEngine TemplateEngine { get; set; }
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
-        public ILanguageGenerator LanguageGenerator { get; set; }
-
-        public TextActivityGenerator ActivityGenerator { get; set; }
+        public UserProfileState TestUserProfileState { get; set; }
 
         [TestInitialize]
         public virtual void Initialize()
@@ -67,21 +65,43 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            var dir = Directory.GetCurrentDirectory();
-            TemplateEngine = new TemplateEngine()
-                .AddFile(Path.Combine(dir, "Responses", "MainResponses.lg"))
-                .AddFile(Path.Combine(dir, "Responses", "OnboardingResponses.lg"));
-            LanguageGenerator = new TemplateEngineLanguageGenerator();
-            ActivityGenerator = new TextActivityGenerator();
+            // For localization testing
+            CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
             Services.AddSingleton(TemplateEngine);
-            Services.AddSingleton(LanguageGenerator);
-            Services.AddSingleton(ActivityGenerator);
+
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            TestUserProfileState = new UserProfileState();
+            TestUserProfileState.Name = "Bot";
         }
 
         public TestFlow GetTestFlow()

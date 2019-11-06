@@ -1,4 +1,7 @@
-﻿namespace RestaurantBookingSkill.Utilities
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace RestaurantBookingSkill.Utilities
 {
     using System;
     using System.Collections.Concurrent;
@@ -16,8 +19,8 @@
     {
         private static readonly ConcurrentDictionary<string, string> DataUriCache = new ConcurrentDictionary<string, string>();
 
-        // TODO set this > 0 (like 75) to convert images to data uris when you need transcripts or dislike urls
-        private static readonly long UseDataUriQuality = 0L;
+        // TODO set this > 0 (like 75) to convert url links of images to jpeg data uris (e.g. when need transcripts)
+        private static readonly long UseDataUriJpegQuality = 0L;
 
         public UrlResolver(IHttpContextAccessor httpContextAccessor, BotSettings settings)
         {
@@ -31,7 +34,7 @@
         {
             var url = GetImageByCulture(imagePath);
 
-            if (UseDataUriQuality > 0)
+            if (UseDataUriJpegQuality > 0)
             {
                 if (!DataUriCache.ContainsKey(url))
                 {
@@ -41,7 +44,7 @@
                         MemoryStream ms = new MemoryStream();
                         var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
                         var encoderParameters = new EncoderParameters(1);
-                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, UseDataUriQuality);
+                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, UseDataUriJpegQuality);
                         image.Save(ms, encoder, encoderParameters);
                         DataUriCache[url] = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
                     }

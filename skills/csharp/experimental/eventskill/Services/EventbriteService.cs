@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,7 +19,7 @@ namespace EventSkill.Services
 
         public EventbriteService(BotSettings settings)
         {
-            _apiKey = settings.EventbriteApiKey ?? throw new Exception("The EventbriteKey must be provided to use this dialog.");
+            _apiKey = settings.EventbriteKey ?? throw new Exception("The EventbriteKey must be provided to use this dialog.");
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -103,7 +106,8 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound)
+                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound),
+                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
             }
@@ -257,7 +261,8 @@ namespace CalendarSkill.Dialogs
                 {
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
                     RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry),
-                    TimeZone = state.GetUserTimeZone()
+                    TimeZone = state.GetUserTimeZone(),
+                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -287,26 +292,32 @@ namespace CalendarSkill.Dialogs
                         var newStartTime = new List<DateTime>();
                         if (state.UpdateMeetingInfor.NewStartTime.Any())
                         {
-                            foreach (var time in state.UpdateMeetingInfor.NewStartTime)
+                            newStartTime.AddRange(state.UpdateMeetingInfor.NewStartTime);
+                        }
+                        else
+                        {
+                            newStartTime.Add(originalStartDateTime);
+                        }
+
+                        foreach (var time in newStartTime)
+                        {
+                            var newStartDateTime = new DateTime(
+                                newStartDate.Year,
+                                newStartDate.Month,
+                                newStartDate.Day,
+                                time.Hour,
+                                time.Minute,
+                                time.Second);
+
+                            if (state.UpdateMeetingInfor.NewStartDateTime == null)
                             {
-                                var newStartDateTime = new DateTime(
-                                    newStartDate.Year,
-                                    newStartDate.Month,
-                                    newStartDate.Day,
-                                    time.Hour,
-                                    time.Minute,
-                                    time.Second);
+                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                            }
 
-                                if (state.UpdateMeetingInfor.NewStartDateTime == null)
-                                {
-                                    state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
-                                }
-
-                                if (newStartDateTime >= userNow)
-                                {
-                                    state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
-                                    break;
-                                }
+                            if (newStartDateTime >= userNow)
+                            {
+                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                                break;
                             }
                         }
                     }
@@ -389,7 +400,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
+                    // user has tried 5 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)

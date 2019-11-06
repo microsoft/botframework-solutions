@@ -1,4 +1,7 @@
-﻿using EnterpriseBotSample.Dialogs.Onboarding;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using EnterpriseBotSample.Dialogs.Onboarding;
 using EnterpriseBotSample.Dialogs.Onboarding.Resources;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;

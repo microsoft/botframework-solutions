@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
@@ -306,7 +306,14 @@ namespace PointOfInterestSkill.Services
                 sb.Append($"|'{PointOfInterestSharedStrings.YOU}'{currentCoordinates.Longitude} {currentCoordinates.Latitude}");
             }
 
-            return string.Format(CultureInfo.InvariantCulture, ImageUrlForPoints, centerLongitude, centerLatitude, zoom, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
+            var imageUrl = string.Format(CultureInfo.InvariantCulture, ImageUrlForPoints, centerLongitude, centerLatitude, zoom, sb.ToString(), width, height) + "&subscription-key=" + apiKey;
+
+            if (useDataUriQuality > 0)
+            {
+                imageUrl = await ConvertToDataUri(imageUrl);
+            }
+
+            return imageUrl;
         }
 
         /// <summary>

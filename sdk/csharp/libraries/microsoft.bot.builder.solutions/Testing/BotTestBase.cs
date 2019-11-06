@@ -35,14 +35,10 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
         {
             var replies = ResponseManager.GetResponseTemplate(templateId).Replies;
             var responses = new string[replies.Length];
-            if (tokens == null)
-            {
-                return responses;
-            }
 
             for (var i = 0; i < replies.Length; i++)
             {
-                responses[i] = this.ResponseManager.Format(replies[i].Text, tokens);
+                responses[i] = tokens == null ? replies[i].Text : this.ResponseManager.Format(replies[i].Text, tokens);
             }
 
             return responses;
@@ -52,14 +48,10 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
         {
             var replies = ResponseManager.GetResponseTemplate(templateId).Replies;
             var responses = new string[replies.Length];
-            if (tokens == null)
-            {
-                return responses;
-            }
 
             for (var i = 0; i < replies.Length; i++)
             {
-                responses[i] = this.ResponseManager.Format(replies[i].Speak, tokens);
+                responses[i] = tokens == null ? replies[i].Speak : this.ResponseManager.Format(replies[i].Speak, tokens);
             }
 
             return responses;

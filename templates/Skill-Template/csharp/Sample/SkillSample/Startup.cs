@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Linq;
-using Microsoft.ApplicationInsights;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,6 @@ using Microsoft.Extensions.Logging;
 using SkillSample.Adapters;
 using SkillSample.Bots;
 using SkillSample.Dialogs;
-using SkillSample.Responses.Main;
-using SkillSample.Responses.Sample;
-using SkillSample.Responses.Shared;
 using SkillSample.Services;
 
 namespace SkillSample
@@ -67,9 +65,11 @@ namespace SkillSample
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+            services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+            services.AddSingleton<TelemetryInitializerMiddleware>();
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -80,23 +80,36 @@ namespace SkillSample
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new MainResponses(),
-                new SharedResponses(),
-                new SampleResponses()));
+            // Configure localized responses
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "SampleResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
             services.AddTransient<SampleDialog>();
@@ -111,7 +124,7 @@ namespace SkillSample
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -122,8 +135,7 @@ namespace SkillSample
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();

@@ -1,4 +1,7 @@
-﻿using AdaptiveCards;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using AdaptiveCards;
 using CustomerSupportTemplate.Dialogs.Orders.Resources;
 using CustomerSupportTemplate.Models;
 using Microsoft.Bot.Builder;

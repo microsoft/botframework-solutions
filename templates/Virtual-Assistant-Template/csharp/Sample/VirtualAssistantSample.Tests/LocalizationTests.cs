@@ -21,6 +21,8 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
+            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -36,7 +38,7 @@ namespace VirtualAssistantSample.Tests
                     var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
                     var card = AdaptiveCard.FromJson(content).Card;
 
-                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hola, soy tu Virtual Assistant")));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && allIntroCardTitleVariations.Contains(((AdaptiveTextBlock)t).Text))));
                 })
                 .StartTestAsync();
         }
@@ -46,6 +48,8 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
 
+            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -61,7 +65,7 @@ namespace VirtualAssistantSample.Tests
                     var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
                     var card = AdaptiveCard.FromJson(content).Card;
 
-                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hi, ich bin **dein** Virtueller Assistent")));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && allIntroCardTitleVariations.Contains(((AdaptiveTextBlock)t).Text))));
                 })
                 .StartTestAsync();
         }
@@ -71,6 +75,8 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
 
+            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -86,7 +92,7 @@ namespace VirtualAssistantSample.Tests
                     var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
                     var card = AdaptiveCard.FromJson(content).Card;
 
-                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Salut, je suis votre Virtual Assistant")));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && allIntroCardTitleVariations.Contains(((AdaptiveTextBlock)t).Text))));
                 })
                 .StartTestAsync();
         }
@@ -96,6 +102,8 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
 
+            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -111,7 +119,7 @@ namespace VirtualAssistantSample.Tests
                     var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
                     var card = AdaptiveCard.FromJson(content).Card;
 
-                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Ciao, sono il **tuo** Virtual Assistant")));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && allIntroCardTitleVariations.Contains(((AdaptiveTextBlock)t).Text))));
                 })
                 .StartTestAsync();
         }
@@ -121,6 +129,8 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
 
+            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+
             await GetTestFlow()
                 .Send(new Activity()
                 {
@@ -136,7 +146,7 @@ namespace VirtualAssistantSample.Tests
                     var content = JsonConvert.SerializeObject(activity.AsMessageActivity().Attachments[0].Content);
                     var card = AdaptiveCard.FromJson(content).Card;
 
-                    // Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && allIntroCardTitleVariations.Contains(((AdaptiveTextBlock)t).Text))));
                 })
                 .StartTestAsync();
         }

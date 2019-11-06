@@ -5,9 +5,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using VirtualAssistantSample.Services;
@@ -18,18 +19,18 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
-            TemplateEngine templateEngine,
+            LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            ProactiveState proactiveState)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.EvaluateTemplate("errorMessage"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
+                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
                 telemetryClient.TrackException(exception);
             };
 
@@ -42,6 +43,10 @@ namespace VirtualAssistantSample.Adapters
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
+
+            // SAMPLE: Proactive notifications
+            Use(new ProactiveStateMiddleware(proactiveState));
         }
     }
 }

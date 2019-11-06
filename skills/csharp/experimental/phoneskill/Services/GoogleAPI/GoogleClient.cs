@@ -32,7 +32,7 @@ namespace PhoneSkill.Services.GoogleAPI
             ApplicationName = appName as string;
             ClientId = clientId as string;
             ClientSecret = clientSecret as string;
-            Scopes = (scopes as string).Split(" ");
+            Scopes = (scopes as string).Split(",");
         }
 
         public string Token { get; set; }

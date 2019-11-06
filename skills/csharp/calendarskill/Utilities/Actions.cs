@@ -1,4 +1,7 @@
-﻿namespace CalendarSkill
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace CalendarSkill
 {
     public static class Actions
     {

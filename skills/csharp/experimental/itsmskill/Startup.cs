@@ -13,6 +13,7 @@ using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
 using ITSMSkill.Utilities;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -70,9 +71,11 @@ namespace ITSMSkill
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+            services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+            services.AddSingleton<TelemetryInitializerMiddleware>();
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -122,7 +125,7 @@ namespace ITSMSkill
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,8 +136,7 @@ namespace ITSMSkill
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();

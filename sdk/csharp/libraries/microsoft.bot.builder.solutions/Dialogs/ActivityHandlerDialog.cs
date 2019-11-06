@@ -101,6 +101,13 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             break;
                         }
 
+                    case ActivityTypes.Invoke:
+                        {
+                            // Used by Teams for Authentication scenarios.
+                            await innerDc.ContinueDialogAsync().ConfigureAwait(false);
+                            break;
+                        }
+
                     case ActivityTypes.ConversationUpdate:
                         {
                             await OnMembersAddedAsync(innerDc).ConfigureAwait(false);

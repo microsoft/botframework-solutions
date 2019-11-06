@@ -1,38 +1,38 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Generators;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
+using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
+    // Example onboarding dialog to initial user profile information.
     public class OnboardingDialog : ComponentDialog
     {
-        private TemplateEngine _templateEngine;
-        private ILanguageGenerator _langGenerator;
-        private TextActivityGenerator _activityGenerator;
-        private IStatePropertyAccessor<OnboardingState> _accessor;
-        private OnboardingState _state;
+        private BotServices _services;
+        private LocaleTemplateEngineManager _templateEngine;
+        private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<TemplateEngine>();
-            _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-            _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
 
             var userState = serviceProvider.GetService<UserState>();
-            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _services = serviceProvider.GetService<BotServices>();
 
             var onboarding = new WaterfallStep[]
             {
@@ -49,41 +49,68 @@ namespace VirtualAssistantSample.Dialogs
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
 
-            if (!string.IsNullOrEmpty(_state.Name))
+            if (!string.IsNullOrEmpty(state.Name))
             {
-                return await sc.NextAsync(_state.Name);
+                return await sc.NextAsync(state.Name);
             }
             else
             {
-                var template = _templateEngine.EvaluateTemplate("namePrompt");
-                var activity = await _activityGenerator.CreateActivityFromText(template, null, sc.Context, _langGenerator);
-
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = activity,
+                    Prompt = _templateEngine.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var name = _state.Name = (string)sc.Result;
-            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
+            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
+            var name = (string)sc.Result;
+            
+            var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
+            if (generalResult == null)
+            {
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localizedServices = _services.CognitiveModelSets[locale];
+                generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
+            }
 
-            dynamic data = new JObject();
-            data.name = name;
-            var template = _templateEngine.EvaluateTemplate("haveNameMessage", data);
-            var activity = await _activityGenerator.CreateActivityFromText(template, data, sc.Context, _langGenerator);
-            await sc.Context.SendActivityAsync(activity);
+            (var generalIntent, var generalScore) = generalResult.TopIntent();
+            if (generalIntent == GeneralLuis.Intent.ExtractName && generalScore > 0.5)
+            {
+                if (generalResult.Entities.PersonName_Any != null)
+                {
+                    name = generalResult.Entities.PersonName_Any[0];
+                }
+                else if (generalResult.Entities.personName != null)
+                {
+                    name = generalResult.Entities.personName[0];
+                }
+            }
+
+            // Captialize name
+            userProfile.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
+
+            await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
+
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
+
+            sc.SuppressCompletionMessage(true);
+
             return await sc.EndDialogAsync();
         }
 
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
+        }
+        
+        private class StateProperties
+        {
+            public const string GeneralResult = "generalResult";
         }
     }
 }

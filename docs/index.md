@@ -9,7 +9,7 @@ title: Bot Framework Solutions Documentation
     <a href="{{site.baseurl}}/overview/virtual-assistant-solution/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/virtual-assistant.png" alt="Virtual Assistant icon" width="48px">
-            <h4 class="card-title">Virtual Assistant Solution Accelerator (preview)</h4>
+            <h4 class="card-title">Virtual Assistant (preview)</h4>
             <p class="card-text"> Build your own branded assistant tailored to your brand, personalized to your users, made available across a broad range of canvases and devices, and in full ownership of your own data.</p>
         </div>
     </a>
@@ -20,7 +20,7 @@ title: Bot Framework Solutions Documentation
             <p class="card-text">Extend your assistant with reusable conversational Skills to add common functionality such as collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. Try the sample Skills available like Calendar, Email, To Do, Point of Interest, and more.</p>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/view-analytics/1-intro/" class="card">
+    <a href="{{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/bi-dashboard.png" alt="Analytics icon" width="48px">
             <h4 class="card-title">Analytics</h4>
@@ -30,6 +30,10 @@ title: Bot Framework Solutions Documentation
 </div>
 
 ## What's new
+
+For Ignite 2019 we are releasing the v0.7 of the **Virtual Assistant**. We focused on providing support for the latest updates from Bot Framework SDK v4.6, enabling Language Generation (LG), a new documentation site to share tutorials and references, scenarios that support an Enterprise Assistant, and more.
+
+Learn more in the [what's new]({{site.baseurl}}/overview/whats-new) overview.
 
 ## Step-by-Step Tutorials
 <div class="card-deck">
@@ -79,15 +83,15 @@ title: Bot Framework Solutions Documentation
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1-intro/" class="card">
+    <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/speech.png" alt="Speech icon" width="48px">
-            <h4 class="card-title">Enable Speech</h4>
-            <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
+            <h4 class="card-title">Extend to Direct Line Speech</h4>
+            <p class="card-text">Enable speech for your assistant.</p>
             <div class="btn btn-primary">Get started</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/virtual-assistant/tutorials/enable-teams/1-intro/" class="card">
+    <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro/" class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/teams.png" alt="Microsoft Teams icon" width="48px">
             <h4 class="card-title">Extend to Microsoft Teams</h4>
@@ -98,9 +102,11 @@ title: Bot Framework Solutions Documentation
 </div>
 
 ## Need help?
-For questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 
+Review the [frequently asked questions]({{site.baseurl}}/help/faq/) for the most common questions.
 
-If you are running into an issue, please refer to our [Known Issues]({{ site.baseurl }}/reference/knownissues) documentation where we've compiled some common problems and solutions first. If your problem is not listed, please use our [GitHub](https://aka.ms/bfsolutions) to raise [issues](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Suggestion&template=feature_request.md&title=).
+For more specific questions, please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 
+
+If you are running into an issue, please refer to the [known issues]({{site.baseurl}}/help/known-issues/) documentation where we've compiled some common problems and solutions first. If your problem is not listed, please use our [GitHub](https://aka.ms/bfsolutions) to raise [issues](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/microsoft/botframework-solutions/issues/new?assignees=&labels=Needs+Triage%2C+Type%3A+Suggestion&template=feature_request.md&title=).
 
 ## License
 {:.no_toc}

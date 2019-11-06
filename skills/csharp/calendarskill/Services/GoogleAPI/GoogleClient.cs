@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using Google;
 using Microsoft.Bot.Builder.Skills;
 
@@ -33,7 +36,7 @@ namespace CalendarSkill.Services.GoogleAPI
                 ApplicationName = appName,
                 ClientId = clientId,
                 ClientSecret = clientSecret,
-                Scopes = scopes.Split(" "),
+                Scopes = scopes.Split(","),
             };
 
             return googleClient;

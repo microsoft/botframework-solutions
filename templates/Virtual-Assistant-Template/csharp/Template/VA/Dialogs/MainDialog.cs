@@ -30,7 +30,7 @@ namespace $safeprojectname$.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private MainResponses _responder = new MainResponses();
-        private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<AssistantState> _assistantState;
         private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
 
         public MainDialog(
@@ -47,7 +47,7 @@ namespace $safeprojectname$.Dialogs
             _settings = settings;
             _services = services;
             TelemetryClient = telemetryClient;
-            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _assistantState = userState.CreateProperty<AssistantState>(nameof(AssistantState));
             _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             AddDialog(onboardingDialog);
@@ -63,9 +63,9 @@ namespace $safeprojectname$.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+            var assistantState = await _assistantState.GetAsync(dc.Context, () => new AssistantState());
 
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            if (string.IsNullOrEmpty(assistantState.Name))
             {
                 await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
             }
@@ -295,18 +295,20 @@ namespace $safeprojectname$.Dialogs
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
-            CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
+                CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
 
-            // check luis intent
-            cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
-            if (luisService == null)
-            {
-                throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
-            }
-            else
-            {
-                var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
-                var intent = luisResult.TopIntent().intent;
+                // check luis intent
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
+                if (luisService == null)
+                {
+                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+                    var state = await _assistantState.GetAsync(dc.Context, () => new AssistantState());
+                    state.GeneralLuisResult = luisResult;
+                    var intent = luisResult.TopIntent().intent;
 
                 if (luisResult.TopIntent().score > 0.5)
                 {

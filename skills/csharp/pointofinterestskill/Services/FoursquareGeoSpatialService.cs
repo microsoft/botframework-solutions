@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -191,71 +194,93 @@ namespace PointOfInterestSkill.Services
             url = string.Concat(url, $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}");
 
             try
-			{
-				var response = await httpClient.GetStringAsync(url);
+            {
+                var response = await httpClient.GetStringAsync(url);
 
-				var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
+                var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
 
-				var pointOfInterestList = new List<PointOfInterestModel>();
+                var pointOfInterestList = new List<PointOfInterestModel>();
 
-				if (apiResponse?.Response != null)
-				{
-					if (apiResponse.Response.Venue != null)
-					{
-						var venue = apiResponse.Response.Venue;
-						var newPointOfInterest = new PointOfInterestModel(venue);
-						pointOfInterestList.Add(newPointOfInterest);
-					}
-					else if (apiResponse?.Response?.Venues != null)
-					{
-						if (!string.IsNullOrEmpty(poiType))
-						{
-							if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
-							{
-								var nearestResult = apiResponse.Response.Venues.Aggregate((agg, next) => agg.Location.Distance <= next.Location.Distance ? agg : next);
+                if (apiResponse?.Response != null)
+                {
+                    if (apiResponse.Response.Venue != null)
+                    {
+                        var venue = apiResponse.Response.Venue;
+                        var newPointOfInterest = new PointOfInterestModel(venue);
+                        ImageToDataUri(newPointOfInterest);
+                        pointOfInterestList.Add(newPointOfInterest);
+                    }
+                    else if (apiResponse?.Response?.Venues != null)
+                    {
+                        if (!string.IsNullOrEmpty(poiType))
+                        {
+                            if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
+                            {
+                                var nearestResult = apiResponse.Response.Venues.Aggregate((agg, next) => agg.Location.Distance <= next.Location.Distance ? agg : next);
 
-								if (nearestResult != null)
-								{
-									apiResponse.Response.Venues = new Venue[] { nearestResult };
-								}
-							}
-						}
+                                if (nearestResult != null)
+                                {
+                                    apiResponse.Response.Venues = new Venue[] { nearestResult };
+                                }
+                            }
+                        }
 
-						foreach (var venue in apiResponse.Response.Venues)
-						{
-							var newPointOfInterest = new PointOfInterestModel(venue);
-							pointOfInterestList.Add(newPointOfInterest);
-						}
-					}
-					else if (apiResponse?.Response?.Groups != null)
-					{
-						if (!string.IsNullOrEmpty(poiType))
-						{
-							if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
-							{
-								var nearestResult = apiResponse.Response.Groups.First().Items.Aggregate((agg, next) => agg.Venue.Location.Distance <= next.Venue.Location.Distance ? agg : next);
+                        foreach (var venue in apiResponse.Response.Venues)
+                        {
+                            var newPointOfInterest = new PointOfInterestModel(venue);
+                            ImageToDataUri(newPointOfInterest);
+                            pointOfInterestList.Add(newPointOfInterest);
+                        }
+                    }
+                    else if (apiResponse?.Response?.Groups != null)
+                    {
+                        if (!string.IsNullOrEmpty(poiType))
+                        {
+                            if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
+                            {
+                                var nearestResult = apiResponse.Response.Groups.First().Items.Aggregate((agg, next) => agg.Venue.Location.Distance <= next.Venue.Location.Distance ? agg : next);
 
-								if (nearestResult != null)
-								{
-									apiResponse.Response.Groups.First().Items = new Item[] { nearestResult };
-								}
-							}
-						}
+                                if (nearestResult != null)
+                                {
+                                    apiResponse.Response.Groups.First().Items = new Item[] { nearestResult };
+                                }
+                            }
+                        }
 
-						foreach (var item in apiResponse.Response.Groups.First().Items)
-						{
-							var newPointOfInterest = new PointOfInterestModel(item.Venue);
-							pointOfInterestList.Add(newPointOfInterest);
-						}
-					}
-				}
+                        foreach (var item in apiResponse.Response.Groups.First().Items)
+                        {
+                            var newPointOfInterest = new PointOfInterestModel(item.Venue);
+                            ImageToDataUri(newPointOfInterest);
+                            pointOfInterestList.Add(newPointOfInterest);
+                        }
+                    }
+                }
 
-				return pointOfInterestList;
-			}
-			catch (Exception ex)
-			{
-				throw new Exception($"{ex.Message}. failed URL: {url}", ex);
-			}
+                return pointOfInterestList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}. failed URL: {url}", ex);
+            }
+        }
+
+        private void ImageToDataUri(PointOfInterestModel model)
+        {
+            // TODO set this > 0 (like 75) to convert url links of images to jpeg data uris (e.g. when need transcripts)
+            long useDataUriJpegQuality = 0L;
+
+            if (useDataUriJpegQuality > 0 && !string.IsNullOrEmpty(model.PointOfInterestImageUrl))
+            {
+                using (var image = Image.FromStream(httpClient.GetStreamAsync(model.PointOfInterestImageUrl).Result))
+                {
+                    MemoryStream ms = new MemoryStream();
+                    var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
+                    var encoderParameters = new EncoderParameters(1);
+                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, useDataUriJpegQuality);
+                    image.Save(ms, encoder, encoderParameters);
+                    model.PointOfInterestImageUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+                }
+            }
         }
     }
 }

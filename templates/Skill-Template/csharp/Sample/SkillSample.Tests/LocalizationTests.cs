@@ -2,15 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.Responses.Main;
-using SkillSample.Responses.Shared;
 
 namespace SkillSample.Tests
 {
@@ -26,13 +21,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
 
@@ -45,13 +36,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
 
@@ -64,13 +51,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
 
@@ -83,13 +66,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
 
@@ -102,13 +81,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
 

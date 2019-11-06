@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -16,8 +15,8 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using SkillSample.Models;
-using SkillSample.Responses.Shared;
 using SkillSample.Services;
 
 namespace SkillSample.Dialogs
@@ -26,18 +25,18 @@ namespace SkillSample.Dialogs
     {
         public SkillDialogBase(
              string dialogId,
-             BotSettings settings,
-             BotServices services,
-             ResponseManager responseManager,
-             ConversationState conversationState,
+             IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
-            Settings = settings;
-            Services = services;
-            ResponseManager = responseManager;
-            StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            Settings = serviceProvider.GetService<BotSettings>();
+            Services = serviceProvider.GetService<BotServices>();
+            TemplateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
             TelemetryClient = telemetryClient;
+
+            // Initialize skill state
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!settings.OAuthConnections.Any())
@@ -54,19 +53,7 @@ namespace SkillSample.Dialogs
 
         protected IStatePropertyAccessor<SkillState> StateAccessor { get; set; }
 
-        protected ResponseManager ResponseManager { get; set; }
-
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await GetLuisResult(dc);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await GetLuisResult(dc);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
@@ -139,21 +126,6 @@ namespace SkillSample.Dialogs
             }
         }
 
-        // Helpers
-        protected async Task GetLuisResult(DialogContext dc)
-        {
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
-            {
-                var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
-                var localeConfig = Services.GetCognitiveModels();
-                var luisService = localeConfig.LuisServices["SkillSample"];
-
-                // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<SkillSampleLuis>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
-            }
-        }
-
         // This method is called by any waterfall step that throws an exception to ensure consistency
         protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
@@ -165,7 +137,7 @@ namespace SkillSample.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"));
 
             // clear state
             var state = await StateAccessor.GetAsync(sc.Context);

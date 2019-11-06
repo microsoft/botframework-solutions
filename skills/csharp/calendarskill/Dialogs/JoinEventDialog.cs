@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,6 +11,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.JoinEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -163,7 +167,8 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
-                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect)
+                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
+                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
             }
@@ -254,7 +259,7 @@ namespace CalendarSkill.Dialogs
                         var eventJoinLink = new OpenDefaultApp
                         {
                             MeetingUri = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent),
-                            TelephoneUri = GetDialInNumberFromMeeting(selectedEvent)
+                            TelephoneUri = "tel:" + GetDialInNumberFromMeeting(selectedEvent)
                         };
                         replyEvent.Value = JsonConvert.SerializeObject(eventJoinLink);
                         await sc.Context.SendActivityAsync(replyEvent, cancellationToken);

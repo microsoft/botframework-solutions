@@ -64,7 +64,7 @@ export class SampleDialog extends SkillDialogBase {
 
     public async greetUser(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         const tokens: Map<string, string> = new Map<string, string>();
-        tokens.set(this.nameKey, <string>sc.result);
+        tokens.set(this.nameKey, sc.result as string);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
         const response: any = this.responseManager.getResponse(SampleResponses.haveNameMessage, tokens);

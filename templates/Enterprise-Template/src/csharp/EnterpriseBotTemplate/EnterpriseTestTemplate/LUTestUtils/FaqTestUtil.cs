@@ -1,4 +1,7 @@
-﻿using $safeprojectname$.Mocks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using $safeprojectname$.Mocks;
 using $safeprojectname$.Utterances;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
