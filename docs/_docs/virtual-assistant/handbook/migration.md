@@ -17,7 +17,7 @@ The Enterprise Template, released last year, brought together the required capab
 
 Thanks to strong feedback from our customers, we are bringing the two approaches together. These complex, assistant-like conversational experiences are proving critical to digital transformation and customer/employee engagement.
 
-The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}/overview/virtualassistant) and introduces the following capabilities:
+The Enterprise Template is now the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template) and introduces the following capabilities:
 
 - C# template simplified and aligned to ASP.NET MVC pattern with dependency injection
 - Typescript generator
@@ -91,7 +91,7 @@ With these limitations addressed we have now moved to a ARM template based appro
 ### Deployment
 {:.no_toc}
 
-It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
+It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
 
 Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new **appSettings.json** and **cognitiveModels.json** files.
 
@@ -161,4 +161,4 @@ Copy any LuisGen-generated classes into the Services directory.
 
 ## Extend your assistant with Skills
 
-If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills]({{site.baseurl}}/howto/skills/addingskills) 
+If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) 

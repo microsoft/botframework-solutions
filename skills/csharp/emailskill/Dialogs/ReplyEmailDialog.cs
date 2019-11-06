@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -19,14 +22,9 @@ namespace EmailSkill.Dialogs
     public class ReplyEmailDialog : EmailSkillDialogBase
     {
         public ReplyEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ReplyEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ReplyEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

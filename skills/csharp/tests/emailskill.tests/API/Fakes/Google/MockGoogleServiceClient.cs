@@ -1,4 +1,7 @@
-﻿using Google.Apis.Gmail.v1;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Moq;
 using static Google.Apis.Gmail.v1.UsersResource;

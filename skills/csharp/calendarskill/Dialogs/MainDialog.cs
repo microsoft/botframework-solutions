@@ -23,11 +23,10 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CalendarSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotSettings _settings;
         private BotServices _services;
@@ -344,7 +343,6 @@ namespace CalendarSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
-            await OnDialogCompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }

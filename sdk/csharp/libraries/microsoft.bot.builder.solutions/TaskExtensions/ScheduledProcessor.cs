@@ -18,6 +18,7 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
         public ScheduledProcessor(IBackgroundTaskQueue backgroundTaskQueue)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
+            Schedules = new List<ScheduledTaskModel>();
         }
 
         protected List<ScheduledTaskModel> Schedules { get; }

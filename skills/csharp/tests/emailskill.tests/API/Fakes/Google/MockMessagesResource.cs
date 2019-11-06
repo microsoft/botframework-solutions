@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading.Tasks;
 using EmailSkill.Services.GoogleAPI;
 using Google.Apis.Gmail.v1.Data;

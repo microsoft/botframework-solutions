@@ -12,8 +12,12 @@ namespace Luis
 {
     public partial class DispatchLuis: IRecognizerConvert
     {
+        [JsonProperty("text")]
         public string Text;
+
+        [JsonProperty("alteredText")]
         public string AlteredText;
+
         public enum Intent {
             l_General, 
             q_Chitchat, 
@@ -21,42 +25,61 @@ namespace Luis
             q_hotel_FAQ, 
             restaurantBookingSkill, 
             pointOfInterestSkill, 
-            eventSkill, 
             newsSkill, 
             WeatherSkill, 
             BingSearchSkill, 
             hospitalitySkill, 
             None
         };
+        [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] KEYWORD;
-            public string[] ADDRESS;
-            public string[] topic;
-            public string[] site;
+            public string[] Historic;
+
             public string[] Item;
+
+            public string[] WeatherCondition;
+
+            public string[] WeatherRange;
+
+            public string[] site;
+
+            public string[] topic;
+
+            // Built-in entities
+            public DateTimeSpec[] datetime;
+
+            public GeographyV2[] geographyV2;
+
+            public Temperature[] temperature;
 
             // Pattern.any
             public string[] CelebrityNamePatten;
+
             public string[] MovieTitlePatten;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] KEYWORD;
-                public InstanceData[] ADDRESS;
-                public InstanceData[] topic;
-                public InstanceData[] site;
-                public InstanceData[] Item;
                 public InstanceData[] CelebrityNamePatten;
+                public InstanceData[] Historic;
+                public InstanceData[] Item;
                 public InstanceData[] MovieTitlePatten;
+                public InstanceData[] WeatherCondition;
+                public InstanceData[] WeatherRange;
+                public InstanceData[] datetime;
+                public InstanceData[] geographyV2;
+                public InstanceData[] site;
+                public InstanceData[] temperature;
+                public InstanceData[] topic;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
+        [JsonProperty("entities")]
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]

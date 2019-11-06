@@ -1,7 +1,7 @@
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
-*/
+ */
 
 import { BotTelemetryClient } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';

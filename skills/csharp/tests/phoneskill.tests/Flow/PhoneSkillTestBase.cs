@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
@@ -13,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,6 +34,8 @@ namespace PhoneSkill.Tests.Flow
 {
     public class PhoneSkillTestBase : BotTestBase
     {
+        public static readonly string Provider = "Azure Active Directory v2";
+
         public IServiceCollection Services { get; set; }
 
         public EndpointService EndpointService { get; set; }
@@ -58,7 +64,7 @@ namespace PhoneSkill.Tests.Flow
             {
                 OAuthConnections = new List<OAuthConnection>()
                 {
-                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                    new OAuthConnection() { Name = Provider, Provider = Provider }
                 }
             });
 
@@ -69,7 +75,7 @@ namespace PhoneSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "general", PhoneSkillMockLuisRecognizerFactory.CreateMockGeneralLuisRecognizer() },
                                 { "phone", PhoneSkillMockLuisRecognizerFactory.CreateMockPhoneLuisRecognizer() },
@@ -105,13 +111,15 @@ namespace PhoneSkill.Tests.Flow
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OutgoingCallDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
+
             var conversationState = sp.GetService<ConversationState>();
             var stateAccessor = conversationState.CreateProperty<PhoneSkillState>(nameof(PhoneSkillState));
 
@@ -124,28 +132,6 @@ namespace PhoneSkill.Tests.Flow
             });
 
             return testFlow;
-        }
-
-        protected Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                Assert.AreEqual("message", activity.Type);
-                var message = activity.AsMessageActivity();
-                Assert.IsNull(message.Text);
-                Assert.AreEqual(1, message.Attachments.Count, $"Expected 1 attachment to the auth message, but found {message.Attachments.Count}");
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
-        }
-
-        protected Activity GetAuthResponse()
-        {
-            var providerTokenResponse = new ProviderTokenResponse
-            {
-                TokenResponse = new TokenResponse(token: "test"),
-                AuthenticationProvider = OAuthProvider.AzureAD
-            };
-            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 
         protected Action<IActivity> Message(string templateId, StringDictionary tokens = null, IList<string> selectionItems = null)

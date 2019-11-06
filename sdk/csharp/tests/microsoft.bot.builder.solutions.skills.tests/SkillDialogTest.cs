@@ -1,4 +1,7 @@
-﻿using Microsoft.Bot.Builder.Skills.Auth;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Skills.Tests

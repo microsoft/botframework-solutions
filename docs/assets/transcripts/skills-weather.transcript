@@ -1,0 +1,1551 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "id": "687f6911-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:36+08:00",
+    "recipient": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-31T13:07:36.097Z",
+    "from": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "https://a53089d1.ngrok.io"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "text": "I'm the weather skill and I can look up the weather.",
+    "speak": "I'm the weather skill and I can look up the weather.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "687f6911-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "6a3ea540-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:39+08:00",
+    "timestamp": "2019-10-31T13:07:39.028Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "id": "6b995341-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:41+08:00",
+    "recipient": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-31T13:07:41.300Z",
+    "from": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "https://a53089d1.ngrok.io"
+  },
+  {
+    "text": "What's the weather like?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15725272678223ymu6i3zwn5"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-31T13:07:47.825Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "id": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:47+08:00",
+    "recipient": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://a53089d1.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "71431010-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:50+08:00",
+    "timestamp": "2019-10-31T13:07:50.801Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:07:51.767Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What's the weather like?",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.118751973
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fc36fdd5-0a6c-4d6d-a732-acf20a3b259f"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What's the weather like?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.118751973
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "71d67670-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:51+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:07:52.756Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What's the weather like?",
+        "alteredText": null,
+        "intents": {
+          "CheckWeatherValue": {
+            "score": 0.998553634
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7fdfb3b5-be65-4ce2-8970-da256caaef40"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What's the weather like?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "CheckWeatherValue",
+          "score": 0.998553634
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "726d5f40-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:52+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "72d2d7d0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:53+08:00",
+    "timestamp": "2019-10-31T13:07:53.420Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:07:53.723Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What's the weather like?",
+        "alteredText": null,
+        "intents": {
+          "CheckWeatherValue": {
+            "score": 0.998553634
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7fdfb3b5-be65-4ce2-8970-da256caaef40"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What's the weather like?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "CheckWeatherValue",
+          "score": 0.998553634
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7300ecb0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:53+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "text": "Where are you now?",
+    "speak": "Where are you now?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "6f7cf610-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7369c0a0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:07:54+08:00",
+    "timestamp": "2019-10-31T13:07:54.410Z",
+    "locale": "en-us"
+  },
+  {
+    "text": "Tokyo",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1572527280998oj526b7jma"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-31T13:08:01.001Z",
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "id": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:01+08:00",
+    "recipient": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://a53089d1.ngrok.io"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7903ed10-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:03+08:00",
+    "timestamp": "2019-10-31T13:08:03.809Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:08:04.066Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Tokyo",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.300327033
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fc36fdd5-0a6c-4d6d-a732-acf20a3b259f"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Tokyo",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.300327033
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "792b2420-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:04+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:08:05.026Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Tokyo",
+        "alteredText": null,
+        "intents": {
+          "CheckWeatherValue": {
+            "score": 0.90094775
+          }
+        },
+        "entities": {
+          "$instance": {
+            "geographyV2": [
+              {
+                "startIndex": 0,
+                "endIndex": 5,
+                "text": "tokyo",
+                "type": "builtin.geographyV2.city"
+              }
+            ]
+          },
+          "geographyV2": [
+            {
+              "type": "city",
+              "location": "tokyo"
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "7fdfb3b5-be65-4ce2-8970-da256caaef40"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Tokyo",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "CheckWeatherValue",
+          "score": 0.90094775
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tokyo",
+            "type": "builtin.geographyV2.city",
+            "startIndex": 0,
+            "endIndex": 4
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "79bda020-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:05+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7a8d7340-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:06+08:00",
+    "timestamp": "2019-10-31T13:08:06.388Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "Here's the weather for the next six hours.",
+    "speak": "Here's the weather for the next six hours.",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "speak": "Clouds and sun",
+          "body": [
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "width": "stretch",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "id": "title",
+                                  "size": "large",
+                                  "weight": "bolder",
+                                  "color": "light",
+                                  "text": "Tokyo Weather"
+                                }
+                              ],
+                              "verticalContentAlignment": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "35",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTI5Ljc5LDIyLjM4YTMuMzIsMy4zMiwwLDAsMSwxLjMzLjI2LDMuMzMsMy4zMywwLDAsMSwxLjgxLDEuNzgsMy4yOSwzLjI5LDAsMCwxLC4yNywxLjMzLDMuMTcsMy4xNywwLDAsMS0uMjcsMS4zMSwzLjMsMy4zLDAsMCwxLS43MiwxLjA4LDMuNDYsMy40NiwwLDAsMS0xLjA4LjcyLDMuMjMsMy4yMywwLDAsMS0xLjMxLjI2SDE5LjdhNC4zNiw0LjM2LDAsMCwxLTEuNzYtLjM1LDQuNSw0LjUsMCwwLDEtMS40My0xLDQuMzksNC4zOSwwLDAsMS0xLTEuNDMsNC41OCw0LjU4LDAsMCwxLDAtMy41MSw0LjM5LDQuMzksMCwwLDEsMS0xLjQzLDQuNSw0LjUsMCwwLDEsMS40My0xLDQuMzYsNC4zNiwwLDAsMSwxLjc2LS4zNiw0LjQ1LDQuNDUsMCwwLDEsLjgxLjA4LDUuNTQsNS41NCwwLDAsMSwuODItMSw0Ljc1LDQuNzUsMCwwLDEsMS0uNzNBNS4yOSw1LjI5LDAsMCwxLDIzLjQ5LDE4YTUuMzgsNS4zOCwwLDAsMSwxLjI3LS4xNSw1LDUsMCwwLDEsMy4zNywxLjI4LDUsNSwwLDAsMSwxLjExLDEuNDNBNS4xOSw1LjE5LDAsMCwxLDI5Ljc5LDIyLjM4Wm0wLDUuNjJhMi4yLDIuMiwwLDAsMCwuODgtLjE4LDIsMiwwLDAsMCwuNzEtLjQ4LDIuMTQsMi4xNCwwLDAsMCwuNDktLjcyLDIuMzEsMi4zMSwwLDAsMCwwLTEuNzQsMi4xNCwyLjE0LDAsMCwwLS40OS0uNzIsMiwyLDAsMCwwLS43MS0uNDgsMi4yLDIuMiwwLDAsMC0uODgtLjE4SDI4Ljd2LS41NmE0LDQsMCwwLDAtLjMxLTEuNTQsNC4xMyw0LjEzLDAsMCwwLS44NS0xLjI1LDMuNzIsMy43MiwwLDAsMC0xLjI1LS44NEEzLjc3LDMuNzcsMCwwLDAsMjQuNzYsMTlhMy45NCwzLjk0LDAsMCwwLTEuMTkuMTgsNC4yOSw0LjI5LDAsMCwwLTEuMDUuNTIsNC4wNyw0LjA3LDAsMCwwLS44NS44MSw0LjEzLDQuMTMsMCwwLDAtLjU5LDEsMy4xMywzLjEzLDAsMCwwLTEuMzgtLjMxLDMuNDEsMy40MSwwLDAsMC0xLjMyLjI2LDMuNTcsMy41NywwLDAsMC0xLjA3LjczLDMuNDksMy40OSwwLDAsMC0uNzMsMS4wOCwzLjM1LDMuMzUsMCwwLDAtLjI2LDEuMywzLjI5LDMuMjksMCwwLDAsMSwyLjM5LDMuNTcsMy41NywwLDAsMCwxLjA3LjczQTMuNDEsMy40MSwwLDAsMCwxOS43LDI4WiIvPjwvc3ZnPg==",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "65",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "size": "large",
+                      "weight": "bolder",
+                      "text": "Thursday October 31"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "size": "medium",
+                      "text": "68 / 54",
+                      "spacing": "none"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "isSubtle": true,
+                      "text": "Clouds and sun",
+                      "spacing": "none"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "isSubtle": true,
+                      "text": "Winds 4.6 mi/h ESE",
+                      "spacing": "none"
+                    }
+                  ],
+                  "verticalContentAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "10 PM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "59",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "11 PM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "59",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "12 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "58",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "1 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "58",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "2 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "57",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "3 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "56",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "small",
+                  "text": "Powered by **AccuWeather**",
+                  "horizontalAlignment": "right"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7b75b060-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:07+08:00",
+    "timestamp": "2019-10-31T13:08:07.910Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-31T13:08:08.597Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7bde8450-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:08+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "77577590-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "7c1aca00-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:08+08:00",
+    "timestamp": "2019-10-31T13:08:08.992Z",
+    "locale": "en-us"
+  },
+  {
+    "text": "What about in Beijing?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1572527298070870dhjwy36j"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-31T13:08:18.074Z",
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "id": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:18+08:00",
+    "recipient": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://a53089d1.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:08:20.888Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What about in Beijing?",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.0603215061
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fc36fdd5-0a6c-4d6d-a732-acf20a3b259f"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What about in Beijing?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.0603215061
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8331f980-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:20+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "8359ccd0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:21+08:00",
+    "timestamp": "2019-10-31T13:08:21.149Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:08:21.861Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What about in Beijing?",
+        "alteredText": null,
+        "intents": {
+          "CheckWeatherValue": {
+            "score": 0.493208647
+          }
+        },
+        "entities": {
+          "$instance": {
+            "geographyV2": [
+              {
+                "startIndex": 14,
+                "endIndex": 21,
+                "text": "beijing",
+                "type": "builtin.geographyV2.city"
+              }
+            ]
+          },
+          "geographyV2": [
+            {
+              "type": "city",
+              "location": "beijing"
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "7fdfb3b5-be65-4ce2-8970-da256caaef40"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What about in Beijing?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "CheckWeatherValue",
+          "score": 0.493208647
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "beijing",
+            "type": "builtin.geographyV2.city",
+            "startIndex": 14,
+            "endIndex": 20
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "83c67150-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:21+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-31T13:08:22.837Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What about in Beijing?",
+        "alteredText": null,
+        "intents": {
+          "CheckWeatherValue": {
+            "score": 0.493208647
+          }
+        },
+        "entities": {
+          "$instance": {
+            "geographyV2": [
+              {
+                "startIndex": 14,
+                "endIndex": 21,
+                "text": "beijing",
+                "type": "builtin.geographyV2.city"
+              }
+            ]
+          },
+          "geographyV2": [
+            {
+              "type": "city",
+              "location": "beijing"
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "7fdfb3b5-be65-4ce2-8970-da256caaef40"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What about in Beijing?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "CheckWeatherValue",
+          "score": 0.493208647
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "beijing",
+            "type": "builtin.geographyV2.city",
+            "startIndex": 14,
+            "endIndex": 20
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "845b5e50-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:22+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "84e46470-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:23+08:00",
+    "timestamp": "2019-10-31T13:08:23.735Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "Here's the weather for the next six hours.",
+    "speak": "Here's the weather for the next six hours.",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "speak": "Sunny and very warm",
+          "body": [
+            {
+              "type": "Container",
+              "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmwAAADVCAIAAABlrTvmAAAACXBIWXMAABYlAAAWJQFJUiTwAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDMtMjJUMTc6MDM6NDAtMDc6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY0ZGY4YjdiLTM2MTYtNDRkNy04MTI3LTgyNzk4NmUyODk3ZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmExNDU0NmE3LWZhODMtMjc0Mi1hNWU0LWIxMzYzNjQ2NWU5NyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjhlMDlmYmE5LTE2ZjktNGZiNC05MzdhLThkOTYzMGMxOTQyNiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OGUwOWZiYTktMTZmOS00ZmI0LTkzN2EtOGQ5NjMwYzE5NDI2IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjAzOjQwLTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Yzc5ODg2ZTQtZTg3Zi00MmMzLWI5ZjYtN2FkMDg3YTlkOTg4IiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjRkZjhiN2ItMzYxNi00NGQ3LTgxMjctODI3OTg2ZTI4OTdlIiBzdEV2dDp3aGVuPSIyMDE5LTAzLTIyVDE3OjE2OjU2LTA3OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "width": "stretch",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "id": "title",
+                                  "size": "large",
+                                  "weight": "bolder",
+                                  "color": "light",
+                                  "text": "Beijing Weather"
+                                }
+                              ],
+                              "verticalContentAlignment": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "35",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTE4LjU3LDIxLjVIMTUuMlYyMC4zOGgzLjM3Wm0xLjA4LTMuNzQtMi4zOC0yLjM5Ljc5LS44TDIwLjQ1LDE3Wm0wLDYuMzYuOC44TDE4LjA2LDI3LjNsLS43OS0uNzlabTQtNy4xMmEzLjc4LDMuNzgsMCwwLDEsMS41NC4zMSwzLjkxLDMuOTEsMCwwLDEsMi4wOSwyLjA5LDQsNCwwLDAsMSwwLDMuMDcsMy43MiwzLjcyLDAsMCwxLS44NCwxLjI1LDQuMTMsNC4xMywwLDAsMS0xLjI1Ljg1LDQsNCwwLDAsMS0zLjA3LDAsNCw0LDAsMCwxLTEuMjUtLjg1LDMuODMsMy44MywwLDAsMS0xLjE1LTIuNzhBNCw0LDAsMCwxLDIwLDE5LjRhNC4xMyw0LjEzLDAsMCwxLC44NS0xLjI1LDMuODIsMy44MiwwLDAsMSwxLjI1LS44NEEzLjc3LDMuNzcsMCwwLDEsMjMuNjMsMTdabTAsNi43NWEyLjY2LDIuNjYsMCwwLDAsMS4wOS0uMjIsMy4wOCwzLjA4LDAsMCwwLC45LS42LDMsMywwLDAsMCwuNi0uOSwyLjcsMi43LDAsMCwwLC4yMy0xLjA5LDIuNjYsMi42NiwwLDAsMC0uMjMtMS4wOSwyLjg1LDIuODUsMCwwLDAtMS41LTEuNSwyLjY2LDIuNjYsMCwwLDAtMS4wOS0uMjMsMi43LDIuNywwLDAsMC0xLjA5LjIzLDIuODUsMi44NSwwLDAsMC0xLjUsMS41LDIuNjYsMi42NiwwLDAsMC0uMjIsMS4wOUEyLjY5LDIuNjksMCwwLDAsMjEsMjJhMywzLDAsMCwwLC42LjksMy4wOCwzLjA4LDAsMCwwLC45LjZBMi42OSwyLjY5LDAsMCwwLDIzLjYzLDIzLjc1Wm0uNTctNy44N0gyMy4wN1YxMi41SDI0LjJaTTIzLjA3LDI2SDI0LjJ2My4zOEgyMy4wN1ptNC41NS04LjI0LS44LS44LDIuMzktMi4zOS43OS44Wm0wLDYuMzZMMzAsMjYuNTFsLS43OS43OS0yLjM5LTIuMzhabTQuNDUtMy43NFYyMS41SDI4LjdWMjAuMzhaIi8+PC9zdmc+",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "65",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "size": "large",
+                      "weight": "bolder",
+                      "text": "Thursday October 31"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "size": "medium",
+                      "text": "77 / 43",
+                      "spacing": "none"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "isSubtle": true,
+                      "text": "Sunny and very warm",
+                      "spacing": "none"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "isSubtle": true,
+                      "text": "Winds 8.1 mi/h NNE",
+                      "spacing": "none"
+                    }
+                  ],
+                  "verticalContentAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "9 PM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "56",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "10 PM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "55",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "11 PM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "53",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "12 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "51",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "1 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "49",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "2 AM",
+                      "horizontalAlignment": "center"
+                    },
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHRpdGxlPndlYXRoZXJpY29uczwvdGl0bGU+PHBhdGggZD0iTTMwLjY3LDIzLjYxYTMuMzksMy4zOSwwLDAsMSwxLC40NywzLjI5LDMuMjksMCwwLDEsLjguNzMsMy4xOSwzLjE5LDAsMCwxLC41MiwxLDMuNCwzLjQsMCwwLDEsLjE5LDEuMTEsMy4xOSwzLjE5LDAsMCwxLS4yNywxLjMsMy40LDMuNCwwLDAsMS0xLjgsMS44LDMuMjMsMy4yMywwLDAsMS0xLjMxLjI3SDIwLjI2YTMuNzgsMy43OCwwLDAsMS0xLjU0LS4zMSwzLjkzLDMuOTMsMCwwLDEtMS4yNS0uODQsNC4xLDQuMSwwLDAsMS0uODQtMS4yNSwzLjc4LDMuNzgsMCwwLDEtLjMxLTEuNTRBMy44OCwzLjg4LDAsMCwxLDE2LjU0LDI1YTMuOCwzLjgsMCwwLDEsLjY1LTEuMTZBNC42LDQuNiwwLDAsMSwxNiwyMi42N2E0LjQxLDQuNDEsMCwwLDEtLjY3LTEuNTQsNC4zNCw0LjM0LDAsMCwwLDEsLjEyLDQuNDUsNC40NSwwLDAsMCwxLjc1LS4zNSw0Ljc4LDQuNzgsMCwwLDAsMS40NC0xLDQuNiw0LjYsMCwwLDAsMS0xLjQ0LDQuNDUsNC40NSwwLDAsMCwuMzUtMS43NSw0LjM0LDQuMzQsMCwwLDAtLjEyLTEsNC4yNSw0LjI1LDAsMCwxLDEuNC41OSw0LjM4LDQuMzgsMCwwLDEsMS4xMSwxLDQuNzQsNC43NCwwLDAsMSwuNzMsMS4zLDQuMzYsNC4zNiwwLDAsMSwuMjYsMS40OWMwLC4wNSwwLC4xLDAsLjE1czAsLjExLDAsLjE1aDBjLjI4LS4wOS41NS0uMTYuODItLjIyYTQuNjMsNC42MywwLDAsMSwuODUtLjA4LDQuOTQsNC45NCwwLDAsMSwxLjU4LjI2LDQuNzUsNC43NSwwLDAsMSwxLjM4LjcxLDUsNSwwLDAsMSwxLjEsMS4xQTQuOSw0LjksMCwwLDEsMzAuNjcsMjMuNjFabS04Ljc5LTYuMDVhNS4yMSw1LjIxLDAsMCwxLS41NCwxLjczLDUuNTgsNS41OCwwLDAsMS0yLjQ4LDIuNDgsNS4zNyw1LjM3LDAsMCwxLTEuNzMuNTQsMywzLDAsMCwwLC45MS43NCw0LjEsNC4xLDAsMCwxLDEuMDYtLjUsNC4xNiw0LjE2LDAsMCwxLDEuODItLjEyLDMuNDIsMy40MiwwLDAsMSwuNjMuMTYsNC4wNiw0LjA2LDAsMCwxLC42MS0uODIsMTAsMTAsMCwwLDEsLjc2LS42OSwzLjExLDMuMTEsMCwwLDAsLjE1LTEsMy4yOSwzLjI5LDAsMCwwLS4zMS0xLjQxQTMuMDgsMy4wOCwwLDAsMCwyMS44OCwxNy41NlptNy45NCwxMS41NkEyLjE5LDIuMTksMCwwLDAsMzAuNywyOWEyLjI5LDIuMjksMCwwLDAsMS4yLTEuMiwyLjI5LDIuMjksMCwwLDAsLjE3LS44NywyLjE5LDIuMTksMCwwLDAtLjE4LS45LDIsMiwwLDAsMC0uNS0uNzIsMi4yMywyLjIzLDAsMCwwLS43My0uNDcsMi40NCwyLjQ0LDAsMCwwLS45LS4xNyw0LDQsMCwwLDAtMS4zMS0yLjQxLDQsNCwwLDAsMC0xLjE4LS43MSwzLjgxLDMuODEsMCwwLDAtMS4zOS0uMjUsMy42MywzLjYzLDAsMCwwLTEuMjguMjIsMy45LDMuOSwwLDAsMC0xLjEyLjYsNCw0LDAsMCwwLS44Ni45MywzLjg3LDMuODcsMCwwLDAtLjUzLDEuMTksMywzLDAsMCwwLS44Ni0uNTEsMi42NSwyLjY1LDAsMCwwLTEtLjE4LDIuNzQsMi43NCwwLDAsMC0xLjEuMjIsMi45MSwyLjkxLDAsMCwwLS44OS42LDIuNzMsMi43MywwLDAsMC0uNi45LDIuNjksMi42OSwwLDAsMC0uMjIsMS4wOSwyLjc0LDIuNzQsMCwwLDAsLjIyLDEuMSwyLjU5LDIuNTksMCwwLDAsLjYuODksMi43NywyLjc3LDAsMCwwLC44OS42MSwyLjkxLDIuOTEsMCwwLDAsMS4xLjIxWiIvPjwvc3ZnPg=="
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "48",
+                      "horizontalAlignment": "center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "small",
+                  "text": "Powered by **AccuWeather**",
+                  "horizontalAlignment": "right"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "85e559b0-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:25+08:00",
+    "timestamp": "2019-10-31T13:08:25.419Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-31T13:08:26.113Z",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "864f3f10-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:26+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "https://a53089d1.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "61a135d0-fbdd-11e9-865c-75ad941c3208",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "687ca9f1-fbdf-11e9-865c-75ad941c3208|livechat"
+    },
+    "recipient": {
+      "id": "80b3dc60-db28-450c-8658-5f02b52f7fea",
+      "role": "user"
+    },
+    "replyToId": "818497a0-fbdf-11e9-94c2-0d61daf4088a",
+    "id": "86727e80-fbdf-11e9-94c2-0d61daf4088a",
+    "localTimestamp": "2019-10-31T21:08:26+08:00",
+    "timestamp": "2019-10-31T13:08:26.344Z",
+    "locale": "en-us"
+  }
+]

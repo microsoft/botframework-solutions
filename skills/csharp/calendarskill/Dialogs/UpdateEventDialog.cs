@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -103,7 +106,8 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound)
+                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound),
+                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
             }
@@ -257,7 +261,8 @@ namespace CalendarSkill.Dialogs
                 {
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
                     RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry),
-                    TimeZone = state.GetUserTimeZone()
+                    TimeZone = state.GetUserTimeZone(),
+                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -395,7 +400,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
+                    // user has tried 5 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)

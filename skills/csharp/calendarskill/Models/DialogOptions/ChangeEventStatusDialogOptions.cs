@@ -1,4 +1,7 @@
-﻿namespace CalendarSkill.Models.DialogOptions
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace CalendarSkill.Models.DialogOptions
 {
     public class ChangeEventStatusDialogOptions : CalendarSkillDialogOptions
     {

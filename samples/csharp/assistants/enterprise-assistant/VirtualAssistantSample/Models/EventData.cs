@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// SAMPLE
-namespace VirtualAssistant.Models
+// SAMPLE: Proactive notifications
+namespace VirtualAssistantSample.Models
 {
     public class EventData
     {

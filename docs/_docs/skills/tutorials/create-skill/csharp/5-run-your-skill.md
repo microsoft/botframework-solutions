@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Create a Skill
+subcategory: Create
 language: C#
 title: Run your skill
 order: 5

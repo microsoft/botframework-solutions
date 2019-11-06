@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -38,19 +41,9 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>() { MockServiceManager.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ShowNextMeetingRemainingTime())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private string[] ShowNextMeetingRemainingTime()

@@ -378,16 +378,6 @@ public class SpeechSdk {
         final Future<Void> task = botConnector.disconnectAsync();
     }
 
-    public void resetBot(Configuration configuration) {
-        isConnected = false;
-        final Future<Void> task = botConnector.disconnectAsync();
-        setOnTaskCompletedListener(task, result -> {
-            Log.d(LOGTAG,"disconnected");
-            connectAsync();
-            sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
-        });
-    }
-
     public String getDateSentLocationEvent() {
         return dateSentLocationEvent;
     }

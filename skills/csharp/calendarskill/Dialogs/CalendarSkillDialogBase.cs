@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -490,6 +493,12 @@ namespace CalendarSkill.Dialogs
                 if (sc.Result != null)
                 {
                     state.ShowMeetingInfor.ShowingMeetings = sc.Result as List<EventModel>;
+                }
+                else if (!state.ShowMeetingInfor.ShowingMeetings.Any())
+                {
+                    // user has tried 3 times but can't get result
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    return await sc.CancelAllDialogsAsync();
                 }
 
                 return await sc.NextAsync();

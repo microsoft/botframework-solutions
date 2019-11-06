@@ -1,4 +1,7 @@
-﻿using CalendarSkill.Dialogs;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CalendarSkill.Dialogs;
 
 namespace CalendarSkill.Models.DialogOptions
 {

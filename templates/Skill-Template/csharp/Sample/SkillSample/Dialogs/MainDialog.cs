@@ -134,7 +134,7 @@ namespace SkillSample.Dialogs
 
                 if (luisService != null)
                 {
-                    var result = await luisService.RecognizeAsync<SkillSampleLuis>(innerDc.Context, CancellationToken.None);
+                    var result = innerDc.Context.TurnState.Get<SkillSampleLuis>(StateProperties.SkillLuisResult);
                     var intent = result?.TopIntent().intent;
 
                     switch (intent)
