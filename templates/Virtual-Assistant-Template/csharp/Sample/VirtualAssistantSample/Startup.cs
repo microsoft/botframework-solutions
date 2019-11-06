@@ -111,7 +111,7 @@ namespace VirtualAssistantSample
 
             // Register dialogs
             services.AddTransient<MainDialog>();
-            services.AddTransient<IntentSwitchDialog>();
+            services.AddTransient<SkillSwitchDialog>();
             services.AddTransient<OnboardingDialog>();
 
             // Register skill dialogs

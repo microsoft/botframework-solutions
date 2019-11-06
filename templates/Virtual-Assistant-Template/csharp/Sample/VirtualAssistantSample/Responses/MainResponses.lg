@@ -53,7 +53,7 @@
 - Sure, you’ve been signed out.
 - No problem, I’ve signed you out.
 
-# IntentSwitchPrompt
+# SkillSwitchPrompt
 - Would you like to switch to the {Skill}?
 
 # EscalateMessage
@@ -67,7 +67,7 @@
 ]
 
 # NewUserIntroCardTitle
-- Hi There!
+- Hi there!
 - Welcome
 - Pleased to meet you!
 - Hello and welcome!

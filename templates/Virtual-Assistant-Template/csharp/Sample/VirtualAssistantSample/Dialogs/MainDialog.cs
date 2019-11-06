@@ -27,14 +27,11 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
-        private IntentSwitchDialog _intentSwitchDialog;
+        private SkillSwitchDialog _skillSwitchDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
-        private IStatePropertyAccessor<string> _intentSwitchValueAccessor;
-        private IStatePropertyAccessor<Activity> _intentSwitchActivityAccessor;
-        private IStatePropertyAccessor<bool> _confirmAccessor;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -54,15 +51,12 @@ namespace VirtualAssistantSample.Dialogs
             // Create conversation state properties
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
-            _intentSwitchValueAccessor = conversationState.CreateProperty<string>(StateProperties.IntentSwitchValue);
-            _intentSwitchActivityAccessor = conversationState.CreateProperty<Activity>(StateProperties.IntentSwitchActivity);
-            _confirmAccessor = conversationState.CreateProperty<bool>("intentSwitchConfirmResult");
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
-            _intentSwitchDialog = serviceProvider.GetService<IntentSwitchDialog>();
+            _skillSwitchDialog = serviceProvider.GetService<SkillSwitchDialog>();
             AddDialog(_onboardingDialog);
-            AddDialog(_intentSwitchDialog);
+            AddDialog(_skillSwitchDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -114,26 +108,6 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                // Check if we're in the middle of an intent switch.
-                if (dialog is IntentSwitchDialog)
-                {
-                    var result = await dc.ContinueDialogAsync(cancellationToken);
-                    var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(dc.Context, () => null);
-                    var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(dc.Context, () => null);
-                    dc.Context.Activity.Text = intentSwitchActivity.Text;
-                    if (await _confirmAccessor.GetAsync(dc.Context))
-                    {
-                        // Start new skill dialog
-                        await dc.ReplaceDialogAsync(intentSwitchValue);
-                        return InterruptionAction.Waiting;
-                    }
-                    else
-                    {
-                        // User said no to intent switch, so continue with last utterance.
-                        return InterruptionAction.Resume;
-                    }
-                }
-
                 // Check if we need to switch skills.
                 if (isSkill)
                 {
@@ -143,9 +117,8 @@ namespace VirtualAssistantSample.Dialogs
 
                         if (identifiedSkill != null)
                         {
-                            await _intentSwitchValueAccessor.SetAsync(dc.Context, identifiedSkill.Id);
-                            await _intentSwitchActivityAccessor.SetAsync(dc.Context, dc.Context.Activity);
-                            await dc.BeginDialogAsync(_intentSwitchDialog.Id, options: new { newSkill = identifiedSkill });
+                            var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                            await dc.BeginDialogAsync(_skillSwitchDialog.Id, new SkillSwitchDialogOptions(prompt, identifiedSkill));
                             return InterruptionAction.Waiting;
                         }
                     }
