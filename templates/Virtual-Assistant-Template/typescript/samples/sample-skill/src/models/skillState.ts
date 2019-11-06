@@ -8,6 +8,6 @@ import { RecognizerResult } from 'botbuilder';
 export class SkillState {
     public readonly token: string = '';
     public luisResult: RecognizerResult | undefined;
-    // tslint:disable-next-line: no-empty
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/tslint/config
     public clear(): void {}
 }

@@ -58,13 +58,13 @@ export class CancelDialog extends ComponentDialog {
             prompt: await this.responder.renderTemplate
             (
                 sc.context,
-                <string> sc.context.activity.locale,
+                sc.context.activity.locale as string,
                 CancelResponses.responseIds.cancelPrompt
             )
         });
     }
 
     private async finishCancelDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.endDialog(<boolean> sc.result);
+        return sc.endDialog(sc.result as boolean);
     }
 }

@@ -26,7 +26,7 @@ Follow a guided tutorial to create a Virtual Assistant (available in [C#]({{site
 
 ### How do I customize a Virtual Assistant?
 {:.no_toc}
-Follow a guided tutorial to customize a Virtual Assistant (available in [C#]({{site.baseurl}}/virtual-assistant/tutorials/customize-assistant/csharp/1-intro) or [Typescript]({{site.baseurl}})/virtual-assistant/tutorials/customize-assistant/typescript/1-intro).
+Follow a guided tutorial to customize a Virtual Assistant (available in [C#]({{site.baseurl}}/virtual-assistant/tutorials/customize-assistant/csharp/1-intro) or [Typescript]({{site.baseurl}}/virtual-assistant/tutorials/customize-assistant/typescript/1-intro).
 
 ### How do I deploy a Virtual Assistant?
 {:.no_toc}
