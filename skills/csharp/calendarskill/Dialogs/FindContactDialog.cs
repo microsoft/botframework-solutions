@@ -182,6 +182,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -213,7 +214,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.MeetingInfor.ContactInfor.ContactsNameList.Any())
                 {
-                    if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1)
+                    if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1 && !options.Scenario.Equals(nameof(CheckAvailableDialog)))
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
@@ -243,10 +244,12 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex < state.MeetingInfor.ContactInfor.ContactsNameList.Count)
+                var options = sc.Options as FindContactDialogOptions;
+
+                // check available dialog can only recieve one contact
+                if (state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex < state.MeetingInfor.ContactInfor.ContactsNameList.Count && !(options.Scenario.Equals(nameof(CheckAvailableDialog)) && state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex > 0))
                 {
                     state.MeetingInfor.ContactInfor.CurrentContactName = state.MeetingInfor.ContactInfor.ContactsNameList[state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex];
-                    var options = sc.Options as FindContactDialogOptions;
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee, sc.Options, cancellationToken);
                 }
@@ -255,7 +258,6 @@ namespace CalendarSkill.Dialogs
                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
                     state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
                     state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex = 0;
-                    var options = sc.Options as FindContactDialogOptions;
                     if (options.PromptMoreContact && state.MeetingInfor.ContactInfor.Contacts.Count < 20)
                     {
                         return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);

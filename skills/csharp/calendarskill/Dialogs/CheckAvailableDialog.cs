@@ -210,9 +210,8 @@ namespace CalendarSkill.Dialogs
 
                 var me = await GetMe(sc.Context);
 
-                // todo: change 5 to const
                 // the last one in result is the current user
-                var availabilityResult = await calendarService.GetUserAvailableTimeSlotAsync(me.Emails[0], new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime.Value, 5);
+                var availabilityResult = await calendarService.GetUserAvailableTimeSlotAsync(me.Emails[0], new List<string>() { state.MeetingInfor.ContactInfor.Contacts[0].Address }, dateTime.Value, CalendarCommonUtil.AvailabilityViewInterval);
 
                 var timeString = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime);
                 var startDateString = string.Empty;
@@ -258,7 +257,7 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    availableTime *= 5;
+                    availableTime *= CalendarCommonUtil.AvailabilityViewInterval;
                     var startAvailableTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
                     var endAvailableTime = startAvailableTime.AddMinutes(availableTime);
 
@@ -384,8 +383,8 @@ namespace CalendarSkill.Dialogs
                         endAvailableTimeIndex = endAvailableTimeIndex == -1 ? availabilityResult.AvailabilityViewList.First().Length - 1 : endAvailableTimeIndex;
                         var queryAvailableTime = state.MeetingInfor.StartDateTime.Value;
 
-                        var startAvailableTime = queryAvailableTime.AddMinutes(startAvailableTimeIndex * 5);
-                        var endAvailableTime = queryAvailableTime.AddMinutes((endAvailableTimeIndex + 1) * 5);
+                        var startAvailableTime = queryAvailableTime.AddMinutes(startAvailableTimeIndex * CalendarCommonUtil.AvailabilityViewInterval);
+                        var endAvailableTime = queryAvailableTime.AddMinutes((endAvailableTimeIndex + 1) * CalendarCommonUtil.AvailabilityViewInterval);
 
                         state.MeetingInfor.StartDateTime = startAvailableTime;
 
