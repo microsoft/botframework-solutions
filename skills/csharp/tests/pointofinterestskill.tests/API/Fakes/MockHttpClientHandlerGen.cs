@@ -1,4 +1,10 @@
-﻿using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -149,6 +155,24 @@ namespace PointOfInterestSkill.Tests.API.Fakes
                .ReturnsAsync(() => new HttpResponseMessage()
                {
                    Content = new StringContent(this.GetFoursquareParkingCategory()),
+               });
+
+            MemoryStream ms = new MemoryStream();
+            using (var image = new Bitmap(1, 1))
+            {
+                image.SetPixel(0, 0, Color.White);
+                image.Save(ms, ImageFormat.Png);
+            }
+
+            mockClient
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+               MockData.SendAsync,
+               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://atlas.microsoft.com/map/static/png")),
+               ItExpr.IsAny<CancellationToken>())
+               .ReturnsAsync(() => new HttpResponseMessage()
+               {
+                   Content = new ByteArrayContent(ms.ToArray()),
                });
         }
 

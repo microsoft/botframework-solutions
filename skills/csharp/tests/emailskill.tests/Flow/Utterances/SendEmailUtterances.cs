@@ -1,4 +1,7 @@
-﻿using EmailSkill.Tests.Flow.Strings;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using EmailSkill.Tests.Flow.Strings;
 using Luis;
 
 namespace EmailSkill.Tests.Flow.Utterances

@@ -1,4 +1,7 @@
-﻿using EnterpriseBotSampleTests.Mocks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using EnterpriseBotSampleTests.Mocks;
 using EnterpriseBotSampleTests.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;

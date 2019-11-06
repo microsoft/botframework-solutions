@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
@@ -78,11 +81,6 @@ namespace EmailSkill.Models
 
         public int ShowEmailIndex { get; set; }
 
-
-        public EmailLuis LuisResult { get; set; }
-
-        public General GeneralLuisResult { get; set; }
-
         public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
 
         public MailSource MailSourceType { get; set; }
@@ -91,9 +89,9 @@ namespace EmailSkill.Models
 
         public TimeZoneInfo GetUserTimeZone()
         {
-            if ((UserInfo != null) && (UserInfo.Timezone != null))
+            if ((UserInfo != null) && (UserInfo.TimeZone != null))
             {
-                return UserInfo.Timezone;
+                return UserInfo.TimeZone;
             }
 
             return TimeZoneInfo.Local;
@@ -161,7 +159,7 @@ namespace EmailSkill.Models
 
             public string SecondaryMail { get; set; }
 
-            public TimeZoneInfo Timezone { get; set; }
+            public TimeZoneInfo TimeZone { get; set; }
         }
 
         public class FindContactInformation

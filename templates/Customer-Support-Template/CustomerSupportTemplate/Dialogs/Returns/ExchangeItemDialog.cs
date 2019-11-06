@@ -1,4 +1,7 @@
-﻿using CustomerSupportTemplate.Dialogs.Returns.Resources;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CustomerSupportTemplate.Dialogs.Returns.Resources;
 using CustomerSupportTemplate.Dialogs.Shared;
 using CustomerSupportTemplate.ServiceClients;
 using Microsoft.Bot.Builder;

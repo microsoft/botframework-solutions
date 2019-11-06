@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -66,7 +69,7 @@ namespace WeatherSkill.Dialogs
             var state = await _stateAccessor.GetAsync(stepContext.Context);
             var geography = state.Geography;
 
-            if (string.IsNullOrEmpty(geography) && state.Latitude == double.NaN)
+            if (string.IsNullOrEmpty(geography) && double.IsNaN(state.Latitude))
             {
                 return await stepContext.NextAsync();
             }
@@ -122,7 +125,7 @@ namespace WeatherSkill.Dialogs
             {
                 state.GeographyLocation = await service.GetLocationByQueryAsync(state.Geography);
             }
-            else if (state.Latitude != double.NaN)
+            else if (!double.IsNaN(state.Latitude))
             {
                 state.GeographyLocation = await service.GetLocationByGeoAsync(state.Latitude, state.Longitude);
             }

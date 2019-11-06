@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -106,7 +107,7 @@ namespace PointOfInterestSkill.Dialogs
             switch (type)
             {
                 case OpenDefaultAppType.Map: value.MapsUri = $"geo:{destination.Geolocation.Latitude},{destination.Geolocation.Longitude}"; break;
-                case OpenDefaultAppType.Telephone: value.TelephoneUri = destination.Phone; break;
+                case OpenDefaultAppType.Telephone: value.TelephoneUri = "tel:" + destination.Phone; break;
             }
 
             replyEvent.Value = value;

@@ -10,31 +10,35 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public partial class GeneralLuis : IRecognizerConvert
+    public partial class GeneralLuis: IRecognizerConvert
     {
+        [JsonProperty("text")]
         public string Text;
+
+        [JsonProperty("alteredText")]
         public string AlteredText;
-        public enum Intent
-        {
-            Cancel,
-            Confirm,
-            Escalate,
-            FinishTask,
-            GoBack,
-            Help,
-            Logout,
-            None,
-            ReadAloud,
-            Reject,
-            Repeat,
-            SelectAny,
-            SelectItem,
-            SelectNone,
-            ShowNext,
-            ShowPrevious,
-            StartOver,
+
+        public enum Intent {
+            Cancel, 
+            Confirm, 
+            Escalate, 
+            FinishTask, 
+            GoBack, 
+            Help, 
+            Logout, 
+            None, 
+            ReadAloud, 
+            Reject, 
+            Repeat, 
+            SelectAny, 
+            SelectItem, 
+            SelectNone, 
+            ShowNext, 
+            ShowPrevious, 
+            StartOver, 
             Stop
         };
+        [JsonProperty("intents")]
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
@@ -44,6 +48,7 @@ namespace Luis
 
             // Built-in entities
             public double[] number;
+
             public double[] ordinal;
 
             // Instance
@@ -56,10 +61,11 @@ namespace Luis
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
+        [JsonProperty("entities")]
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {

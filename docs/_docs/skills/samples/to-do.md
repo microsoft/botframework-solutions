@@ -26,13 +26,13 @@ The following scenarios are currently supported by the Skill:
   - *Browse my groceries*
   - *Show my to do list*
 - Delete Tasks
-  - *Remove "salad vegetables" from my grocery list*
-  - *Remove my to do to "pick up Tom at 6 AM"*
+  - *Remove salad vegetables from my grocery list*
+  - *Remove my to do to pick up Tom at 6 AM*
   - *Remove all tasks*
 - Mark Tasks as Complete
-  - *Mark the task "get some food" as complete*
-  - *Task completed "reserve a restaurant for anniversary"*
-  - *Check off "bananas" on my grocery list*
+  - *Mark the task get some food as complete*
+  - *Task completed reserve a restaurant*
+  - *Check off bananas on my grocery list*
 
 ## Language Understanding
 {:.toc}
@@ -79,7 +79,7 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 ### Deployment
 {:.no_toc}
 
-Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
 {:.no_toc}
@@ -97,7 +97,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
 
 ### Add customized to do lists
 {:.no_toc}

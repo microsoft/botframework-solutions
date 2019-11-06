@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -36,12 +39,8 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -52,12 +51,8 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -70,14 +65,10 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -88,12 +79,8 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AcceptEventPrompt())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -107,14 +94,6 @@ namespace CalendarSkill.Test.Flow
         private string[] AcceptEventPrompt()
         {
             return this.ParseReplies(ChangeEventStatusResponses.EventAccepted, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

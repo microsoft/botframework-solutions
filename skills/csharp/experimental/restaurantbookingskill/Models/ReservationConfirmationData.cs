@@ -1,4 +1,7 @@
-﻿using AdaptiveCards;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using AdaptiveCards;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBookingSkill.Models

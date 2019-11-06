@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -9,8 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.StreamingExtensions.Transport;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Microsoft.Bot.Streaming.Transport;
+using Microsoft.Bot.Streaming.Transport.WebSockets;
 
 namespace Microsoft.Bot.Builder.Skills
 {

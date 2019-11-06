@@ -34,7 +34,8 @@
     "no-function-constructor-with-string-args": false,
     "no-reserved-keywords": false,
     "no-increment-decrement": false,
-    "no-unnecessary-bind": false
+    "no-unnecessary-bind": false,
+    "prefer-type-cast": false
   },
   "rulesDirectory": [
     "tslint-microsoft-contrib"

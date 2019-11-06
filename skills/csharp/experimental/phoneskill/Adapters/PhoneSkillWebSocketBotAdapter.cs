@@ -5,6 +5,7 @@ using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -22,7 +23,9 @@ namespace PhoneSkill.Adapters
             ConversationState conversationState,
             BotStateSet botStateSet,
             ResponseManager responseManager,
+            TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
+            : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
@@ -31,6 +34,8 @@ namespace PhoneSkill.Adapters
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Phone Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };
+
+            Use(telemetryMiddleware);
 
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));

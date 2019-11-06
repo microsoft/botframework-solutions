@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -47,12 +50,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -71,8 +70,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -123,10 +120,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -149,8 +142,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithTime)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(AskForStartTimePrompt())
@@ -160,8 +151,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -172,10 +161,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -198,15 +183,11 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithDuration)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -217,10 +198,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -243,15 +220,11 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithLocation)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -267,10 +240,6 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -293,20 +262,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithParticipants)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -317,10 +280,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -343,15 +302,11 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithSubject)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForSubjectShortPrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -362,10 +317,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -388,15 +339,11 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithContent)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -407,12 +354,8 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
@@ -430,8 +373,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -453,12 +394,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowContactsList(recipientDict))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDupDict))
@@ -479,8 +416,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -497,20 +432,12 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send("wrong name")
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(UserNotFoundPrompt("wrong name"))
                 .Send("wrong name")
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(UserNotFoundAgainPrompt("wrong name"))
                 .Send(string.Format(Strings.Strings.UserName, 0))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt(testRecipient, testEmailAddress))
                 .Send(Strings.Strings.ConfirmNo)
@@ -529,8 +456,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -543,12 +468,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowEmailsList(Strings.Strings.DefaultUserName))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserName, string.Format(Strings.Strings.UserEmailAddress, 0)))
@@ -568,8 +489,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -584,12 +503,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -606,8 +521,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -618,10 +531,6 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -640,8 +549,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -656,12 +563,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDateTimeEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -674,8 +577,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -690,12 +591,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithLocationEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -712,8 +609,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -728,12 +623,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDurationEntity)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
@@ -750,8 +641,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -762,12 +651,8 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
@@ -785,8 +670,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -797,12 +680,8 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.ThrowErrorAccessDenied)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(BotErrorResponse())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -815,12 +694,8 @@ namespace CalendarSkill.Test.Flow
 
             await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 0))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 0)}: {string.Format(Strings.Strings.UserEmailAddress, 0)}" }
@@ -829,8 +704,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 1))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 1)}: {string.Format(Strings.Strings.UserEmailAddress, 1)}" }
@@ -839,8 +712,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 2))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 2)}: {string.Format(Strings.Strings.UserEmailAddress, 2)}" }
@@ -849,8 +720,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 3))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 3)}: {string.Format(Strings.Strings.UserEmailAddress, 3)}" }
@@ -859,8 +728,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 4))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 4)}: {string.Format(Strings.Strings.UserEmailAddress, 4)}" }
@@ -869,8 +736,6 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(AskForAddMoreAttendeesPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 5))
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(new StringDictionary()
                 {
                     { "User", $"{string.Format(Strings.Strings.UserName, 5)}: {string.Format(Strings.Strings.UserEmailAddress, 5)}" }
@@ -895,8 +760,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(RestParticipantsResponse(6))
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(ShowCalendarList())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -1178,14 +1041,6 @@ namespace CalendarSkill.Test.Flow
         private string[] RetryTooManyResponse()
         {
             return ParseReplies(CalendarSharedResponses.RetryTooManyResponse, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

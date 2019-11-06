@@ -1,4 +1,7 @@
-﻿using BingSearchSkill.Models;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using BingSearchSkill.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

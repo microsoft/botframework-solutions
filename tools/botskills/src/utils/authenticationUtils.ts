@@ -13,7 +13,8 @@ import {
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest } from '../models';
+    ISkillManifest
+} from '../models';
 import { ChildProcessUtils, isValidAzVersion } from './';
 
 export class AuthenticationUtils {
@@ -82,16 +83,33 @@ export class AuthenticationUtils {
         return this.scopeMap.get(scope) || '';
     }
 
-    private createScopeManifest(scopes: string[]): IScopeManifest[] {
+    private createScopeManifest(scopes: string[], logger: ILogger): IScopeManifest[] {
+        const scopesRecognized: string [] = [];
+        const scopesNotRecognized: string [] = [];
+        // Check the scopes that are recognized and set to scopesRecognized
+        // If it's not recognized, it will be set to scopesNotRecognized
+        scopes.forEach((scope: string) => {
+            if (scope.trim().length > 0) {
+                if (this.scopeMap.has(scope)) {
+                    scopesRecognized.push(scope);
+                } else {
+                    scopesNotRecognized.push(scope);
+                }
+            }
+        });
+        // If any of the scopes were not recognized, it will log a warning showing the list of scopes
+        if (scopesNotRecognized.length > 0) {
+            logger.warning(`The following scopes were not recognized: ${scopesNotRecognized.join(',')}`);
+        }
+
         return [{
             resourceAppId: '00000003-0000-0000-c000-000000000000',
-            resourceAccess: scopes.filter((scope: string) => this.scopeMap.has(scope))
-                .map((scope: string) => {
-                    return {
-                        id: this.getScopeId(scope),
-                        type: 'Scope'
-                    };
-                })
+            resourceAccess: scopesRecognized.map((scope: string) => {
+                return {
+                    id: this.getScopeId(scope),
+                    type: 'Scope'
+                };
+            })
         }];
     }
 
@@ -108,7 +126,7 @@ export class AuthenticationUtils {
         try {
             // configuring bot auth settings
             logger.message('Checking for authentication settings ...');
-            if (manifest.authenticationConnections) {
+            if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
                     (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
                 if (aadConfig) {
@@ -116,7 +134,7 @@ export class AuthenticationUtils {
                     logger.message('Configuring Azure AD connection ...');
 
                     let connectionName: string = aadConfig.id;
-                    const newScopes: string[] = aadConfig.scopes.split(', ');
+                    const newScopes: string[] = aadConfig.scopes.split(',');
                     let scopes: string[] = newScopes.slice(0);
 
                     // check for existing aad connection
@@ -188,7 +206,7 @@ export class AuthenticationUtils {
 
                     // Remove duplicate scopes
                     scopes = [...new Set(scopes)];
-                    const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes);
+                    const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes, logger);
 
                     // get the information of the app
                     const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
@@ -247,28 +265,30 @@ export class AuthenticationUtils {
 
                     logger.message('Authentication process finished successfully.');
 
-                    return true;
                 } else {
                     throw new Error(`There's no Azure Active Directory v2 authentication connection in your Skills manifest.`);
                 }
             } else {
-                throw new Error(`There are no authentication connections in your Skills manifest.`);
+                logger.message(`There are no authentication connections in your Skills manifest.`);
             }
+
+            return true;
+
         } catch (err) {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
-                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message}`);
+                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`);
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                    .join(', ')}`);
+                        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
-                logger.warning(`${err.message} You must configure one of the following connection types MANUALLY in the Azure Portal:
+                logger.warning(`${err.message || err} You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                    .join(', ')}`);
+                        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else {
-                logger.warning(err.message);
+                logger.warning(err.message || err);
             }
 
             return false;

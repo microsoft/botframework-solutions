@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhoneSkill.Responses.Main;
 using PhoneSkill.Responses.OutgoingCall;
@@ -14,8 +17,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(GeneralUtterances.Help)
                .AssertReply(Message(PhoneMainResponses.HelpMessage))
@@ -28,8 +29,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(GeneralUtterances.Cancel)
                .AssertReply(Message(PhoneMainResponses.CancelMessage))

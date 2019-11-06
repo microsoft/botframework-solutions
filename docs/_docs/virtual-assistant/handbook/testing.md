@@ -14,7 +14,7 @@ toc: true
 
 ## Unit Testing
 
-Take advantage of the Test project that is available when you [Create a New Skill]({{site.baseurl}}/tutorials/csharp/create-skill/1_intro).
+Take advantage of the Test project that is available when you [Create a New Skill]({{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro).
 Follow along with the Flow tests to see a basic usage of how to mock activities from a user and validate the bot responses.
 If you'd like to take this further, you can explore the tests of a published skill for a deep dive on APIs, mocking LUIS, and more.
 
@@ -23,7 +23,7 @@ If you'd like to take this further, you can explore the tests of a published ski
 ### Bot Framework Emulator
 {:.no_toc}
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 

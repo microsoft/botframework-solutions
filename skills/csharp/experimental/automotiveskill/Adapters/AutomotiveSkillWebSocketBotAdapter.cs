@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Globalization;
 using AutomotiveSkill.Responses.Shared;
 using AutomotiveSkill.Services;
 using Microsoft.Bot.Builder;
@@ -19,6 +22,7 @@ namespace AutomotiveSkill.Adapters
             ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
+            : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {

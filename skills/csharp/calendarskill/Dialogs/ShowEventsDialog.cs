@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -88,6 +91,8 @@ namespace CalendarSkill.Dialogs
 
             var readEvent = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ReadEvent,
                 PromptForNextActionAfterRead,
                 HandleNextActionAfterRead,

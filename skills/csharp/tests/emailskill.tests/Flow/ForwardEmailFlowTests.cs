@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
@@ -27,8 +30,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -58,8 +59,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -89,8 +88,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -118,8 +115,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -143,8 +138,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(EmailNotFoundPrompt())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -256,16 +249,6 @@ namespace EmailSkill.Tests.Flow
                 noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
 
                 Assert.AreEqual(noEmailContentMessage.Text, messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }

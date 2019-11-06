@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Customize a Skill
+subcategory: Customize
 language: TypeScript
 title: Edit responses
 order: 2
@@ -16,4 +16,4 @@ Edit the MainResponses.json and SharedResponses.json files in the Responses fold
 To add additional responses, create a new folder in the Responses directory, then copy the files from Responses/Sample. Rename the files to match your domain, then modify the json file as needed. 
 
 ### Learn More
-For more information, refer to the [Skill Responses reference]({{site.baseurl}}/reference/skills/responses).
+For more information, refer to the [Skill Responses reference]({{site.baseurl}}/skills/handbook/language-generation).

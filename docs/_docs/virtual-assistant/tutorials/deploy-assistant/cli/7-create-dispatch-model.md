@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Deploy a Virtual Assistant
+subcategory: Deploy
 language: Using CLI tools
 title: Create a Dispatch LUIS model
 order: 7

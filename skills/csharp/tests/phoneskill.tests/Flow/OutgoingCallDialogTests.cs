@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,8 +20,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallPhoneNumber)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
                {
                    { "contactOrPhoneNumber", "0118 999 88199 9119 725 3" },
@@ -35,8 +36,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(OutgoingCallUtterances.RecipientPhoneNumber)
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
@@ -55,8 +54,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactName)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
                {
                    { "contactOrPhoneNumber", "Bob Botter" },
@@ -74,8 +71,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithSpeechRecognitionError)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
                {
                    { "contactOrPhoneNumber", "Sanjay Narthwani" },
@@ -93,8 +88,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithPhoneNumberType)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ExecuteCallWithPhoneNumberType, new StringDictionary()
                {
                    { "contactOrPhoneNumber", "Andrew Smith" },
@@ -120,8 +113,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithPhoneNumberTypeNotFoundSingleAlternative)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactHasNoPhoneNumberOfRequestedType, new StringDictionary()
                {
                    { "contact", "Bob Botter" },
@@ -150,8 +141,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithPhoneNumberTypeNotFoundSingleAlternative)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactHasNoPhoneNumberOfRequestedType, new StringDictionary()
                {
                    { "contact", "Bob Botter" },
@@ -189,8 +178,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithPhoneNumberTypeNotFoundMultipleAlternatives)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactHasNoPhoneNumberOfRequestedType, new StringDictionary()
                {
                    { "contact", "Eve Smith" },
@@ -232,8 +219,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameNotFound)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactNotFound, new StringDictionary()
                {
                    { "contactName", "qqq" },
@@ -257,8 +242,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameNoPhoneNumber)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactHasNoPhoneNumber, new StringDictionary()
                {
                    { "contact", "Christina Botter" },
@@ -284,8 +267,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameNoPhoneNumberMultipleMatches)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactsHaveNoPhoneNumber, new StringDictionary()
                {
                    { "contactName", "christina" },
@@ -311,8 +292,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(OutgoingCallUtterances.RecipientContactName)
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
@@ -332,8 +311,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(OutgoingCallUtterances.RecipientContactNameWithSpeechRecognitionError)
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
@@ -353,8 +330,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallNoEntities)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.RecipientPrompt))
                .Send(OutgoingCallUtterances.RecipientContactNameWithPhoneNumberType)
                .AssertReply(Message(OutgoingCallResponses.ExecuteCallWithPhoneNumberType, new StringDictionary()
@@ -382,8 +357,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesNarthwani)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "narthwani" },
@@ -411,8 +384,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesNarthwani)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "narthwani" },
@@ -440,8 +411,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesNarthwani)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "narthwani" },
@@ -469,8 +438,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesWithSpeechRecognitionError)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelectionWithoutName, new StringDictionary(),
                new List<string>()
                {
@@ -495,8 +462,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesAndrew)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "andrew" },
@@ -557,8 +522,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameWithPhoneNumberTypeMultipleMatches)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "narthwani" },
@@ -597,8 +560,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesBotter)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ExecuteCall, new StringDictionary()
                {
                    { "contactOrPhoneNumber", "Bob Botter" },
@@ -616,8 +577,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleMatchesSanchez)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.ContactSelection, new StringDictionary()
                {
                    { "contactName", "sanchez" },
@@ -645,8 +604,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleNumbers)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.PhoneNumberSelection, new StringDictionary()
                {
                    { "contact", "Andrew Smith" },
@@ -682,8 +639,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleNumbers)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.PhoneNumberSelection, new StringDictionary()
                {
                    { "contact", "Andrew Smith" },
@@ -720,8 +675,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleNumbersWithSameType)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.PhoneNumberSelection, new StringDictionary()
                {
                    { "contact", "Eve Smith" },
@@ -791,8 +744,6 @@ namespace PhoneSkill.Tests.Flow
         {
             await GetTestFlow()
                .Send(OutgoingCallUtterances.OutgoingCallContactNameMultipleNumbers)
-               .AssertReply(ShowAuth())
-               .Send(GetAuthResponse())
                .AssertReply(Message(OutgoingCallResponses.PhoneNumberSelection, new StringDictionary()
                {
                    { "contact", "Andrew Smith" },

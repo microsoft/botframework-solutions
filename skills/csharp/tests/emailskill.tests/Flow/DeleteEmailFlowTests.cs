@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.DeleteEmail;
@@ -20,8 +23,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(DeleteEmailUtterances.DeleteEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -37,8 +38,6 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(DeleteEmailUtterances.DeleteEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -111,16 +110,6 @@ namespace EmailSkill.Tests.Flow
 
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreNotEqual(messageActivity.Attachments.Count, 0);
-            };
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }

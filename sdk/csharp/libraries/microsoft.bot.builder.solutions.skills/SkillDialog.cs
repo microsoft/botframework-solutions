@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -76,6 +79,9 @@ namespace Microsoft.Bot.Builder.Skills
 
             AddDialog(new WaterfallDialog(DialogIds.ConfirmSkillSwitchFlow, intentSwitching));
             AddDialog(new ConfirmPrompt(DialogIds.ConfirmSkillSwitchPrompt));
+
+            // TODO It overwrites all added dialogs. See DialogSet
+            TelemetryClient = telemetryClient;
         }
 
         public async Task<DialogTurnResult> ConfirmIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
