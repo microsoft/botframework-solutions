@@ -249,15 +249,16 @@ export class MainDialog extends RouterDialog {
     protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
         // Example of populating local state with data passed through semanticAction out of Activity
         // const activity: Activity = context.activity;
-        // const semanticAction: SemanticAction | undefined  = activity.semanticAction;
+        // const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
-        // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-        // {
-        //    var location = semanticAction.Entities["location"];
-        //    var locationObj = location.Properties["location"].ToString();
-        //    // Add to your local state
-        //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-        //    state.CurrentCoordinates = locationObj;
+        // if (semanticAction !== undefined && Object.keys(semanticAction.entities)
+        //     .find((key: string) => key === "location")) {
+        //     // tslint:disable-next-line: no-explicit-any
+        //     const location: any = semanticAction.entities["location"];
+        //     const locationObj = location.properties["location"];
+        //     const state: SkillState = await this.stateAccessor.get(context, new SkillState());
+        //     state.location = locationObj !== undefined ? locationObj : location;
+        //     await this.stateAccessor.set(context, state);
         // }
     }
 }
