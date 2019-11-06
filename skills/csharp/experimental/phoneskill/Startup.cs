@@ -3,6 +3,7 @@
 
 using System.Linq;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -78,9 +79,12 @@ namespace PhoneSkill
             });
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+            services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+            services.AddSingleton<TelemetryInitializerMiddleware>();
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -110,7 +114,7 @@ namespace PhoneSkill
 
             // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         /// <summary>
@@ -121,8 +125,7 @@ namespace PhoneSkill
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             _isProduction = env.IsProduction();
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();

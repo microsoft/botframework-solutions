@@ -72,7 +72,7 @@ namespace PhoneSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "general", PhoneSkillMockLuisRecognizerFactory.CreateMockGeneralLuisRecognizer() },
                                 { "phone", PhoneSkillMockLuisRecognizerFactory.CreateMockPhoneLuisRecognizer() },
@@ -108,7 +108,7 @@ namespace PhoneSkill.Tests.Flow
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OutgoingCallDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()
