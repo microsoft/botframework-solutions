@@ -133,7 +133,7 @@ export class MainDialog extends RouterDialog {
     protected async onEvent(dc: DialogContext): Promise<void> {
         switch (dc.context.activity.name) {
             case Events.skillBeginEvent: {
-                const userData: Map<string, Object> = <Map<string, Object>>dc.context.activity.value;
+                const userData: Map<string, Object> = dc.context.activity.value as Map<string, Object>;
                 if (userData === undefined) {
                     throw new Error('userData is not an instance of Map<string, Object>');
                 }
@@ -220,7 +220,7 @@ export class MainDialog extends RouterDialog {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         }
 
-        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> dc.context.adapter;
+        const adapter: BotFrameworkAdapter = dc.context.adapter as BotFrameworkAdapter;
         await dc.cancelAllDialogs();
 
         // Sign out user

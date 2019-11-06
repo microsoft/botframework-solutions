@@ -1,4 +1,7 @@
-﻿using CustomerSupportTemplate.Dialogs.Store.Resources;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CustomerSupportTemplate.Dialogs.Store.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;

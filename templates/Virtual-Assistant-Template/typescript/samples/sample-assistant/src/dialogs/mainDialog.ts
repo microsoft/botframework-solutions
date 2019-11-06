@@ -184,7 +184,7 @@ export class MainDialog extends RouterDialog {
             switch (ev.name) {
                 case Events.timeZoneEvent: {
                     try {
-                        const timezone: string = <string> ev.value;
+                        const timezone: string = ev.value as string;
                         const tz: string = new Date().toLocaleString(timezone);
                         const timeZoneObj: {
                             timezone: string;
@@ -208,7 +208,7 @@ export class MainDialog extends RouterDialog {
                     break;
                 }
                 case Events.locationEvent: {
-                    const location: string = <string> ev.value;
+                    const location: string = ev.value as string;
                     const locationObj: {
                         location: string;
                     } = {
@@ -315,7 +315,7 @@ export class MainDialog extends RouterDialog {
         if (!supported) {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         } else {
-            adapter = <BotFrameworkAdapter> dc.context.adapter;
+            adapter = dc.context.adapter as BotFrameworkAdapter;
         }
 
         await dc.cancelAllDialogs();

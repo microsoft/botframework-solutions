@@ -60,7 +60,7 @@ const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
-    cognitiveModels.set(key, <ICognitiveModelConfiguration> value);
+    cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
 const botSettings: Partial<IBotSettings> = {
@@ -88,12 +88,11 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
 
-let cosmosDbStorageSettings: CosmosDbStorageSettings;
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
 
-cosmosDbStorageSettings = {
+const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     authKey: botSettings.cosmosDb.authKey,
     collectionId: botSettings.cosmosDb.collectionId,
     databaseId: botSettings.cosmosDb.databaseId,

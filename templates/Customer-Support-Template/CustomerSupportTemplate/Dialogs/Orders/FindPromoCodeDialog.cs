@@ -1,4 +1,7 @@
-﻿using CustomerSupportTemplate.Dialogs.Shared;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CustomerSupportTemplate.Dialogs.Shared;
 using CustomerSupportTemplate.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;

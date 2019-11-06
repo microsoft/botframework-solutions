@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Virtual Assistant Client</string>
+
+    <!-- PERMISSIONS -->
+    <string name="permission_record_audio_title" translatable="false">Permission to record audio</string>
+    <string name="permission_record_audio_rationale" translatable="false">In order for this app to listen to your voice, it requires permission use the microphone</string>
+    <string name="permission_record_audio_denied" translatable="false">You will only be able to type to the Bot</string>
+    <string name="permission_access_fine_location_title" translatable="false">GPS Permission</string>
+    <string name="permission_access_fine_location_rationale" translatable="false">Location permission is required to be able to direct you to points of interest</string>
+
+    <!-- GENERAL MESSAGES FOR USER -->
+    <string name="msg_listening" translatable="false">I am listening…</string>
+    <string name="msg_listening_not" translatable="false">I am no longer listening…</string>
+    <string name="msg_disconnected" translatable="false">Reconnecting to Service</string>
+
+    <!-- GENERAL STRINGS -->
+    <string name="bot_input_hint" translatable="false">Type a message to the bot</string>
+    <string name="ok">OK</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- NAVIGATION DRAWER MENU -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_menu_restart_conversation" translatable="false">Restart conversation</string>
+    <string name="nav_menu_settings" translatable="false">Settings</string>
+    <string name="nav_menu_set_as_default_assistant" translatable="false">Set as default assistant</string>
+    <!--
+    <string name="nav_menu_show_full_conversation" translatable="false">Show full conversation</string>
+    <string name="nav_menu_enable_dark_mode" translatable="false">Enable dark mode</string>
+    -->
+    <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
+
+    <!-- CONFIGURATION -->
+    <string name="configuration_service_key_hint">Speech Service Subscription Key</string>
+    <string name="configuration_service_region_hint">Speech Service Subscription Key Region</string>
+    <string name="configuration_bot_id_hint">Direct Line Speech Secret Key</string>
+    <string name="configuration_voice_name_hint">Voice Name</string>
+    <string name="configuration_user_id_hint">User From Id</string>
+    <string name="configuration_locale_hint">Locale</string>
+    <string name="configuration_geolocation_lat_hint">Lat</string>
+    <string name="configuration_geolocation_lon_hint">Lon</string>
+    <string name="configuration_chat_history_line_count">Chat history line-count</string>
+    <string name="configuration_timezone">Timezone</string>
+    <string name="configuration_bot_color">Bot bubble background</string>
+    <string name="configuration_user_color">User bubble background</string>
+    <string name="configuration_pick_color">Pick a color</string>
+    <string name="configuration_bot_text_color">Bot text color</string>
+    <string name="configuration_user_text_color">User text color</string>
+    <string name="configuration_keyword">Keyword</string>
+    <string name="configuration_location_event">GPS sent on</string>
+    <string name="configuration_location_send">Send GPS location</string>
+    <string name="configuration_location_unsent">Not sent</string>
+    <string name="configuration_general">General</string>
+    <string name="configuration_appearance">Appearance</string>
+    <string name="configuration_show_full_conversation">Show full conversation</string>
+    <string name="configuration_enable_dark_mode">Enable dark mode</string>
+    <string name="configuration_keep_screen_on">Keep screen on</string>
+
+    <!-- WIDGETS -->
+    <string name="widget_push_to_talk">Talk</string>
+
+    <!-- SERVICE -->
+    <string name="service_notification_action_button">Listen</string>
+
+    <!-- SERVICE ERRORS -->
+    <string name="service_error_no_map">Unable to show directions because Waze and Google Maps are not installed</string>
+    <string name="service_error_uri">Missing URI field</string>
+    <string name="service_error_no_spotify">Unable to launch Spotify because it is not installed</string>
+
+</resources>

@@ -1,0 +1,63 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+  
+  paths:
+    include:
+    - 'sdk/csharp/libraries/microsoft.bot.builder.solutions/*' 
+
+# By default will disable PR builds
+pr: none
+
+pool:
+   name: Hosted VS2017
+   demands:
+    - msbuild
+    - visualstudio
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.100'
+  inputs:
+    version: 2.2.100
+  continueOnError: true
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.1'
+  inputs:
+    versionSpec: 4.9.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: 'sdk\csharp\Microsoft.Bot.Builder.Solutions.sln'
+
+- task: VSBuild@1
+  displayName: 'Build solution Microsoft.Bot.Builder.Solutions.sln'
+  inputs:
+    solution: sdk\csharp\Microsoft.Bot.Builder.Solutions.sln
+    vsVersion: '16.0'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'test results'
+  inputs:
+    command: test
+    projects: '$(System.DefaultWorkingDirectory)\sdk\csharp\tests\microsoft.bot.builder.solutions.tests\Microsoft.Bot.Builder.Solutions.Tests.csproj'
+    arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    workingDirectory: 'sdk\csharp\tests\microsoft.bot.builder.solutions.tests'
+   
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)\sdk\csharp\tests\microsoft.bot.builder.solutions.tests\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\sdk\csharp\tests\microsoft.bot.builder.solutions.tests'

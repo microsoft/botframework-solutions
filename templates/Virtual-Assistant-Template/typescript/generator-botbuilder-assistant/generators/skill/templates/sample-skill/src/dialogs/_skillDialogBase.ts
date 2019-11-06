@@ -77,7 +77,7 @@ export class SkillDialogBase extends ComponentDialog {
         try {
             return await sc.prompt(MultiProviderAuthDialog.name, {});
         } catch (err) {
-            await this.handleDialogExceptions(sc, <Error>err);
+            await this.handleDialogExceptions(sc, err as Error);
 
             return {
                 status: DialogTurnStatus.cancelled,
@@ -90,7 +90,7 @@ export class SkillDialogBase extends ComponentDialog {
         try {
             // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
             // When the token is cached we get a TokenResponse object.
-            const providerTokenResponse: IProviderTokenResponse | undefined = <IProviderTokenResponse>sc.result;
+            const providerTokenResponse: IProviderTokenResponse | undefined = sc.result as IProviderTokenResponse;
 
             if (providerTokenResponse !== undefined) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
@@ -101,7 +101,7 @@ export class SkillDialogBase extends ComponentDialog {
 
             return await sc.next();
         } catch (err) {
-            await this.handleDialogExceptions(sc, <Error>err);
+            await this.handleDialogExceptions(sc, err as Error);
 
             return {
                 status: DialogTurnStatus.cancelled,

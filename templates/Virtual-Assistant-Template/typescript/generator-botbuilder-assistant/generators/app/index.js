@@ -336,8 +336,9 @@ module.exports = class extends Generator {
         if (containsSpecialCharacter) {
           this.log(
             chalk.yellow(
-              `\nYour virtual assistant name (${this.props.assistantName})` +
-                `had special characters, it was changed to '${finalAssistantName}'`
+              `\nYour virtual assistant name (${
+                this.props.assistantName
+              }) had special characters, it was changed to '${finalAssistantName}'`
             )
           );
         }
