@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills;
@@ -46,6 +49,18 @@ namespace EmailSkill.Services.MSGraphAPI
             else if (ex.Error.Code.Equals(APIErrorMessageSubmissionBlocked, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.AccountNotActivated;
+            }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                skillExceptionType = SkillExceptionType.APIUnauthorized;
+            }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                skillExceptionType = SkillExceptionType.APIForbidden;
+            }
+            else if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                skillExceptionType = SkillExceptionType.APIBadRequest;
             }
 
             return new SkillException(skillExceptionType, ex.Message, ex);

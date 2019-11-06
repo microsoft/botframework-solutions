@@ -22,8 +22,6 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkAllTasksAsCompleted)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
@@ -37,7 +35,6 @@ namespace ToDoSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 CollectionAssert.Contains(
                   this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
@@ -58,16 +55,6 @@ namespace ToDoSkill.Tests.Flow
         private string[] CollectListType()
         {
             return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
     }
 }

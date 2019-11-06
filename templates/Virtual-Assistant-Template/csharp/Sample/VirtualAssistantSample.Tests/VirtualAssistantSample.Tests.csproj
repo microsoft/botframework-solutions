@@ -14,7 +14,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-preview-191005-1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-preview-rc1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
@@ -24,6 +25,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VirtualAssistantSample\VirtualAssistantSample.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Bot.Builder.Skills">
+      <HintPath>..\..\..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions.skills\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Builder.Skills.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.Solutions">
+      <HintPath>..\..\..\..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Builder.Solutions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -56,12 +59,12 @@ namespace CalendarSkill.Dialogs
                 SearchEventsWithEntities,
                 FilterTodayEvent,
                 AddConflictFlag,
-                ShowEventsList,
+                ShowAskParameterDetails,
+                ShowEventsList
             };
 
             var showNextMeeting = new WaterfallStep[]
             {
-                ShowAskParameterDetails,
                 ShowNextMeeting,
             };
 
@@ -88,6 +91,8 @@ namespace CalendarSkill.Dialogs
 
             var readEvent = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ReadEvent,
                 PromptForNextActionAfterRead,
                 HandleNextActionAfterRead,
@@ -290,8 +295,9 @@ namespace CalendarSkill.Dialogs
                         var tokens = new StringDictionary()
                         {
                             { "EventName", state.ShowMeetingInfor.ShowingMeetings[0].Title },
-                            { "EventStartTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                            { "EventEndTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                            { "EventStartDate", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()).ToString(CalendarCommonStrings.DisplayDateLong) },
+                            { "EventStartTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].StartTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
+                            { "EventEndTime", TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.ShowingMeetings[0].EndTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
                             { "EventDuration", state.ShowMeetingInfor.ShowingMeetings[0].ToSpeechDurationString() },
                             { "EventLocation", state.ShowMeetingInfor.ShowingMeetings[0].Location },
                         };
@@ -319,6 +325,11 @@ namespace CalendarSkill.Dialogs
                             {
                                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadLocation, tokens));
                             }
+                        }
+
+                        if (askParameter.NeedDate)
+                        {
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadStartDate, tokens));
                         }
                     }
                 }

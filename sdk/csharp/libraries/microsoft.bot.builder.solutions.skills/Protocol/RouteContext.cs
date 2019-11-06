@@ -1,4 +1,7 @@
-﻿using Microsoft.Bot.StreamingExtensions;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Streaming;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {

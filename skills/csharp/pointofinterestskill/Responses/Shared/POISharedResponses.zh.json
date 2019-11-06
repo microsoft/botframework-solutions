@@ -265,8 +265,8 @@
   "PromptForCurrentLocation": {
     "replies": [
       {
-        "speak": "你的地址是什么?",
-        "text": "你的地址是什么?"
+        "speak": "你目前的地址是什么？",
+        "text": "你目前的地址是什么？"
       },
       {
         "speak": "你在哪里？尝试提供城市或地址。",

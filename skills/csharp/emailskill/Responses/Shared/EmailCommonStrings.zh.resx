@@ -135,8 +135,8 @@
   <data name="Content" xml:space="preserve">
     <value>内容</value>
   </data>
-  <data name="Participants" xml:space="preserve">
-    <value>参与者</value>
+  <data name="Recipients" xml:space="preserve">
+    <value>收件人</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc:{0}</value>
@@ -187,10 +187,10 @@
     <value>FW:{0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>来自{0}于{1}标题是{2}</value>
+    <value>于{1}来自{0}标题是{2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>来自{1}于{0}</value>
+    <value>于{0}来自{1}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0}发送至{1}, 内容是{2}</value>
@@ -241,7 +241,7 @@
     <value>----------转发的邮件----------</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>来自{0}于{1}标题是{2}，内容为{3}。</value>
+    <value>于{1}来自{0}标题是{2}，内容为{3}。</value>
   </data>
   <data name="SearchBySender" xml:space="preserve">
     <value>来自{0}的消息</value>

@@ -55,8 +55,6 @@ namespace $safeprojectname$
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var provider = services.BuildServiceProvider();
-
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);

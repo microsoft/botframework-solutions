@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -7,8 +10,8 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
+using Microsoft.Bot.Streaming;
+using Microsoft.Bot.Streaming.Transport.WebSockets;
 using Diagnostics = System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Skills

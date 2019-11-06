@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -89,6 +92,9 @@ namespace CalendarSkill.Dialogs
                 // if got multiple persons, call selectPerson. use replace
                 // if got no person, replace/restart this flow.
                 AfterUpdateUserName,
+                GetAuthToken,
+                AfterGetAuthToken,
+                GetUserFromUserName
             };
 
             // select person, called bt updateName with replace.
@@ -451,8 +457,24 @@ namespace CalendarSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
-                state.MeetingInfor.ContactInfor.CurrentContactName = currentRecipientName;
+                state.MeetingInfor.ContactInfor.CurrentContactName = string.IsNullOrEmpty(userInput) ? state.MeetingInfor.ContactInfor.CurrentContactName : userInput;
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> GetUserFromUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (FindContactDialogOptions)sc.Options;
+                var currentRecipientName = state.MeetingInfor.ContactInfor.CurrentContactName;
 
                 // if it's an email, add to attendee and kepp the state.MeetingInfor.ContactInfor.ConfirmedContact null
                 if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))

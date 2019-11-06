@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
@@ -27,8 +30,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -38,7 +39,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -58,8 +59,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -69,7 +68,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -89,8 +88,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -98,7 +95,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(CollectEmailContentMessage())
+                .AssertReply(CollectEmailContentMessageForForward(testRecipient))
                 .Send(ContextStrings.TestContent)
                 .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -118,8 +115,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
@@ -143,8 +138,6 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
-                .AssertReply(ShowAuth())
-                .Send(GetAuthResponse())
                 .AssertReplyOneOf(EmailNotFoundPrompt())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
@@ -244,18 +237,18 @@ namespace EmailSkill.Tests.Flow
             return ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
-        private string[] CollectEmailContentMessage()
-        {
-            return ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
+        private Action<IActivity> CollectEmailContentMessageForForward(string userName)
         {
             return activity =>
             {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
+                var messageActivity = activity.AsMessageActivity();
+
+                var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", userName } });
+                noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
+                noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+
+                Assert.AreEqual(noEmailContentMessage.Text, messageActivity.Text);
             };
         }
     }

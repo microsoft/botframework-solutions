@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,14 +65,15 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var calendarState = await Accessor.GetAsync(sc.Context, () => new CalendarSkillState());
+                sc.Context.TurnState.TryGetValue(APITokenKey, out var apiToken);
 
-                if (!string.IsNullOrWhiteSpace(calendarState.APIToken))
+                if (!string.IsNullOrWhiteSpace((string)apiToken))
                 {
                     var activity = sc.Context.Activity;
                     var userId = activity.From.Id;
 
                     var proactiveState = await _proactiveStateAccessor.GetAsync(sc.Context, () => new ProactiveModel());
-                    var calendarService = ServiceManager.InitCalendarService(calendarState.APIToken, calendarState.EventSource);
+                    var calendarService = ServiceManager.InitCalendarService((string)apiToken, calendarState.EventSource);
 
                     _backgroundTaskQueue.QueueBackgroundWorkItem(async (token) =>
                     {

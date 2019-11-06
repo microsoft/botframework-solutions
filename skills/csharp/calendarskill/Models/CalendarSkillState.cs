@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graph;
@@ -13,8 +16,6 @@ namespace CalendarSkill.Models
         public Luis.CalendarLuis LuisResult { get; set; }
 
         public Luis.General GeneralLuisResult { get; set; }
-
-        public string APIToken { get; set; }
 
         public int PageSize { get; set; } = 0;
 
@@ -41,7 +42,6 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
-            APIToken = null;
             PageSize = 0;
             EventSource = EventSource.Other;
             MeetingInfor.Clear();

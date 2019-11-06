@@ -12,7 +12,7 @@
     {
       "id": "Google",
       "serviceProviderId": "Google",
-      "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+      "scopes": "https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/contacts"
     }
   ],
   "actions": [

@@ -1,4 +1,7 @@
-﻿namespace CalendarSkill.Test.Flow.Strings
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace CalendarSkill.Test.Flow.Strings
 {
     public class Strings
     {

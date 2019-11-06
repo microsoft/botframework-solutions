@@ -1,4 +1,7 @@
-﻿using CalendarSkill.Utilities;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using CalendarSkill.Utilities;
 
 namespace CalendarSkill.Models
 {
@@ -48,6 +51,11 @@ namespace CalendarSkill.Models
         /// ask for content
         /// </summary>
         AskForContent = 8,
+
+        /// <summary>
+        /// ask for date
+        /// </summary>
+        AskForDate = 9,
     }
 
     public class AskParameterModel
@@ -110,6 +118,13 @@ namespace CalendarSkill.Models
                             break;
                         }
 
+                    case AskParameterType.AskForDate:
+                        {
+                            NeedDate = true;
+                            NeedDetail = true;
+                            break;
+                        }
+
                     default:
                         {
                             break;
@@ -128,5 +143,7 @@ namespace CalendarSkill.Models
         public bool NeedDuration { get; set; } = false;
 
         public bool NeedLocation { get; set; } = false;
+
+        public bool NeedDate { get; set; } = false;
     }
 }

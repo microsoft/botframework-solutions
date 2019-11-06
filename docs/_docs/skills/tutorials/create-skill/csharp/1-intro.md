@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Create a Skill
+subcategory: Create
 language: C#
 title: Intro
 order: 1
@@ -17,7 +17,7 @@ Install Bot Framework development prerequisites and create a Skill using the Bot
 
 ### Prerequisites
 
-If you haven't [created a Virtual Assistant]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro), [download and install]({{site.baseurl}}/tutorials/csharp/create-skill/2_download_and_install) the Bot Framework development prerequisites.
+If you haven't [created a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro), [download and install]({{site.baseurl}}/tutorials/csharp/create-skill/2_download_and_install) the Bot Framework development prerequisites.
 
 - Retrieve your LUIS Authoring Key
   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a Europe deployment.

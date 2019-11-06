@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -18,6 +21,7 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 
@@ -28,20 +32,18 @@ namespace EmailSkill.Dialogs
         public static readonly int MaxAcceptContactsNum = 20;
 
         public FindContactDialog(
-             BotSettings settings,
-             BotServices services,
-             ResponseManager responseManager,
-             ConversationState conversationState,
-             IServiceManager serviceManager,
+             IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
              : base(nameof(FindContactDialog))
         {
             TelemetryClient = telemetryClient;
-            Services = services;
-            ResponseManager = responseManager;
+            Services = serviceProvider.GetService<BotServices>();
+            ResponseManager = serviceProvider.GetService<ResponseManager>();
+
+            var conversationState = serviceProvider.GetService<ConversationState>();
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            ServiceManager = serviceManager;
+            ServiceManager = serviceProvider.GetService<IServiceManager>();
             TelemetryClient = telemetryClient;
 
             // entry, get the name list
@@ -459,27 +461,6 @@ namespace EmailSkill.Dialogs
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
                 state.FindContactInfor.CurrentContactName = currentRecipientName;
 
-                // if it's an email, add to attendee and keep the state.ConfirmedPerson null
-                if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
-                {
-                    var attendee = new Recipient
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Name = currentRecipientName,
-                            Address = currentRecipientName
-                        }
-                    };
-                    if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
-                    {
-                        state.FindContactInfor.Contacts.Add(attendee);
-                    }
-
-                    state.FindContactInfor.CurrentContactName = string.Empty;
-                    state.FindContactInfor.ConfirmedContact = null;
-                    return await sc.EndDialogAsync();
-                }
-
                 var unionList = new List<PersonModel>();
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
@@ -545,6 +526,27 @@ namespace EmailSkill.Dialogs
 
                 if (unionList.Count == 0)
                 {
+                    // If the query is an email address, confirm it directly
+                    if (!string.IsNullOrEmpty(currentRecipientName) && Utilities.Util.IsEmail(currentRecipientName))
+                    {
+                        var attendee = new Recipient
+                        {
+                            EmailAddress = new EmailAddress
+                            {
+                                Name = currentRecipientName,
+                                Address = currentRecipientName
+                            }
+                        };
+                        if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
+                        {
+                            state.FindContactInfor.Contacts.Add(attendee);
+                        }
+
+                        state.FindContactInfor.CurrentContactName = string.Empty;
+                        state.FindContactInfor.ConfirmedContact = null;
+                        return await sc.EndDialogAsync();
+                    }
+
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
                     return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, options);
                 }
@@ -601,9 +603,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generlLuisResult = state.GeneralLuisResult;
+                var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
                 if (sc.Result == null)
@@ -684,9 +686,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generlLuisResult = state.GeneralLuisResult;
+                var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
                 if (sc.Result == null)
@@ -740,7 +742,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var nameString = state.FindContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
+                var nameString = state.FindContactInfor.Contacts.ToSpeechString(
+                    CommonStrings.And,
+                    li => !string.IsNullOrEmpty(li.EmailAddress.Name) && Util.IsEmail(li.EmailAddress.Name) ? li.EmailAddress.Name : $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
                 return await sc.PromptAsync(FindContactAction.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreContactsPrompt, new StringDictionary() { { "NameList", nameString } }),
@@ -931,9 +935,9 @@ namespace EmailSkill.Dialogs
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(pc.Context);
-            var generalLuisResult = state.GeneralLuisResult;
+            var generalLuisResult = pc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
             var generalTopIntent = generalLuisResult?.TopIntent().intent;
-            var emailLuisResult = state.LuisResult;
+            var emailLuisResult = pc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
             var emailTopIntent = emailLuisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic

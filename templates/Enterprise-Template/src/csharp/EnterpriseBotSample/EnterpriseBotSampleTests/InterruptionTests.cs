@@ -1,4 +1,7 @@
-﻿using EnterpriseBotSample.Dialogs.Cancel.Resources;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using EnterpriseBotSample.Dialogs.Cancel.Resources;
 using EnterpriseBotSample.Dialogs.Onboarding.Resources;
 using EnterpriseBotSampleTests.Utterances;
 using Microsoft.Bot.Connector;

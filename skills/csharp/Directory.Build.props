@@ -6,18 +6,13 @@
   <PropertyGroup>
     <RestoreAdditionalProjectSources>
       https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
+      https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
-  
-  <PropertyGroup>
-    <RestoreAdditionalProjectSources>
-      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
-  </PropertyGroup>
 
   <PropertyGroup>
     <Company>Microsoft</Company>

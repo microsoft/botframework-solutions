@@ -23,8 +23,8 @@
   "DeleteConfirm": {
     "replies": [
       {
-        "text": "Are you sure you want to delete?",
-        "speak": "Are you sure you want to delete? Details of email: {EmailDetails}"
+        "text": "Are you sure you want to delete this email?",
+        "speak": "Are you sure you want to delete this email? Details of email: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"
@@ -32,8 +32,8 @@
   "DeleteSuccessfully": {
     "replies": [
       {
-        "text": "Your email has been successfully deleted.",
-        "speak": "Your email has been successfully deleted."
+        "text": "Your email has been deleted.",
+        "speak": "Your email has been deleted."
       }
     ],
     "inputHint": "acceptingInput"

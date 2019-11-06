@@ -22,18 +22,14 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.BaseMarkTask)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectTaskIndex())
                 .Send(MarkToDoFlowTestUtterances.TaskContent)
-                .AssertReply(this.ShowUpdatedToDoCard(0))
-                .AssertReplyOneOf(this.CompleteAnotherTask())
-                .Send(MockData.ConfirmNo)
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ShowCompleteMessage(0))
+                .AssertReply(this.ShowSummary())
                 .StartTestAsync();
         }
 
@@ -43,16 +39,12 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompleted)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.ShowUpdatedToDoCard(1))
-                .AssertReplyOneOf(this.CompleteAnotherTask())
-                .Send(MockData.ConfirmNo)
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ShowCompleteMessage(1))
+                .AssertReply(this.ShowSummary())
                 .StartTestAsync();
         }
 
@@ -62,14 +54,10 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompletedWithListType)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.ShowUpdatedGroceryCard(2))
-                .AssertReplyOneOf(this.CompleteAnotherTask())
-                .Send(MockData.ConfirmNo)
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ShowGroceryCompleteMessage(2))
+                .AssertReply(this.ShowGrocerySummary())
                 .StartTestAsync();
         }
 
@@ -79,26 +67,20 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedByContent)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.ShowUpdatedToDoCard(0))
-                .AssertReplyOneOf(this.CompleteAnotherTask())
-                .Send(MockData.ConfirmNo)
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ShowCompleteMessage(0))
+                .AssertReply(this.ShowSummary())
                 .StartTestAsync();
         }
 
-        private Action<IActivity> ShowUpdatedToDoCard(int index)
+        private Action<IActivity> ShowCompleteMessage(int index)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-
                 CollectionAssert.Contains(
                     this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
                     {
@@ -108,13 +90,39 @@ namespace ToDoSkill.Tests.Flow
             };
         }
 
-        private Action<IActivity> ShowUpdatedGroceryCard(int index)
+        private Action<IActivity> ShowSummary()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                CollectionAssert.Contains(
+                    this.ParseReplies(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new StringDictionary()
+                    {
+                        { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() },
+                        { MockData.ListType, MockData.ToDo }
+                    }), messageActivity.Speak);
+            };
+        }
 
+        private Action<IActivity> ShowGrocerySummary()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(
+                    this.ParseReplies(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new StringDictionary()
+                    {
+                        { MockData.TaskCount, (MockData.MockGroceryItems.Count - 1).ToString() },
+                        { MockData.ListType, MockData.Grocery }
+                    }), messageActivity.Speak);
+            };
+        }
+
+        private Action<IActivity> ShowGroceryCompleteMessage(int index)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
                     this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
                     {
@@ -142,16 +150,6 @@ namespace ToDoSkill.Tests.Flow
         private string[] AfterSettingUpOneNote()
         {
             return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
 
         private string[] CompleteAnotherTask()

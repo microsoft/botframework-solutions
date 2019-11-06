@@ -223,7 +223,7 @@
     <value>me</value>
   </data>
   <data name="AskForAttendee" xml:space="preserve">
-    <value>who.*(with|attend|join|come)</value>
+    <value>who.*(with|attend|join|come|meet)</value>
   </data>
   <data name="AskForContent" xml:space="preserve">
     <value>what.*(content|detail)</value>
@@ -232,7 +232,7 @@
     <value>what (is|are)?.*about</value>
   </data>
   <data name="AskForDuration" xml:space="preserve">
-    <value>how long</value>
+    <value>(how long|what.*duration)</value>
   </data>
   <data name="AskForEndTime" xml:space="preserve">
     <value>(when|what time).*(end|stop)</value>
@@ -311,5 +311,11 @@
   </data>
   <data name="ShowEventTitleCondition" xml:space="preserve">
     <value>about {0}</value>
+  </data>
+  <data name="AskForDate" xml:space="preserve">
+    <value>what (day|date)</value>
+  </data>
+  <data name="DisplayDateLong" xml:space="preserve">
+    <value>dddd, MMMM d</value>
   </data>
 </root>

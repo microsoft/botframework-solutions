@@ -150,5 +150,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "RetryTooManyResponse": {
+    "replies": [
+      {
+        "text": "抱歉，我现在可能无法帮到你，请稍后再试。",
+        "speak": "抱歉，我现在可能无法帮到你，请稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

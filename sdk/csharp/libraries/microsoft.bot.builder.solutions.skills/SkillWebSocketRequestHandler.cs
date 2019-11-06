@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.StreamingExtensions;
+using Microsoft.Bot.Streaming;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Diagnostics = System.Diagnostics;

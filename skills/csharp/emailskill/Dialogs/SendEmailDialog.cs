@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -22,15 +25,9 @@ namespace EmailSkill.Dialogs
     public class SendEmailDialog : EmailSkillDialogBase
     {
         public SendEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            FindContactDialog findContactDialog,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(SendEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -78,7 +75,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSubject, updateSubject) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateContent, updateContent) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(serviceProvider, telemetryClient));
             AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             InitialDialogId = Actions.Send;
@@ -134,7 +131,7 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
+                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc, false) } });
                 var noSubjectMessage = ResponseManager.GetResponse(SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
@@ -283,27 +280,14 @@ namespace EmailSkill.Dialogs
                     {
                         state.Content = contentInput;
 
-                        var emailCard = new EmailCardData
-                        {
-                            Subject = EmailCommonStrings.MessageConfirm,
-                            EmailContent = state.Content,
-                        };
-
                         var stringToken = new StringDictionary
                         {
                             { "EmailContent", state.Content },
                         };
 
-                        var replyMessage = ResponseManager.GetCardResponse(
-                            SendEmailResponses.PlayBackMessage,
-                            new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
-                            stringToken);
-
-                        await sc.Context.SendActivityAsync(replyMessage);
-
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
-                            Prompt = ResponseManager.GetResponse(SendEmailResponses.CheckContent),
+                            Prompt = ResponseManager.GetResponse(SendEmailResponses.PlayBackMessage, stringToken),
                             RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessageRetry),
                         });
                     }
@@ -440,13 +424,13 @@ namespace EmailSkill.Dialogs
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                             await ClearConversationState(sc);
                             return await sc.EndDialogAsync(false, cancellationToken);
-                        case ResendEmailState.Participants:
+                        case ResendEmailState.Recipients:
                             state.ClearParticipants();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Subject:
                             state.ClearSubject();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
-                        case ResendEmailState.Content:
+                        case ResendEmailState.Body:
                             state.ClearContent();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         default:

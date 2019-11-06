@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -118,30 +122,36 @@ namespace ToDoSkill.Dialogs
                     state.ShowTaskPageIndex = state.TaskIndexes[0] / state.PageSize;
                 }
 
-                var allTasksCount = state.AllTasks.Count;
-                var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
-                state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var markToDoCard = ToAdaptiveCardForTaskCompletedFlow(
-                    sc.Context,
-                    state.Tasks,
-                    state.AllTasks.Count,
-                    taskTopicToBeMarked,
-                    state.ListType,
-                    state.MarkOrDeleteAllTasksFlag);
-
-                var uncompletedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == false);
-                if (state.MarkOrDeleteAllTasksFlag || uncompletedTaskIndex < 0)
+                ResponseTemplate response = null;
+                if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    markToDoCard.InputHint = InputHints.AcceptingInput;
-                    await sc.Context.SendActivityAsync(markToDoCard);
-                    return await sc.EndDialogAsync(true);
+                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
+                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
                 }
                 else
                 {
-                    markToDoCard.InputHint = InputHints.IgnoringInput;
-                    await sc.Context.SendActivityAsync(markToDoCard);
-                    return await sc.NextAsync();
+                    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
+                    var taskContent = state.AllTasks[completedTaskIndex].Topic;
+                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
+                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
+
+                    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
+                    if (uncompletedTaskCount == 1)
+                    {
+                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask);
+                    }
+                    else
+                    {
+                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks);
+                    }
+
+                    var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
+                    await sc.Context.SendActivityAsync(taskSummary, speak: taskSummary);
                 }
+
+                return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
             {

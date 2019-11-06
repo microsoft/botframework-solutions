@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Create a Skill
+subcategory: Create
 language: TypeScript
 title: Create your skill project
 order: 3

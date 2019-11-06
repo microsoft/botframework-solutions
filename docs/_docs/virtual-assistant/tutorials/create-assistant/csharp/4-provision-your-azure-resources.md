@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Create a Virtual Assistant
+subcategory: Create
 language: C#
 title: Provision your Azure resources
 order: 4
@@ -36,4 +36,4 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
     appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     luisAuthoringKey | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
 
-You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment]({{site.baseurl}}/reference/virtual-assistant/deploymentscripts/) page.
+You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment]({{site.baseurl}}/help/reference/deployment-scripts//) page.

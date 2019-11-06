@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -32,14 +35,10 @@ namespace CalendarSkill.Test.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarUpdateWithStartTimeEntity()
+        public async Task Test_CalendarUpdateWithNewStartDateEntity()
         {
             await this.GetTestFlow()
-                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 pm")
+                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithNewStartDate)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
@@ -52,8 +51,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
@@ -68,8 +65,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveEarlierTimeSpan)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
@@ -82,8 +77,6 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveLaterTimeSpan)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
@@ -98,8 +91,6 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
@@ -114,14 +105,6 @@ namespace CalendarSkill.Test.Flow
         private string[] AskForNewTimePrompt()
         {
             return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-            };
         }
 
         private Action<IActivity> ShowCalendarList()

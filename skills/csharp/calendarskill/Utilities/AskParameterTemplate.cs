@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.Shared;
@@ -22,7 +25,8 @@ namespace CalendarSkill.Utilities
                 { AskParameterType.AskForLocation, CalendarCommonStrings.AskForLocation },
                 { AskParameterType.AskForAttendee, CalendarCommonStrings.AskForAttendee },
                 { AskParameterType.AskForTitle, CalendarCommonStrings.AskForTitle },
-                { AskParameterType.AskForContent, CalendarCommonStrings.AskForContent }
+                { AskParameterType.AskForContent, CalendarCommonStrings.AskForContent },
+                { AskParameterType.AskForDate, CalendarCommonStrings.AskForDate }
             };
         }
 

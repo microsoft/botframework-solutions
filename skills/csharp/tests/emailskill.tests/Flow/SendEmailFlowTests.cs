@@ -1,18 +1,16 @@
-﻿using System;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkill.Services;
-using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Strings;
 using EmailSkill.Tests.Flow.Utterances;
-using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkill.Tests.Flow
@@ -31,8 +29,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
@@ -43,8 +39,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
@@ -62,8 +57,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
@@ -74,8 +67,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -95,8 +87,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipient)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -105,8 +95,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -126,8 +115,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubjectAndContext)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -150,8 +137,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.ConfirmEmail(recipientDict))
@@ -162,8 +147,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -182,8 +166,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.ConfirmEmail(recipientDict))
@@ -194,8 +176,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -209,20 +190,17 @@ namespace EmailSkill.Tests.Flow
         {
             string testRecipient = ContextStrings.TestEmailAdress;
             StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testRecipient } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testRecipient } };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -238,12 +216,10 @@ namespace EmailSkill.Tests.Flow
             StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
             string testRecipientConfirm = ContextStrings.TestEmailAdress;
             StringDictionary recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm + ": " + testRecipientConfirm } };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm} };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToNobody)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.CoundNotFindUser(recipientDict))
                 .Send(testRecipientConfirm)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
@@ -252,8 +228,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -275,8 +250,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToMultiRecipient)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReply(this.BeforeConfirmMultiName(recipientDict, recipientDupDict))
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -286,8 +259,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -307,8 +279,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestEmptyRecipient)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
@@ -321,8 +291,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -342,8 +311,6 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send("wrong name")
                 .AssertReplyOneOf(this.UserNotFoundPrompt("wrong name"))
@@ -358,8 +325,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback())
-                .AssertReply(this.AssertCheckContent())
+                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
@@ -407,22 +373,12 @@ namespace EmailSkill.Tests.Flow
             };
         }
 
-        private Action<IActivity> AssertContentPlayback()
+        private Action<IActivity> AssertContentPlayback(string content)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(SendEmailResponses.PlayBackMessage, new StringDictionary()), messageActivity.Text);
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> AssertCheckContent()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(SendEmailResponses.CheckContent, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(this.ParseReplies(SendEmailResponses.PlayBackMessage, new StringDictionary() { { "EmailContent", content } }), messageActivity.Text);
             };
         }
 
@@ -544,7 +500,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                recipients["UserName"] += ": " + recipients["EmailAddress"] + " and " + multiRecipients["UserName"] + ": " + multiRecipients["EmailAddress"];
+                recipients["UserName"] += " and " + multiRecipients["UserName"];
                 var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
                 var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
 
@@ -568,7 +524,6 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                recipients["UserName"] += ": " + recipients["EmailAddress"];
                 var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
                 var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
 
@@ -614,16 +569,6 @@ namespace EmailSkill.Tests.Flow
         private string[] CollectEmailContentMessage()
         {
             return this.ParseReplies(SendEmailResponses.NoMessageBody, new StringDictionary());
-        }
-
-        private Action<IActivity> ShowAuth()
-        {
-            return activity =>
-            {
-                var message = activity.AsMessageActivity();
-                Assert.AreEqual(1, message.Attachments.Count);
-                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
-            };
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -30,6 +33,32 @@ namespace PointOfInterestSkill.Tests.Flow
             await GetTestFlow()
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.FindNearestPoi)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Reprompt current location and find nearest points of interest nearby.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RepromptForCurrentAndRouteToNearestPointOfInterestTest()
+        {
+            await GetTestFlow()
+                .Send(FindPointOfInterestUtterances.FindNearestPoi)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.No)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
                 .Send(BaseTestUtterances.ShowDirections)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
@@ -77,6 +106,23 @@ namespace PointOfInterestSkill.Tests.Flow
                 .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
                 .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find points of interest nearby and select none to cancel.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RouteToPointOfInterestAndSelectNoneTest()
+        {
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.WhatsNearby)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(GeneralTestUtterances.SelectNone)
+                .AssertReply(AssertContains(POISharedResponses.CancellingMessage, null))
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }

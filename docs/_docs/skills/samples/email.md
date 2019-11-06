@@ -19,31 +19,25 @@ The following scenarios are currently supported by the Skill:
 
 - Send an Email
   - *Send an email to John Smith*
-  - *Send an email*
+  - *Send an email to Harold about the team lunch this Tuesday*
 - Find Email
   - *Find email from John Smith*
   - *What email do I have*
-- Add Flag
-  - *This email needs to be flagged*
-  - *Add a flag to the email Simone Jones just sent to me*
 - Check Messages
   - *Do I have any new mail*
   - *Check my email*
 - Delete
-  - *Do I have any new mail*
-  - *Check my email*
+  - *Delete an email*
+  - *put the email in the recycle bin*
 - Forward
-  - *Forward all files from Petrina to Jim*
-  - *Could you forward this message to Cosmo my email*
-- Query Last Text
-  - *Who emailed me last*
-  - *What was the last email I got from Dad*
+  - *Forward email from megan to alex*
+  - *Could you forward this message*
 - Read Aloud
-  - *Read the last email from Philippe*
+  - *Read email from Philippe*
   - *Read unread email*
 - Reply to an Email
-  - *Reply with "I will call you back"*
-  - *Respond to my last email*
+  - *Reply with I will call you back*
+  - *Respond to my email*
 - Select an Email
   - *The third search result please*
   - *Open this one*
@@ -108,20 +102,24 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 
 ### Deployment
 {:.no_toc}
-Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
 
 ### Supported content providers
 {:.no_toc}
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
 To use Google account skill you need follow these steps:
-1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
-2. Create an OAuth connection setting in your Web App Bot.
+1. Enable Gmail API in [Google API library](https://console.developers.google.com/apis/library)
+1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com/apis/credentials).
+    1. Choose "Create credential" - "OAuth Client ID"
+    1. Choose "Web Application"
+    1. Set Redirect URL as **https://token.botframework.com/.auth/web/redirect**
+1. Create an OAuth connection setting in your Web App Bot.
     - Connection name: **googleapi**
     - Service Provider: **Google**
-    - Client id and secret are generated in step 1
-    - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
-3. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
+    - Client id and secret are generated in step 2
+    - Scopes: **https://mail.google.com/ https://www.googleapis.com/auth/contacts**.
+1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
 ### Authentication connection Settings
 {:.no_toc}
@@ -134,12 +132,12 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
 
 ## Events
 {:.toc}
 
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location or time zone.
+Learn how to use [events]({{site.baseurl}}/virtual-assistant/handbook/events) to send backend data to a Skill, like a user's location or time zone.
 
 ## Download a transcript
 {:.toc}

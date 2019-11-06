@@ -18,7 +18,7 @@ using NewsSkill.Services;
 
 namespace NewsSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotServices _services;
         private IBotTelemetryClient _telemetryClient;
@@ -48,13 +48,13 @@ namespace NewsSkill.Dialogs
             AddDialog(favoriteTopicsDialog ?? throw new ArgumentNullException(nameof(favoriteTopicsDialog)));
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await _responder.ReplyWith(dc.Context, MainResponses.Intro);
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
@@ -117,7 +117,7 @@ namespace NewsSkill.Dialogs
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
@@ -170,15 +170,14 @@ namespace NewsSkill.Dialogs
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
-            await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Help);
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task PopulateStateFromSemanticAction(ITurnContext context)

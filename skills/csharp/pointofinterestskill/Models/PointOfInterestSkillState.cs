@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -38,6 +41,9 @@ namespace PointOfInterestSkill.Models
         public PointOfInterestLuis LuisResult { get; set; }
 
         public int UserSelectIndex { get; set; }
+
+        // from OnInterruptDialogAsync
+        public General.Intent GeneralIntent { get; set; }
 
         public void Clear()
         {
