@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -11,10 +12,13 @@ namespace VirtualAssistantSample.Dialogs
     public class IntentSwitchDialog : ComponentDialog
     {
         private LocaleTemplateEngineManager _templateEngine;
+        private IStatePropertyAccessor<bool> _confirmAccessor;
 
         public IntentSwitchDialog(IServiceProvider serviceProvider)
             : base(nameof(IntentSwitchDialog))
         {
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            _confirmAccessor = conversationState.CreateProperty<bool>("intentSwitchConfirmResult");
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
 
             var intentSwitch = new WaterfallStep[]
@@ -41,12 +45,8 @@ namespace VirtualAssistantSample.Dialogs
         private async Task<DialogTurnResult> End(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             bool result = (bool)stepContext.Result;
+            await _confirmAccessor.SetAsync(stepContext.Context, result);
             return await stepContext.EndDialogAsync(result: result);
-        }
-
-        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return new DialogTurnResult(DialogTurnStatus.Complete, result);
         }
     }
 }

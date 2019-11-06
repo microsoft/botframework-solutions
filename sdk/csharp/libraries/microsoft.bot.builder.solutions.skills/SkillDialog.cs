@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Skills
 
         public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
         {
-            if (reason == DialogReason.CancelCalled)
+            if (reason == DialogReason.CancelCalled || reason == DialogReason.ReplaceCalled)
             {
                 // when dialog is being ended/cancelled, send an activity to skill
                 // to cancel all dialogs on the skill side
