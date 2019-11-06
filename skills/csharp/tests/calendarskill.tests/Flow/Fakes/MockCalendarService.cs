@@ -200,5 +200,10 @@ namespace CalendarSkill.Test.Flow.Fakes
         {
             await Task.CompletedTask;
         }
+
+        public Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

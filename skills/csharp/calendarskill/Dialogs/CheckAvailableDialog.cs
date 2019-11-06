@@ -145,7 +145,8 @@ namespace CalendarSkill.Dialogs
                 {
                     Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableTime),
                     RetryPrompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableTime),
-                    TimeZone = state.GetUserTimeZone()
+                    TimeZone = state.GetUserTimeZone(),
+                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 });
             }
             catch (Exception ex)
