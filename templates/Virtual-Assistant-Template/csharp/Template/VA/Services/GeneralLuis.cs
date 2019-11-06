@@ -18,6 +18,7 @@ namespace Luis
             Cancel, 
             Confirm, 
             Escalate, 
+            ExtractName, 
             FinishTask, 
             GoBack, 
             Help, 
@@ -44,6 +45,10 @@ namespace Luis
             // Built-in entities
             public double[] number;
             public double[] ordinal;
+            public string[] personName;
+
+            // Pattern.any
+            public string[] PersonName_Any;
 
             // Instance
             public class _Instance
@@ -51,6 +56,8 @@ namespace Luis
                 public InstanceData[] DirectionalReference;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] personName;
+                public InstanceData[] PersonName_Any;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -58,7 +65,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {
