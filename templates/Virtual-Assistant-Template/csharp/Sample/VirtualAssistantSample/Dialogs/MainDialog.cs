@@ -58,9 +58,8 @@ namespace VirtualAssistantSample.Dialogs
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            _intentSwitchDialog = serviceProvider.GetService<IntentSwitchDialog>();
             AddDialog(_onboardingDialog);
-
-            _intentSwitchDialog = new IntentSwitchDialog();
             AddDialog(_intentSwitchDialog);
 
             // Register skill dialogs
@@ -90,6 +89,44 @@ namespace VirtualAssistantSample.Dialogs
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                     innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
                 }
+
+                var dialog = innerDc.ActiveDialog?.Id != null ? innerDc.FindDialog(innerDc.ActiveDialog?.Id) : null;
+                var isSkill = dialog is SkillDialog;
+
+                // Check if we're in the middle of an intent switch.
+                if (dialog is IntentSwitchDialog)
+                {
+                    var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(innerDc.Context, () => null);
+                    var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(innerDc.Context, () => null);
+                    innerDc.Context.Activity.Text = intentSwitchActivity.Text;
+                    var result = await innerDc.ContinueDialogAsync(cancellationToken);
+
+                    if ((bool)result.Result)
+                    {
+                        // Start new skill dialog
+                        return await innerDc.ReplaceDialogAsync(intentSwitchValue, cancellationToken);
+                    }
+                    else
+                    {
+                        return await innerDc.ContinueDialogAsync(cancellationToken);
+                    }
+                }
+
+                // Check if we need to switch skills.
+                if (isSkill)
+                {
+                    if (dispatchResult.TopIntent().score > 0.9)
+                    {
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
+
+                        if (identifiedSkill != null)
+                        {
+                            await _intentSwitchValueAccessor.SetAsync(innerDc.Context, identifiedSkill.Id);
+                            await _intentSwitchActivityAccessor.SetAsync(innerDc.Context, innerDc.Context.Activity);
+                            return await innerDc.BeginDialogAsync(_intentSwitchDialog.Id, options: new { newSkill = identifiedSkill });
+                        }
+                    }
+                }
             }
 
             // Set up response caching for "repeat" functionality.
@@ -112,39 +149,6 @@ namespace VirtualAssistantSample.Dialogs
                 // Get Dispatch LUIS result from turn state.
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
-
-                // Check if we're in the middle of an intent switch.
-                if (dialog is IntentSwitchDialog)
-                {
-                    var result = await dc.ContinueDialogAsync(cancellationToken);
-                    if ((bool)result.Result)
-                    {
-                        var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(dc.Context, () => null);
-                        var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(dc.Context, () => null);
-                        dc.Context.Activity.Text = intentSwitchActivity.Text;
-
-                        // Start new skill dialog
-                        var dialogResult = await dc.BeginDialogAsync(intentSwitchValue);
-                        return InterruptionAction.Waiting;
-                    }
-                }
-
-                // Check if we need to switch skills.
-                if (isSkill)
-                {
-                    if (dispatchScore > 0.9)
-                    {
-                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
-
-                        if (identifiedSkill != null)
-                        {
-                            await _intentSwitchValueAccessor.SetAsync(dc.Context, identifiedSkill.Id);
-                            await _intentSwitchActivityAccessor.SetAsync(dc.Context, dc.Context.Activity);
-                            await dc.BeginDialogAsync(_intentSwitchDialog.Id, options: new { newSkill = identifiedSkill });
-                            return InterruptionAction.Waiting;
-                        }
-                    }
-                }
 
                 if (dispatchIntent == DispatchLuis.Intent.l_General)
                 {

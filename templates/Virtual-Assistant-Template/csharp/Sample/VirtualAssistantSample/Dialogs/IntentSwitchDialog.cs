@@ -1,16 +1,22 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace VirtualAssistantSample.Dialogs
 {
     public class IntentSwitchDialog : ComponentDialog
     {
-        public IntentSwitchDialog()
+        private LocaleTemplateEngineManager _templateEngine;
+
+        public IntentSwitchDialog(IServiceProvider serviceProvider)
             : base(nameof(IntentSwitchDialog))
         {
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+
             var intentSwitch = new WaterfallStep[]
             {
                 PromptToSwitch,
@@ -21,6 +27,11 @@ namespace VirtualAssistantSample.Dialogs
             AddDialog(new ConfirmPrompt("ConfirmIntentSwitch"));
         }
 
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new DialogTurnResult(DialogTurnStatus.Complete, result));
+        }
+
         private async Task<DialogTurnResult> PromptToSwitch(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             dynamic options = stepContext.Options;
@@ -28,7 +39,7 @@ namespace VirtualAssistantSample.Dialogs
 
             return await stepContext.PromptAsync("ConfirmIntentSwitch", new PromptOptions()
             {
-                Prompt = MessageFactory.Text($"I found the following skill that can handle your request. Would you like to switch? \n\n * {newSkill.Name}")
+                Prompt = _templateEngine.GenerateActivityForLocale("IntentSwitchPrompt", new { Skill = newSkill.Name })
             });
         }
 
@@ -36,11 +47,6 @@ namespace VirtualAssistantSample.Dialogs
         {
             bool result = (bool)stepContext.Result;
             return await stepContext.EndDialogAsync(result: result);
-        }
-
-        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return new DialogTurnResult(DialogTurnStatus.Complete, result);
         }
     }
 }

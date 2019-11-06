@@ -31,7 +31,7 @@
 - Hmm, it looks like there was an error. Sorry about that. You can try again later.
 - Apologies, it looks like something went wrong. Try your request again later.
 
-#StartOverMessage
+# StartOverMessage
 - OK{RandName()}, let's try that again.
 - No problem{RandName()}, we can start over.
 - OK, let's try that again.
@@ -52,6 +52,9 @@
 - Alright, signed out.
 - Sure, you’ve been signed out.
 - No problem, I’ve signed you out.
+
+# IntentSwitchPrompt
+- Would you like to switch to the {Skill}?
 
 # EscalateMessage
 [HeroCard
