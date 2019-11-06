@@ -143,16 +143,10 @@ namespace VirtualAssistantSample
             }
 
             app.UseDefaultFiles()
-                .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseRouting()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                });
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.
