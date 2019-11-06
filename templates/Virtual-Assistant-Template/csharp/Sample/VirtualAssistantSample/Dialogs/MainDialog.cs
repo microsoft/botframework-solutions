@@ -96,19 +96,15 @@ namespace VirtualAssistantSample.Dialogs
                 // Check if we're in the middle of an intent switch.
                 if (dialog is IntentSwitchDialog)
                 {
-                    var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(innerDc.Context, () => null);
-                    var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(innerDc.Context, () => null);
-                    innerDc.Context.Activity.Text = intentSwitchActivity.Text;
                     var result = await innerDc.ContinueDialogAsync(cancellationToken);
-
                     if ((bool)result.Result)
                     {
+                        var intentSwitchValue = await _intentSwitchValueAccessor.GetAsync(innerDc.Context, () => null);
+                        var intentSwitchActivity = await _intentSwitchActivityAccessor.GetAsync(innerDc.Context, () => null);
+                        innerDc.Context.Activity.Text = intentSwitchActivity.Text;
+
                         // Start new skill dialog
-                        return await innerDc.ReplaceDialogAsync(intentSwitchValue, cancellationToken);
-                    }
-                    else
-                    {
-                        return await innerDc.ContinueDialogAsync(cancellationToken);
+                        return await innerDc.BeginDialogAsync(intentSwitchValue);
                     }
                 }
 

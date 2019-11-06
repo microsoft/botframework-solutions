@@ -27,11 +27,6 @@ namespace VirtualAssistantSample.Dialogs
             AddDialog(new ConfirmPrompt("ConfirmIntentSwitch"));
         }
 
-        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(new DialogTurnResult(DialogTurnStatus.Complete, result));
-        }
-
         private async Task<DialogTurnResult> PromptToSwitch(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             dynamic options = stepContext.Options;
@@ -47,6 +42,11 @@ namespace VirtualAssistantSample.Dialogs
         {
             bool result = (bool)stepContext.Result;
             return await stepContext.EndDialogAsync(result: result);
+        }
+
+        protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            return new DialogTurnResult(DialogTurnStatus.Complete, result);
         }
     }
 }
