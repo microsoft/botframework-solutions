@@ -7,6 +7,6 @@ namespace EventSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
-        public string EventbriteApiKey { get; set; }
+        public string EventbriteKey { get; set; }
     }
 }

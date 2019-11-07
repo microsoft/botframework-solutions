@@ -39,6 +39,38 @@
       ]
     }
   ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Send location",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "\/event:{\"Name\": \"VA.Location\", \"Value\": \"47.639620,-122.130610\"}"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Room service",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "I want to order room service"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Today's weather",
+      "data": {
+        "msteams": {
+          "type": "imBack",
+          "value": "What's the weather today?"
+        }
+      }
+    }
+  ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "speak": "Hi, I'm **your** Hospitality Assistant. Now that I'm up and running, explore the links here to learn what I can do."

@@ -1,4 +1,7 @@
-﻿namespace AutomotiveSkill.Utilities
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace AutomotiveSkill.Utilities
 {
     /// <summary>
     /// A chunk of a string, which can be either a number or a non-number

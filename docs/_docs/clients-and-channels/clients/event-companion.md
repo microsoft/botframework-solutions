@@ -14,9 +14,9 @@ toc: true
 ![Virtual Assistant Client (Android) overview diagram]({{site.baseurl}}/assets/images/android-virtual-assistant-client-architecture.png)
 
 ## Prerequisites
-1. Set up your own [Virtual Assistant Client]({{site.baseurl/virtual-assistant/samples/virtual-assistant-client/}}).
+1. Set up your own [Virtual Assistant Client]({{site.baseurl}}/clients-and-channels/clients/virtual-assistant-client).
 
-1. Download the [Event Companion app source code]({{site.baseurl}}/tree/next/samples/android/clients/EventCompanion).
+1. Download the [Event Companion app source code]({{site.repo}}/tree/next/samples/android/clients/EventCompanion).
 
 ## Build and run
 ### Run

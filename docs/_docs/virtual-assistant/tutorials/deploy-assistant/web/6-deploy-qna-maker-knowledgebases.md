@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Deploy a Virtual Assistant
+subcategory: Deploy
 language: Using the web
 title: Deploy QnA Maker knowledge bases
 order: 6

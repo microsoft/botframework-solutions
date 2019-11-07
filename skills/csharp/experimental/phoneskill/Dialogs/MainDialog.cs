@@ -20,7 +20,7 @@ using PhoneSkill.Services.Luis;
 
 namespace PhoneSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private readonly OutgoingCallDialog outgoingCallDialog;
         private BotSettings _settings;
@@ -49,13 +49,13 @@ namespace PhoneSkill.Dialogs
             AddDialog(outgoingCallDialog ?? throw new ArgumentNullException(nameof(outgoingCallDialog)));
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneMainResponses.WelcomeMessage));
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new PhoneSkillState());
 
@@ -101,7 +101,7 @@ namespace PhoneSkill.Dialogs
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
             response.Type = ActivityTypes.Handoff;
@@ -112,7 +112,7 @@ namespace PhoneSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             switch (dc.Context.Activity.Name)
             {
@@ -199,16 +199,15 @@ namespace PhoneSkill.Dialogs
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneMainResponses.CancelMessage));
-            await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             await outgoingCallDialog.OnCancel(dc);
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneMainResponses.HelpMessage));
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -236,7 +235,7 @@ namespace PhoneSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(PhoneMainResponses.LogOut));
 
             await outgoingCallDialog.OnLogout(dc);
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private class Events

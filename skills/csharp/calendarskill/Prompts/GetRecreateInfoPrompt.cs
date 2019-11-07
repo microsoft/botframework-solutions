@@ -1,8 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -14,6 +18,10 @@ namespace CalendarSkill.Prompts
 {
     public class GetRecreateInfoPrompt : Prompt<RecreateEventState?>
     {
+        internal const string AttemptCountKey = "AttemptCount";
+
+        private static int maxReprompt = -1;
+
         public GetRecreateInfoPrompt(string dialogId, PromptValidator<RecreateEventState?> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
         {
@@ -42,6 +50,8 @@ namespace CalendarSkill.Prompts
             {
                 await turnContext.SendActivityAsync(options.Prompt, cancellationToken).ConfigureAwait(false);
             }
+
+            maxReprompt = ((CalendarPromptOptions)options).MaxReprompt;
         }
 
         protected override async Task<PromptRecognizerResult<RecreateEventState?>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -62,6 +72,11 @@ namespace CalendarSkill.Prompts
                     result.Succeeded = true;
                     result.Value = recreateState;
                 }
+            }
+
+            if (maxReprompt > 0 && Convert.ToInt32(state[AttemptCountKey]) >= maxReprompt)
+            {
+                result.Succeeded = true;
             }
 
             return await Task.FromResult(result);

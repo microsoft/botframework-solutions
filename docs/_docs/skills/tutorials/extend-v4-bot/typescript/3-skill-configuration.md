@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Extend a v4 Bot with Skills
+subcategory: Extend a v4 Bot
 language: TypeScript
 title: Skill configuration
 order: 3

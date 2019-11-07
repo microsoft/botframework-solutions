@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Globalization;
 using BingSearchSkill.Responses.Shared;
 using BingSearchSkill.Services;
 using Microsoft.Bot.Builder;

@@ -1,4 +1,7 @@
-﻿using $ext_safeprojectname$.Middleware.Telemetry;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using $ext_safeprojectname$.Middleware.Telemetry;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;

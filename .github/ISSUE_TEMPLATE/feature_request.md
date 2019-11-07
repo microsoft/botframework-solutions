@@ -2,15 +2,32 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: 'Needs Triage, Type: Suggestion'
+labels: Needs Triage
 assignees: ''
 
 ---
 
-#### Is your feature request related to a problem? Please describe. 
+## User Story
+As ...
+I want ...
+so that ...
 
-#### What is the solution you are looking for?
+## Acceptance Criteria 
+*List your requirements.*
+- [ ] ...
+- [ ] ...
+- [ ] ...
 
-#### What alternatives have you considered?
+## Resources
+*Provide any screenshots or conversation mockups to support your request.*
+*Learn how to mock up bot conversations with [.chat files](http://aka.ms/bfchatfile).*
 
-#### Is there any other context you can provide?
+## Notes
+*Provide any additional information.*
+
+<!-- Internal Use Only
+### Time Estimations
+⏱ Documentation: ___
+⏱ Development: ___
+⏱ Tests: ___
+-->

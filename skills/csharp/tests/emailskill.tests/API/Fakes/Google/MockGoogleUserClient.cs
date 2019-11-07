@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using Google.Apis.People.v1;
 using Moq;
 using static Google.Apis.People.v1.PeopleResource;

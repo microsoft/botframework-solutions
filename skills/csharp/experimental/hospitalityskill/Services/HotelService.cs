@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,10 +35,10 @@ namespace HospitalitySkill.Services
                 .First();
         }
 
-        public async Task<string> GetLateCheckOutAsync()
+        public async Task<TimeSpan> GetLateCheckOutAsync()
         {
             // make request for the late check out time
-            var lateTime = "4:00 pm";
+            var lateTime = new TimeSpan(16, 0, 0);
 
             return await Task.FromResult(lateTime);
         }

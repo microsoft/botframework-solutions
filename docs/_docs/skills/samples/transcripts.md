@@ -39,6 +39,7 @@ order: 6
 {:.no_toc}
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-automotive.transcript">Automotive</a>
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-hospitality.transcript">Hospitality</a>
+<a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-itsm.transcript">ITSM</a>
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-news.transcript">News</a>
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/skills-restaurantbooking.transcript">Restaurant Booking</a>
 
