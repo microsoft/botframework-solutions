@@ -1,5 +1,5 @@
 ---
-category: Skills
+category: Archive
 subcategory: Samples
 language: Experimental Skills
 title: Event Skill

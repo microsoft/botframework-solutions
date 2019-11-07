@@ -65,6 +65,21 @@
 
                                     <ul id="subcategory{{index}}_{{index2}}" class="{{ collapse }} mt-2 mb-4">
                                         {% assign languages = items | group_by: 'language' %}
+                                        {% assign nolang = languages | where: "name", "" | first %}
+                                        {% if nolang %}
+                                        {% for item in nolang.items | sort: 'order' %}
+                                        <li>
+                                            {% if page.url == item.url %}
+                                            {% assign classes = "text-brand-dark font-weight-bold" %}
+                                            {% else %}
+                                            {% assign classes = "text-gray" %}
+                                            {% endif %}
+                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
+                                                {{ item.title }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                        {% endif %}
                                         {% for language in languages %}
                                         {% if page.subcategory == subcategory.name and page.language == language.name %}
                                         {% assign collapse = '' %}
@@ -104,21 +119,6 @@
                                         </li>
                                         {% endif %}
                                         {% endfor %}
-                                        {% assign nolang = languages | where: "name", "" | first %}
-                                        {% if nolang %}
-                                        {% for item in nolang.items | sort: 'order' %}
-                                        <li>
-                                            {% if page.url == item.url %}
-                                            {% assign classes = "text-brand-dark font-weight-bold" %}
-                                            {% else %}
-                                            {% assign classes = "text-gray" %}
-                                            {% endif %}
-                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
-                                                {{ item.title }}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                        {% endif %}
                                     </ul>
                                 </li>
                                 {% endif %}
