@@ -15,7 +15,7 @@ namespace HospitalitySkill.Models
             {
                 CheckInDate = DateTime.Now.ToString("MMMM d, yyyy"),
                 CheckOutDate = DateTime.Now.AddDays(4).ToString("MMMM d, yyyy"),
-                CheckOutTime = "12:00 pm"
+                CheckOutTimeData = new TimeSpan(12, 0, 0)
             };
         }
 
