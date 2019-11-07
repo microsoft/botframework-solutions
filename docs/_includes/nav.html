@@ -1,5 +1,5 @@
-<div id="toc" class="col-md-3 col-xl-2 pl-4">
-    <div class="toc-wrap">
+<div id="nav-content" class="col-md-2 pl-4">
+    <div class="nav-wrap">
         <ul class="mb-4">
             <li>
                 <span class="mt-2 mb-4">
@@ -16,9 +16,7 @@
                     {% if c[0] == category.name %}
                         <li>
                             <span class="mt-2 mb-4">
-                                <a href="#category{{index}}" data-toggle="collapse" class="dropdown-toggle d-block no-underline py-1 text-brand-dark" aria-expanded="true">
-                                    {{ category.name }}
-                                </a>
+                                <a href="#category{{index}}" data-toggle="collapse" class="dropdown-toggle d-block no-underline py-1 text-brand-dark" aria-expanded="true">{{ category.name }}</a>
                             </span>
                             {% if page.category == category.name %}
                                 {% assign collapse = '' %}
@@ -34,13 +32,11 @@
                                 {% for item in items %}
                                 <li>
                                     {% if page.url == item.url %}
-                                    {% assign classes = "text-brand-dark font-weight-bold" %}
+                                    {% assign classes = "text-brand-dark is-selected" %}
                                     {% else %}
                                     {% assign classes = "text-gray" %}
                                     {% endif %}
-                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
-                                        {{ item.title }}
-                                    </a>
+                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
                                 </li>
                                 {% endfor %}
                                 {% endif %}
@@ -52,9 +48,7 @@
                                 {% assign items = subcategory.items | sort: 'order' %}
                                 <li>
                                     <span class="mt-2 mb-4">
-                                        <a href="#subcategory{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block no-underline py-1 text-brand-dark" aria-expanded="true">
-                                            {{ subcategory.name }}
-                                        </a>
+                                        <a href="#subcategory{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block py-1 text-brand-dark" aria-expanded="true">{{ subcategory.name }}</a>
                                     </span>
 
                                     {% if page.subcategory == subcategory.name %}
@@ -70,13 +64,11 @@
                                         {% for item in nolang.items | sort: 'order' %}
                                         <li>
                                             {% if page.url == item.url %}
-                                            {% assign classes = "text-brand-dark font-weight-bold" %}
+                                            {% assign classes = "text-brand-dark is-selected" %}
                                             {% else %}
                                             {% assign classes = "text-gray" %}
                                             {% endif %}
-                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
-                                                {{ item.title }}
-                                            </a>
+                                            <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
                                         </li>
                                         {% endfor %}
                                         {% endif %}
@@ -98,21 +90,17 @@
                                         {% endif %}
                                         <li>
                                             <span class="mt-2 mb-4">
-                                                <a href="#subcategory{{languageName}}{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block no-underline py-1 text-brand-dark" aria-expanded="true">
-                                                    {{ language.name }}
-                                                </a>
+                                                <a href="#subcategory{{languageName}}{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block py-1 text-brand-dark" aria-expanded="true">{{ language.name }}</a>
                                             </span>
                                             <ul id="subcategory{{languageName}}{{index}}_{{index2}}" class="{{ collapse }}">
                                                 {% for item in language.items | sort: 'order' %}
                                                 <li>
                                                     {% if page.url == item.url %}
-                                                    {% assign classes = "text-brand-dark font-weight-bold" %}
+                                                    {% assign classes = "text-brand-dark is-selected" %}
                                                     {% else %}
                                                     {% assign classes = "text-gray" %}
                                                     {% endif %}
-                                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
-                                                        {{ item.title }}
-                                                    </a>
+                                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
                                                 </li>
                                                 {% endfor %}
                                             </ul>
