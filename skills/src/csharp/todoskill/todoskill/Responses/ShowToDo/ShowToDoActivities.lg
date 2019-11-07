@@ -108,18 +108,18 @@
 
 # ShowToDoTextForSinglePage(ToDos)
 - IF: {count(ToDos) == 1}
-  - [LatestTask.Text]
+  - @{LatestTask.Text()}
 - ELSE:
-  - [LatestTasks.Text]
+  - @{LatestTasks.Text()}
 
 # ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)
-- [CardSummary(AllTasksCount, ListType, ToDos)]
+- @{CardSummary(AllTasksCount, ListType, ToDos)}
 
 # ShowToDoText(AllTasksCount, ListType, ToDos)
 - IF: {AllTasksCount <= count(ToDos)}
-  - [ShowToDoTextForSinglePage(ToDos)]
+  - @{ShowToDoTextForSinglePage(ToDos)}
 - ELSE:
-  - [ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)]
+  - @{ShowToDoTextForMultiPage(AllTasksCount, ListType, ToDos)}
 
 # ReadMore
 [Activity
@@ -131,9 +131,9 @@
 
 # ReadMoreText(ToDos)
 - IF: {count(ToDos) == 1}
-  - [NextTask.Text]
+  - @{NextTask.Text()}
 - ELSE:
-  - [NextTasks.Text]
+  - @{NextTasks.Text()}
 
 # PreviousPage
 [Activity
@@ -145,8 +145,8 @@
 
 # PreviousPageText(ToDos)
 - IF: {isFirst == false}
-  - [PreviousTasks.Text]
+  - @{PreviousTasks.Text()}
 - ELSEIF: {count(ToDos) == 1}
-  - [PreviousFirstSingleTask.Text(taskCount)]
+  - @{PreviousFirstSingleTask.Text(taskCount)}
 - ELSE:
-  - [PreviousFirstTasks.Text(taskCount)]
+  - @{PreviousFirstTasks.Text(taskCount)}

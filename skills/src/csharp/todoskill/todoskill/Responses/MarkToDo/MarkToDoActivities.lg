@@ -47,6 +47,6 @@
 
 # TaskCompletedSpeak(IsCompleteAll, ListType, TaskContent)
 - IF: {IsCompleteAll == true}
-  - [AfterAllTasksCompleted.Text(ListType)]
+  - @{AfterAllTasksCompleted.Text(ListType)}
 - ELSE:
-  - [AfterTaskCompleted.Text(TaskContent, ListType)]
+  - @{AfterTaskCompleted.Text(TaskContent, ListType)}

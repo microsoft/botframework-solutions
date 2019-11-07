@@ -371,7 +371,8 @@ namespace ToDoSkill.Dialogs
            string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[ShowToDo]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ShowToDo, turnContext, new
             {
                 AllTasksCount = allTasksCount,
                 ListType = listType,
@@ -393,7 +394,8 @@ namespace ToDoSkill.Dialogs
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[ReadMore]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ReadMore, turnContext, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -414,7 +416,8 @@ namespace ToDoSkill.Dialogs
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[PreviousPage]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.PreviousPage, turnContext, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -435,7 +438,8 @@ namespace ToDoSkill.Dialogs
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[AfterTaskAdded]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterTaskAdded, turnContext, new
             {
                 TaskContent = taskContent,
                 ListType = listType,
@@ -458,7 +462,8 @@ namespace ToDoSkill.Dialogs
             bool isCompleteAll)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[TaskCompleted]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.TaskCompleted, turnContext, new
             {
                 AllTasksCount = allTasksCount,
                 ListType = listType,
@@ -483,7 +488,8 @@ namespace ToDoSkill.Dialogs
             bool isDeleteAll)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[TaskDeleted]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.TaskDeleted, turnContext, new
             {
                 IsDeleteAll = isDeleteAll,
                 ListType = listType,
@@ -505,7 +511,8 @@ namespace ToDoSkill.Dialogs
             string listType)
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            var activity = await new ActivityTemplate("[DeletionAllConfirmationRefused]").BindToData(turnContext, new
+
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.DeletionAllConfirmationRefused, turnContext, new
             {
                 TaskCount = allTasksCount,
                 ListType = listType,
