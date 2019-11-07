@@ -8,11 +8,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -27,7 +28,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
-        private SkillSwitchDialog _skillSwitchDialog;
+        private SwitchSkillDialog _switchSkillDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -54,9 +55,9 @@ namespace VirtualAssistantSample.Dialogs
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
-            _skillSwitchDialog = serviceProvider.GetService<SkillSwitchDialog>();
+            _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
-            AddDialog(_skillSwitchDialog);
+            AddDialog(_switchSkillDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -111,14 +112,14 @@ namespace VirtualAssistantSample.Dialogs
                 // Check if we need to switch skills.
                 if (isSkill)
                 {
-                    if (dispatchResult.TopIntent().score > 0.9)
+                    if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                     {
                         var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
 
                         if (identifiedSkill != null)
                         {
                             var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
-                            await dc.BeginDialogAsync(_skillSwitchDialog.Id, new SkillSwitchDialogOptions(prompt, identifiedSkill));
+                            await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
                             return InterruptionAction.Waiting;
                         }
                     }
