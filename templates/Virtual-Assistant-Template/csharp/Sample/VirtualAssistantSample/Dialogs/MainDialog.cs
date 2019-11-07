@@ -436,8 +436,6 @@ namespace VirtualAssistantSample.Dialogs
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
             public const string PreviousBotResponse = "previousBotResponse";
-            public const string IntentSwitchValue = "intentSwitchValue";
-            public const string IntentSwitchActivity = "intentSwitchActivity";
             public const string Location = "location";
             public const string TimeZone = "timezone";
         }
