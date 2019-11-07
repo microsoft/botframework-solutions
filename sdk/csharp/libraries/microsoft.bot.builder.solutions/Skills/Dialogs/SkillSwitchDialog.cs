@@ -9,6 +9,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
     public class SkillSwitchDialog : ComponentDialog
     {
+        private static string _confirmPromptId = "ConfirmSkillSwitch";
         private IStatePropertyAccessor<string> _skillIdAccessor;
         private IStatePropertyAccessor<Activity> _lastActivityAccessor;
 
@@ -25,7 +26,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
             };
 
             AddDialog(new WaterfallDialog(nameof(SkillSwitchDialog), intentSwitch));
-            AddDialog(new ConfirmPrompt("ConfirmIntentSwitch"));
+            AddDialog(new ConfirmPrompt(_confirmPromptId));
         }
 
         // Runs when this dialog ends. Handles result of prompt to switch skills or resume waiting dialog.
@@ -57,7 +58,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
             await _skillIdAccessor.SetAsync(stepContext.Context, options.Skill.Id).ConfigureAwait(false);
             await _lastActivityAccessor.SetAsync(stepContext.Context, stepContext.Context.Activity).ConfigureAwait(false);
 
-            return await stepContext.PromptAsync("ConfirmIntentSwitch", new PromptOptions() { Prompt = options.Prompt }).ConfigureAwait(false);
+            return await stepContext.PromptAsync(_confirmPromptId, new PromptOptions() { Prompt = options.Prompt }).ConfigureAwait(false);
         }
 
         // Ends this dialog, returning the prompt result.
