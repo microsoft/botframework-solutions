@@ -3,14 +3,14 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
-    public class SkillSwitchDialogOptions
+    public class SwitchSkillDialogOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SkillSwitchDialogOptions"/> class.
+        /// Initializes a new instance of the <see cref="SwitchSkillDialogOptions"/> class.
         /// </summary>
         /// <param name="prompt">The <see cref="Activity"/> to display when prompting to switch skills.</param>
         /// <param name="manifest">The <see cref="SkillManifest"/> for the new skill.</param>
-        public SkillSwitchDialogOptions(Activity prompt, SkillManifest manifest)
+        public SwitchSkillDialogOptions(Activity prompt, SkillManifest manifest)
         {
             Prompt = prompt;
             Skill = manifest;

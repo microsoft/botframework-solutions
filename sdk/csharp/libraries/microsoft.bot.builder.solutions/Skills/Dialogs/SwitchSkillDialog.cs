@@ -7,14 +7,14 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
-    public class SkillSwitchDialog : ComponentDialog
+    public class SwitchSkillDialog : ComponentDialog
     {
         private static string _confirmPromptId = "ConfirmSkillSwitch";
         private IStatePropertyAccessor<string> _skillIdAccessor;
         private IStatePropertyAccessor<Activity> _lastActivityAccessor;
 
-        public SkillSwitchDialog(ConversationState conversationState)
-            : base(nameof(SkillSwitchDialog))
+        public SwitchSkillDialog(ConversationState conversationState)
+            : base(nameof(SwitchSkillDialog))
         {
             _skillIdAccessor = conversationState.CreateProperty<string>(Properties.SkillId);
             _lastActivityAccessor = conversationState.CreateProperty<Activity>(Properties.LastActivity);
@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
                 EndAsync,
             };
 
-            AddDialog(new WaterfallDialog(nameof(SkillSwitchDialog), intentSwitch));
+            AddDialog(new WaterfallDialog(nameof(SwitchSkillDialog), intentSwitch));
             AddDialog(new ConfirmPrompt(_confirmPromptId));
         }
 
@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
         // Prompts user to switch to a new skill.
         private async Task<DialogTurnResult> PromptToSwitchAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var options = stepContext.Options as SkillSwitchDialogOptions ?? throw new ArgumentException($"You must provide options of type {typeof(SkillSwitchDialogOptions).FullName}.");
+            var options = stepContext.Options as SwitchSkillDialogOptions ?? throw new ArgumentException($"You must provide options of type {typeof(SwitchSkillDialogOptions).FullName}.");
             await _skillIdAccessor.SetAsync(stepContext.Context, options.Skill.Id).ConfigureAwait(false);
             await _lastActivityAccessor.SetAsync(stepContext.Context, stepContext.Context.Activity).ConfigureAwait(false);
 
