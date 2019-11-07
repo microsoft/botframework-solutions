@@ -5,22 +5,18 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Solutions.Dialogs
+namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
     public class SkillSwitchDialog : ComponentDialog
     {
-        private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<string> _skillIdAccessor;
         private IStatePropertyAccessor<Activity> _lastActivityAccessor;
 
-        public SkillSwitchDialog(
-            ConversationState conversationState,
-            LocaleTemplateEngineManager templateEngine)
+        public SkillSwitchDialog(ConversationState conversationState)
             : base(nameof(SkillSwitchDialog))
         {
             _skillIdAccessor = conversationState.CreateProperty<string>(Properties.SkillId);
             _lastActivityAccessor = conversationState.CreateProperty<Activity>(Properties.LastActivity);
-            _templateEngine = templateEngine;
 
             var intentSwitch = new WaterfallStep[]
             {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Solutions.Dialogs
+namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
     public class SkillSwitchDialogOptions
     {
