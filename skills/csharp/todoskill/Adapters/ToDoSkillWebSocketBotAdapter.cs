@@ -5,6 +5,7 @@ using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -21,7 +22,8 @@ namespace ToDoSkill.Adapters
             UserState userState,
             ConversationState conversationState,
             ResponseManager responseManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            TelemetryInitializerMiddleware telemetryMiddleware)
             : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
@@ -32,6 +34,7 @@ namespace ToDoSkill.Adapters
                 telemetryClient.TrackException(exception);
             };
 
+            Use(telemetryMiddleware);
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
