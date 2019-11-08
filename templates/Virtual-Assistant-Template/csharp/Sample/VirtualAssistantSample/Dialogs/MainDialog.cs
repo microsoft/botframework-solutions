@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -11,11 +11,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -30,6 +31,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
+        private SwitchSkillDialog _switchSkillDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -43,7 +45,6 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
@@ -57,7 +58,9 @@ namespace VirtualAssistantSample.Dialogs
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
+            AddDialog(_switchSkillDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -98,16 +101,32 @@ namespace VirtualAssistantSample.Dialogs
         {
             var activity = dc.Context.Activity;
             var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
+            var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Check if the active dialog is a skill for conditional interruption.
-                var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
                 var isSkill = dialog is SkillDialog;
 
                 // Get Dispatch LUIS result from turn state.
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
-                var dispatchIntent = dispatchResult.TopIntent().intent;
+                (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
+
+                // Check if we need to switch skills.
+                if (isSkill)
+                {
+                    if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
+                    {
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
+
+                        if (identifiedSkill != null)
+                        {
+                            var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                            await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
+                            return InterruptionAction.Waiting;
+                        }
+                    }
+                }
 
                 if (dispatchIntent == DispatchLuis.Intent.l_General)
                 {
@@ -420,7 +439,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
-            public const string PreviousBotResponse = "previousBotReponse";
+            public const string PreviousBotResponse = "previousBotResponse";
             public const string Location = "location";
             public const string TimeZone = "timezone";
         }
