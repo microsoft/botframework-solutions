@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -68,7 +68,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
             var name = (string)sc.Result;
-            
+
             var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
             if (generalResult == null)
             {
@@ -107,7 +107,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string NamePrompt = "namePrompt";
         }
-        
+
         private class StateProperties
         {
             public const string GeneralResult = "generalResult";
