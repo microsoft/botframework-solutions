@@ -85,8 +85,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             // Pass message to waiting child dialog.
                             var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
 
-                            if (result.Status == DialogTurnStatus.Empty
-                                || (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart))
+                            if (result.Status == DialogTurnStatus.Empty)
                             {
                                 // There was no waiting dialog on the stack, process message normally.
                                 await OnMessageActivityAsync(innerDc).ConfigureAwait(false);
