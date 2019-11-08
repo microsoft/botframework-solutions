@@ -280,6 +280,8 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
+                    innerDc.SuppressCompletionMessage(true);
+
                     await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
                 }
                 else
