@@ -8,13 +8,16 @@ namespace HospitalitySkill.Models
 {
     public class ReservationData : ICardData
     {
+        public static readonly string DateFormat = "MMMM d, yyyy";
+        public static readonly string TimeFormat = @"hh\:mm";
+
         public string Title { get; set; }
 
         public string CheckInDate { get; set; }
 
         public string CheckOutDate { get; set; }
 
-        public string CheckOutTime { get { return CheckOutTimeData.ToString(@"hh\:mm"); } }
+        public string CheckOutTime { get { return CheckOutTimeData.ToString(TimeFormat); } }
 
         public TimeSpan CheckOutTimeData { get; set; }
 

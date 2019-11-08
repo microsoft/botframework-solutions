@@ -98,7 +98,7 @@ namespace HospitalitySkill
             services.AddHostedService<QueuedHostedService>();
 
             // Configure services
-            services.AddSingleton<HotelService>();
+            services.AddSingleton<IHotelService, HotelService>();
 
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(

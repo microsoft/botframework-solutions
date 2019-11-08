@@ -24,8 +24,6 @@ namespace HospitalitySkill.Dialogs
 {
     public class HospitalityDialogBase : ComponentDialog
     {
-        private HotelService _hotelService;
-
         public HospitalityDialogBase(
              string dialogId,
              BotSettings settings,
@@ -33,16 +31,17 @@ namespace HospitalitySkill.Dialogs
              ResponseManager responseManager,
              ConversationState conversationState,
              UserState userState,
-             HotelService hotelService,
+             IHotelService hotelService,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
+            Settings = settings;
             Services = services;
             ResponseManager = responseManager;
             StateAccessor = conversationState.CreateProperty<HospitalitySkillState>(nameof(HospitalitySkillState));
             UserStateAccessor = userState.CreateProperty<HospitalityUserSkillState>(nameof(HospitalityUserSkillState));
             TelemetryClient = telemetryClient;
-            _hotelService = hotelService;
+            HotelService = hotelService;
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!Settings.OAuthConnections.Any())
@@ -62,6 +61,8 @@ namespace HospitalitySkill.Dialogs
         protected IStatePropertyAccessor<HospitalityUserSkillState> UserStateAccessor { get; set; }
 
         protected ResponseManager ResponseManager { get; set; }
+
+        protected IHotelService HotelService { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -177,7 +178,7 @@ namespace HospitalitySkill.Dialogs
 
         protected async Task<DialogTurnResult> HasCheckedOut(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
 
             // if user has already checked out shouldn't be able to do anything else
             if (userState.CheckedOut)
