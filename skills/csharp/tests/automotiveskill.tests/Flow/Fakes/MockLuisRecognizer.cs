@@ -12,23 +12,26 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace AutomotiveSkill.Tests.Flow.Fakes
 {
-    public class MockLuisRecognizer : ITelemetryRecognizer
+    public class MockLuisRecognizer : LuisRecognizer
     {
-        public MockLuisRecognizer()
+        private static LuisApplication mockApplication = new LuisApplication()
+        {
+            ApplicationId = "testappid",
+            Endpoint = "testendpoint",
+            EndpointKey = "testendpointkey"
+        };
+
+        public MockLuisRecognizer() 
+            : base(application: mockApplication)
         {
         }
 
-        public bool LogPersonalInformation { get; set; } = false;
-
-        public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
-
-        public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public override Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
-            where T : IRecognizerConvert, new()
+        public override Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var mockResult = new T();
 
@@ -72,13 +75,12 @@ namespace AutomotiveSkill.Tests.Flow.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
+        public override Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }

@@ -22,20 +22,17 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly ITurnContext _turnContext;
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly Action<Activity> _tokenRequestHandler;
-        private readonly Action<Activity> _fallbackRequestHandler;
         private readonly Action<Activity> _handoffActivityHandler;
 
         public SkillCallingRequestHandler(
             ITurnContext turnContext,
             IBotTelemetryClient botTelemetryClient,
             Action<Activity> tokenRequestHandler = null,
-            Action<Activity> fallbackRequestHandler = null,
             Action<Activity> handoffActivityHandler = null)
         {
             _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
             _botTelemetryClient = botTelemetryClient;
             _tokenRequestHandler = tokenRequestHandler;
-            _fallbackRequestHandler = fallbackRequestHandler;
             _handoffActivityHandler = handoffActivityHandler;
 
             var routes = new RouteTemplate[]
@@ -63,19 +60,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                                         else
                                         {
                                             throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
-                                        }
-                                    }
-                                    else if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
-                                    {
-                                        if (_fallbackRequestHandler != null)
-                                        {
-                                            _fallbackRequestHandler(activity);
-
-                                             return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("FallbackRequestHandler", "Skill is asking for fallback but there is no handler on the calling side!");
                                         }
                                     }
                                     else if (activity.Type == ActivityTypes.Handoff)

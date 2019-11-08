@@ -33,8 +33,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
 
-        private ISkillIntentRecognizer _skillIntentRecognizer;
-
         private bool _authDialogCancelled = false;
 
         /// <summary>
@@ -46,7 +44,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
-        /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
         /// <param name="skillTransport">Transport used for skill invocation.</param>
         public SkillDialog(
             SkillManifest skillManifest,
@@ -54,7 +51,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             IBotTelemetryClient telemetryClient,
             UserState userState,
             MultiProviderAuthDialog authDialog = null,
-            ISkillIntentRecognizer skillIntentRecognizer = null,
             ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
@@ -62,13 +58,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _userState = userState;
             _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
-            _skillIntentRecognizer = skillIntentRecognizer;
-
-            var intentSwitching = new WaterfallStep[]
-            {
-                ConfirmIntentSwitchAsync,
-                FinishIntentSwitchAsync,
-            };
 
             if (authDialog != null)
             {
@@ -76,56 +65,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 AddDialog(authDialog);
             }
 
-            AddDialog(new WaterfallDialog(DialogIds.ConfirmSkillSwitchFlow, intentSwitching));
-            AddDialog(new ConfirmPrompt(DialogIds.ConfirmSkillSwitchPrompt));
-
             // TODO It overwrites all added dialogs. See DialogSet
             TelemetryClient = telemetryClient;
-        }
-
-        public async Task<DialogTurnResult> ConfirmIntentSwitchAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
-            {
-                var newIntentName = skillSwitchConfirmOption.TargetIntent;
-                var intentResponse = string.Format(CommonStrings.ConfirmSkillSwitch, newIntentName);
-                return await sc.PromptAsync(DialogIds.ConfirmSkillSwitchPrompt, new PromptOptions()
-                {
-                    Prompt = new Activity(type: ActivityTypes.Message, text: intentResponse, speak: intentResponse),
-                }).ConfigureAwait(false);
-            }
-
-            return await sc.NextAsync().ConfigureAwait(false);
-        }
-
-        public async Task<DialogTurnResult> FinishIntentSwitchAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
-            {
-                // Do skill switching
-                if (sc.Result is bool result && result)
-                {
-                    // 1) End remote skill dialog
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context).ConfigureAwait(false);
-
-                    // 2) Reset user input
-                    sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
-                    sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
-
-                    // 3) End dialog
-                    return await sc.EndDialogAsync(true).ConfigureAwait(false);
-                }
-
-                // Cancel skill switching
-                else
-                {
-                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.FallbackHandledEvent).ConfigureAwait(false);
-                    return await sc.EndDialogAsync(dialogResult).ConfigureAwait(false);
-                }
-            }
-
-            // We should never go here
-            return await sc.EndDialogAsync().ConfigureAwait(false);
         }
 
         public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
@@ -252,33 +193,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 }
             }
 
-            if (innerDc.ActiveDialog?.Id == DialogIds.ConfirmSkillSwitchPrompt)
-            {
-                var result = await base.OnContinueDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
-
-                if (result.Status != DialogTurnStatus.Complete)
-                {
-                    return result;
-                }
-                else
-                {
-                    // SkillDialog only truely end when confirm skill switch.
-                    if (result.Result is bool dispatchResult && dispatchResult)
-                    {
-                        // Restart and redispatch
-                        result.Result = new RouterDialogTurnResult(RouterDialogTurnStatus.Restart);
-                    }
-
-                    // If confirm dialog is ended without skill switch, means previous activity has been resent and SkillDialog can continue to work
-                    else
-                    {
-                        result.Status = DialogTurnStatus.Waiting;
-                    }
-
-                    return result;
-                }
-            }
-
             var dialogResult = await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
 
             _skillTransport.Disconnect();
@@ -323,7 +237,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         {
             try
             {
-                var handoffActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc)).ConfigureAwait(false);
+                var handoffActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc)).ConfigureAwait(false);
 
                 if (handoffActivity != null)
                 {
@@ -347,41 +261,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     while (_queuedResponses.Count > 0)
                     {
                         var lastEvent = _queuedResponses.Dequeue();
-
-                        if (lastEvent.Name == SkillEvents.FallbackEventName)
-                        {
-                            // Set fallback event to fallback handled event
-                            lastEvent.Name = SkillEvents.FallbackHandledEventName;
-
-                            // if skillIntentRecognizer specified, run the recognizer
-                            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntent != null)
-                            {
-                                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntent(innerDc).ConfigureAwait(false);
-
-                                // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
-                                // if the result is the same as the current intent, re-send it to the current skill
-                                // if the result is empty which means no intent, re-send it to the current skill
-                                if (recognizedSkillManifestRecognized != null
-                                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
-                                {
-                                    if (_skillIntentRecognizer.ConfirmIntentSwitch)
-                                    {
-                                        var options = new SkillSwitchConfirmOption()
-                                        {
-                                            FallbackHandledEvent = lastEvent,
-                                            TargetIntent = recognizedSkillManifestRecognized,
-                                            UserInputActivity = innerDc.Context.Activity,
-                                        };
-
-                                        return await innerDc.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options).ConfigureAwait(false);
-                                    }
-
-                                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context).ConfigureAwait(false);
-                                    return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized).ConfigureAwait(false);
-                                }
-                            }
-                        }
-
                         dialogResult = await ForwardToSkillAsync(innerDc, lastEvent).ConfigureAwait(false);
                     }
 
@@ -426,24 +305,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     {
                         _authDialogCancelled = true;
                     }
-                }
-            };
-        }
-
-        private Action<Activity> GetFallbackCallback(DialogContext dialogContext)
-        {
-            return (activity) =>
-            {
-                // Send trace to emulator
-                dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
-
-                var fallbackEvent = activity.CreateReply();
-                fallbackEvent.Type = ActivityTypes.Event;
-                fallbackEvent.Name = SkillEvents.FallbackEventName;
-
-                lock (_lockObject)
-                {
-                    _queuedResponses.Enqueue(fallbackEvent);
                 }
             };
         }
