@@ -6,6 +6,7 @@ using BingSearchSkill.Responses.Shared;
 using BingSearchSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
@@ -20,6 +21,7 @@ namespace BingSearchSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
+            TelemetryInitializerMiddleware telemetryMiddleware,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
             : base(null, telemetryClient)
@@ -32,6 +34,7 @@ namespace BingSearchSkill.Adapters
                 telemetryClient.TrackException(exception);
             };
 
+            Use(telemetryMiddleware);
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
