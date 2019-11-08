@@ -29,10 +29,13 @@ body {
 
     ul {
         list-style-type: none;
-        padding-left: 10px;
+        padding-left: 5px;
     }
 
     li {
+    }
+
+    a {
     }
 
     a:hover {
@@ -44,11 +47,6 @@ body {
         font-weight: 600 !important;
         background-color: hsla(0,0%,95%,1);
     }
-}
-
-#footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 #toc-content {
@@ -109,4 +107,10 @@ body {
     pre > code {
         font-size: 95% !important;
     }
+}
+
+.octicon {
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
 }
