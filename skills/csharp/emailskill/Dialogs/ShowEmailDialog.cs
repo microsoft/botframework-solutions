@@ -16,11 +16,11 @@ using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,7 +96,6 @@ namespace EmailSkill.Dialogs
 
             var retryUnknown = new WaterfallStep[]
             {
-                SendFallback,
                 RetryInput,
                 HandleMore,
             };
@@ -118,7 +117,6 @@ namespace EmailSkill.Dialogs
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-            AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
             InitialDialogId = Actions.Show;
         }
 
@@ -542,42 +540,6 @@ namespace EmailSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected Task<bool> ResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
-        {
-            var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackHandledEventName)
-            {
-                return Task.FromResult(true);
-            }
-
-            return Task.FromResult(false);
-        }
-
-        protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-
-                // Send Fallback Event
-                if (sc.Context.Adapter is EmailSkillWebSocketBotAdapter remoteInvocationAdapter)
-                {
-                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
-
-                    // Wait for the FallbackHandle event
-                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
-                }
-
-                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
