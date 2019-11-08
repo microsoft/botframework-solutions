@@ -4,7 +4,7 @@
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Services.MSGraphAPI

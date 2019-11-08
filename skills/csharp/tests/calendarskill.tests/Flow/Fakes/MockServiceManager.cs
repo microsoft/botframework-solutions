@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.CognitiveServices.ContentModerator.Models;
 using Microsoft.Graph;
 using Moq;
