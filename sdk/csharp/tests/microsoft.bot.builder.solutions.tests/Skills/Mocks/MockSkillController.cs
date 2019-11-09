@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Mocks
 {
-    public class MockSkillController : SkillControllerWithWhitelist
+    public class MockSkillController : SkillController
     {
         public MockSkillController(
             IBot bot,
