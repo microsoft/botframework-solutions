@@ -22,8 +22,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
         private readonly ISkillWebSocketAdapter _skillWebSocketAdapter;
-        private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
@@ -33,16 +31,13 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
             ISkillWebSocketAdapter skillWebSocketAdapter,
-            IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
+            IAuthenticator authenticator)
         {
             _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
             _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
             _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             _skillWebSocketAdapter = skillWebSocketAdapter;
-
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
-            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            _authenticator = authenticator;
         }
 
         // Each skill provides a template manifest file which we use to fill in the dynamic elements.
