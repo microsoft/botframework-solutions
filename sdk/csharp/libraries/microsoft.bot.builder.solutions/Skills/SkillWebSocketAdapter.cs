@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// 2. Create RequestHandler to handle follow-up websocket frames.
     /// 3. Start listening on the websocket connection.
     /// </summary>
-    public class SkillWebSocketAdapter : IBotFrameworkHttpAdapter
+    public class SkillWebSocketAdapter : ISkillWebSocketAdapter
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;

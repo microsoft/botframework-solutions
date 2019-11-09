@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Mocks
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
+            ISkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
             HttpClient httpClient,
             string manifestFileOverride = null)

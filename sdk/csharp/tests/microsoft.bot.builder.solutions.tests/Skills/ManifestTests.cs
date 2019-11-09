@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 
             _services.AddSingleton(_botSettings);
             _services.AddSingleton<IWhitelistAuthenticationProvider, MockWhitelistAuthenticationProvider>();
-            _services.AddSingleton<SkillWebSocketAdapter, MockSkillWebSocketAdapter>();
+            _services.AddSingleton<ISkillWebSocketAdapter, MockSkillWebSocketAdapter>();
             _services.AddSingleton<SkillWebSocketBotAdapter>();
             _services.AddSingleton<IBotFrameworkHttpAdapter, MockBotFrameworkHttpAdapter>();
             _services.AddSingleton<IBot, MockBot>();
@@ -293,7 +293,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         {
             var sp = _services.BuildServiceProvider();
             var botFrameworkHttpAdapter = sp.GetService<IBotFrameworkHttpAdapter>();
-            var skillWebSocketAdapter = sp.GetService<SkillWebSocketAdapter>();
+            var skillWebSocketAdapter = sp.GetService<ISkillWebSocketAdapter>();
             var whitelistAuthenticationProvider = sp.GetService<IWhitelistAuthenticationProvider>();
             var bot = sp.GetService<IBot>();
             var controller = new MockSkillController(bot, _botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, whitelistAuthenticationProvider, _mockHttp.ToHttpClient(), manifestFileOverride);

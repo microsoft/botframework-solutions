@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     {
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
-        private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
+        private readonly ISkillWebSocketAdapter _skillWebSocketAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             IBot bot,
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
+            ISkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
         {
             _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
