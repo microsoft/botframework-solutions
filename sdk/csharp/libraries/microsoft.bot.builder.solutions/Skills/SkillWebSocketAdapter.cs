@@ -9,8 +9,6 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Streaming.Transport;
 using Microsoft.Bot.Streaming.Transport.WebSockets;
@@ -28,9 +26,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
-        private readonly BotSettingsBase _botSettingsBase;
-        private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
         private readonly Stopwatch _stopWatch;
 
@@ -41,10 +36,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             IBotTelemetryClient botTelemetryClient = null)
         {
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
-            _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
-            _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
-            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            var botSettings = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
+            var whitelistProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+            _authenticator = new MsJWTAuthenticator(botSettings, whitelistProvider);
 
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
             _stopWatch = new Stopwatch();

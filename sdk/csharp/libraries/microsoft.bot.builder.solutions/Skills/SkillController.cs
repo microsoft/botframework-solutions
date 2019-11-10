@@ -25,15 +25,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
             ISkillWebSocketAdapter skillWebSocketAdapter,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
-            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, CreateWhiteListAuthenticator(botSettings, whitelistAuthenticationProvider))
+            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, new MsJWTAuthenticator(botSettings, whitelistAuthenticationProvider))
         {
-        }
-
-        private static IAuthenticator CreateWhiteListAuthenticator(BotSettingsBase botSettings, IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
-        {
-            var whitelist = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            var authenticationProvider = new MsJWTAuthenticationProvider(botSettings.MicrosoftAppId);
-            return new Authenticator(authenticationProvider, whitelist);
         }
     }
 }
