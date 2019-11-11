@@ -65,15 +65,853 @@ $address_state:phraseList interchangeable
 $keyword_brand:phraseList interchangeable
 - Amazon, Apple, Google, AT&T, Microsoft, Facebook, Verizon, Walmart, Wells Fargo, Chase, Home Depot, Bank of America, Walt Disney, IBM, Starbucks, General Electric, Citi, Marlboro, Coca-Cola, Oracle, Nike, Xfinity, YouTube, McDonald's, PWC, Intel, UPS, Deloitte, Visa, CVS, Pepsi, Boeing, Cisco, UnitedHealth Group, Ford, FedEx, Chevron, Johnson's, JP Morgan, Fox, Accenture, Uber, Dell, Lowe's, Walgreens, American Express, NBC, Target, CHEVROLET, Spectrum, ExxonMobil, Mastercard, Costco, UNIVERSAL, Capital One, CBS, ABC, TCS, NETFLIX, Warner Bros., Anthem, Aetna, Goldman Sachs, booking.com, American Airlines, Paypal, Johnson & Johnson, Humana, HP, Delta, 3M, Optum, HPE, Lockheed Martin, Adobe, eBay, Metlife, Subway, KFC, Medtronic, Union Pacific, Morgan Stanley, Cognizant, U.S. Bank, Allstate, Gillette, Western Digital, Sam's Club, Sprint, Bud Light, Valero, Budweiser, Centurylink, Honeywell, United Airlines, Cigna, Qualcomm, Neutrogena, GEICO, Dow
 
+> # List entities
+
 > From https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories. Expand / and () since phrase lists do not help with stemming
 
-$keyword_cusine:phraseList interchangeable
-- Alemán, criollo-cajún, holandés, salas de banquetes, bistró, israelí, eslovaco, jamaiquino, vegetariano, mariscos, vietnamita, maltés, Sichuan, galés, chino, japonés, argelino, californiano, fusión, Shandong, barra de ensaladas, Savoy an, español, etíope, taiwanés, rosquillas, iraníes, canadienses, americanas, noruegas, francesas, hunanas, polinesias, afganas, en carretera, asiáticas, suizas, eróticas, creperie, surinamesas, egipcias, húngaras, nepalíes, barbacoa, olla caliente, hamburguesas, mediterránea, latinoamericana, tapas, británicas, Mexicano, Guangdong, Asiático, buffet, sushi, mongol, internacional, mejillones, tailandés, venezolano, rumano, pollo, sopa, kosher, asador, barra de yogur, barra de jugos, italiano, coreano, chipriota, bosnio, boliviano, dominicano, belga, tunecino, escocés, Inglés, pakistaní, checo, hawaiano, maghrib, tibetano, árabe, oriente medio, chileno, Shanghái, polaco, filipino, sudanés, armenio, birmano, brasileño, escandinavo, búlgaro, soul, colombiano, judío, pizza, siciliano, orgánico, griego, vasco, Uruguayo, cafeterías, finlandés, africano, corso, sirio, caribeño, Dongbei, ruso, parrilla, llevar, comida rápida, australiano, irlandés, comida pub, fondue, libanés, indonesio, danés, provenzal, teppanyaki, indio, mauricio, continental occidental, Peruano, camboyano, snacks, sueco, macrobiótico, heladería, eslavo, turco, argentino, austriaco, exótico, portugués, luxemburgués, marroquí, sándwich, cubano, restaurante
+$KeywordCategory:cusine=
+- Alemán
+- criollo-cajún
+- holandés
+- salas de banquetes
+- bistró
+- israelí
+- eslovaco
+- jamaiquino
+- vegetariano
+- mariscos
+- vietnamita
+- maltés
+- Sichuan
+- galés
+- chino
+- japonés
+- argelino
+- californiano
+- fusión
+- Shandong
+- barra de ensaladas
+- Savoy an
+- español
+- etíope
+- taiwanés
+- rosquillas
+- iraníes
+- canadienses
+- americanas
+- noruegas
+- francesas
+- hunanas
+- polinesias
+- afganas
+- en carretera
+- asiáticas
+- suizas
+- eróticas
+- creperie
+- surinamesas
+- egipcias
+- húngaras
+- nepalíes
+- barbacoa
+- olla caliente
+- hamburguesas
+- mediterránea
+- latinoamericana
+- tapas
+- británicas
+- Mexicano
+- Guangdong
+- Asiático
+- buffet
+- sushi
+- mongol
+- internacional
+- mejillones
+- tailandés
+- venezolano
+- rumano
+- pollo
+- sopa
+- kosher
+- asador
+- barra de yogur
+- barra de jugos
+- italiano
+- coreano
+- chipriota
+- bosnio
+- boliviano
+- dominicano
+- belga
+- tunecino
+- escocés
+- Inglés
+- pakistaní
+- checo
+- hawaiano
+- maghrib
+- tibetano
+- árabe
+- oriente medio
+- chileno
+- Shanghái
+- polaco
+- filipino
+- sudanés
+- armenio
+- birmano
+- brasileño
+- escandinavo
+- búlgaro
+- soul
+- colombiano
+- judío
+- pizza
+- siciliano
+- orgánico
+- griego
+- vasco
+- Uruguayo
+- cafeterías
+- finlandés
+- africano
+- corso
+- sirio
+- caribeño
+- Dongbei
+- ruso
+- parrilla
+- llevar
+- comida rápida
+- australiano
+- irlandés
+- comida pub
+- fondue
+- libanés
+- indonesio
+- danés
+- provenzal
+- teppanyaki
+- indio
+- mauricio
+- continental occidental
+- Peruano
+- camboyano
+- snacks
+- sueco
+- macrobiótico
+- heladería
+- eslavo
+- turco
+- argentino
+- austriaco
+- exótico
+- portugués
+- luxemburgués
+- marroquí
+- sándwich
+- cubano
+- restaurante
 
-$keyword_category:phraseList interchangeable
-- acceso a aerolíneas, puerta de seguridad, acceso a la estación, puerta de enlace de acceso, provincia, división administrativa de cuarto orden, división administrativa de primer orden, división administrativa histórica de tercer orden, sede de una división administrativa de cuarto orden, sede de una división administrativa de segundo orden, entidad política dependiente, lugar poblado, sede de una división administrativa de tercer orden, lugares poblados, división administrativa de segundo orden, sede de una división administrativa de primer orden, división, localidad poblada, región histórica, sitio histórico, lugar histórico poblado, asentamiento israelí, división administrativa histórica de cuarto orden, división administrativa de quinto orden, división administrativa histórica de primer orden, división administrativa de tercer orden, entidad política histórica, división administrativa histórica, sede del gobierno de una entidad política, división administrativa histórica de segundo orden, capital de una entidad política, local de deportes de aventura, horticultura, productor primario, agricultura, granja, pueblo agrícola, granja, granja, área de pastoreo, común, instalación de acuicultura, granjas, área de pesca, lácteos, campo, campos, autoridad privada, autoridad militar, helipuerto, cerrado, aeropuerto medio, aeropuerto, pequeño aeropuerto, aeródromo, base de hidroaviones, autoridad pública, puerto de globos, aeropuerto, sala de juegos, lugar de diversión, parque de atracciones, atv, moto de nieve, barco, autobús, motocicleta, camión, furgoneta, vehículos recreativos, coche, concesionario automotriz, banco, bancos, playa, playas, edificio, punto de construcción, parque de negocios, zona industrial, cibercafé, casa de té, cafetería, cibercafé, cafetería, cafetería, cafetería, microcervecería, taberna al aire libre, pub, cafetería, pub, cafetería, pub, bar, recreativa, caravana, camping tierra, lavado de coches, automático cajero, dispensador de efectivo, casino, cine, cine, vecindario, área administrativa, centro de la ciudad, centro, club de playa, club de hockey, asociación de clubes, universidad junior, colegio comunitario, universidad, universidad, universidad, escuela preparatoria universitaria, universidad, edificio de oficinas, sede del parque, edificio comercial, centro comunitario, electrónica, fabricación, servicios de datos informáticos, tecnologías de salud pública, finanzas diversificadas, refugio de animales, aerolínea, alquiler de equipos, servicio, correo entrega, entrega de paquetes, entrega de carga, líneas de autobuses, reparación de electrodomésticos, servicios de limpieza, oem, servicios fiscales, gas natural de petróleo, servicios legales, construcción, telecomunicaciones, transporte, fabricación de automóviles, productos químicos, servicio funerario mortuarios, operaciones de túneles puente, automóviles, ingeniería mecánica, servicios, asesores de inversión, publicidad, marketing, almacenamiento en movimiento, institución de ahorro, seguros, software informático, productos farmacéuticos, catering, servicios de bodas, tecnología agrícola, bienes raíces, taxi, servicio de transporte limusina, alquiler de alquiler de autobuses chárter, minería, tecnologías editoriales, teléfono por cable, distribución de importaciones, distribución de exportación, empresa, asilo, mina de carbón, minas de carbón, fincas, fincas, cervecería, oro minas de oro, palacio, centro cultural, dentista, tienda departamental, médico general, especialista, médico, estación de vehículos eléctricos, embajada, servicio médico de emergencia, entretenimiento, intercambio de oro, cambio de divisas, bolsa de valores, centro de convenciones de exposición, ferry, terminal de ferry, estación de bomberos, brigada, cruce fronterizo, instalaciones de combustible, bahía, cala, sartén, local, cresta, aguas termales, aguas termales, pozo, embalse, pantano, pantano, vlei, cantera, cruce de ríos, valle, pico de montaña, arrecife, duna, laguna, llanura, plana, rápidos, cabo, meseta, oasis, puerto, cueva, rocas, característica geográfica, promontotorio, promontories, islas, promontos, muelle, lago cráter, acantilado, acantilados, colina, desierto, portage, glaciar, glaciares, barranco, gébilado, arrecife de coral, coral arrecifes, brecha, golfo, embarcadero, ghat, agujero, lagos de cráter, campo de gas, isla, cráter, cráteres, cala, calas, pastizales, área de grava, zona de fractura, brezo, garganta, gargantas, isla, cabeceras, valle colgante, colinas, aguas termales, aguas termales, surco, anábranch, campo de golf, orden 5 área, orden 8 área, orden 9 área, orden 2 área, orden 7 área, orden 3 área, supra nacional, orden 4 área, orden 6 área, oficina gubernamental, instalación diplomática, establecimiento del gobierno de los Estados Unidos, oficina del gobierno local, aduanas, puesto de aduanas, banco de sangre, servicio personal, centro de cuidado personal, unidad de ambulancia, servicio de atención médica, leprosario, sanatorio, hospital, centro médico, clínica, helipuerto, aterrizaje de helicópteros, bungalow, casa de campo, chalet, villa, apartamento, alquiler de vacaciones, especial, hospital de medicina china, hospital para mujeres niños, general, hospital, policlínica, cabañas cabañas, casas de huéspedes de desayuno de cama, hotel, campamentos de descanso, motel, complejo, hostal, hotel, motel, casa de descanso, hamacas, hamacas, casa de huéspedes, pista de patinaje sobre hielo, edificio , observatorio, arco, túnel, estatua, torre, puente, planetario, mausoleo, tumba, monumento, agujero de agua, atracción natural, atracción turística importante, paseo marítimo, pirámides, pagoda, castle, palacio, ermita, pirámide, fuerte, puerta, casa de campo, presa, faro, tumba, fundición, depósito de combustible, edificio industrial, fábrica, bolos, billar, billar piscina, club de vuelo, escuela de estudio de baile, sauna, masaje solarium, centro de ocio, spa, biblioteca , instalaciones de fabricación, cuenca de yates, puerto deportivo, supermercados hipermercados, agricultores, público, informal, mercado, instalación de medios, base militar, estación de guardacostas, instalación militar, base naval, oficina de organización de motor, puerto de montaña, museo, reserva nativa, reserva, bar, club de karaoke, club de jazz, club privado, enoteca, club de comedia, coctelería, discoteca, vida nocturna, organización no gubernamental, zona de estacionamiento abierto, estacionamiento, localidad, zona de libre comercio, círculo de tráfico, desconocido, garaje de estacionamiento, sitio histórico, orilla del lago, costa del mar, área escénica del río, área de caza de la pesca, campo de batalla, deportes de invierno, rampa de lanzamiento de barcos, preservar, área forestal, área recreativa, estación de esquí, cementerio, parque histórico, parkway, memorial, recinto ferial, área de picnic, área silvestre, área recreativa del parque, bosque, bosques, bosquefos, jardín, jardines, reserva de vida silvestre, reserva natural, estación forestal, reserva de caza, reserva forestal, parque, gasolinera, farmacia, dispensario, ashram, sinagoga, mezquita, gurudwara, iglesia, templo, lugar de culto, misión, retiro, templo, templos, sitio religioso, centro religioso, monasterio, convento, área de orden 1, estación de policía, puesto de policía, puerto, puertos, cuenca de atraque, puerto, puerto, almacén, muelle , muelle, muelles, local, oficina de correos, recurso primario, utilidad primaria, central eléctrica, planta separadora de gas-aceite, prisión, prisión, instalación correccional, metro peatonal, aseo, rescate por carretera, taquilla de transporte de pasajeros, caja de llamadas pública, servicios públicos, centro de comunicación, parada de autobús, parada de autobús, parada de taxis, parada de tranvía, parada de transporte público, estación de metro, estación de ferrocarril, estación de autobuses, parada de ferrocarril, nacional, revestimiento ferroviario, metro, suburbano, urbano, estación de tren, alquiler de un coche, alquiler de un coche-aparcamiento, talleres de carrocería, servicios de neumáticos, servicios, talleres de reparación, talleres de reemplazo de vidrio de automóviles, servicio general de reparación de automóviles, instalación de venta de accesorios para automóviles, reparación de motocicletas, servicio de reparación de camiones, instalaciones de reparación, instalaciones de investigación, comunidad de jubilación, complejo de casas adosadas, complejo de pisos, complejo de apartamentos, complejo de condominios, finca residencial, alojamiento residencial, área de restaurante, área de descanso, lugar de detención, vista panorámica, vista panorámica, punto de observación, escuela culinaria, escuela primaria, escuela de arte, escuela secundaria, escuela secundaria, escuela de conducción, escuela de idiomas, escuela deportiva, preescolar, escuela secundaria, escuela media, formación profesional, escuela especial, centro de cuidado infantil, escuela, escuela técnica, escuela militar, escuela agrícola, outlet de fábrica, productos de seguridad, tienda de Navidad, tienda de vacaciones, ópticos, jardín de la casa: iluminación, lotería, instrumentos musicales, salón de uñas, jardín de la casa: decoración de la pintura, hobby, tiempo libre, quioscos estancos, accesorios de ropa: especialidad, tintorería, bolsos de cuero, artículos para mascotas, accesorios de ropa: niños, equipo de material de construcción, joyería, relojes de reloj, accesorios de ropa: reparaciones de zapatos de calzado, jardín de la casa: cortinas, jardín de la casa: textiles, eléctrico, oficina: electrónica de consumo, electricidad, oficina: fotografía de la cámara, cd's, videos de DVD, lavandería, accesorios de ropa: hombres, floristas, casa de empeño, librerías, equipos electrónicos marinos, bebidas de alimentos: mercados de alimentos, jardín de la casa: alfombra, jardín de la casa: revestimientos de suelo, fotocopia, accesorios de equipo de navegación, tienda de teléfonos móviles, juegos de juguetes, alimentos especiales, accesorios de ropa: general, bebidas de alimentos: panaderos, sastrería, regalos, tarjetas, novedades recuerdos, servicios de animales, ropa de equipo deportivo, tienda de sellos, electrodomésticos, electricidad, oficina: equipo de oficina, laboratorio fotográfico, desarrollo, clubes al por mayor, jardín de la casa: accesorios de muebles, especialidades locales, bebidas de alimentos: carnicería, tienda de variedades, bebidas de alimentos: tiendas de alimentos, bebidas de alimentos: licores de vino: licores de vino , farmacia, muebles, muebles para el hogar, electricidad, oficina: suministros informáticos, alquiler de cd, alquiler de vídeo, equipos de suministros médicos, suministros agrícolas, salón de belleza, jardín de la casa: servicios de centros de jardinería, bebidas de alimentos: pescaderías, suministros de belleza, accesorios de ropa: mujeres, agentes de viajes, punto de venta, tienda de reciclaje, jardín de la casa: ventanas de vidrio, ferretería, agentes inmobiliarios, cristalería, cerámica, delicatessen, jardín de la casa: baños de cocina, estación de apuestas, peluquerías barberos, bebidas de alimentos: alimentos, bebidas de comida: tiendas de comestibles verdes, tiendas de conveniencia, conducir a través de la tienda de botellas, jardín de la casa: centros de "hazlo tú mismo", antiguedad, arte, tienda, tienda, centro comercial, centro comercial, deporte temático, cancha de squash, gimnasio, centro deportivo, netball, fútbol, béisbol, pista de carreras, multiusos, deportes de motor, campo de cricket, campo de rugby, hockey sobre hielo, atlético, carreras de caballos, baloncesto, fútbol, estadio, campo atlético, pista de carreras, piscina, pista de tenis, anfiteatro, sala de conciertos, teatro de cena, centro de música, ópera, cabaret, teatro, teatro, oficina de información turística, semáforo, departamento de control de tráfico, centro de servicio de tráfico, señal de tráfico, vehículo de aventura, escalada en roca, equitación, bicicleta de montaña, senderismo, sistema de senderos, autoridad de transporte, registro de vehículos, parada de camiones, instalaciones veterinarias, veterinario, deportes acuáticos, básculas de pesaje, estación de pesaje, organización de bienestar, bodega, parque de vida silvestre, parque marino zoológico acuático, arboreta jardines botánicos, zoológico, zoológicos, jardín botánico arboreta
-
-> # List entities
+$KeywordCategory:category=
+- acceso a aerolíneas
+- puerta de seguridad
+- acceso a la estación
+- puerta de enlace de acceso
+- provincia
+- división administrativa de cuarto orden
+- división administrativa de primer orden
+- división administrativa histórica de tercer orden
+- sede de una división administrativa de cuarto orden
+- sede de una división administrativa de segundo orden
+- entidad política dependiente
+- lugar poblado
+- sede de una división administrativa de tercer orden
+- lugares poblados
+- división administrativa de segundo orden
+- sede de una división administrativa de primer orden
+- división
+- localidad poblada
+- región histórica
+- sitio histórico
+- lugar histórico poblado
+- asentamiento israelí
+- división administrativa histórica de cuarto orden
+- división administrativa de quinto orden
+- división administrativa histórica de primer orden
+- división administrativa de tercer orden
+- entidad política histórica
+- división administrativa histórica
+- sede del gobierno de una entidad política
+- división administrativa histórica de segundo orden
+- capital de una entidad política
+- local de deportes de aventura
+- horticultura
+- productor primario
+- agricultura
+- granja
+- pueblo agrícola
+- granja
+- granja
+- área de pastoreo
+- común
+- instalación de acuicultura
+- granjas
+- área de pesca
+- lácteos
+- campo
+- campos
+- autoridad privada
+- autoridad militar
+- helipuerto
+- cerrado
+- aeropuerto medio
+- aeropuerto
+- pequeño aeropuerto
+- aeródromo
+- base de hidroaviones
+- autoridad pública
+- puerto de globos
+- aeropuerto
+- sala de juegos
+- lugar de diversión
+- parque de atracciones
+- atv
+- moto de nieve
+- barco
+- autobús
+- motocicleta
+- camión
+- furgoneta
+- vehículos recreativos
+- coche
+- concesionario automotriz
+- banco
+- bancos
+- playa
+- playas
+- edificio
+- punto de construcción
+- parque de negocios
+- zona industrial
+- cibercafé
+- casa de té
+- cafetería
+- cibercafé
+- cafetería
+- cafetería
+- cafetería
+- microcervecería
+- taberna al aire libre
+- pub
+- cafetería
+- pub
+- cafetería
+- pub
+- bar
+- recreativa
+- caravana
+- camping tierra
+- lavado de coches
+- automático cajero
+- dispensador de efectivo
+- casino
+- cine
+- cine
+- vecindario
+- área administrativa
+- centro de la ciudad
+- centro
+- club de playa
+- club de hockey
+- asociación de clubes
+- universidad junior
+- colegio comunitario
+- universidad
+- universidad
+- universidad
+- escuela preparatoria universitaria
+- universidad
+- edificio de oficinas
+- sede del parque
+- edificio comercial
+- centro comunitario
+- electrónica
+- fabricación
+- servicios de datos informáticos
+- tecnologías de salud pública
+- finanzas diversificadas
+- refugio de animales
+- aerolínea
+- alquiler de equipos
+- servicio
+- correo entrega
+- entrega de paquetes
+- entrega de carga
+- líneas de autobuses
+- reparación de electrodomésticos
+- servicios de limpieza
+- oem
+- servicios fiscales
+- gas natural de petróleo
+- servicios legales
+- construcción
+- telecomunicaciones
+- transporte
+- fabricación de automóviles
+- productos químicos
+- servicio funerario mortuarios
+- operaciones de túneles puente
+- automóviles
+- ingeniería mecánica
+- servicios
+- asesores de inversión
+- publicidad
+- marketing
+- almacenamiento en movimiento
+- institución de ahorro
+- seguros
+- software informático
+- productos farmacéuticos
+- catering
+- servicios de bodas
+- tecnología agrícola
+- bienes raíces
+- taxi
+- servicio de transporte limusina
+- alquiler de alquiler de autobuses chárter
+- minería
+- tecnologías editoriales
+- teléfono por cable
+- distribución de importaciones
+- distribución de exportación
+- empresa
+- asilo
+- mina de carbón
+- minas de carbón
+- fincas
+- fincas
+- cervecería
+- oro minas de oro
+- palacio
+- centro cultural
+- dentista
+- tienda departamental
+- médico general
+- especialista
+- médico
+- estación de vehículos eléctricos
+- embajada
+- servicio médico de emergencia
+- entretenimiento
+- intercambio de oro
+- cambio de divisas
+- bolsa de valores
+- centro de convenciones de exposición
+- ferry
+- terminal de ferry
+- estación de bomberos
+- brigada
+- cruce fronterizo
+- instalaciones de combustible
+- bahía
+- cala
+- sartén
+- local
+- cresta
+- aguas termales
+- aguas termales
+- pozo
+- embalse
+- pantano
+- pantano
+- vlei
+- cantera
+- cruce de ríos
+- valle
+- pico de montaña
+- arrecife
+- duna
+- laguna
+- llanura
+- plana
+- rápidos
+- cabo
+- meseta
+- oasis
+- puerto
+- cueva
+- rocas
+- característica geográfica
+- promontotorio
+- promontories
+- islas
+- promontos
+- muelle
+- lago cráter
+- acantilado
+- acantilados
+- colina
+- desierto
+- portage
+- glaciar
+- glaciares
+- barranco
+- gébilado
+- arrecife de coral
+- coral arrecifes
+- brecha
+- golfo
+- embarcadero
+- ghat
+- agujero
+- lagos de cráter
+- campo de gas
+- isla
+- cráter
+- cráteres
+- cala
+- calas
+- pastizales
+- área de grava
+- zona de fractura
+- brezo
+- garganta
+- gargantas
+- isla
+- cabeceras
+- valle colgante
+- colinas
+- aguas termales
+- aguas termales
+- surco
+- anábranch
+- campo de golf
+- orden 5 área
+- orden 8 área
+- orden 9 área
+- orden 2 área
+- orden 7 área
+- orden 3 área
+- supra nacional
+- orden 4 área
+- orden 6 área
+- oficina gubernamental
+- instalación diplomática
+- establecimiento del gobierno de los Estados Unidos
+- oficina del gobierno local
+- aduanas
+- puesto de aduanas
+- banco de sangre
+- servicio personal
+- centro de cuidado personal
+- unidad de ambulancia
+- servicio de atención médica
+- leprosario
+- sanatorio
+- hospital
+- centro médico
+- clínica
+- helipuerto
+- aterrizaje de helicópteros
+- bungalow
+- casa de campo
+- chalet
+- villa
+- apartamento
+- alquiler de vacaciones
+- especial
+- hospital de medicina china
+- hospital para mujeres niños
+- general
+- hospital
+- policlínica
+- cabañas cabañas
+- casas de huéspedes de desayuno de cama
+- hotel
+- campamentos de descanso
+- motel
+- complejo
+- hostal
+- hotel
+- motel
+- casa de descanso
+- hamacas
+- hamacas
+- casa de huéspedes
+- pista de patinaje sobre hielo
+- edificio 
+- observatorio
+- arco
+- túnel
+- estatua
+- torre
+- puente
+- planetario
+- mausoleo
+- tumba
+- monumento
+- agujero de agua
+- atracción natural
+- atracción turística importante
+- paseo marítimo
+- pirámides
+- pagoda
+- castle
+- palacio
+- ermita
+- pirámide
+- fuerte
+- puerta
+- casa de campo
+- presa
+- faro
+- tumba
+- fundición
+- depósito de combustible
+- edificio industrial
+- fábrica
+- bolos
+- billar
+- billar piscina
+- club de vuelo
+- escuela de estudio de baile
+- sauna
+- masaje solarium
+- centro de ocio
+- spa
+- biblioteca 
+- instalaciones de fabricación
+- cuenca de yates
+- puerto deportivo
+- supermercados hipermercados
+- agricultores
+- público
+- informal
+- mercado
+- instalación de medios
+- base militar
+- estación de guardacostas
+- instalación militar
+- base naval
+- oficina de organización de motor
+- puerto de montaña
+- museo
+- reserva nativa
+- reserva
+- bar
+- club de karaoke
+- club de jazz
+- club privado
+- enoteca
+- club de comedia
+- coctelería
+- discoteca
+- vida nocturna
+- organización no gubernamental
+- zona de estacionamiento abierto
+- estacionamiento
+- localidad
+- zona de libre comercio
+- círculo de tráfico
+- desconocido
+- garaje de estacionamiento
+- sitio histórico
+- orilla del lago
+- costa del mar
+- área escénica del río
+- área de caza de la pesca
+- campo de batalla
+- deportes de invierno
+- rampa de lanzamiento de barcos
+- preservar
+- área forestal
+- área recreativa
+- estación de esquí
+- cementerio
+- parque histórico
+- parkway
+- memorial
+- recinto ferial
+- área de picnic
+- área silvestre
+- área recreativa del parque
+- bosque
+- bosques
+- bosquefos
+- jardín
+- jardines
+- reserva de vida silvestre
+- reserva natural
+- estación forestal
+- reserva de caza
+- reserva forestal
+- parque
+- gasolinera
+- farmacia
+- dispensario
+- ashram
+- sinagoga
+- mezquita
+- gurudwara
+- iglesia
+- templo
+- lugar de culto
+- misión
+- retiro
+- templo
+- templos
+- sitio religioso
+- centro religioso
+- monasterio
+- convento
+- área de orden 1
+- estación de policía
+- puesto de policía
+- puerto
+- puertos
+- cuenca de atraque
+- puerto
+- puerto
+- almacén
+- muelle 
+- muelle
+- muelles
+- local
+- oficina de correos
+- recurso primario
+- utilidad primaria
+- central eléctrica
+- planta separadora de gas-aceite
+- prisión
+- prisión
+- instalación correccional
+- metro peatonal
+- aseo
+- rescate por carretera
+- taquilla de transporte de pasajeros
+- caja de llamadas pública
+- servicios públicos
+- centro de comunicación
+- parada de autobús
+- parada de autobús
+- parada de taxis
+- parada de tranvía
+- parada de transporte público
+- estación de metro
+- estación de ferrocarril
+- estación de autobuses
+- parada de ferrocarril
+- nacional
+- revestimiento ferroviario
+- metro
+- suburbano
+- urbano
+- estación de tren
+- alquiler de un coche
+- alquiler de un coche-aparcamiento
+- talleres de carrocería
+- servicios de neumáticos
+- servicios
+- talleres de reparación
+- talleres de reemplazo de vidrio de automóviles
+- servicio general de reparación de automóviles
+- instalación de venta de accesorios para automóviles
+- reparación de motocicletas
+- servicio de reparación de camiones
+- instalaciones de reparación
+- instalaciones de investigación
+- comunidad de jubilación
+- complejo de casas adosadas
+- complejo de pisos
+- complejo de apartamentos
+- complejo de condominios
+- finca residencial
+- alojamiento residencial
+- área de restaurante
+- área de descanso
+- lugar de detención
+- vista panorámica
+- vista panorámica
+- punto de observación
+- escuela culinaria
+- escuela primaria
+- escuela de arte
+- escuela secundaria
+- escuela secundaria
+- escuela de conducción
+- escuela de idiomas
+- escuela deportiva
+- preescolar
+- escuela secundaria
+- escuela media
+- formación profesional
+- escuela especial
+- centro de cuidado infantil
+- escuela
+- escuela técnica
+- escuela militar
+- escuela agrícola
+- outlet de fábrica
+- productos de seguridad
+- tienda de Navidad
+- tienda de vacaciones
+- ópticos
+- jardín de la casa: iluminación
+- lotería
+- instrumentos musicales
+- salón de uñas
+- jardín de la casa: decoración de la pintura
+- hobby
+- tiempo libre
+- quioscos estancos
+- accesorios de ropa: especialidad
+- tintorería
+- bolsos de cuero
+- artículos para mascotas
+- accesorios de ropa: niños
+- equipo de material de construcción
+- joyería
+- relojes de reloj
+- accesorios de ropa: reparaciones de zapatos de calzado
+- jardín de la casa: cortinas
+- jardín de la casa: textiles
+- eléctrico
+- oficina: electrónica de consumo
+- electricidad
+- oficina: fotografía de la cámara
+- cd's
+- videos de DVD
+- lavandería
+- accesorios de ropa: hombres
+- floristas
+- casa de empeño
+- librerías
+- equipos electrónicos marinos
+- bebidas de alimentos: mercados de alimentos
+- jardín de la casa: alfombra
+- jardín de la casa: revestimientos de suelo
+- fotocopia
+- accesorios de equipo de navegación
+- tienda de teléfonos móviles
+- juegos de juguetes
+- alimentos especiales
+- accesorios de ropa: general
+- bebidas de alimentos: panaderos
+- sastrería
+- regalos
+- tarjetas
+- novedades recuerdos
+- servicios de animales
+- ropa de equipo deportivo
+- tienda de sellos
+- electrodomésticos
+- electricidad
+- oficina: equipo de oficina
+- laboratorio fotográfico
+- desarrollo
+- clubes al por mayor
+- jardín de la casa: accesorios de muebles
+- especialidades locales
+- bebidas de alimentos: carnicería
+- tienda de variedades
+- bebidas de alimentos: tiendas de alimentos
+- bebidas de alimentos: licores de vino: licores de vino 
+- farmacia
+- muebles
+- muebles para el hogar
+- electricidad
+- oficina: suministros informáticos
+- alquiler de cd
+- alquiler de vídeo
+- equipos de suministros médicos
+- suministros agrícolas
+- salón de belleza
+- jardín de la casa: servicios de centros de jardinería
+- bebidas de alimentos: pescaderías
+- suministros de belleza
+- accesorios de ropa: mujeres
+- agentes de viajes
+- punto de venta
+- tienda de reciclaje
+- jardín de la casa: ventanas de vidrio
+- ferretería
+- agentes inmobiliarios
+- cristalería
+- cerámica
+- delicatessen
+- jardín de la casa: baños de cocina
+- estación de apuestas
+- peluquerías barberos
+- bebidas de alimentos: alimentos
+- bebidas de comida: tiendas de comestibles verdes
+- tiendas de conveniencia
+- conducir a través de la tienda de botellas
+- jardín de la casa: centros de "hazlo tú mismo"
+- antiguedad
+- arte
+- tienda
+- tienda
+- centro comercial
+- centro comercial
+- deporte temático
+- cancha de squash
+- gimnasio
+- centro deportivo
+- netball
+- fútbol
+- béisbol
+- pista de carreras
+- multiusos
+- deportes de motor
+- campo de cricket
+- campo de rugby
+- hockey sobre hielo
+- atlético
+- carreras de caballos
+- baloncesto
+- fútbol
+- estadio
+- campo atlético
+- pista de carreras
+- piscina
+- pista de tenis
+- anfiteatro
+- sala de conciertos
+- teatro de cena
+- centro de música
+- ópera
+- cabaret
+- teatro
+- teatro
+- oficina de información turística
+- semáforo
+- departamento de control de tráfico
+- centro de servicio de tráfico
+- señal de tráfico
+- vehículo de aventura
+- escalada en roca
+- equitación
+- bicicleta de montaña
+- senderismo
+- sistema de senderos
+- autoridad de transporte
+- registro de vehículos
+- parada de camiones
+- instalaciones veterinarias
+- veterinario
+- deportes acuáticos
+- básculas de pesaje
+- estación de pesaje
+- organización de bienestar
+- bodega
+- parque de vida silvestre
+- parque marino zoológico acuático
+- arboreta jardines botánicos
+- zoológico
+- zoológicos
+- jardín botánico arboreta
 
 $RouteDescription:eco=
 - Eco

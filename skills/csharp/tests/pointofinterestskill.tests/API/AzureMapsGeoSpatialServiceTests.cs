@@ -66,6 +66,20 @@ namespace PointOfInterestSkill.Tests.API
         }
 
         [TestMethod]
+        public async Task GetPointsOfInterestByCategoryTest()
+        {
+            var service = new AzureMapsGeoSpatialService();
+
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.RouteLimit, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            Assert.AreEqual(pointOfInterestList.Count, 3);
+
+            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, null, true);
+            Assert.AreEqual(pointOfInterestList.Count, 2);
+        }
+
+        [TestMethod]
         public async Task GetRouteDirectionsTest()
         {
             var service = new AzureMapsGeoSpatialService();
