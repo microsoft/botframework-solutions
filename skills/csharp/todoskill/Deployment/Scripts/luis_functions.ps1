@@ -1,87 +1,112 @@
-function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
+function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
+    $outFile = "$($id).luis"
     $outFolder = $lu_file.DirectoryName
-
+    $appName = "$($name)$($langCode)_$($id)"
+    
     # Parse LU file
     Write-Host "> Parsing $($id) LU file ..."
-    ludown parse toqna `
+    ludown parse toluis `
         --in $lu_file `
+        --luis_culture $language `
         --out_folder $outFolder `
-        --out $outFile
+        --out $outFile        
         
-	# Create QnA Maker kb
-    Write-Host "> Deploying $($id) QnA kb ..."
+    # Create LUIS app
+    Write-Host "> Deploying $($id) LUIS app ..."
+    $luisApp = (luis import application `
+        --appName $appName `
+        --authoringKey $luisAuthoringKey `
+        --subscriptionKey $luisAuthoringKey `
+        --region $region `
+        --in "$(Join-Path $outFolder $outFile)" `
+        --wait) 2>> $log | ConvertFrom-Json
 
-	# These values pretty much guarantee success. We can decrease them if the QnA backend gets faster
-    $initialDelaySeconds = 30;
-    $retryAttemptsRemaining = 3;
-    $retryDelaySeconds = 15;
-    $retryDelayIncrease = 30;
-
-    while ($retryAttemptsRemaining -ge 0) {
-		$qnaKb = (qnamaker create kb `
-			--name $id `
-			--subscriptionKey $qnaSubscriptionKey `
-			--in $(Join-Path $outFolder $outFile) `
-			--force `
-			--wait `
-			--msbot) 2>> $log
-
-		if (-not $qnaKb) {
-			$retryAttemptsRemaining = $retryAttemptsRemaining - 1
-			Write-Host $retryAttemptsRemaining
-			Start-Sleep -s $retryDelaySeconds
-			$retryDelaySeconds += $retryDelayIncrease
-
-			if ($retryAttemptsRemaining -lt 0) {
-				Write-Host "! Unable to create QnA KB." -ForegroundColor Cyan
-			}
-			else {
-				Write-Host "> Retrying ..."
-				Continue
-			}
-		}
-		else {
-			Break
-		}
-    }
-
-	if (-not $qnaKb) {
-		Write-Host "! Could not deploy knowledgebase. Review the log for more information." -ForegroundColor DarkRed
+	if (-not $luisApp) {
+		Write-Host "! Could not deploy LUIS model. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($log)" -ForegroundColor DarkRed
 		Return $null
 	}
 	else {
-		$qnaKb = $qnaKb | ConvertFrom-Json
+	    # train and publish luis app
+		$(luis train version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait 
+        & luis publish version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait) 2>> $log | Out-Null
 
-	    # Publish QnA Maker knowledgebase
-		$(qnamaker publish kb --kbId $qnaKb.kbId --subscriptionKey $qnaSubscriptionKey) 2>> $log | Out-Null
-
-		Return $qnaKb
+		Return $luisApp
 	}
 }
 
-function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey)
+function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
+    $outFile = "$($id).luis"
     $outFolder = $lu_file.DirectoryName
+
+    $luisApp = luis get application --appId $appId --region $region --authoringKey $authoringKey | ConvertFrom-Json
 
     # Parse LU file
     Write-Host "> Parsing $($id) LU file ..."
-    ludown parse toqna `
+    ludown parse toluis `
         --in $lu_file `
+        --luis_culture $luisApp.culture `
         --out_folder $outFolder `
         --out $outFile
+    
+    Write-Host "> Getting current versions ..."
+    # Get list of current versions
+	$versions = luis list versions `
+        --appId $appId `
+        --region $region `
+        --authoringKey $authoringKey | ConvertFrom-Json
+    
+    # If the current version exists
+    if ($versions | Where { $_.version -eq $version })
+    {
+        # delete any old backups
+        if ($versions | Where { $_.version -eq "backup" })
+        {
+            Write-Host "> Deleting old backup version ..."
+            luis delete version `
+                --appId $appId `
+                --versionId "backup" `
+                --region $region `
+                --authoringKey $authoringKey `
+                --force --wait | Out-Null
+        }
+        
+        # rename the active version to backup
+        Write-Host "> Saving current version as backup ..."
+	    luis rename version `
+            --appId $appId `
+            --versionId $version `
+            --region $region `
+            --newVersionId backup `
+            --authoringKey $authoringKey `
+            --subscriptionKey $subscriptionKey `
+            --wait | Out-Null
+    }
+    
+    # import the new 0.1 version from the .luis file
+    Write-Host "> Importing new version ..."
+    luis import version `
+        --appId $appId `
+        --versionId $version `
+        --region $region `
+        --authoringKey $authoringKey `
+        --subscriptionKey $subscriptionKey `
+        --in "$(Join-Path $outFolder $outFile)" `
+        --wait | ConvertFrom-Json
+    
+    # train and publish luis app
+    $(luis train version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait 
+    & luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait) 2>> $log | Out-Null
+}
 
-    Write-Host "> Replacing $($id) QnA kb ..."
-	qnamaker replace kb `
-        --in $(Join-Path $outFolder $outFile) `
-        --kbId $kbId `
-        --subscriptionKey $qnaSubscriptionKey
+function RunLuisGen($lu_file, $outName, $outFolder) {
+    $id = $lu_file.BaseName
+	$luisFolder = $lu_file.DirectoryName
+	$luisFile = Join-Path $luisFolder "$($id).luis"
 
-    # Publish QnA Maker knowledgebase
-	$(qnamaker publish kb --kbId $kbId --subscriptionKey $qnaSubscriptionKey) 2>&1 | Out-Null
+	luisgen $luisFile -cs "$($outName)Luis" -o $outFolder
 }
