@@ -54,7 +54,6 @@ namespace CalendarSkill.Utilities
         // StartTime.Count could be 1/2, while endTime.Count could be 0/1/2.
         public static DateTime ChooseStartTime(List<DateTime> startTimes, List<DateTime> endTimes, DateTime startTimeRestriction, DateTime endTimeRestriction, DateTime userNow)
         {
-
             // Only one startTime, return directly.
             if (startTimes.Count == 1)
             {
