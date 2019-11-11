@@ -104,6 +104,21 @@
 - talk to a human
 
 
+## ExtractName
+- call me steve !
+- i am anna
+- i'm john jackson.
+- i'm lily
+- it is jackson .
+- it's alice anderson!
+- my name is bill jones
+- this is john w.smith .
+- ([you can]|[please]) call me {PersonName.Any}[.]
+- my name is {PersonName.Any}[.]
+- (i'm|i am) {PersonName.Any}[.]
+- (it's|it is|this is) {PersonName.Any}[.]
+
+
 ## FinishTask
 - all finished
 - all set
@@ -515,6 +530,8 @@ $DirectionalReference:simple
 $PREBUILT:number
 
 $PREBUILT:ordinal
+
+$PREBUILT:personName
 
 
 > # Phrase list definitions

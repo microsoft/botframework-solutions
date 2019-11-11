@@ -23,7 +23,7 @@ using Microsoft.Bot.Schema;
 
 namespace BingSearchSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotSettings _settings;
         private BotServices _services;
@@ -54,13 +54,13 @@ namespace BingSearchSkill.Dialogs
             AddDialog(sampleDialog);
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var locale = CultureInfo.CurrentUICulture;
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -101,7 +101,7 @@ namespace BingSearchSkill.Dialogs
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
@@ -115,7 +115,7 @@ namespace BingSearchSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             switch (dc.Context.Activity.Name)
             {
@@ -204,15 +204,15 @@ namespace BingSearchSkill.Dialogs
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
-            await CompleteAsync(dc);
+            await OnDialogCompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -239,7 +239,7 @@ namespace BingSearchSkill.Dialogs
 
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)

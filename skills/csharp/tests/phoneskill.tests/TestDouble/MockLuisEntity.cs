@@ -1,4 +1,7 @@
-﻿namespace PhoneSkill.Tests.TestDouble
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace PhoneSkill.Tests.TestDouble
 {
     /// <summary>
     /// Information about an entity to be returned by a MockLuisRecognizer.

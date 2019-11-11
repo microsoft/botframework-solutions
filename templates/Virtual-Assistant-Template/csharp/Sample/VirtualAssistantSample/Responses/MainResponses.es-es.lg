@@ -31,7 +31,7 @@
 - Parece que hubo un error. Lo siento. Puedes intentarlo de nuevo más tarde.
 - Disculpas, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
 
-#StartOverMessage
+# StartOverMessage
 - Vale{RandName()}, intentémoslo de nuevo.
 - No hay problema{RandName()}, podemos empezar de nuevo.
 - Bien, intentémoslo de nuevo.
@@ -52,6 +52,9 @@
 - Está bien, salió firme.
 - Claro, te han cerrado la sesión.
 - No hay problema, te he cerrado la sesión.
+
+# SkillSwitchPrompt
+- ¿Desea cambiar a la {Skill}?
 
 # EscalateMessage
 [HeroCard

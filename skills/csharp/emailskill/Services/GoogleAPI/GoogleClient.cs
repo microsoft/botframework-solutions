@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using EmailSkill.Services;
 using Google;
 using Microsoft.Bot.Builder.Skills;
@@ -47,6 +50,18 @@ namespace EmailSkill.Services.GoogleAPI
             if (ex.Error.Message.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                skillExceptionType = SkillExceptionType.APIUnauthorized;
+            }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                skillExceptionType = SkillExceptionType.APIForbidden;
+            }
+            else if (ex.HttpStatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                skillExceptionType = SkillExceptionType.APIBadRequest;
             }
 
             return new SkillException(skillExceptionType, ex.Message, ex);

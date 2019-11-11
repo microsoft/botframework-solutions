@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +18,11 @@ namespace CalendarSkill.Prompts
 {
     public class DatePrompt : Prompt<IList<DateTimeResolution>>
     {
+        internal const string AttemptCountKey = "AttemptCount";
+
         private static TimeZoneInfo userTimeZone = null;
+
+        private static int maxReprompt = -1;
 
         public DatePrompt(string dialogId, PromptValidator<IList<DateTimeResolution>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
@@ -54,6 +61,7 @@ namespace CalendarSkill.Prompts
             }
 
             userTimeZone = ((DatePromptOptions)options).TimeZone;
+            maxReprompt = ((CalendarPromptOptions)options).MaxReprompt;
         }
 
         protected override async Task<PromptRecognizerResult<IList<DateTimeResolution>>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -74,6 +82,11 @@ namespace CalendarSkill.Prompts
                     result.Succeeded = true;
                     result.Value = date;
                 }
+            }
+
+            if (maxReprompt > 0 && Convert.ToInt32(state[AttemptCountKey]) >= maxReprompt)
+            {
+                result.Succeeded = true;
             }
 
             return await Task.FromResult(result);

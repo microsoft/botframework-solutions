@@ -1,12 +1,15 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace CalendarSkill.Prompts.Options
 {
-    public class DatePromptOptions : PromptOptions
+    public class DatePromptOptions : CalendarPromptOptions
     {
-        public DatePromptOptions()
-            : base()
+        public DatePromptOptions(int maxReprompt = -1)
+            : base(maxReprompt)
         {
         }
 

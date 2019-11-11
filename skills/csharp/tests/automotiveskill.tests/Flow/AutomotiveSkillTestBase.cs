@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
 using AutomotiveSkill.Bots;
 using AutomotiveSkill.Dialogs;
@@ -42,7 +45,7 @@ namespace AutomotiveSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new MockLuisRecognizer() },
                                 { "Settings", new MockLuisRecognizer() },
@@ -77,7 +80,7 @@ namespace AutomotiveSkill.Tests.Flow
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<VehicleSettingsDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             // Mock HttpContext for image path resolution
             var mockHttpContext = new DefaultHttpContext();

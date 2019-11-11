@@ -10,10 +10,12 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
 	[string] $languages = "en-us",
-	[string] $projDir = $(Join-Path $(Get-Location) "src"),
+	[string] $projDir = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot ".." "deploy_log.txt")
 )
 
+# Src folder path
+$srcDir = $(Join-Path $projDir "src")
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -22,7 +24,7 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
-if (-not (Test-Path (Join-Path $projDir 'appsettings.json')))
+if (-not (Test-Path (Join-Path $srcDir 'appsettings.json')))
 {
 	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor DarkRed
 	Write-Host "+ Please re-run this script from your project directory." -ForegroundColor Magenta
@@ -186,8 +188,8 @@ if ($outputs)
 
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
-	if (Test-Path $(Join-Path $projDir appsettings.json)) {
-		$settings = Get-Content $(Join-Path $projDir appsettings.json) -Encoding utf8 | ConvertFrom-Json
+	if (Test-Path $(Join-Path $srcDir appsettings.json)) {
+		$settings = Get-Content $(Join-Path $srcDir appsettings.json) -Encoding utf8 | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
@@ -196,14 +198,14 @@ if ($outputs)
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
+	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $srcDir appsettings.json)
 
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
 	# Delay to let QnA Maker finish setting up
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($srcDir)' -languages '$($languages)'"
 	
 	# Summary 
 	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow

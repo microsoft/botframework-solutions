@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
@@ -95,7 +98,7 @@ namespace CalendarSkill.Test.Flow
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();
             Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));

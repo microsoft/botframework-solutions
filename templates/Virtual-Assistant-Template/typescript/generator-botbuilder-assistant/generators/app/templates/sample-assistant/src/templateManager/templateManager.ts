@@ -79,11 +79,11 @@ export class TemplateManager {
                 const templateOutput: any = await renderer.renderTemplate(turnContext, locale, templateId, data);
                 if (templateOutput) {
                     if (typeof templateOutput === 'string' || templateOutput instanceof String) {
-                        const def: Partial <Activity> = { type: ActivityTypes.Message, text: <string> templateOutput};
+                        const def: Partial <Activity> = { type: ActivityTypes.Message, text: templateOutput as string};
 
-                        return  <Activity> def;
+                        return  def as Activity;
                     } else {
-                        return <Activity>templateOutput;
+                        return templateOutput as Activity;
                     }
                 }
             }

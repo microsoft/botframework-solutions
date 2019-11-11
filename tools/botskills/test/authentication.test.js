@@ -110,8 +110,8 @@ describe("The authentication util", function() {
 
             await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
 
-            const warningList = configuration.logger.getWarning();
-            strictEqual(warningList[warningList.length - 1], `There are no authentication connections in your Skills manifest.`);
+            const messageList = configuration.logger.getMessage();
+            strictEqual(messageList[messageList.length - 1], `There are no authentication connections in your Skills manifest.`);
         });
 
         it("when the skill manifest doesn't contain an Azure Active Directory v2 as authentication connection", async function() {

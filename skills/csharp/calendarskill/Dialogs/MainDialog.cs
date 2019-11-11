@@ -335,7 +335,6 @@ namespace CalendarSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
-            await OnDialogCompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }

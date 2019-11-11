@@ -31,7 +31,7 @@
 - Hmm, on dirait qu'il y a eu une erreur. Désolé. Vous pouvez réessayer plus tard.
 - Toutes mes excuses, on dirait que quelque chose a mal tourné. Réessayez votre demande plus tard.
 
-#StartOverMessage
+# StartOverMessage
 - D'accord{RandName()}, essayons à nouveau.
 - aucun problème{RandName()}, nous pouvons recommencer à tout recommencer.
 - OK, essayons encore une fois.
@@ -52,6 +52,9 @@
 - D'accord, je me suis désigné.
 - Bien sûr, vous avez été signé.
 - Pas de problème, je t'ai viré.
+
+# SkillSwitchPrompt
+- Voulez-vous passer à la {Skill}?
 
 # EscalateMessage
 [HeroCard

@@ -31,7 +31,7 @@
 - Hmm, it looks like there was an error. Sorry about that. You can try again later.
 - Apologies, it looks like something went wrong. Try your request again later.
 
-#StartOverMessage
+# StartOverMessage
 - OK{RandName()}, let's try that again.
 - No problem{RandName()}, we can start over.
 - OK, let's try that again.
@@ -53,6 +53,9 @@
 - Sure, you’ve been signed out.
 - No problem, I’ve signed you out.
 
+# SkillSwitchPrompt
+- Would you like to switch to the {Skill}?
+
 # EscalateMessage
 [HeroCard
   subtitle=Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
@@ -64,7 +67,7 @@
 ]
 
 # NewUserIntroCardTitle
-- Hi There!
+- Hi there!
 - Welcome
 - Pleased to meet you!
 - Hello and welcome!
