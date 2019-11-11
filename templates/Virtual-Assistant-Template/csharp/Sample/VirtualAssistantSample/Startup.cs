@@ -114,6 +114,8 @@ namespace VirtualAssistantSample
             services.AddTransient<SwitchSkillDialog>();
             services.AddTransient<OnboardingDialog>();
 
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+
             // Register skill dialogs
             foreach (var skill in settings.Skills)
             {
