@@ -8,10 +8,11 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,6 +97,7 @@ namespace VirtualAssistantSample.Tests
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
+            Services.AddTransient<SwitchSkillDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

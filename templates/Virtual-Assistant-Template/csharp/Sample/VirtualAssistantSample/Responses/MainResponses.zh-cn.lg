@@ -31,7 +31,7 @@
 - 嗯，看起来好像有一个错误。很抱歉您可以稍后再试。
 - 道歉，看起来好像出了什么问题。请稍后重试您的请求。
 
-#StartOverMessage
+# StartOverMessage
 - 还行{RandName()}，让我们再试一次。
 - 没关系{RandName()}，我们可以重新开始。
 - 好，让我们再试一次。
@@ -52,6 +52,9 @@
 - 好了，签了字了
 - 当然，您已经注销了。
 - 没问题，我已经签了名。
+
+# SkillSwitchPrompt
+- 您要切换到 {Skill} 吗？
 
 # EscalateMessage
 [HeroCard

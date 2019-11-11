@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace HospitalitySkill.Dialogs
 {
@@ -63,9 +65,24 @@ namespace HospitalitySkill.Dialogs
             await Task.Delay(1600);
             var lateTime = await _hotelService.GetLateCheckOutAsync();
 
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+            var entities = convState.LuisResult.Entities;
+            if (entities.datetime != null && (entities.datetime[0].Type == "time" || entities.datetime[0].Type == "timerange"))
+            {
+                var timexProperty = new TimexProperty();
+                TimexParsing.ParseString(entities.datetime[0].Expressions[0], timexProperty);
+                var preferedTime = new TimeSpan(timexProperty.Hour ?? 0, timexProperty.Minute ?? 0, timexProperty.Second ?? 0) + new TimeSpan((int)(timexProperty.Hours ?? 0), (int)(timexProperty.Minutes ?? 0), (int)(timexProperty.Seconds ?? 0));
+                if (preferedTime < lateTime)
+                {
+                    lateTime = preferedTime;
+                }
+            }
+
+            convState.UpdatedReservation = new ReservationData { CheckOutTimeData = lateTime };
+
             var tokens = new StringDictionary
             {
-                { "Time", lateTime },
+                { "Time", convState.UpdatedReservation.CheckOutTime },
             };
 
             return await sc.PromptAsync(DialogIds.LateCheckOutPrompt, new PromptOptions()
@@ -87,7 +104,8 @@ namespace HospitalitySkill.Dialogs
                     // TODO process late check out request here
                     userState.LateCheckOut = true;
 
-                    userState.UserReservation.CheckOutTime = await _hotelService.GetLateCheckOutAsync();
+                    var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
+                    userState.UserReservation.CheckOutTimeData = convState.UpdatedReservation.CheckOutTimeData;
 
                     // set new checkout in hotel service
                     _hotelService.UpdateReservationDetails(userState.UserReservation);
