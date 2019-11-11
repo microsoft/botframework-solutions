@@ -20,22 +20,13 @@ body {
 }
 
 #nav-content {
-    position: -webkit-sticky;
-    position: sticky;
     top: 4rem;
     overflow-y: auto;
-    height: calc(100vh - 4rem);
     z-index: 1000;
 
     ul {
         list-style-type: none;
         padding-left: 5px;
-    }
-
-    li {
-    }
-
-    a {
     }
 
     a:hover {
@@ -46,6 +37,14 @@ body {
     .is-selected {
         font-weight: 600 !important;
         background-color: hsla(0,0%,95%,1);
+    }
+}
+
+@media (min-width: 768px){
+    #nav-content {
+        position: -webkit-sticky;
+        position: sticky;
+        height: calc(100vh - 4rem);
     }
 }
 

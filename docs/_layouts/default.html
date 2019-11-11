@@ -16,10 +16,10 @@
 	<div class="container-fluid px-6">
         <div class="row">
             {% include nav.html %}
-            <main id="markdown-content" class="col-8 py-8 px-2 markdown-body">
+            <main id="markdown-content" class="col-12 col-md-8 py-8 px-2 markdown-body">
                 {{ content }}
             </main>
-            <nav id="toc-content" class="col-2">
+            <nav id="toc-content" class="col-2 d-none d-md-block">
                 {% include toc.html html=content sanitize=true h_min=2 h_max=2 %}
             </nav>
         </div>
