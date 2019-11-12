@@ -22,10 +22,17 @@ namespace PhoneSkill.Services
                 var language = pair.Key;
                 var config = pair.Value;
 
+                var luisOptions = new LuisPredictionOptions()
+                {
+                    LogPersonalInformation = true,
+                    SpellCheck = string.IsNullOrEmpty(settings.BingSpellCheckSubscriptionKey) ? false : true,
+                    BingSpellCheckSubscriptionKey = settings.BingSpellCheckSubscriptionKey
+                };
+
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    set.DispatchService = new LuisRecognizer(dispatchApp);
+                    set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
                 }
 
                 if (config.LanguageModels != null)
@@ -33,7 +40,7 @@ namespace PhoneSkill.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
                     }
                 }
 

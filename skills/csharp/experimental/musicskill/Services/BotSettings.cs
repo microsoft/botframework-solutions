@@ -10,5 +10,7 @@ namespace MusicSkill.Services
         public string SpotifyClientId { get; set; }
 
         public string SpotifyClientSecret { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

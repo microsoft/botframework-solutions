@@ -8,5 +8,7 @@ namespace EventSkill.Services
     public class BotSettings : BotSettingsBase
     {
         public string EventbriteKey { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

@@ -10,5 +10,7 @@ namespace NewsSkill.Services
         public string BingNewsKey { get; set; }
 
         public string AzureMapsKey { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

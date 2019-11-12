@@ -18,5 +18,7 @@ namespace PointOfInterestSkill.Services
         public string LimitSize { get; set; }
 
         public string RouteLimit { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

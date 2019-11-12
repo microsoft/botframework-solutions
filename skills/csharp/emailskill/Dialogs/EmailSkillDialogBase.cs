@@ -1292,6 +1292,8 @@ namespace EmailSkill.Dialogs
                 var entity = luisResult.Entities;
                 var generalEntity = generalResult.Entities;
 
+                string luisResultText = string.IsNullOrEmpty(luisResult.AlteredText) ? luisResult.Text : luisResult.AlteredText;
+
                 if (entity != null)
                 {
                     if (entity.ordinal != null)
@@ -1385,7 +1387,7 @@ namespace EmailSkill.Dialogs
                                     var rawEntity = luisResult.Entities._instance.email;
                                     foreach (var emailAddress in rawEntity)
                                     {
-                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        var email = luisResultText.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
                                         if (Utilities.Util.IsEmail(email) && !state.FindContactInfor.ContactsNameList.Contains(email))
                                         {
                                             state.FindContactInfor.ContactsNameList.Add(email);
@@ -1443,7 +1445,7 @@ namespace EmailSkill.Dialogs
                                     var rawEntity = luisResult.Entities._instance.email;
                                     foreach (var emailAddress in rawEntity)
                                     {
-                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        var email = luisResultText.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
                                         if (Utilities.Util.IsEmail(email) && !state.FindContactInfor.ContactsNameList.Contains(email))
                                         {
                                             state.FindContactInfor.ContactsNameList.Add(email);

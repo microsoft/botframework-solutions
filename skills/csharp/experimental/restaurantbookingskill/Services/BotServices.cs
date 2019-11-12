@@ -25,6 +25,8 @@ namespace RestaurantBookingSkill.Services
                 {
                     TelemetryClient = telemetryClient,
                     LogPersonalInformation = true,
+                    SpellCheck = string.IsNullOrEmpty(settings.BingSpellCheckSubscriptionKey) ? false : true,
+                    BingSpellCheckSubscriptionKey = settings.BingSpellCheckSubscriptionKey
                 };
 
                 if (config.DispatchModel != null)

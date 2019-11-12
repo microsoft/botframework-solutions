@@ -12,5 +12,7 @@ namespace ITSMSkill.Services
         public string ServiceNowGetUserId { get; set; }
 
         public int LimitSize { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

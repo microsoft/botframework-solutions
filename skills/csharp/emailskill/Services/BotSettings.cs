@@ -22,6 +22,8 @@ namespace EmailSkill.Services
 
         public string AzureMapsKey { get; set; }
 
+        public string BingSpellCheckSubscriptionKey { get; set; }
+
         public class DefaultValueConfiguration
         {
             public List<SlotFillingConfigItem> SendEmail { get; set; }

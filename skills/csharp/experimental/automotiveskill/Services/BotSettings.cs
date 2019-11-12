@@ -7,5 +7,6 @@ namespace AutomotiveSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

@@ -10,5 +10,7 @@ namespace ToDoSkill.Services
         public int DisplaySize { get; set; }
 
         public string TaskServiceProvider { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }
