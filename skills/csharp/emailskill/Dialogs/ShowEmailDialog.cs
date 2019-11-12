@@ -94,12 +94,6 @@ namespace EmailSkill.Dialogs
                 HandleMore,
             };
 
-            var retryUnknown = new WaterfallStep[]
-            {
-                RetryInput,
-                HandleMore,
-            };
-
             var forwardEmailDialog = serviceProvider.GetService<ForwardEmailDialog>();
             var replyEmailDialog = serviceProvider.GetService<ReplyEmailDialog>();
             var deleteEmailDialog = serviceProvider.GetService<DeleteEmailDialog>();
@@ -113,7 +107,6 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
@@ -382,9 +375,6 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    var cachedMessageList = state.MessageList;
-                    var cachedFocusedMessages = state.Message;
-
                     await DigestEmailLuisResult(sc, true);
                     await SearchEmailsFromList(sc, cancellationToken);
 
@@ -393,10 +383,8 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    state.MessageList = cachedMessageList;
-                    state.Message = cachedFocusedMessages;
-
-                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, skillOptions);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (Exception ex)
@@ -540,22 +528,6 @@ namespace EmailSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> RetryInput(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.RetryInput) });
             }
             catch (Exception ex)
             {

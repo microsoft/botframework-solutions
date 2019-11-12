@@ -59,7 +59,5 @@ namespace CalendarSkill
         public const string ConfirmNumber = "ConfirmNumber";
         public const string ShowRestParticipants = "ShowRestParticipants";
         public const string AddMoreUserPrompt = "AddMoreUserPrompt";
-        public const string FallbackEventPrompt = "fallbackEventPrompt";
-        public const string RetryUnknown = "retryUnknown";
     }
 }

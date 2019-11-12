@@ -125,15 +125,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "RetryInput": {
-    "replies": [
-      {
-        "text": "对不起，我不明白你的意思。你可以再试一次吗？",
-        "speak": "对不起，我不明白你的意思。你可以再试一次吗？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "MultipleEventsFound": {
     "replies": [
       {
