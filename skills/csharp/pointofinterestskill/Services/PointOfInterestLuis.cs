@@ -40,6 +40,8 @@ namespace Luis
             public double[] number;
 
             // Lists
+            public string[][] KeywordCategory;
+
             public string[][] PoiDescription;
 
             public string[][] RouteDescription;
@@ -49,6 +51,7 @@ namespace Luis
             {
                 public InstanceData[] Address;
                 public InstanceData[] Keyword;
+                public InstanceData[] KeywordCategory;
                 public InstanceData[] PoiDescription;
                 public InstanceData[] RouteDescription;
                 public InstanceData[] geographyV2;
