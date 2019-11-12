@@ -399,10 +399,15 @@ namespace AutomotiveSkill.Dialogs
                     // Check confirmation first.
                     if (availableSettingValue != null && availableSettingValue.RequiresConfirmation)
                     {
-                        var promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
+                        var promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmation;
+                        var promptReplacements = new StringDictionary
+                        {
+                            { "settingName", change.SettingName },
+                            { "value", change.Value },
+                        };
 
                         // TODO - Explore moving to ConfirmPrompt following usability testing
-                        var prompt = ResponseManager.GetResponse(promptTemplate);
+                        var prompt = ResponseManager.GetResponse(promptTemplate, promptReplacements);
                         return await sc.PromptAsync(Actions.SettingConfirmationPrompt, new PromptOptions { Prompt = prompt });
                     }
                     else
