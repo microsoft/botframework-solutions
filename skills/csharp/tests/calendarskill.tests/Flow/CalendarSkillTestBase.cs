@@ -7,6 +7,7 @@ using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.CheckAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -82,7 +83,8 @@ namespace CalendarSkill.Test.Flow
                 new SummaryResponses(),
                 new TimeRemainingResponses(),
                 new UpdateEventResponses(),
-                new UpcomingEventResponses());
+                new UpcomingEventResponses(),
+                new CheckAvailableResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();

@@ -19,6 +19,7 @@ namespace CalendarSkill.Test.Flow.Fakes
         private static readonly List<EventModel> BuildinEvents;
         private static readonly List<PersonModel> BuildinPeoples;
         private static readonly List<PersonModel> BuildinUsers;
+        private static readonly AvailabilityResult BuildinAvailabilityResult;
         private static Mock<ICalendarService> mockCalendarService;
         private static Mock<IUserService> mockUserService;
         private static Mock<IServiceManager> mockServiceManager;
@@ -28,6 +29,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             BuildinEvents = GetFakeEvents();
             BuildinPeoples = GetFakePeoples();
             BuildinUsers = GetFakeUsers();
+            BuildinAvailabilityResult = GetFakeAvailabilityResult();
 
             // calendar
             mockCalendarService = new Mock<ICalendarService>();
@@ -40,6 +42,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockCalendarService.Setup(service => service.DeleteEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.AcceptEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.DeclineEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
+            mockCalendarService.Setup(service => service.GetUserAvailabilityAsync(It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(BuildinAvailabilityResult));
 
             // user
             mockUserService = new Mock<IUserService>();
@@ -64,6 +67,27 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockUserService.Setup(service => service.GetContactsAsync(It.IsAny<string>())).Returns((string name) =>
             {
                 return Task.FromResult(new List<PersonModel>());
+            });
+            mockUserService.Setup(service => service.GetMeAsync()).Returns(() =>
+            {
+                var emailAddressStr = Strings.Strings.DefaultUserEmail;
+                var userNameStr = Strings.Strings.DefaultUserName;
+                var addressList = new List<ScoredEmailAddress>();
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
+
+                var people = new Person()
+                {
+                    UserPrincipalName = emailAddressStr,
+                    ScoredEmailAddresses = addressList,
+                    DisplayName = userNameStr,
+                };
+
+                return Task.FromResult(new PersonModel(people));
             });
 
             // manager
@@ -365,6 +389,15 @@ namespace CalendarSkill.Test.Flow.Fakes
             users.Add(new PersonModel(user.ToPerson()));
 
             return users;
+        }
+
+        private static AvailabilityResult GetFakeAvailabilityResult()
+        {
+            var availabilityResult = new AvailabilityResult();
+            availabilityResult.AvailabilityViewList.Add("000000000000");
+            availabilityResult.AvailabilityViewList.Add("000000000000");
+
+            return availabilityResult;
         }
     }
 }

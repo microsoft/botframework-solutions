@@ -144,7 +144,7 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        public async Task<AvailabilityResult> GetUserAvailableTimeSlotAsync(string userEmail, List<string> attendees, DateTime startTime, int availabilityViewInterval)
+        public async Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> attendees, DateTime startTime, int availabilityViewInterval)
         {
             List<bool> availability = new List<bool>();
             attendees.Add(userEmail);
