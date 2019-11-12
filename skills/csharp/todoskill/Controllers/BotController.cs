@@ -12,7 +12,7 @@ namespace ToDoSkill.Controllers
 {
     [ApiController]
     public class BotController : SkillController
-	{
+    {
         public BotController(
             IBot bot,
             BotSettingsBase botSettings,

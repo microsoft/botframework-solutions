@@ -154,6 +154,7 @@ namespace WeatherSkill.Dialogs
 
                         break;
                     }
+
                 case Events.Location:
                     {
                         // Test trigger with

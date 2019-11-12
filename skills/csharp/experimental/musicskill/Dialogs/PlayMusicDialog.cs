@@ -61,7 +61,6 @@ namespace MusicSkill.Dialogs
             if (searchItems.Playlists?.Total != 0)
             {
                 await SendOpenDefaultAppEventActivity(stepContext, searchItems.Playlists.Items[0].Uri, cancellationToken);
-
             }
             else if (searchItems.Artists?.Total != 0)
             {
@@ -76,21 +75,21 @@ namespace MusicSkill.Dialogs
             return await stepContext.EndDialogAsync();
         }
 
-        private static async Task SendOpenDefaultAppEventActivity(WaterfallStepContext stepContext, string spotifyResultUri, CancellationToken cancellationToken)
-        {
-            var replyEvent = stepContext.Context.Activity.CreateReply();
-            replyEvent.Type = ActivityTypes.Event;
-            replyEvent.Name = "OpenDefaultApp";
-            replyEvent.Value = new OpenDefaultApp() { MusicUri = spotifyResultUri };
-            await stepContext.Context.SendActivityAsync(replyEvent, cancellationToken);
-        }
-
         private async Task<SpotifyWebAPI> GetSpotifyWebAPIClient(BotSettings settings)
         {
             CredentialsAuth auth = new CredentialsAuth(settings.SpotifyClientId, settings.SpotifyClientSecret);
             Token token = await auth.GetToken();
             SpotifyWebAPI api = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
             return api;
+        }
+
+        private async Task SendOpenDefaultAppEventActivity(WaterfallStepContext stepContext, string spotifyResultUri, CancellationToken cancellationToken)
+        {
+            var replyEvent = stepContext.Context.Activity.CreateReply();
+            replyEvent.Type = ActivityTypes.Event;
+            replyEvent.Name = "OpenDefaultApp";
+            replyEvent.Value = new OpenDefaultApp() { MusicUri = spotifyResultUri };
+            await stepContext.Context.SendActivityAsync(replyEvent, cancellationToken);
         }
     }
 }

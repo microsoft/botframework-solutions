@@ -45,7 +45,10 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
-        public string Provider { get { return PointOfInterestModel.Foursquare; } }
+        public string Provider
+        {
+            get { return PointOfInterestModel.Foursquare; }
+        }
 
         public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
@@ -169,6 +172,8 @@ namespace PointOfInterestSkill.Services
         /// Returns available image from point of interest.
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
+        /// <param name="width">The image width.</param>
+        /// <param name="height">The image height.</param>
         /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
