@@ -21,10 +21,10 @@
     "replies": [
       {
         "text": "It looks like {UserName} is unavailable at {Time} {Date}.",
-        "speak": "It looks like {UserName} is unavailable at {Time} {Date}"
+        "speak": "It looks like {UserName} is unavailable at {Time} {Date}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AttendeeIsAvailable": {
     "replies": [
@@ -33,7 +33,7 @@
         "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict": {
     "replies": [
@@ -42,7 +42,7 @@
         "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have a meeting, \"{Title}\" from {EventStartTime} to {EventEndTime}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts": {
     "replies": [
@@ -51,7 +51,7 @@
         "speak": "It looks like {UserName} is available from {StartTime} to {EndTime} {Date}, but you have {ConflictEventsCount} other meetings scheduled during that time."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AskForCreateNewMeeting": {
     "replies": [
@@ -87,7 +87,7 @@
         "speak": "Okay. You and {UserName} are both available from {StartTime} to {EndTime} {EndDate}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoNextBothAvailableTime": {
     "replies": [
@@ -96,6 +96,6 @@
         "speak": "You don't have both available time with {UserName} recently."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }

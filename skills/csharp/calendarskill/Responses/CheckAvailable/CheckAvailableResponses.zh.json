@@ -1,3 +1,101 @@
 ﻿{
-
+  "AskForCheckAvailableTime": {
+    "replies": [
+      {
+        "text": "什么时间？",
+        "speak": "什么时间？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskForCheckAvailableUserName": {
+    "replies": [
+      {
+        "text": "你想问关于谁的？",
+        "speak": "你想问关于谁的？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NotAvailable": {
+    "replies": [
+      {
+        "text": "看起来{UserName}在{Date}{Time}没有时间。",
+        "speak": "看起来{UserName}在{Date}{Time}没有时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AttendeeIsAvailable": {
+    "replies": [
+      {
+        "text": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有时间。",
+        "speak": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict": {
+    "replies": [
+      {
+        "text": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有时间，但是你有一个会议，\"{Title}\"从{EventStartTime}到{EventEndTime}。",
+        "speak": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有时间，但是你有一个会议，\"{Title}\"从{EventStartTime}到{EventEndTime}。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts": {
+    "replies": [
+      {
+        "text": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有空，但是你有{ConflictEventsCount}个会议在这段时间。",
+        "speak": "看起来{UserName}在{Date}从{StartTime}到{EndTime}有空，但是你有{ConflictEventsCount}个会议在这段时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForCreateNewMeeting": {
+    "replies": [
+      {
+        "text": "你想创建一个新会议吗？",
+        "speak": "你想创建一个新会议吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskForCreateNewMeetingAnyway": {
+    "replies": [
+      {
+        "text": "你还是要和{UserName}在{StartTime}创建一个新会议吗？",
+        "speak": "你还是要和{UserName}在{StartTime}创建一个新会议吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskForNextAvailableTime": {
+    "replies": [
+      {
+        "text": "你想让我找出下一段你和{UserName}都有空的时间吗？",
+        "speak": "你想让我找出下一段你和{UserName}都有空的时间吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NextBothAvailableTime": {
+    "replies": [
+      {
+        "text": "好的，你和{UserName}在{EndDate}从{StartTime}到{EndTime}都有空。",
+        "speak": "好的，你和{UserName}在{EndDate}从{StartTime}到{EndTime}都有空。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoNextBothAvailableTime": {
+    "replies": [
+      {
+        "text": "你和{UserName}最近没有都有空的时间。",
+        "speak": "你和{UserName}最近没有都有空的时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
 }
