@@ -346,9 +346,19 @@ namespace PointOfInterestSkill.Dialogs
 
                     var entities = luisResult.Entities;
 
+                    // TODO since we can only search one per search, only the 1st one is considered
                     if (entities.Keyword != null)
                     {
-                        state.Keyword = string.Join(" ", entities.Keyword);
+                        if (entities._instance.KeywordCategory == null || !entities._instance.KeywordCategory.Any(c => c.Text.Equals(entities.Keyword[0], StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            state.Keyword = entities.Keyword[0];
+                        }
+                    }
+
+                    // TODO if keyword exists and category exists, whether keyword contains category or a keyword of some category. We will ignore category in these two cases
+                    if (string.IsNullOrEmpty(state.Keyword) && entities._instance.KeywordCategory != null)
+                    {
+                        state.Category = entities._instance.KeywordCategory[0].Text;
                     }
 
                     if (entities.Address != null)

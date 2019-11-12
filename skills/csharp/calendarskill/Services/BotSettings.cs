@@ -52,5 +52,7 @@ namespace CalendarSkill.Services
         }
 
         public string AzureMapsKey { get; set; }
+
+        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }
