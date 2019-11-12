@@ -42,6 +42,5 @@ namespace EmailSkill.Responses.Shared
         public const string LastPageAlready = "LastPageAlready";
         public const string NoChoiceOptionsRetry = "NoChoiceOptionsRetry";
         public const string NoRecipients = "NoRecipients";
-        public const string RetryInput = "RetryInput";
     }
 }
