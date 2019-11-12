@@ -400,14 +400,9 @@ namespace AutomotiveSkill.Dialogs
                     if (availableSettingValue != null && availableSettingValue.RequiresConfirmation)
                     {
                         var promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
-                        var promptReplacements = new StringDictionary
-                        {
-                            { "settingName", change.SettingName },
-                            { "value", change.Value },
-                        };
 
                         // TODO - Explore moving to ConfirmPrompt following usability testing
-                        var prompt = ResponseManager.GetResponse(promptTemplate, promptReplacements);
+                        var prompt = ResponseManager.GetResponse(promptTemplate);
                         return await sc.PromptAsync(Actions.SettingConfirmationPrompt, new PromptOptions { Prompt = prompt });
                     }
                     else
@@ -449,63 +444,10 @@ namespace AutomotiveSkill.Dialogs
 
             if (settingChangeConfirmed)
             {
-                // If the change involves an amount then we add this to the change event
-                if (change.Amount != null)
-                {
-                    var promptReplacements = new StringDictionary
-                    {
-                                        { "settingName", change.SettingName },
-                                        { "amount", change.Amount.Amount.ToString() },
-                                        { "unit", UnitToString(change.Amount.Unit) },
-                    };
-                    if (change.IsRelativeAmount)
-                    {
-                        if (change.Amount.Amount < 0)
-                        {
-                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.DECREASING;
-                            promptReplacements["amount"] = (-change.Amount.Amount).ToString();
-                        }
-                        else
-                        {
-                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.INCREASING;
-                        }
+                    string promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
 
-                        // Send an event to the device along with the text
-                        await SendActionToDevice(sc, change);
-
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsConfirmed, promptReplacements));
-                    }
-                    else
-                    {
-                        // Send an event to the device along with the text
-                        await SendActionToDevice(sc, change);
-
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsConfirmed, promptReplacements));
-                    }
-                }
-                else
-                {
-                    // Nominal (non-numeric) change (e.g., on/off)
-                    string promptTemplate;
-                    var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
-                    if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
-                    {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
-                        promptReplacements["valueIngForm"] = valueIngForm;
-                    }
-                    else
-                    {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
-                        promptReplacements["value"] = change.Value;
-                    }
-
-                    // Send an event to the device along with the text
                     await SendActionToDevice(sc, change);
-
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate, promptReplacements));
-                }
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate));
             }
             else
             {
