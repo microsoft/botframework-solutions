@@ -20,6 +20,8 @@ namespace CalendarSkill.Services
 
         public DefaultValueConfiguration DefaultValue { get; set; }
 
+        public RestrictedValueConfiguration RestrictedValue { get; set; }
+
         public class DefaultValueConfiguration
         {
             public List<SlotFillingConfigItem> CreateMeeting { get; set; }
@@ -31,6 +33,21 @@ namespace CalendarSkill.Services
                 public bool IsSkipByDefault { get; set; }
 
                 public string DefaultValue { get; set; }
+            }
+
+        }
+
+        public class RestrictedValueConfiguration
+        {
+            public List<RestrictedItem> MeetingTime { get; set; }
+
+            public class RestrictedItem
+            {
+                public string Name { get; set; }
+
+                public bool IsRestricted { get; set; }
+
+                public string Value { get; set; }
             }
         }
 
