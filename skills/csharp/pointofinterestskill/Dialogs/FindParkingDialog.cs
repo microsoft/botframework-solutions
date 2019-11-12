@@ -116,7 +116,7 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
 
-                        // TODO nearest here is not for current
+                        // TODO nearest here is not for state.CurrentCoordinates
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.PoiType);
                         cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }

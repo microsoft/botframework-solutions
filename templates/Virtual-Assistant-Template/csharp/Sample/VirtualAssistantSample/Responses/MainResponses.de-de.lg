@@ -31,7 +31,7 @@
 - Hmm, es sieht so aus, als ob es einen Fehler gab. Es tut uns leid. Sie können es später erneut versuchen.
 - Entschuldigen Sie, es sieht so aus, als wäre etwas schief gelaufen. Versuchen Sie es später erneut.
 
-#StartOverMessage
+# StartOverMessage
 - Okay{RandName()}, versuchen wir es noch einmal.
 - Kein Problem{RandName()}können wir von vorne anfangen.
 - OK, versuchen wir es noch einmal.
@@ -52,6 +52,9 @@
 - In Ordnung, abgemeldet.
 - Sicher, Sie sind abgemeldet.
 - Kein Problem, ich habe dich abgemeldet.
+
+# SkillSwitchPrompt
+- Möchten Sie zum {Skill} wechseln?
 
 # EscalateMessage
 [HeroCard

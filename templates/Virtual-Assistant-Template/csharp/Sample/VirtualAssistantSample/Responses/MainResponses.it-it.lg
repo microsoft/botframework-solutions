@@ -31,7 +31,7 @@
 - Hmm, sembra che ci sia stato un errore. Mi dispiace per questo. È possibile riprovare in un secondo momento.
 - Mi scuso, sembra che qualcosa sia andato storto. Riprovare la richiesta in un secondo momento.
 
-#StartOverMessage
+# StartOverMessage
 - Ok{RandName()}, proviamo di nuovo.
 - Non c'è problema{RandName()}, possiamo ricominciare da capo.
 - Ok, proviamo di nuovo.
@@ -52,6 +52,9 @@
 - Va bene, ti sei disconnesso.
 - Certo, sei stato disconnesso.
 - Non c'è problema, ti ho disconnesso.
+
+# SkillSwitchPrompt
+- Vuoi passare alla {Skill}?
 
 # EscalateMessage
 [HeroCard

@@ -5,18 +5,21 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
+using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
     // Example onboarding dialog to initial user profile information.
     public class OnboardingDialog : ComponentDialog
     {
+        private BotServices _services;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
@@ -29,6 +32,7 @@ namespace VirtualAssistantSample.Dialogs
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _services = serviceProvider.GetService<BotServices>();
 
             var onboarding = new WaterfallStep[]
             {
@@ -65,6 +69,27 @@ namespace VirtualAssistantSample.Dialogs
             var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
             var name = (string)sc.Result;
 
+            var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
+            if (generalResult == null)
+            {
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localizedServices = _services.CognitiveModelSets[locale];
+                generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
+            }
+
+            (var generalIntent, var generalScore) = generalResult.TopIntent();
+            if (generalIntent == GeneralLuis.Intent.ExtractName && generalScore > 0.5)
+            {
+                if (generalResult.Entities.PersonName_Any != null)
+                {
+                    name = generalResult.Entities.PersonName_Any[0];
+                }
+                else if (generalResult.Entities.personName != null)
+                {
+                    name = generalResult.Entities.personName[0];
+                }
+            }
+
             // Captialize name
             userProfile.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
 
@@ -81,6 +106,11 @@ namespace VirtualAssistantSample.Dialogs
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
+        }
+
+        private class StateProperties
+        {
+            public const string GeneralResult = "generalResult";
         }
     }
 }

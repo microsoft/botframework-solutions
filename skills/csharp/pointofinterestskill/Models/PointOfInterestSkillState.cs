@@ -32,6 +32,8 @@ namespace PointOfInterestSkill.Models
 
         public string Keyword { get; set; }
 
+        public string Category { get; set; }
+
         public string Address { get; set; }
 
         public string RouteType { get; set; }
@@ -57,6 +59,7 @@ namespace PointOfInterestSkill.Models
         public void ClearLuisResults()
         {
             Keyword = string.Empty;
+            Category = string.Empty;
             Address = string.Empty;
             RouteType = string.Empty;
             PoiType = string.Empty;

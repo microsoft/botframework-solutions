@@ -65,15 +65,852 @@ $address_state:phraseList interchangeable
 $keyword_brand:phraseList interchangeable
 - Amazon, Apple, Google, AT&T, Microsoft, Facebook, Verizon, Walmart, Wells Fargo, Chase, Home Depot, Bank of America, Walt Disney, IBM, Starbucks, General Electric, Citi, Marlboro, Coca-Cola, Oracle, Nike, Xfinity, YouTube, McDonald's, PWC, Intel, UPS, Deloitte, Visa, CVS, Pepsi, Boeing, Cisco, UnitedHealth Group, Ford, FedEx, Chevron, Johnson's, JP Morgan, Fox, Accenture, Uber, Dell, Lowe's, Walgreens, American Express, NBC, Target, CHEVROLET, Spectrum, ExxonMobil, Mastercard, Costco, UNIVERSAL, Capital One, CBS, ABC, TCS, NETFLIX, Warner Bros., Anthem, Aetna, Goldman Sachs, booking.com, American Airlines, Paypal, Johnson & Johnson, Humana, HP, Delta, 3M, Optum, HPE, Lockheed Martin, Adobe, eBay, Metlife, Subway, KFC, Medtronic, Union Pacific, Morgan Stanley, Cognizant, U.S. Bank, Allstate, Gillette, Western Digital, Sam's Club, Sprint, Bud Light, Valero, Budweiser, Centurylink, Honeywell, United Airlines, Cigna, Qualcomm, Neutrogena, GEICO, Dow
 
+> # List entities
+
 > From https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories. Expand / and () since phrase lists do not help with stemming
 
-$keyword_cusine:phraseList interchangeable
-- German, creole-Cajun, Dutch, banquet rooms, bistro, Israeli, Slovak, Jamaican, vegetarian, seafood, Vietnamese, Maltese, Sichuan, welsh, Chinese, Japanese, Algerian, Californian, fusion, Shandong, salad bar, Savoy an, Spanish, Ethiopian, Taiwanese, doughnuts, Iranian, Canadian, American, Norwegian, French, Hunan, Polynesian, afghan, roadside, Asian, swiss, erotic, crêperie, Surinamese, Egyptian, Hungarian, Nepalese, barbecue, hot pot, hamburgers, Mediterranean, Latin American, tapas, British, Mexican, Guangdong, Asian, buffet, sushi, Mongolian, international, mussels, Thai, Venezuelan, Rumanian, chicken, soup, kosher, steak house, yogurt bar, juice bar, Italian, Korean, Cypriot, Bosnian, Bolivian, Dominican, Belgian, Tunisian, Scottish, English, Pakistani, Czech, Hawaiian, Maghrib, Tibetan, Arabian, middle eastern, Chilean, Shanghai, polish, Filipino, Sudanese, Armenian, Burmese, Brazilian, Scandinavian, Bulgarian, soul food, Colombian, Jewish, pizza, Sicilian, organic, Greek, Basque, Uruguayan, cafeterias, Finnish, African, Corsican, Syrian, Caribbean, Dongbei, Russian, grill, take away, fast food, Australian, Irish, pub food, fondue, Lebanese, Indonesian, Danish, Provençal, teppanyaki, Indian, Mauritian, western continental, Peruvian, Cambodian, snacks, Swedish, macrobiotic, ice cream parlor, Slavic, Turkish, Argentinean, Austrian, exotic, Portuguese, Luxembourgian, Moroccan, sandwich, Cuban, restaurant
+$KeywordCategory:cusine=
+- German
+- creole-Cajun
+- Dutch
+- banquet rooms
+- bistro
+- Israeli
+- Slovak
+- Jamaican
+- vegetarian
+- seafood
+- Vietnamese
+- Maltese
+- Sichuan
+- welsh
+- Chinese
+- Japanese
+- Algerian
+- Californian
+- fusion
+- Shandong
+- salad bar
+- Savoy an
+- Spanish
+- Ethiopian
+- Taiwanese
+- doughnuts
+- Iranian
+- Canadian
+- American
+- Norwegian
+- French
+- Hunan
+- Polynesian
+- afghan
+- roadside
+- Asian
+- swiss
+- erotic
+- crêperie
+- Surinamese
+- Egyptian
+- Hungarian
+- Nepalese
+- barbecue
+- hot pot
+- hamburgers
+- Mediterranean
+- Latin American
+- tapas
+- British
+- Mexican
+- Guangdong
+- Asian
+- buffet
+- sushi
+- Mongolian
+- international
+- mussels
+- Thai
+- Venezuelan
+- Rumanian
+- chicken
+- soup
+- kosher
+- steak house
+- yogurt bar
+- juice bar
+- Italian
+- Korean
+- Cypriot
+- Bosnian
+- Bolivian
+- Dominican
+- Belgian
+- Tunisian
+- Scottish
+- English
+- Pakistani
+- Czech
+- Hawaiian
+- Maghrib
+- Tibetan
+- Arabian
+- middle eastern
+- Chilean
+- Shanghai
+- polish
+- Filipino
+- Sudanese
+- Armenian
+- Burmese
+- Brazilian
+- Scandinavian
+- Bulgarian
+- soul food
+- Colombian
+- Jewish
+- pizza
+- Sicilian
+- organic
+- Greek
+- Basque
+- Uruguayan
+- cafeterias
+- Finnish
+- African
+- Corsican
+- Syrian
+- Caribbean
+- Dongbei
+- Russian
+- grill
+- take away
+- fast food
+- Australian
+- Irish
+- pub food
+- fondue
+- Lebanese
+- Indonesian
+- Danish
+- Provençal
+- teppanyaki
+- Indian
+- Mauritian
+- western continental
+- Peruvian
+- Cambodian
+- snacks
+- Swedish
+- macrobiotic
+- ice cream parlor
+- Slavic
+- Turkish
+- Argentinean
+- Austrian
+- exotic
+- Portuguese
+- Luxembourgian
+- Moroccan
+- sandwich
+- Cuban
+- restaurant
 
-$keyword_category:phraseList interchangeable
-- airline access, security gate, station access, access gateway, province, fourth-order administrative division, first-order administrative division, historical third-order administrative division, seat of a fourth-order administrative division, seat of a second-order administrative division, dependent political entity, populated place, seat of a third-order administrative division, populated places, second-order administrative division, seat of a first-order administrative division, administrative division, populated locality, historical region, historical site, historical populated place, Israeli settlement, historical fourth-order administrative division, fifth-order administrative division, historical first-order administrative division, third-order administrative division, historical political entity, historical administrative division, seat of government of a political entity, historical second-order administrative division, capital of a political entity, adventure sports venue, horticulture, primary producer, agriculture, farm, farm village, farmstead, homestead, grazing area, common, aquaculture facility, farms, fishing area, dairy, field, fields, private authority, military authority, heliport, closed, medium airport, large airport, small airport, airfield, seaplane base, public authority, balloon port, airport, amusement arcade, amusement place, amusement park, atv, snowmobile, boat, bus, motorcycle, truck, van, recreational vehicles, car, automotive dealer, bank, banks, beach, beaches, building, building point, business park, industrial area, internet café, tea house, cafe, internet cafe, café, coffee shop, microbrewery, beer garden, pub, café, pub, cafe, pub, recreational, caravan site, camping ground, car wash, automatic teller machine, cash dispenser, casino, drive-in cinema, cinema, neighborhood, administrative area, city center, center, beach club, hockey club, club association, junior college, community college, college, university, college, university prep school, university, office building, park headquarters, commercial building, community center, electronics, manufacturing, computer data services, public health technologies, diversified financials, animal shelter, airline, equipment rental, service, mail delivery, package delivery, freight delivery, bus lines, home appliance repair, cleaning services, oem, tax services, oil natural gas, legal services, construction, telecommunications, transport, automobile manufacturing, chemicals, funeral service mortuaries, bridge tunnel operations, automobile, mechanical engineering, services, investment advisors, advertising, marketing, moving storage, savings institution, insurance, computer software, pharmaceuticals, catering, wedding services, agricultural technology, real estate, taxi, limousine shuttle service, bus charter rentals, mining, publishing technologies, cable telephone, import distribution, export distribution, company, asylum, coal mine, coal mines, estate, estates, brewery, gold mine, gold mines, courthouse, cultural center, dentist, department store, general practitioner, specialist, doctor, electric vehicle station, embassy, emergency medical service, entertainment, gold exchange, currency exchange, stock exchange, exchange, exhibition convention center, ferry, ferry terminal, fire station, brigade, frontier crossing, fuel facilities, bay, cove, pan, locale, ridge, mineral springs, hot springs, well, reservoir, marsh, swamp, vlei, quarry, river crossing, valley, mountain peak, reef, dune, lagoon, plain, flat, rapids, cape, plateau, oasis, harbor, cave, rocks, geographic feature, promontory, promontories, islands, headland, pier, crater lake, cliff, cliffs, hill, desert, portage, glacier, glaciers, gully, geyser, coral reef, coral reefs, gap, gulf, jetty, ghat, hole, crater lakes, gas field, islet, crater, craters, cove, coves, grassland, gravel area, fracture zone, heath, gorge, gorges, island, headwaters, hanging valley, hills, hot spring, hot springs, furrow, anabranch, golf course, order 5 area, order 8 area, order 9 area, order 2 area, order 7 area, order 3 area, supra national, order 4 area, order 6 area, government office, diplomatic facility, united states government establishment, local government office, customs house, customs post, blood bank, personal service, personal care facility, ambulance unit, health care service, leprosarium, sanatorium, hospital, medical center, clinic, helipad, helicopter landing, bungalow, cottage, chalet, villa, apartment, holiday rental, special, hospital of Chinese medicine, hospital for women children, general, hospital, polyclinic, cabins lodges, bed breakfast guest houses, hotel, rest camps, motel, resort, hostel, hotel, motel, resthouse, hammock, hammocks, guest house, ice skating rink, building, observatory, arch, tunnel, statue, tower, bridge, planetarium, mausoleum, grave, monument, water hole, natural attraction, important tourist attraction, promenade, pyramids, pagoda, castle, palace, hermitage, pyramid, fort, gate, country house, dam, lighthouse, grave, foundry, fuel depot, industrial building, factory, bowling, snooker, pool billiard, flying club, dance studio school, sauna, solarium massage, leisure center, spa, library, manufacturing facility, yacht basin, marina, supermarkets hypermarkets, farmers, public, informal, market, media facility, military base, coast guard station, military installation, naval base, motoring organization office, mountain pass, museum, native reservation, reservation, bar, karaoke club, jazz club, private club, wine bar, comedy club, cocktail bar, discotheque, nightlife, non-governmental organization, open parking area, parking lot, locality, free trade zone, traffic circle, unknown, parking garage, historic site, lakeshore, seashore, river scenic area, fishing hunting area, battlefield, winter sport, boat launching ramp, preserve, forest area, recreation area, ski resort, cemetery, historical park, parkway, memorial, fairground, picnic area, wilderness area, park recreation area, forest, forests, fossilized forest, garden, gardens, wildlife reserve, nature reserve, forest station, hunting reserve, forest reserve, park, petrol station, pharmacy, dispensary, ashram, synagogue, mosque, gurudwara, church, temple, place of worship, mission, retreat, temple, temples, religious site, religious center, monastery, convent, order 1 area, police station, police post, harbor, harbors, docking basin, port, port, warehouse facility, dockyard, dock, docks, local, post office, primary resource, primary utility, power station, gas-oil separator plant, prison, prison, correctional facility, pedestrian subway, toilet, road rescue, passenger transport ticket office, public call box, public amenity, communication center, coach stop, bus stop, taxi stand, tram stop, public transport stop, metro station, railroad station, bus station, railroad stop, national, railway siding, metro, sub urban, urban, railway station, rent-a-car facility, rent-a-car-parking, bodyshops, tyre tire services, services, repair shops, car glass replacement shops, general car repair servicing, sale installation of car accessories, motorcycle repair, truck repair service, repair facility, research facility, retirement community, townhouse complex, flats complex, apartment complex, condominium complex, residential estate, residential accommodation, restaurant area, rest area, halting place, scenic view, panoramic view, observation point, culinary school, primary school, art school, senior high school, driving school, language school, sport school, preschool, high school, middle school, vocational training, special school, child care facility, school, technical school, military school, agricultural school, factory outlet, security products, Christmas store, holiday store, opticians, house garden: lighting, lottery shop, musical instruments, nail salon, house garden: painting decorating, hobby, free time, newsagents tobacconists, clothing accessories: specialty, dry cleaners, bags leatherwear, pet supplies, clothing accessories: children, construction material equipment, jewelry, clocks watches, clothing accessories: footwear shoe repairs, house garden: curtains, house garden: textiles, electrical, office it: consumer electronics, electrical, office it: camera's photography, cd's, DVD videos, laundry, clothing accessories: men, florists, pawn shop, book shops, marine electronic equipment, food drinks: food markets, house garden: carpet, house garden: floor coverings, photocopy, boating equipment accessories, mobile phone shop, toys games, specialty foods, clothing accessories: general, food drinks: bakers, tailor shop, gifts, cards, novelties souvenirs, animal services, sports equipment clothing, stamp shop, electrical appliance, electrical, office it: office equipment, photo lab, development, wholesale clubs, house garden: furniture fittings, local specialties, food drinks: butchers, variety store, food drinks: food shops, food drinks: wine spirits, drug store, furniture, home furnishings, electrical, office it: computer supplies, cd rental, video rental, medical supplies equipment, agricultural supplies, beauty salon, house garden: garden centers services, food drinks: fishmongers, beauty supplies, clothing accessories: women, travel agents, retail outlet, recycling shop, house garden: glass windows, hardware, real estate agents, glassware, ceramic, delicatessen, house garden: kitchens bathrooms, betting station, hairdressers barbers, food drinks: grocers, food drinks: green grocers, convenience stores, drive through bottle shop, house garden: do-it-yourself centers, antique, art, shop, store, mall, shopping center, thematic sport, squash court, fitness club center, sports center, netball, football, baseball, race track, multi-purpose, motor sport, cricket ground, rugby ground, ice hockey, athletic, horse racing, basketball, soccer, stadium, athletic field, racetrack, swimming pool, tennis court, amphitheater, concert hall, dinner theater, music center, opera, cabaret, theater, opera house, tourist information office, traffic light, traffic control department, traffic service center, traffic sign, adventure vehicle, rock climbing, horse riding, mountain bike, hiking, trail system, transport authority, vehicle registration, truck stop, veterinary facility, veterinarian, water sport, weigh scales, weigh station, welfare organization, winery, wildlife park, aquatic zoo marine park, arboreta botanical gardens, zoo, zoos, arboreta botanical garden
-
-> # List entities
+$KeywordCategory:category=
+- airline access
+- security gate
+- station access
+- access gateway
+- province
+- fourth-order administrative division
+- first-order administrative division
+- historical third-order administrative division
+- seat of a fourth-order administrative division
+- seat of a second-order administrative division
+- dependent political entity
+- populated place
+- seat of a third-order administrative division
+- populated places
+- second-order administrative division
+- seat of a first-order administrative division
+- administrative division
+- populated locality
+- historical region
+- historical site
+- historical populated place
+- Israeli settlement
+- historical fourth-order administrative division
+- fifth-order administrative division
+- historical first-order administrative division
+- third-order administrative division
+- historical political entity
+- historical administrative division
+- seat of government of a political entity
+- historical second-order administrative division
+- capital of a political entity
+- adventure sports venue
+- horticulture
+- primary producer
+- agriculture
+- farm
+- farm village
+- farmstead
+- homestead
+- grazing area
+- common
+- aquaculture facility
+- farms
+- fishing area
+- dairy
+- field
+- fields
+- private authority
+- military authority
+- heliport
+- closed
+- medium airport
+- large airport
+- small airport
+- airfield
+- seaplane base
+- public authority
+- balloon port
+- airport
+- amusement arcade
+- amusement place
+- amusement park
+- atv
+- snowmobile
+- boat
+- bus
+- motorcycle
+- truck
+- van
+- recreational vehicles
+- car
+- automotive dealer
+- bank
+- banks
+- beach
+- beaches
+- building
+- building point
+- business park
+- industrial area
+- internet café
+- tea house
+- cafe
+- internet cafe
+- café
+- coffee shop
+- microbrewery
+- beer garden
+- pub
+- café
+- pub
+- cafe
+- pub
+- recreational
+- caravan site
+- camping ground
+- car wash
+- automatic teller machine
+- cash dispenser
+- casino
+- drive-in cinema
+- cinema
+- neighborhood
+- administrative area
+- city center
+- center
+- beach club
+- hockey club
+- club association
+- junior college
+- community college
+- college
+- university
+- college
+- university prep school
+- university
+- office building
+- park headquarters
+- commercial building
+- community center
+- electronics
+- manufacturing
+- computer data services
+- public health technologies
+- diversified financials
+- animal shelter
+- airline
+- equipment rental
+- service
+- mail delivery
+- package delivery
+- freight delivery
+- bus lines
+- home appliance repair
+- cleaning services
+- oem
+- tax services
+- oil natural gas
+- legal services
+- construction
+- telecommunications
+- transport
+- automobile manufacturing
+- chemicals
+- funeral service mortuaries
+- bridge tunnel operations
+- automobile
+- mechanical engineering
+- services
+- investment advisors
+- advertising
+- marketing
+- moving storage
+- savings institution
+- insurance
+- computer software
+- pharmaceuticals
+- catering
+- wedding services
+- agricultural technology
+- real estate
+- taxi
+- limousine shuttle service
+- bus charter rentals
+- mining
+- publishing technologies
+- cable telephone
+- import distribution
+- export distribution
+- company
+- asylum
+- coal mine
+- coal mines
+- estate
+- estates
+- brewery
+- gold mine
+- gold mines
+- courthouse
+- cultural center
+- dentist
+- department store
+- general practitioner
+- specialist
+- doctor
+- electric vehicle station
+- embassy
+- emergency medical service
+- entertainment
+- gold exchange
+- currency exchange
+- stock exchange
+- exchange
+- exhibition convention center
+- ferry
+- ferry terminal
+- fire station
+- brigade
+- frontier crossing
+- fuel facilities
+- bay
+- cove
+- pan
+- locale
+- ridge
+- mineral springs
+- hot springs
+- well
+- reservoir
+- marsh
+- swamp
+- vlei
+- quarry
+- river crossing
+- valley
+- mountain peak
+- reef
+- dune
+- lagoon
+- plain
+- flat
+- rapids
+- cape
+- plateau
+- oasis
+- harbor
+- cave
+- rocks
+- geographic feature
+- promontory
+- promontories
+- islands
+- headland
+- pier
+- crater lake
+- cliff
+- cliffs
+- hill
+- desert
+- portage
+- glacier
+- glaciers
+- gully
+- geyser
+- coral reef
+- coral reefs
+- gap
+- gulf
+- jetty
+- ghat
+- hole
+- crater lakes
+- gas field
+- islet
+- crater
+- craters
+- cove
+- coves
+- grassland
+- gravel area
+- fracture zone
+- heath
+- gorge
+- gorges
+- island
+- headwaters
+- hanging valley
+- hills
+- hot spring
+- hot springs
+- furrow
+- anabranch
+- golf course
+- order 5 area
+- order 8 area
+- order 9 area
+- order 2 area
+- order 7 area
+- order 3 area
+- supra national
+- order 4 area
+- order 6 area
+- government office
+- diplomatic facility
+- united states government establishment
+- local government office
+- customs house
+- customs post
+- blood bank
+- personal service
+- personal care facility
+- ambulance unit
+- health care service
+- leprosarium
+- sanatorium
+- hospital
+- medical center
+- clinic
+- helipad
+- helicopter landing
+- bungalow
+- cottage
+- chalet
+- villa
+- apartment
+- holiday rental
+- special
+- hospital of Chinese medicine
+- hospital for women children
+- general
+- hospital
+- polyclinic
+- cabins lodges
+- bed breakfast guest houses
+- hotel
+- rest camps
+- motel
+- resort
+- hostel
+- hotel
+- motel
+- resthouse
+- hammock
+- hammocks
+- guest house
+- ice skating rink
+- building
+- observatory
+- arch
+- tunnel
+- statue
+- tower
+- bridge
+- planetarium
+- mausoleum
+- grave
+- monument
+- water hole
+- natural attraction
+- important tourist attraction
+- promenade
+- pyramids
+- pagoda
+- castle
+- palace
+- hermitage
+- pyramid
+- fort
+- gate
+- country house
+- dam
+- lighthouse
+- grave
+- foundry
+- fuel depot
+- industrial building
+- factory
+- bowling
+- snooker
+- pool billiard
+- flying club
+- dance studio school
+- sauna
+- solarium massage
+- leisure center
+- spa
+- library
+- manufacturing facility
+- yacht basin
+- marina
+- supermarkets hypermarkets
+- farmers
+- public
+- informal
+- market
+- media facility
+- military base
+- coast guard station
+- military installation
+- naval base
+- motoring organization office
+- mountain pass
+- museum
+- native reservation
+- reservation
+- bar
+- karaoke club
+- jazz club
+- private club
+- wine bar
+- comedy club
+- cocktail bar
+- discotheque
+- nightlife
+- non-governmental organization
+- open parking area
+- parking lot
+- locality
+- free trade zone
+- traffic circle
+- unknown
+- parking garage
+- historic site
+- lakeshore
+- seashore
+- river scenic area
+- fishing hunting area
+- battlefield
+- winter sport
+- boat launching ramp
+- preserve
+- forest area
+- recreation area
+- ski resort
+- cemetery
+- historical park
+- parkway
+- memorial
+- fairground
+- picnic area
+- wilderness area
+- park recreation area
+- forest
+- forests
+- fossilized forest
+- garden
+- gardens
+- wildlife reserve
+- nature reserve
+- forest station
+- hunting reserve
+- forest reserve
+- park
+- petrol station
+- pharmacy
+- dispensary
+- ashram
+- synagogue
+- mosque
+- gurudwara
+- church
+- temple
+- place of worship
+- mission
+- retreat
+- temple
+- temples
+- religious site
+- religious center
+- monastery
+- convent
+- order 1 area
+- police station
+- police post
+- harbor
+- harbors
+- docking basin
+- port
+- port
+- warehouse facility
+- dockyard
+- dock
+- docks
+- local
+- post office
+- primary resource
+- primary utility
+- power station
+- gas-oil separator plant
+- prison
+- prison
+- correctional facility
+- pedestrian subway
+- toilet
+- road rescue
+- passenger transport ticket office
+- public call box
+- public amenity
+- communication center
+- coach stop
+- bus stop
+- taxi stand
+- tram stop
+- public transport stop
+- metro station
+- railroad station
+- bus station
+- railroad stop
+- national
+- railway siding
+- metro
+- sub urban
+- urban
+- railway station
+- rent-a-car facility
+- rent-a-car-parking
+- bodyshops
+- tyre tire services
+- services
+- repair shops
+- car glass replacement shops
+- general car repair servicing
+- sale installation of car accessories
+- motorcycle repair
+- truck repair service
+- repair facility
+- research facility
+- retirement community
+- townhouse complex
+- flats complex
+- apartment complex
+- condominium complex
+- residential estate
+- residential accommodation
+- restaurant area
+- rest area
+- halting place
+- scenic view
+- panoramic view
+- observation point
+- culinary school
+- primary school
+- art school
+- senior high school
+- driving school
+- language school
+- sport school
+- preschool
+- high school
+- middle school
+- vocational training
+- special school
+- child care facility
+- school
+- technical school
+- military school
+- agricultural school
+- factory outlet
+- security products
+- Christmas store
+- holiday store
+- opticians
+- house garden: lighting
+- lottery shop
+- musical instruments
+- nail salon
+- house garden: painting decorating
+- hobby
+- free time
+- newsagents tobacconists
+- clothing accessories: specialty
+- dry cleaners
+- bags leatherwear
+- pet supplies
+- clothing accessories: children
+- construction material equipment
+- jewelry
+- clocks watches
+- clothing accessories: footwear shoe repairs
+- house garden: curtains
+- house garden: textiles
+- electrical
+- office it: consumer electronics
+- electrical
+- office it: camera's photography
+- cd's
+- DVD videos
+- laundry
+- clothing accessories: men
+- florists
+- pawn shop
+- book shops
+- marine electronic equipment
+- food drinks: food markets
+- house garden: carpet
+- house garden: floor coverings
+- photocopy
+- boating equipment accessories
+- mobile phone shop
+- toys games
+- specialty foods
+- clothing accessories: general
+- food drinks: bakers
+- tailor shop
+- gifts
+- cards
+- novelties souvenirs
+- animal services
+- sports equipment clothing
+- stamp shop
+- electrical appliance
+- electrical
+- office it: office equipment
+- photo lab
+- development
+- wholesale clubs
+- house garden: furniture fittings
+- local specialties
+- food drinks: butchers
+- variety store
+- food drinks: food shops
+- food drinks: wine spirits
+- drug store
+- furniture
+- home furnishings
+- electrical
+- office it: computer supplies
+- cd rental
+- video rental
+- medical supplies equipment
+- agricultural supplies
+- beauty salon
+- house garden: garden centers services
+- food drinks: fishmongers
+- beauty supplies
+- clothing accessories: women
+- travel agents
+- retail outlet
+- recycling shop
+- house garden: glass windows
+- hardware
+- real estate agents
+- glassware
+- ceramic
+- delicatessen
+- house garden: kitchens bathrooms
+- betting station
+- hairdressers barbers
+- food drinks: grocers
+- food drinks: green grocers
+- convenience stores
+- drive through bottle shop
+- house garden: do-it-yourself centers
+- antique
+- art
+- shop
+- store
+- mall
+- shopping center
+- thematic sport
+- squash court
+- fitness club center
+- sports center
+- netball
+- football
+- baseball
+- race track
+- multi-purpose
+- motor sport
+- cricket ground
+- rugby ground
+- ice hockey
+- athletic
+- horse racing
+- basketball
+- soccer
+- stadium
+- athletic field
+- racetrack
+- swimming pool
+- tennis court
+- amphitheater
+- concert hall
+- dinner theater
+- music center
+- opera
+- cabaret
+- theater
+- opera house
+- tourist information office
+- traffic light
+- traffic control department
+- traffic service center
+- traffic sign
+- adventure vehicle
+- rock climbing
+- horse riding
+- mountain bike
+- hiking
+- trail system
+- transport authority
+- vehicle registration
+- truck stop
+- veterinary facility
+- veterinarian
+- water sport
+- weigh scales
+- weigh station
+- welfare organization
+- winery
+- wildlife park
+- aquatic zoo marine park
+- arboreta botanical gardens
+- zoo
+- zoos
+- arboreta botanical garden
 
 $RouteDescription:eco=
 - eco

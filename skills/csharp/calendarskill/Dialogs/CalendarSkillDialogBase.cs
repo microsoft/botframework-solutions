@@ -887,12 +887,14 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
+                string luisResultText = string.IsNullOrEmpty(luisResult.AlteredText) ? luisResult.Text : luisResult.AlteredText;
+
                 if (!isBeginDialog)
                 {
                     if (entity.RelationshipName != null)
                     {
                         state.MeetingInfor.CreateHasDetail = true;
-                        state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+                        state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResultText);
                         if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                         {
                             state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -919,13 +921,13 @@ namespace CalendarSkill.Dialogs
                             if (entity.personName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResultText, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResultText);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -936,7 +938,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (date != null)
                                 {
@@ -955,7 +957,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
                                 if (date != null)
                                 {
@@ -966,7 +968,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (time != null)
                                 {
@@ -984,7 +986,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
                                 if (time != null)
                                 {
@@ -1032,7 +1034,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.personName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResultText, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.Subject != null)
@@ -1047,7 +1049,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (date != null)
                                 {
@@ -1063,7 +1065,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (time != null)
                                 {
@@ -1080,7 +1082,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResultText);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1102,12 +1104,12 @@ namespace CalendarSkill.Dialogs
                             if (entity.personName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResultText, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.FromDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (date != null)
                                 {
@@ -1123,7 +1125,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (date != null)
                                 {
@@ -1139,7 +1141,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (time != null)
                                 {
@@ -1155,7 +1157,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (time != null)
                                 {
@@ -1193,7 +1195,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResultText);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1224,7 +1226,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.personName != null)
                             {
-                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResultText, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.Location != null)
@@ -1234,7 +1236,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (date != null)
                                 {
@@ -1251,7 +1253,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToDate != null)
                             {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToDate[0]);
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
                                 if (date != null)
                                 {
@@ -1261,7 +1263,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.FromTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                 if (time != null)
                                 {
@@ -1277,7 +1279,7 @@ namespace CalendarSkill.Dialogs
 
                             if (entity.ToTime != null)
                             {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToTime[0]);
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
                                 if (time != null)
                                 {
@@ -1288,7 +1290,7 @@ namespace CalendarSkill.Dialogs
                             if (entity.RelationshipName != null)
                             {
                                 state.MeetingInfor.CreateHasDetail = true;
-                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResult.Text);
+                                state.MeetingInfor.ContactInfor.RelatedEntityInfoDict = GetRelatedEntityFromRelationship(entity, luisResultText);
                                 if (state.MeetingInfor.ContactInfor.ContactsNameList == null)
                                 {
                                     state.MeetingInfor.ContactInfor.ContactsNameList = new List<string>();
@@ -1297,7 +1299,7 @@ namespace CalendarSkill.Dialogs
                                 state.MeetingInfor.ContactInfor.ContactsNameList.AddRange(state.MeetingInfor.ContactInfor.RelatedEntityInfoDict.Keys);
                             }
 
-                            state.ShowMeetingInfor.AskParameterContent = luisResult.Text;
+                            state.ShowMeetingInfor.AskParameterContent = luisResultText;
 
                             break;
                         }

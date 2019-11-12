@@ -62,6 +62,26 @@ namespace HospitalitySkill.Dialogs
             AddDialog(roomServiceDialog ?? throw new ArgumentNullException(nameof(roomServiceDialog)));
         }
 
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localizedServices = _services.CognitiveModelSets[locale];
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                var skillResult = await localizedServices.LuisServices["Hospitality"].RecognizeAsync<HospitalityLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
+
+                // Run LUIS recognition on General model and store result in turn state.
+                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
@@ -87,7 +107,12 @@ namespace HospitalitySkill.Dialogs
             }
             else
             {
-                var result = await luisService.RecognizeAsync<HospitalityLuis>(dc.Context, CancellationToken.None);
+                if (string.IsNullOrEmpty(dc.Context.Activity.Text))
+                {
+                    return;
+                }
+
+                var result = dc.Context.TurnState.Get<HospitalityLuis>(StateProperties.SkillLuisResult);
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
@@ -209,7 +234,7 @@ namespace HospitalitySkill.Dialogs
                 }
                 else
                 {
-                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+                    var luisResult = dc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralLuisResult);
                     var topIntent = luisResult.TopIntent();
 
                     if (topIntent.score > 0.5)

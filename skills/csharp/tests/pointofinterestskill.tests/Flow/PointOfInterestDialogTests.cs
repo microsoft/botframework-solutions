@@ -128,6 +128,30 @@ namespace PointOfInterestSkill.Tests.Flow
         }
 
         /// <summary>
+        /// Find points of interest nearby by category.
+        /// TODO by option 3 since they are merged.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RouteToPointOfInterestByCategoryTest()
+        {
+            await GetTestFlow()
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindPointOfInterestUtterances.FindPharmacy)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionThree)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
         /// Find points of interest nearby then call.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
@@ -259,12 +283,15 @@ namespace PointOfInterestSkill.Tests.Flow
         public async Task ParkingNearAddressTest()
         {
             await GetTestFlow()
-                .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindParkingUtterances.FindParkingNearAddress)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
                 .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
                 .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())
