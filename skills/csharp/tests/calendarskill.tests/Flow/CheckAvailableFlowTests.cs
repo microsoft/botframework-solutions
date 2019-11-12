@@ -36,10 +36,26 @@ namespace CalendarSkill.Test.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarDeleteWithStartTimeEntity()
+        public async Task Test_CalendarBaseCheckAvailable()
         {
             await this.GetTestFlow()
                 .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .AssertReplyOneOf(this.AvailableResponse())
+                .AssertReplyOneOf(this.AskForCreateNewMeeting())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCheckAvailableSlotFilling()
+        {
+            await this.GetTestFlow()
+                .Send(CheckAvailableTestUtterances.CheckAvailableSlotFilling)
+                .AssertReplyOneOf(this.AskForCollectContact())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.AskForCollectTime())
+                .Send("4 pm")
                 .AssertReplyOneOf(this.AvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeeting())
                 .Send(Strings.Strings.ConfirmNo)
@@ -61,6 +77,16 @@ namespace CalendarSkill.Test.Flow
         private string[] AskForCreateNewMeeting()
         {
             return this.ParseReplies(CheckAvailableResponses.AskForCreateNewMeeting, new StringDictionary());
+        }
+
+        private string[] AskForCollectContact()
+        {
+            return this.ParseReplies(CheckAvailableResponses.AskForCheckAvailableUserName, new StringDictionary());
+        }
+
+        private string[] AskForCollectTime()
+        {
+            return this.ParseReplies(CheckAvailableResponses.AskForCheckAvailableTime, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()
