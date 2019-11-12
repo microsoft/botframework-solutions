@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Produce a notification event
 order: 2
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}

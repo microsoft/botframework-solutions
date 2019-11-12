@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Handle notifications
 order: 3
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
