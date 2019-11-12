@@ -83,8 +83,8 @@
   "NextBothAvailableTime": {
     "replies": [
       {
-        "text": "Okay. You can {UserName} are both available from {StartTime} to {EndTime} {EndDate}.",
-        "speak": "Okay. You can {UserName} are both available from {StartTime} to {EndTime} {EndDate}."
+        "text": "Okay. You and {UserName} are both available from {StartTime} to {EndTime} {EndDate}.",
+        "speak": "Okay. You and {UserName} are both available from {StartTime} to {EndTime} {EndDate}."
       }
     ],
     "inputHint": "expectingInput"

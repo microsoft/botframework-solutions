@@ -96,32 +96,18 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.StartDate.Any() || state.MeetingInfor.StartTime.Any())
+                if (!state.MeetingInfor.StartDate.Any() && !state.MeetingInfor.StartTime.Any())
                 {
-                    var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
-                    var startDate = state.MeetingInfor.StartDate.Any() ? state.MeetingInfor.StartDate.Last() : userNow;
-                    foreach (var startTime in state.MeetingInfor.StartTime)
-                    {
-                        var startDateTime = new DateTime(
-                            startDate.Year,
-                            startDate.Month,
-                            startDate.Day,
-                            startTime.Hour,
-                            startTime.Minute,
-                            startTime.Second);
-                        if (state.MeetingInfor.StartDateTime == null)
-                        {
-                            state.MeetingInfor.StartDateTime = startDateTime;
-                        }
+                    // when user say "Is Alex available", we think he mean right now.
+                    // set time as the last five minutes time, for example now is 6:32, set start time as 6:35
+                    var utcNow = DateTime.UtcNow;
+                    var timeInterval = new TimeSpan(0, CalendarCommonUtil.AvailabilityViewInterval, 0);
+                    var startTime = utcNow.AddTicks(timeInterval.Ticks - (utcNow.Ticks % timeInterval.Ticks));
+                    state.MeetingInfor.StartTime.Add(TimeConverter.ConvertUtcToUserTime(startTime, state.GetUserTimeZone()));
+                }
 
-                        if (startDateTime >= userNow)
-                        {
-                            state.MeetingInfor.StartDateTime = startDateTime;
-                            break;
-                        }
-                    }
-
-                    state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+                if (state.MeetingInfor.StartTime.Any())
+                {
                     return await sc.NextAsync();
                 }
                 else
@@ -188,7 +174,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                state.MeetingInfor.StartDateTime = startTime;
+                state.MeetingInfor.StartTime.Add(TimeConverter.ConvertUtcToUserTime(startTime.Value, state.GetUserTimeZone()));
 
                 return await sc.EndDialogAsync();
             }
@@ -204,6 +190,31 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
+                var startDate = state.MeetingInfor.StartDate.Any() ? state.MeetingInfor.StartDate.Last() : userNow;
+                foreach (var startTime in state.MeetingInfor.StartTime)
+                {
+                    var startDateTime = new DateTime(
+                        startDate.Year,
+                        startDate.Month,
+                        startDate.Day,
+                        startTime.Hour,
+                        startTime.Minute,
+                        startTime.Second);
+                    if (state.MeetingInfor.StartDateTime == null)
+                    {
+                        state.MeetingInfor.StartDateTime = startDateTime;
+                    }
+
+                    if (startDateTime >= userNow)
+                    {
+                        state.MeetingInfor.StartDateTime = startDateTime;
+                        break;
+                    }
+                }
+
+                state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
+
                 sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
                 var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
 
@@ -248,7 +259,7 @@ namespace CalendarSkill.Dialogs
                     var availabilityView = availabilityResult.AvailabilityViewList.First();
                     for (int i = 1; i < availabilityView.Length; i++)
                     {
-                        if (availabilityView[i] == availabilityView[i - 1])
+                        if (availabilityView[i] == '0')
                         {
                             availableTime = i + 1;
                         }
@@ -262,7 +273,8 @@ namespace CalendarSkill.Dialogs
                     var startAvailableTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
                     var endAvailableTime = startAvailableTime.AddMinutes(availableTime);
 
-                    if (availabilityResult.AvailabilityViewList.Last().StartsWith("0"))
+                    // the current user may in non-working time
+                    if (availabilityResult.AvailabilityViewList.Last().StartsWith("0") || availabilityResult.AvailabilityViewList.Last().StartsWith("3"))
                     {
                         // both attendee and current user is available
                         state.MeetingInfor.IsOrgnizerAvailable = true;
@@ -393,8 +405,8 @@ namespace CalendarSkill.Dialogs
                         {
                             { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address },
                             { "StartTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
-                            { "EndTime", TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
-                            { "EndDate", DisplayHelper.ToDisplayDate(TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone()), state.GetUserTimeZone()) }
+                            { "EndTime", TimeConverter.ConvertUtcToUserTime(endAvailableTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime) },
+                            { "EndDate", DisplayHelper.ToDisplayDate(TimeConverter.ConvertUtcToUserTime(endAvailableTime, state.GetUserTimeZone()), state.GetUserTimeZone()) }
                         }));
 
                         return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);

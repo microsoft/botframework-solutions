@@ -326,6 +326,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
                 var confirmedPerson = state.MeetingInfor.ContactInfor.ConfirmedContact;
                 if (confirmedPerson == null)
                 {
@@ -344,7 +345,10 @@ namespace CalendarSkill.Dialogs
                 if (confirmedPerson.Emails.Count() == 1)
                 {
                     // Highest probability
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+                    if (!options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "User", $"{userString}" } }));
+                    }
 
                     return await sc.NextAsync();
                 }
