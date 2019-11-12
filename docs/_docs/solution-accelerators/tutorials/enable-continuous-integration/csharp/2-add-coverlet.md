@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Solution Accelerators
-subcategory: Enable continuous integration with Azure DevOps
+subcategory: Enable continuous integration
 title: Add Coverlet to the project
 language: C#
 order: 2

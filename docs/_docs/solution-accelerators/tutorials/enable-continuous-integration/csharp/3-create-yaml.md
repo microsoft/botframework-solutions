@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Solution Accelerators
-subcategory: Enable continuous integration with Azure DevOps
+subcategory: Enable continuous integration
 title: Create a YAML file
 language: C#
 order: 3

@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Solution Accelerators
-subcategory: Enable continuous integration with Azure DevOps
+subcategory: Enable continuous integration
 title: Intro
 language: C#
 order: 1
