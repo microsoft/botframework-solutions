@@ -189,10 +189,10 @@ namespace $safeprojectname$.Dialogs
             // Check if there was an action submitted from intro card
             var value = dc.Context.Activity.Value;
 
-            if (value.GetType() == typeof(JObject))
+            if (value != null && value.GetType() == typeof(JObject))
             {
                 var submit = JObject.Parse(value.ToString());
-                if (value != null && (string)submit["action"] == "startOnboarding")
+                if (submit.ContainsKey("action") && (string)submit["action"] == "startOnboarding")
                 {
                     await dc.BeginDialogAsync(nameof(OnboardingDialog));
                     return;
