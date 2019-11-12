@@ -39,8 +39,6 @@ namespace CalendarSkill
 {
     public class Startup
     {
-        private bool _isProduction = false;
-
         public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
