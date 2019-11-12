@@ -399,7 +399,7 @@ namespace AutomotiveSkill.Dialogs
                     // Check confirmation first.
                     if (availableSettingValue != null && availableSettingValue.RequiresConfirmation)
                     {
-                        var promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmation;
+                        var promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
                         var promptReplacements = new StringDictionary
                         {
                             { "settingName", change.SettingName },
@@ -474,7 +474,7 @@ namespace AutomotiveSkill.Dialogs
                         await SendActionToDevice(sc, change);
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, promptReplacements));
+                            VehicleSettingsResponses.VehicleSettingsConfirmed, promptReplacements));
                     }
                     else
                     {
@@ -482,7 +482,7 @@ namespace AutomotiveSkill.Dialogs
                         await SendActionToDevice(sc, change);
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements));
+                            VehicleSettingsResponses.VehicleSettingsConfirmed, promptReplacements));
                     }
                 }
                 else
@@ -492,12 +492,12 @@ namespace AutomotiveSkill.Dialogs
                     var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
                     if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
                     {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
                         promptReplacements["valueIngForm"] = valueIngForm;
                     }
                     else
                     {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
                         promptReplacements["value"] = change.Value;
                     }
 
