@@ -95,13 +95,9 @@ namespace SkillSample.Tests
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
-                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
-                .AssertReply(activity =>
-                {
-                    var messageActivity = activity.AsMessageActivity();
-                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
-                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
                 .StartTestAsync();
         }
     }
