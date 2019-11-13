@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -46,6 +47,7 @@ namespace PointOfInterestSkill.Dialogs
             { "it-IT", "it-IT-ElsaNeural" },
             { "zh-CN", "zh-CN-XiaoxiaoNeural" }
         };
+
         // TODO same as the one in ConfirmPrompt
         private static readonly Dictionary<string, string> ChoiceDefaults = new Dictionary<string, string>()
         {
@@ -58,6 +60,7 @@ namespace PointOfInterestSkill.Dialogs
             { Portuguese, "Sim" },
             { Chinese, "是的" },
         };
+
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
         private IHttpContextAccessor _httpContext;
 
