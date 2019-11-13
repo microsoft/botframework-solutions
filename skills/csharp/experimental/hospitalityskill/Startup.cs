@@ -131,7 +131,6 @@ namespace HospitalitySkill
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 

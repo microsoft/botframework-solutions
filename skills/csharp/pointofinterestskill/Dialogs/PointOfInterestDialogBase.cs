@@ -286,7 +286,41 @@ namespace PointOfInterestSkill.Dialogs
                 var pointOfInterestList = new List<PointOfInterestModel>();
                 var cards = new List<Card>();
 
-                if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
+                if (!string.IsNullOrEmpty(state.Category))
+                {
+                    if (!string.IsNullOrEmpty(state.Keyword))
+                    {
+                        throw new Exception("Should search only category or keyword!");
+                    }
+
+                    if (string.IsNullOrEmpty(state.Address))
+                    {
+                        // Fuzzy query search with keyword
+                        pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Category, state.PoiType, true);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                    }
+                    else
+                    {
+                        // Get first POI matched with address, if there are multiple this could be expanded to confirm which address to use
+                        var pointOfInterestAddressList = await addressMapsService.GetPointOfInterestListByAddressAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address, state.PoiType);
+
+                        if (pointOfInterestAddressList.Any())
+                        {
+                            var pointOfInterest = pointOfInterestAddressList[0];
+
+                            // TODO nearest here is not for current
+                            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.Category, state.PoiType, true);
+                            cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                        }
+                        else
+                        {
+                            // No POIs found from address - search near current coordinates
+                            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Category, state.PoiType, true);
+                            cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                        }
+                    }
+                }
+                else if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {
                     // No entities identified, find nearby locations
                     pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.PoiType);

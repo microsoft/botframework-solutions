@@ -81,6 +81,20 @@ namespace PointOfInterestSkill.Tests.API
         }
 
         [TestMethod]
+        public async Task GetPointsOfInterestByCategoryTest()
+        {
+            var service = new FoursquareGeoSpatialService();
+
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.RouteLimit, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            Assert.AreEqual(pointOfInterestList.Count, 3);
+
+            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, null, true);
+            Assert.AreEqual(pointOfInterestList.Count, 2);
+        }
+
+        [TestMethod]
         public async Task GetParkingCategoryTest()
         {
             var service = new FoursquareGeoSpatialService();

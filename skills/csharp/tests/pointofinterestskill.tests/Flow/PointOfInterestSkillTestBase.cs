@@ -47,7 +47,7 @@ namespace PointOfInterestSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new Fakes.MockGeneralLuisRecognizer() },
                                 {
@@ -93,7 +93,7 @@ namespace PointOfInterestSkill.Tests.Flow
             Services.AddTransient<FindPointOfInterestDialog>();
             Services.AddTransient<RouteDialog>();
             Services.AddTransient<GetDirectionsDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var mockHttpContext = new DefaultHttpContext();
             mockHttpContext.Request.Scheme = "http";

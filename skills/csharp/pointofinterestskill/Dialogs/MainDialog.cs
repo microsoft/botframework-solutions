@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -25,7 +26,8 @@ using PointOfInterestSkill.Services;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    // Dialog providing activity routing and message/event processing.
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotServices _services;
         private ResponseManager _responseManager;
@@ -63,13 +65,15 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(getDirectionsDialog ?? throw new ArgumentNullException(nameof(getDirectionsDialog)));
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs when the dialog stack is empty, and a new message activity comes in.
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -131,14 +135,14 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs when the dialog stack completes.
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (!dc.SuppressCompletionMessage() && (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams))
             {
                 var response = dc.Context.Activity.CreateReply();
                 response.Type = ActivityTypes.Handoff;
-
                 await dc.Context.SendActivityAsync(response);
             }
 
@@ -146,18 +150,22 @@ namespace PointOfInterestSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs when a new event activity comes in.
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var ev = dc.Context.Activity.AsEventActivity();
+            var value = ev.Value?.ToString();
+
             var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
 
-            switch (dc.Context.Activity.Name)
+            switch (ev.Name)
             {
                 case Events.Location:
                     {
+                        dc.SuppressCompletionMessage(true);
+
                         // Test trigger with
                         // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
-                        var value = dc.Context.Activity.Value.ToString();
-
                         if (!string.IsNullOrEmpty(value))
                         {
                             var coords = value.Split(',');
@@ -177,9 +185,29 @@ namespace PointOfInterestSkill.Dialogs
 
                         break;
                     }
+
+                case TokenEvents.TokenResponseEventName:
+                    {
+                        // Forward the token response activity to the dialog waiting on the stack.
+                        await dc.ContinueDialogAsync();
+                        break;
+                    }
+
+                default:
+                    {
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                        break;
+                    }
             }
         }
 
+        // Runs when an activity with an unknown type is received.
+        protected override async Task OnUnhandledActivityTypeAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown activity was received but not processed."));
+        }
+
+        // Runs on every turn of the conversation to check if the conversation should be interrupted.
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var result = InterruptionAction.NoAction;
@@ -267,42 +295,42 @@ namespace PointOfInterestSkill.Dialogs
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
-            await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.HelpMessage));
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
         {
-            BotFrameworkAdapter adapter;
-            var supported = dc.Context.Adapter is BotFrameworkAdapter;
-            if (!supported)
+            IUserTokenProvider tokenProvider;
+            var supported = dc.Context.Adapter is IUserTokenProvider;
+            if (supported)
             {
-                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+
+                // Sign out user
+                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+                foreach (var token in tokens)
+                {
+                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+                }
+
+                // Cancel all active dialogs
+                await dc.CancelAllDialogsAsync();
             }
             else
             {
-                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
-            }
-
-            await dc.CancelAllDialogsAsync();
-
-            // Sign out user
-            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
-            foreach (var token in tokens)
-            {
-                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
             }
 
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
 
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task DigestLuisResult(DialogContext dc, PointOfInterestLuis luisResult)
@@ -318,9 +346,19 @@ namespace PointOfInterestSkill.Dialogs
 
                     var entities = luisResult.Entities;
 
+                    // TODO since we can only search one per search, only the 1st one is considered
                     if (entities.Keyword != null)
                     {
-                        state.Keyword = string.Join(" ", entities.Keyword);
+                        if (entities._instance.KeywordCategory == null || !entities._instance.KeywordCategory.Any(c => c.Text.Equals(entities.Keyword[0], StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            state.Keyword = entities.Keyword[0];
+                        }
+                    }
+
+                    // TODO if keyword exists and category exists, whether keyword contains category or a keyword of some category. We will ignore category in these two cases
+                    if (string.IsNullOrEmpty(state.Keyword) && entities._instance.KeywordCategory != null)
+                    {
+                        state.Category = entities._instance.KeywordCategory[0].Text;
                     }
 
                     if (entities.Address != null)

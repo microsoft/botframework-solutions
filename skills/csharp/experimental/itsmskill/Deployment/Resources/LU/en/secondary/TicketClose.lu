@@ -12,6 +12,7 @@
 - Ticket can be closed by {CloseReason}
 - Ticket can be closed
 - Close the ticket with {CloseReason}
+- close [the] [ticket] {TicketNumber} ((by|with)|(because|due to)) {CloseReason}
 
 > resolve
 
@@ -24,3 +25,4 @@
 - i would like to resolve an issue
 - i would like to resolve an incident
 - Resolve the ticket with {CloseReason}
+- resolve [the] [ticket] {TicketNumber} ((by|with)|(because|due to)) {CloseReason}

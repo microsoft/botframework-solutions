@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -23,15 +24,14 @@ namespace PointOfInterestSkill.Services
         private static readonly int ImageWidth = 440;
         private static readonly int ImageHeight = 240;
         private static readonly int DefaultZoom = 14;
-        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
+        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressNoCoordinatesQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string PinStyle = "default|la15+50|al0.75|cod83b01";
-        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={{3}}&height={{4}}&pins={PinStyle}||{{0}} {{1}}";
         private static readonly string ImageUrlForPoints = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={{4}}&height={{5}}&pins={PinStyle}|{{3}}";
         private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={{5}}&height={{6}}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
         private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
@@ -117,6 +117,52 @@ namespace PointOfInterestSkill.Services
             return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit), poiType);
         }
 
+        // TODO acutally do not convert to azure maps search categories
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByCategoryAsync(double latitude, double longitude, string category, string poiType = null, bool unique = false)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
+            // TODO expand limit to filter
+            var searchLimit = unique ? limit * 2 : limit;
+            List<PointOfInterestModel> result;
+
+            if (double.IsNaN(latitude) || double.IsNaN(longitude))
+            {
+                // If missing either coordinate, the skill needs to run a fuzzy search on the query
+                result = await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, category, searchLimit), poiType);
+            }
+            else
+            {
+                result = await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, category, radius, searchLimit), poiType);
+            }
+
+            if (unique)
+            {
+                // preserve original order
+                var uniqueResult = new List<PointOfInterestModel>();
+                var uniqueNames = new HashSet<string>();
+                foreach (var model in result)
+                {
+                    if (!uniqueNames.Contains(model.Name))
+                    {
+                        uniqueResult.Add(model);
+                        uniqueNames.Add(model.Name);
+                        if (uniqueResult.Count >= limit)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                result = uniqueResult;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Get coordinates from a street address.
         /// </summary>
@@ -192,12 +238,14 @@ namespace PointOfInterestSkill.Services
         /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {
+            var pin = $"|{pointOfInterest?.Geolocation?.Longitude} {pointOfInterest?.Geolocation?.Latitude}";
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
-                ImageUrlByPoint,
+                ImageUrlForPoints,
                 pointOfInterest?.Geolocation?.Longitude,
                 pointOfInterest?.Geolocation?.Latitude,
                 DefaultZoom,
+                pin,
                 width <= 0 ? ImageWidth : width,
                 height <= 0 ? ImageHeight : height) + "&subscription-key=" + apiKey;
 

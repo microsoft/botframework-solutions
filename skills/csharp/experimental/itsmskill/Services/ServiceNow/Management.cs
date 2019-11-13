@@ -27,7 +27,7 @@ namespace ITSMSkill.Services.ServiceNow
         private static readonly Dictionary<string, UrgencyLevel> StringToUrgency;
         private static readonly Dictionary<TicketState, string> TicketStateToString;
         private static readonly Dictionary<string, TicketState> StringToTicketState;
-        private readonly RestClient client;
+        private readonly IRestClient client;
         private readonly string getUserIdResource;
         private readonly string token;
         private readonly int limitSize;
@@ -56,9 +56,9 @@ namespace ITSMSkill.Services.ServiceNow
             StringToTicketState = new Dictionary<string, TicketState>(TicketStateToString.Select(pair => KeyValuePair.Create(pair.Value, pair.Key)));
         }
 
-        public Management(string url, string token, int limitSize, string getUserIdResource)
+        public Management(string url, string token, int limitSize, string getUserIdResource, IRestClient restClient = null)
         {
-            this.client = new RestClient($"{url}/api/");
+            this.client = restClient ?? new RestClient($"{url}/api/");
             this.getUserIdResource = getUserIdResource;
             this.token = token;
             this.limitSize = limitSize;
@@ -359,7 +359,7 @@ namespace ITSMSkill.Services.ServiceNow
             {
                 if (!string.IsNullOrEmpty(ticketResponse.close_notes))
                 {
-                    ticket.ResolvedReason = $"{ticketResponse.close_code}:\n{ticketResponse.close_notes}";
+                    ticket.ResolvedReason = $"{ticketResponse.close_code}:\r\n{ticketResponse.close_notes}";
                 }
                 else
                 {
