@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Connector.Authentication;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
@@ -33,7 +34,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
             SkillWebSocketAdapter skillWebSocketAdapter,
-            IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
+            ICredentialProvider credentialProvider = null)
         {
             _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
             _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
@@ -41,8 +43,11 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             _skillWebSocketAdapter = skillWebSocketAdapter;
 
-            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
-            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            if (credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
+            {
+                _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
+                _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
+            }
         }
 
         // Each skill provides a template manifest file which we use to fill in the dynamic elements.
@@ -134,7 +139,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         [HttpGet]
         public async Task SkillPingAsync()
         {
-            await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
+            if (_authenticator != null)
+            {
+                await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
+            }
         }
     }
 }

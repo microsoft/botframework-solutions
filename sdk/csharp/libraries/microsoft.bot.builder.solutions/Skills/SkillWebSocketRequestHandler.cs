@@ -79,10 +79,13 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 return response;
             }
 
-            var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
+            if (_claimsIdentity.AuthenticationType != "anonymous")
+            {
+                var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
 
-            // retrieve the appid and use it to populate callerId on the activity
-            activity.CallerId = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
+                // retrieve the appid and use it to populate callerId on the activity
+                activity.CallerId = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
+            }
 
             try
             {
