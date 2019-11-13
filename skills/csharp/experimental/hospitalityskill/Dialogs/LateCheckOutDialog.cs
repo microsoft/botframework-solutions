@@ -18,15 +18,13 @@ namespace HospitalitySkill.Dialogs
 {
     public class LateCheckOutDialog : HospitalityDialogBase
     {
-        private HotelService _hotelService;
-
         public LateCheckOutDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            HotelService hotelService,
+            IHotelService hotelService,
             IBotTelemetryClient telemetryClient)
             : base(nameof(LateCheckOutDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
@@ -37,7 +35,7 @@ namespace HospitalitySkill.Dialogs
                 EndDialog
             };
 
-            _hotelService = hotelService;
+            HotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(LateCheckOutDialog), lateCheckOut));
             AddDialog(new ConfirmPrompt(DialogIds.LateCheckOutPrompt, ValidateLateCheckOutAsync));
@@ -45,7 +43,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> LateCheckOutPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
 
             // already requested late check out
             if (userState.LateCheckOut)
@@ -63,7 +61,7 @@ namespace HospitalitySkill.Dialogs
             // simulate with time delay
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(LateCheckOutResponses.CheckAvailability));
             await Task.Delay(1600);
-            var lateTime = await _hotelService.GetLateCheckOutAsync();
+            var lateTime = await HotelService.GetLateCheckOutAsync();
 
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
             var entities = convState.LuisResult.Entities;
@@ -94,7 +92,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateLateCheckOutAsync(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (promptContext.Recognized.Succeeded)
             {
@@ -108,7 +106,7 @@ namespace HospitalitySkill.Dialogs
                     userState.UserReservation.CheckOutTimeData = convState.UpdatedReservation.CheckOutTimeData;
 
                     // set new checkout in hotel service
-                    _hotelService.UpdateReservationDetails(userState.UserReservation);
+                    HotelService.UpdateReservationDetails(userState.UserReservation);
                 }
 
                 return await Task.FromResult(true);
@@ -119,7 +117,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (userState.LateCheckOut)
             {

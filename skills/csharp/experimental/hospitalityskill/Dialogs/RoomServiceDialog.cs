@@ -21,15 +21,13 @@ namespace HospitalitySkill.Dialogs
 {
     public class RoomServiceDialog : HospitalityDialogBase
     {
-        private HotelService _hotelService;
-
         public RoomServiceDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            HotelService hotelService,
+            IHotelService hotelService,
             IBotTelemetryClient telemetryClient)
             : base(nameof(RoomServiceDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
@@ -43,7 +41,7 @@ namespace HospitalitySkill.Dialogs
                 EndDialog
             };
 
-            _hotelService = hotelService;
+            HotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(RoomServiceDialog), roomService));
             AddDialog(new TextPrompt(DialogIds.MenuPrompt, ValidateMenuPrompt));
@@ -63,28 +61,30 @@ namespace HospitalitySkill.Dialogs
             // didn't order, prompt if 1 menu type not identified
             if (convState.FoodList.Count == 0 && string.IsNullOrWhiteSpace(menu?[0][0]) && menu?.Length != 1)
             {
-                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt).Text;
+                var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt);
 
                 var actions = new List<CardAction>()
-                    {
-                       new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
-                       new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
-                       new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
-                       new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
+                    new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
                 };
-
-                var activity = MessageFactory.SuggestedActions(actions, prompt);
 
                 // create hero card instead when channel does not support suggested actions
                 if (!Channel.SupportsSuggestedActions(sc.Context.Activity.ChannelId))
                 {
                     var hero = new HeroCard(buttons: actions);
-                    activity = MessageFactory.Attachment(hero.ToAttachment(), prompt);
+                    prompt.Attachments.Add(hero.ToAttachment());
+                }
+                else
+                {
+                    prompt.SuggestedActions = new SuggestedActions { Actions = actions };
                 }
 
                 return await sc.PromptAsync(DialogIds.MenuPrompt, new PromptOptions()
                 {
-                    Prompt = (Activity)activity,
+                    Prompt = prompt,
                     RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.ChooseOneMenu)
                 });
             }
@@ -112,7 +112,7 @@ namespace HospitalitySkill.Dialogs
 
             if (convState.FoodList.Count == 0)
             {
-                Menu menu = _hotelService.GetMenu(convState.LuisResult.Entities.Menu[0][0]);
+                Menu menu = HotelService.GetMenu(convState.LuisResult.Entities.Menu[0][0]);
 
                 // get available items for requested menu
                 List<Card> menuItems = new List<Card>();
@@ -225,7 +225,7 @@ namespace HospitalitySkill.Dialogs
             foreach (var foodRequest in convState.FoodList.ToList())
             {
                 // get full name of requested item and check availability
-                var foodItem = _hotelService.CheckMenuItemAvailability(foodRequest.Food[0]);
+                var foodItem = HotelService.CheckMenuItemAvailability(foodRequest.Food[0]);
 
                 if (foodItem == null)
                 {

@@ -15,15 +15,13 @@ namespace HospitalitySkill.Dialogs
 {
     public class GetReservationDialog : HospitalityDialogBase
     {
-        private HotelService _hotelService;
-
         public GetReservationDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            HotelService hotelService,
+            IHotelService hotelService,
             IBotTelemetryClient telemetryClient)
             : base(nameof(GetReservationDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
@@ -33,14 +31,14 @@ namespace HospitalitySkill.Dialogs
                 ShowReservation
             };
 
-            _hotelService = hotelService;
+            HotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(GetReservationDialog), getReservation));
         }
 
         private async Task<DialogTurnResult> ShowReservation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
             var cardData = userState.UserReservation;
             cardData.Title = string.Format(HospitalityStrings.ReservationDetails);
 
