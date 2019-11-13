@@ -72,8 +72,7 @@ namespace VirtualAssistantSample.Dialogs
             var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
             if (generalResult == null)
             {
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
                 generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
             }
 

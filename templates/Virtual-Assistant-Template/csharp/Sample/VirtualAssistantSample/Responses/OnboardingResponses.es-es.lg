@@ -1,17 +1,8 @@
-﻿# namePrompt
+﻿# NamePrompt
+- ¿Cómo te llamas?
 - ¿Cómo te llamas?
 
-# haveNameMessage
-- ¡Hola, {name}!
-
-# emailPrompt
-- ¿Cuál es su correo electrónico?
-
-# haveEmailMessage
-- Entiendo. He agregado {email} como su dirección de contacto principal.
-
-# locationPrompt
-- Finalmente, ¿dónde están ubicados?
-
-# haveLocationMessage
-- Gracias, {name}. He agregado {location} como su ubicación principal. ¡Ya está todo listo!
+# HaveNameMessage
+- Hola {Name}!
+- Hola {Name}!
+- Mucho gusto {Name}
