@@ -193,41 +193,6 @@
 - muestra la disponibilidad de olivia
 
 
-## Confirm
-- bien
-- claro
-- claro, adelante
-- confirmar
-- correcto
-- de acuerdo
-- de acuerdo, gracias
-- es correcto, gracias
-- estoy seguro
-- estupendo
-- excelente
-- genial
-- hazlo
-- perfecto
-- perfecto, gracias
-- por favor
-- sí
-- sí es
-- sí lo es
-- sí, añadir
-- sí, bien
-- sí, claro
-- sí, está bien
-- sí, gracias
-- sí, perfecto
-- sí, por favor
-- sí, por supuesto
-- sí, sí
-- sí, sin duda
-- síp
-- suena bien
-- suena bien, de acuerdo
-
-
 ## ConnectToMeeting
 - añádeme a la teleconferencia
 - añádeme a teleconferencia
@@ -1016,25 +981,6 @@
 - reserva una sala de conferencias
 
 
-## GoBack
-- ¿puedes volver?
-- atrás
-- deberíamos volver
-- me gustaría volver
-- necesito volver atrás
-- por favor, vuelve
-- quiero volver atrás
-- retrocede al paso {OrderReference=anterior}
-- retrocede el {OrderReference=último} paso
-- retrocede un paso
-- vuelve
-- vuelve al menú principal
-- vuelve al paso {OrderReference=anterior}
-- vuelve al {OrderReference=último} paso
-- vuelve atrás
-- vuelve, por favor
-
-
 ## None
 - ¿cómo me llamo?
 - ¿cómo te llamas?
@@ -1050,7 +996,7 @@
 - el  {PositionReference=Tercero} Una
 
 
-## Reject
+## RejectCalendar
 - ¿puedes cancelarlo?
 - abórtalo
 - cancela

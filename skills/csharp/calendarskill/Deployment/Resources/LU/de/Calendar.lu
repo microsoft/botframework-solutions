@@ -193,46 +193,6 @@
 - zeig olivias verfügbarkeit an
 
 
-## Confirm
-- bestätigen
-- bitte
-- das ist großartig
-- das ist gut
-- das ist korrekt
-- das ist richtig
-- das ist richtig, danke
-- exzellent
-- großartig
-- gut
-- ich bin mir sicher
-- in ordnung
-- ja
-- ja bitte
-- ja gut
-- ja hinzufügen
-- ja in der tat
-- ja ist es
-- ja natürlich
-- ja perfekt
-- ja, danke
-- ja, das ist in ordnung
-- ja, es tut
-- ja, ja
-- ja, klar
-- klingt großartig
-- klingt gut
-- klingt gut, okay
-- okay
-- okay danke
-- okay, danke
-- perfekt
-- perfekt dankeschön
-- richtig
-- sicher
-- sicher, mach weiter
-- tu es
-
-
 ## ConnectToMeeting
 - füge mich der telefonkonferenz hinzu
 - füge mich telefonkonferenz hinzu
@@ -1034,30 +994,6 @@
 - wo sollen wir uns treffen
 
 
-## GoBack
-- bitte geh zurück
-- bitte zurück gehen
-- einen schritt zurück
-- gehe bitte zurück
-- gehe den {OrderReference=vorherigen} schritt zurück
-- gehe einen schritt zurück
-- gehe zum {OrderReference=vorherigen} schritt zurück
-- gehe zurück
-- gehe zurück zum hauptmenü
-- gehe zurück zum {OrderReference=letzten} schritt
-- ich möchte zurückgehen
-- ich muss zurückgehen
-- ich würde gerne zurückkehren
-- kannst du zurück gehen
-- kehre zurück
-- kehre zurück bitte
-- kehre zurück zu {OrderReference=vorherigem} schritt
-- kehre zurück zum {OrderReference=vorherigen} schritt
-- wir sollten zurückgehen
-- zurück
-- zurück den {OrderReference=letzten} schritt
-
-
 ## None
 - hallo welt
 - was ist mein name
@@ -1073,7 +1009,7 @@
 - das  {PositionReference=Dritte} Eine
 
 
-## Reject
+## RejectCalendar
 - absagen
 - auch nicht
 - bitte storniere
