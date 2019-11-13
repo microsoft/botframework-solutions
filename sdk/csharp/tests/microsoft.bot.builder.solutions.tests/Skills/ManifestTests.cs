@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
                     .Respond("application/json", luisResponse);
 
-            var controller = CreateMockSkillController();
+            var controller = CreateMockSkillController(@".\Skills\manifestTemplate.json");
 
             // Replace the NullStream with a MemoryStream
             var ms = new MemoryStream();
