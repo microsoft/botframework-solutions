@@ -148,33 +148,27 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-
-                DateTime? startTime = null;
-
                 foreach (var resolution in dateTimeResolutions)
                 {
-                    var utcNow = DateTime.UtcNow;
-                    var dateTimeValue = DateTime.Parse(resolution.Value);
-                    if (dateTimeValue == null)
+                    var dateTimeConvertType = resolution?.Timex;
+                    var dateTimeValue = resolution?.Value;
+                    if (dateTimeValue != null)
                     {
-                        continue;
-                    }
+                        try
+                        {
+                            var dateTime = DateTime.Parse(dateTimeValue);
 
-                    dateTimeValue = TimeZoneInfo.ConvertTimeToUtc(dateTimeValue, state.GetUserTimeZone());
-
-                    if (startTime == null)
-                    {
-                        startTime = dateTimeValue;
-                    }
-
-                    if (dateTimeValue >= utcNow)
-                    {
-                        startTime = dateTimeValue;
-                        break;
+                            if (dateTime != null)
+                            {
+                                state.MeetingInfor.StartTime.Add(dateTime);
+                            }
+                        }
+                        catch (FormatException ex)
+                        {
+                            await HandleExpectedDialogExceptions(sc, ex);
+                        }
                     }
                 }
-
-                state.MeetingInfor.StartTime.Add(TimeConverter.ConvertUtcToUserTime(startTime.Value, state.GetUserTimeZone()));
 
                 return await sc.EndDialogAsync();
             }
@@ -191,28 +185,22 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
-                var startDate = state.MeetingInfor.StartDate.Any() ? state.MeetingInfor.StartDate.Last() : userNow;
-                foreach (var startTime in state.MeetingInfor.StartTime)
-                {
-                    var startDateTime = new DateTime(
-                        startDate.Year,
-                        startDate.Month,
-                        startDate.Day,
-                        startTime.Hour,
-                        startTime.Minute,
-                        startTime.Second);
-                    if (state.MeetingInfor.StartDateTime == null)
-                    {
-                        state.MeetingInfor.StartDateTime = startDateTime;
-                    }
+                var startDate = state.MeetingInfor.StartDate.Any() ? state.MeetingInfor.StartDate.Last() : userNow.Date;
 
-                    if (startDateTime >= userNow)
-                    {
-                        state.MeetingInfor.StartDateTime = startDateTime;
-                        break;
-                    }
+                List<DateTime> startTimes = new List<DateTime>();
+                List<DateTime> endTimes = new List<DateTime>();
+                foreach (var time in state.MeetingInfor.StartTime)
+                {
+                    startTimes.Add(startDate.AddSeconds(time.TimeOfDay.TotalSeconds));
                 }
 
+                var isStartTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.IsRestricted;
+                var isEndTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.IsRestricted;
+                DateTime baseTime = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+                DateTime startTimeRestricted = isStartTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.Value).TimeOfDay.TotalSeconds) : baseTime;
+                DateTime endTimeRestricted = isEndTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.Value).TimeOfDay.TotalSeconds) : baseTime.AddDays(1);
+
+                state.MeetingInfor.StartDateTime = DateTimeHelper.ChooseStartTime(startTimes, endTimes, startTimeRestricted, endTimeRestricted, userNow);
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
 
                 sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
@@ -300,7 +288,6 @@ namespace CalendarSkill.Dialogs
                             { "UserName", state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address }
                         };
 
-                        // todo: check conflict meetings
                         var conflictMeetingTitleList = new List<EventModel>();
                         foreach (var meeting in availabilityResult.MySchedule)
                         {
