@@ -29,6 +29,12 @@
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.de.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.es.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.fr.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.it.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.json" />
+    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.zh.json" />
     <Content Remove="Responses\CreateEvent\CreateEventResponses.de.json" />
     <Content Remove="Responses\CreateEvent\CreateEventResponses.es.json" />
     <Content Remove="Responses\CreateEvent\CreateEventResponses.fr.json" />
@@ -138,6 +144,12 @@
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.de.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.es.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.fr.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.it.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.json" />
+    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.zh.json" />
     <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.de.json" />
     <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.es.json" />
     <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.fr.json" />
@@ -206,6 +218,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\CheckAvailable\CheckAvailableResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CheckAvailableResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -266,6 +283,14 @@
     <None Update="Responses\ChangeEventStatus\ChangeEventStatusResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CheckAvailableResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\CheckAvailable\CreateEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\CreateEvent\CreateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
