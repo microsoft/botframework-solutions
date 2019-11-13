@@ -43,7 +43,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             _skillWebSocketAdapter = skillWebSocketAdapter;
 
-            if (credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
+            if (credentialProvider == null ||
+                !credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
             {
                 _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
                 _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
@@ -142,6 +143,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             if (_authenticator != null)
             {
                 await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
             }
         }
     }

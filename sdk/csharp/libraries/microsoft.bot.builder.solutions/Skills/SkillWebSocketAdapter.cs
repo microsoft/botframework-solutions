@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Streaming.Transport;
@@ -33,7 +32,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
-        private readonly ICredentialProvider _credentialProvider;
         private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
@@ -46,10 +44,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
             _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
-            _credentialProvider = credentialProvider;
 
             // only initialize auth components when auth is enabled
-            if (!_credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
+            if (credentialProvider == null ||
+                !credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
             {
                 _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
                 _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
