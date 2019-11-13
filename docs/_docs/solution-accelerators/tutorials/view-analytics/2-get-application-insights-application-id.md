@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Solution Accelerators
-subcategory: View analytics using Power BI
+subcategory: View analytics with Power BI
 title: Get your Application Insights Application ID
 order: 2
 ---
