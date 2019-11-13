@@ -190,39 +190,6 @@
 - vorrei sapere se mia madre è disponibile {FromDate=oggi}
 
 
-## Confirm
-- bene
-- certo
-- certo procedi
-- conferma
-- corretto
-- è corretto
-- è giusto
-- è giusto grazie
-- eccellente
-- fallo
-- fantastico
-- grande
-- ok
-- ok grazie
-- per favore
-- perfetto
-- perfetto bene
-- perfetto grazie
-- sì
-- sì aggiungi
-- sì bene
-- sì certamente
-- sì certo
-- sì grazie
-- sì per favore
-- sì perfetto
-- sì sì
-- sì va bene
-- sono sicuro
-- va bene
-
-
 ## ConnectToMeeting
 - aggiungimi alla teleconferenza
 - chiama conferenza
@@ -1007,27 +974,6 @@
 - voglio vedermi con donna per favore prenota per {FromDate=giovedì} la sala conferenze all'{FromTime=una}
 
 
-## GoBack
-- dovremmo tornare indietro
-- ho bisogno di tornare indietro
-- indietro
-- indietro all'{OrderReference=ultimo} passo
-- indietro di un passo
-- per favore torna indietro
-- puoi tornare indietro?
-- torna
-- torna al menu principale
-- torna al passaggio {OrderReference=precedente}
-- torna all'{OrderReference=ultimo} passaggio
-- torna indietro
-- torna indietro al passaggio {OrderReference=precedente}
-- torna indietro di un passo
-- torna indietro per favore
-- torna per favore
-- voglio tornare indietro
-- vorrei tornare indietro
-
-
 ## None
 - che ore sono?
 - com'è il tempo oggi?
@@ -1043,7 +989,7 @@
 - Le  {PositionReference=Terzo} Uno
 
 
-## Reject
+## RejectCalendar
 - annulla
 - annulla annulla
 - annulla annulla annulla
