@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         // There are protected to enable unit tests to mock.
         protected HttpClient HttpClient { get; set; } = new HttpClient();
 
-        protected string ManifestTemplateFilename { get; set; } = @".\Skills\manifestTemplate.json";
+        protected string ManifestTemplateFilename { get; set; } = "manifestTemplate.json";
 
         /// <summary>
         /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
