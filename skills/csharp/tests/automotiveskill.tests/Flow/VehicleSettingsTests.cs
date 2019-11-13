@@ -36,7 +36,7 @@ namespace AutomotiveSkill.Tests.Flow
                         Unit = "°",
                     },
                 }))
-                .AssertReply(this.CheckReply("Setting Temperature to 21°."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -55,7 +55,7 @@ namespace AutomotiveSkill.Tests.Flow
                     },
                     IsRelativeAmount = true,
                 }))
-                .AssertReply(this.CheckReply("Increasing Temperature by 2."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -73,7 +73,7 @@ namespace AutomotiveSkill.Tests.Flow
                         Amount = 24,
                     },
                 }))
-                .AssertReply(this.CheckReply("Setting Temperature to 24."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -89,7 +89,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Temperature",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Temperature."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -106,7 +106,7 @@ namespace AutomotiveSkill.Tests.Flow
                     Value = "Off",
                     IsConfirmed = true,
                 }))
-                .AssertReply(this.CheckReply("Setting Lane Change Detection to Off."))
+                .AssertReply(this.CheckReply("Ok."))
                 .AssertReply(this.CheckForHandoff())
                 .StartTestAsync();
         }
@@ -133,7 +133,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Rear Combined Set Temperature",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -147,7 +147,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Rear Window Defogger",
                     Value = "On",
                 }))
-                .AssertReply(this.CheckReply("Setting Rear Window Defogger to On."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -163,7 +163,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Front Combined Air Delivery Mode Control",
                     Value = "Floor",
                 }))
-                .AssertReply(this.CheckReply("Setting Front Combined Air Delivery Mode Control to Floor."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -177,7 +177,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Front and Rear HVAC",
                     Value = "All Off",
                 }))
-                .AssertReply(this.CheckReply("Setting Front and Rear HVAC to All Off."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -191,7 +191,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Temperature",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Temperature."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -205,7 +205,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Rear Combined Set Temperature",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -223,7 +223,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Equalizer (Bass)",
                     Value = "Decrease",
                 }))
-                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -241,7 +241,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Front Pedestrian Safety Detection",
                     Value = "Alert, Brake, and Steer",
                 }))
-                .AssertReply(this.CheckReply("Setting Front Pedestrian Safety Detection to Alert, Brake, and Steer."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -259,7 +259,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Rear Pedestrian Safety Detection",
                     Value = "Alert and Brake",
                 }))
-                .AssertReply(this.CheckReply("Setting Rear Pedestrian Safety Detection to Alert and Brake."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -277,7 +277,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Equalizer (Bass)",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Equalizer (Bass)."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -299,7 +299,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Equalizer (Bass)",
                     Value = "Decrease",
                 }))
-                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
@@ -319,7 +319,7 @@ namespace AutomotiveSkill.Tests.Flow
                     SettingName = "Equalizer (Bass)",
                     Value = "Decrease",
                 }))
-                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .AssertReply(this.CheckReply("Ok."))
                 .StartTestAsync();
         }
 
