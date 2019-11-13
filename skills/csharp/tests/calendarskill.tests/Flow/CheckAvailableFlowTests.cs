@@ -50,6 +50,7 @@ namespace CalendarSkill.Test.Flow
         [TestMethod]
         public async Task Test_CalendarCheckAvailableSlotFilling()
         {
+            this.ServiceManager = MockServiceManager.SetAllToDefault();
             await this.GetTestFlow()
                 .Send(CheckAvailableTestUtterances.CheckAvailableSlotFilling)
                 .AssertReplyOneOf(this.AskForCollectContact())
@@ -58,6 +59,35 @@ namespace CalendarSkill.Test.Flow
                 .Send("4 pm")
                 .AssertReplyOneOf(this.AvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeeting())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCheckAvailableNotAvailable()
+        {
+            this.ServiceManager = MockServiceManager.SetParticipantNotAvailable();
+            await this.GetTestFlow()
+                .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .AssertReplyOneOf(this.NotAvailableResponse())
+                .AssertReplyOneOf(this.AskForFindNextAvailableTimeResponse())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.BothAvailableResponse())
+                .AssertReplyOneOf(this.AskForCreateNewMeeting())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCheckAvailableOrgnizerNotAvailable()
+        {
+            this.ServiceManager = MockServiceManager.SetOrgnizerNotAvailable();
+            await this.GetTestFlow()
+                .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .AssertReplyOneOf(this.OrgnizerNotAvailableResponse())
+                .AssertReplyOneOf(this.AskForCreateNewMeetingAnyway())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -74,9 +104,61 @@ namespace CalendarSkill.Test.Flow
             });
         }
 
+        private string[] BothAvailableResponse()
+        {
+            return this.ParseReplies(CheckAvailableResponses.NextBothAvailableTime, new StringDictionary()
+            {
+                { "UserName", Strings.Strings.DefaultUserName },
+                { "StartTime", "4:30 PM" },
+                { "EndTime", "5:00 PM" },
+                { "EndDate", "today" },
+            });
+        }
+
+        private string[] NotAvailableResponse()
+        {
+            return this.ParseReplies(CheckAvailableResponses.NotAvailable, new StringDictionary()
+            {
+                { "UserName", Strings.Strings.DefaultUserName },
+                { "Time", "4:00 PM" },
+                { "Date", "today" },
+            });
+        }
+
+        private string[] OrgnizerNotAvailableResponse()
+        {
+            return this.ParseReplies(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, new StringDictionary()
+            {
+                { "UserName", Strings.Strings.DefaultUserName },
+                { "StartTime", "4:00 PM" },
+                { "EndTime", "5:00 PM" },
+                { "Title", Strings.Strings.DefaultEventName },
+                { "EventStartTime", "4:00 PM" },
+                { "EventEndTime", "5:00 PM" },
+                { "Date", "today" },
+            });
+        }
+
+        private string[] AskForFindNextAvailableTimeResponse()
+        {
+            return this.ParseReplies(CheckAvailableResponses.AskForNextAvailableTime, new StringDictionary()
+            {
+                { "UserName", Strings.Strings.DefaultUserName }
+            });
+        }
+
         private string[] AskForCreateNewMeeting()
         {
             return this.ParseReplies(CheckAvailableResponses.AskForCreateNewMeeting, new StringDictionary());
+        }
+
+        private string[] AskForCreateNewMeetingAnyway()
+        {
+            return this.ParseReplies(CheckAvailableResponses.AskForCreateNewMeetingAnyway, new StringDictionary()
+            {
+                { "UserName", Strings.Strings.DefaultUserName },
+                { "StartTime", "4:00 PM" },
+            });
         }
 
         private string[] AskForCollectContact()
