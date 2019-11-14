@@ -281,7 +281,7 @@ namespace ToDoSkill.Dialogs
             {
                 var pageSize = 0;
 
-                if (_settings.DisplaySize != null)
+                if (_settings.DisplaySize > 0)
                 {
                     pageSize = _settings.DisplaySize;
                 }
