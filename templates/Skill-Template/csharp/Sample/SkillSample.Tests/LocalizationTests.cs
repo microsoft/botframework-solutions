@@ -15,7 +15,7 @@ namespace SkillSample.Tests
         [TestMethod]
         public async Task Test_Localization_Spanish()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("es-mx");
+            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -77,6 +77,20 @@ namespace SkillSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
 
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
+                })
+                .AssertReply(TemplateEngine.GenerateActivityForLocale("IntroMessage"))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
             await GetTestFlow()
                 .Send(new Activity()
                 {

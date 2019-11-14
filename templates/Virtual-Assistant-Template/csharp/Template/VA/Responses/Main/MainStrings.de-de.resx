@@ -118,51 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CANCELLED" xml:space="preserve">
-    <value>Ok, ricominciamo da qui.</value>
+    <value>OK, fangen wir an</value>
   </data>
   <data name="COMPLETED" xml:space="preserve">
-    <value>Che altro posso aiutarvi?</value>
+    <value>Was kann ich Ihnen noch helfen?</value>
   </data>
   <data name="CONFUSED" xml:space="preserve">
-    <value>Mi dispiace, non sono in grado di aiutarti.</value>
+    <value>Es tut mir leid, ich bin nicht in der Lage, damit zu helfen.</value>
   </data>
   <data name="ERROR" xml:space="preserve">
-    <value>Mi dispiace, sembra che qualcosa sia andato storto.</value>
+    <value>Sorry, es sieht so aus, als ob etwas schief gelaufen ist.</value>
   </data>
   <data name="GREETING" xml:space="preserve">
-    <value>Ehilà!</value>
+    <value>Hallo!</value>
   </data>
   <data name="GREETING_WITH_NAME" xml:space="preserve">
-    <value>Ehilà! {0}!</value>
+    <value>Hallo {0}!</value>
   </data>
   <data name="HELP_BTN_TEXT_1" xml:space="preserve">
-    <value>Prova LUIS</value>
+    <value>Test LUIS</value>
   </data>
   <data name="HELP_BTN_TEXT_2" xml:space="preserve">
-    <value>Prova QnA Maker</value>
+    <value>Test QnA Maker</value>
   </data>
   <data name="HELP_BTN_TEXT_3" xml:space="preserve">
-    <value>Ulteriori informazioni</value>
+    <value>Weitere Informationen</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Posso parlare con una persona</value>
+    <value>Kann ich mit einer Person sprechen</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
-    <value>Che cos'è il modello Enterprise bot?</value>
+    <value>Was ist die Enterprise Bot Template?</value>
   </data>
   <data name="HELP_BTN_VALUE_3" xml:space="preserve">
     <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
   </data>
   <data name="HELP_TEXT" xml:space="preserve">
-    <value>Sono il tuo assistente virtuale! Posso effettuare un certo numero di mansioni con le mie abilità collegate. In questo momento posso aiutarvi con calendario, e-mail, compito e punto di domande di interesse. Oppure puoi aiutarmi a fare di più creando il tuo!</value>
+    <value>Ich bin Ihr virtueller Assistent! Ich kann durch meine vernetzten Fähigkeiten eine Reihe von Aufgaben erledigen. Im Moment kann ich Ihnen mit Kalender, E-Mail, Aufgabe und Punkt von Interesse Fragen helfen. Oder Sie können mir helfen, mehr zu tun, indem Sie Ihre eigenen!</value>
   </data>
   <data name="HELP_TITLE" xml:space="preserve">
-    <value>Aiuto per assistente virtuale</value>
+    <value>Hilfe für Enterprise Bot</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Content/NewUserGreeting.it.json</value>
+    <value>./Content/NewUserGreeting.de-de.json</value>
   </data>
   <data name="INTRO_RETURNING" xml:space="preserve">
-    <value>./Content/ReturningUserGreeting.it.json</value>
+    <value>./Content/ReturningUserGreeting.de-de.json</value>
   </data>
 </root>

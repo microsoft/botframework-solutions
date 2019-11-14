@@ -77,9 +77,7 @@ namespace $safeprojectname$.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var cognitiveModels = _services.CognitiveModelSets[locale];
+            CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
 
             // Check dispatch result
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
@@ -297,9 +295,7 @@ namespace $safeprojectname$.Dialogs
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
+                CognitiveModelSet cognitiveModels = _services.GetCognitiveModels();
 
                 // check luis intent
                 cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
@@ -314,28 +310,28 @@ namespace $safeprojectname$.Dialogs
                     state.GeneralLuisResult = luisResult;
                     var intent = luisResult.TopIntent().intent;
 
-                    if (luisResult.TopIntent().score > 0.5)
+                if (luisResult.TopIntent().score > 0.5)
+                {
+                    switch (intent)
                     {
-                        switch (intent)
-                        {
-                            case GeneralLuis.Intent.Cancel:
-                                {
-                                    return await OnCancel(dc);
-                                }
+                        case GeneralLuis.Intent.Cancel:
+                            {
+                                return await OnCancel(dc);
+                            }
 
-                            case GeneralLuis.Intent.Help:
-                                {
-                                    return await OnHelp(dc);
-                                }
+                        case GeneralLuis.Intent.Help:
+                            {
+                                return await OnHelp(dc);
+                            }
 
-                            case GeneralLuis.Intent.Logout:
-                                {
-                                    return await OnLogout(dc);
-                                }
-                        }
+                        case GeneralLuis.Intent.Logout:
+                            {
+                                return await OnLogout(dc);
+                            }
                     }
                 }
             }
+        }
 
             return InterruptionAction.NoAction;
         }

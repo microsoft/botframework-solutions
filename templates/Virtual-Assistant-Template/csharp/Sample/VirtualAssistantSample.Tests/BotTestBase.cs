@@ -43,7 +43,7 @@ namespace VirtualAssistantSample.Tests
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet
+                        "en-us", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
                             LuisServices = new Dictionary<string, LuisRecognizer>
