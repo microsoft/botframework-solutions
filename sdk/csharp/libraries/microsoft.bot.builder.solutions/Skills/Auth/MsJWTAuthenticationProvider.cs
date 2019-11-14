@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -14,24 +15,32 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public class MsJWTAuthenticationProvider : IAuthenticationProvider
     {
-        private static OpenIdConnectConfiguration openIdConfig;
+        private OpenIdConnectConfiguration _openIdConfig;
         private readonly string _microsoftAppId;
         private readonly string _openIdMetadataUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration";
 
         public MsJWTAuthenticationProvider(string microsoftAppId, string openIdMetadataUrl = null)
         {
-            _microsoftAppId = !string.IsNullOrWhiteSpace(microsoftAppId) ? microsoftAppId : throw new ArgumentNullException(nameof(microsoftAppId));
+            _microsoftAppId = microsoftAppId;
             if (!string.IsNullOrWhiteSpace(openIdMetadataUrl))
             {
                 _openIdMetadataUrl = openIdMetadataUrl;
             }
-
-            var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(_openIdMetadataUrl, new OpenIdConnectConfigurationRetriever());
-            openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
-        public ClaimsIdentity Authenticate(string authHeader)
+        public async Task<ClaimsIdentity> AuthenticateAsync(string authHeader)
         {
+            if (string.IsNullOrWhiteSpace(_microsoftAppId))
+            {
+                throw new ArgumentNullException("microsoftAppId");
+            }
+
+            if (_openIdConfig == null)
+            {
+                var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(_openIdMetadataUrl, new OpenIdConnectConfigurationRetriever());
+                _openIdConfig = await configurationManager.GetConfigurationAsync(CancellationToken.None).ConfigureAwait(false);
+            }
+
             try
             {
                 var validationParameters =
@@ -39,7 +48,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
                     {
                         ValidateIssuer = false, // do not validate issuer
                         ValidAudiences = new[] { _microsoftAppId },
-                        IssuerSigningKeys = openIdConfig.SigningKeys,
+                        IssuerSigningKeys = _openIdConfig.SigningKeys,
                     };
 
                 var handler = new JwtSecurityTokenHandler();
