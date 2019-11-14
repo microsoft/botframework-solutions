@@ -57,8 +57,6 @@ namespace PointOfInterestSkill.Dialogs
             { Chinese, "是的" },
         };
 
-        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
-
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestDialogBase(
