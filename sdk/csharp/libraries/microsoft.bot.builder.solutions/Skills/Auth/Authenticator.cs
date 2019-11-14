@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
                 return null;
             }
 
-            var claimsIdentity = _authenticationProvider.Authenticate(authorizationHeader);
+            var claimsIdentity = await _authenticationProvider.AuthenticateAsync(authorizationHeader).ConfigureAwait(false);
             if (claimsIdentity == null)
             {
                 httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;

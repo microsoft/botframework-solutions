@@ -32,6 +32,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
+        private readonly ICredentialProvider _credentialProvider;
         private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
@@ -45,13 +46,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
 
-            // only initialize auth components when auth is enabled
-            if (credentialProvider == null ||
-                !credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
-            {
-                _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
-                _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
-            }
+            _credentialProvider = credentialProvider;
+            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
+            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
 
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
             _stopWatch = new Stopwatch();
@@ -82,7 +79,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             }
 
             ClaimsIdentity claims;
-            if (_authenticator != null)
+
+            // only perform auth when it's enabled
+            if (_credentialProvider != null && !await _credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false))
             {
                 claims = await _authenticator.AuthenticateAsync(httpRequest, httpResponse).ConfigureAwait(false);
             }

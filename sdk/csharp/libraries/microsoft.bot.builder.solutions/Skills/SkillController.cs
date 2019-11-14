@@ -25,6 +25,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
+        private readonly ICredentialProvider _credentialProvider;
         private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
@@ -43,12 +44,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             _skillWebSocketAdapter = skillWebSocketAdapter;
 
-            if (credentialProvider == null ||
-                !credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
-            {
-                _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
-                _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
-            }
+            _credentialProvider = credentialProvider;
+            _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
+            _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
         }
 
         // Each skill provides a template manifest file which we use to fill in the dynamic elements.
@@ -140,7 +138,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         [HttpGet]
         public async Task SkillPingAsync()
         {
-            if (_authenticator != null)
+            if (_credentialProvider != null && !await _credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false))
             {
                 await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
             }
