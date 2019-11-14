@@ -27,8 +27,8 @@
         "helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
         "helpText": "我是您的智能助理!我有不少技能，可以帮您完成很多任务。现在我可以帮您管理您的日历, 电子邮件, 任务和查找地图兴趣点。或者, 您可以教我更多的技能！",
         "helpTitle": "智能助手的帮助",
-        "introGreetingFile": "NewUserGreeting.zh.json",
-        "introReturningFile": "ReturningUserGreeting.zh.json",
+        "introGreetingFile": "NewUserGreeting.zh-cn.json",
+        "introReturningFile": "ReturningUserGreeting.zh-cn.json",
         "logOut": "好的，你退出了。"
     },
     "onboarding": {

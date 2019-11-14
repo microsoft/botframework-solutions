@@ -110,7 +110,7 @@ $settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSO
 Write-Host "> Deploying cognitive models ..."
 foreach ($language in $languageArr)
 {
-	$langCode = ($language -split "-")[0]
+	$langCode = $language
 	$config = New-Object PSObject
 
 	if ($useDispatch) {

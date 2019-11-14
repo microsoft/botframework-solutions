@@ -9,7 +9,7 @@
             "query": "user",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.30505392
+                "score": 0.354118019
             },
             "entities": []
         },
@@ -19,13 +19,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "124",
+            "125",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "6ab535c1-a182-40ab-bd51-ca6fa15700ef",
+            "48b76a28-989a-4309-a785-d2ffd680e8b1",
             "Request-Id",
-            "6ab535c1-a182-40ab-bd51-ca6fa15700ef",
+            "48b76a28-989a-4309-a785-d2ffd680e8b1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Wed, 15 May 2019 12:55:33 GMT",
+            "Fri, 06 Sep 2019 16:15:52 GMT",
             "Connection",
             "close"
         ]
