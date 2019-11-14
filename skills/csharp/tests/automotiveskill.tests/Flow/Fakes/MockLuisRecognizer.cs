@@ -21,7 +21,7 @@ namespace AutomotiveSkill.Tests.Flow.Fakes
             EndpointKey = "testendpointkey"
         };
 
-        public MockLuisRecognizer() 
+        public MockLuisRecognizer()
             : base(application: mockApplication)
         {
         }

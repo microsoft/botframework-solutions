@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,20 +27,7 @@ namespace EmailSkill.Tests.Flow.Fakes
             this.generalUtterancesManager = new GeneralTestUtterances();
         }
 
-        public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
         private Dictionary<string, IRecognizerConvert> TestUtterances { get; set; }
-
-        public void RegisterUtterances(Dictionary<string, IRecognizerConvert> utterances)
-        {
-            foreach (var utterance in utterances)
-            {
-                TestUtterances.Add(utterance.Key, utterance.Value);
-            }
-        }
 
         public override Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -51,7 +37,15 @@ namespace EmailSkill.Tests.Flow.Fakes
 
             var test = mockGeneral as object;
             var mockResult = (T)test;
-            return Task.FromResult((T)mockResult);
+            return Task.FromResult(mockResult);
+        }
+
+        public void RegisterUtterances(Dictionary<string, IRecognizerConvert> utterances)
+        {
+            foreach (var utterance in utterances)
+            {
+                TestUtterances.Add(utterance.Key, utterance.Value);
+            }
         }
     }
 }

@@ -31,32 +31,6 @@ namespace BingSearchSkill.Services
             _bingAnswerSearchKey = bingAnswerSearchKey;
         }
 
-        private async Task<Entities> GetEntitySearchResult(string query)
-        {
-            try
-            {
-                var searchResponse = await _entitySearchClient.Entities.SearchAsync(query);
-                return searchResponse.Entities;
-            }
-            catch (SerializationException)
-            {
-                return null;
-            }
-        }
-
-        private async Task<Microsoft.Azure.CognitiveServices.Search.WebSearch.Models.SearchResponse> GetWebSearchResult(string query)
-        {
-            try
-            {
-                var searchResponse = await _webSearchClient.Web.SearchAsync(query);
-                return searchResponse;
-            }
-            catch (SerializationException)
-            {
-                return null;
-            }
-        }
-
         public async Task<List<SearchResultModel>> GetSearchResult(string query, string locale, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
         {
             var results = new List<SearchResultModel>();
@@ -114,6 +88,32 @@ namespace BingSearchSkill.Services
                     {
                         return movieResults;
                     }
+            }
+        }
+
+        private async Task<Entities> GetEntitySearchResult(string query)
+        {
+            try
+            {
+                var searchResponse = await _entitySearchClient.Entities.SearchAsync(query);
+                return searchResponse.Entities;
+            }
+            catch (SerializationException)
+            {
+                return null;
+            }
+        }
+
+        private async Task<Microsoft.Azure.CognitiveServices.Search.WebSearch.Models.SearchResponse> GetWebSearchResult(string query)
+        {
+            try
+            {
+                var searchResponse = await _webSearchClient.Web.SearchAsync(query);
+                return searchResponse;
+            }
+            catch (SerializationException)
+            {
+                return null;
             }
         }
 

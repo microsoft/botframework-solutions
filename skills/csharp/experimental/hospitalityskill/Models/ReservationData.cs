@@ -17,7 +17,10 @@ namespace HospitalitySkill.Models
 
         public string CheckOutDate { get; set; }
 
-        public string CheckOutTime { get { return CheckOutTimeData.ToString(TimeFormat); } }
+        public string CheckOutTime
+        {
+            get { return CheckOutTimeData.ToString(TimeFormat); }
+        }
 
         public TimeSpan CheckOutTimeData { get; set; }
 

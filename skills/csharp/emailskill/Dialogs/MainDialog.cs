@@ -13,10 +13,10 @@ using EmailSkill.Services.AzureMapsAPI;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -244,7 +244,6 @@ namespace EmailSkill.Dialogs
             switch (ev.Name)
             {
                 case TokenEvents.TokenResponseEventName:
-                case SkillEvents.FallbackHandledEventName:
                     {
                         // Forward the token response activity to the dialog waiting on the stack.
                         await innerDc.ContinueDialogAsync();
