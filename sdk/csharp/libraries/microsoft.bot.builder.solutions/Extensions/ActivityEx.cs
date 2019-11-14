@@ -30,8 +30,8 @@ namespace Microsoft.Bot.Builder.Solutions.Extensions
                 case Channels.Emulator:
                 case Channels.Webchat:
                 case Channels.Msteams:
-                case "directlinespeech":
-                case "test":
+                case Channels.DirectlineSpeech:
+                case Channels.Test:
                     {
                         if (activity.Type == ActivityTypes.ConversationUpdate)
                         {

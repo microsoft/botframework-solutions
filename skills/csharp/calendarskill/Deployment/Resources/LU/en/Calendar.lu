@@ -32,72 +32,22 @@
 - ^i (want to|would like to|'d like to) (join|attend) the {Subject}^
 
 
-## Cancel
-- abort edition
-- can i cancel this
-- can you cancel it
-- can you cancel it please
-- can you cancel that
-- cancel
-- cancel can you don't do that please
-- cancel cancel
-- cancel cancel cancel
-- cancel don't worry
-- cancel everything
-- cancel it
-- cancel it for me
-- cancel it i don ' t want that
-- cancel it please
+## CancelCalendar
 - cancel it, i don't want to create the meeting
-- cancel please
-- cancel that
 - cancel the creating process
-- cancel this
-- could you cancel it please
 - don't change it
 - don't create it
-- forget cancel
-- forget it
-- go ahead and cancel it
-- help me to cancel this
 - i don't want to change it anymore
-- i don't want to do it now
 - i don't want to find it anymore
 - i don't want to join it
 - i don't want want to change this appointment anymore
-- i have decided to cancel it
-- i need to cancel that
-- i want to cancel it please
-- i want to cancel that
-- i would like to cancel all of them
-- i would like to cancel it
-- i'd like to cancel this
-- just cancel
-- just cancel it
-- let me cancel that
-- need to cancel it
-- never mind
-- never mind could you cancel that
 - never mind, cancel the changing
 - never mind, forget about the creating
-- no cancel
-- no cancel it
-- no i just cancel it
-- no, cancel please
-- nothing just cancel
-- nothing just cancel it
-- oh cancel
-- ohh never mind
-- please cancel
-- please cancel all of them
-- please cancel it
-- please cancel that
 - quit the changing
 - stop changing it
 - stop checking it
 - stop connecting it
 - stop finding it
-- will you cancel it please
 
 
 ## ChangeCalendarEntry
@@ -190,7 +140,7 @@
 - move my {Subject=text meeting}
 - move my {FromTime=twelve p . m .} meeting forward {MoveEarlierTimeSpan=two hours}
 - move my {FromTime=twelve p. m.} {MoveEarlierTimeSpan=thirty minutes} up
-- move {Subject=party planning meeting} from {FromDate={FromTime=saturday}} to {ToDate=friday} at {ToTime=1pm}
+- move {Subject=party planning meeting} from {FromDate=saturday} to {ToDate=friday} at {ToTime=1pm}
 - move {Subject=shoe appointment} to {ToDate=tuesday} at {ToTime=one}
 - please move this to {ToTime=3 pm}
 - postpone my {FromTime=4 pm} meeting {FromDate=today} until {ToTime=5 pm}
@@ -210,7 +160,7 @@
 - update meeting from {FromTime=8am}-{FromTime=12pm} to {ToTime=7am}-{ToTime=11am} {ToDate=today}
 - update my appointment
 - update my {Subject=calendar}
-- update my calendar from {FromTime={ToTime=11}} to {ToTime=12:30} {ToDate=today}
+- update my calendar from {FromTime=11} to {ToTime=12:30} {ToDate=today}
 - update my calendar from {FromTime=2 pm} to {ToTime=4 pm} {ToDate=today}
 - update my calendar from {FromTime=6pm} to {ToTime=7pm}
 - update my {Subject=camping appointment}
@@ -277,54 +227,6 @@
 - ^do i have time (at|on|for) {FromTime} [on] {FromDate}
 - ^does {personName} have time at {FromTime}
 - ^is {personName} (available|free) from {FromTime} to {ToTime} [on {FromDate}]
-
-
-## Confirm
-- alright
-- confirm
-- correct
-- do it
-- excellent
-- fine
-- good
-- great
-- i'm sure
-- ok
-- okay
-- okay thank you
-- okay thanks
-- perfect
-- perfect thank you
-- please
-- right
-- sounds good
-- sounds good okay
-- sounds great
-- sure
-- sure go ahead
-- that ' s right
-- that's correct
-- that's good
-- that's great
-- that's right thank you
-- yeah
-- yeah thank you
-- yep
-- yes
-- yes add
-- yes good
-- yes indeed
-- yes it does
-- yes it is
-- yes of course
-- yes perfect
-- yes please
-- yes sure
-- yes thank you
-- yes thanks
-- yes that ' s fine
-- yes yes
-- yup
 
 
 ## ConnectToMeeting
@@ -1166,80 +1068,21 @@
 - ^is (this|the|that) (meeting|conference) room (available|booked) [(at|on|for)] [{FromDate}] [(at|on|for)] [{FromTime}]^
 
 
-## GoBack
-- back
-- back one step
-- back the {OrderReference=last} step
-- can you go back
-- go back
-- go back a step
-- go back one step
-- go back please
-- go back the {OrderReference=previous} step
-- go back to the {OrderReference=last} step
-- go back to the main menu
-- go back to the {OrderReference=previous} step
-- i need to go back
-- i want to go back
-- i would like to go back
-- please go back
-- please return back
-- return
-- return back
-- return please
-- return to {OrderReference=previous} step
-- return to the {OrderReference=previous} step
-- we should go back
-
-
 ## None
-- hello world
-- how's the weather today
-- what can you do
-- what is the time now
-- what's my name
-- what's the weather today
-- what's your name
-- 1
-- 2
-- 3
-- the {PositionReference=first} one
-- the {PositionReference=second} one
-- the {PositionReference=third} one
+- all of them
+- i want them all
+- i want to all of them
 
 
-## Reject
-- abort that
-- i cannot
-- i cannot make it
-- i can't go there
-- i don't like that time
-- i don't like the time
-- i have other things to do at that time
-- i think not
-- i'd rather not. thanks
-- i'm afraid i can't
+## RejectCalendar
 - i'm busy at that time
 - i'm not available {FromDate=next monday} afternoon
 - i'm supposed to meet daisy, not katy
-- it doesn't work for me
 - it's the wrong person
 - it's the wrong room
-- it's wrong
 - maybe another time
-- negative
-- neither
-- no
-- no no
-- no thank you
-- no thanks
-- no way
 - no, i already have meeting {FromTime=3pm} {FromDate=tomorrow} afternoon
-- no, i won't
 - no, i'd like to meet her manager
-- no, please don't
-- none
-- nope
 - not at this time
 - not for me, thanks
 - not him
@@ -1252,48 +1095,21 @@
 - not this room
 - not {FromTime=this saturday}
 - not this time
-- nothing
-- of course not
-- oh no
-- ohh no
 - please find another {MeetingRoom=meeting room}
-- stop
-- that's not right
 - the contact name is wrong, it's daisy
 - this is {Subject=review meeting}, not 1x1 meeting
 - this time slot doesn't work for me
-- wrong
 - wrong place
 
 
 ## ShowNextCalendar
-- could you show the {OrderReference=next} one
-- go to the {OrderReference=next} one please
-- i need to go to the {OrderReference=next} one
-- move to the {OrderReference=next} one
-- show the {PositionReference=last} one
-- show the {OrderReference=next}
-- what about the {OrderReference=next} one
-- what's after that
 - what are the {OrderReference=next 3} events on my calendar
-- what is my {OrderReference=next} event
-- what is {OrderReference=next}
-- what's {OrderReference=next}
-- what's up {OrderReference=next}
 - ^[(show|display)] next [page] [please]^
-- ^i (want to|need to|would like to) (attend|join) {Subject}, [please] add it.^
 
 
 ## ShowPreviousCalendar
-- bring the {OrderReference=previous} one
 - i need to check the {OrderReference=previous} appointment
-- {OrderReference=previous} one
-- {OrderReference=previous} one please
 - show me the {OrderReference=previous} meeting with tiffany
-- show {OrderReference=previous}
-- show {OrderReference=previous} one
-- show the {OrderReference=previous} one
-- what is the {OrderReference=previous}
 
 
 ## TimeRemaining

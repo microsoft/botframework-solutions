@@ -37,27 +37,27 @@
       <Folder Name="Deployment" TargetFolderName="Deployment">
         <Folder Name="Resources" TargetFolderName="Resources">
           <Folder Name="LU" TargetFolderName="LU">
-            <Folder Name="de" TargetFolderName="de">
+            <Folder Name="de-de" TargetFolderName="de-de">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
-            <Folder Name="en" TargetFolderName="en">
+            <Folder Name="en-us" TargetFolderName="en-us">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
-            <Folder Name="es" TargetFolderName="es">
+            <Folder Name="es-es" TargetFolderName="es-es">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
-            <Folder Name="fr" TargetFolderName="fr">
+            <Folder Name="fr-fr" TargetFolderName="fr-fr">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
-            <Folder Name="it" TargetFolderName="it">
+            <Folder Name="it-it" TargetFolderName="it-it">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
-            <Folder Name="zh" TargetFolderName="zh">
+            <Folder Name="zh-cn" TargetFolderName="zh-cn">
               <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">general.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
             </Folder>
@@ -87,32 +87,32 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.tt">MainResponses.tt</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.json">MainResponses.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.de.json">MainResponses.de.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.es.json">MainResponses.es.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.fr.json">MainResponses.fr.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.it.json">MainResponses.it.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.zh.json">MainResponses.zh.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.de-de.json">MainResponses.de-de.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.es-es.json">MainResponses.es-es.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.fr-fr.json">MainResponses.fr-fr.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.it-it.json">MainResponses.it-it.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.zh-cn.json">MainResponses.zh-cn.json</ProjectItem>
         </Folder>
         <Folder Name="Sample" TargetFolderName="Sample">
           <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.tt">SampleResponses.tt</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.cs">SampleResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.json">SampleResponses.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.de.json">SampleResponses.de.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.es.json">SampleResponses.es.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.fr.json">SampleResponses.fr.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.it.json">SampleResponses.it.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.zh.json">SampleResponses.zh.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.de-de.json">SampleResponses.de-de.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.es-es.json">SampleResponses.es-es.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.fr-fr.json">SampleResponses.fr-fr.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.it-it.json">SampleResponses.it-it.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.zh-cn.json">SampleResponses.zh-cn.json</ProjectItem>
         </Folder>
         <Folder Name="Shared" TargetFolderName="Shared">
           <ProjectItem ReplaceParameters="false" TargetFileName="ResponseIdCollection.t4">ResponseIdCollection.t4</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.tt">SharedResponses.tt</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.cs">SharedResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.json">SharedResponses.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.de.json">SharedResponses.de.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.es.json">SharedResponses.es.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.fr.json">SharedResponses.fr.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.it.json">SharedResponses.it.json</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.zh.json">SharedResponses.zh.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.de-de.json">SharedResponses.de-de.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.es-es.json">SharedResponses.es-es.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.fr-fr.json">SharedResponses.fr-fr.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.it-it.json">SharedResponses.it-it.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.zh-cn.json">SharedResponses.zh-cn.json</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="Services" TargetFolderName="Services">

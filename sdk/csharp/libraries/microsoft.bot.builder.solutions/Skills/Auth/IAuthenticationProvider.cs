@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
     public interface IAuthenticationProvider
     {
-        ClaimsIdentity Authenticate(string authHeader);
+        Task<ClaimsIdentity> AuthenticateAsync(string authHeader);
     }
 }

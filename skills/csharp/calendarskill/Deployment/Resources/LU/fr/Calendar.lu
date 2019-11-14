@@ -191,49 +191,6 @@
 - suis-je occupé le {FromDate=6 février}?
 
 
-## Confirm
-- bien sûr aller de l'avant.
-- bien.
-- bon
-- ça a l'air bien.
-- ça sonne bien ok.
-- ça sonne bien.
-- c'est bien.
-- c'est correct.
-- c'est super.
-- c'est vrai merci.
-- c'est vrai.
-- confirmer.
-- correct.
-- d'accord
-- d'accord.
-- excellent
-- fais-le.
-- génial
-- j'en suis sûr
-- ok merci.
-- okay merci.
-- oui
-- oui ajouter.
-- oui bien sûr.
-- oui bon
-- oui c'est très bien.
-- oui en effet
-- oui merci.
-- oui parfait.
-- oui s'il vous plaît.
-- oui, bien sûr.
-- oui, c'est vrai.
-- oui, merci
-- oui, oui.
-- parfait merci.
-- parfait.
-- s'il vous plaît
-- sûr
-- yep
-- yup
-
-
 ## ConnectToMeeting
 - appel à la conférence téléphonique.
 - appel à la {Subject=réunion de marketing}.
@@ -1022,42 +979,12 @@
 - vérifier la salle de réunion pour {FromDate=demain}.
 
 
-## GoBack
-- j'ai besoin de revenir en arrière.
-- je veux revenir.
-- je voudrais revenir.
-- nous devrions revenir.
-- pouvez-vous revenir ?
-- retour
-- retour à la {OrderReference=dernière} étape
-- retour à l'étape {OrderReference=précédente}.
-- retour d'une étape
-- retour s'il vous plaît.
-- revenir à la {OrderReference=dernière} étape.
-- revenir à l'étape {OrderReference=précédente}.
-- revenir au menu principal.
-- revenir en arrière une étape.
-- revenir s'il vous plaît.
-- s'il vous plaît revenir.
-
-
 ## None
-- comment est la météo aujourd'hui ?
-- comment t'appelles-tu ?
-- que pouvez-vous faire ?
-- quel est le temps aujourd'hui ?
-- quel est mon nom ?
-- quelle est l'heure maintenant ?
-- salut tout le monde.
-- 1
-- 2
-- 3
-- Lla  {PositionReference=Première} Un
-- Lla  {PositionReference=Deuxième} Un
-- Lla  {PositionReference=Troisième} Un
+- je les veux tous
+- totalement
 
 
-## Reject
+## RejectCalendar
 - abandonner ça.
 - annuler annuler annuler.
 - annuler annuler.

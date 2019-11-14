@@ -61,7 +61,7 @@ if (-not $luisAuthoringKey) {
 }
 
 if (-not $luisAccountName) {
-    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+    $luisAccountName = Read-Host "? LUIS Service Name (existing service in Azure required)"
 }
 
 if (-not $resourceGroup) {
@@ -70,7 +70,7 @@ if (-not $resourceGroup) {
 	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
-	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
+	    $resourceGroup = Read-Host "? LUIS Service Resource Group (existing service in Azure required)"
 	}
 }
 
@@ -297,4 +297,4 @@ foreach ($language in $languageArr)
 }
 
 # Write out config to file
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json" )
+$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $outFolder "cognitivemodels.json" )

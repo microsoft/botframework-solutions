@@ -49,6 +49,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
+            CheckAvailableDialog checkAvailableDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -70,6 +71,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -156,6 +158,12 @@ namespace CalendarSkill.Dialogs
                     case CalendarLuis.Intent.TimeRemaining:
                         {
                             await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                            break;
+                        }
+
+                    case CalendarLuis.Intent.CheckAvailability:
+                        {
+                            await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
                             break;
                         }
 

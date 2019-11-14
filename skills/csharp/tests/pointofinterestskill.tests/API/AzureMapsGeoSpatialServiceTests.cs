@@ -100,7 +100,7 @@ namespace PointOfInterestSkill.Tests.API
 
             var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
             Assert.AreEqual(pointOfInterestList[0].Address, "1635 11th Avenue Northwest, Issaquah, WA 98027");
-            Assert.AreEqual(pointOfInterestList[0].AddressAlternative, "11th Avenue Northwest, King, Washington, USA");
+            Assert.AreEqual(pointOfInterestList[0].AddressAlternative, "11th Avenue Northwest, Issaquah, King, Washington, USA");
             Assert.AreEqual(pointOfInterestList[0].Category, "Address Range");
         }
 

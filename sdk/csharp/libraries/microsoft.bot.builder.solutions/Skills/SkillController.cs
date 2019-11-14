@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Connector.Authentication;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
@@ -24,6 +25,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
+        private readonly ICredentialProvider _credentialProvider;
         private readonly IAuthenticator _authenticator;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
@@ -33,7 +35,8 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             BotSettingsBase botSettings,
             IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
             SkillWebSocketAdapter skillWebSocketAdapter,
-            IWhitelistAuthenticationProvider whitelistAuthenticationProvider)
+            IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
+            ICredentialProvider credentialProvider = null)
         {
             _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
             _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
@@ -41,6 +44,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
             _skillWebSocketAdapter = skillWebSocketAdapter;
 
+            _credentialProvider = credentialProvider;
             _authenticationProvider = new MsJWTAuthenticationProvider(_botSettings.MicrosoftAppId);
             _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
         }
@@ -49,7 +53,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         // There are protected to enable unit tests to mock.
         protected HttpClient HttpClient { get; set; } = new HttpClient();
 
-        protected string ManifestTemplateFilename { get; set; } = @".\Skills\manifestTemplate.json";
+        protected string ManifestTemplateFilename { get; set; } = "manifestTemplate.json";
 
         /// <summary>
         /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
@@ -134,7 +138,14 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         [HttpGet]
         public async Task SkillPingAsync()
         {
-            await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
+            if (_credentialProvider != null && !await _credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false))
+            {
+                await _authenticator.AuthenticateAsync(Request, Response).ConfigureAwait(false);
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
         }
     }
 }

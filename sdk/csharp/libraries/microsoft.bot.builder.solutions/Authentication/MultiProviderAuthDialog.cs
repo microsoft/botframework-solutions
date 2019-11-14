@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private bool localAuthConfigured = false;
         private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null, OAuthPromptSettings promptSettings = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
@@ -72,14 +72,16 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrEmpty(connection.Name))
                     {
+                        var settings = promptSettings ?? new OAuthPromptSettings
+                        {
+                            ConnectionName = connection.Name,
+                            Title = "Login",
+                            Text = string.Format("Login with {0}", connection.Name),
+                        };
+
                         AddDialog(new OAuthPrompt(
                             connection.Name,
-                            new OAuthPromptSettings
-                            {
-                                ConnectionName = connection.Name,
-                                Title = "Login",
-                                Text = string.Format("Login with {0}", connection.Name),
-                            },
+                            settings,
                             AuthPromptValidatorAsync));
 
                         authDialogAdded = true;

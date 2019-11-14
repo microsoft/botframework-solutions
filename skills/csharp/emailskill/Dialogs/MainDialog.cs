@@ -250,6 +250,24 @@ namespace EmailSkill.Dialogs
                         break;
                     }
 
+                case Events.TimezoneEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
+                        state.UserInfo.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(value);
+
+                        break;
+                    }
+
+                case Events.LocationEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
+
+                        var azureMapsClient = new AzureMapsClient(_settings);
+                        state.UserInfo.TimeZone = await azureMapsClient.GetTimeZoneInfoByCoordinates(value);
+
+                        break;
+                    }
+
                 default:
                     {
                         await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
@@ -334,5 +352,11 @@ namespace EmailSkill.Dialogs
                 ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
             }
         }
-    }
+
+        private class Events
+        {
+            public const string TimezoneEvent = "Timezone";
+            public const string LocationEvent = "Location";
+        }
+}
 }

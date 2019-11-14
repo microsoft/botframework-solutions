@@ -61,7 +61,6 @@ namespace SkillSample
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();

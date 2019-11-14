@@ -8,7 +8,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Streaming;
@@ -79,10 +78,13 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 return response;
             }
 
-            var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
+            if (_claimsIdentity.AuthenticationType != "anonymous")
+            {
+                var appIdClaimName = AuthHelpers.GetAppIdClaimName(_claimsIdentity);
 
-            // retrieve the appid and use it to populate callerId on the activity
-            activity.CallerId = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
+                // retrieve the appid and use it to populate callerId on the activity
+                activity.CallerId = _claimsIdentity.Claims.FirstOrDefault(c => c.Type == appIdClaimName)?.Value;
+            }
 
             try
             {

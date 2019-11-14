@@ -22,7 +22,7 @@ namespace HospitalitySkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            HotelService hotelService,
+            IHotelService hotelService,
             IBotTelemetryClient telemetryClient)
             : base(nameof(CheckOutDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
@@ -51,7 +51,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateCheckOutAsync(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (promptContext.Recognized.Succeeded)
             {
@@ -71,7 +71,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> EmailPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
             if (userState.CheckedOut && string.IsNullOrWhiteSpace(userState.Email))
             {
                 // prompt for email to send receipt to
@@ -87,7 +87,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateEmailAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState(HotelService));
 
             // check for valid email input
             string response = promptContext.Recognized?.Value;
@@ -103,7 +103,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (userState.CheckedOut)
             {
