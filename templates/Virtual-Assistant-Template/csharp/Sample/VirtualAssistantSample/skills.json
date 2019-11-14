@@ -1,2 +1,660 @@
 {
+  "skillHostEndpoint": "http://localhost:3978/",
+  "skills": [
+    {
+      "id": "pointOfInterestSkill",
+      "msaAppId": "c06bda4c-db35-47d7-be2a-c541c4236fd6",
+      "name": "Point Of Interest Skill",
+      "endpoint": "https://bfpoiskill.azurewebsites.net/api/skill/messages",
+      "description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
+      "iconUrl": "https://bfpoiskill.azurewebsites.net/poiSkill.png",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "poiskill_routeFromXToY",
+          "definition": {
+            "description": "Find a route from X to Y",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "pointofinterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_cancelRoute",
+          "definition": {
+            "description": "Cancel an active route.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "pointofinterest#NAVIGATION_CANCEL_ROUTE"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_findPoI",
+          "definition": {
+            "description": "Find a point of interest.",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "pointofinterest#NAVIGATION_FIND_POINTOFINTEREST"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "poiskill_findParking",
+          "definition": {
+            "description": "Find parking",
+            "slots": [
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "pointofinterest#NAVIGATION_FIND_PARKING"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "calendarSkill",
+      "msaAppId": "f67037d3-3cb9-4a96-820c-bd3ee5e8c06e",
+      "name": "Calendar Skill",
+      "endpoint": "http://localhost:3980/api/messages",
+      "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+      "iconUrl": "https://bfcalendarskill.azurewebsites.net/calendarSkill.png",
+      "authenticationConnections": [
+        {
+          "id": "Outlook",
+          "serviceProviderId": "Azure Active Directory v2",
+          "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
+        },
+        {
+          "id": "Google",
+          "serviceProviderId": "Google",
+          "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+        }
+      ],
+      "actions": [
+        {
+          "id": "calendarskill_createEvent",
+          "definition": {
+            "description": "Create a new event",
+            "slots": [
+              {
+                "name": "title",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "content",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "attendees",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "startDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "startTime",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "duration",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "location",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#CreateCalendarEntry",
+                    "Calendar#FindMeetingRoom"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_changeEventStatus",
+          "definition": {
+            "description": "Change the status of an event (accept/decline).",
+            "slots": [
+              {
+                "name": "startDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "startTime",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#AcceptEventEntry",
+                    "Calendar#DeleteCalendarEntry"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_joinEvent",
+          "definition": {
+            "description": "Join the upcoming meeting",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#ConnectToMeeting"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_summary",
+          "definition": {
+            "description": "Retrieve a summary of meetings through an event invocation.",
+            "slots": [],
+            "triggers": {
+              "events": [
+                {
+                  "name": "summaryEvent"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_timeRemaining",
+          "definition": {
+            "description": "Find out how long until the next event",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#TimeRemaining"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_summary",
+          "definition": {
+            "description": "Find an upcoming event",
+            "slots": [
+              {
+                "name": "startDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "startTime",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "endDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "endTime",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#FindCalendarDetail",
+                    "Calendar#FindCalendarEntry",
+                    "Calendar#FindCalendarWhen",
+                    "Calendar#FindCalendarWhere",
+                    "Calendar#FindCalendarWho",
+                    "Calendar#FindDuration"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "calendarskill_updateEvent",
+          "definition": {
+            "description": "Update an existing event.",
+            "slots": [
+              {
+                "name": "startDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "startTime",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "endDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "endTime",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "newStartDate",
+                "types": [
+                  "string"
+                ]
+              },
+              {
+                "name": "newStartTime",
+                "types": [
+                  "string"
+                ]
+              }
+            ],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Calendar#ChangeCalendarEntry"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "emailSkill",
+      "msaAppId": "b522fc85-bd55-4c4f-ba8d-c7063113338c",
+      "name": "Email Skill",
+      "endpoint": "https://bfemailskill.azurewebsites.net/api/skill/messages",
+      "description": "The Email skill provides email related capabilities and supports Office and Google calendars.",
+      "iconUrl": "https://bfemailskill.azurewebsites.net/emailSkill.png",
+      "authenticationConnections": [
+        {
+          "id": "Outlook",
+          "serviceProviderId": "Azure Active Directory v2",
+          "scopes": "User.ReadBasic.All, Mail.ReadWrite, Mail.Send, People.Read, Contacts.Read"
+        },
+        {
+          "id": "Google",
+          "serviceProviderId": "Google",
+          "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+        }
+      ],
+      "actions": [
+        {
+          "id": "emailskill_sendEmail",
+          "definition": {
+            "description": "Send an email",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Email#SendEmail"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "emailskill_forwardEmail",
+          "definition": {
+            "description": "Forward an email",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Email#Forward"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "emailskill_replyEmail",
+          "definition": {
+            "description": "Reply to an email",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Email#Reply"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "emailskill_showEmail",
+          "definition": {
+            "description": "Retrieve a summary of emails.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Email#SearchMessages",
+                    "Email#CheckMessages",
+                    "Email#ReadAloud",
+                    "Email#QueryLastText"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "emailskill_deleteEmail",
+          "definition": {
+            "description": "Delete an email",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "Email#Delete"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "toDoSkill",
+      "msaAppId": "082ed740-5b26-4177-8f13-40d97096a81a",
+      "name": "ToDo Skill",
+      "endpoint": "https://bftodoskill.azurewebsites.net/api/skill/messages",
+      "description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
+      "iconUrl": "https://bftodoskill.azurewebsites.net/toDoSkill.png",
+      "authenticationConnections": [
+        {
+          "id": "Outlook",
+          "serviceProviderId": "Azure Active Directory v2",
+          "scopes": "Notes.ReadWrite, User.ReadBasic.All, Tasks.ReadWrite"
+        }
+      ],
+      "actions": [
+        {
+          "id": "toDoSkill_addToDo",
+          "definition": {
+            "description": "Add a task",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "todo#AddToDo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "toDoSkill_showToDo",
+          "definition": {
+            "description": "Show tasks",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "todo#ShowToDo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "toDoSkill_markToDo",
+          "definition": {
+            "description": "Mark a task",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "todo#MarkToDo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "toDoSkill_deleteToDo",
+          "definition": {
+            "description": "Delete a task",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "todo#DeleteToDo"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "newsSkill",
+      "msaAppId": "0f2fa036-1de3-4012-9b34-64ca1da5f754",
+      "name": "News Skill",
+      "endpoint": "https://bfnewsskill.azurewebsites.net/api/skill/messages",
+      "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
+      "iconUrl": "https://bfnewsskill.azurewebsites.net/newsSkill.png",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "newsSkill_findArticles",
+          "definition": {
+            "description": "Find News articles",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "news#FindArticles"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "BingSearchSkill",
+      "msaAppId": "c017cf7e-e88b-48aa-86c4-2126d97cc30f",
+      "name": "BingSearchSkill",
+      "endpoint": "https://bfsearchskill.azurewebsites.net/api/skill/messages",
+      "description": "",
+      "iconUrl": "https://bfsearchskill.azurewebsites.net/BingSearchSkill.png",
+      "authenticationConnections": [],
+      "actions": [
+        {
+          "id": "BingSearchSkill_GetCelebrityInfo",
+          "definition": {
+            "description": "Get celebrity info.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#GetCelebrityInfo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "BingSearchSkill_SearchMovieInfo",
+          "definition": {
+            "description": "Search movie info.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#SearchMovieInfo"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "BingSearchSkill_QueryQna",
+          "definition": {
+            "description": "Query Qna.",
+            "slots": [],
+            "triggers": {
+              "utteranceSources": [
+                {
+                  "locale": "en",
+                  "source": [
+                    "BingSearchSkill#QueryQna"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

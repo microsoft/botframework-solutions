@@ -111,6 +111,8 @@ namespace VirtualAssistantSample
             var localeTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us");
             services.AddSingleton(localeTemplateEngineManager);
 
+            services.AddSingleton<SkillConfiguration>();
+
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<OnboardingDialog>();
@@ -136,6 +138,7 @@ namespace VirtualAssistantSample
 
             // force this to be resolved
             var skillAdapter = services.BuildServiceProvider().GetService<BotFrameworkSkillHostAdapter>();
+            skillAdapter.SkillHostEndpoint = new Uri(Configuration.GetSection("skillHostEndpoint").Value);
             settings.Skills.ForEach(s =>
             {
                 skillAdapter.Skills.Add(new BotFrameworkSkill
