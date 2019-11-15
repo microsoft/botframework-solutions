@@ -319,6 +319,11 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var unconfirmedPerson = state.MeetingInfor.ContactInfor.UnconfirmedContact;
+                if (!unconfirmedPerson.Any() && state.MeetingInfor.ContactInfor.ConfirmedContact != null)
+                {
+                    return await sc.NextAsync();
+                }
+
                 if (unconfirmedPerson.Count == 1 && unconfirmedPerson.First().Emails.Count == 1)
                 {
                     state.MeetingInfor.ContactInfor.ConfirmedContact = unconfirmedPerson.FirstOrDefault();
@@ -490,22 +495,15 @@ namespace CalendarSkill.Dialogs
                 var options = (FindContactDialogOptions)sc.Options;
                 var currentRecipientName = state.MeetingInfor.ContactInfor.CurrentContactName;
 
-                // if it's an email, add to attendee and kepp the state.MeetingInfor.ContactInfor.ConfirmedContact null
+                // if it's an email
                 if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
                 {
-                    var attendee = new EventModel.Attendee
+                    state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
+                    state.MeetingInfor.ContactInfor.ConfirmedContact = new CustomizedPerson()
                     {
                         DisplayName = currentRecipientName,
-                        Address = currentRecipientName,
-                        UserPrincipalName = currentRecipientName,
+                        Emails = new List<ScoredEmailAddress>() { new ScoredEmailAddress() { Address = currentRecipientName } }
                     };
-                    if (state.MeetingInfor.ContactInfor.Contacts.All(r => r.Address != attendee.Address))
-                    {
-                        state.MeetingInfor.ContactInfor.Contacts.Add(attendee);
-                    }
-
-                    state.MeetingInfor.ContactInfor.CurrentContactName = string.Empty;
-                    state.MeetingInfor.ContactInfor.ConfirmedContact = null;
                     return await sc.EndDialogAsync();
                 }
 
