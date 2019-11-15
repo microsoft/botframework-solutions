@@ -10,12 +10,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class $safeprojectname$Luis: IRecognizerConvert
+    public class $safeprojectname$Luis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            Sample, 
+        public enum Intent
+        {
+            Sample,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -33,7 +34,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties {get; set; }
+        public IDictionary<string, object> Properties { get; set; }
 
         public void Convert(dynamic result)
         {
