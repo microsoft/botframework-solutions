@@ -18,11 +18,22 @@
                             "source": [
                                 "connectableSkill#Test"
                             ]
-                        },
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "connectableSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
                         {
-                            "locale": "en-us",
+                            "locale": "es-es",
                             "source": [
-                                "connectableSkill#Test2"
+                                "connectableSkill#Prueba"
                             ]
                         }
                     ]
