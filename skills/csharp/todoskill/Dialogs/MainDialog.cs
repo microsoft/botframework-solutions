@@ -10,10 +10,10 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
@@ -278,13 +278,7 @@ namespace ToDoSkill.Dialogs
             // Initialize PageSize and TaskServiceType when the first input comes.
             if (state.PageSize <= 0)
             {
-                var pageSize = 0;
-
-                if (_settings.DisplaySize != null)
-                {
-                    pageSize = _settings.DisplaySize;
-                }
-
+                var pageSize = _settings.DisplaySize;
                 state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
             }
 

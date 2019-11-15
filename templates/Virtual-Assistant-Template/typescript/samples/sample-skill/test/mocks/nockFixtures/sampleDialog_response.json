@@ -9,7 +9,7 @@
             "query": "sample dialog",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.101148374
+                "score": 0.17715013
             },
             "entities": []
         },
@@ -19,13 +19,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "134",
+            "133",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "7933169a-ece2-4518-89be-8cbbc53c08b5",
+            "809a8daf-d1fe-4d1a-a5f5-ff20c6a75b13",
             "Request-Id",
-            "7933169a-ece2-4518-89be-8cbbc53c08b5",
+            "809a8daf-d1fe-4d1a-a5f5-ff20c6a75b13",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:27:35 GMT",
+            "Fri, 06 Sep 2019 15:45:34 GMT",
             "Connection",
             "close"
         ]
@@ -62,9 +62,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "4a051c32-65c0-419a-be32-6d0c319a6e90",
+            "8a95fce8-d931-4d8f-8785-e65ea29d3828",
             "Request-Id",
-            "4a051c32-65c0-419a-be32-6d0c319a6e90",
+            "8a95fce8-d931-4d8f-8785-e65ea29d3828",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -72,7 +72,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:27:36 GMT",
+            "Fri, 06 Sep 2019 15:45:35 GMT",
             "Connection",
             "close"
         ]
@@ -87,7 +87,7 @@
             "query": "custom",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.259246022
+                "score": 0.5011607
             },
             "entities": []
         },
@@ -97,13 +97,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "127",
+            "125",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "ca93ea26-8222-4a02-93d4-3e32ea1edc8d",
+            "3d1b4199-b3b6-4e8b-88e0-04329a85f55a",
             "Request-Id",
-            "ca93ea26-8222-4a02-93d4-3e32ea1edc8d",
+            "3d1b4199-b3b6-4e8b-88e0-04329a85f55a",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -111,7 +111,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:27:37 GMT",
+            "Fri, 06 Sep 2019 15:45:36 GMT",
             "Connection",
             "close"
         ]
@@ -140,9 +140,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "f35b604c-e6eb-46f4-8aa3-3189b8e7bcba",
+            "91b3438d-8a9d-4eb7-aedb-bf7577a62118",
             "Request-Id",
-            "f35b604c-e6eb-46f4-8aa3-3189b8e7bcba",
+            "91b3438d-8a9d-4eb7-aedb-bf7577a62118",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -150,7 +150,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:27:37 GMT",
+            "Fri, 06 Sep 2019 15:45:36 GMT",
             "Connection",
             "close"
         ]

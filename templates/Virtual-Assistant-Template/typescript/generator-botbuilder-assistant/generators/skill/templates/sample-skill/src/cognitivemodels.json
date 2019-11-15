@@ -1,7 +1,7 @@
 {
   "defaultLocale": "en-us",
   "cognitiveModels": {
-    "en": {
+    "en-us": {
       "languageModels": [
         {
           "id": "general",

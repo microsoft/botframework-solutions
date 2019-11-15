@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -19,6 +19,7 @@ using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Main;
 using $safeprojectname$.Responses.Shared;
 using $safeprojectname$.Services;
+using System.Linq;
 
 namespace $safeprojectname$.Dialogs
 {
@@ -60,9 +61,7 @@ namespace $safeprojectname$.Dialogs
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
@@ -100,7 +99,7 @@ namespace $safeprojectname$.Dialogs
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
                             break;
                         }
-                }
+            	}
             }
         }
 
@@ -141,9 +140,7 @@ namespace $safeprojectname$.Dialogs
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);

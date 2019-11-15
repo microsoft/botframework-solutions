@@ -8,6 +8,10 @@ namespace CalendarSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string AzureMapsKey { get; set; }
+        
+        public string BingSpellCheckSubscriptionKey { get; set; }
+
         public string GoogleAppName { get; set; }
 
         public string GoogleClientId { get; set; }
@@ -50,9 +54,5 @@ namespace CalendarSkill.Services
                 public string Value { get; set; }
             }
         }
-
-        public string AzureMapsKey { get; set; }
-
-        public string BingSpellCheckSubscriptionKey { get; set; }
     }
 }

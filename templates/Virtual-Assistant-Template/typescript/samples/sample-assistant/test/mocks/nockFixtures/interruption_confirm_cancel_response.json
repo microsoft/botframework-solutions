@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "bedf24cb-c7c7-4845-b19f-46432dbf0336",
+            "6cae6fe1-3f6e-4ac6-83d2-04462fba8108",
             "Request-Id",
-            "bedf24cb-c7c7-4845-b19f-46432dbf0336",
+            "6cae6fe1-3f6e-4ac6-83d2-04462fba8108",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Wed, 15 May 2019 20:16:49 GMT",
+            "Fri, 06 Sep 2019 16:15:35 GMT",
             "Connection",
             "close"
         ]
@@ -48,7 +48,7 @@
             "query": "Yes",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.9846962
+                "score": 0.9801169
             },
             "entities": []
         },
@@ -62,9 +62,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "acdde08d-d9de-4ff2-9f1f-773b36072912",
+            "706e1805-0463-4bf0-b2ba-00c2b3bca21f",
             "Request-Id",
-            "acdde08d-d9de-4ff2-9f1f-773b36072912",
+            "706e1805-0463-4bf0-b2ba-00c2b3bca21f",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -72,7 +72,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Wed, 15 May 2019 20:16:49 GMT",
+            "Fri, 06 Sep 2019 16:15:36 GMT",
             "Connection",
             "close"
         ]

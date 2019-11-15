@@ -6,7 +6,7 @@
 const { join } = require(`path`);
 const templateFiles = new Map();
 const deploymentTemplateFiles = new Map();
-const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const allLanguages = [`zh-cn`, `de-de`, `en-us`, `fr-fr`, `it-it`, `es-es`];
 let ignoredLanguages = [];
 class Copier {
   // Constructor

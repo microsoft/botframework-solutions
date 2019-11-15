@@ -27,8 +27,8 @@
         "helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
         "helpText": "Je suis ton assistante virtuelle! Je peux effectuer un certain nombre de tâches à travers mes compétences connectées. En ce moment je peux vous aider avec le calendrier, email, la tâche et le point d'intérêt des questions. Ou vous pouvez m'aider à faire plus en créant votre propre!",
         "helpTitle": "Aide pour Virtual Assistant",
-        "introGreetingFile": "NewUserGreeting.fr.json",
-        "introReturningFile": "ReturningUserGreeting.fr.json",
+        "introGreetingFile": "NewUserGreeting.fr-fr.json",
+        "introReturningFile": "ReturningUserGreeting.fr-fr.json",
         "logOut": "Ok, vous êtes déconnecté."
     },
     "onboarding": {

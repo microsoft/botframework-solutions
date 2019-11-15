@@ -11,7 +11,6 @@ namespace AutomotiveSkill
     using AutomotiveSkill.Responses.Shared;
     using AutomotiveSkill.Responses.VehicleSettings;
     using AutomotiveSkill.Services;
-    using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -21,20 +20,19 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.BotFramework;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
-    using Microsoft.Bot.Builder.Skills;
-    using Microsoft.Bot.Builder.Skills.Auth;
     using Microsoft.Bot.Builder.Solutions;
     using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.Skills.Auth;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
-        private bool _isProduction = false;
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -58,7 +56,8 @@ namespace AutomotiveSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            // Configure MVC
+            services.AddControllers();
 
             // Load settings
             var settings = new BotSettings();
@@ -125,13 +124,18 @@ namespace AutomotiveSkill
         /// </summary>
         /// <param name="app">Application Builder.</param>
         /// <param name="env">Hosting Environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _isProduction = env.IsProduction();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
-                .UseMvc();
+                .UseRouting()
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Localization_Spanish()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("es-mx");
+            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -111,5 +111,23 @@ namespace $safeprojectname$
                 })
                 .StartTestAsync();
         }
-    }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                })
+                .AssertReply(activity =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    CollectionAssert.Contains(ParseReplies(MainResponses.WelcomeMessage, new StringDictionary()), messageActivity.Text);
+                })
+                .StartTestAsync();
+        }
+	}
 }

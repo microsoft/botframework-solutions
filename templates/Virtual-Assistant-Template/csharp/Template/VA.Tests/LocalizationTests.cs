@@ -17,7 +17,7 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Localization_Spanish()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("es-mx");
+            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -126,6 +126,20 @@ namespace $safeprojectname$
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
                     Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
                 })
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_Defaulting_Localization()
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
+            await GetTestFlow()
+                .Send(new Activity()
+                {
+                    Type = ActivityTypes.ConversationUpdate,
+                    MembersAdded = new List<ChannelAccount>() { new ChannelAccount("bot") }
+                })
+                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
         }
     }

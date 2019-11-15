@@ -12,10 +12,10 @@ using HospitalitySkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -312,13 +312,14 @@ namespace HospitalitySkill.Dialogs
             // Example of populating local state with data passed through semanticAction out of Activity
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            //if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-            //{
+
+            // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            // {
             //    var location = semanticAction.Entities["location"];
             //    var locationObj = location.Properties["location"].ToString();
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
-            //}
+            // }
         }
     }
 }

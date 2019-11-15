@@ -40,9 +40,10 @@ namespace ITSMSkill.Dialogs
             var showTicket = new WaterfallStep[]
             {
                 ShowConstraints,
-                //BeginShowTicketLoop,
-                //BeginShowAttributeLoop,
-                //LoopShowTicket,
+
+                // BeginShowTicketLoop,
+                // BeginShowAttributeLoop,
+                // LoopShowTicket,
             };
 
             var showAttribute = new WaterfallStep[]
