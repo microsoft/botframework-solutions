@@ -660,6 +660,14 @@ namespace CalendarSkill.Dialogs
                 }
             };
 
+            var taskList = new Task<string>[AdaptiveCardHelper.MaxDisplayRecipientNum];
+            for (int i = 0; i < AdaptiveCardHelper.MaxDisplayRecipientNum; i++)
+            {
+                taskList[i] = GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, i);
+            }
+
+            Task.WaitAll(taskList);
+
             var participantContainerList = new List<Card>();
 
             var participantContainerCard = new Card()
@@ -672,11 +680,11 @@ namespace CalendarSkill.Dialogs
                     Date = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("dddd M/d"),
                     Time = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("h:mm tt"),
                     Location = eventItem.Location,
-                    ParticipantPhoto1 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 0),
-                    ParticipantPhoto2 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 1),
-                    ParticipantPhoto3 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 2),
-                    ParticipantPhoto4 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 3),
-                    ParticipantPhoto5 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 4),
+                    ParticipantPhoto1 = taskList[0].Result,
+                    ParticipantPhoto2 = taskList[1].Result,
+                    ParticipantPhoto3 = taskList[2].Result,
+                    ParticipantPhoto4 = taskList[3].Result,
+                    ParticipantPhoto5 = taskList[4].Result,
                     OmittedParticipantCount = eventItem.Attendees.Count - 4,
                     LocationIcon = string.IsNullOrEmpty(eventItem.Location) ? AdaptiveCardHelper.BlankIcon : AdaptiveCardHelper.LocationIcon,
                     Duration = eventItem.ToDisplayDurationString(),
