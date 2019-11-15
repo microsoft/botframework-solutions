@@ -4,11 +4,11 @@
  */
 
 import * as program from 'commander';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
-import { IAppSetting, ICognitiveModel, IConnectConfiguration } from './models';
+import { IAppSetting, IConnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -58,7 +58,6 @@ let botName: string = '';
 let localManifest: string;
 let remoteManifest: string;
 let noRefresh: boolean = false;
-let dispatchName: string;
 let languages: string[];
 let luisFolder: string;
 let dispatchFolder: string;

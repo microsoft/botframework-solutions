@@ -9,7 +9,7 @@ import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
     IAction,
-    ICognitiveModelFile,
+    ICognitiveModel,
     IConnectConfiguration,
     IRefreshConfiguration,
     ISkillFile,
@@ -149,7 +149,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         }
     }
 
-    private async validateCultures(cognitiveModelsFile: ICognitiveModelFile, luisDictionary: Map<string, string[]>): Promise<void> {
+    private async validateCultures(cognitiveModelsFile: ICognitiveModel, luisDictionary: Map<string, string[]>): Promise<void> {
         const dispatchLanguages: string [] = Object.keys(cognitiveModelsFile.cognitiveModels)
             .filter((key: string): boolean => cognitiveModelsFile.cognitiveModels[key].dispatchModel !== undefined);
         const manifestLanguages: string[] = Array.from(luisDictionary.keys());
@@ -238,7 +238,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             this.logger.message('Adding skill to Dispatch');
 
             // eslint-disable-next-line @typescript-eslint/tslint/config
-            const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
+            const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
             const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
 
             const executionsModelMap: Map<string, Map<string, string>> = new Map();
@@ -284,7 +284,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             }
             // Take cognitiveModels
             // eslint-disable-next-line @typescript-eslint/tslint/config
-            const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
+            const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
             // Take skillManifest
             const skillManifest: ISkillManifest = await this.getManifest();
             // Manifest schema validation

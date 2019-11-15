@@ -1,4 +1,4 @@
-import { ICognitiveModelFile } from '../models';
+import { ICognitiveModel } from '../models';
 
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
@@ -10,7 +10,7 @@ import { ICognitiveModelFile } from '../models';
  * @returns Returns a map containing the culture with the related dispatchName
  */
 // tslint:disable-next-line:export-name
-export function getDispatchNames(cognitiveModelsFile: ICognitiveModelFile): Map<string, string> {
+export function getDispatchNames(cognitiveModelsFile: ICognitiveModel): Map<string, string> {
     try {
         const dispatchNames: Map<string, string> = new Map();
         for (const [key, value] of Object.entries(cognitiveModelsFile.cognitiveModels)) {

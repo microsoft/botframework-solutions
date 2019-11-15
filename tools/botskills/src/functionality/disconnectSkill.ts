@@ -8,7 +8,7 @@ import { join } from 'path';
 import { RefreshSkill } from '../functionality';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
-    ICognitiveModelFile,
+    ICognitiveModel,
     IDisconnectConfiguration,
     IDispatchFile,
     IDispatchService,
@@ -33,7 +33,7 @@ export class DisconnectSkill {
                 this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         }
         // eslint-disable-next-line @typescript-eslint/tslint/config
-        const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
+        const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
         const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
         Array.from(dispatchNames.entries())
             .map((item: [string, string]): void => {

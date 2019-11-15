@@ -282,12 +282,12 @@ export class AuthenticationUtils {
                 logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`);
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                        .join(', ')}`);
+        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 logger.warning(`${err.message || err} You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-                        .join(', ')}`);
+        .join(', ')}`);
                 logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else {
                 logger.warning(err.message || err);

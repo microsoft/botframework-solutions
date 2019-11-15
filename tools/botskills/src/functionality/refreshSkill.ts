@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
-import { ICognitiveModelFile, IRefreshConfiguration } from '../models';
+import { ICognitiveModel, IRefreshConfiguration } from '../models';
 import { ChildProcessUtils, getDispatchNames, wrapPathWithQuotes } from '../utils';
 
 export class RefreshSkill {
@@ -110,7 +110,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         }
         // eslint-disable-next-line @typescript-eslint/tslint/config
-        const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
+        const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
         const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
         const executionsModelMap: Map<string, Map<string, string>> = new Map();
         dispatchNames.forEach((dispatchName: string, culture: string): void => {

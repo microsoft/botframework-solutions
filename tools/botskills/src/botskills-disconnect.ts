@@ -8,7 +8,7 @@ import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
-import { ICognitiveModel, IDisconnectConfiguration } from './models';
+import { IDisconnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -58,7 +58,6 @@ let cognitiveModelsFile: string;
 let languages: string[];
 let dispatchFolder: string;
 let lgOutFolder: string;
-let dispatchName: string;
 let lgLanguage: string;
 
 logger.isVerbose = args.verbose;
