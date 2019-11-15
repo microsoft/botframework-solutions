@@ -31,13 +31,13 @@ steps:
   displayName: 'NuGet restore'
   inputs:
     # if your working directory is not root, you may change the following path
-    restoreSolution: '$safeprojectname$.sln'
+    restoreSolution: 'VirtualAssistantSample.sln'
 
 - task: VSBuild@1
-  displayName: 'Build solution $safeprojectname$.sln'
+  displayName: 'Build solution VirtualAssistantSample.sln'
   inputs:
     # if your working directory is not root, you may change the following path
-    solution: $safeprojectname$.sln
+    solution: VirtualAssistantSample.sln
     vsVersion: '16.0'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
@@ -47,18 +47,18 @@ steps:
   inputs:
     command: test
     # if your working directory is not root, you may change the following path
-    projects: '$(System.DefaultWorkingDirectory)\$safeprojectname$.Tests.csproj'
+    projects: '$(System.DefaultWorkingDirectory)\VirtualAssistantSample.Tests.csproj'
     arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     # if your working directory is not root, you may change the following path
-    workingDirectory: '$safeprojectname$.Tests'
+    workingDirectory: 'VirtualAssistantSample.Tests'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
     # if your working directory is not root, you may change the following path
-    summaryFileLocation: '$(Build.SourcesDirectory)\$safeprojectname$.Tests\coverage.cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)\$safeprojectname$.Tests'
+    summaryFileLocation: '$(Build.SourcesDirectory)\VirtualAssistantSample.Tests\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\VirtualAssistantSample.Tests'
 
  - task: CopyFiles@2
   displayName: 'Copy VA'
