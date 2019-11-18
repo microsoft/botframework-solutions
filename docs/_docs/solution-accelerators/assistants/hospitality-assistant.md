@@ -34,12 +34,6 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *Tell me about the jurassic park movie*
 - *Who is Bill Gates?*
 
-#### [Event Skill]({{site.baseurl}}/skills/samples/event)
-{:.no_toc}
-##### Find local events
-{:.no_toc}
-- *What's happening nearby?* 
-
 #### [Hospitality Skill]({{site.baseurl}}/skills/samples/hospitality)
 {:.no_toc}
 ##### Guest reservation changes
@@ -85,7 +79,6 @@ To configure this sample follow the steps below:
 1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
 1. Clone the following skills from our repository:
     - [Hospitality Skill]({{site.repo}}/tree/next/skills/csharp/experimental/hospitalityskill)
-    - [Event Skill]({{site.repo}}/tree/next/skills//csharp/experimental/eventskill)
     - [Point of Interest Skill]({{site.repo}}/tree/next/skills/csharp/pointofinterestskill)
     - [Weather Skill]({{site.repo}}/tree/next/skills/csharp/experimental/weatherskill)
     - [Bing Search Skill]({{site.repo}}/tree/next/skills/csharp/experimental/bingsearchskill)

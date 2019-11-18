@@ -23,7 +23,12 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
 1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
-2. Run the following command:
+1. Run the following command to login to Azure:
+    ```shell
+    az login
+    ```
+
+1. Run the following command:
 
     ```shell
     ./Deployment/Scripts/deploy.ps1

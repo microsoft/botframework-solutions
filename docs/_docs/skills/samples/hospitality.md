@@ -24,4 +24,4 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
-The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
+The [Hospitality Sample VA]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
