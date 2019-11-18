@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -14,9 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $ext_safeprojectname$.Bots;
 using $ext_safeprojectname$.Dialogs;
-using $ext_safeprojectname$.Responses.Main;
-using $ext_safeprojectname$.Responses.Sample;
-using $ext_safeprojectname$.Responses.Shared;
 using $ext_safeprojectname$.Services;
 using $safeprojectname$.Utilities;
 
@@ -25,6 +24,8 @@ namespace $safeprojectname$
     public class SkillTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
+
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         [TestInitialize]
         public virtual void InitializeSkill()
@@ -38,7 +39,7 @@ namespace $safeprojectname$
                     {
                         "en-us", new CognitiveModelSet
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() },
                                 { "$ext_safeprojectname$", SkillTestUtil.CreateRecognizer() }
@@ -59,17 +60,35 @@ namespace $safeprojectname$
                 return new BotStateSet(userState, conversationState);
             });
 
-            ResponseManager = new ResponseManager(
-                new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" },
-                new MainResponses(),
-                new SharedResponses(),
-                new SampleResponses());
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "SampleResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
-            Services.AddSingleton(ResponseManager);
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TemplateEngine);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<SampleDialog>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()
@@ -84,6 +103,11 @@ namespace $safeprojectname$
             });
 
             return testFlow;
+        }
+
+        public string[] GetTemplates(string name, object data = null)
+        {
+            return TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate(name, data).ToArray();
         }
     }
 }

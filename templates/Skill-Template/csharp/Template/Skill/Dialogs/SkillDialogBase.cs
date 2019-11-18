@@ -4,21 +4,19 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Models;
-using $safeprojectname$.Responses.Shared;
 using $safeprojectname$.Services;
-using Microsoft.Bot.Builder.Solutions;
-using System.Linq;
 
 namespace $safeprojectname$.Dialogs
 {
@@ -26,18 +24,18 @@ namespace $safeprojectname$.Dialogs
     {
         public SkillDialogBase(
              string dialogId,
-             BotSettings settings,
-             BotServices services,
-             ResponseManager responseManager,
-             ConversationState conversationState,
+             IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
-            Settings = settings;
-            Services = services;
-            ResponseManager = responseManager;
-            StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            Settings = serviceProvider.GetService<BotSettings>();
+            Services = serviceProvider.GetService<BotServices>();
+            TemplateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
             TelemetryClient = telemetryClient;
+
+            // Initialize skill state
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!settings.OAuthConnections.Any())
@@ -54,19 +52,7 @@ namespace $safeprojectname$.Dialogs
 
         protected IStatePropertyAccessor<SkillState> StateAccessor { get; set; }
 
-        protected ResponseManager ResponseManager { get; set; }
-
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await GetLuisResult(dc);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await GetLuisResult(dc);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
@@ -139,21 +125,6 @@ namespace $safeprojectname$.Dialogs
             }
         }
 
-        // Helpers
-        protected async Task GetLuisResult(DialogContext dc)
-        {
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
-            {
-                var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
-                var localeConfig = Services.GetCognitiveModels();
-                var luisService = localeConfig.LuisServices["$safeprojectname$"];
-
-                // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<$safeprojectname$Luis>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
-            }
-        }
-
         // This method is called by any waterfall step that throws an exception to ensure consistency
         protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
@@ -165,25 +136,11 @@ namespace $safeprojectname$.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"));
 
             // clear state
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
-        }
-
-        private CognitiveModelSet GetCognitiveModels()
-        {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
-
-            var cognitiveModel = Services.CognitiveModelSets.ContainsKey(locale)
-                ? Services.CognitiveModelSets[locale]
-                : Services.CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
-                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
-                                        "Please review your available locales in your cognitivemodels.json file.");
-
-            return cognitiveModel;
         }
     }
 }
