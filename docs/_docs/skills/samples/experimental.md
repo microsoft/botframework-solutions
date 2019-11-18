@@ -310,7 +310,7 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample
 
 ### IT Service Management Skill
 
-The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
 This skill demonstrates the following scenarios:
 - Create a ticket: *Create a ticket for my broken laptop*
