@@ -119,34 +119,42 @@ namespace ToDoSkill.Dialogs
                     state.ShowTaskPageIndex = state.TaskIndexes[0] / state.PageSize;
                 }
 
-                //ResponseTemplate response = null;
-                //if (state.MarkOrDeleteAllTasksFlag)
-                //{
-                //    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
-                //    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", state.ListType } });
-                //    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
-                //}
-                //else
-                //{
-                //    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
-                //    var taskContent = state.AllTasks[completedTaskIndex].Topic;
-                //    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
-                //    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
-                //    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
+                if (state.MarkOrDeleteAllTasksFlag)
+                {
+                    var markToDoCard = await ToAdaptiveCardForTaskCompletedFlowByLG(
+                        sc.Context,
+                        state.Tasks,
+                        state.AllTasks.Count,
+                        taskTopicToBeMarked,
+                        state.ListType,
+                        state.MarkOrDeleteAllTasksFlag);
+                    await sc.Context.SendActivityAsync(markToDoCard.Speak, speak: markToDoCard.Speak);
+                }
+                else
+                {
+                    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
+                    var taskContent = state.AllTasks[completedTaskIndex].Topic;
+                    var markToDoCard = await ToAdaptiveCardForTaskCompletedFlowByLG(
+                      sc.Context,
+                      state.Tasks,
+                      state.AllTasks.Count,
+                      taskContent,
+                      state.ListType,
+                      state.MarkOrDeleteAllTasksFlag);
+                    await sc.Context.SendActivityAsync(markToDoCard.Speak, speak: markToDoCard.Speak);
 
-                //    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
-                //    if (uncompletedTaskCount == 1)
-                //    {
-                //        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask);
-                //    }
-                //    else
-                //    {
-                //        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks);
-                //    }
-
-                //    var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
-                //    await sc.Context.SendActivityAsync(taskSummary, speak: taskSummary);
-                //}
+                    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
+                    if (uncompletedTaskCount == 1)
+                    {
+                        var activity = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask, sc.Context, new { ListType = state.ListType });
+                        await sc.Context.SendActivityAsync(activity);
+                    }
+                    else
+                    {
+                        var activity = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, sc.Context, new { AllTasksCount = uncompletedTaskCount.ToString(), ListType = state.ListType });
+                        await sc.Context.SendActivityAsync(activity);
+                    }
+                }
 
                 return await sc.EndDialogAsync(true);
             }

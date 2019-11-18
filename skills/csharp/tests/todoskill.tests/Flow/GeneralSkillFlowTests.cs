@@ -28,7 +28,7 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] ConfusedResponse()
         {
-            return this.ParseReplies(ToDoMainResponses.DidntUnderstandMessage, new StringDictionary());
+            return GetTemplates(ToDoMainResponses.DidntUnderstandMessage, null);
         }
     }
 }

@@ -2,7 +2,7 @@
 - He marcado todas sus tareas como completas en su {ListType} Lista.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- He completado {TaskContent} en su {ListType} Lista.
+- OK, he marcado '{TaskContent}' en su {ListType} lista como completa.
 
 # ListTypePromptForComplete.Text
 - ¿Puede ser específico de qué lista desea completar una tarea? ¿Es su lista de tareas pendientes, lista de compras o lista de comestibles?
@@ -18,4 +18,10 @@
 
 # CompleteAnotherTaskConfirmFailed.Text
 - Lo siento, no entendí lo que querías decir. ¿Desea completar otra tarea?
+
+# AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
+- Ahora tiene 1 elemento en su {ListType} Lista.
+
+# AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
+- Ahora tienes {AllTasksCount} artículos en su {ListType} Lista.
 

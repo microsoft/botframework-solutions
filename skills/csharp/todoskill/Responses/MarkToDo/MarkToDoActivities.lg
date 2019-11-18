@@ -50,3 +50,17 @@
   - @{AfterAllTasksCompleted.Text(ListType)}
 - ELSE:
   - @{AfterTaskCompleted.Text(TaskContent, ListType)}
+
+# AfterCompleteCardSummaryMessageForSingleTask
+[Activity
+    Text = {AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)}
+    Speak = {AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)}
+    InputHint = ignoringInput
+]
+
+# AfterCompleteCardSummaryMessageForMultipleTasks
+[Activity
+    Text = {AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)}
+    Speak = {AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)}
+    InputHint = ignoringInput
+]
