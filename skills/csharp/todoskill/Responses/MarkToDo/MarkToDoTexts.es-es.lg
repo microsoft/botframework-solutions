@@ -1,0 +1,21 @@
+# AfterAllTasksCompleted.Text(ListType)
+- He marcado todas sus tareas como completas en su {ListType} Lista.
+
+# AfterTaskCompleted.Text(TaskContent, ListType)
+- He completado {TaskContent} en su {ListType} Lista.
+
+# ListTypePromptForComplete.Text
+- ¿Puede ser específico de qué lista desea completar una tarea? ¿Es su lista de tareas pendientes, lista de compras o lista de comestibles?
+
+# AskTaskIndexForComplete.Text
+- ¿Qué tarea desea completar? También es posible completar todas sus tareas diciendo completar todo.
+
+# AskTaskIndexRetryForComplete.Text
+- Lo siento, no pude encontrar esta tarea. Por favor, inténtelo de nuevo. ¿Qué tarea desea completar?
+
+# CompleteAnotherTaskPrompt.Text
+- ¿Desea completar otra tarea?
+
+# CompleteAnotherTaskConfirmFailed.Text
+- Lo siento, no entendí lo que querías decir. ¿Desea completar otra tarea?
+

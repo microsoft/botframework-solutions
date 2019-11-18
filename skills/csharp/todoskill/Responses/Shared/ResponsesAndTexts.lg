@@ -1,0 +1,6 @@
+﻿[import](AddToDoActivities.lg)
+[import](DeleteToDoActivities.lg)
+[import](ToDoMainActivities.lg)
+[import](ToDoSharedActivities.lg)
+[import](MarkToDoActivities.lg)
+[import](ShowToDoActivities.lg)

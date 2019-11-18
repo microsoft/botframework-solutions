@@ -3,14 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -28,14 +26,13 @@ namespace ToDoSkill.Dialogs
         public MarkToDoItemDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
             IHttpContextAccessor httpContext)
-            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
+            : base(nameof(MarkToDoItemDialog), settings, services, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -122,34 +119,34 @@ namespace ToDoSkill.Dialogs
                     state.ShowTaskPageIndex = state.TaskIndexes[0] / state.PageSize;
                 }
 
-                ResponseTemplate response = null;
-                if (state.MarkOrDeleteAllTasksFlag)
-                {
-                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
-                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", state.ListType } });
-                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
-                }
-                else
-                {
-                    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
-                    var taskContent = state.AllTasks[completedTaskIndex].Topic;
-                    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
-                    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
-                    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
+                //ResponseTemplate response = null;
+                //if (state.MarkOrDeleteAllTasksFlag)
+                //{
+                //    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
+                //    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", state.ListType } });
+                //    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
+                //}
+                //else
+                //{
+                //    var completedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == true);
+                //    var taskContent = state.AllTasks[completedTaskIndex].Topic;
+                //    response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
+                //    var completeSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", state.ListType } });
+                //    await sc.Context.SendActivityAsync(completeSummary, speak: completeSummary);
 
-                    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
-                    if (uncompletedTaskCount == 1)
-                    {
-                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask);
-                    }
-                    else
-                    {
-                        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks);
-                    }
+                //    int uncompletedTaskCount = state.AllTasks.Where(t => t.IsCompleted == false).Count();
+                //    if (uncompletedTaskCount == 1)
+                //    {
+                //        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForSingleTask);
+                //    }
+                //    else
+                //    {
+                //        response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks);
+                //    }
 
-                    var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
-                    await sc.Context.SendActivityAsync(taskSummary, speak: taskSummary);
-                }
+                //    var taskSummary = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", uncompletedTaskCount.ToString() }, { "listType", state.ListType } });
+                //    await sc.Context.SendActivityAsync(taskSummary, speak: taskSummary);
+                //}
 
                 return await sc.EndDialogAsync(true);
             }
@@ -185,7 +182,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePromptForComplete);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.ListTypePromptForComplete, sc.Context, null);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -253,11 +250,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetryForComplete);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AskTaskIndexRetryForComplete, sc.Context, null);
                     }
                     else
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexForComplete);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.AskTaskIndexForComplete, sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -345,8 +342,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskPrompt);
-                var retryPrompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.CompleteAnotherTaskPrompt, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(MarkToDoResponses.CompleteAnotherTaskConfirmFailed, sc.Context, null);
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -376,7 +373,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
             }

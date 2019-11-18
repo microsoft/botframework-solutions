@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -26,14 +25,13 @@ namespace ToDoSkill.Dialogs
         public AddToDoItemDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
             IHttpContextAccessor httpContext)
-            : base(nameof(AddToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
+            : base(nameof(AddToDoItemDialog), settings, services, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -121,21 +119,21 @@ namespace ToDoSkill.Dialogs
                     state.ShowTaskPageIndex = 0;
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                     state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                    var toDoListCard = ToAdaptiveCardForTaskAddedFlow(
+
+                    var toDoListCard = await ToAdaptiveCardForTaskAddedFlowByLG(
                         sc.Context,
                         state.Tasks,
                         state.TaskContent,
                         state.AllTasks.Count,
                         state.ListType);
-
-                    toDoListCard.InputHint = InputHints.IgnoringInput;
                     await sc.Context.SendActivityAsync(toDoListCard);
 
                     return await sc.NextAsync();
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -177,7 +175,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = ResponseManager.GetResponse(AddToDoResponses.AskTaskContentText);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, sc.Context, null);
+
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -248,9 +247,17 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = ResponseManager.GetResponse(AddToDoResponses.SwitchListType, tokens: token);
-                var retryPrompt = ResponseManager.GetResponse(AddToDoResponses.SwitchListTypeConfirmFailed, tokens: token);
+
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListType, sc.Context, new
+                {
+                    ListType = state.ListType
+                });
+
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListTypeConfirmFailed, sc.Context, new
+                {
+                    ListType = state.ListType
+                });
+
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -315,9 +322,16 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var token = new StringDictionary() { { "taskContent", state.TaskContent } };
-                    var prompt = ResponseManager.GetResponse(AddToDoResponses.AskAddDupTaskPrompt, tokens: token);
-                    var retryPrompt = ResponseManager.GetResponse(AddToDoResponses.AskAddDupTaskConfirmFailed);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskPrompt, sc.Context, new
+                    {
+                        TaskContent = state.TaskContent
+                    });
+
+                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskConfirmFailed, sc.Context, new
+                    {
+                        TaskContent = state.TaskContent
+                    });
+
                     return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
             }
@@ -369,9 +383,17 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = ResponseManager.GetResponse(AddToDoResponses.AddMoreTask, tokens: token);
-                var retryPrompt = ResponseManager.GetResponse(AddToDoResponses.AddMoreTaskConfirmFailed, tokens: token);
+
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTask, sc.Context, new
+                {
+                    ListType = state.ListType
+                });
+
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTaskConfirmFailed, sc.Context, new
+                {
+                    ListType = state.ListType
+                });
+
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -403,7 +425,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
             }
