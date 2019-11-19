@@ -230,6 +230,21 @@ namespace CalendarSkill.Test.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarSummarySwitchIntents()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private Action<IActivity> ActionEndMessage()
         {
             return activity =>
