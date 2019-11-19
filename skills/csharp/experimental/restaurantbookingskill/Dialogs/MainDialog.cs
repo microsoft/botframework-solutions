@@ -65,8 +65,7 @@ namespace RestaurantBookingSkill.Dialogs
             var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("Restaurant", out var luisService);

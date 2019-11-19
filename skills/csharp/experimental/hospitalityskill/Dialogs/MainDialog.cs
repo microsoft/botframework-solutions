@@ -67,8 +67,7 @@ namespace HospitalitySkill.Dialogs
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Get cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
                 var skillResult = await localizedServices.LuisServices["Hospitality"].RecognizeAsync<HospitalityLuis>(innerDc.Context, cancellationToken);

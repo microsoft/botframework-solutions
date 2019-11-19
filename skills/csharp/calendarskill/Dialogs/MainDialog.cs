@@ -85,8 +85,7 @@ namespace CalendarSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             await PopulateStateFromSemanticAction(dc.Context);
 

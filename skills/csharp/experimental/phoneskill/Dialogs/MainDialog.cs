@@ -60,8 +60,7 @@ namespace PhoneSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new PhoneSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("phone", out var luisService);
