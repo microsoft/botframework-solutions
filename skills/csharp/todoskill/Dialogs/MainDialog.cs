@@ -65,8 +65,7 @@ namespace ToDoSkill.Dialogs
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
