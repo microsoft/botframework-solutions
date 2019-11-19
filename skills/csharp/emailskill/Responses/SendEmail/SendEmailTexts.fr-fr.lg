@@ -1,0 +1,55 @@
+# NoSubject.Text
+- Quel est le sujet de l'e-mail?
+
+# RetryNoSubject.Text
+- L'inclusion d'un sujet est souvent appréciée par les contacts. Vous voulez ajouter un sujet? Ou vous pouvez entrer sauter pour le contourner.
+
+# NoMessageBody.Text
+- Quel contenu souhaitez-vous ajouter à l'e-mail ? Vous pouvez dire sauter pour le contourner.
+
+# CheckContent.Text
+- Voulez-vous inclure cela dans l'e-mail?
+
+# CheckContent.Speak
+- Vous pouvez essayer Participants, Sujet ou Contenu. Ou dire annuler.
+
+# CheckContent.S1
+- Oui
+
+# CheckContent.S2
+- non
+
+# ConfirmMessageRetry.Text
+- Veuillez confirmer ce message. Vous pouvez entrer oui ou non.
+- Veuillez confirmer ce message.
+
+# ConfirmMessageRetry.Speak
+- Veuillez confirmer ce message. Vous pouvez dire oui ou non.
+
+# RetryContent.Text
+- Got it, cet e-mail ne sera pas encore envoyé.
+
+# GetRecreateInfo.Text
+- Souhaitez-vous modifier les participants, le sujet ou le contenu?
+
+# GetRecreateInfo.S1
+- Participants
+
+# GetRecreateInfo.S2
+- Objet
+
+# GetRecreateInfo.S3
+- Contenu
+
+# GetRecreateInfoRetry.Text
+- Vous pouvez essayer Participants, Sujet ou Contenu. Ou l'entrée annuler.
+
+# GetRecreateInfoRetry.Speak
+- Vous pouvez essayer Participants, Sujet ou Contenu. Ou dire annuler.
+
+# PlayBackMessage.Text(emailContent)
+- Je vais répéter le message pour vous de confirmer:
+
+# PlayBackMessage.Speak(emailContent)
+- Je vais répéter le message pour vous de confirmer: {emailContent}
+

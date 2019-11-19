@@ -1,0 +1,55 @@
+# NoSubject.Text
+- 电子邮件主题是什么？
+
+# RetryNoSubject.Text
+- 包括一个主题经常被联系人欣赏。想添加主题吗？或者，您可以输入跳过以绕过它。
+
+# NoMessageBody.Text
+- 您要向电子邮件中添加哪些内容？你可以说跳过绕过它。
+
+# CheckContent.Text
+- 是否要在电子邮件中包含此内容？
+
+# CheckContent.Speak
+- 您可以尝试"参与者、主题"或"内容"。或者说取消。
+
+# CheckContent.S1
+- 是的
+
+# CheckContent.S2
+- 不
+
+# ConfirmMessageRetry.Text
+- 请确认此消息。您可以输入"是"或"否"。
+- 请确认此消息。
+
+# ConfirmMessageRetry.Speak
+- 请确认此消息。你可以说是或否。
+
+# RetryContent.Text
+- 收到它，这封电子邮件将不会发送。
+
+# GetRecreateInfo.Text
+- 是否更改参与者、主题或内容？
+
+# GetRecreateInfo.S1
+- 参与者
+
+# GetRecreateInfo.S2
+- 主题
+
+# GetRecreateInfo.S3
+- 内容
+
+# GetRecreateInfoRetry.Text
+- 您可以尝试"参与者、主题"或"内容"。或输入取消。
+
+# GetRecreateInfoRetry.Speak
+- 您可以尝试"参与者、主题"或"内容"。或者说取消。
+
+# PlayBackMessage.Text(emailContent)
+- 我将重复该消息，供您确认：
+
+# PlayBackMessage.Speak(emailContent)
+- 我将重复该消息，供您确认：{emailContent}
+

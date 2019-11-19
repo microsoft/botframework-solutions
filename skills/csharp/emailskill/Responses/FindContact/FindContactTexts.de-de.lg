@@ -1,0 +1,30 @@
+# AddMoreContacts.Text
+- Wen möchten Sie hinzufügen?
+
+# BeforeSendingMessage.Text(nameList)
+- Okay, ich verstehe, dass Sie die E-Mail an {nameList}.
+
+# PromptOneNameOneAddress.Text(userName, emailAddress)
+- Okay, ich füge hinzu {userName}: {emailAddress}"UserName": "emailAddress"{userName}: . . . . . . . . . . . . . . . . . . . Ist der gesuchte "UserName" der gesuchte?
+
+# UserNotFound.Text(userName)
+- Ich konnte nicht finden, die "{userName}" Sie suchen. Können Sie den Namen des Kontakts erneut aufrufen? Bitte versuchen Sie, so spezifisch wie möglich zu sein.
+
+# UserNotFoundAgain.Text(userName, source)
+- Leider konnte ich die "{userName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in {source}.
+
+# AlreadyFirstPage.Text
+- Dies ist bereits die erste Seite.
+
+# AlreadyLastPage.Text
+- Dies ist bereits die letzte Seite.
+
+# AddMoreContactsPrompt.Text(nameList)
+- ich habe aufgenommen {nameList}, möchten Sie eine weitere hinzufügen?
+
+# ConfirmMultiplContactEmailSinglePage.Text(userName)
+- Ich habe mehrere Kontaktdaten für {userName}. Welches möchten Sie?
+
+# ConfirmMultiplContactEmailMultiPage.Text(userName)
+- Ich habe mehrere Kontaktdaten für {userName}. Welches möchten Sie? Sie können mich auch bitten, Ihnen die vorherigen oder mehr Optionen zu zeigen.
+

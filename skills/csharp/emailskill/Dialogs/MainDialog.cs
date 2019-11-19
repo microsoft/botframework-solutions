@@ -10,12 +10,12 @@ using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using EmailSkill.Services.AzureMapsAPI;
+using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -28,7 +28,6 @@ namespace EmailSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
@@ -46,7 +45,6 @@ namespace EmailSkill.Dialogs
             _settings = serviceProvider.GetService<BotSettings>();
             _services = serviceProvider.GetService<BotServices>();
             _userState = serviceProvider.GetService<UserState>();
-            _responseManager = serviceProvider.GetService<ResponseManager>();
             _conversationState = serviceProvider.GetService<ConversationState>();
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
@@ -104,14 +102,14 @@ namespace EmailSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.CancelMessage));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.CancelMessage, null));
                                 await dc.CancelAllDialogsAsync();
                                 return InterruptionAction.End;
                             }
 
                         case General.Intent.Help:
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.HelpMessage));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.HelpMessage, null));
                                 return InterruptionAction.Resume;
                             }
 
@@ -120,7 +118,7 @@ namespace EmailSkill.Dialogs
                                 // Log user out of all accounts.
                                 await LogUserOut(dc);
 
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.LogOut));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.LogOut, null));
                                 return InterruptionAction.End;
                             }
                     }
@@ -134,7 +132,7 @@ namespace EmailSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             // send a greeting if we're in local mode
-            await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
+            await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.EmailWelcomeMessage, null));
         }
 
         // Runs when the dialog stack is empty, and a new message activity comes in.
@@ -215,7 +213,7 @@ namespace EmailSkill.Dialogs
                                 }
                                 else
                                 {
-                                    await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                                    await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailSharedResponses.DidntUnderstandMessage, null));
                                 }
 
                                 break;
@@ -223,7 +221,7 @@ namespace EmailSkill.Dialogs
 
                         default:
                             {
-                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
+                                await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.FeatureNotAvailable, null));
                                 break;
                             }
                     }

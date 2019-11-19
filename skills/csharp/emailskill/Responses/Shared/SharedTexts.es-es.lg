@@ -1,0 +1,109 @@
+# Cancel.Text
+- Claro, podemos hacerlo más tarde.
+- Claro, podemos empezar esto más tarde.
+- No hay problema. Puedes intentarlo de nuevo en otro momento.
+- Bien, avísame cuando necesites mi ayuda.
+- Claro, estoy aquí si me necesitas.
+
+# NoAuth.Text
+- Por favor, inicie sesión para que pueda tomar medidas adicionales.
+- Por favor, inicie sesión para que pueda continuar con su solicitud.
+- ¿Puedes iniciar sesión para que pueda ayudarte más.
+- Tienes que iniciar sesión para que pueda tomar medidas.
+
+# NoFocusMessage.Text
+- ¿A qué correo electrónico se refiere?
+- ¿A qué correo electrónico te refieres exactamente?
+- ¿De qué correo electrónico estás hablando?
+- ¿Puede explicar a qué correo electrónico se refiere?
+
+# NoRecipients.Text
+- Claro, ¿a quién va el correo electrónico?
+
+# EmailNotFound.Text
+- Parece que no tienes nuevos correos electrónicos. Sólo hágamelo saber si desea configurar un nuevo correo electrónico.
+- No recuperé ningún correo electrónico relevante en este momento. Sólo hágamelo saber si desea configurar un nuevo correo electrónico.
+
+# EmailErrorMessage.Text
+- Lo siento, parece que algo salió mal!
+- Error. Dame un poco de tiempo y vuelve a intentarlo más tarde.
+- Algo salió mal. ¡Lo siento!
+- Creo que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
+- Lo siento, creo que no puedo encontrar lo que quieres ahora mismo. Inténtelo de nuevo más tarde, por favor.
+
+# EmailErrorMessageBotProblem.Text
+- Lo siento, hay algo mal con el bot en este momento. El desarrollador ha sido notificado al respecto por lo que será capaz de realizar la acción de nuevo muy pronto.
+
+# EmailErrorMessageAccountProblem.Text
+- Lo sentimos, hay algo mal con su cuenta de correo electrónico en este momento. Sigue las instrucciones de tu Bandeja de entrada para verificar tu cuenta.
+
+# ConfirmSendRecipients.Text(recipientsList)
+- Los destinatarios son {recipientsList}.
+
+# ConfirmSendRecipientsMessage.Text
+- ¿Quieres pasar por el resto de los destinatarios?
+
+# ConfirmSendRecipientsFailed.Text
+- Por favor, confirme si desea pasar por el resto de los destinatarios.
+
+# ConfirmSendMessage.Text
+- ¿Puede confirmar este correo electrónico?
+
+# ConfirmSend.Text
+- Estoy listo para enviar el correo electrónico.
+
+# ConfirmSend.Speak(emailSubject)
+- Estoy listo para enviar el correo electrónico. El detalle del correo electrónico es: {emailSubject}.
+
+# ConfirmSendFailed.Text
+- Confirme antes de enviar este correo electrónico.
+- Confirme este correo electrónico.
+
+# NoEmailContent.Text
+- ¿Qué le gustaría agregar como mensaje?
+
+# RecipientConfirmed.Text(userName)
+- Muy bien, enviaré esto a {userName}.
+
+# ShowEmailPrompt.Text(totalCount,emailListDetails)
+- Usted tiene {totalCount} Correos electrónicos. El último correo electrónico es {emailListDetails}.
+
+# ShowOneEmailPrompt.Text(emailListDetails)
+- Tiene 1 correo electrónico. El último correo electrónico es {emailListDetails}.
+
+# ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
+- Usted tiene {totalCount} Correos electrónicos. El primer correo electrónico es {emailListDetails}.
+
+# ShowOneEmailPromptOtherPage.Text(emailListDetails)
+- Tiene 1 correo electrónico. El primer correo electrónico es {emailListDetails}.
+
+# FirstPageAlready.Text
+- Esta ya es la primera página.
+
+# LastPageAlready.Text
+- Esta ya es la última página.
+
+# DidntUnderstandMessage.Text
+- Lo siento, no entendí lo que querías decir.
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+- ¿Puedes tratar de preguntar de una manera diferente.
+- No entendí lo que querías decir, puedes intentarlo de otra manera.
+- ¿Podrías explicarlo?
+- Dilo otra vez, por favor, de una manera diferente.
+- No lo entendí del todo.
+- ¿Puedes decir eso de una manera diferente?
+- ¿Puedes intentar preguntarme otra vez, no entendí lo que querías decir.
+
+# CancellingMessage.Text
+- Claro, podemos hacerlo más tarde.
+- Claro, podemos empezar esto más tarde.
+- No hay problema. Puedes intentarlo de nuevo en otro momento.
+- Bien, avísame cuando necesites mi ayuda.
+- Claro, estoy aquí si me necesitas.
+
+# SentSuccessfully.Text(subject)
+- He enviado el correo electrónico con el asunto {subject}.
+
+# RetryInput.Text
+- Lo siento, no entiendo a qué te refieres. ¿Podrías intentarlo de nuevo?
+

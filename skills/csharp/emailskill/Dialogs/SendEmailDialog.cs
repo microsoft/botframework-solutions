@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -15,10 +12,10 @@ using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs
 {
@@ -131,12 +128,12 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc, false) } });
-                var noSubjectMessage = ResponseManager.GetResponse(SendEmailResponses.NoSubject);
+                var recipientConfirmedMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.RecipientConfirmed, new { userName = await GetNameListStringAsync(sc, false) });
+                var noSubjectMessage = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoSubject, null);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = noSubjectMessage, });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = noSubjectMessage as Activity });
             }
             catch (Exception ex)
             {
@@ -167,7 +164,8 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = ResponseManager.GetResponse(SendEmailResponses.RetryNoSubject), });
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryNoSubject, null);
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = activity as Activity });
             }
             catch (Exception ex)
             {
@@ -256,7 +254,8 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SendEmailResponses.NoMessageBody) });
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoMessageBody, null);
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
             {
@@ -280,15 +279,19 @@ namespace EmailSkill.Dialogs
                     {
                         state.Content = contentInput;
 
-                        var stringToken = new StringDictionary
+                        var replyMessage = await LGHelper.GenerateMessageAsync(
+                        sc.Context,
+                        SendEmailResponses.PlayBackMessage,
+                        new
                         {
-                            { "EmailContent", state.Content },
-                        };
+                            emailContent = state.Content,
+                        });
 
+                        var confirmMessageRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.ConfirmMessageRetry, null);
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
-                            Prompt = ResponseManager.GetResponse(SendEmailResponses.PlayBackMessage, stringToken),
-                            RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessageRetry),
+                            Prompt = replyMessage as Activity,
+                            RetryPrompt = confirmMessageRetryActivity as Activity,
                         });
                     }
                     else
@@ -319,7 +322,8 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync(true);
                 }
 
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SendEmailResponses.RetryContent));
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryContent, null);
+                await sc.Context.SendActivityAsync(activity);
                 return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
             }
             catch (Exception ex)
@@ -354,18 +358,14 @@ namespace EmailSkill.Dialogs
                     };
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var stringToken = new StringDictionary
-                    {
-                        { "Subject", state.Subject },
-                    };
-
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                    var replyMessage = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    var replyMessage = await LGHelper.GenerateMessageAsync(
+                         sc.Context,
+                         EmailSharedResponses.SentSuccessfully,
+                         new
+                         {
+                             subject = state.Subject,
+                             emailDetails = emailCard
+                         });
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
@@ -395,10 +395,12 @@ namespace EmailSkill.Dialogs
         {
             try
             {
+                var getRecreateInfoActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfo, null);
+                var getRecreateInfoRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfoRetry, null);
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfoRetry)
+                    Prompt = getRecreateInfoActivity as Activity,
+                    RetryPrompt = getRecreateInfoRetryActivity as Activity
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -421,7 +423,8 @@ namespace EmailSkill.Dialogs
                     switch (recreateState.Value)
                     {
                         case ResendEmailState.Cancel:
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                            await sc.Context.SendActivityAsync(activity);
                             await ClearConversationState(sc);
                             return await sc.EndDialogAsync(false, cancellationToken);
                         case ResendEmailState.Recipients:

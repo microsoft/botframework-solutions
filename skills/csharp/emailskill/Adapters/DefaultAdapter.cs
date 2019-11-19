@@ -4,12 +4,15 @@
 using System.Globalization;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
+using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
@@ -21,14 +24,17 @@ namespace EmailSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager,
+            ResourceExplorer resourceExplorer,
+            UserState userState,
+            ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(turnContext.Activity.Locale);
-                await turnContext.SendActivityAsync(responseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+                var activity = await LGHelper.GenerateMessageAsync(turnContext, EmailSharedResponses.EmailErrorMessage, null);
+                await turnContext.SendActivityAsync(activity);
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };
@@ -39,6 +45,10 @@ namespace EmailSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+
+            this.UseState(userState, conversationState);
+            this.UseResourceExplorer(resourceExplorer);
+            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }
