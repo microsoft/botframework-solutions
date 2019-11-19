@@ -111,7 +111,7 @@
 ]
 
 # NoEmailContentWithRecipientConfirmedText(userName)
-- @{RecipientConfirmed.Text(userName)} @{NoEmailContent.Text()}
+- @{RecipientConfirmed.Text(userName)} @{NoEmailContentForForward.Text()}
 
 # NoRecipients
 [Activity

@@ -47,7 +47,7 @@
 - 请确认您是否需要通过其余的收件人。
 
 # ConfirmSendMessage.Text
-- 你能确认这封电子邮件吗？
+- 这是你想发送的吗？
 
 # ConfirmSend.Text
 - 我准备好发送电子邮件了。
@@ -60,22 +60,28 @@
 - 请确认此电子邮件。
 
 # NoEmailContent.Text
-- 您要添加什么作为消息？
+- 你在留言中想说什么？
+
+# NoEmailContentForReply.Text
+- 你在答复中想说什么？
+
+# NoEmailContentForForward.Text
+- 你在前行想说什么？
 
 # RecipientConfirmed.Text(userName)
 - 好吧，我会把这个发给{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- 你有{totalCount}电子邮件。最新的电子邮件是{emailListDetails}.
+- 你有{totalCount}收件箱中的电子邮件。最新的电子邮件是{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- 你有1封电子邮件。最新的电子邮件是{emailListDetails}.
+- 您的收件箱中包含 1 封电子邮件。最新的电子邮件是{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- 你有{totalCount}电子邮件。第一封电子邮件是{emailListDetails}.
+- 你有{totalCount}收件箱中的电子邮件。第一封电子邮件是{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- 你有1封电子邮件。第一封电子邮件是{emailListDetails}.
+- 您的收件箱中包含 1 封电子邮件。第一封电子邮件是{emailListDetails}.
 
 # FirstPageAlready.Text
 - 这已经是第一页了。

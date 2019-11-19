@@ -5,7 +5,7 @@
 - L'inclusion d'un sujet est souvent appréciée par les contacts. Vous voulez ajouter un sujet? Ou vous pouvez entrer sauter pour le contourner.
 
 # NoMessageBody.Text
-- Quel contenu souhaitez-vous ajouter à l'e-mail ? Vous pouvez dire sauter pour le contourner.
+- Que voulez-vous dire dans le corps de l'e-mail? Dites sauter si vous voulez le garder vide.
 
 # CheckContent.Text
 - Voulez-vous inclure cela dans l'e-mail?
@@ -30,26 +30,23 @@
 - Got it, cet e-mail ne sera pas encore envoyé.
 
 # GetRecreateInfo.Text
-- Souhaitez-vous modifier les participants, le sujet ou le contenu?
+- Souhaitez-vous changer les destinataires, le sujet ou le corps?
 
 # GetRecreateInfo.S1
-- Participants
+- Destinataires
 
 # GetRecreateInfo.S2
 - Objet
 
 # GetRecreateInfo.S3
-- Contenu
+- Corps
 
 # GetRecreateInfoRetry.Text
-- Vous pouvez essayer Participants, Sujet ou Contenu. Ou l'entrée annuler.
-
-# GetRecreateInfoRetry.Speak
-- Vous pouvez essayer Participants, Sujet ou Contenu. Ou dire annuler.
+- Vous pouvez essayer Recipients, Subject, or Body. Ou dire annuler.
 
 # PlayBackMessage.Text(emailContent)
-- Je vais répéter le message pour vous de confirmer:
+- Voilà ce que j'ai. Voulez-vous l'inclure dans l'e-mail? \n {emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Je vais répéter le message pour vous de confirmer: {emailContent}
+- Voilà ce que j'ai. Voulez-vous l'inclure dans l'e-mail? {emailContent}
 

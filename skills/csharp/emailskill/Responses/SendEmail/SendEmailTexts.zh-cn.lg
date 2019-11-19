@@ -5,7 +5,7 @@
 - 包括一个主题经常被联系人欣赏。想添加主题吗？或者，您可以输入跳过以绕过它。
 
 # NoMessageBody.Text
-- 您要向电子邮件中添加哪些内容？你可以说跳过绕过它。
+- 您想在电子邮件正文中说什么？如果要将其留空，请跳过。
 
 # CheckContent.Text
 - 是否要在电子邮件中包含此内容？
@@ -30,26 +30,23 @@
 - 收到它，这封电子邮件将不会发送。
 
 # GetRecreateInfo.Text
-- 是否更改参与者、主题或内容？
+- 是否更改收件人、主题或正文？
 
 # GetRecreateInfo.S1
-- 参与者
+- 收件人
 
 # GetRecreateInfo.S2
 - 主题
 
 # GetRecreateInfo.S3
-- 内容
+- 身体
 
 # GetRecreateInfoRetry.Text
-- 您可以尝试"参与者、主题"或"内容"。或输入取消。
-
-# GetRecreateInfoRetry.Speak
-- 您可以尝试"参与者、主题"或"内容"。或者说取消。
+- 您可以尝试"收件人"、"主题"或"正文"。或者说取消。
 
 # PlayBackMessage.Text(emailContent)
-- 我将重复该消息，供您确认：
+- 好吧，这就是我的是否要将其包含在电子邮件中？\n{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- 我将重复该消息，供您确认：{emailContent}
+- 好吧，这就是我的是否要将其包含在电子邮件中？{emailContent}
 

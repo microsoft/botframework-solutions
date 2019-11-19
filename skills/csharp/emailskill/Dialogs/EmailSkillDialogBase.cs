@@ -482,7 +482,6 @@ namespace EmailSkill.Dialogs
                     var noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContent, null);
                     if (sc.ActiveDialog.Id == Actions.Forward)
                     {
-                        noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContentForForward, null);
                         if (state.FindContactInfor.Contacts.Count == 0 || state.FindContactInfor.Contacts == null)
                         {
                             state.FindContactInfor.FirstRetryInFindContact = true;
@@ -973,6 +972,7 @@ namespace EmailSkill.Dialogs
             var state = await EmailStateAccessor.GetAsync(sc.Context);
 
             var cards = new List<Card>();
+            var emailList = new List<EmailCardData>();
             foreach (var message in messages)
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
@@ -1009,6 +1009,7 @@ namespace EmailSkill.Dialogs
                 }
 
                 cards.Add(new Card("EmailOverviewItem", emailCard));
+                emailList.Add(emailCard);
                 updatedMessages.Add(message);
             }
 
@@ -1037,7 +1038,8 @@ namespace EmailSkill.Dialogs
                     EmailCommonStrings.PageIndexerFormat,
                     startIndex.ToString(),
                     endIndex.ToString(),
-                    totalCount.ToString())
+                    totalCount.ToString()),
+                EmailList = emailList
             };
 
             var overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewCard");

@@ -5,7 +5,7 @@
 - L'inclusione di un argomento è spesso apprezzata dai contatti. Vuoi aggiungere un argomento? In alternativa, è possibile inserire skip per ignorarlo.
 
 # NoMessageBody.Text
-- Quali contenuti vuoi aggiungere all'e-mail? Si può dire saltare per bypassarlo.
+- Cosa vorresti dire nel corpo dell'e-mail? Pronunciare salta se si desidera mantenerlo vuoto.
 
 # CheckContent.Text
 - Vuoi includerlo nell'e-mail?
@@ -30,26 +30,23 @@
 - Hai capito, questa e-mail non sarà ancora inviata.
 
 # GetRecreateInfo.Text
-- Vuoi cambiare i partecipanti, l'oggetto o il contenuto?
+- Vuoi cambiare i Destinatari, l'Oggetto o il Corpo?
 
 # GetRecreateInfo.S1
-- Partecipanti
+- Destinatari
 
 # GetRecreateInfo.S2
 - Oggetto
 
 # GetRecreateInfo.S3
-- Contenuto
+- Corpo
 
 # GetRecreateInfoRetry.Text
-- Puoi provare partecipanti, oggetto o contenuti. O l'ingresso si annulla.
-
-# GetRecreateInfoRetry.Speak
-- Puoi provare partecipanti, oggetto o contenuti. O dire annullare.
+- È possibile provare destinatari, oggetto o corpo. O dire annullare.
 
 # PlayBackMessage.Text(emailContent)
-- Ripeterò il messaggio per confermare:
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? \n {emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Ripeterò il messaggio per confermare: {emailContent}
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? {emailContent}
 

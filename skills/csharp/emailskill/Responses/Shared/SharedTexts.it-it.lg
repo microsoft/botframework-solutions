@@ -47,7 +47,7 @@
 - Si prega di confermare se si desidera passare attraverso il resto dei destinatari.
 
 # ConfirmSendMessage.Text
-- Puoi confermare questa e-mail?
+- È questo che vuoi mandare?
 
 # ConfirmSend.Text
 - Sono pronto a inviare l'e-mail.
@@ -60,22 +60,28 @@
 - Si prega di confermare questa e-mail.
 
 # NoEmailContent.Text
-- Cosa si desidera aggiungere come messaggio?
+- Cosa vuoi dire nel tuo messaggio?
+
+# NoEmailContentForReply.Text
+- Cosa vuoi dire nella tua risposta?
+
+# NoEmailContentForForward.Text
+- Cosa vuoi dire nel tuo avanti?
 
 # RecipientConfirmed.Text(userName)
 - Va bene, manderò questo a {userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- Hai {totalCount} E-mail. L'ultima e-mail è {emailListDetails}.
+- Hai {totalCount} e-mail nella tua casella di posta. L'ultima e-mail è stata {emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- Hai 1 e-mail. L'ultima e-mail è {emailListDetails}.
+- Hai 1 email nella tua casella di posta. L'ultima e-mail è stata {emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- Hai {totalCount} E-mail. La prima e-mail è {emailListDetails}.
+- Hai {totalCount} e-mail nella tua casella di posta. La prima e-mail è stata {emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- Hai 1 e-mail. La prima e-mail è {emailListDetails}.
+- Hai 1 email nella tua casella di posta. La prima e-mail è stata {emailListDetails}.
 
 # FirstPageAlready.Text
 - Questa è già la prima pagina.

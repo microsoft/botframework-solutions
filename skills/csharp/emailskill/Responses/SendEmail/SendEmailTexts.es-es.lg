@@ -5,7 +5,7 @@
 - Incluir un tema es a menudo apreciado por los contactos. ¿Quieres añadir un tema? O puede introducir skip para omitirlo.
 
 # NoMessageBody.Text
-- ¿Qué contenido desea agregar al correo electrónico? Se puede decir saltar para evitarlo.
+- ¿Qué le gustaría decir en el cuerpo del correo electrónico? Di skip si quieres mantenerlo en blanco.
 
 # CheckContent.Text
 - ¿Desea incluir esto en el correo electrónico?
@@ -30,26 +30,23 @@
 - Entendido, este correo electrónico no será enviado todavía.
 
 # GetRecreateInfo.Text
-- ¿Desea cambiar los Participantes, el Tema o el Contenido?
+- ¿Desea cambiar los Destinatarios, el Asunto o el Cuerpo?
 
 # GetRecreateInfo.S1
-- Participantes
+- Destinatarios
 
 # GetRecreateInfo.S2
 - Asunto
 
 # GetRecreateInfo.S3
-- Contenido
+- Cuerpo
 
 # GetRecreateInfoRetry.Text
-- Puede probar Participantes, Asunto o Contenido. O cancelar entrada.
-
-# GetRecreateInfoRetry.Speak
-- Puede probar Participantes, Asunto o Contenido. O decir cancelar.
+- Puede probar Destinatarios, Asunto o Cuerpo. O decir cancelar.
 
 # PlayBackMessage.Text(emailContent)
-- Voy a repetir el mensaje para que confirme:
+- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? N {emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Voy a repetir el mensaje para que confirme: {emailContent}
+- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? {emailContent}
 

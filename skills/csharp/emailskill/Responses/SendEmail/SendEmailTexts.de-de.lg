@@ -5,7 +5,7 @@
 - Die Einbeziehung eines Themas wird oft von Kontakten geschätzt. Möchten Sie ein Thema hinzufügen? Oder Sie können überspringen, um es zu umgehen.
 
 # NoMessageBody.Text
-- Welche Inhalte möchten Sie der E-Mail hinzufügen? Sie können sagen, überspringen, um es zu umgehen.
+- Was möchten Sie im Text der E-Mail sagen? Angenommen, überspringen, wenn Sie es leer halten möchten.
 
 # CheckContent.Text
 - Möchten Sie dies in die E-Mail aufnehmen?
@@ -30,26 +30,23 @@
 - Diese E-Mail wird noch nicht gesendet.
 
 # GetRecreateInfo.Text
-- Möchten Sie die Teilnehmer, den Betreff oder den Inhalt ändern?
+- Möchten Sie die Empfänger, den Betreff oder den Körper ändern?
 
 # GetRecreateInfo.S1
-- Teilnehmer
+- Empfänger
 
 # GetRecreateInfo.S2
 - Betreff
 
 # GetRecreateInfo.S3
-- Inhalt
+- Körper
 
 # GetRecreateInfoRetry.Text
-- Sie können Teilnehmer, Betreff oder Inhalt ausprobieren. Oder Eingabeabbruch.
-
-# GetRecreateInfoRetry.Speak
-- Sie können Teilnehmer, Betreff oder Inhalt ausprobieren. Oder sagen Sie abbrechen.
+- Sie können Empfänger, Betreff oder Körper ausprobieren. Oder sagen Sie abbrechen.
 
 # PlayBackMessage.Text(emailContent)
-- Ich werde die Nachricht wiederholen, in der Sie bestätigen können:
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? \n {emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Ich werde die Nachricht wiederholen, in der Sie bestätigen können: {emailContent}
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? {emailContent}
 
