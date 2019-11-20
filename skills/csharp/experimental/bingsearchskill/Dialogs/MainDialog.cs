@@ -156,8 +156,7 @@ namespace BingSearchSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
