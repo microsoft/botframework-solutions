@@ -1,0 +1,111 @@
+{
+  "id": "hospitalitySkill",
+  "name": "Hospitality Skill",
+  "description": "The Hospitality skill provides capabilities that are needed in a hotel room, such as checking out, changing your reservation, and requesting items.",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "hospitalitySkill_checkOut",
+      "definition": {
+        "description": "Check out of room.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#CheckOut"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_extendStay",
+      "definition": {
+        "description": "Extend reseravation for current room.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#ExtendStay"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_getReservation",
+      "definition": {
+        "description": "Get current reservation details.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#GetReservation"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_lateCheckOut",
+      "definition": {
+        "description": "Change to late check out.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#LateCheckOut"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_requestItem",
+      "definition": {
+        "description": "Request items to be brought to your room.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#RequestItem"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hospitalitySkill_roomService",
+      "definition": {
+        "description": "Order room service.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "Hospitality#RoomService"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

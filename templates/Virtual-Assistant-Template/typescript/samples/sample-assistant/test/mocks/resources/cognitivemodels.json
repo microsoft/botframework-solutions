@@ -1,33 +1,34 @@
 {
-  "defaultLocale": "en",
   "cognitiveModels": {
-    "en": {
-      "languageModels": [
-        {
-          "subscriptionKey": "<--MOCK-VALUE-->",
-          "id": "general",
-          "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
-          "authoringKey": "<--MOCK-VALUE-->",
-          "region": "westus",
-          "name": "assistant_general",
-          "version": "0.1"
-        }
-      ],
+    "en-us": {
       "dispatchModel": {
-        "subscriptionKey": "<--MOCK-VALUE-->",
-        "name": "assistant_Dispatch",
-        "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
         "authoringKey": "<--MOCK-VALUE-->",
         "type": "dispatch",
-        "region": "westus"
+        "subscriptionKey": "<--MOCK-VALUE-->",
+        "region": "westus",
+        "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+        "authoringRegion": "westus",
+        "name": "assistant_Dispatch"
       },
+      "languageModels": [
+        {
+          "region": "westus",
+          "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+          "authoringRegion": "westus",
+          "id": "general",
+          "name": "assistant_general",
+          "authoringKey": "<--MOCK-VALUE-->",
+          "version": "0.1",
+          "subscriptionKey": "<--MOCK-VALUE-->"
+        }
+      ],
       "knowledgeBases": [
         {
           "endpointKey": "<--MOCK-VALUE-->",
           "id": "chitchat",
           "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://vatsample-qnahost.azurewebsites.net/qnamaker",
+          "hostname": "https://dcvasample-qnahost-buzbohw.azurewebsites.net/qnamaker",
           "name": "chitchat"
         },
         {
@@ -35,10 +36,11 @@
           "id": "faq",
           "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://assistant-qnahost.azurewebsites.net/qnamaker",
+          "hostname": "https://dcvasample-qnahost-buzbohw.azurewebsites.net/qnamaker",
           "name": "faq"
         }
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }

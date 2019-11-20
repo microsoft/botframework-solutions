@@ -3,25 +3,27 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.StreamingExtensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using $safeprojectname$.Adapters;
 using $safeprojectname$.Bots;
@@ -32,7 +34,7 @@ namespace $safeprojectname$
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -52,9 +54,8 @@ namespace $safeprojectname$
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            var provider = services.BuildServiceProvider();
+            // Configure MVC
+            services.AddControllers();
 
             // Load settings
             var settings = new BotSettings();
@@ -64,14 +65,13 @@ namespace $safeprojectname$
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
-            services.AddSingleton(appCredentials);
-
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
+            services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
+            services.AddSingleton<TelemetryInitializerMiddleware>();
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -82,62 +82,73 @@ namespace $safeprojectname$
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton(sp =>
+
+            // Configure localized responses
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+            foreach (var locale in supportedLocales)
             {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
-
-            // Register dialogs
-            services.AddTransient<CancelDialog>();
-            services.AddTransient<EscalateDialog>();
-            services.AddTransient<MainDialog>();
-            services.AddTransient<OnboardingDialog>();
-
-            // Register skill dialogs
-            services.AddTransient(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var skillDialogs = new List<SkillDialog>();
-
-                foreach (var skill in settings.Skills)
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
                 {
-                    var authDialog = BuildAuthDialog(skill, settings, appCredentials);
-                    var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                    }
                 }
 
-                return skillDialogs;
-            });
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
 
-            // Configure adapters
-            // DefaultAdapter is for all regular channels that use Http transport
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+
+            // Register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<SwitchSkillDialog>();
+            services.AddTransient<OnboardingDialog>();
+
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+
+            // Register skill dialogs
+            foreach (var skill in settings.Skills)
+            {
+                var authDialog = BuildAuthDialog(skill, settings, appCredentials);
+                var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
+                services.AddTransient(sp =>
+                {
+                    var userState = sp.GetService<UserState>();
+                    var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                    return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
+                });
+            }
+
+            // IBotFrameworkHttpAdapter now supports both http and websocket transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
 
-            // DefaultWebSocketAdapter is for directline speech channel
-            // This adapter implementation is currently a workaround as
-            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
-            // both Http for regular channels and websocket for directline speech channel
-            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
-
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
-                .UseMvc();
+                .UseRouting()
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.

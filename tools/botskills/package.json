@@ -9,8 +9,8 @@
   "scripts": {
     "prebuild": "npm run lint",
     "build": "tsc",
-    "lint": "tslint -t vso ./src/**/*.ts",
-    "lint-fix": "tslint --fix ./src/**/*.ts",
+    "lint": "eslint ./src/**/*.ts",
+    "lint-fix": "eslint --fix ./src/**/*.ts",
     "test": "mocha",
     "coverage": "nyc mocha",
     "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter"
@@ -45,9 +45,13 @@
   },
   "devDependencies": {
     "@types/get-stdin": "^5.0.1",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/eslint-plugin-tslint": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "@types/node": "^10.10.1",
     "@types/request-promise-native": "^1.0.15",
     "@types/semver": "^5.5.0",
+    "eslint": "^6.1.0",
     "mocha": "^6.1.4",
     "mocha-junit-reporter": "^1.22.0",
     "nyc": "^14.1.1",

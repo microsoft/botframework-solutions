@@ -26,7 +26,6 @@ import {
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
-import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';
 import { SharedResponses } from '../responses/shared/sharedResponses';
@@ -80,15 +79,11 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        // get current activity locale
-        const locale: string = i18next.language.substring(0, 2);
-        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
+        const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
         // Populate state from SkillContext slots as required
         await this.populateStateFromSemanticAction(dc.context);
-        if (localeConfig === undefined) {
-            throw new Error('There is no cognitiveModels for the locale');
-        }
+
         // Get skill LUIS model from configuration
         if (localeConfig.luisServices !== undefined) {
 
@@ -128,7 +123,6 @@ export class MainDialog extends RouterDialog {
             }
         }
     }
-
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
         response.type = ActivityTypes.Handoff;
@@ -169,12 +163,9 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-            // get current activity locale
-            const locale: string = i18next.language.substring(0, 2);
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
-            if (localeConfig === undefined) {
-                throw new Error('There is no cognitiveModels for the locale');
-            }
+
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
+
             // check general luis intent
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
@@ -251,14 +242,13 @@ export class MainDialog extends RouterDialog {
         // const activity: Activity = context.activity;
         // const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
-        // if (semanticAction !== undefined && Object.keys(semanticAction.entities)
-        //     .find((key: string) => key === "location")) {
-        //     // tslint:disable-next-line: no-explicit-any
-        //     const location: any = semanticAction.entities["location"];
-        //     const locationObj = location.properties["location"];
-        //     const state: SkillState = await this.stateAccessor.get(context, new SkillState());
-        //     state.location = locationObj !== undefined ? locationObj : location;
-        //     await this.stateAccessor.set(context, state);
+        // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+        // {
+        //    var location = semanticAction.Entities["location"];
+        //    var locationObj = location.Properties["location"].ToString();
+        //    // Add to your local state
+        //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+        //    state.CurrentCoordinates = locationObj;
         // }
     }
 }

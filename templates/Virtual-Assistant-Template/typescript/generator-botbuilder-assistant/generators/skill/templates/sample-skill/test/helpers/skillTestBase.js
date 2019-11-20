@@ -71,8 +71,8 @@ const setupEnvironment = function(testMode) {
 const configuration = async function() {
   // Configure internationalization and default locale
   await i18next.use(i18nextNodeFsBackend).init({
-    fallbackLng: "en",
-    preload: ["de", "en", "es", "fr", "it", "zh"]
+    fallbackLng: 'en-us',
+    preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
   });
   await Locales.addResourcesFromPath(i18next, "common");
 
@@ -100,7 +100,7 @@ const initialize = async function() {
   const skillContextAccessor = userState.createProperty(SkillContext.name);
   telemetryClient = getTelemetryClient(botSettings);
   const responseManager = new ResponseManager(
-    ["en", "de", "es", "fr", "it", "zh"],
+    ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
     [SampleResponses, MainResponses, SharedResponses]
   );
   const botServices = new BotServices(botSettings, telemetryClient);

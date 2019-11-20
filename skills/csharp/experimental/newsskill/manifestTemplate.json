@@ -1,0 +1,105 @@
+{
+  "id": "newsSkill",
+  "name": "News Skill",
+  "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
+  "iconUrl": "newsSkill.png",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "newsSkill_findArticles",
+      "definition": {
+        "description": "Find News articles.",
+        "slots": [
+          {
+            "name": "location",
+            "types": [
+              "string"
+            ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "news#FindArticles"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_trendingArticles",
+      "definition": {
+        "description": "Show articles currently trending on social media.",
+        "slots": [
+          {
+            "name": "location",
+            "types": [
+              "string"
+            ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en-us",
+              "source": [
+                "news#TrendingArticles"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_setFavoriteTopics",
+      "definition": {
+        "description": "Set the user's favorite news topic.",
+        "slots": [
+          {
+            "name": "location",
+            "types": [
+              "string"
+            ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "news#SetFavoriteTopics"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "newsSkill_showFavoriteTopics",
+      "definition": {
+        "description": "Show news articles of the user's currently set favorite topic.",
+        "slots": [
+          {
+            "name": "location",
+            "types": [
+              "string"
+            ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "news#ShowFavoriteTopics"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

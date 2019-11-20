@@ -3,12 +3,13 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
@@ -17,27 +18,30 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
+            LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
             ICredentialProvider credentialProvider,
+            TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
-                await turnContext.SendActivityAsync(MainStrings.ERROR);
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
+                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
                 telemetryClient.TrackException(exception);
             };
+
+            Use(telemetryMiddleware);
 
             // Uncomment the following line for local development without Azure Storage
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
-            Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
         }
     }
 }

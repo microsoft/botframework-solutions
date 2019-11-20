@@ -1,0 +1,29 @@
+{
+  "defaultLocale": "en-us",
+  "cognitiveModels": {
+    "en-us": {
+      "languageModels": [
+        {
+          "id": "General",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "ITSM",
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        }
+      ]
+    }
+  }
+}

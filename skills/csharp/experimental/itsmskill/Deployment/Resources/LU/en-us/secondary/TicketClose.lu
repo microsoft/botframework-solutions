@@ -1,0 +1,28 @@
+﻿# TicketClose
+
+> close
+
+- close a ticket
+- close an issue
+- close an incident
+- close a ticket because {CloseReason}
+- close an issue due to {CloseReason}
+- i would like to close a ticket because {CloseReason}
+- i would like to close an issue due to {CloseReason}
+- Ticket can be closed by {CloseReason}
+- Ticket can be closed
+- Close the ticket with {CloseReason}
+- close [the] [ticket] {TicketNumber} ((by|with)|(because|due to)) {CloseReason}
+
+> resolve
+
+- resolve a ticket
+- resolve an issue
+- resolve an incident
+- resolve a ticket because {CloseReason}
+- resolve an issue due to {CloseReason}
+- i would like to resolve a ticket
+- i would like to resolve an issue
+- i would like to resolve an incident
+- Resolve the ticket with {CloseReason}
+- resolve [the] [ticket] {TicketNumber} ((by|with)|(because|due to)) {CloseReason}

@@ -7,7 +7,7 @@ const assert = require('assert');
 const botTestBase = require('./helpers/botTestBase');
 const testNock = require('./helpers/testBase');
 const introJson = require('../src/content/NewUserGreeting.json');
-const introJsonEs = require('../src/content/NewUserGreeting.es.json');
+const introJsonEs = require('../src/content/NewUserGreeting.es-es.json');
 
 describe("Main Dialog", function () {
 	describe("Intro Card", function() {
@@ -92,7 +92,7 @@ describe("Main Dialog", function () {
 					recipient: {
 						id: "1"
 					},
-					locale: 'es-es'
+					locale: "es-es"
 				})
 				.assertReply(function (activity, description) {
 					assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
@@ -121,10 +121,10 @@ describe("Main Dialog", function () {
             botTestBase.getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                     .send('What is a Virtual Assistant?')
-                    .assertReply("We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).");
+                    .assertReply("![Virtual Assistant](https://aka.ms/virtualassistantlogo)\nWe have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://aka.ms/virtualassistant).");
                 
                 testNock.resolveWithMocks('mainDialog_faq_response', done, flow);
             });
         });
-    });
+	});
 });

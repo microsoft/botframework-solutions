@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#2f2f2f</color>
+
+    <!-- General -->
+    <color name="color_background">#ffffff</color>
+    <color name="color_mic">#272727</color>
+
+    <!-- Navigation Drawer -->
+    <color name="navigationDrawer">#B1B1B1</color>
+    <color name="navigationDrawerText">#272727</color>
+
+    <!-- Chat -->
+    <color name="color_chat_text_bot">#000000</color>
+    <color name="color_chat_text_user">#ffffff</color>
+    <color name="color_chat_background_bot">#f2f2f2</color>
+    <color name="color_chat_background_user">#3062d6</color>
+    <color name="color_speech_bubble_background">#242424</color>
+
+    <!-- Car Toggle-Switch indicator -->
+    <color name="color_toggle_on">#97FE46</color>
+    <color name="color_toggle_off">#373736</color>
+
+    <!-- Suggested Actions -->
+    <color name="color_action_outline">#0078d4</color>
+
+    <!-- DARK THEME -->
+    <color name="colorPrimaryNight">#008577</color>
+    <color name="colorPrimaryDarkNight">#00574B</color>
+    <color name="colorAccentNight">#e6e6e6</color>
+
+    <!-- Chat -->
+    <color name="background_night">#272727</color>
+    <color name="color_mic_night">#ffffff</color>
+
+    <!-- Navigation Drawer NIGHT -->
+    <color name="navigationDrawerNight">#2e2e2e</color>
+    <color name="navigationDrawerTextNight">#FFFFFF</color>
+
+    <!-- WIDGETS -->
+    <color name="widgetBackgroundDark">#2e2e2e</color>
+
+
+
+</resources>

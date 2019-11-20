@@ -25,7 +25,7 @@ For messages to be delivered to a user's conversation, a **ConversationReference
 
 Update both the **Startup** and **DefaultAdapter** classes with references to **ProactiveState** and **ProactiveStateMiddleware**.
 
-#### [Startup.cs]({{site.repo}})
+#### [Startup.cs]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Startup.cs)
 {:.no_toc}
 
 ```diff
@@ -37,7 +37,7 @@ Update both the **Startup** and **DefaultAdapter** classes with references to **
 }
 ```
 
-#### [DefaultAdapter.cs]({{site.repo}})
+#### [DefaultAdapter.cs]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Adapters/DefaultAdapter.cs)
 {:.no_toc}
 
 ```diff
@@ -48,7 +48,7 @@ public DefaultAdapter(
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
-+            ProactiveState proactiveState)
++           ProactiveState proactiveState)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
@@ -68,7 +68,7 @@ public DefaultAdapter(
             Use(new FeedbackMiddleware(conversationState, telemetryClient));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-+            Use(new ProactiveStateMiddleware(proactiveState));
++           Use(new ProactiveStateMiddleware(proactiveState));
         }
 ```
 
@@ -94,14 +94,14 @@ public class MainDialog : RouterDialog
     private IStatePropertyAccessor<SkillContext> _skillContext;
     private IStatePropertyAccessor<OnboardingState> _onboardingState;
     private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
-+    private MicrosoftAppCredentials _appCredentials;
-+    private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
++   private MicrosoftAppCredentials _appCredentials;
++   private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
     public MainDialog(
         IServiceProvider serviceProvider,
         IBotTelemetryClient telemetryClient,
-+        MicrosoftAppCredentials appCredentials,
-+        ProactiveState proactiveState)
++       MicrosoftAppCredentials appCredentials,
++       ProactiveState proactiveState)
         : base(nameof(MainDialog), telemetryClient)
     {
         _services = serviceProvider.GetService<BotServices>();
@@ -111,22 +111,75 @@ public class MainDialog : RouterDialog
         _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
         _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
         TelemetryClient = telemetryClient;
-+        _appCredentials = appCredentials;
-+        _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
++       _appCredentials = appCredentials;
++       _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
     ...
 
     protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
     {
     ...
-+        case "BroadcastEvent":
-+            var eventData = JsonConvert.DeserializeObject<EventData>(dc.Context.Activity.Value.ToString());
++   case "BroadcastEvent":
++       {
++           var eventData = JsonConvert.DeserializeObject<EventData>(innerDc.Context.Activity.Value.ToString());
++           var proactiveModel = await _proactiveStateAccessor.GetAsync(innerDc.Context, () => new ProactiveModel());
++           var hashedUserId = MD5Util.ComputeHash(eventData.UserId);
++           var conversationReference = proactiveModel[hashedUserId].Conversation;
 +
-+            var proactiveModel = await _proactiveStateAccessor.GetAsync(dc.Context, () => new ProactiveModel());
-+
-+            var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
-+            await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
-+            break;
++           await innerDc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(innerDc.Context, eventData.Message), cancellationToken);
++           break;
++       }
     ...
-    }
++    /// <summary>
++    /// Continue the conversation callback.
++    /// </summary>
++    /// <param name="context">Turn context.</param>
++    /// <param name="message">Activity text.</param>
++    /// <returns>Bot Callback Handler.</returns>
++    private BotCallbackHandler ContinueConversationCallback(ITurnContext context, string message)
++    {
++        return async (turnContext, cancellationToken) =>
++        {
++            var activity = turnContext.Activity.CreateReply(message);
++            EnsureActivity(activity);
++            await turnContext.SendActivityAsync(activity);
++        };
++    }
++
++    /// <summary>
++    /// This method is required for proactive notifications to work in Web Chat.
++    /// </summary>
++    /// <param name="activity">Proactive Activity.</param>
++    private void EnsureActivity(Activity activity)
++    {
++        if (activity != null)
++        {
++            if (activity.From != null)
++            {
++                activity.From.Name = "User";
++                activity.From.Properties["role"] = "user";
++            }
++
++            if (activity.Recipient != null)
++            {
++                activity.Recipient.Id = "1";
++                activity.Recipient.Name = "Bot";
++                activity.Recipient.Properties["role"] = "bot";
++            }
++        }
++    }
+   ...
 }
+```
+
+#### EventData.cs
+
+Add a new class named **EventData** with the following properties.
+
+```diff
++    public class EventData
++    {
++        public string UserId { get; set; }
+
++        public string Message { get; set; }
++    }
 ```

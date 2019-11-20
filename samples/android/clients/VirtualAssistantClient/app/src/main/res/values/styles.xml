@@ -1,0 +1,69 @@
+<resources>
+
+    <!-- ALL THE DAY STYLES GO IN HERE -->
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- CHAT -->
+    <style name="BackgroundStyle">
+        <item name="android:background">@color/color_background</item>
+    </style>
+
+    <style name="ChatBotStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_chat_text_bot</item>
+    </style>
+
+    <style name="ChatUserStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_chat_text_user</item>
+    </style>
+
+    <style name="SuggestedActionTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Other Styles -->
+
+    <style name="MicStyle">
+        <item name="android:tint">@color/color_mic</item>
+    </style>
+
+    <style name="TextInputAccentStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+        <item name="android:backgroundTint">@color/navigationDrawer</item>
+        <item name="android:textColorPrimary">@color/navigationDrawerText</item>
+        <item name="android:textColorSecondary">@color/navigationDrawerText</item>
+    </style>
+
+    <!-- SETTINGS -->
+    <!-- SET TEXTVIEW STYLE TO MATCH INPUTTEXTVIEW, see:
+     https://code.luasoftware.com/tutorials/android/make-android-spinner-same-look-as-edittext-with-textinputlayout -->
+    <style name="TextView.InputLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">?android:textColorHint</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="TextView.GroupLabel" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:padding">4dp</item>
+    </style>
+
+</resources>
