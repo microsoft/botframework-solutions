@@ -91,8 +91,7 @@ namespace HospitalitySkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new HospitalitySkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
