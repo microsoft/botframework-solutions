@@ -142,7 +142,7 @@ namespace NewsSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // check luis intent
-                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("General", out var luisService);
+                _services.GetCognitiveModels().LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {

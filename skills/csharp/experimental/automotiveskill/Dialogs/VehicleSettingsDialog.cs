@@ -62,12 +62,12 @@ namespace AutomotiveSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsName"];
-            vehicleSettingValueSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsValue"];
+            vehicleSettingNameSelectionLuisRecognizer = services.GetCognitiveModels().LuisServices["SettingsName"];
+            vehicleSettingValueSelectionLuisRecognizer = services.GetCognitiveModels().LuisServices["SettingsValue"];
 
             // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsName"];
-            vehicleSettingValueSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsValue"];
+            vehicleSettingNameSelectionLuisRecognizer = services.GetCognitiveModels().LuisServices["SettingsName"];
+            vehicleSettingValueSelectionLuisRecognizer = services.GetCognitiveModels().LuisServices["SettingsValue"];
 
             // Supporting setting files are stored as embedded resources
             var resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
