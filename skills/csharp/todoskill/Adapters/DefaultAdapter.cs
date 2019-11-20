@@ -4,14 +4,17 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Adapters
 {
@@ -21,14 +24,19 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager,
+            ResourceExplorer resourceExplorer,
+            UserState userState,
+            ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, context, null);
+
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };
@@ -39,6 +47,10 @@ namespace ToDoSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+
+            this.UseState(userState, conversationState);
+            this.UseResourceExplorer(resourceExplorer);
+            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }

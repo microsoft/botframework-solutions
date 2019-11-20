@@ -1,21 +1,28 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Bots;
@@ -92,19 +99,26 @@ namespace ToDoSkill.Tests.Flow
                 return new BotStateSet(userState, conversationState);
             });
 
-            ResponseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new AddToDoResponses(),
-                new DeleteToDoResponses(),
-                new ToDoMainResponses(),
-                new MarkToDoResponses(),
-                new ToDoSharedResponses(),
-                new ShowToDoResponses());
-            Services.AddSingleton(ResponseManager);
-
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = new DefaultTestAdapter();
+
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                adapter.UseState(userState, conversationState);
+
+                var resource = sp.GetService<ResourceExplorer>();
+                adapter.UseResourceExplorer(resource);
+                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
+
+                adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
+
+                return adapter;
+            });
+
             Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<AddToDoItemDialog>();
@@ -112,13 +126,42 @@ namespace ToDoSkill.Tests.Flow
             Services.AddTransient<MarkToDoItemDialog>();
             Services.AddTransient<ShowToDoItemDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\..\todoskill";
+            var templateFiles = new List<string>()
+            {
+                @"AddToDo\AddToDoTexts.lg",
+                @"DeleteToDo\DeleteToDoTexts.lg",
+                @"Main\ToDoMainTexts.lg",
+                @"MarkToDo\MarkToDoTexts.lg",
+                @"Shared\ToDoSharedTexts.lg",
+                @"ShowToDo\ShowToDoTexts.lg",
+            };
+            var templates = new List<string>();
+            templateFiles.ForEach(s => templates.Add(Path.Combine(projPath, "Responses", s)));
+            var engine = new TemplateEngine().AddFiles(templates);
+            Services.AddSingleton(engine);
+
+            var resourceExplorer = ResourceExplorer.LoadProject(projPath);
+            Services.AddSingleton(resourceExplorer);
+
+            Services.AddSingleton<IStorage>(new MemoryStorage());
+
+            TypeFactory.Configuration = new ConfigurationBuilder().Build();
+        }
+
+        public string[] GetTemplates(string templateName, object data)
+        {
+            var sp = Services.BuildServiceProvider();
+            var engine = sp.GetService<TemplateEngine>();
+            var formatTemplateName = templateName + ".Text";
+            return engine.ExpandTemplate(formatTemplateName, data).ToArray();
         }
 
         public TestFlow GetTestFlow()
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken(Provider, Channels.Test, adapter.Conversation.User.Id, "test");
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {

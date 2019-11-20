@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -28,14 +27,13 @@ namespace ToDoSkill.Dialogs
         public DeleteToDoItemDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
             IHttpContextAccessor httpContext)
-            : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
+            : base(nameof(DeleteToDoItemDialog), settings, services, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -133,7 +131,7 @@ namespace ToDoSkill.Dialogs
 
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-                    cardReply = ToAdaptiveCardForTaskDeletedFlow(
+                    cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
                         sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
@@ -154,21 +152,21 @@ namespace ToDoSkill.Dialogs
                         state.ShowTaskPageIndex = 0;
                         state.TaskIndexes = new List<int>();
 
-                        cardReply = ToAdaptiveCardForTaskDeletedFlow(
-                        sc.Context,
-                        state.Tasks,
-                        state.AllTasks.Count,
-                        null,
-                        state.ListType,
-                        true);
+                        cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
+                            sc.Context,
+                            state.Tasks,
+                            state.AllTasks.Count,
+                            string.Empty,
+                            state.ListType,
+                            true);
                     }
                     else
                     {
-                        cardReply = ToAdaptiveCardForDeletionRefusedFlow(
-                        sc.Context,
-                        state.Tasks,
-                        state.AllTasks.Count,
-                        state.ListType);
+                        cardReply = await ToAdaptiveCardForDeletionRefusedFlowByLG(
+                            sc.Context,
+                            state.Tasks,
+                            state.AllTasks.Count,
+                            state.ListType);
                     }
                 }
 
@@ -217,7 +215,8 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.ListTypePromptForDelete);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.ListTypePromptForDelete, sc.Context, null);
+
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -285,11 +284,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexRetryForDelete);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexRetryForDelete, sc.Context, null);
                     }
                     else
                     {
-                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexForDelete);
+                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexForDelete, sc.Context, null);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -380,9 +379,16 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var token = new StringDictionary() { { "listType", state.ListType } };
-                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmation, token);
-                    var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmationFailed, token);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmation, sc.Context, new
+                    {
+                        ListType = state.ListType
+                    });
+
+                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmationFailed, sc.Context, new
+                    {
+                        ListType = state.ListType
+                    });
+
                     return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
                 else
@@ -441,8 +447,9 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskPrompt);
-                var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskPrompt, sc.Context, null);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed, sc.Context, null);
+
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -472,7 +479,9 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    await sc.Context.SendActivityAsync(activity);
+
                     return await sc.EndDialogAsync(true);
                 }
             }
