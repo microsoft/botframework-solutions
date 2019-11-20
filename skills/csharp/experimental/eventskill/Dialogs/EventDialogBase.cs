@@ -150,8 +150,7 @@ namespace EventSkill.Dialogs
                 var state = await StateAccessor.GetAsync(dc.Context, () => new EventSkillState());
 
                 // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["Event"];
 
                 // Get intent and entities for activity

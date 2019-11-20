@@ -163,8 +163,7 @@ namespace PhoneSkill.Dialogs
             where T : IRecognizerConvert, new()
         {
             // Get luis service for current locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = Services.CognitiveModelSets[locale];
+            var localeConfig = Services.GetCognitiveModels();
             var luisService = localeConfig.LuisServices[luisServiceName];
 
             // Get intent and entities for activity
