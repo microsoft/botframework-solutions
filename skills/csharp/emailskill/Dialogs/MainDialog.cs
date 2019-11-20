@@ -144,14 +144,13 @@ namespace EmailSkill.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Populate state from activity as required.
                 await PopulateStateFromActivity(innerDc.Context);
 
                 // Get skill LUIS model from configuration.
-                localizedServices.LuisServices.TryGetValue("Email", out var luisService);
+                localeConfig.LuisServices.TryGetValue("Email", out var luisService);
 
                 if (luisService != null)
                 {
