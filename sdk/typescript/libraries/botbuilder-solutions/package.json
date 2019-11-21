@@ -6,6 +6,10 @@
     "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
+    "files": [
+        "src",
+        "lib"
+    ],
     "scripts": {
         "clean": "rimraf ./lib",
         "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
