@@ -26,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Microsoft/AI.git"
+    "url": "git+https://github.com/microsoft/botframework-solutions.git"
   },
   "author": "Microsoft",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Microsoft/AI/issues"
   },
-  "homepage": "https://github.com/Microsoft/AI#readme",
+  "homepage": "https://github.com/microsoft/botframework-solutions/tree/master/tools/botskills",
   "dependencies": {
     "botdispatch": "^1.3.0",
     "chalk": "^2.4.2",
