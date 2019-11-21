@@ -42,7 +42,6 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             LuisResult = null;
             GeneralLuisResult = null;
-            PageSize = 0;
             EventSource = EventSource.Other;
             MeetingInfor.Clear();
             ShowMeetingInfor.Clear();

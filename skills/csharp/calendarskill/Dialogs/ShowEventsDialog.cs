@@ -619,44 +619,10 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                    var intentSwithingResult = await GetIntentSwitchingResult(sc, topIntent.Value, state);
+                    if (intentSwithingResult != null)
                     {
-                        return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                    {
-                        return await sc.BeginDialogAsync(Actions.UpdateEvent);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.CheckAvailability)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.ConnectToMeeting)
-                    {
-                        return await sc.BeginDialogAsync(Actions.ConnectToMeeting);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.CreateCalendarEntry)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(CreateEventDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.FindCalendarDetail
-                        || topIntent == CalendarLuis.Intent.FindCalendarEntry
-                        || topIntent == CalendarLuis.Intent.FindCalendarWhen
-                        || topIntent == CalendarLuis.Intent.FindCalendarWhere
-                        || topIntent == CalendarLuis.Intent.FindCalendarWho
-                        || topIntent == CalendarLuis.Intent.FindDuration
-                        || topIntent == CalendarLuis.Intent.FindMeetingRoom)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.TimeRemaining)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+                        return intentSwithingResult;
                     }
                     else
                     {
@@ -674,6 +640,51 @@ namespace CalendarSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        private async Task<DialogTurnResult> GetIntentSwitchingResult(WaterfallStepContext sc, CalendarLuis.Intent topIntent, CalendarSkillState state)
+        {
+            var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
+            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+            {
+                return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
+            }
+            else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+            {
+                return await sc.BeginDialogAsync(Actions.UpdateEvent);
+            }
+            else if (topIntent == CalendarLuis.Intent.CheckAvailability)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
+            }
+            else if (topIntent == CalendarLuis.Intent.ConnectToMeeting)
+            {
+                return await sc.BeginDialogAsync(Actions.ConnectToMeeting);
+            }
+            else if (topIntent == CalendarLuis.Intent.CreateCalendarEntry)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(CreateEventDialog), newFlowOptions);
+            }
+            else if (topIntent == CalendarLuis.Intent.FindCalendarDetail
+                || topIntent == CalendarLuis.Intent.FindCalendarEntry
+                || topIntent == CalendarLuis.Intent.FindCalendarWhen
+                || topIntent == CalendarLuis.Intent.FindCalendarWhere
+                || topIntent == CalendarLuis.Intent.FindCalendarWho
+                || topIntent == CalendarLuis.Intent.FindDuration
+                || topIntent == CalendarLuis.Intent.FindMeetingRoom)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), newFlowOptions);
+            }
+            else if (topIntent == CalendarLuis.Intent.TimeRemaining)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+            }
+
+            return null;
         }
 
         private async Task<DialogTurnResult> ReadEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -802,44 +813,10 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                    var intentSwithingResult = await GetIntentSwitchingResult(sc, topIntent.Value, state);
+                    if (intentSwithingResult != null)
                     {
-                        return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                    {
-                        return await sc.BeginDialogAsync(Actions.UpdateEvent);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.CheckAvailability)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.ConnectToMeeting)
-                    {
-                        return await sc.BeginDialogAsync(Actions.ConnectToMeeting);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.CreateCalendarEntry)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(CreateEventDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.FindCalendarDetail
-                        || topIntent == CalendarLuis.Intent.FindCalendarEntry
-                        || topIntent == CalendarLuis.Intent.FindCalendarWhen
-                        || topIntent == CalendarLuis.Intent.FindCalendarWhere
-                        || topIntent == CalendarLuis.Intent.FindCalendarWho
-                        || topIntent == CalendarLuis.Intent.FindDuration
-                        || topIntent == CalendarLuis.Intent.FindMeetingRoom)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), newFlowOptions);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.TimeRemaining)
-                    {
-                        state.Clear();
-                        return await sc.ReplaceDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+                        return intentSwithingResult;
                     }
                 }
 
