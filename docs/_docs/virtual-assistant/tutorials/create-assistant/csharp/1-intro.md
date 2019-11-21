@@ -18,7 +18,6 @@ Install Bot Framework development prerequisites and create your first Virtual As
 - LUIS Authoring Key
     - Option 1: Use a LUIS starter key
         - Go to the LUIS portal for your desired region.
-        documentation page for more information. 
         - Once signed in, select your initials in the right-hand corner, then select **Settings**.
         - Under **Starter_Key**, copy the **Primary Key**.
     - Option 2: Provision a LUIS authoring resource in Azure
