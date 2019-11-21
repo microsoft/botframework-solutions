@@ -11,20 +11,16 @@ order: 3
 
 ## Create your Virtual Assistant project
 
-1. In Visual Studio, replace **File > New Project**.
-2. Under Bot, select **Virtual Assistant Template**.
+1. In Visual Studio, select **File > New Project**.
+2. Search for **Virtual Assistant Template** and select **Next**.
 3. Name your project and select **Create**.
 4. Build your project to restore the NuGet packages.
 
 ## What files were created?
     | - Adapters                            // BotAdapter implementations for configuring Middleware
         | - DefaultAdapter.cs               // Configures basic middleware
-        | - DefaultWebSocketAdapter.cs      // Configures middleware for web socket connection (speech)
     | - Bots                                // IBot implementations for initializing dialog stack
-        | - DialogBot.cs                    // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
-    | - Content                             // Static content used by the assistant including images and Adaptive Cards
-        | - NewUserGreeting.json            // Adaptive Card shown to first time users
-        | - ReturningUserGreeting.json      // Adaptive Card shown to returning users
+        | - DefaultActivityHandler.cs       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
     | - Controllers                         // API Controllers
         | - BotController.cs                // API Controller for api/messages endpoint
     | - Deployment                          // Files for deployment and provisioning
@@ -46,25 +42,13 @@ order: 3
     | - Dialogs                             // Bot Framework Dialogs
         | - MainDialog.cs                   // Dialog for routing incoming messages
         | - OnboardingDialog.cs             // Dialog for collecting basic profile information from user
-        | - CancelDialog.cs                 // Dialog for confirming cancellation intent
-        | - EscalateDialog.cs               // Dialog for handling user escalation
     | - Models                              // Data models
-        | - OnboardingState.cs              // Model for basic profile information
+        | - UserProfileState.cs             // Model for basic profile information
     | - Pipeline                            // Files for setting up an deployment pipeline in Azure DevOps
         | - Assistant.yml                   // Build pipeline template for Azure DevOps
     | - Responses                           // Classes and files for representing bot responses
-        | - Cancel                          // Cancel responses                              
-            | - CancelResponses.cs          // Cancel dialog response manager
-            | - CancelString.resx           // Cancel dialog strings
-        | - Escalate                        // Escalate responses   
-            | - EscalateResponses.cs        // Escalate dialog response manager
-            | - EscalateString.resx         // Escalate dialog strings
-        | - Main                            // Main responses   
-            | - MainResponses.cs            // Main dialog response manager
-            | - MainString.resx             // Main dialog strings
-        | - Onboarding                      // Onboarding responses   
-            | - OnboardingResponses.cs      // Onboarding dialog response manager
-            | - OnboardingString.resx       // Onboarding dialog strings
+        | - MainResponses.lg                // Language generation templates for Main Dialog repsonses
+        | - OnboardingResponses.lg          // Language generation templates for Onboarding Dialog repsonses 
     | - Services                            // Configuration for connected services and service clients
         | - BotServices.cs                  // Class representation of service clients and recognizers
         | - BotSettings.cs                  // Class representation of configuration files
