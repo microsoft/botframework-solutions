@@ -31,7 +31,7 @@
   "author": "Microsoft",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Microsoft/AI/issues"
+    "url": "https://github.com/microsoft/botframework-solutions/issues"
   },
   "homepage": "https://github.com/microsoft/botframework-solutions/tree/master/tools/botskills",
   "dependencies": {
