@@ -22,4 +22,4 @@ botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_M
 
 **Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
 
-See the [Adding Skills]({{site.baseurl}}/howto/skills/botskills.md#Connect-Skills) for more detail on how to add skills.
+See the [Adding Skills]({{site.baseurl}}/help/reference/botskills/) for more details.
