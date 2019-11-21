@@ -10,7 +10,9 @@ order: 4
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Update your knowledgebases
-The Virtual Assistant Template include two knowledgebases, FAQ and Chitchat, that can be customized to fit your scenario. For example, QnA Maker offers FAQ and PDF extraction to automatically build a knowledgebase from your existing content ([learn more](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/data-sources-supported)). They also offer a variety of prebuilt chitchat knowledgebases with different personality types ([learn more](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/chit-chat-knowledge-base)). Refer to this documentation to learn how to edit your knowledgebases in the QnA Maker portal: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base.
+The Virtual Assistant Template includes two knowledgebases, FAQ and Chitchat, that can be customized to fit your scenario. For example, QnA Maker offers FAQ and PDF extraction to automatically build a knowledgebase from your existing content ([learn more](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/data-sources-supported)). 
+
+There are also a variety of prebuilt chitchat knowledgebases with different personality types ([learn more](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/chit-chat-knowledge-base)). Refer to this documentation to learn how to edit your knowledgebases in the QnA Maker portal: [How to edit a knowledgebase](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base).
 
 Once you have made your desired changes, your Virtual Assistant Dispatch model will need to be updated with your changes. Run the following command from your project directory to update your Dispatch model:
 ```
