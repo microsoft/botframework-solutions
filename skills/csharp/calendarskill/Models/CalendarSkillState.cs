@@ -21,6 +21,8 @@ namespace CalendarSkill.Models
 
         public EventSource EventSource { get; set; } = EventSource.Other;
 
+        public bool IsInShowFlow { get; set; } = false;
+
         public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
 
         public ShowMeetingInformation ShowMeetingInfor { get; set; } = new ShowMeetingInformation();
@@ -40,9 +42,8 @@ namespace CalendarSkill.Models
         public void Clear()
         {
             UserInfo = new UserInformation();
-            LuisResult = null;
-            GeneralLuisResult = null;
             EventSource = EventSource.Other;
+            IsInShowFlow = false;
             MeetingInfor.Clear();
             ShowMeetingInfor.Clear();
             UpdateMeetingInfor.Clear();

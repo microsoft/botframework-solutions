@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
+using Luis;
 
 namespace CalendarSkill.Utilities
 {
@@ -122,6 +123,30 @@ namespace CalendarSkill.Utilities
         public static bool ContainsTime(string timex)
         {
             return timex.Contains("T");
+        }
+
+        public static CalendarLuis.Intent CheckIntentSwitching(CalendarLuis.Intent intent)
+        {
+            switch (intent)
+            {
+                case CalendarLuis.Intent.AcceptEventEntry:
+                case CalendarLuis.Intent.ChangeCalendarEntry:
+                case CalendarLuis.Intent.CheckAvailability:
+                case CalendarLuis.Intent.ConnectToMeeting:
+                case CalendarLuis.Intent.CreateCalendarEntry:
+                case CalendarLuis.Intent.DeleteCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarDetail:
+                case CalendarLuis.Intent.FindCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarWhen:
+                case CalendarLuis.Intent.FindCalendarWhere:
+                case CalendarLuis.Intent.FindCalendarWho:
+                case CalendarLuis.Intent.FindDuration:
+                case CalendarLuis.Intent.FindMeetingRoom:
+                case CalendarLuis.Intent.TimeRemaining:
+                    return intent;
+                default:
+                    return CalendarLuis.Intent.None;
+            }
         }
     }
 }

@@ -144,6 +144,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = sc.Options as ShowMeetingsDialogOptions;
 
+                state.IsInShowFlow = true;
+
                 // if show next meeting
                 if (state.MeetingInfor.OrderReference != null && state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                 {
@@ -622,6 +624,7 @@ namespace CalendarSkill.Dialogs
                     var intentSwithingResult = await GetIntentSwitchingResult(sc, topIntent.Value, state);
                     if (intentSwithingResult != null)
                     {
+                        state.IsInShowFlow = false;
                         return intentSwithingResult;
                     }
                     else
@@ -676,7 +679,7 @@ namespace CalendarSkill.Dialogs
                 || topIntent == CalendarLuis.Intent.FindMeetingRoom)
             {
                 state.Clear();
-                return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), newFlowOptions);
+                return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
             }
             else if (topIntent == CalendarLuis.Intent.TimeRemaining)
             {
