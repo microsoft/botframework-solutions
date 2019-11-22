@@ -28,11 +28,10 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         this.telemetryClient = telemetryClient;
     }
 
-    // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
         if (this.authenticationProvider) {
             // grab the auth header from the inbound http request
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const authHeader: string = req.headers.authorization || req.headers.Authorization || '';
             const authenticated: boolean = await this.authenticationProvider.authenticate(authHeader);
 
@@ -69,7 +68,6 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
 }
 
 async function parseRequest(req: WebRequest): Promise<Activity> {
-    // tslint:disable-next-line:typedef
     return new Promise((resolve, reject): void => {
         function returnActivity(activity: Activity): void {
             if (typeof activity !== 'object') { throw new Error(`BotFrameworkAdapter.parseRequest(): invalid request body.`); }
@@ -82,7 +80,6 @@ async function parseRequest(req: WebRequest): Promise<Activity> {
 
         if (req.body) {
             try {
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 returnActivity(req.body);
             } catch (err) {
                 reject(err);
@@ -94,9 +91,7 @@ async function parseRequest(req: WebRequest): Promise<Activity> {
             });
             req.on('end', (): void => {
                 try {
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     req.body = JSON.parse(requestData);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     returnActivity(req.body);
                 } catch (err) {
                     reject(err);

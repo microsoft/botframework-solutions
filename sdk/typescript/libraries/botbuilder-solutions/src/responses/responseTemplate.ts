@@ -20,7 +20,6 @@ export class ResponseTemplate {
     }
 
     private getRandom(upper: number): number {
-        // tslint:disable-next-line:insecure-random
         return Math.floor(Math.random() * upper);
     }
 }

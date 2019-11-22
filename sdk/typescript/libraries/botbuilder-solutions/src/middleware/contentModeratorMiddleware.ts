@@ -73,7 +73,6 @@ export class ContentModeratorMiddleware implements Middleware {
 
     private textToReadable(text: string): Readable {
         const readable: Readable = new Readable();
-        // tslint:disable-next-line:no-empty
         readable._read = (): void => { };
         readable.push(text);
         readable.push(undefined);

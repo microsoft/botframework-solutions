@@ -7,7 +7,6 @@ import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
     ListStyle, OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
 import { MicrosoftAppCredentials } from 'botframework-connector';
-// tslint:disable-next-line:no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
@@ -129,7 +128,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 this.telemetryClient.trackEvent({
                     name: 'DirectLineSpeechTokenRetrievalFailure',
                     properties: {
-                        // tslint:disable-next-line:no-unsafe-any
                         Exception: error.message
                     }
                 });
@@ -166,7 +164,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
-            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const tokenProvider: IRemoteUserTokenProvider = <any>stepContext.context.adapter;
             await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
 
@@ -179,7 +177,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async receiveRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (stepContext.context.activity !== undefined && stepContext.context.activity.value !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const tokenResponse: IProviderTokenResponse = JSON.parse(stepContext.context.activity.value);
 
             return stepContext.endDialog(tokenResponse);

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/tslint/config
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ICardData {
 
 }

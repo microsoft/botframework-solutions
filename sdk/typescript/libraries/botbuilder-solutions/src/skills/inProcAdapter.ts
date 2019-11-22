@@ -84,7 +84,6 @@ export class InProcAdapter extends BotAdapter {
                 // hack directly in the POST method. Replicating that here
                 // to keep the behavior as close as possible to facilitate
                 // more realistic tests.
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const delayMs: number = activity.value;
                 await this.sleep(delayMs);
             } else {
