@@ -305,7 +305,7 @@ namespace CalendarSkill.Dialogs
 
                             if (intentSwitchingResult != CalendarLuis.Intent.None)
                             {
-                                result = InterruptionAction.Resume;
+                                result = InterruptionAction.Waiting;
                                 state.Clear();
                                 await dc.CancelAllDialogsAsync();
                             }
