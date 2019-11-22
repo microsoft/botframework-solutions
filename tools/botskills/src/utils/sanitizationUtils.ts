@@ -9,7 +9,6 @@ const regexTrailingBackslash: RegExp = /.*?(\\)+$/;
  * @param path Path to sanitize.
  * @returns Returns a path which is sanitized
  */
-// tslint:disable-next-line:export-name
 export function sanitizePath(path: string): string {
     if (regexTrailingBackslash.test(path)) {
         return path.substring(0, path.length - 1);
@@ -22,7 +21,6 @@ export function sanitizePath(path: string): string {
  * @param path Path to add quotes around in case it has spaces.
  * @returns Returns a path with quotes
  */
-// tslint:disable-next-line:export-name
 export function wrapPathWithQuotes(path: string): string {
     return `"${path}"`;
 }

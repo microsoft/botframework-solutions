@@ -64,7 +64,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             throw new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.`);
         }
 
-        // tslint:disable:no-backbone-get-set-outside-model
         const executionModelMap: Map<string, string> = new Map();
         executionModelMap.set('luisApp', luisApp);
         executionModelMap.set('luisFile', luisFile);
@@ -79,7 +78,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('--intentName', intentName);
         executionModelMap.set('--dataFolder', dispatchFolderPath);
         executionModelMap.set('--dispatch', dispatchFilePath);
-        // tslint:enable:no-backbone-get-set-outside-model
 
         return executionModelMap;
     }
@@ -93,7 +91,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         }
 
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
     }
 
@@ -104,7 +101,6 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         if (!skillManifest.id) {
             this.logger.error(`Missing property 'id' of the manifest`);
         } else if (skillManifest.id.match(/^\d|[^\w]/g) !== null) {
-            // tslint:disable-next-line:max-line-length
             this.logger.error(`The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
         }
         if (!skillManifest.endpoint) {
@@ -185,7 +181,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     private async executeLudownParse(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
         const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
         try {
-            // tslint:disable:no-backbone-get-set-outside-model
             const luisApp: string = <string> executionModelByCulture.get('luisApp');
             const luisFile: string = <string> executionModelByCulture.get('luisFile');
             const luisFilePath: string = <string> executionModelByCulture.get('luisFilePath');
@@ -196,9 +191,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 ludownParseCommand.push(...[argument, argumentValue]);
             });
             await this.runCommand(ludownParseCommand, `Parsing ${culture} ${luisApp} LU file`);
-            // tslint:enable:no-backbone-get-set-outside-model
             if (!existsSync(luisFilePath)) {
-                // tslint:disable-next-line: max-line-length
                 throw new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file.`);
             }
         } catch (err) {
@@ -209,7 +202,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     private async executeDispatchAdd(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
         const dispatchAddCommand: string[] = ['dispatch', 'add'];
         try {
-            // tslint:disable-next-line:no-backbone-get-set-outside-model
             const luisApp: string = <string> executionModelByCulture.get('luisApp');
             // Update Dispatch file
             const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch'];
@@ -237,7 +229,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 .filter((item: [string, string[]]): boolean => this.configuration.languages.includes(item[0]));
             this.logger.message('Adding skill to Dispatch');
 
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
             const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
 
@@ -283,7 +274,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                     this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
             }
             // Take cognitiveModels
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
             // Take skillManifest
             const skillManifest: ISkillManifest = await this.getManifest();
@@ -297,7 +287,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // End of manifest schema validation
 
             // Take VA Skills configurations
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
 

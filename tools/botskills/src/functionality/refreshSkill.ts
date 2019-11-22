@@ -35,10 +35,8 @@ export class RefreshSkill {
         const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
         try {
             this.logger.message(`Running dispatch refresh for ${dispatchName}...`);
-            // tslint:disable:no-backbone-get-set-outside-model
             const dispatchJsonFile: string = <string> executionModelByCulture.get('dispatchJsonFile');
             const dispatchJsonFilePath: string = <string> executionModelByCulture.get('dispatchJsonFilePath');
-            // tslint:enable:no-backbone-get-set-outside-model
             const dispatchRefreshCommandArguments: string[] = ['--dispatch', '--dataFolder'];
             dispatchRefreshCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = <string> executionModelByCulture.get(argument);
@@ -49,7 +47,6 @@ export class RefreshSkill {
                 `Executing dispatch refresh for the ${dispatchName} file`);
 
             if (!existsSync(dispatchJsonFilePath)) {
-                // tslint:disable-next-line: max-line-length
                 throw new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
             }
         } catch (err) {
@@ -90,7 +87,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             throw new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.`);
         }
 
-        // tslint:disable:no-backbone-get-set-outside-model
         const executionModelMap: Map<string, string> = new Map();
         executionModelMap.set('dispatchJsonFile', dispatchJsonFile);
         executionModelMap.set('dispatchJsonFilePath', dispatchJsonFilePath);
@@ -99,7 +95,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set(wrapPathWithQuotes(dispatchJsonFilePath), '');
         executionModelMap.set(`-${this.configuration.lgLanguage}`, wrapPathWithQuotes('DispatchLuis'));
         executionModelMap.set('-o', wrapPathWithQuotes(this.configuration.lgOutFolder));
-        // tslint:enable:no-backbone-get-set-outside-model
 
         return executionModelMap;
     }
@@ -109,7 +104,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             throw new Error(`Could not find the cognitiveModels file (${
                 this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         }
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
         const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
         const executionsModelMap: Map<string, Map<string, string>> = new Map();
