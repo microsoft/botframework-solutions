@@ -20,7 +20,7 @@ Incoming activities are initially received through the BotAdapter implementation
 - **Telemetry Middleware** - Configures Application Insights telemetry logging.
 - **Transcript Logger Middleware** - Configures conversation transcript logging.
 - **Show Typing Middleware** - Sends typing indicators from the bot.
-- **Feedback Middleware** - Configures the [Feedback]({{site.baseurl}}//virtual-assistant/feedback) feature.
+- **Feedback Middleware** - Configures the [Feedback]({{site.baseurl}}/virtual-assistant/handbook/feedback) feature.
 - **Set Locale Middleware** - Configures the CurrentUICulture to enable localization scenarios.
 - **Event Debugger Middleware** - Enables debugging for event activities.
 
