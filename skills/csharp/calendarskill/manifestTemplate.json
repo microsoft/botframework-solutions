@@ -57,7 +57,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
@@ -88,7 +88,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
@@ -111,7 +111,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
@@ -152,7 +152,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#TimeRemaining"
               ]
@@ -190,7 +190,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -241,7 +241,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]

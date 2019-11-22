@@ -62,7 +62,7 @@ namespace HospitalitySkill.Tests.Flow
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet()
+                        "en-us", new CognitiveModelSet()
                         {
                             LuisServices = new Dictionary<string, LuisRecognizer>
                             {

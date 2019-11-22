@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import * as child_process from 'child_process';
+import * as childProcess from 'child_process';
 import { join } from 'path';
 import { isAzPreviewMessage } from './';
 
@@ -13,12 +13,12 @@ export class ChildProcessUtils {
         const dispatchPath: string = join(__dirname, '..', '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
 
         // tslint:disable-next-line: typedef
-        return new Promise((pResolve, pReject) => {
-            child_process.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
-                .on('close', (code: number) => {
+        return new Promise((pResolve, pReject): void => {
+            childProcess.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
+                .on('close', (code: number): void => {
                     pResolve('');
                 })
-                .on('error', (err: Error) => {
+                .on('error', (err: Error): void => {
                     pReject(err);
                 });
         });
@@ -30,10 +30,10 @@ export class ChildProcessUtils {
         }
 
         // tslint:disable-next-line: typedef
-        return new Promise((pResolve, pReject) => {
-            child_process.exec(
+        return new Promise((pResolve, pReject): void => {
+            childProcess.exec(
                 `${command} ${args.join(' ')}`,
-                (err: child_process.ExecException | null, stdout: string, stderr: string) => {
+                (err: childProcess.ExecException | null, stdout: string, stderr: string): void => {
                     if (stderr && !stderr.includes('Update available')) {
                         pReject(stderr);
                     }
@@ -44,16 +44,16 @@ export class ChildProcessUtils {
 
     public async tryExecute(command: string[]): Promise<string> {
         // tslint:disable-next-line: typedef
-        return new Promise((pResolve, pReject) => {
+        return new Promise((pResolve, pReject): void => {
             try {
-                child_process.exec(
+                childProcess.exec(
                     `${command.join(' ')}`,
-                    (err: child_process.ExecException | null, stdout: string, stderr: string) => {
+                    (err: childProcess.ExecException | null, stdout: string, stderr: string): void => {
                         if (stderr && !isAzPreviewMessage(stderr)) {
                             pReject(stderr);
                         }
                         pResolve(stdout);
-                });
+                    });
             } catch (err) {
                 pReject(err);
             }

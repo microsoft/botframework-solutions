@@ -1,7 +1,5 @@
 ﻿<!DOCTYPE html>
-
 <html>
-
 <head>
     <title>{{page.title}}</title>
 	<meta charset="utf-8">
@@ -13,20 +11,20 @@
 	<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />
 	<link rel="stylesheet" href="{{site.baseurl}}/assets/css/index.css">
 </head>
-
 <body class="ms-Fabric">
 	{% include header.html %}
-	<div class="container-fluid">
-        <div class="row flex-md-nowrap">
+	<div class="container-fluid px-6">
+        <div class="row">
             {% include nav.html %}
-            <div class="col-md-9 py-10 pl-5 markdown-body" id="markdown-content">
+            <main id="markdown-content" class="col-12 col-md-8 py-8 px-2 markdown-body">
                 {{ content }}
-            </div>
+            </main>
+            <nav id="toc-content" class="col-2 d-none d-md-block">
+                {% include toc.html html=content sanitize=true h_min=2 h_max=2 %}
+            </nav>
         </div>
 	</div>
-
-	{% include footer.html %}
-	
+	{% include footer.html %}	
    <!-- jQuery CDN - Slim version (=without AJAX) -->
    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
    <!-- Bootstrap JS -->

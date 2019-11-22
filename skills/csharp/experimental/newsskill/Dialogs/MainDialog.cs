@@ -58,11 +58,14 @@ namespace NewsSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
+            // get current activity locale
+            var localeConfig = _services.GetCognitiveModels();
+
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
 
             // If dispatch result is general luis model
-            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("News", out var luisService);
+            localeConfig.LuisServices.TryGetValue("News", out var luisService);
 
             if (luisService == null)
             {

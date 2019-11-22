@@ -26,24 +26,9 @@
       </Folder>
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
-	      <ProjectItem ReplaceParameters="true" TargetFileName="DefaultWebSocketAdapter.cs">DefaultWebSocketAdapter.cs</ProjectItem>
       </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
-        <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
-      </Folder>
-      <Folder Name="Content" TargetFolderName="Content">
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.json">NewUserGreeting.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de-de.json">NewUserGreeting.de-de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es-es.json">NewUserGreeting.es-es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.fr-fr.json">NewUserGreeting.fr-fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.it-it.json">NewUserGreeting.it-it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.zh-cn.json">NewUserGreeting.zh-cn.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.json">ReturningUserGreeting.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.de-de.json">ReturningUserGreeting.de-de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.es-es.json">ReturningUserGreeting.es-es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.fr-fr.json">ReturningUserGreeting.fr-fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it-it.json">ReturningUserGreeting.it-it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh-cn.json">ReturningUserGreeting.zh-cn.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="DefaultActivityHandler.cs">DefaultActivityHandler.cs</ProjectItem>
       </Folder>
       <Folder Name="Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
@@ -95,7 +80,7 @@
               <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
-          </Folder>     
+          </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="parameters.template.json">parameters.template.json</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="template.json">template.json</ProjectItem>
         </Folder>
@@ -109,64 +94,34 @@
         </Folder>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
-        <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
       </Folder>
       <Folder Name="Models" TargetFolderName="Models">
-        <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingState.cs">OnboardingState.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="UserProfileState.cs">UserProfileState.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Pipeline" TargetFolderName="Pipeline">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
-        <Folder Name="Cancel" TargetFolderName="Cancel">
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.Designer.cs">CancelStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.de-de.resx">CancelStrings.de-de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.es-es.resx">CancelStrings.es-es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.fr-fr.resx">CancelStrings.fr-fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.it-it.resx">CancelStrings.it-it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.zh-cn.resx">CancelStrings.zh-cn.resx</ProjectItem>
-        </Folder>
-        <Folder Name="Escalate" TargetFolderName="Escalate">
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateResponses.cs">EscalateResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.resx">EscalateStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.Designer.cs">EscalateStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.de-de.resx">EscalateStrings.de-de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.es-es.resx">EscalateStrings.es-es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.fr-fr.resx">EscalateStrings.fr-fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.it-it.resx">EscalateStrings.it-it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.zh-cn.resx">EscalateStrings.zh-cn.resx</ProjectItem>
-        </Folder>
-        <Folder Name="Main" TargetFolderName="Main">
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.resx">MainStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.Designer.cs">MainStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.de-de.resx">MainStrings.de-de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.es-es.resx">MainStrings.es-es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.fr-fr.resx">MainStrings.fr-fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.it-it.resx">MainStrings.it-it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.zh-cn.resx">MainStrings.zh-cn.resx</ProjectItem>
-        </Folder>
-        <Folder Name="Onboarding" TargetFolderName="Onboarding">
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingResponses.cs">OnboardingResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.resx">OnboardingStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.Designer.cs">OnboardingStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.de-de.resx">OnboardingStrings.de-de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.es-es.resx">OnboardingStrings.es-es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.fr-fr.resx">OnboardingStrings.fr-fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.it-it.resx">OnboardingStrings.it-it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh-cn.resx">OnboardingStrings.zh-cn.resx</ProjectItem>
-        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.lg">MainResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.de-de.lg">MainResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.es-es.lg">MainResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.fr-fr.lg">MainResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.it-it.lg">MainResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.zh-cn.lg">MainResponses.zh-cn.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.lg">OnboardingResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.de-de.lg">OnboardingResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.es-es.lg">OnboardingResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.fr-fr.lg">OnboardingResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.it-it.lg">OnboardingResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.zh-cn.lg">OnboardingResponses.zh-cn.lg</ProjectItem>
       </Folder>
       <Folder Name="Services" TargetFolderName="Services">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
-      </Folder>
-      <Folder Name="Pipeline" TargetFolderName="Pipeline">
-        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
