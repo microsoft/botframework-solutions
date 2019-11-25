@@ -27,23 +27,15 @@ using Microsoft.Recognizers.Text;
 
 namespace EmailSkill.Dialogs
 {
-    public class FindContactDialog : ComponentDialog
+    public class FindContactDialog : EmailSkillDialogBase
     {
         public static readonly int MaxAcceptContactsNum = 20;
 
         public FindContactDialog(
              IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
-             : base(nameof(FindContactDialog))
+             : base(nameof(FindContactDialog), serviceProvider, telemetryClient)
         {
-            TelemetryClient = telemetryClient;
-            Services = serviceProvider.GetService<BotServices>();
-            ResponseManager = serviceProvider.GetService<ResponseManager>();
-
-            var conversationState = serviceProvider.GetService<ConversationState>();
-            Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
-            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            ServiceManager = serviceProvider.GetService<IServiceManager>();
             TelemetryClient = telemetryClient;
 
             // entry, get the name list
@@ -93,6 +85,9 @@ namespace EmailSkill.Dialogs
                 // if got multiple persons, call selectPerson. use replace
                 // if got no person, replace/restart this flow.
                 AfterUpdateUserName,
+                GetAuthToken,
+                AfterGetAuthToken,
+                GetUserFromUserName
             };
 
             // select person, called bt updateName with replace.
@@ -129,23 +124,11 @@ namespace EmailSkill.Dialogs
             InitialDialogId = FindContactAction.ConfirmNameList;
         }
 
-        protected BotSettings Settings { get; set; }
-
-        protected BotServices Services { get; set; }
-
-        protected IStatePropertyAccessor<EmailSkillState> Accessor { get; set; }
-
-        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
-
-        protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
-
         public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var options = sc.Options as FindContactDialogOptions;
 
                 // got attendee name list already.
@@ -184,7 +167,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -235,7 +218,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 if (state.FindContactInfor.ConfirmContactsNameIndex < state.FindContactInfor.ContactsNameList.Count)
                 {
                     state.FindContactInfor.CurrentContactName = state.FindContactInfor.ContactsNameList[state.FindContactInfor.ConfirmContactsNameIndex];
@@ -272,7 +255,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 state.FindContactInfor.ConfirmContactsNameIndex = state.FindContactInfor.ConfirmContactsNameIndex + 1;
                 state.FindContactInfor.ConfirmedContact = null;
                 return await sc.ReplaceDialogAsync(FindContactAction.LoopNameList, sc.Options, cancellationToken);
@@ -289,7 +272,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // when called bt LoopNameList, the options reason is initialize.
                 // when replaced by itself, the reason will be Confirm No.
@@ -315,7 +298,7 @@ namespace EmailSkill.Dialogs
 
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var confirmedPerson = state.FindContactInfor.ConfirmedContact;
             if (confirmedPerson == null)
             {
@@ -338,7 +321,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
 
@@ -381,7 +364,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 state.FindContactInfor.UnconfirmedContact.Clear();
                 state.FindContactInfor.ConfirmedContact = null;
                 var options = (FindContactDialogOptions)sc.Options;
@@ -449,7 +432,7 @@ namespace EmailSkill.Dialogs
             try
             {
                 var userInput = sc.Result as string;
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var options = (FindContactDialogOptions)sc.Options;
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
@@ -460,7 +443,29 @@ namespace EmailSkill.Dialogs
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
                 state.FindContactInfor.CurrentContactName = currentRecipientName;
+                return await sc.NextAsync();
+            }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
 
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> GetUserFromUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var options = (FindContactDialogOptions)sc.Options;
+                var currentRecipientName = state.FindContactInfor.CurrentContactName;
                 var unionList = new List<PersonModel>();
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
@@ -561,12 +566,6 @@ namespace EmailSkill.Dialogs
                     return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, sc.Options, cancellationToken);
                 }
             }
-            catch (SkillException skillEx)
-            {
-                await HandleDialogExceptions(sc, skillEx);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -579,7 +578,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var unionList = state.FindContactInfor.UnconfirmedContact;
                 if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
@@ -602,7 +601,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
@@ -659,7 +658,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var emailString = string.Empty;
                 var emailList = confirmedPerson.Emails.ToList();
@@ -685,7 +684,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
@@ -741,7 +740,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var nameString = state.FindContactInfor.Contacts.ToSpeechString(
                     CommonStrings.And,
                     li => !string.IsNullOrEmpty(li.EmailAddress.Name) && Util.IsEmail(li.EmailAddress.Name) ? li.EmailAddress.Name : $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
@@ -861,9 +860,9 @@ namespace EmailSkill.Dialogs
         protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetContactsAsync(name);
@@ -873,9 +872,9 @@ namespace EmailSkill.Dialogs
         protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetPeopleAsync(name);
@@ -886,9 +885,9 @@ namespace EmailSkill.Dialogs
         protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetUserAsync(name);
@@ -928,13 +927,13 @@ namespace EmailSkill.Dialogs
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.ErrorMessage));
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(pc.Context);
+            var state = await EmailStateAccessor.GetAsync(pc.Context);
             var generalLuisResult = pc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
             var generalTopIntent = generalLuisResult?.TopIntent().intent;
             var emailLuisResult = pc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
@@ -965,7 +964,7 @@ namespace EmailSkill.Dialogs
 
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.FindContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
@@ -1052,7 +1051,7 @@ namespace EmailSkill.Dialogs
 
         private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<PersonModel> unionList, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.FindContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
@@ -1120,7 +1119,7 @@ namespace EmailSkill.Dialogs
 
         private async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var unionList = state.FindContactInfor.ContactsNameList.ToList();
             if (unionList.Count == 1)
             {

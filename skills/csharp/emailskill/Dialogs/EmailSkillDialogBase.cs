@@ -212,7 +212,15 @@ namespace EmailSkill.Dialogs
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    state.Token = providerTokenResponse.TokenResponse.Token;
+
+                    if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
+                    {
+                        sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(StateProperties.APIToken, providerTokenResponse.TokenResponse.Token);
+                    }
 
                     var provider = providerTokenResponse.AuthenticationProvider;
 
@@ -446,6 +454,29 @@ namespace EmailSkill.Dialogs
                     var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
 
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterConfirmPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                    return await sc.EndDialogAsync();
                 }
             }
             catch (Exception ex)
@@ -927,8 +958,8 @@ namespace EmailSkill.Dialogs
 
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var serivce = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
 
             var isUnreadOnly = state.IsUnreadOnly;
             var isImportant = state.IsImportant;
@@ -1133,8 +1164,8 @@ namespace EmailSkill.Dialogs
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
             var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
 
             try
             {
@@ -1157,8 +1188,8 @@ namespace EmailSkill.Dialogs
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EmailAddress email)
         {
             var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
             var displayName = email.Name ?? email.Address;
 
             try
