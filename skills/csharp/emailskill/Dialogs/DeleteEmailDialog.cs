@@ -99,7 +99,7 @@ namespace EmailSkill.Dialogs
                            emailDetails = emailCard
                        });
 
-                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed, null);
+                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed);
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
 
@@ -125,12 +125,12 @@ namespace EmailSkill.Dialogs
                     var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, DeleteEmailResponses.DeleteSuccessfully, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, DeleteEmailResponses.DeleteSuccessfully);
                     await sc.Context.SendActivityAsync(activity);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
 

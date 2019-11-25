@@ -132,7 +132,7 @@ namespace EmailSkill.Dialogs
                 }
 
                 var recipientConfirmedMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.RecipientConfirmed, new { userName = await GetNameListStringAsync(sc, false) });
-                var noSubjectMessage = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoSubject, null);
+                var noSubjectMessage = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
 
@@ -167,7 +167,7 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryNoSubject, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryNoSubject);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = activity as Activity });
             }
             catch (Exception ex)
@@ -257,7 +257,7 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoMessageBody, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.NoMessageBody);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
@@ -290,7 +290,7 @@ namespace EmailSkill.Dialogs
                             emailContent = state.Content,
                         });
 
-                        var confirmMessageRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.ConfirmMessageRetry, null);
+                        var confirmMessageRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.ConfirmMessageRetry);
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
                             Prompt = replyMessage as Activity,
@@ -325,7 +325,7 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync(true);
                 }
 
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryContent, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.RetryContent);
                 await sc.Context.SendActivityAsync(activity);
                 return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
             }
@@ -398,8 +398,8 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var getRecreateInfoActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfo, null);
-                var getRecreateInfoRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfoRetry, null);
+                var getRecreateInfoActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfo);
+                var getRecreateInfoRetryActivity = await LGHelper.GenerateMessageAsync(sc.Context, SendEmailResponses.GetRecreateInfoRetry);
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
                 {
                     Prompt = getRecreateInfoActivity as Activity,
@@ -426,7 +426,7 @@ namespace EmailSkill.Dialogs
                     switch (recreateState.Value)
                     {
                         case ResendEmailState.Cancel:
-                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
                             await sc.Context.SendActivityAsync(activity);
                             await ClearConversationState(sc);
                             return await sc.EndDialogAsync(false, cancellationToken);

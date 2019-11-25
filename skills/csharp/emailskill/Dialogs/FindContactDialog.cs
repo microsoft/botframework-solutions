@@ -162,12 +162,12 @@ namespace EmailSkill.Dialogs
                 // ask for attendee
                 if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients);
                     return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = activity as Activity }, cancellationToken);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AddMoreContacts, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AddMoreContacts);
                     return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = activity as Activity }, cancellationToken);
                 }
             }
@@ -389,7 +389,7 @@ namespace EmailSkill.Dialogs
                 // if it is confirm no, then ask user to give a new attendee
                 if (options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients);
                     return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = activity as Activity });
                 }
 
@@ -605,7 +605,7 @@ namespace EmailSkill.Dialogs
                         }
                         else
                         {
-                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyFirstPage, null);
+                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyFirstPage);
                             await sc.Context.SendActivityAsync(activity);
                         }
                     }
@@ -689,7 +689,7 @@ namespace EmailSkill.Dialogs
                         }
                         else
                         {
-                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyFirstPage, null);
+                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyFirstPage);
                             await sc.Context.SendActivityAsync(activity);
                         }
                     }
@@ -899,7 +899,7 @@ namespace EmailSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -952,7 +952,7 @@ namespace EmailSkill.Dialogs
                 state.FindContactInfor.ShowContactsIndex--;
                 pageIndex = state.FindContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
-                var replyActivity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyLastPage, null);
+                var replyActivity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyLastPage);
                 await sc.Context.SendActivityAsync(replyActivity);
             }
 
@@ -969,7 +969,7 @@ namespace EmailSkill.Dialogs
                 options.Prompt = multiPageReply as Activity;
             }
 
-            var didntUnderstandReply = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage, null);
+            var didntUnderstandReply = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
             for (var i = 0; i < emailList.Count; i++)
             {
                 var user = confirmedPerson;
@@ -1043,7 +1043,7 @@ namespace EmailSkill.Dialogs
                 state.FindContactInfor.ShowContactsIndex--;
                 pageIndex = state.FindContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
-                var replyActivity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyLastPage, null);
+                var replyActivity = await LGHelper.GenerateMessageAsync(sc.Context, FindContactResponses.AlreadyLastPage);
                 await sc.Context.SendActivityAsync(replyActivity);
             }
 
@@ -1060,7 +1060,7 @@ namespace EmailSkill.Dialogs
                 options.Prompt = multiPageReply as Activity;
             }
 
-            var didntUnderstandReply = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage, null);
+            var didntUnderstandReply = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
             for (var i = 0; i < unionList.Count; i++)
             {
                 var user = unionList[i];

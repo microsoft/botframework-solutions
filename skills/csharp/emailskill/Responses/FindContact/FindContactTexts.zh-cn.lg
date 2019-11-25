@@ -2,16 +2,16 @@
 - 您要添加谁？
 
 # BeforeSendingMessage.Text(nameList)
-- 好吧，我知道你想发邮件{nameList}.
+- 好吧，我知道你想发邮件给{nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- 好吧，我要补充{userName}:{emailAddress}： {userName}：是您要找的吗？
+- 好吧，我将添加{userName}:{emailAddress}。请问{userName}是您要找的吗？
 
 # UserNotFound.Text(userName)
-- 我找不到"{userName}"您正在寻找。你能再次说出联系人的姓名吗？请尽量具体。
+- 我找不到您正在寻找的"{userName}"。你能再次说出联系人的姓名吗？请尽量具体。
 
 # UserNotFoundAgain.Text(userName, source)
-- 不幸的是，我找不到"{userName}" 你想选择.下次，如果将联系人添加到联系人簿中，它可能会提供帮助。{source}.
+- 不幸的是，我找不到你想选择的"{userName}" 。下次如果你将联系人添加到联系人簿中，它可能会提供帮助。{source}.
 
 # AlreadyFirstPage.Text
 - 这已经是第一页了。

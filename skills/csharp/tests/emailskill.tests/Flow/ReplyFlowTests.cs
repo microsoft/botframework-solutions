@@ -77,12 +77,12 @@ namespace EmailSkill.Tests.Flow
 
         private string[] NotSendingMessage()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage, null);
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private string[] NoFocusMessage()
         {
-            return GetTemplates(EmailSharedResponses.NoFocusMessage, null);
+            return GetTemplates(EmailSharedResponses.NoFocusMessage);
         }
 
         private Action<IActivity> AfterSendingMessage(string subject)
@@ -106,7 +106,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend, null);
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -134,7 +134,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectEmailContentMessageForReply()
         {
-            return GetTemplates(EmailSharedResponses.NoEmailContentForReply, null);
+            return GetTemplates(EmailSharedResponses.NoEmailContentForReply);
         }
     }
 }

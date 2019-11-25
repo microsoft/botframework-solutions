@@ -192,7 +192,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoAuth, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoAuth);
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = activity as Activity });
             }
             catch (Exception ex)
@@ -272,7 +272,7 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoFocusMessage, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoFocusMessage);
                 return await sc.PromptAsync(
                     Actions.Prompt,
                     new PromptOptions() { Prompt = activity as Activity });
@@ -416,7 +416,7 @@ namespace EmailSkill.Dialogs
                             emailDetails = emailCard
                         });
 
-                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendRecipientsFailed, null);
+                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendRecipientsFailed);
 
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
@@ -431,7 +431,7 @@ namespace EmailSkill.Dialogs
                             emailDetails = emailCard
                         });
 
-                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed, null);
+                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed);
 
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
@@ -454,7 +454,7 @@ namespace EmailSkill.Dialogs
                 {
                     var nameListString = DisplayHelper.ToDisplayRecipientsString(state.FindContactInfor.Contacts);
                     var confirmRecipients = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendAfterConfirmRecipients, new { recipientsList = nameListString });
-                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed, null);
+                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed);
 
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = confirmRecipients as Activity, RetryPrompt = retry as Activity });
                 }
@@ -479,7 +479,7 @@ namespace EmailSkill.Dialogs
 
                 if (string.IsNullOrEmpty(state.Content))
                 {
-                    var noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContent, null);
+                    var noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContent);
                     if (sc.ActiveDialog.Id == Actions.Forward)
                     {
                         if (state.FindContactInfor.Contacts.Count == 0 || state.FindContactInfor.Contacts == null)
@@ -492,7 +492,7 @@ namespace EmailSkill.Dialogs
                     }
                     else if (sc.ActiveDialog.Id == Actions.Reply)
                     {
-                        noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContentForReply, null);
+                        noEmailContentMessage = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoEmailContentForReply);
                     }
 
                     return await sc.PromptAsync(
@@ -544,7 +544,7 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.NoRecipients);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
                 }
             }
@@ -647,7 +647,7 @@ namespace EmailSkill.Dialogs
                 {
                     state.MessageList.Clear();
                     state.Message.Clear();
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailNotFound, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailNotFound);
                     await sc.Context.SendActivityAsync(activity);
                 }
 
@@ -1440,7 +1440,7 @@ namespace EmailSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -1461,15 +1461,15 @@ namespace EmailSkill.Dialogs
             IMessageActivity activity = new Activity();
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied || ex.ExceptionType == SkillExceptionType.APIUnauthorized || ex.ExceptionType == SkillExceptionType.APIForbidden || ex.ExceptionType == SkillExceptionType.APIBadRequest)
             {
-                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessageBotProblem, null);
+                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessageBotProblem);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessageAccountProblem, null);
+                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessageAccountProblem);
             }
             else
             {
-                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage, null);
+                activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailErrorMessage);
             }
 
             await sc.Context.SendActivityAsync(activity);

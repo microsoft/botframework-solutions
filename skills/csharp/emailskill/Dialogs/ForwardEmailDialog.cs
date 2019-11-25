@@ -112,7 +112,7 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
             }

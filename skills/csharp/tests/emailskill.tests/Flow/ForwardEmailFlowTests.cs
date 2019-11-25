@@ -195,7 +195,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] EmailNotFoundPrompt()
         {
-            return GetTemplates(EmailSharedResponses.EmailNotFound, null);
+            return GetTemplates(EmailSharedResponses.EmailNotFound);
         }
 
         private Action<IActivity> AfterSendingMessage(string subject)
@@ -211,7 +211,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] NotSendingMessage()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage, null);
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private Action<IActivity> ShowEmailList()
@@ -242,7 +242,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.NoFocusMessage, null), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.NoFocusMessage), messageActivity.Text);
             };
         }
 
@@ -251,7 +251,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend, null);
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -259,7 +259,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectRecipientsMessage()
         {
-            return GetTemplates(EmailSharedResponses.NoRecipients, null);
+            return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
 
@@ -269,7 +269,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward, null)[0];
+                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward)[0];
                 var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName })[0];
 
                 Assert.AreEqual(recipientConfirmedMessage + " " + noEmailContentMessage, messageActivity.Text);

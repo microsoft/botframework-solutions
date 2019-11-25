@@ -10,7 +10,7 @@ namespace EmailSkill.Utilities
         public static async Task<IMessageActivity> GenerateMessageAsync(
             ITurnContext turnContext,
             string replyTemp,
-            object replyArg)
+            object replyArg = null)
         {
             string templateName = "@{" + replyTemp + "()}";
             return await new ActivityTemplate(templateName).BindToData(turnContext, replyArg);
