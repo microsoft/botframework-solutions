@@ -5,7 +5,7 @@
 - Okay, ich verstehe, dass Sie die E-Mail an {nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- Okay, ich füge hinzu {userName}: {emailAddress}"UserName": "emailAddress"{userName}: . . . . . . . . . . . . . . . . . . . Ist der gesuchte "UserName" der gesuchte?
+- Okay, ich werde {userName} hinzufügen: {emailAddress}. Ist {userName} derjenige, den Sie gesucht haben?
 
 # UserNotFound.Text(userName)
 - Ich konnte nicht finden, die "{userName}" Sie suchen. Können Sie den Namen des Kontakts erneut aufrufen? Bitte versuchen Sie, so spezifisch wie möglich zu sein.

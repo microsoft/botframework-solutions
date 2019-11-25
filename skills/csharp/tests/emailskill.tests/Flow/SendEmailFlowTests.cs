@@ -465,7 +465,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(GetTemplates(SendEmailResponses.CheckContent, null), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(SendEmailResponses.CheckContent), messageActivity.Text);
             };
         }
 
@@ -483,7 +483,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend, null);
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -491,7 +491,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectRecipientsMessage()
         {
-            return GetTemplates(EmailSharedResponses.NoRecipients, null);
+            return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
         private Action<IActivity> CollectRecipients()
@@ -499,7 +499,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultiplContactEmailMultiPage, null);
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultiplContactEmailMultiPage);
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -549,7 +549,7 @@ namespace EmailSkill.Tests.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, recipients);
-                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject, null);
+                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject);
 
                 string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
                 int index = -1;
@@ -573,7 +573,7 @@ namespace EmailSkill.Tests.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, recipientList);
-                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject, null);
+                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject);
 
                 string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
                 int index = -1;
@@ -592,7 +592,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectEmailContentMessage()
         {
-            return GetTemplates(SendEmailResponses.NoMessageBody, null);
+            return GetTemplates(SendEmailResponses.NoMessageBody);
         }
     }
 }

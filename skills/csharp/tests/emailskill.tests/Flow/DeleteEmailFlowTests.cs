@@ -50,17 +50,17 @@ namespace EmailSkill.Tests.Flow
 
         private string[] NotSendingMessage()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage, null);
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private string[] NoFocusMessage()
         {
-            return GetTemplates(EmailSharedResponses.NoFocusMessage, null);
+            return GetTemplates(EmailSharedResponses.NoFocusMessage);
         }
 
         private string[] DeleteSuccess()
         {
-            return GetTemplates(DeleteEmailResponses.DeleteSuccessfully, null);
+            return GetTemplates(DeleteEmailResponses.DeleteSuccessfully);
         }
 
         private Action<IActivity> DeleteConfirm()
@@ -69,7 +69,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(GetTemplates(DeleteEmailResponses.DeleteConfirm, null), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(DeleteEmailResponses.DeleteConfirm), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -88,7 +88,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.ConfirmSend, null), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.ConfirmSend), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

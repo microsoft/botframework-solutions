@@ -158,7 +158,7 @@ namespace EmailSkill.Tests.Flow
             TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
-        public string[] GetTemplates(string templateName, object data)
+        public string[] GetTemplates(string templateName, object data = null)
         {
             var sp = Services.BuildServiceProvider();
             var engine = sp.GetService<TemplateEngine>();

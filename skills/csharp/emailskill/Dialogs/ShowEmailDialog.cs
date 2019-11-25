@@ -155,7 +155,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, ShowEmailResponses.ReadOutMore, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, ShowEmailResponses.ReadOutMore);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
@@ -187,7 +187,7 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(false);
                 }
@@ -304,7 +304,7 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -373,7 +373,7 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -504,13 +504,13 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
                     }
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailNotFound, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailNotFound);
                     await sc.Context.SendActivityAsync(activity);
                 }
 

@@ -102,14 +102,14 @@ namespace EmailSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.CancelMessage, null));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.CancelMessage));
                                 await dc.CancelAllDialogsAsync();
                                 return InterruptionAction.End;
                             }
 
                         case General.Intent.Help:
                             {
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.HelpMessage, null));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.HelpMessage));
                                 return InterruptionAction.Resume;
                             }
 
@@ -118,7 +118,7 @@ namespace EmailSkill.Dialogs
                                 // Log user out of all accounts.
                                 await LogUserOut(dc);
 
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.LogOut, null));
+                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.LogOut));
                                 return InterruptionAction.End;
                             }
                     }
@@ -132,7 +132,7 @@ namespace EmailSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             // send a greeting if we're in local mode
-            await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.EmailWelcomeMessage, null));
+            await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.EmailWelcomeMessage));
         }
 
         // Runs when the dialog stack is empty, and a new message activity comes in.
@@ -213,7 +213,7 @@ namespace EmailSkill.Dialogs
                                 }
                                 else
                                 {
-                                    await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailSharedResponses.DidntUnderstandMessage, null));
+                                    await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailSharedResponses.DidntUnderstandMessage));
                                 }
 
                                 break;
@@ -221,7 +221,7 @@ namespace EmailSkill.Dialogs
 
                         default:
                             {
-                                await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.FeatureNotAvailable, null));
+                                await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.FeatureNotAvailable));
                                 break;
                             }
                     }

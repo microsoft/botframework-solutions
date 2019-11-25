@@ -342,7 +342,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] NotShowingMessage()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage, null);
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private Action<IActivity> ActionEndMessage()
@@ -355,27 +355,27 @@ namespace EmailSkill.Tests.Flow
 
         private string[] ReadOutPrompt()
         {
-            return GetTemplates(ShowEmailResponses.ReadOutForMultiEmails, null);
+            return GetTemplates(ShowEmailResponses.ReadOutForMultiEmails);
         }
 
         private string[] ReadOutOnlyOnePrompt()
         {
-            return GetTemplates(ShowEmailResponses.ReadOutForOneEmail, null);
+            return GetTemplates(ShowEmailResponses.ReadOutForOneEmail);
         }
 
         private string[] ReadOutMorePrompt()
         {
-            return GetTemplates(ShowEmailResponses.ReadOutMore, null);
+            return GetTemplates(ShowEmailResponses.ReadOutMore);
         }
 
         private string[] EmailNotFoundPrompt()
         {
-            return GetTemplates(EmailSharedResponses.EmailNotFound, null);
+            return GetTemplates(EmailSharedResponses.EmailNotFound);
         }
 
         private string[] CollectRecipientsMessage()
         {
-            return GetTemplates(EmailSharedResponses.NoRecipients, null);
+            return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
         private string[] ConfirmOneNameOneAddress()
@@ -389,17 +389,17 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectEmailContentMessageForReply()
         {
-            return GetTemplates(EmailSharedResponses.NoEmailContentForReply, null);
+            return GetTemplates(EmailSharedResponses.NoEmailContentForReply);
         }
 
         private string[] NotSendingMessage()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage, null);
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private string[] DeleteConfirm()
         {
-            return GetTemplates(DeleteEmailResponses.DeleteConfirm, null);
+            return GetTemplates(DeleteEmailResponses.DeleteConfirm);
         }
 
         private string[] AddMoreContacts(object recipientDict)
@@ -454,12 +454,12 @@ namespace EmailSkill.Tests.Flow
 
                 if (page < 0)
                 {
-                    var pagingInfo = GetTemplates(EmailSharedResponses.FirstPageAlready, null)[0];
+                    var pagingInfo = GetTemplates(EmailSharedResponses.FirstPageAlready)[0];
                     Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
                 }
                 else if (page * ConfigData.GetInstance().MaxDisplaySize > totalEmails.Count)
                 {
-                    var pagingInfo = GetTemplates(EmailSharedResponses.LastPageAlready, null)[0];
+                    var pagingInfo = GetTemplates(EmailSharedResponses.LastPageAlready)[0];
                     Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
                 }
                 else
@@ -486,7 +486,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward, null)[0];
+                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward)[0];
                 var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName })[0];
 
                 Assert.AreEqual(recipientConfirmedMessage + " " + noEmailContentMessage, messageActivity.Text);
@@ -527,7 +527,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var replies = GetTemplates(EmailSharedResponses.ShowEmailPrompt, null);
+                var replies = GetTemplates(EmailSharedResponses.ShowEmailPrompt);
 
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
@@ -540,7 +540,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend, null);
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
