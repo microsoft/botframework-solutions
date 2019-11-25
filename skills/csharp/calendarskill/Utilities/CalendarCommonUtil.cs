@@ -141,11 +141,26 @@ namespace CalendarSkill.Utilities
                 case CalendarLuis.Intent.FindCalendarWhere:
                 case CalendarLuis.Intent.FindCalendarWho:
                 case CalendarLuis.Intent.FindDuration:
-                case CalendarLuis.Intent.FindMeetingRoom:
                 case CalendarLuis.Intent.TimeRemaining:
                     return intent;
                 default:
                     return CalendarLuis.Intent.None;
+            }
+        }
+
+        public static bool IsFindEventsDialog(CalendarLuis.Intent intent)
+        {
+            switch (intent)
+            {
+                case CalendarLuis.Intent.FindCalendarDetail:
+                case CalendarLuis.Intent.FindCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarWhen:
+                case CalendarLuis.Intent.FindCalendarWhere:
+                case CalendarLuis.Intent.FindCalendarWho:
+                case CalendarLuis.Intent.FindDuration:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

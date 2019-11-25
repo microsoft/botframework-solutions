@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Luis;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
 
@@ -21,7 +22,7 @@ namespace CalendarSkill.Models
 
         public EventSource EventSource { get; set; } = EventSource.Other;
 
-        public bool IsInShowFlow { get; set; } = false;
+        public CalendarLuis.Intent InitialIntent { get; set; }
 
         public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
 
@@ -43,7 +44,7 @@ namespace CalendarSkill.Models
         {
             UserInfo = new UserInformation();
             EventSource = EventSource.Other;
-            IsInShowFlow = false;
+            InitialIntent = CalendarLuis.Intent.None;
             MeetingInfor.Clear();
             ShowMeetingInfor.Clear();
             UpdateMeetingInfor.Clear();
