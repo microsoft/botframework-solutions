@@ -279,7 +279,9 @@ export class AuthenticationUtils {
         } catch (err) {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
-                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`);
+                logger.warning(
+                    `There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`
+                );
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
         .join(', ')}`);
