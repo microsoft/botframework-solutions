@@ -997,6 +997,12 @@
 ## None
 - alle von ihnen
 - ich möchte sie alle
+- 1
+- 2
+- 3
+- das  {PositionReference=Ersten} Eine
+- das  {PositionReference=Zweite} Eine
+- das  {PositionReference=Dritte} Eine
 
 
 ## RejectCalendar

@@ -977,6 +977,12 @@
 ## None
 - li voglio tutti
 - tutti
+- 1
+- 2
+- 3
+- Le  {PositionReference=Prima} Uno
+- Le  {PositionReference=Secondo} Uno
+- Le  {PositionReference=Terzo} Uno
 
 
 ## RejectCalendar
