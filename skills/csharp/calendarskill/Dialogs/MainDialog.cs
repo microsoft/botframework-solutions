@@ -106,8 +106,10 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                var intent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                var luisResult = dc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var intent = luisResult?.TopIntent().intent;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 // switch on general intents
                 switch (intent)
@@ -240,6 +242,26 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        // Runs on every turn of the conversation.
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                var skillResult = await localizedServices.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
+
+                // Run LUIS recognition on General model and store result in turn state.
+                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResultKey, generalResult);
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var result = InterruptionAction.NoAction;
@@ -249,47 +271,32 @@ namespace CalendarSkill.Dialogs
                 // get current activity locale
                 var localeConfig = _services.GetCognitiveModels();
 
-                // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
-                state.LuisResult = calendarLuisResult;
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = generalLuisResult.TopIntent();
 
-                // check luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
-
-                if (luisService == null)
+                if (topIntent.score > 0.5)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent();
-
-                    if (topIntent.score > 0.5)
+                    // check intent
+                    switch (topIntent.intent)
                     {
-                        // check intent
-                        switch (topIntent.intent)
-                        {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
 
-                            case General.Intent.Help:
-                                {
-                                    // result = await OnHelp(dc);
-                                    break;
-                                }
+                        case General.Intent.Help:
+                            {
+                                // result = await OnHelp(dc);
+                                break;
+                            }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }

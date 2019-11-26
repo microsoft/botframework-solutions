@@ -162,7 +162,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                    sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
                     var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {

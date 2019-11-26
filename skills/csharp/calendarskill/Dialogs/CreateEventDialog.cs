@@ -17,6 +17,7 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Google.Apis.People.v1.Data;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -445,7 +446,7 @@ namespace CalendarSkill.Dialogs
                 if (state.MeetingInfor.Location == null && sc.Result != null && (!(state.MeetingInfor.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var luisResult = state.LuisResult;
+                    var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
 
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                     var topIntent = luisResult?.TopIntent().intent.ToString();
@@ -629,7 +630,7 @@ namespace CalendarSkill.Dialogs
                     Location = state.MeetingInfor.Location,
                 };
 
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
                 var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
