@@ -16,11 +16,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -49,6 +49,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
+            CheckAvailableDialog checkAvailableDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -70,6 +71,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -83,8 +85,7 @@ namespace CalendarSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             await PopulateStateFromSemanticAction(dc.Context);
 
@@ -159,6 +160,12 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.CheckAvailability:
+                        {
+                            await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                            break;
+                        }
+
                     case CalendarLuis.Intent.ShowNextCalendar:
                     case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
@@ -209,7 +216,6 @@ namespace CalendarSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
-                case SkillEvents.FallbackHandledEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -241,8 +247,7 @@ namespace CalendarSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Update state with email luis result and entities
                 var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);

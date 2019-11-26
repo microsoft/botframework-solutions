@@ -3,8 +3,9 @@
  * Licensed under the MIT License.
  */
 
+export { AuthenticationUtils } from './authenticationUtils';
 export { isAzPreviewMessage, isValidAzVersion } from './azUtils';
 export { ChildProcessUtils } from './childProcessUtils';
-export { AuthenticationUtils } from './authenticationUtils';
+export { getDispatchNames } from './dispatchUtils';
 export { sanitizePath, wrapPathWithQuotes } from './sanitizationUtils';
-export { validatePairOfArgs } from './validationUtils';
+export { isValidCultures, validatePairOfArgs } from './validationUtils';

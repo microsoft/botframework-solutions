@@ -1,6 +1,6 @@
 ﻿{
   "cognitiveModels": {
-    "en": {
+    "en-us": {
       "languageModels": [
         {
           "id": "General",

@@ -19,15 +19,13 @@ namespace HospitalitySkill.Dialogs
 {
     public class ExtendStayDialog : HospitalityDialogBase
     {
-        private HotelService _hotelService;
-
         public ExtendStayDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            HotelService hotelService,
+            IHotelService hotelService,
             IBotTelemetryClient telemetryClient)
             : base(nameof(ExtendStayDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
@@ -40,7 +38,7 @@ namespace HospitalitySkill.Dialogs
                 EndDialog
             };
 
-            _hotelService = hotelService;
+            HotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(ExtendStayDialog), extendStay));
             AddDialog(new ConfirmPrompt(DialogIds.CheckNumNights, ValidateCheckNumNightsPrompt));
@@ -50,7 +48,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> CheckEntities(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
             var entities = convState.LuisResult.Entities;
             convState.UpdatedReservation = userState.UserReservation.Copy();
@@ -110,14 +108,14 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> NumValidation(ITurnContext turnContext, double extraNights)
         {
-            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState(HotelService));
             var convState = await StateAccessor.GetAsync(turnContext, () => new HospitalitySkillState());
 
             if (extraNights >= 1)
             {
                 // add entity number to the current check out date
                 DateTime currentDate = DateTime.Parse(userState.UserReservation.CheckOutDate);
-                convState.UpdatedReservation.CheckOutDate = currentDate.AddDays(extraNights).ToString("MMMM d, yyyy");
+                convState.UpdatedReservation.CheckOutDate = currentDate.AddDays(extraNights).ToString(ReservationData.DateFormat);
                 return await Task.FromResult(true);
             }
 
@@ -127,7 +125,7 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> ExtendDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
 
             // if new date hasnt been set yet
@@ -152,7 +150,7 @@ namespace HospitalitySkill.Dialogs
                 List<string> dateValues = new List<string>();
                 foreach (var date in promptContext.Recognized.Value)
                 {
-                    dateValues.Add(date.Value);
+                    dateValues.AddRange(date.Value.Split(' '));
                 }
 
                 return await DateValidation(promptContext.Context, dateValues);
@@ -164,7 +162,7 @@ namespace HospitalitySkill.Dialogs
         private async Task<bool> DateValidation(ITurnContext turnContext, IReadOnlyList<string> dates)
         {
             var convState = await StateAccessor.GetAsync(turnContext, () => new HospitalitySkillState());
-            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState(HotelService));
 
             DateTime dateObject = new DateTime();
             bool dateIsEarly = false;
@@ -177,7 +175,7 @@ namespace HospitalitySkill.Dialogs
                     if (dateObject > DateTime.Now && dateObject > DateTime.Parse(userState.UserReservation.CheckOutDate))
                     {
                         // get first future date that is formatted correctly
-                        convState.UpdatedReservation.CheckOutDate = dateObject.ToString("MMMM d, yyyy");
+                        convState.UpdatedReservation.CheckOutDate = dateObject.ToString(ReservationData.DateFormat);
                         return await Task.FromResult(true);
                     }
                     else
@@ -191,7 +189,7 @@ namespace HospitalitySkill.Dialogs
             if (dateIsEarly)
             {
                 // same date as current check-out date
-                if (dateObject.ToString("MMMM d, yyyy") == userState.UserReservation.CheckOutDate)
+                if (dateObject.ToString(ReservationData.DateFormat) == userState.UserReservation.CheckOutDate)
                 {
                     await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.SameDayRequested));
                 }
@@ -229,7 +227,7 @@ namespace HospitalitySkill.Dialogs
         private async Task<bool> ValidateConfirmExtensionAsync(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
             var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (promptContext.Recognized.Succeeded)
             {
@@ -240,7 +238,7 @@ namespace HospitalitySkill.Dialogs
                     userState.UserReservation.CheckOutDate = convState.UpdatedReservation.CheckOutDate;
 
                     // set new checkout date in hotel service
-                    _hotelService.UpdateReservationDetails(userState.UserReservation);
+                    HotelService.UpdateReservationDetails(userState.UserReservation);
                 }
 
                 return await Task.FromResult(true);
@@ -252,7 +250,7 @@ namespace HospitalitySkill.Dialogs
         private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState(HotelService));
 
             if (userState.UserReservation.CheckOutDate == convState.UpdatedReservation.CheckOutDate)
             {

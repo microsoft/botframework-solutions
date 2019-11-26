@@ -9,7 +9,7 @@
             "query": "Unhandled message",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.11337278
+                "score": 0.12607345
             },
             "entities": []
         },
@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "98c8c56e-bd4f-40e5-a91e-2f141b71f1aa",
+            "2d72dcc2-4732-42e6-871d-9d274f343c69",
             "Request-Id",
-            "98c8c56e-bd4f-40e5-a91e-2f141b71f1aa",
+            "2d72dcc2-4732-42e6-871d-9d274f343c69",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 23 May 2019 18:22:44 GMT",
+            "Fri, 06 Sep 2019 16:15:46 GMT",
             "Connection",
             "close"
         ]
@@ -48,7 +48,7 @@
             "query": "Unhandled message",
             "topScoringIntent": {
                 "intent": "q_chitchat",
-                "score": 0.43017894
+                "score": 0.5244682
             },
             "entities": []
         },
@@ -58,13 +58,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "140",
+            "139",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "99716a52-a9ff-425d-8f38-e01ba9986ebb",
+            "7f5c84f7-a7af-417b-b229-cf3e73f324c4",
             "Request-Id",
-            "99716a52-a9ff-425d-8f38-e01ba9986ebb",
+            "7f5c84f7-a7af-417b-b229-cf3e73f324c4",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -72,13 +72,13 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 23 May 2019 18:22:44 GMT",
+            "Fri, 06 Sep 2019 16:15:46 GMT",
             "Connection",
             "close"
         ]
     },
     {
-        "scope": "https://vatsample-qnahost.azurewebsites.net:443",
+        "scope": "https://dcvasample-qnahost-buzbohw.azurewebsites.net:443",
         "method": "POST",
         "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
         "body": {
@@ -90,19 +90,10 @@
             "timeout": 100000
         },
         "status": 200,
-        "response": {
-            "answers": [
-                {
-                    "questions": [],
-                    "answer": "No good match found in KB.",
-                    "score": 0,
-                    "id": -1,
-                    "source": null,
-                    "metadata": []
-                }
-            ],
-            "debugInfo": null
-        },
+        "response": [
+            "1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147d9b2b9caebe6a347dffbc51ffda275deb445b5c45fdf1fe9571f3dfae845955e54d52c5d64ed749e9e57ebe52c2d96e9eff564fcd1e8a3665ad5f9478f76c63ba38f8ad9478fb677e9b36a5d4fe9c3e5ba2c471f2df2369b656d06a8bf84e0cef2c9fae26c795e49835f",
+            "f2ff0084edb28685000000"
+        ],
         "rawHeaders": [
             "Cache-Control",
             "no-cache",
@@ -112,12 +103,16 @@
             "chunked",
             "Content-Type",
             "application/json; charset=utf-8",
+            "Content-Encoding",
+            "gzip",
             "Expires",
             "-1",
+            "Vary",
+            "Accept-Encoding",
             "Server",
             "Kestrel",
             "Request-Context",
-            "appId=cid-v1:aa07a40b-fb60-4c1e-837a-700f126ea91d",
+            "appId=cid-v1:fd050050-a942-417a-89a1-0c0d1f3b19ca",
             "X-AspNet-Version",
             "4.0.30319",
             "X-Powered-By",
@@ -127,9 +122,9 @@
             "Strict-Transport-Security",
             "max-age=31536000",
             "Set-Cookie",
-            "ARRAffinity=cbe36643270ac9b6419bdc480dc6d6a80403ad70b25f5b4d45dbc4e616c7238f;Path=/;HttpOnly;Domain=sampleva-qnahost.azurewebsites.net",
+            "ARRAffinity=86912b6fdad1d42635e70d93668c3305069f9db98535d761b5a1a95aca2bed9b;Path=/;HttpOnly;Domain=dcvasample-qnahost-buzbohw.azurewebsites.net",
             "Date",
-            "Thu, 23 May 2019 18:22:46 GMT",
+            "Fri, 06 Sep 2019 16:15:48 GMT",
             "Connection",
             "close"
         ]

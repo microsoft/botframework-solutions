@@ -210,7 +210,7 @@ if ($outputs)
 	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow
 
 	Write-Host "- Resource Group: $($resourceGroup)" -ForegroundColor Yellow
-		
+
 	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
 
 	# Publish bot

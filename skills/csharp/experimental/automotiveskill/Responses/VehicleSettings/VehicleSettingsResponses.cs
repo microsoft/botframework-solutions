@@ -12,6 +12,7 @@ namespace AutomotiveSkill.Responses.VehicleSettings
     public class VehicleSettingsResponses : IResponseIdCollection
     {
         // Generated accessors
+        public const string VehicleSettingsConfirmed = "VehicleSettingsConfirmed";
         public const string VehicleSettingsMissingSettingName = "VehicleSettingsMissingSettingName";
         public const string VehicleSettingsSettingNameSelection = "VehicleSettingsSettingNameSelection";
         public const string VehicleSettingsMissingSettingValue = "VehicleSettingsMissingSettingValue";

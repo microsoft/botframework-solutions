@@ -8,28 +8,31 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Models;
-using $safeprojectname$.Responses.Onboarding;
 using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
+    // Example onboarding dialog to initial user profile information.
     public class OnboardingDialog : ComponentDialog
     {
-        private static OnboardingResponses _responder = new OnboardingResponses();
-        private IStatePropertyAccessor<AssistantState> _accessor;
-        private AssistantState _state;
         private BotServices _services;
+        private LocaleTemplateEngineManager _templateEngine;
+        private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
-            BotServices botServices,
-            UserState userState,
+            IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _accessor = userState.CreateProperty<AssistantState>(nameof(AssistantState));
-            InitialDialogId = nameof(OnboardingDialog);
-            _services = botServices;
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+
+            var userState = serviceProvider.GetService<UserState>();
+            _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _services = serviceProvider.GetService<BotServices>();
 
             var onboarding = new WaterfallStep[]
             {
@@ -40,53 +43,73 @@ namespace $safeprojectname$.Dialogs
             // To capture built-in waterfall dialog telemetry, set the telemetry client
             // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(nameof(onboarding), onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
         }
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
+            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
 
-            if (!string.IsNullOrEmpty(_state.Name))
+            if (!string.IsNullOrEmpty(state.Name))
             {
-                return await sc.NextAsync(_state.Name);
+                return await sc.NextAsync(state.Name);
             }
             else
             {
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.NamePrompt),
+                    Prompt = _templateEngine.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context, () => new AssistantState());
-            var name = _state.Name = (string)sc.Result;
+            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
+            var name = (string)sc.Result;
 
-            var luisResult = _state.GeneralLuisResult;
-            if (luisResult != null && luisResult.TopIntent().intent == GeneralLuis.Intent.ExtractName)
+            var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
+            if (generalResult == null)
             {
-                if (luisResult.Entities.PersonName_Any != null)
+                var localizedServices = _services.GetCognitiveModels();
+                generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
+            }
+
+            (var generalIntent, var generalScore) = generalResult.TopIntent();
+            if (generalIntent == GeneralLuis.Intent.ExtractName && generalScore > 0.5)
+            {
+                if (generalResult.Entities.PersonName_Any != null)
                 {
-                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.PersonName_Any[0]);
+                    name = generalResult.Entities.PersonName_Any[0];
                 }
-                else if (luisResult.Entities.personName != null)
+                else if (generalResult.Entities.personName != null)
                 {
-                    name = _state.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luisResult.Entities.personName[0]);
+                    name = generalResult.Entities.personName[0];
                 }
             }
 
-            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
-            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
+            // Captialize name
+            userProfile.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
+
+            await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
+
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
+
+            sc.SuppressCompletionMessage(true);
+
             return await sc.EndDialogAsync();
         }
 
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
+        }
+
+        private class StateProperties
+        {
+            public const string GeneralResult = "generalResult";
         }
     }
 }

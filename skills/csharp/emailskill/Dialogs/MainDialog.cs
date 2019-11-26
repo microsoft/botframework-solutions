@@ -13,10 +13,10 @@ using EmailSkill.Services.AzureMapsAPI;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -72,8 +72,7 @@ namespace EmailSkill.Dialogs
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Get cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
                 var skillResult = await localizedServices.LuisServices["Email"].RecognizeAsync<EmailLuis>(innerDc.Context, cancellationToken);
@@ -145,14 +144,13 @@ namespace EmailSkill.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Populate state from activity as required.
                 await PopulateStateFromActivity(innerDc.Context);
 
                 // Get skill LUIS model from configuration.
-                localizedServices.LuisServices.TryGetValue("Email", out var luisService);
+                localeConfig.LuisServices.TryGetValue("Email", out var luisService);
 
                 if (luisService != null)
                 {
@@ -244,10 +242,27 @@ namespace EmailSkill.Dialogs
             switch (ev.Name)
             {
                 case TokenEvents.TokenResponseEventName:
-                case SkillEvents.FallbackHandledEventName:
                     {
                         // Forward the token response activity to the dialog waiting on the stack.
                         await innerDc.ContinueDialogAsync();
+                        break;
+                    }
+
+                case Events.TimezoneEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
+                        state.UserInfo.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(value);
+
+                        break;
+                    }
+
+                case Events.LocationEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
+
+                        var azureMapsClient = new AzureMapsClient(_settings);
+                        state.UserInfo.TimeZone = await azureMapsClient.GetTimeZoneInfoByCoordinates(value);
+
                         break;
                     }
 
@@ -335,5 +350,11 @@ namespace EmailSkill.Dialogs
                 ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
             }
         }
-    }
+
+        private class Events
+        {
+            public const string TimezoneEvent = "Timezone";
+            public const string LocationEvent = "Location";
+        }
+}
 }

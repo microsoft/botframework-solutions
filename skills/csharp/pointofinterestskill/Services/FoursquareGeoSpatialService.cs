@@ -45,7 +45,10 @@ namespace PointOfInterestSkill.Services
         /// </summary>
         private int limit;
 
-        public string Provider { get { return PointOfInterestModel.Foursquare; } }
+        public string Provider
+        {
+            get { return PointOfInterestModel.Foursquare; }
+        }
 
         public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
@@ -108,7 +111,42 @@ namespace PointOfInterestSkill.Services
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, ExploreVenuesUrl, latitude, longitude, query, radius, limit), poiType);
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius, limit), poiType);
+        }
+
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByCategoryAsync(double latitude, double longitude, string category, string poiType = null, bool unique = false)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
+            var searchLimit = unique ? limit * 2 : limit;
+
+            var result = await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, ExploreVenuesUrl, latitude, longitude, category, radius, searchLimit), poiType);
+
+            if (unique)
+            {
+                // preserve original order
+                var uniqueResult = new List<PointOfInterestModel>();
+                var uniqueNames = new HashSet<string>();
+                foreach (var model in result)
+                {
+                    if (!uniqueNames.Contains(model.Name))
+                    {
+                        uniqueResult.Add(model);
+                        uniqueNames.Add(model.Name);
+                        if (uniqueResult.Count >= limit)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                result = uniqueResult;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -169,6 +207,8 @@ namespace PointOfInterestSkill.Services
         /// Returns available image from point of interest.
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
+        /// <param name="width">The image width.</param>
+        /// <param name="height">The image height.</param>
         /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {

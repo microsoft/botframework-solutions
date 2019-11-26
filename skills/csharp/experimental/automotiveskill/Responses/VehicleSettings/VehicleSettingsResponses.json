@@ -1,4 +1,13 @@
 {
+  "VehicleSettingsConfirmed": {
+    "replies": [
+      {
+        "text": "Ok.",
+        "speak": "Ok."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "VehicleSettingsMissingSettingName": {
     "replies": [
       {

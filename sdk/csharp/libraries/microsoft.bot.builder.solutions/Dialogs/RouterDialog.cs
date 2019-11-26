@@ -71,12 +71,6 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            if (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart)
-                                            {
-                                                await RouteAsync(innerDc).ConfigureAwait(false);
-                                                break;
-                                            }
-
                                             // End active dialog
                                             await innerDc.EndDialogAsync().ConfigureAwait(false);
                                             break;

@@ -14,16 +14,16 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace BingSearchSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ActivityHandlerDialog
     {
         private BotSettings _settings;
         private BotServices _services;
@@ -54,19 +54,18 @@ namespace BingSearchSkill.Dialogs
             AddDialog(sampleDialog);
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var locale = CultureInfo.CurrentUICulture;
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
         }
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
-            // Populate state from SkillContext slots as required 
+            // Populate state from SkillContext slots as required
             await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
@@ -101,7 +100,7 @@ namespace BingSearchSkill.Dialogs
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
@@ -115,7 +114,7 @@ namespace BingSearchSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             switch (dc.Context.Activity.Name)
             {
@@ -157,8 +156,7 @@ namespace BingSearchSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
@@ -204,15 +202,15 @@ namespace BingSearchSkill.Dialogs
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
-            await CompleteAsync(dc);
+            await OnDialogCompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -239,7 +237,7 @@ namespace BingSearchSkill.Dialogs
 
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)
@@ -250,12 +248,12 @@ namespace BingSearchSkill.Dialogs
             if (skillContext != null)
             {
                 // Example of populating local state with data passed through Skill Context
-                //if (skillContext.ContainsKey("Location"))
-                //{
+                // if (skillContext.ContainsKey("Location"))
+                // {
                 //    // Add to your local state
                 //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
                 //    state.Location = skillContext["Location"];
-                //}
+                // }
             }
         }
 

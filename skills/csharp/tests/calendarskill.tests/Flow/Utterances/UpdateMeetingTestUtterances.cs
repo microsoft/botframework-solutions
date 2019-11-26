@@ -29,8 +29,7 @@ namespace CalendarSkill.Test.Flow.Utterances
                 UpdateMeetingWithNewStartDate,
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" },
-                toDate: new string[] { "today" }
-                ));
+                toDate: new string[] { "today" }));
         }
 
         public static string BaseUpdateMeeting { get; } = "update meeting";

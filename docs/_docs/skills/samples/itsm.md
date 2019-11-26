@@ -11,14 +11,14 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill]({{site.repo}}/tree/master/skills/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
 This skill demonstrates the following scenarios:
 - Create a ticket: *Create a ticket for my broken laptop*
 - Show ticket: *What's the status of my incident*
 - Update Ticket: *Change ticket's urgency to high*
 - Close a ticket: *Close my ticket*
-- Find Knowledgebase item: *Search knowledge articles related to error 1234*
+- Find Knowledgebase item: *Search knowledgebase for error lost connection*
 
 An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-itsm.transcript), you can use the Bot Framework Emulator to open transcripts.
 

@@ -16,13 +16,18 @@ namespace HospitalitySkill.Services
     // Should replace with real apis
     public class HotelService : IHotelService
     {
+        public static readonly int StayDays = 4;
+        public static readonly TimeSpan CheckOutTime = new TimeSpan(12, 0, 0);
+        public static readonly TimeSpan LateTime = new TimeSpan(16, 0, 0);
+
         private const string RoomServiceMenuFileName = "RoomServiceMenu.json";
         private const string AvailableItemsFileName = "AvailableItems.json";
 
         private readonly string _menuFilePath;
         private readonly string _availableItemsFilePath;
+        private readonly DateTime? _checkInDate;
 
-        public HotelService()
+        public HotelService(DateTime? checkInDate = null)
         {
             _menuFilePath = typeof(HotelService).Assembly
                 .GetManifestResourceNames()
@@ -33,20 +38,26 @@ namespace HospitalitySkill.Services
                 .GetManifestResourceNames()
                 .Where(x => x.Contains(AvailableItemsFileName))
                 .First();
+
+            _checkInDate = checkInDate;
         }
 
-        public async Task<string> GetLateCheckOutAsync()
+        public async Task<TimeSpan> GetLateCheckOutAsync()
         {
             // make request for the late check out time
-            var lateTime = "4:00 pm";
-
-            return await Task.FromResult(lateTime);
+            return await Task.FromResult(LateTime);
         }
 
         public Task<ReservationData> GetReservationDetails()
         {
             // make request for reservation details
-            return Task.FromResult(new ReservationData());
+            var date = _checkInDate ?? DateTime.Now;
+            return Task.FromResult(new ReservationData
+            {
+                CheckInDate = date.ToString(ReservationData.DateFormat),
+                CheckOutDate = date.AddDays(StayDays).ToString(ReservationData.DateFormat),
+                CheckOutTimeData = CheckOutTime
+            });
         }
 
         public void UpdateReservationDetails(ReservationData reservation)

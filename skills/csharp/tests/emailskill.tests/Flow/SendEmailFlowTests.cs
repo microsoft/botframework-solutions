@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -216,7 +216,7 @@ namespace EmailSkill.Tests.Flow
             StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
             string testRecipientConfirm = ContextStrings.TestEmailAdress;
             StringDictionary recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm} };
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToNobody)

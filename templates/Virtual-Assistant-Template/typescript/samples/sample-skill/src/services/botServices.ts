@@ -7,6 +7,7 @@ import { BotTelemetryClient } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
 import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'botbuilder-solutions';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
+import i18next from 'i18next';
 import { IBotSettings } from './botSettings';
 
 export class BotServices {
@@ -71,5 +72,29 @@ export class BotServices {
                 this.cognitiveModelSets.set(language, cognitiveModelSet);
             });
         }
+    }
+
+    public getCognitiveModel(): Partial<ICognitiveModelSet> {
+        // get current activity locale
+        const locale: string = i18next.language;
+        let cognitiveModels: Partial<ICognitiveModelSet> | undefined  = this.cognitiveModelSets.get(locale);
+
+        if (cognitiveModels === undefined) {
+            const keyFound: string | undefined = Array.from(this.cognitiveModelSets.keys())
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+                .find((key: string) => {
+                    if (key.substring(0, 2) === locale.substring(0, 2)) {
+                        return key;
+                    }
+                });
+            if (keyFound !== undefined) {
+                cognitiveModels = this.cognitiveModelSets.get(keyFound);
+            }
+        }
+        if (cognitiveModels === undefined) {
+            throw new Error('There is no value in cognitiveModels');
+        }
+
+        return cognitiveModels;
     }
 }

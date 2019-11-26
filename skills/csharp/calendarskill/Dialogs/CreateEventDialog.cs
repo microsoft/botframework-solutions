@@ -19,10 +19,10 @@ using CalendarSkill.Utilities;
 using Google.Apis.People.v1.Data;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Recognizers.Text.DateTime;
@@ -332,7 +332,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (!state.MeetingInfor.StartDate.Any())
+                if (!state.MeetingInfor.StartDate.Any() && state.MeetingInfor.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
@@ -353,7 +353,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time)
+                if (state.MeetingInfor.StartDateTime == null && (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
@@ -831,27 +831,27 @@ namespace CalendarSkill.Dialogs
 
                 var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
                 var startDate = state.MeetingInfor.StartDate.Last();
-                foreach (var startTime in state.MeetingInfor.StartTime)
-                {
-                    var startDateTime = new DateTime(
-                        startDate.Year,
-                        startDate.Month,
-                        startDate.Day,
-                        startTime.Hour,
-                        startTime.Minute,
-                        startTime.Second);
-                    if (state.MeetingInfor.StartDateTime == null)
-                    {
-                        state.MeetingInfor.StartDateTime = startDateTime;
-                    }
+                var endDate = state.MeetingInfor.EndDate.Any() ? state.MeetingInfor.EndDate.Last() : startDate;
 
-                    if (startDateTime >= userNow)
-                    {
-                        state.MeetingInfor.StartDateTime = startDateTime;
-                        break;
-                    }
+                List<DateTime> startTimes = new List<DateTime>();
+                List<DateTime> endTimes = new List<DateTime>();
+                foreach (var time in state.MeetingInfor.StartTime)
+                {
+                    startTimes.Add(startDate.AddSeconds(time.TimeOfDay.TotalSeconds));
                 }
 
+                foreach (var time in state.MeetingInfor.EndTime)
+                {
+                    endTimes.Add(endDate.AddSeconds(time.TimeOfDay.TotalSeconds));
+                }
+
+                var isStartTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.IsRestricted;
+                var isEndTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.IsRestricted;
+                DateTime baseTime = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+                DateTime startTimeRestricted = isStartTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.Value).TimeOfDay.TotalSeconds) : baseTime;
+                DateTime endTimeRestricted = isEndTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.Value).TimeOfDay.TotalSeconds) : baseTime.AddDays(1);
+
+                state.MeetingInfor.StartDateTime = DateTimeHelper.ChooseStartTime(startTimes, endTimes, startTimeRestricted, endTimeRestricted, userNow);
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
                 return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
@@ -919,9 +919,15 @@ namespace CalendarSkill.Dialogs
                                 endtime.Minute,
                                 endtime.Second);
                             endDateTime = TimeZoneInfo.ConvertTimeToUtc(endDateTime, state.GetUserTimeZone());
-                            if (state.MeetingInfor.EndDateTime == null || endDateTime >= state.MeetingInfor.StartDateTime)
+                            if (state.MeetingInfor.EndDateTime == null)
                             {
                                 state.MeetingInfor.EndDateTime = endDateTime;
+                            }
+
+                            if (endDateTime >= state.MeetingInfor.StartDateTime)
+                            {
+                                state.MeetingInfor.EndDateTime = endDateTime;
+                                break;
                             }
                         }
                     }

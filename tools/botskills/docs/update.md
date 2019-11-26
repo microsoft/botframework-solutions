@@ -10,7 +10,7 @@ The basic command to update a Skill to your Virtual Assistant:
 botskills update [options]
 ```
 
-### Options
+## Options
 
 | Option                        | Description                                                                                                                                                                 |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -19,10 +19,9 @@ botskills update [options]
 | --cs                          | Determine your Virtual Assistant project structure to be a csharp-like structure                                                                                            |
 | --ts                          | Determine your Virtual Assistant project structure to be a TypeScript-like structure                                                                                        |
 | --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be trained (by default they are trained)                                                   |
-| --dispatchName [name]         | (OPTIONAL) Name of your Virtual Assistant's `.dispatch` file (defaults to the name displayed in your Cognitive Models file)                                                 |
-| --language [language]         | (OPTIONAL) Locale used for LUIS culture (defaults to `en-us`)                                                                                                               |
+| --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                      |
 | --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' `.lu` files (defaults to `./deployment/resources/skills/en` inside your Virtual Assistant folder)                     |
-| --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch/en` inside your Virtual Assistant folder)  |
+| --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
 | --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your Virtual Assistant's folder)                                                              |
 | --skillsFile [path]           | (OPTIONAL) Path to your Virtual Assistant Skills configuration file (defaults to the `skills.json` inside your Virtual Assistant's folder)                                  |

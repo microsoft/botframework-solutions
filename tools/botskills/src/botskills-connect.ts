@@ -8,11 +8,11 @@ import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
-import { IAppSetting, ICognitiveModel, IConnectConfiguration } from './models';
+import { IAppSetting, IConnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
-    program.outputHelp((str: string) => {
+    program.outputHelp((str: string): string => {
         logger.error(str);
 
         return '';
@@ -27,7 +27,6 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-// tslint:disable: max-line-length
 program
     .name('botskills connect')
     .description('Connect a skill to your assistant bot. Only one of both path or URL to Skill is needed.')
@@ -36,8 +35,7 @@ program
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
-    .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
-    .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
+    .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
@@ -47,7 +45,7 @@ program
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
-    .action((cmd: program.Command, actions: program.Command) => undefined);
+    .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
 const args: program.Command = program.parse(process.argv);
 
@@ -60,8 +58,7 @@ let botName: string = '';
 let localManifest: string;
 let remoteManifest: string;
 let noRefresh: boolean = false;
-let dispatchName: string;
-let language: string;
+let languages: string[];
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
@@ -80,7 +77,7 @@ const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
 if (csAndTsValidationResult) {
     logger.error(
         csAndTsValidationResult.replace('{0}', 'cs')
-        .replace('{1}', 'ts')
+            .replace('{1}', 'ts')
     );
     process.exit(1);
 }
@@ -97,7 +94,7 @@ const manifestValidationResult: string = validatePairOfArgs(args.localManifest, 
 if (manifestValidationResult) {
     logger.error(
         manifestValidationResult.replace('{0}', 'localManifest')
-        .replace('{1}', 'remoteManifest')
+            .replace('{1}', 'remoteManifest')
     );
     process.exit(1);
 }
@@ -146,29 +143,17 @@ if (appSettingsFile !== undefined) {
 const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
 cognitiveModelsFile = cognitiveModelsFilePath;
 
-// language validation
-language = args.language || 'en-us';
-const languageCode: string = (language.split('-'))[0];
+// languages validation
+languages = args.languages ? args.languages.split(',') : ['en-us'];
 
 // luisFolder validation
-luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
+luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, 'Deployment', 'Resources', 'Skills');
 
 // dispatchFolder validation
-dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
+dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch');
 
 // lgOutFolder validation
 lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services') : 'Services'));
-
-// dispatchName validation
-if (!args.dispatchName) {
-    // try get the dispatch name from the cognitiveModels file
-    const cognitiveModels: ICognitiveModel = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
-    dispatchName = cognitiveModels.cognitiveModels[languageCode].dispatchModel.name;
-} else {
-    dispatchName = args.dispatchName;
-}
-
-// End of arguments validation
 
 // Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
 const configuration: IConnectConfiguration = {
@@ -176,8 +161,7 @@ const configuration: IConnectConfiguration = {
     localManifest: localManifest,
     remoteManifest: remoteManifest,
     noRefresh: noRefresh,
-    dispatchName: dispatchName,
-    language: language,
+    languages: languages,
     luisFolder: luisFolder,
     dispatchFolder: dispatchFolder,
     outFolder: outFolder,
@@ -190,4 +174,5 @@ const configuration: IConnectConfiguration = {
     logger: logger
 };
 
-new ConnectSkill(logger).connectSkill(configuration);
+// End of arguments validation
+new ConnectSkill((<IConnectConfiguration> configuration), logger).connectSkill();

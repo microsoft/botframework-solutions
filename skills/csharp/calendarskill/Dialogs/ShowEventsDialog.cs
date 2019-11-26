@@ -7,22 +7,18 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.Adapters;
 using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
-using Google.Apis.Calendar.v3.Data;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -98,13 +94,6 @@ namespace CalendarSkill.Dialogs
                 HandleNextActionAfterRead,
             };
 
-            var retryUnknown = new WaterfallStep[]
-            {
-                SendFallback,
-                RetryInput,
-                HandleNextAction,
-            };
-
             var updateEvent = new WaterfallStep[]
             {
                 UpdateEvent,
@@ -136,8 +125,6 @@ namespace CalendarSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Reshow, reshow) { TelemetryClient = telemetryClient });
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
-            AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
-            AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowEvents;
@@ -641,7 +628,8 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, sc.Options);
+                    // TODO - Need to clean this up
+                    return await sc.EndDialogAsync();
                 }
             }
             catch (SkillException ex)
@@ -941,66 +929,6 @@ namespace CalendarSkill.Dialogs
                 !state.MeetingInfor.EndDate.Any() &&
                 !state.MeetingInfor.EndTime.Any() &&
                 EventModel.IsSameDate(searchDate, userNow);
-        }
-
-        private Task<bool> ResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
-        {
-            var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackHandledEventName)
-            {
-                return Task.FromResult(true);
-            }
-
-            return Task.FromResult(false);
-        }
-
-        private async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-
-                // Send Fallback Event
-                if (sc.Context.Adapter is CalendarSkillWebSocketBotAdapter remoteInvocationAdapter)
-                {
-                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
-
-                    // Wait for the FallbackHandle event
-                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> RetryInput(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CalendarSharedResponses.RetryInput) });
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
         }
     }
 }
