@@ -1,4 +1,7 @@
-﻿using Luis;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Luis;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {
@@ -26,8 +29,7 @@ namespace CalendarSkill.Test.Flow.Utterances
                 UpdateMeetingWithNewStartDate,
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" },
-                toDate: new string[] { "today" }
-                ));
+                toDate: new string[] { "today" }));
         }
 
         public static string BaseUpdateMeeting { get; } = "update meeting";

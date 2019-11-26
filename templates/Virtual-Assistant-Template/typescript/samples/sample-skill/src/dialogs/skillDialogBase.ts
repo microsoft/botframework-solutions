@@ -24,7 +24,6 @@ import {
     MultiProviderAuthDialog,
     ResponseManager } from 'botbuilder-solutions';
 import { TokenResponse } from 'botframework-schema';
-import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { SharedResponses } from '../responses/shared/sharedResponses';
 import { BotServices} from '../services/botServices';
@@ -78,7 +77,7 @@ export class SkillDialogBase extends ComponentDialog {
         try {
             return await sc.prompt(MultiProviderAuthDialog.name, {});
         } catch (err) {
-            await this.handleDialogExceptions(sc, <Error>err);
+            await this.handleDialogExceptions(sc, err as Error);
 
             return {
                 status: DialogTurnStatus.cancelled,
@@ -91,7 +90,7 @@ export class SkillDialogBase extends ComponentDialog {
         try {
             // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
             // When the token is cached we get a TokenResponse object.
-            const providerTokenResponse: IProviderTokenResponse | undefined = <IProviderTokenResponse>sc.result;
+            const providerTokenResponse: IProviderTokenResponse | undefined = sc.result as IProviderTokenResponse;
 
             if (providerTokenResponse !== undefined) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
@@ -102,7 +101,7 @@ export class SkillDialogBase extends ComponentDialog {
 
             return await sc.next();
         } catch (err) {
-            await this.handleDialogExceptions(sc, <Error>err);
+            await this.handleDialogExceptions(sc, err as Error);
 
             return {
                 status: DialogTurnStatus.cancelled,
@@ -133,13 +132,8 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
+            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
-            // Get luis service for current locale
-            const locale: string = i18next.language.substring(0, 2);
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
-            if (localeConfig === undefined) {
-                throw new Error('There is no cognitiveModels for the locale');
-            }
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 

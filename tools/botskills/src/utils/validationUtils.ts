@@ -19,3 +19,24 @@ export function validatePairOfArgs(arg1: string | undefined, arg2: string | unde
 
     return '';
 }
+
+export function isValidCultures(availableCultures: string[], targetedCultures: string[]): boolean {
+    if (availableCultures.length < 1) {
+        return false;
+    }
+    const unavailableCulture: string[] = targetedCultures.reduce(
+        (acc: string[], culture: string): string[] => {
+            if (!availableCultures.includes(culture)) {
+                acc.push(culture);
+            }
+
+            return acc;
+        },
+        []);
+
+    if (unavailableCulture !== undefined && unavailableCulture.length > 0) {
+        return false;
+    }
+
+    return true;
+}

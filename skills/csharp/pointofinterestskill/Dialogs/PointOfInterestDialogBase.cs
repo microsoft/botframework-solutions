@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -30,11 +32,7 @@ namespace PointOfInterestSkill.Dialogs
 {
     public class PointOfInterestDialogBase : ComponentDialog
     {
-        public enum OpenDefaultAppType
-        {
-            Telephone,
-            Map,
-        }
+        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
 
         // Constants
         // TODO consider other languages
@@ -45,6 +43,7 @@ namespace PointOfInterestSkill.Dialogs
             { "it-IT", "it-IT-ElsaNeural" },
             { "zh-CN", "zh-CN-XiaoxiaoNeural" }
         };
+
         // TODO same as the one in ConfirmPrompt
         private static readonly Dictionary<string, string> ChoiceDefaults = new Dictionary<string, string>()
         {
@@ -57,7 +56,7 @@ namespace PointOfInterestSkill.Dialogs
             { Portuguese, "Sim" },
             { Chinese, "是的" },
         };
-        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
+
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestDialogBase(
@@ -84,6 +83,19 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt, CanNoInterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectActionPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+        }
+
+        public enum OpenDefaultAppType
+        {
+            /// <summary>
+            /// Telephone app type.
+            /// </summary>
+            Telephone,
+
+            /// <summary>
+            /// Map app type.
+            /// </summary>
+            Map,
         }
 
         protected BotSettings Settings { get; set; }
@@ -275,7 +287,41 @@ namespace PointOfInterestSkill.Dialogs
                 var pointOfInterestList = new List<PointOfInterestModel>();
                 var cards = new List<Card>();
 
-                if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
+                if (!string.IsNullOrEmpty(state.Category))
+                {
+                    if (!string.IsNullOrEmpty(state.Keyword))
+                    {
+                        throw new Exception("Should search only category or keyword!");
+                    }
+
+                    if (string.IsNullOrEmpty(state.Address))
+                    {
+                        // Fuzzy query search with keyword
+                        pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Category, state.PoiType, true);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                    }
+                    else
+                    {
+                        // Get first POI matched with address, if there are multiple this could be expanded to confirm which address to use
+                        var pointOfInterestAddressList = await addressMapsService.GetPointOfInterestListByAddressAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address, state.PoiType);
+
+                        if (pointOfInterestAddressList.Any())
+                        {
+                            var pointOfInterest = pointOfInterestAddressList[0];
+
+                            // TODO nearest here is not for current
+                            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.Category, state.PoiType, true);
+                            cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                        }
+                        else
+                        {
+                            // No POIs found from address - search near current coordinates
+                            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Category, state.PoiType, true);
+                            cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, service);
+                        }
+                    }
+                }
+                else if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {
                     // No entities identified, find nearby locations
                     pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.PoiType);
@@ -882,8 +928,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 localeConfig.LuisServices.TryGetValue("PointOfInterest", out var poiService);
                 var poiResult = await poiService.RecognizeAsync<PointOfInterestLuis>(promptContext.Context, CancellationToken.None);
                 var topIntent = poiResult.TopIntent();

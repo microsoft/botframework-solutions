@@ -1,4 +1,7 @@
-﻿using System.Net.Http;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Services;
@@ -63,6 +66,20 @@ namespace PointOfInterestSkill.Tests.API
         }
 
         [TestMethod]
+        public async Task GetPointsOfInterestByCategoryTest()
+        {
+            var service = new AzureMapsGeoSpatialService();
+
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.RouteLimit, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            Assert.AreEqual(pointOfInterestList.Count, 3);
+
+            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, null, true);
+            Assert.AreEqual(pointOfInterestList.Count, 2);
+        }
+
+        [TestMethod]
         public async Task GetRouteDirectionsTest()
         {
             var service = new AzureMapsGeoSpatialService();
@@ -83,7 +100,7 @@ namespace PointOfInterestSkill.Tests.API
 
             var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
             Assert.AreEqual(pointOfInterestList[0].Address, "1635 11th Avenue Northwest, Issaquah, WA 98027");
-            Assert.AreEqual(pointOfInterestList[0].AddressAlternative, "11th Avenue Northwest, King, Washington, USA");
+            Assert.AreEqual(pointOfInterestList[0].AddressAlternative, "11th Avenue Northwest, Issaquah, King, Washington, USA");
             Assert.AreEqual(pointOfInterestList[0].Category, "Address Range");
         }
 

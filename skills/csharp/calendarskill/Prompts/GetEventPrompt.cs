@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,8 +22,11 @@ namespace CalendarSkill.Prompts
     /// </summary>
     public class GetEventPrompt : Prompt<IList<EventModel>>
     {
+        internal const string AttemptCountKey = "AttemptCount";
+
         private static ICalendarService calendarService = null;
         private static TimeZoneInfo userTimeZone = null;
+        private static int maxReprompt = -1;
 
         public GetEventPrompt(string dialogId, PromptValidator<IList<EventModel>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
@@ -62,6 +68,8 @@ namespace CalendarSkill.Prompts
             {
                 await turnContext.SendActivityAsync(options.Prompt, cancellationToken).ConfigureAwait(false);
             }
+
+            maxReprompt = ((CalendarPromptOptions)options).MaxReprompt;
         }
 
         protected override async Task<PromptRecognizerResult<IList<EventModel>>> OnRecognizeAsync(ITurnContext turnContext, IDictionary<string, object> state, PromptOptions options, CancellationToken cancellationToken = default(CancellationToken))
@@ -99,6 +107,11 @@ namespace CalendarSkill.Prompts
                 }
             }
 
+            if (maxReprompt > 0 && Convert.ToInt32(state[AttemptCountKey]) >= maxReprompt)
+            {
+                result.Succeeded = true;
+            }
+
             return await Task.FromResult(result);
         }
 
@@ -128,9 +141,6 @@ namespace CalendarSkill.Prompts
                             continue;
                         }
 
-                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
-                        endTimeValue = TimeConverter.ConvertLuisLocalToUtc(endTimeValue, userTimeZone);
-
                         startDateList.Add(startTimeValue);
                         startTimeList.Add(startTimeValue);
                         endDateList.Add(endTimeValue);
@@ -145,8 +155,6 @@ namespace CalendarSkill.Prompts
                         }
 
                         var dateTimeConvertType = resolution.Timex;
-
-                        startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, userTimeZone);
                         if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
                         {
                             startTimeList.Add(startTimeValue);

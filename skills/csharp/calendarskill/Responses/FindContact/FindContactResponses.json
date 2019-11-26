@@ -2,17 +2,26 @@
   "PromptOneNameOneAddress": {
     "replies": [
       {
-        "text": "Okay, I will add {User}.",
-        "speak": "Okay, I will add {User}."
+        "text": "Alright, I've added {User}.",
+        "speak": "Alright, I've added {User}."
       }
     ],
     "inputHint": "expectingInput"
   },
+  "FindMultipleContactNames": {
+    "replies": [
+      {
+        "text": "I found more than one contact named {UserName}.",
+        "speak": "I found more than one contact named {UserName}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ConfirmMultipleContactNameSinglePage": {
     "replies": [
       {
-        "text": "I found multiple contacts for {UserName}. Which one would you like?",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like?"
+        "text": "Which one were you looking for?",
+        "speak": "Which one were you looking for?"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,17 +29,26 @@
   "ConfirmMultipleContactNameMultiPage": {
     "replies": [
       {
-        "text": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
+        "text": "Which one were you looking for? You can also ask me to show you the previous or more options.",
+        "speak": "Which one were you looking for? You can also ask me to show you the previous or more options."
       }
     ],
     "inputHint": "expectingInput"
   },
+  "FindMultipleEmails": {
+    "replies": [
+      {
+        "text": "I found more than one email for {UserName}.",
+        "speak": "I found more than one email for {UserName}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ConfirmMultiplContactEmailSinglePage": {
     "replies": [
       {
-        "text": "I found multiple contact details for {UserName}. Which one would you like?",
-        "speak": "I found multiple contact details for {UserName}. Which one would you like?"
+        "text": "Which one do you want to use?",
+        "speak": "Which one do you want to use?"
       }
     ],
     "inputHint": "expectingInput"
@@ -38,8 +56,8 @@
   "ConfirmMultiplContactEmailMultiPage": {
     "replies": [
       {
-        "text": "I found multiple contact details for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
+        "text": "Which one do you want to use? You can also ask me to show you the previous or more options.",
+        "speak": "Which one do you want to use? You can also ask me to show you the previous or more options."
       }
     ],
     "inputHint": "expectingInput"
@@ -47,8 +65,17 @@
   "UserNotFound": {
     "replies": [
       {
-        "text": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible.",
-        "speak": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible."
+        "text": "I didn't find anyone matching that name in your contacts.",
+        "speak": "I didn't find anyone matching that name in your contacts."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForEmail": {
+    "replies": [
+      {
+        "text": "Can you provide an email address?",
+        "speak": "Can you provide an email address?"
       }
     ],
     "inputHint": "expectingInput"
@@ -60,7 +87,7 @@
         "speak": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "BeforeSendingMessage": {
     "replies": [
@@ -78,7 +105,7 @@
         "speak": " "
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AlreadyLastPage": {
     "replies": [
@@ -87,7 +114,7 @@
         "speak": " "
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoAttendees": {
     "replies": [
@@ -101,8 +128,8 @@
   "AddMoreUserPrompt": {
     "replies": [
       {
-        "text": "I have included {Users}, do you want to add any other participants?",
-        "speak": "I have included {Users}, do you want to add any other participants?"
+        "text": "Do you want to invite anyone else?",
+        "speak": "Do you want to invite anyone else?"
       }
     ],
     "inputHint": "expectingInput"
@@ -115,5 +142,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "EmailChoiceConfirmation": {
+    "replies": [
+      {
+        "text": "Got it, I'll use {Email}.",
+        "speak": "Got it, I'll use {Email}."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

@@ -1,5 +1,8 @@
-﻿using Luis;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System;
+using Luis;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {

@@ -9,8 +9,8 @@ const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
-const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-const someLanguages = [`zh`, `de`, `en`];
+const languages = [`zh-cn`, `de-de`, `en-us`, `fr-fr`, `it-it`, `es-es`];
+const someLanguages = [`zh-cn`, `de-de`, `en-us`];
 const { join } = require(`path`);
 const sinon = require(`sinon`);
 

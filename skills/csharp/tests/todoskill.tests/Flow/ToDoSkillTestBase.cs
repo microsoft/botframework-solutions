@@ -61,9 +61,9 @@ namespace ToDoSkill.Tests.Flow
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet()
+                        "en-us", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
                                 {
@@ -111,7 +111,7 @@ namespace ToDoSkill.Tests.Flow
             Services.AddTransient<DeleteToDoItemDialog>();
             Services.AddTransient<MarkToDoItemDialog>();
             Services.AddTransient<ShowToDoItemDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()

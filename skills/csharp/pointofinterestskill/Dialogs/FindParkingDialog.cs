@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,8 +69,7 @@ namespace PointOfInterestSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
-
-            if (!string.IsNullOrEmpty(state.Address) || hasCurrentCoordinates)
+            if (hasCurrentCoordinates)
             {
                 return await sc.ReplaceDialogAsync(Actions.FindParking);
             }
@@ -109,13 +109,13 @@ namespace PointOfInterestSkill.Dialogs
                 if (!string.IsNullOrEmpty(state.Address))
                 {
                     // Get first POI matched with address, if there are multiple this could be expanded to confirm which address to use
-                    var pointOfInterestAddressList = await addressMapsService.GetPointOfInterestListByQueryAsync(double.NaN, double.NaN, state.Address);
+                    var pointOfInterestAddressList = await addressMapsService.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
 
                     if (pointOfInterestAddressList.Any())
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
 
-                        // TODO nearest here is not for current
+                        // TODO nearest here is not for state.CurrentCoordinates
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.PoiType);
                         cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList, mapsService);
                     }

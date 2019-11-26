@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,12 +54,12 @@ namespace BingSearchSkill.Dialogs
             GetEntityFromLuis(stepContext);
 
             var state = await _stateAccessor.GetAsync(stepContext.Context);
-            //if (string.IsNullOrWhiteSpace(state.SearchEntityName))
-            //{
+
+            // if (string.IsNullOrWhiteSpace(state.SearchEntityName))
+            // {
             //    var prompt = ResponseManager.GetResponse(SearchResponses.AskEntityPrompt);
             //    return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
-            //}
-
+            // }
             return await stepContext.NextAsync();
         }
 
@@ -79,6 +82,7 @@ namespace BingSearchSkill.Dialogs
             var bingSearchKey = Settings.BingSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var bingAnswerSearchKey = Settings.BingAnswerSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var client = new BingSearchClient(bingSearchKey, bingAnswerSearchKey);
+
             // https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/cognitive-services/Labs/Answer-Search/overview.md
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName, "en-us", state.SearchEntityType);
 
@@ -142,7 +146,7 @@ namespace BingSearchSkill.Dialogs
                     {
                         prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
                         {
-                            { "Answer", "Sorry I do not know this answer yet."},
+                            { "Answer", "Sorry I do not know this answer yet." },
                             { "Url", "www.bing.com" }
                         });
                     }
@@ -150,8 +154,8 @@ namespace BingSearchSkill.Dialogs
                     {
                         prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
                         {
-                            { "Answer", entitiesResult[0].Description},
-                            { "Url", entitiesResult[0].Url}
+                            { "Answer", entitiesResult[0].Description },
+                            { "Url", entitiesResult[0].Url }
                         });
                     }
                 }

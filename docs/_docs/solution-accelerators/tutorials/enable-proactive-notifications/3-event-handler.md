@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Handle notifications
 order: 3
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
@@ -12,7 +11,7 @@ toc: true
 ## {{page.title}}
 {:.no_toc}
 
-The [**EventHandler**]() project is a sample Azure Function application that performs the following order of operations:
+The [**EventHandler**]({{site.repo}}/tree/master/samples/csharp/clients/event-handler.function-app) project is a sample Azure Function application that performs the following order of operations:
 1. Listens for events from an **Event Hubs Instance**.
 1. Read from a user preference store in **Azure Cosmos DB** to check a user's settings.
 1. If the **SendNotificationToConversation** flag is true, send an event activity to a user's active conversation with the message.
@@ -22,7 +21,7 @@ The [**EventHandler**]() project is a sample Azure Function application that per
 ### Configure the Event Handler project
 Update the **YOUR_EVENT_HUB_NAME** parameter of **Function1** class with your **Event Hubs Instance** name.
 
-#### [Function1.cs]()
+#### [Function1.cs]({{site.repo}}/tree/master/samples/csharp/clients/event-handler.function-app/Function1.cs)
 {:.no_toc}
 
 ```diff

@@ -27,13 +27,13 @@ export class EscalateResponses extends TemplateManager {
 
     // Declare the responses map prompts
     private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
-        ['default', <TemplateIdMap> new Map([
+        ['default', new Map([
             [
                 EscalateResponses.responseIds.sendPhoneMessage,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
                 (context: TurnContext, data: any): Promise<Activity> => EscalateResponses.buildEscalateCard(context, data)
             ]
-        ])]
+        ]) as TemplateIdMap]
     ]);
 
     // Initialize the responses class properties

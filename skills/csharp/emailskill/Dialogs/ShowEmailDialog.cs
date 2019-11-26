@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -9,19 +12,18 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs
@@ -29,17 +31,9 @@ namespace EmailSkill.Dialogs
     public class ShowEmailDialog : EmailSkillDialogBase
     {
         public ShowEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            DeleteEmailDialog deleteEmailDialog,
-            ReplyEmailDialog replyEmailDialog,
-            ForwardEmailDialog forwardEmailDialog,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ShowEmailDialog), serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -100,12 +94,9 @@ namespace EmailSkill.Dialogs
                 HandleMore,
             };
 
-            var retryUnknown = new WaterfallStep[]
-            {
-                SendFallback,
-                RetryInput,
-                HandleMore,
-            };
+            var forwardEmailDialog = serviceProvider.GetService<ForwardEmailDialog>();
+            var replyEmailDialog = serviceProvider.GetService<ReplyEmailDialog>();
+            var deleteEmailDialog = serviceProvider.GetService<DeleteEmailDialog>();
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
@@ -116,11 +107,9 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.RetryUnknown, retryUnknown) { TelemetryClient = telemetryClient });
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-            AddDialog(new EventPrompt(Actions.FallbackEventPrompt, SkillEvents.FallbackHandledEventName, ResponseValidatorAsync));
             InitialDialogId = Actions.Show;
         }
 
@@ -192,7 +181,7 @@ namespace EmailSkill.Dialogs
                 skillOptions.SubFlowMode = true;
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
 
                 var topIntent = luisResult?.TopIntent().intent;
                 if (topIntent == null)
@@ -233,9 +222,9 @@ namespace EmailSkill.Dialogs
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generalLuisResult = state.GeneralLuisResult;
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (topIntent == null)
@@ -349,10 +338,11 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
-
+                var luisResult = sc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var topIntent = luisResult?.TopIntent().intent;
-                var topGeneralIntent = state.GeneralLuisResult?.TopIntent().intent;
+
+                var generalIntent = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                var topGeneralIntent = generalIntent?.TopIntent().intent;
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
@@ -385,10 +375,7 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    var cachedMessageList = state.MessageList;
-                    var cachedFocusedMessages = state.Message;
-
-                    await DigestEmailLuisResult(sc, state.LuisResult, true);
+                    await DigestEmailLuisResult(sc, true);
                     await SearchEmailsFromList(sc, cancellationToken);
 
                     if (state.MessageList.Count > 0)
@@ -396,10 +383,8 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    state.MessageList = cachedMessageList;
-                    state.Message = cachedFocusedMessages;
-
-                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, skillOptions);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (Exception ex)
@@ -543,58 +528,6 @@ namespace EmailSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected Task<bool> ResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
-        {
-            var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackHandledEventName)
-            {
-                return Task.FromResult(true);
-            }
-
-            return Task.FromResult(false);
-        }
-
-        protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-
-                // Send Fallback Event
-                if (sc.Context.Adapter is EmailSkillWebSocketBotAdapter remoteInvocationAdapter)
-                {
-                    await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
-
-                    // Wait for the FallbackHandle event
-                    return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> RetryInput(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.RetryInput) });
             }
             catch (Exception ex)
             {

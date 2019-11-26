@@ -10,8 +10,7 @@ export interface IConnectConfiguration {
     localManifest: string;
     remoteManifest: string;
     noRefresh: boolean;
-    dispatchName: string;
-    language: string;
+    languages: string[];
     luisFolder: string;
     dispatchFolder: string;
     outFolder: string;

@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 namespace CalendarSkill.Services
 {
@@ -7,6 +7,7 @@ namespace CalendarSkill.Services
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using global::CalendarSkill.Models;
+    using Microsoft.Graph;
 
     /// <summary>
     /// The calendar API interface.
@@ -76,5 +77,15 @@ namespace CalendarSkill.Services
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
         Task AcceptEventByIdAsync(string id);
+
+        /// <summary>
+        /// find the available time slot of user at the time.
+        /// </summary>
+        /// <param name="userEmail">the current user's Email.</param>
+        /// <param name="users">the user need to check availability.</param>
+        /// <param name="startTime">the start time of available time slot.</param>
+        /// <param name="availabilityViewInterval">Represents the duration of a time slot in an availabilityView in the response. The default is 30 minutes, minimum is 5, maximum is 1440. Optional.</param>
+        /// <returns>the user available time slot from start time.</returns>
+        Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval);
     }
 }

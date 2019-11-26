@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.CheckAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -79,7 +83,8 @@ namespace CalendarSkill.Test.Flow
                 new SummaryResponses(),
                 new TimeRemainingResponses(),
                 new UpdateEventResponses(),
-                new UpcomingEventResponses());
+                new UpcomingEventResponses(),
+                new CheckAvailableResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -94,8 +99,8 @@ namespace CalendarSkill.Test.Flow
             Services.AddTransient<TimeRemainingDialog>();
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();
-            Services.AddTransient<FindContactDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<CheckAvailableDialog>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));

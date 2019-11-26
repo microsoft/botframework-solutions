@@ -13,7 +13,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "SettingsDispatch#VEHICLE_SETTINGS_CHANGE"
               ]

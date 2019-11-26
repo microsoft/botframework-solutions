@@ -1,4 +1,7 @@
-﻿namespace EmailSkill.Utilities
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace EmailSkill.Utilities
 {
     public class Actions
     {
@@ -45,9 +48,5 @@
         public const string Help = "help";
 
         public const string GetRecreateInfoPrompt = "getRecreateInfoPrompt";
-
-        public const string FallbackEventPrompt = "fallbackEventPrompt";
-
-        public const string RetryUnknown = "retryUnknown";
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -73,8 +76,7 @@ namespace RestaurantBookingSkill.Dialogs
                     var state = await ConversationStateAccessor.GetAsync(dc.Context);
 
                     // Get luis service for current locale
-                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    var localeConfig = Services.CognitiveModelSets[locale];
+                    var localeConfig = Services.GetCognitiveModels();
                     var luisService = localeConfig.LuisServices["Restaurant"];
 
                     // Get intent and entities for activity

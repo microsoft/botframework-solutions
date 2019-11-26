@@ -9,7 +9,7 @@ The basic command to list the Skills connected to your Virtual Assistant:
 botskills list [options]
 ```
 
-### Options
+## Options
 
 | Option                   | Description                                                             |
 |--------------------------|-------------------------------------------------------------------------|

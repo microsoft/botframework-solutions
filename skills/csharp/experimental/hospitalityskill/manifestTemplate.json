@@ -13,7 +13,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#CheckOut"
               ]
@@ -30,7 +30,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#ExtendStay"
               ]
@@ -47,7 +47,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#GetReservation"
               ]
@@ -64,7 +64,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#LateCheckOut"
               ]
@@ -81,7 +81,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#RequestItem"
               ]
@@ -98,7 +98,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Hospitality#RoomService"
               ]
