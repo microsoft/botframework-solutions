@@ -125,15 +125,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "RetryInput": {
-    "replies": [
-      {
-        "text": "对不起，我不明白你的意思。你可以再试一次吗？",
-        "speak": "对不起，我不明白你的意思。你可以再试一次吗？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "MultipleEventsFound": {
     "replies": [
       {
@@ -147,6 +138,15 @@
       {
         "text": "有多个会议，请选择相关的会议。",
         "speak": "有多个会议，请选择相关的会议。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryTooManyResponse": {
+    "replies": [
+      {
+        "text": "抱歉，我现在可能无法帮到你，请稍后再试。",
+        "speak": "抱歉，我现在可能无法帮到你，请稍后再试。"
       }
     ],
     "inputHint": "expectingInput"

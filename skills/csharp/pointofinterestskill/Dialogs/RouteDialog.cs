@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -273,11 +274,11 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
-        private async Task<bool> ValidateStartNavigationPrompt(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
+        private Task<bool> ValidateStartNavigationPrompt(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
             if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value == false)
             {
-                return true;
+                return Task.FromResult(true);
             }
 
             if (promptContext.Context.Activity.Type == ActivityTypes.Message)
@@ -286,11 +287,11 @@ namespace PointOfInterestSkill.Dialogs
                 if (message.Text.Contains(PointOfInterestSharedStrings.START, StringComparison.InvariantCultureIgnoreCase))
                 {
                     promptContext.Recognized.Value = true;
-                    return true;
+                    return Task.FromResult(true);
                 }
             }
 
-            return false;
+            return Task.FromResult(false);
         }
 
         private PromptOptions GetRoutesPrompt(string prompt, List<Card> cards)

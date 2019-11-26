@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Create a Skill
+subcategory: Create
 language: TypeScript
 title: Add your skill to a Virtual Assistant
 order: 6
@@ -22,7 +22,7 @@ To add your new Skill to your assistant/Bot we provide a `botskills` command lin
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>/Deployment/Resources/LU/en/" --ts
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
-See the [Adding Skills]({{site.baseurl}}/howto/skills/addingskills) for more detail on how to add skills.
+See the [Adding Skills]({{site.baseurl}}/help/reference/botskills/) for more details.

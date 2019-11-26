@@ -1,16 +1,19 @@
 ---
 category: Skills
 subcategory: Samples
-title: Experimental Skills
+language: Experimental Skills
+title: Overview
 description: These experimental Bot Framework Skills are early prototypes to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you started. These skills by their very nature are not complete, will likely have rudimentary language models, limited language support and limited testing hence are located in a experimental folder to ensure this is understood before you make use of them.
-order: 5
+order: 1
 toc: true
 ---
 
 # {{ page.title }}
 {:.no_toc}
 
-### Skill Deployment
+This is a definition of an Experimental Skill
+
+## Skill Deployment
 {:.toc}
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
@@ -23,10 +26,15 @@ The Experimental Skills require the following dependencies for end to end operat
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) from the folder where your have cloned the GitHub repo.**
+**To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) from the folder where your have cloned the GitHub repo.**
 
-## Skills
-{:.no_toc}
+
+
+
+
+
+
+
 
 ### Automotive Skill
 {:.toc}
@@ -142,7 +150,7 @@ You will be prompted to provide the following parameters:
 
 - Name - A name for your bot and resource group. This must be **unique**.
 - Location - The Azure region for your services (e.g. westus)
-- LUIS Authoring Key - Refer to [this documentation page]({{site.baseurl}}/tutorials/csharp/create-assistant/1_intro) for retrieving this key.
+- LUIS Authoring Key - Refer to [this documentation page]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) for retrieving this key.
 
 The MSBot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
@@ -264,8 +272,8 @@ The [Bing Search Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstates three simple scenarios:
 
-- Celebrity Information: *Who is Tom Cruise?*
-- Q&A: *What is the gdp of switzerland*
+- Celebrity Information: *Who is Bill Gates?*
+- Q&A: *what's the population of China?*
 - Movie Information: *Tell me about the jurassic park movie*
 
 ![Search Example]({{site.baseurl}}/assets/images/skills-experimental-bingsearch.png)
@@ -280,24 +288,6 @@ This skill has a very limited LUIS model (available in English, French, Italian,
 ```
 "BingSearchKey": "{YOUR_BING_SEARCH_COGNITIVE_SERVICES_KEY}",
 "BingAnswerSearchKey": "{YOUR_PROJECT_ANSWER_SEARCH_KEY}"
-```
-
-### Event Skill
-
-The [Event Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/eventskill) provides a simple skill that integrates with [Eventbrite](https://www.eventbrite.com/platform/) to show information about events happening in the specified area.
-
-This skill currently supports one scenario to get local event information.
-
-![Event Example]({{site.baseurl}}/assets/images/skills-event-transcript.png)
-
-#### Configuration
-{:.no_toc}
-
-1. Get your own [Eventbrite API Key](https://www.eventbrite.com/platform/api-keys).
-1. Provide this value in your `appsettings.json` file.
-
-```
-"eventbriteKey":  "YOUR_EVENTBRITE_API_KEY"
 ```
 
 ### Hospitality Skill
@@ -320,7 +310,7 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample
 
 ### IT Service Management Skill
 
-The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
 This skill demonstrates the following scenarios:
 - Create a ticket: *Create a ticket for my broken laptop*

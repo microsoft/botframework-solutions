@@ -1,4 +1,7 @@
-﻿using Luis;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Luis;
 using ToDoSkill.Tests.Flow.Fakes;
 
 namespace ToDoSkill.Tests.Flow.Utterances
@@ -56,8 +59,7 @@ namespace ToDoSkill.Tests.Flow.Utterances
                 AddTaskWithContentAndCustomizeListType,
                 listType: listType,
                 taskContentPattern: taskContentPattern,
-                taskContentML: taskContentML
-                ));
+                taskContentML: taskContentML));
         }
 
         public static string BaseAddTask { get; } = "add a task";

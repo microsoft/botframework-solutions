@@ -1,4 +1,7 @@
-﻿using System.Net.Http;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Services;
@@ -75,6 +78,20 @@ namespace PointOfInterestSkill.Tests.API
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 40.784084320068359);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterestList[0].Category, "Park");
+        }
+
+        [TestMethod]
+        public async Task GetPointsOfInterestByCategoryTest()
+        {
+            var service = new FoursquareGeoSpatialService();
+
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.RouteLimit, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            Assert.AreEqual(pointOfInterestList.Count, 3);
+
+            pointOfInterestList = await service.GetPointOfInterestListByCategoryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, null, true);
+            Assert.AreEqual(pointOfInterestList.Count, 2);
         }
 
         [TestMethod]

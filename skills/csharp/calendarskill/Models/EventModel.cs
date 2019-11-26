@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
@@ -280,6 +280,11 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.Body == null)
+                        {
+                            msftEventData.Body = new Microsoft.Graph.ItemBody();
+                        }
+
                         return msftEventData.Body.Content;
                     case EventSource.Google:
                         return gmailEventData.Description;
@@ -354,6 +359,11 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.Start == null)
+                        {
+                            msftEventData.Start = new Microsoft.Graph.DateTimeTimeZone();
+                        }
+
                         if (this.TimeZone == TimeZoneInfo.Utc && !msftEventData.Start.DateTime.EndsWith("Z"))
                         {
                             msftEventData.Start.DateTime = msftEventData.Start.DateTime + "Z";
@@ -411,6 +421,11 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.End == null)
+                        {
+                            msftEventData.End = new Microsoft.Graph.DateTimeTimeZone();
+                        }
+
                         if (this.TimeZone == TimeZoneInfo.Utc && !msftEventData.End.DateTime.EndsWith("Z"))
                         {
                             msftEventData.End.DateTime = msftEventData.End.DateTime + "Z";
@@ -462,6 +477,26 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.Start == null)
+                        {
+                            msftEventData.Start = new Microsoft.Graph.DateTimeTimeZone();
+                        }
+
+                        if (msftEventData.Start.TimeZone == null)
+                        {
+                            msftEventData.Start.TimeZone = TimeZoneInfo.Utc.Id;
+                        }
+
+                        if (msftEventData.End == null)
+                        {
+                            msftEventData.End = new Microsoft.Graph.DateTimeTimeZone();
+                        }
+
+                        if (msftEventData.End.TimeZone == null)
+                        {
+                            msftEventData.End.TimeZone = TimeZoneInfo.Utc.Id;
+                        }
+
                         return TimeZoneInfo.FindSystemTimeZoneById(msftEventData.Start.TimeZone);
                     case EventSource.Google:
                         if (gmailEventData.Start.TimeZone == null)
@@ -520,6 +555,11 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.Location == null)
+                        {
+                            msftEventData.Location = new Microsoft.Graph.Location();
+                        }
+
                         return msftEventData.Location?.DisplayName;
                     case EventSource.Google:
                         return gmailEventData.Location;
@@ -642,7 +682,7 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
-                        return msftEventData.IsOrganizer.Value;
+                        return msftEventData.IsOrganizer.GetValueOrDefault();
                     case EventSource.Google:
                         return gmailEventData.Organizer.Self.HasValue && gmailEventData.Organizer.Self.Value;
                     default:
@@ -710,6 +750,14 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
+                        if (msftEventData.ResponseStatus == null)
+                        {
+                            msftEventData.ResponseStatus = new ResponseStatus()
+                            {
+                                Response = ResponseType.None
+                            };
+                        }
+
                         return msftEventData.ResponseStatus.Response == ResponseType.Accepted ||
                             msftEventData.ResponseStatus.Response == ResponseType.Organizer ||
                             (msftEventData.IsOrganizer ?? false);

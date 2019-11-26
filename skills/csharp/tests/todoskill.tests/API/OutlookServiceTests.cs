@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Services;
 using ToDoSkill.Tests.API.Fakes;
@@ -22,7 +25,7 @@ namespace ToDoSkill.Tests.API
         [TestMethod]
         public void LoadCustomizedListTypesFromSettingsTests()
         {
-            var listType = ServiceHelper.GetListTypes(MockConfiguration.Configuration);
+            var listType = ServiceHelper.GetListTypes(MockConfiguration.GetConfiguration());
             Assert.IsTrue(listType.Count == 4 && listType.Contains(MockData.Homework));
         }
 

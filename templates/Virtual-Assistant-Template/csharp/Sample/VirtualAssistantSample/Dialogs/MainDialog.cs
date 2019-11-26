@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,11 +11,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -21,16 +25,14 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    /// <summary>
-    /// The MainDialog class providing core Activity routing and message/event processing.
-    /// </summary>
+    // Dialog providing activity routing and message/event processing.
     public class MainDialog : ActivityHandlerDialog
     {
         private BotServices _services;
         private BotSettings _settings;
-        private LocaleTemplateEngineManager _templateEngine;
-
         private OnboardingDialog _onboardingDialog;
+        private SwitchSkillDialog _switchSkillDialog;
+        private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
@@ -43,7 +45,6 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
@@ -57,7 +58,9 @@ namespace VirtualAssistantSample.Dialogs
 
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
+            AddDialog(_switchSkillDialog);
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -72,9 +75,8 @@ namespace VirtualAssistantSample.Dialogs
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // Get current dispatch model for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition and store result in turn state.
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
@@ -82,7 +84,7 @@ namespace VirtualAssistantSample.Dialogs
 
                 if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
                 {
-                    // If general intent, run recognition on General model and store result in turn state.
+                    // Run LUIS recognition on General model and store result in turn state.
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                     innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
                 }
@@ -98,16 +100,32 @@ namespace VirtualAssistantSample.Dialogs
         {
             var activity = dc.Context.Activity;
             var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
+            var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Check if the active dialog is a skill for conditional interruption.
-                var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
                 var isSkill = dialog is SkillDialog;
 
-                // Get Dispatch result from turn state.
+                // Get Dispatch LUIS result from turn state.
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
-                var dispatchIntent = dispatchResult.TopIntent().intent;
+                (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
+
+                // Check if we need to switch skills.
+                if (isSkill)
+                {
+                    if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
+                    {
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
+
+                        if (identifiedSkill != null)
+                        {
+                            var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                            await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
+                            return InterruptionAction.Waiting;
+                        }
+                    }
+                }
 
                 if (dispatchIntent == DispatchLuis.Intent.l_General)
                 {
@@ -121,22 +139,10 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             case GeneralLuis.Intent.Cancel:
                                 {
-                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    // Suppress completion message for utility functions.
                                     dc.SuppressCompletionMessage(true);
 
                                     await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage", userProfile));
-
-                                    await dc.CancelAllDialogsAsync();
-                                    return InterruptionAction.End;
-                                }
-
-                            case GeneralLuis.Intent.StartOver:
-                                {
-                                    // No need to send the usual dialog completion message for utility capabilities such as these.
-                                    dc.SuppressCompletionMessage(true);
-
-                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("StartOverMessage", userProfile));
-
                                     await dc.CancelAllDialogsAsync();
                                     return InterruptionAction.End;
                                 }
@@ -149,7 +155,7 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.Help:
                                 {
-                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    // Suppress completion message for utility functions.
                                     dc.SuppressCompletionMessage(true);
 
                                     if (isSkill)
@@ -167,20 +173,14 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.Logout:
                                 {
-                                    // No need to send the usual dialog completion message for utility capabilities such as these.
+                                    // Suppress completion message for utility functions.
                                     dc.SuppressCompletionMessage(true);
 
+                                    // Log user out of all accounts.
                                     await LogUserOut(dc);
 
-                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogOutMessage", userProfile));
-
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage", userProfile));
                                     return InterruptionAction.End;
-                                }
-
-                            case GeneralLuis.Intent.Stop:
-                                {
-                                    // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
-                                    break;
                                 }
 
                             case GeneralLuis.Intent.Repeat:
@@ -200,6 +200,24 @@ namespace VirtualAssistantSample.Dialogs
 
                                     return InterruptionAction.Waiting;
                                 }
+
+                            case GeneralLuis.Intent.StartOver:
+                                {
+                                    // Suppresss completion message for utility functions.
+                                    dc.SuppressCompletionMessage(true);
+
+                                    await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("StartOverMessage", userProfile));
+
+                                    // Cancel all dialogs on the stack.
+                                    await dc.CancelAllDialogsAsync();
+                                    return InterruptionAction.End;
+                                }
+
+                            case GeneralLuis.Intent.Stop:
+                                {
+                                    // Use this intent to send an event to your device that can turn off the microphone in speech scenarios.
+                                    break;
+                                }
                         }
                     }
                 }
@@ -215,18 +233,19 @@ namespace VirtualAssistantSample.Dialogs
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
+                // Send new user intro card.
                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("NewUserIntroCard", userProfile));
 
-                // Start onboarding dialog
+                // Start onboarding dialog.
                 await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
             }
             else
             {
-                // Send returning user intro card
+                // Send returning user intro card.
                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
             }
 
-            // No need to send the usual dialog completion message for utility capabilities such as these.
+            // Suppress completion message.
             innerDc.SuppressCompletionMessage(true);
         }
 
@@ -239,18 +258,18 @@ namespace VirtualAssistantSample.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                CognitiveModelSet localizedServices = _services.GetCognitiveModels();
 
                 // Get dispatch result from turn state.
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                // Identify if the dispatch intent maps to a skill
+                // Check if the dispatch intent maps to a skill.
                 var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
 
                 if (identifiedSkill != null)
                 {
+                    // Start the skill dialog.
                     await innerDc.BeginDialogAsync(identifiedSkill.Id);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
@@ -259,13 +278,15 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
+                    innerDc.SuppressCompletionMessage(true);
+
                     await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
                 }
                 else
                 {
                     innerDc.SuppressCompletionMessage(true);
 
-                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnableMessage", userProfile));
+                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
                 }
             }
         }
@@ -283,6 +304,7 @@ namespace VirtualAssistantSample.Dialogs
                         var locationObj = new JObject();
                         locationObj.Add(StateProperties.Location, JToken.FromObject(value));
 
+                        // Store location for use by skills.
                         var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
                         skillContext[StateProperties.Location] = locationObj;
                         await _skillContext.SetAsync(innerDc.Context, skillContext);
@@ -298,6 +320,7 @@ namespace VirtualAssistantSample.Dialogs
                             var timeZoneObj = new JObject();
                             timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
 
+                            // Store location for use by skills.
                             var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
                             skillContext[StateProperties.TimeZone] = timeZoneObj;
                             await _skillContext.SetAsync(innerDc.Context, skillContext);
@@ -312,6 +335,7 @@ namespace VirtualAssistantSample.Dialogs
 
                 case TokenEvents.TokenResponseEventName:
                     {
+                        // Forward the token response activity to the dialog waiting on the stack.
                         await innerDc.ContinueDialogAsync();
                         break;
                     }
@@ -378,7 +402,7 @@ namespace VirtualAssistantSample.Dialogs
             }
             else
             {
-                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnableMessage", userProfile));
+                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
             }
         }
 
@@ -415,7 +439,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
-            public const string PreviousBotResponse = "previousBotReponse";
+            public const string PreviousBotResponse = "previousBotResponse";
             public const string Location = "location";
             public const string TimeZone = "timezone";
         }

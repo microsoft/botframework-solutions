@@ -16,10 +16,9 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             AcceptEventEntry, 
-            Cancel, 
+            CancelCalendar, 
             ChangeCalendarEntry, 
             CheckAvailability, 
-            Confirm, 
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
@@ -31,9 +30,8 @@ namespace Luis
             FindCalendarWho, 
             FindDuration, 
             FindMeetingRoom, 
-            GoBack, 
             None, 
-            Reject, 
+            RejectCalendar, 
             ShowNextCalendar, 
             ShowPreviousCalendar, 
             TimeRemaining

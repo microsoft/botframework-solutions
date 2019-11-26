@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Utilities;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Services.MSGraphAPI
@@ -84,13 +86,12 @@ namespace CalendarSkill.Services.MSGraphAPI
             var result = new List<EventModel>();
             if (!string.IsNullOrEmpty(title))
             {
-                var allEvents = await GetMyStartTimeEvents(DateTime.UtcNow.AddDays(-1));
+                var allEvents = await GetEventsByTimeAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(7));
                 foreach (var item in allEvents)
                 {
-                    var modelItem = new EventModel(item);
-                    if (modelItem.Title.ToLower().Contains(title.ToLower()))
+                    if (item.Title.ToLower().Contains(title.ToLower()))
                     {
-                        result.Add(modelItem);
+                        result.Add(item);
                     }
                 }
             }
@@ -139,6 +140,97 @@ namespace CalendarSkill.Services.MSGraphAPI
             {
                 throw GraphClient.HandleGraphAPIException(ex);
             }
+        }
+
+        public async Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> attendees, DateTime startTime, int availabilityViewInterval)
+        {
+            List<bool> availability = new List<bool>();
+            attendees.Add(userEmail);
+            var schedules = attendees;
+            var endTime = startTime.AddDays(1);
+
+            var intervalStartTime = new DateTimeTimeZone
+            {
+                DateTime = startTime.ToString(),
+                TimeZone = "UTC"
+            };
+
+            var intervalEndTime = new DateTimeTimeZone
+            {
+                DateTime = endTime.ToString(),
+                TimeZone = "UTC"
+            };
+
+            ICalendarGetScheduleCollectionPage collectionPage = await _graphClient.Me.Calendar
+                .GetSchedule(schedules, intervalEndTime, intervalStartTime, availabilityViewInterval)
+                .Request()
+                .PostAsync();
+
+            var result = new AvailabilityResult();
+
+            // set non-working time as 3 in availability view
+            foreach (var collection in collectionPage)
+            {
+                var availabilityView = collection.AvailabilityView.ToCharArray();
+                if (collection.WorkingHours != null)
+                {
+                    var workingTimeZone = TimeZoneInfo.FindSystemTimeZoneById(collection.WorkingHours.TimeZone.Name);
+                    var startTimeInWorkTimeZone = TimeConverter.ConvertUtcToUserTime(startTime, workingTimeZone);
+                    var workingStartTimeTimeOfDay = collection.WorkingHours.StartTime;
+                    var workingStartTime = new DateTime(
+                        startTimeInWorkTimeZone.Year,
+                        startTimeInWorkTimeZone.Month,
+                        startTimeInWorkTimeZone.Day,
+                        workingStartTimeTimeOfDay.Hour,
+                        workingStartTimeTimeOfDay.Minute,
+                        workingStartTimeTimeOfDay.Second);
+
+                    var workingEndTimeTimeOfDay = collection.WorkingHours.EndTime;
+                    var workingEndTime = new DateTime(
+                        startTimeInWorkTimeZone.Year,
+                        startTimeInWorkTimeZone.Month,
+                        startTimeInWorkTimeZone.Day,
+                        workingEndTimeTimeOfDay.Hour,
+                        workingEndTimeTimeOfDay.Minute,
+                        workingEndTimeTimeOfDay.Second);
+
+                    var workDays = collection.WorkingHours.DaysOfWeek.Select(li => (int)li);
+                    for (int i = 0; i < availabilityView.Length; i++)
+                    {
+                        if (availabilityView[i] == '0')
+                        {
+                            var availabilityViewStartTime = startTime.AddMinutes(i * CalendarCommonUtil.AvailabilityViewInterval);
+                            availabilityViewStartTime = TimeConverter.ConvertUtcToUserTime(availabilityViewStartTime, workingTimeZone);
+
+                            if (!workDays.Contains((int)availabilityViewStartTime.DayOfWeek))
+                            {
+                                availabilityView[i] = '3';
+                                continue;
+                            }
+
+                            var availabilityViewEndTime = availabilityViewStartTime.AddMinutes(CalendarCommonUtil.AvailabilityViewInterval);
+
+                            if (!((availabilityViewStartTime.TimeOfDay >= workingStartTime.TimeOfDay && availabilityViewStartTime.TimeOfDay < workingEndTime.TimeOfDay) ||
+                                (availabilityViewEndTime.TimeOfDay > workingStartTime.TimeOfDay && availabilityViewEndTime.TimeOfDay <= workingEndTime.TimeOfDay)))
+                            {
+                                availabilityView[i] = '3';
+                            }
+                        }
+                    }
+                }
+
+                result.AvailabilityViewList.Add(new string(availabilityView));
+            }
+
+            result.MySchedule.AddRange(collectionPage.Last().ScheduleItems.Select(li => new EventModel(EventSource.Microsoft)
+            {
+                Title = li.Subject,
+                StartTime = DateTime.Parse(li.Start.DateTime + "Z").ToUniversalTime(),
+                EndTime = DateTime.Parse(li.End.DateTime + "Z").ToUniversalTime(),
+                Location = li.Location
+            }));
+
+            return result;
         }
 
         /// <summary>
@@ -287,6 +379,19 @@ namespace CalendarSkill.Services.MSGraphAPI
                 // Add the event.
                 var createdEvent = await _graphClient.Me.Events.Request().AddAsync(newEvent);
                 return createdEvent;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
+        private async Task<MeetingTimeSuggestionsResult> FindMeetingTimes(IEnumerable<AttendeeBase> attendees, TimeConstraint timeConstraint = null, bool isOrgnizerOptional = true)
+        {
+            try
+            {
+                var suggestion = await _graphClient.Me.FindMeetingTimes(attendees, timeConstraint: timeConstraint, isOrganizerOptional: isOrgnizerOptional).Request().PostAsync();
+                return suggestion;
             }
             catch (ServiceException ex)
             {

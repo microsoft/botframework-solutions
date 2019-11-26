@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 
-// tslint:disable:no-object-literal-type-assertion
 import * as program from 'commander';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -13,7 +12,6 @@ import * as semver from 'semver';
 import { ConsoleLogger, ILogger} from './logger/logger';
 
 const logger: ILogger = new ConsoleLogger();
-
 const pkg: IPackage = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'UTF8'));
 
 const requiredVersion: string = pkg.engines.node;
@@ -24,7 +22,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     logger.error(`Unknown arguments: ${flag}`);
-    program.outputHelp((str: string) => {
+    program.outputHelp((str: string): string => {
         logger.error(str);
 
         return '';
@@ -45,10 +43,10 @@ program
 
 const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
-if (args) {
+if (args !== undefined) {
     const unknownArgs: string[] = process.argv.slice(2);
     logger.error(`Unknown arguments: ${unknownArgs.join(' ')}`);
-    program.outputHelp((str: string) => {
+    program.outputHelp((str: string): string => {
         logger.error(str);
 
         return '';

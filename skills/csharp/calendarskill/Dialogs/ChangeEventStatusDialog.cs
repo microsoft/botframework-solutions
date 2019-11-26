@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,10 +13,12 @@ using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 
@@ -90,9 +96,17 @@ namespace CalendarSkill.Dialogs
                     retryResponse = ChangeEventStatusResponses.ConfirmAcceptFailed;
                 }
 
-                var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse);
+                var startTime = TimeConverter.ConvertUtcToUserTime(deleteEvent.StartTime, state.GetUserTimeZone());
 
-                var retryMessage = ResponseManager.GetResponse(retryResponse);
+                var responseParams = new StringDictionary()
+                {
+                    { "Time", startTime.ToString(CommonStrings.DisplayTime) },
+                    { "Title", deleteEvent.Title }
+                };
+
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse, responseParams);
+
+                var retryMessage = ResponseManager.GetResponse(retryResponse, responseParams);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -218,7 +232,8 @@ namespace CalendarSkill.Dialogs
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                         {
                             Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoDeleteStartTime),
-                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
+                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound),
+                            MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }
                     else
@@ -226,7 +241,8 @@ namespace CalendarSkill.Dialogs
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                         {
                             Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoAcceptStartTime),
-                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
+                            RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound),
+                            MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }
                 }

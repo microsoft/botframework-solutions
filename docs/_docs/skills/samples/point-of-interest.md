@@ -28,7 +28,7 @@ The following scenarios are currently supported by the Skill:
 - Find a Point of Interest
   - _What's nearby?_
   - _Are there any pharmacies in town?_
-  - _Can you recommend an affordable restaurant in Seattle?_
+  - _Can you recommend a restaurant in Seattle?_
 
 ## Language Understanding
 {:.toc}
@@ -73,7 +73,7 @@ LUIS models are provided in **.lu** file format to support the scenarios used in
 ### Deployment
 {:.no_toc}
 
-Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/create-skill/4_provision_your_azure_resources/) in the Create a Skill tutorial.
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources) in the Create a Skill tutorial.
 
 ### Supported content providers
 {:.no_toc}
@@ -91,13 +91,13 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/tutorials/csharp/
 ## Events
 {:.toc}
 
-Learn how to use [events]({{site.baseurl}}/reference/virtual-assistant/events) to send backend data to a Skill, like a user's location.
+Learn how to use [events]({{site.baseurl}}/virtual-assistant/handbook/events) to send backend data to a Skill, like a user's location.
 
 ### From assistant to user
 {:.no_toc}
 
 This Skill supports an outgoing **OpenDefaultApp** Event Activity that provides a [Geo URI](https://en.wikipedia.org/wiki/Geo_URI_scheme) for chat clients to determine how to handle navigation to a user's selected point of interest.
-The [Virtual Assistant Client (Android) sample]({{ site.baseurl }}/howto/samples/vaclient_android/) demonstrates how a client may navigate to a destination using a user's preferred map application.
+The [Virtual Assistant Client (Android) sample]({{site.baseurl}}/clients-and-channels/clients/virtual-assistant-client) demonstrates how a client may navigate to a destination using a user's preferred map application.
 
 ```json
 { 

@@ -11,10 +11,9 @@ export interface IDisconnectConfiguration {
     outFolder: string;
     noRefresh: boolean;
     cognitiveModelsFile: string;
-    language: string;
+    languages: string[];
     dispatchFolder: string;
     lgOutFolder: string;
-    dispatchName: string;
     lgLanguage: string;
     logger?: ILogger;
 }

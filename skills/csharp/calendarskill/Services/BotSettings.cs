@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Microsoft.Bot.Builder.Solutions;
 
 namespace CalendarSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string AzureMapsKey { get; set; }
+        
+        public string BingSpellCheckSubscriptionKey { get; set; }
+
         public string GoogleAppName { get; set; }
 
         public string GoogleClientId { get; set; }
@@ -16,6 +23,8 @@ namespace CalendarSkill.Services
         public int DisplaySize { get; set; }
 
         public DefaultValueConfiguration DefaultValue { get; set; }
+
+        public RestrictedValueConfiguration RestrictedValue { get; set; }
 
         public class DefaultValueConfiguration
         {
@@ -29,8 +38,21 @@ namespace CalendarSkill.Services
 
                 public string DefaultValue { get; set; }
             }
+
         }
 
-        public string AzureMapsKey { get; set; }
+        public class RestrictedValueConfiguration
+        {
+            public List<RestrictedItem> MeetingTime { get; set; }
+
+            public class RestrictedItem
+            {
+                public string Name { get; set; }
+
+                public bool IsRestricted { get; set; }
+
+                public string Value { get; set; }
+            }
+        }
     }
 }

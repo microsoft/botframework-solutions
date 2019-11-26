@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +13,10 @@ namespace CalendarSkill.Utilities
     public class CalendarCommonUtil
     {
         public const int MaxDisplaySize = 3;
+
+        public const int MaxRepromptCount = 3;
+
+        public const int AvailabilityViewInterval = 5;
 
         public static async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {

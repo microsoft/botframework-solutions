@@ -4,6 +4,7 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -19,18 +20,22 @@ namespace RestaurantBookingSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
+            TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                 await context.SendActivityAsync(responseManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Restaurant Booking Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };
 
+            Use(telemetryMiddleware);
+
+            // Uncomment the following line for local development without Azure Storage
+            // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());

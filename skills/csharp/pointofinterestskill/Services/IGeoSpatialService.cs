@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 using System.Collections.Generic;
 using System.Net.Http;
@@ -55,6 +55,17 @@ namespace PointOfInterestSkill.Services
         /// <param name="poiType">The poi type.</param>
         /// <returns>The found locations.</returns>
         Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query, string poiType = null);
+
+        /// <summary>
+        /// Gets the points of interest by a fuzzy search.
+        /// </summary>
+        /// <param name="latitude">The point latitude.</param>
+        /// <param name="longitude">The point longitude.</param>
+        /// <param name="category">The category query.</param>
+        /// <param name="poiType">The poi type.</param>
+        /// <param name="unique">Wether return unique results for each brand in the category.</param>
+        /// <returns>The found locations.</returns>
+        Task<List<PointOfInterestModel>> GetPointOfInterestListByCategoryAsync(double latitude, double longitude, string category, string poiType = null, bool unique = false);
 
         /// <summary>
         /// Gets the point of interest by address.

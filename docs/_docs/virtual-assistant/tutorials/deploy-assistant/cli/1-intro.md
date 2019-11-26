@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Virtual Assistant
-subcategory: Deploy a Virtual Assistant
+subcategory: Deploy
 language: Using CLI tools
 title: Intro
 order: 1
@@ -11,12 +11,13 @@ order: 1
 ## {{page.title}}
 
 ### Purpose
-The Virtual Assistant comes with a set of scripts to simplify the deployment process. However, if you'd like to manually deploy and configure your assistant, you can follow these steps.
+The Virtual Assistant comes with a set of scripts to simplify the deployment process. It is recommended that you [create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) that way. However, if you'd like to manually deploy and configure your assistant, you can follow these steps.
 
 ### Prerequisites
 
-
 ### Time To Complete
-XX minutes
+10 minutes
 
 ### Scenario
+
+Deploy Virtual Assistant resources manually by using CLI tools.

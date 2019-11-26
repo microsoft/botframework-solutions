@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Microsoft.Bot.Builder.Solutions;
 
 namespace EmailSkill.Services
@@ -17,6 +20,8 @@ namespace EmailSkill.Services
 
         public DefaultValueConfiguration DefaultValue { get; set; }
 
+        public string AzureMapsKey { get; set; }
+
         public class DefaultValueConfiguration
         {
             public List<SlotFillingConfigItem> SendEmail { get; set; }
@@ -28,7 +33,5 @@ namespace EmailSkill.Services
                 public bool IsSkipByDefault { get; set; }
             }
         }
-
-        public string AzureMapsKey { get; set; }
     }
 }

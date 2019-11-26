@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
@@ -44,7 +47,7 @@ namespace PointOfInterestSkill.Tests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
+                            LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", new Fakes.MockGeneralLuisRecognizer() },
                                 {
@@ -90,7 +93,7 @@ namespace PointOfInterestSkill.Tests.Flow
             Services.AddTransient<FindPointOfInterestDialog>();
             Services.AddTransient<RouteDialog>();
             Services.AddTransient<GetDirectionsDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var mockHttpContext = new DefaultHttpContext();
             mockHttpContext.Request.Scheme = "http";

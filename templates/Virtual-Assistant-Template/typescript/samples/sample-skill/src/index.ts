@@ -49,8 +49,8 @@ import { IBotSettings } from './services/botSettings';
 // tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
     .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ]
+        fallbackLng: 'en-us',
+        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn']
     })
     .then(async (): Promise<void> => {
         await Locales.addResourcesFromPath(i18next, 'common');
@@ -60,7 +60,7 @@ const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
-    cognitiveModels.set(key, <ICognitiveModelConfiguration> value);
+    cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
 const botSettings: Partial<IBotSettings> = {
@@ -88,12 +88,11 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
 
-let cosmosDbStorageSettings: CosmosDbStorageSettings;
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
 
-cosmosDbStorageSettings = {
+const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     authKey: botSettings.cosmosDb.authKey,
     collectionId: botSettings.cosmosDb.collectionId,
     databaseId: botSettings.cosmosDb.databaseId,
@@ -132,7 +131,7 @@ let bot: DialogBot<Dialog>;
 try {
 
     const responseManager: ResponseManager = new ResponseManager(
-        ['en', 'de', 'es', 'fr', 'it', 'zh'],
+        ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         [SampleResponses, MainResponses, SharedResponses]);
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
     const sampleDialog: SampleDialog = new SampleDialog(

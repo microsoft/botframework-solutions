@@ -7,7 +7,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Util.Store;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace PhoneSkill.Services.GoogleAPI
 {
@@ -32,7 +32,7 @@ namespace PhoneSkill.Services.GoogleAPI
             ApplicationName = appName as string;
             ClientId = clientId as string;
             ClientSecret = clientSecret as string;
-            Scopes = (scopes as string).Split(" ");
+            Scopes = (scopes as string).Split(",");
         }
 
         public string Token { get; set; }

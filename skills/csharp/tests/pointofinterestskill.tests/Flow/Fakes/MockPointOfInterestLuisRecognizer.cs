@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -10,21 +13,31 @@ using PointOfInterestSkill.Tests.Flow.Utterances;
 
 namespace PointOfInterestSkill.Tests.Flow.Fakes
 {
-    public class MockPointOfInterestLuisRecognizer : ITelemetryRecognizer
+    public class MockPointOfInterestLuisRecognizer : LuisRecognizer
     {
+        private static LuisApplication mockApplication = new LuisApplication()
+        {
+            ApplicationId = "testappid",
+            Endpoint = "testendpoint",
+            EndpointKey = "testendpointkey"
+        };
+
         private BaseTestUtterances poiUtterancesManager;
 
         public MockPointOfInterestLuisRecognizer()
+            : base(application: mockApplication)
         {
             this.poiUtterancesManager = new BaseTestUtterances();
         }
 
         public MockPointOfInterestLuisRecognizer(BaseTestUtterances utterancesManager)
+            : base(application: mockApplication)
         {
             this.poiUtterancesManager = utterancesManager;
         }
 
         public MockPointOfInterestLuisRecognizer(params BaseTestUtterances[] utterancesManagers)
+            : base(application: mockApplication)
         {
             this.poiUtterancesManager = new BaseTestUtterances();
 
@@ -37,22 +50,12 @@ namespace PointOfInterestSkill.Tests.Flow.Fakes
             }
         }
 
-        public bool LogPersonalInformation { get; set; } = false;
-
-        public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
-
         public void AddUtteranceManager(BaseTestUtterances utterancesManager)
         {
             this.poiUtterancesManager.AddManager(utterancesManager);
         }
 
-        public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
-            where T : IRecognizerConvert, new()
+        public override Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var text = turnContext.Activity.Text;
             var mockEmail = poiUtterancesManager.GetValueOrDefault(text, poiUtterancesManager.GetBaseNoneIntent());
@@ -61,23 +64,6 @@ namespace PointOfInterestSkill.Tests.Flow.Fakes
             var mockResult = (T)test;
 
             return Task.FromResult(mockResult);
-        }
-
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
@@ -196,6 +199,11 @@ namespace CalendarSkill.Test.Flow.Fakes
         public async Task AcceptEventByIdAsync(string id)
         {
             await Task.CompletedTask;
+        }
+
+        public Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            throw new NotImplementedException();
         }
     }
 }

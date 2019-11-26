@@ -15,7 +15,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "<%= skillNameCamelCase %>#Sample"
               ]

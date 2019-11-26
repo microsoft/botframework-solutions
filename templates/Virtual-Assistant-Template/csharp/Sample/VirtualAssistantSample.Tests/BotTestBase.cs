@@ -8,10 +8,11 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Feedback;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +43,7 @@ namespace VirtualAssistantSample.Tests
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet
+                        "en-us", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
                             LuisServices = new Dictionary<string, LuisRecognizer>
@@ -68,34 +69,35 @@ namespace VirtualAssistantSample.Tests
             // For localization testing
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
-            Dictionary<string, List<string>> localeLGFiles = new Dictionary<string, List<string>>();
-            List<string> languageGenerationTemplateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
-            List<string> supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var templateFiles = new List<string>();
-                foreach (var template in languageGenerationTemplateFiles)
+                var localeTemplateFiles = new List<string>();
+                foreach (var template in templateFiles)
                 {
-                    // EN doesn't have a locale suffix response file.
-                    if (locale.StartsWith("en"))
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
                     {
-                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
                     }
                     else
                     {
-                        templateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
                     }
                 }
 
-                localeLGFiles.Add(locale, templateFiles);
+                localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            TemplateEngine = new LocaleTemplateEngineManager(localeLGFiles, "en-us");
+            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
             Services.AddSingleton(TemplateEngine);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
+            Services.AddTransient<SwitchSkillDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

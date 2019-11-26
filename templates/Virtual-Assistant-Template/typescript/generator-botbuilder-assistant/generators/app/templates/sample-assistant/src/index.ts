@@ -50,8 +50,8 @@ import { skills as skillsRaw } from './skills.json';
 // tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
     .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+        fallbackLng: 'en-us',
+        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         backend: {
             loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
         }
@@ -65,7 +65,7 @@ const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
-    cognitiveModels.set(key, <ICognitiveModelConfiguration> value);
+    cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
 const botSettings: Partial<IBotSettings> = {
@@ -96,11 +96,11 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appPassword: botSettings.microsoftAppPassword
 };
 
-let cosmosDbStorageSettings: CosmosDbStorageSettings;
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
-cosmosDbStorageSettings = {
+
+const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     authKey: botSettings.cosmosDb.authKey,
     collectionId: botSettings.cosmosDb.collectionId,
     databaseId: botSettings.cosmosDb.databaseId,

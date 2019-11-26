@@ -18,7 +18,7 @@ The CLI performs the following operations on your behalf:
 4. Refresh the dispatch LUIS model with the new utterances.
 5. In the case of **Active Directory Authentication Providers**, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
-> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/tutorials/csharp/create-assistant/4_provision_your_azure_resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
+> Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/) version 10.8 or higher
@@ -42,7 +42,7 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --botName <YOUR_VA_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*

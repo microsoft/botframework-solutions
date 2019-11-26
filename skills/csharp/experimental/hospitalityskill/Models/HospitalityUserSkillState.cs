@@ -1,22 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
+using HospitalitySkill.Services;
 
 namespace HospitalitySkill.Models
 {
     public class HospitalityUserSkillState
     {
-        public HospitalityUserSkillState()
+        public HospitalityUserSkillState(IHotelService hotelService)
         {
             CheckedOut = false;
             LateCheckOut = false;
-            UserReservation = new ReservationData
-            {
-                CheckInDate = DateTime.Now.ToString("MMMM d, yyyy"),
-                CheckOutDate = DateTime.Now.AddDays(4).ToString("MMMM d, yyyy"),
-                CheckOutTime = "12:00 pm"
-            };
+
+            // '?' for serialization
+            UserReservation = hotelService?.GetReservationDetails().Result;
         }
 
         public bool CheckedOut { get; set; }

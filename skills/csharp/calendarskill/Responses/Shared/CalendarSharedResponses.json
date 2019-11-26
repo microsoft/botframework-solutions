@@ -87,15 +87,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "RetryInput": {
-    "replies": [
-      {
-        "text": "Sorry, I don't understand what you mean. Could you please try again?",
-        "speak": "Sorry, I don't understand what you mean. Could you please try again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "MultipleEventsFound": {
     "replies": [
 
@@ -110,6 +101,15 @@
       {
         "text": "There are multiple events, please select the relevant event.",
         "speak": "There are multiple events, please select the relevant event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryTooManyResponse": {
+    "replies": [
+      {
+        "text": "Sorry I can't help you on this. Let's try it later.",
+        "speak": "Sorry I can't help you on this. Let's try it later."
       }
     ],
     "inputHint": "expectingInput"

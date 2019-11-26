@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private bool localAuthConfigured = false;
         private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null, List<OAuthPromptSettings> promptSettings = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
@@ -67,19 +67,23 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             {
                 bool authDialogAdded = false;
 
-                foreach (var connection in _authenticationConnections)
+                for (int i = 0; i < _authenticationConnections.Count; ++i)
                 {
+                    var connection = _authenticationConnections[i];
+
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrEmpty(connection.Name))
                     {
+                        var settings = promptSettings?[i] ?? new OAuthPromptSettings
+                        {
+                            ConnectionName = connection.Name,
+                            Title = "Login",
+                            Text = string.Format("Login with {0}", connection.Name),
+                        };
+
                         AddDialog(new OAuthPrompt(
                             connection.Name,
-                            new OAuthPromptSettings
-                            {
-                                ConnectionName = connection.Name,
-                                Title = "Login",
-                                Text = string.Format("Login with {0}", connection.Name),
-                            },
+                            settings,
                             AuthPromptValidatorAsync));
 
                         authDialogAdded = true;
@@ -105,7 +109,9 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         protected Task<bool> TokenResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event)
+            if (activity != null &&
+               ((activity.Type == ActivityTypes.Event && activity.Name == "tokens/response") ||
+               (activity.Type == ActivityTypes.Invoke && activity.Name == "signin/verifyState")))
             {
                 return Task.FromResult(true);
             }

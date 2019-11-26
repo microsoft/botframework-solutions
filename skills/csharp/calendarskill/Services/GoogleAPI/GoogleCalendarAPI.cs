@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -166,6 +167,11 @@ namespace CalendarSkill.Services.GoogleAPI
             AcceptEvent(id);
             await Task.CompletedTask;
             return;
+        }
+
+        public Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            return null;
         }
 
         private Event UpdateEventById(Event updateEvent)

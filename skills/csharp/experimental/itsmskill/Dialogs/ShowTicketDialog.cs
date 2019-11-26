@@ -40,9 +40,10 @@ namespace ITSMSkill.Dialogs
             var showTicket = new WaterfallStep[]
             {
                 ShowConstraints,
-                //BeginShowTicketLoop,
-                //BeginShowAttributeLoop,
-                //LoopShowTicket,
+
+                // BeginShowTicketLoop,
+                // BeginShowAttributeLoop,
+                // LoopShowTicket,
             };
 
             var showAttribute = new WaterfallStep[]
@@ -309,8 +310,7 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 localeConfig.LuisServices.TryGetValue("ITSM", out var service);
                 var result = await service.RecognizeAsync<ITSMLuis>(promptContext.Context, CancellationToken.None);
                 var topIntent = result.TopIntent();

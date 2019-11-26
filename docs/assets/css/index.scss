@@ -6,37 +6,7 @@
 @import "colors.scss";
 @import "markdown.scss";
 @import "switcher.scss";
-
-img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#header-img {
-  z-index:0;
-}
-
-#header-content {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 1071;
-}
-
-.featurette {
-  padding-top: $spacer * 10;
-  padding-bottom: $spacer * 10;
-}
-
-.octicon {
-  display: inline-block;
-  vertical-align: middle;
-  fill: currentColor;
-}
-
-code {
-  font-size: 14px;
-}
+@import "syntax.css";
 
 /*
  * Extend the footer to the bottom of the page,
@@ -49,86 +19,97 @@ body {
   flex-direction: column;
 }
 
-.container-lg {
-  flex: 1;
+#nav-content {
+    top: 4rem;
+    overflow-y: auto;
+    z-index: 1000;
+
+    ul {
+        list-style-type: none;
+        padding-left: 5px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: black;
+    }
+
+    .is-selected {
+        font-weight: 600 !important;
+        background-color: hsla(0,0%,95%,1);
+    }
 }
 
-.flex-1 {
-  flex: 1;
+@media (min-width: 768px){
+    #nav-content {
+        position: -webkit-sticky;
+        position: sticky;
+        height: calc(100vh - 4rem);
+    }
 }
 
-#toc {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4rem;
-  overflow-y: auto;
-  height: calc(100vh - 4rem);
-  padding-right: 0;
-  border-right: 1px solid #eee;
-  z-index: 1000;
-
-  ul {
-    list-style-type: none;
-    padding-left: 15px;
-  }
-
-  a:hover {
-    text-decoration: underline;
-    color: black;
-  }  
-}
-
-#footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.carousel-control-prev-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
-}
-
-.carousel-control-next-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
-}
-
-#content-navbar {
-    float: right !important;
+#toc-content {
     position: -webkit-sticky !important;
     position: sticky !important;
     top: 4rem;
     overflow-y: auto;
     height: calc(100vh - 4rem);
 
-    .nav::before {
-        content: "Contents";
-        font-weight: bold;
-    }
-
-    .nav {
-      border-left: 1px solid #eee;
+    ul::before {
+        content: "On this page";
+        font-weight: 600;
+        font-size: 16px;
     }
 
     ul {
-      list-style-type: none;
-      padding-left: 15px;
+        list-style-type: none;
+        padding-left: 15px;
+
+        li {
+            padding: 2px 0;
+        }
+
+        li.a {
+            padding-left: 5px;
+        }
     }
 }
 
-a.card {
-  color: inherit;
-  text-decoration: none;
-  box-shadow: 0 2px 5px hsla(0,0%,89%,1);
+#markdown-content {
+    .carousel-control-prev-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+    }
+
+    .carousel-control-next-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d2d2d2' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+    }
+
+    .btn-primary {
+        background-color: var(--primary) !important;
+        background-image: none !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9 !important;
+    }
+
+    a.card {
+        color: inherit;
+        text-decoration: none;
+        box-shadow: 0 2px 5px hsla(0,0%,89%,1);
+    }
+
+    a.card:hover {
+        border: 1px solid var(--primary);
+    }
+
+    pre > code {
+        font-size: 95% !important;
+    }
 }
 
-a.card:hover{
-  border: 1px solid var(--primary);
-}
-
-.btn-primary {
-  background-color: var(--primary) !important;
-  background-image: none !important;
-}
-
-.btn-primary:hover {
-  background-color: #0069d9 !important;
+.octicon {
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
 }

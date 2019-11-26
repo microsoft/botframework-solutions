@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Connect to a sample Skill
+subcategory: Connect to a sample
 title: Connect skill
 order: 4
 ---
@@ -17,9 +17,9 @@ To add your new Skill to your assistant/Bot we provide a `botskills` command lin
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU\en\" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
 **Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
 
-See the [Adding Skills]({{site.baseurl}}/howto/skills/botskills.md#Connect-Skills) for more detail on how to add skills.
+See the [Adding Skills]({{site.baseurl}}/help/reference/botskills/) for more details.

@@ -13,7 +13,7 @@ namespace ToDoSkill.Services
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml;
-    using Microsoft.Bot.Builder.Skills;
+    using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Graph;
     using Newtonsoft.Json;
@@ -41,7 +41,7 @@ namespace ToDoSkill.Services
             List<string> customizedListTypeKeys = new List<string>();
             if (configuration != null)
             {
-                customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>()??customizedListTypeKeys;
+                customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>() ?? customizedListTypeKeys;
             }
 
             List<string> customizedListTypes = new List<string>();

@@ -7,7 +7,7 @@
     {
       "id": "Outlook",
       "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "Tasks.ReadWrite Notes.ReadWrite User.Read User.ReadBasic.All Mail.Send"
+      "scopes": "Tasks.ReadWrite, Notes.ReadWrite, User.Read, User.ReadBasic.All, Mail.Send"
     }
   ],
   "actions": [
@@ -19,7 +19,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "todo#AddToDo"
               ]
@@ -36,7 +36,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "todo#ShowToDo"
               ]
@@ -53,7 +53,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "todo#MarkToDo"
               ]
@@ -70,7 +70,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "todo#DeleteToDo"
               ]

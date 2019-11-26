@@ -1,8 +1,13 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using PointOfInterestSkill.Tests.Flow.Strings;
 using static Luis.PointOfInterestLuis;
 
@@ -17,6 +22,8 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
         public static string OptionOne { get; } = "option 1";
 
         public static string OptionTwo { get; } = "option 2";
+
+        public static string OptionThree { get; } = "option 3";
 
         public static string Yes { get; } = "yes";
 
@@ -53,8 +60,12 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
         protected PointOfInterestLuis CreateIntent(
             string userInput,
             Intent intent,
+            string[] address = null,
             string[] keyword = null,
-            string[][] poiType = null)
+            string[][] keywordCategory = null,
+            string[][] poiDescription = null,
+            string[][] routeDescription = null,
+            string[] categoryText = null)
         {
             var poiIntent = new PointOfInterestLuis
             {
@@ -65,9 +76,18 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
 
             poiIntent.Entities = new _Entities
             {
+                Address = address,
                 Keyword = keyword,
-                PoiDescription = poiType
+                KeywordCategory = keywordCategory,
+                PoiDescription = poiDescription,
+                RouteDescription = routeDescription,
+                _instance = new _Entities._Instance(),
             };
+
+            if (keywordCategory != null)
+            {
+                poiIntent.Entities._instance.KeywordCategory = categoryText.Select(text => new InstanceData { Text = text }).ToArray();
+            }
 
             return poiIntent;
         }
