@@ -10,5 +10,7 @@ namespace CalendarSkill.Models
         public const string APITokenKey = "APITokenKey";
         public const string GeneralLuisResultKey = "GeneralLuisResultKey";
         public const string CalendarLuisResultKey = "CalendarLuisResultKey";
+        public const string TimezoneKey = "timezone";
+        public const string LocationKey = "location";
     }
 }

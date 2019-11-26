@@ -308,10 +308,10 @@ namespace CalendarSkill.Dialogs
         {
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.TimezoneKey))
             {
-                var timezone = semanticAction.Entities["timezone"];
-                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
+                var timezone = semanticAction.Entities[StateProperties.TimezoneKey];
+                var timezoneObj = timezone.Properties[StateProperties.TimezoneKey].ToObject<TimeZoneInfo>();
 
                 var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
 
@@ -319,10 +319,10 @@ namespace CalendarSkill.Dialogs
                 state.UserInfo.Timezone = timezoneObj;
             }
 
-            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.LocationKey))
             {
-                var location = semanticAction.Entities["location"];
-                var locationString = location.Properties["location"].ToString();
+                var location = semanticAction.Entities[StateProperties.LocationKey];
+                var locationString = location.Properties[StateProperties.LocationKey].ToString();
                 var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
 
                 var coords = locationString.Split(',');
