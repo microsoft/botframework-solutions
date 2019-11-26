@@ -57,7 +57,10 @@ namespace PointOfInterestSkill.Services
 
         private int routeLimit;
 
-        public string Provider { get { return PointOfInterestModel.AzureMaps; } }
+        public string Provider
+        {
+            get { return PointOfInterestModel.AzureMaps; }
+        }
 
         public Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, int routeLimitConfiguration, string locale = "en-us", HttpClient client = null)
         {
@@ -230,6 +233,8 @@ namespace PointOfInterestSkill.Services
         /// Get a static map image URL of the Point of Interest and returns PointOfInterestModel.
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
+        /// <param name="width">The image width.</param>
+        /// <param name="height">The image height.</param>
         /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest, int width = 0, int height = 0)
         {

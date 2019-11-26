@@ -20,8 +20,8 @@
   "ItemNotAvailable": {
     "replies": [
       {
-        "text": "Sorry it seems like the following items you requested are not available:",
-        "speak": "Sorry it seems like the following items you requested are not available"
+        "text": "Sorry it seems like the following items you requested are not available: {Items}",
+        "speak": "Sorry it seems like the following items you requested are not available: {Items}"
       }
     ],
     "inputHint": "acceptingInput"

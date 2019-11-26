@@ -14,16 +14,17 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
+using Google.Apis.Calendar.v3.Data;
 using Luis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
@@ -600,12 +601,12 @@ namespace CalendarSkill.Dialogs
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
+            var eventItemList = GetMeetingCardList(state, currentEvents);
 
             return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
         }
 
-        protected async Task<Activity> GetGeneralMeetingListResponseAsync(
+        protected Task<Activity> GetGeneralMeetingListResponseAsync(
             ITurnContext context,
             CalendarSkillState state,
             bool isShowAll = false,
@@ -640,9 +641,9 @@ namespace CalendarSkill.Dialogs
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
+            var eventItemList = GetMeetingCardList(state, currentEvents);
 
-            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            return Task.FromResult(ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList));
         }
 
         protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
@@ -1019,6 +1020,7 @@ namespace CalendarSkill.Dialogs
                             break;
                         }
 
+                    case CalendarLuis.Intent.CheckAvailability:
                     case CalendarLuis.Intent.ConnectToMeeting:
                     case CalendarLuis.Intent.TimeRemaining:
                     case CalendarLuis.Intent.AcceptEventEntry:
@@ -1038,6 +1040,11 @@ namespace CalendarSkill.Dialogs
                             if (entity.Subject != null)
                             {
                                 state.MeetingInfor.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfor.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfor.ContactInfor.ContactsNameList);
                             }
 
                             if (entity.FromDate != null)
@@ -1472,7 +1479,7 @@ namespace CalendarSkill.Dialogs
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
 
-                    if (mailAddress.Equals(formattedMailAddress))
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         isDup = true;
                         break;
@@ -1673,7 +1680,7 @@ namespace CalendarSkill.Dialogs
         // Workaround until adaptive card renderer in teams is upgraded to v1.2
         private string GetDivergedCardName(ITurnContext turnContext, string card)
         {
-            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            if (Microsoft.Bot.Builder.Dialogs.Choices.Channel.GetChannelId(turnContext) == Channels.Msteams)
             {
                 return card + ".1.0";
             }
@@ -1706,7 +1713,7 @@ namespace CalendarSkill.Dialogs
             return await GetUserPhotoUrlAsync(context, attendees[index]);
         }
 
-        private async Task<List<Card>> GetMeetingCardListAsync(CalendarSkillState state, List<EventModel> events)
+        private List<Card> GetMeetingCardList(CalendarSkillState state, List<EventModel> events)
         {
             var eventItemList = new List<Card>();
 

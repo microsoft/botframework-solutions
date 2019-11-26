@@ -169,6 +169,11 @@ namespace CalendarSkill.Services.GoogleAPI
             return;
         }
 
+        public Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            return null;
+        }
+
         private Event UpdateEventById(Event updateEvent)
         {
             try

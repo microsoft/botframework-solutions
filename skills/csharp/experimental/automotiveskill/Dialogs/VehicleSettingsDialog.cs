@@ -61,13 +61,15 @@ namespace AutomotiveSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsName"];
-            vehicleSettingValueSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsValue"];
+            var localeConfig = services.GetCognitiveModels();
 
             // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsName"];
-            vehicleSettingValueSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["SettingsValue"];
+            vehicleSettingNameSelectionLuisRecognizer = localeConfig.LuisServices["SettingsName"];
+            vehicleSettingValueSelectionLuisRecognizer = localeConfig.LuisServices["SettingsValue"];
+
+            // Initialise supporting LUIS models for followup questions
+            vehicleSettingNameSelectionLuisRecognizer = localeConfig.LuisServices["SettingsName"];
+            vehicleSettingValueSelectionLuisRecognizer = localeConfig.LuisServices["SettingsValue"];
 
             // Supporting setting files are stored as embedded resources
             var resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
@@ -449,63 +451,10 @@ namespace AutomotiveSkill.Dialogs
 
             if (settingChangeConfirmed)
             {
-                // If the change involves an amount then we add this to the change event
-                if (change.Amount != null)
-                {
-                    var promptReplacements = new StringDictionary
-                    {
-                                        { "settingName", change.SettingName },
-                                        { "amount", change.Amount.Amount.ToString() },
-                                        { "unit", UnitToString(change.Amount.Unit) },
-                    };
-                    if (change.IsRelativeAmount)
-                    {
-                        if (change.Amount.Amount < 0)
-                        {
-                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.DECREASING;
-                            promptReplacements["amount"] = (-change.Amount.Amount).ToString();
-                        }
-                        else
-                        {
-                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.INCREASING;
-                        }
+                    string promptTemplate = VehicleSettingsResponses.VehicleSettingsConfirmed;
 
-                        // Send an event to the device along with the text
-                        await SendActionToDevice(sc, change);
-
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, promptReplacements));
-                    }
-                    else
-                    {
-                        // Send an event to the device along with the text
-                        await SendActionToDevice(sc, change);
-
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements));
-                    }
-                }
-                else
-                {
-                    // Nominal (non-numeric) change (e.g., on/off)
-                    string promptTemplate;
-                    var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
-                    if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
-                    {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
-                        promptReplacements["valueIngForm"] = valueIngForm;
-                    }
-                    else
-                    {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
-                        promptReplacements["value"] = change.Value;
-                    }
-
-                    // Send an event to the device along with the text
                     await SendActionToDevice(sc, change);
-
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate, promptReplacements));
-                }
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate));
             }
             else
             {

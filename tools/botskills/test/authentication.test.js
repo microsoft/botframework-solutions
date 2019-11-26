@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const { strictEqual } = require("assert");
+const { strictEqual, ok } = require("assert");
 const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
@@ -14,6 +14,7 @@ const authenticationUtils = new AuthenticationUtils();
 const emptyAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "emptyAuthSettings.json"))));
 const filledAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "filledAuthSettings.json"))));
 const appShowReplyUrl = JSON.stringify(require(resolve(__dirname, join("mocks", "appShowReplyUrl", "emptyAppShowReplyUrl.json"))));
+const unrecognizedWarningPrefix = 'The following scopes were not recognized:';
 
 const noAuthConnectionAppsettings = normalizeContent(JSON.stringify(
     {
@@ -208,11 +209,139 @@ https://aka.ms/vamanualauthsteps`);
             const warningList = configuration.logger.getWarning();
             strictEqual(warningList[warningList.length - 1], `Could not configure scopes automatically.`)
         });
-    });    
-    
-    describe("should show a message", function() {
-        describe("when the authentication process finished successfully", function() {
-            it("without an aadConnection", async function() {
+
+        it("when any scope is not recognized", async function () {
+            const scopeNotRecognized = ['Scope.NoRecognized'];
+            const warningMessage = `${unrecognizedWarningPrefix} ${scopeNotRecognized.join(',')}`;
+            const configuration = {
+                botName: "testScope",
+                localManifest: resolve(__dirname, join("mocks", "skills", "unrecognizedScopesManifest.json")),
+                remoteManifest: "",
+                dispatchName: "",
+                language: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: "",
+                resourceGroup: "testScope",
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")),
+                cognitiveModelsFile: "",
+                lgLanguage: "",
+                logger: new TestLogger()
+            }
+
+            // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
+            this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
+
+            await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
+            const warningList = configuration.logger.getWarning();
+
+            ok(warningList.includes(warningMessage));
+        });
+    });
+
+    describe("should not show a warning", function() {
+        it("when the scopes property doesn't exist in the authenticationConnections", async function () {
+            const configuration = {
+                botName: "testScope",
+                localManifest: resolve(__dirname, join("mocks", "skills", "noScopesPropertyManifest.json")),
+                remoteManifest: "",
+                dispatchName: "",
+                language: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: "",
+                resourceGroup: "testScope",
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")),
+                cognitiveModelsFile: "",
+                lgLanguage: "",
+                logger: new TestLogger()
+            }
+
+            // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
+            this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
+
+            await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
+            const warningList = configuration.logger.getWarning();
+
+            const warningFound = warningList.find((warning) => {
+                return warning.includes(unrecognizedWarningPrefix.trim());
+            });
+
+            ok(warningFound === undefined);
+        });
+
+        it("when the scopes property contains empty strings", async function () {
+            const configuration = {
+                botName: "testScope",
+                localManifest: resolve(__dirname, join("mocks", "skills", "emptyScopesManifest.json")),
+                remoteManifest: "",
+                dispatchName: "",
+                language: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: "",
+                resourceGroup: "testScope",
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")),
+                cognitiveModelsFile: "",
+                lgLanguage: "",
+                logger: new TestLogger()
+            }
+
+            // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
+            this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
+
+            await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
+            const warningList = configuration.logger.getWarning();
+
+            const warningFound = warningList.find((warning) => {
+                return warning.includes(unrecognizedWarningPrefix.trim());
+            });
+
+            ok(warningFound === undefined);
+        });
+
+        it("when all the scopes are recognized", async function () {
+            const configuration = {
+                botName: "testScope",
+                localManifest: resolve(__dirname, join("mocks", "skills", "recognizedScopesManifest.json")),
+                remoteManifest: "",
+                dispatchName: "",
+                language: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: "",
+                resourceGroup: "testScope",
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")),
+                cognitiveModelsFile: "",
+                lgLanguage: "",
+                logger: new TestLogger()
+            }
+
+            // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
+            this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
+
+            await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
+            const warningList = configuration.logger.getWarning();
+
+            const warningFound = warningList.find((warning) => {
+                return warning.includes(unrecognizedWarningPrefix.trim());
+            });
+
+            ok(warningFound === undefined);
+        });
+    });
+
+    describe("should show a message", function () {
+        describe("when the authentication process finished successfully", function () {
+            it("without an aadConnection", async function () {
                 const configuration = {
                     botName: "",
                     localManifest: resolve(__dirname, join("mocks", "skills", "azureActiveDirectoryV2AuthenticationManifest.json")),

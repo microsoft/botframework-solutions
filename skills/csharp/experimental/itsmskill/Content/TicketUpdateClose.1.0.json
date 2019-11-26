@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "TicketCard",
+  "id": "TicketUpdateCloseCard",
   "body": [
     {
       "type": "Container",

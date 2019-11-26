@@ -19,10 +19,10 @@ using CalendarSkill.Utilities;
 using Google.Apis.People.v1.Data;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Recognizers.Text.DateTime;
@@ -332,7 +332,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (!state.MeetingInfor.StartDate.Any())
+                if (!state.MeetingInfor.StartDate.Any() && state.MeetingInfor.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
@@ -353,7 +353,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time)
+                if (state.MeetingInfor.StartDateTime == null && (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }

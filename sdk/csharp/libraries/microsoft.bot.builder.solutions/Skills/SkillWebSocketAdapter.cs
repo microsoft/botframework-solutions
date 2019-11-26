@@ -10,8 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Streaming.Transport;
 using Microsoft.Bot.Streaming.Transport.WebSockets;
 
@@ -32,17 +32,21 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly IWhitelistAuthenticationProvider _whitelistAuthenticationProvider;
         private readonly IAuthenticator _authenticator;
+        private readonly ICredentialProvider _credentialProvider;
         private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
             BotSettingsBase botSettingsBase,
             IWhitelistAuthenticationProvider whitelistAuthenticationProvider,
-            IBotTelemetryClient botTelemetryClient = null)
+            IBotTelemetryClient botTelemetryClient = null,
+            ICredentialProvider credentialProvider = null)
         {
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
             _botSettingsBase = botSettingsBase ?? throw new ArgumentNullException(nameof(botSettingsBase));
             _whitelistAuthenticationProvider = whitelistAuthenticationProvider ?? throw new ArgumentNullException(nameof(whitelistAuthenticationProvider));
+
+            _credentialProvider = credentialProvider;
             _authenticationProvider = new MsJWTAuthenticationProvider(_botSettingsBase.MicrosoftAppId);
             _authenticator = new Authenticator(_authenticationProvider, _whitelistAuthenticationProvider);
 
@@ -74,9 +78,19 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 return;
             }
 
-            var claimsIdentity = await _authenticator.AuthenticateAsync(httpRequest, httpResponse).ConfigureAwait(false);
+            ClaimsIdentity claims;
 
-            await CreateWebSocketConnectionAsync(claimsIdentity, httpRequest.HttpContext, bot).ConfigureAwait(false);
+            // only perform auth when it's enabled
+            if (_credentialProvider != null && !await _credentialProvider.IsAuthenticationDisabledAsync().ConfigureAwait(false))
+            {
+                claims = await _authenticator.AuthenticateAsync(httpRequest, httpResponse).ConfigureAwait(false);
+            }
+            else
+            {
+                claims = new ClaimsIdentity(new List<Claim>(), "anonymous");
+            }
+
+            await CreateWebSocketConnectionAsync(claims, httpRequest.HttpContext, bot).ConfigureAwait(false);
         }
 
         private async Task CreateWebSocketConnectionAsync(ClaimsIdentity claimsIdentity, HttpContext httpContext, IBot bot)

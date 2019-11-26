@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -280,18 +281,18 @@ namespace PointOfInterestSkill.Tests.Flow
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [TestMethod]
-        public async Task ParkingNearAddressTest()
+        public async Task PromptForCurrentAndParkingNearAddressTest()
         {
             await GetTestFlow()
                 .Send(FindParkingUtterances.FindParkingNearAddress)
-                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
-                .Send(BaseTestUtterances.OptionOne)
-                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
-                .Send(BaseTestUtterances.ShowDirections)
                 .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
                 .Send(ContextStrings.Ave)
                 .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
                 .Send(BaseTestUtterances.StartNavigation)
                 .AssertReply(CheckForEvent())

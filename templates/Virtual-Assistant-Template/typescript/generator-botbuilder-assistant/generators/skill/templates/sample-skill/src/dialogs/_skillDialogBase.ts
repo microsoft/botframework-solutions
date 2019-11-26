@@ -24,7 +24,6 @@ import {
     MultiProviderAuthDialog,
     ResponseManager } from 'botbuilder-solutions';
 import { TokenResponse } from 'botframework-schema';
-import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { SharedResponses } from '../responses/shared/sharedResponses';
 import { BotServices} from '../services/botServices';
@@ -133,13 +132,8 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
-            // Get luis service for current locale
-            const locale: string = i18next.language.substring(0, 2);
-            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
-            if (localeConfig === undefined) {
-                throw new Error('There is no cognitiveModels for the locale');
-            }
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 

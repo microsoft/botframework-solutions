@@ -1,0 +1,77 @@
+﻿[Ticket Create](./secondary/TicketCreate.lu)
+[Ticket Update](./secondary/TicketUpdate.lu)
+[Ticket Show](./secondary/TicketShow.lu)
+[Ticket Close](./secondary/TicketClose.lu)
+[Knowledge Show](./secondary/KnowledgeShow.lu)
+
+
+# None
+- all of them
+- i want them all
+- i want to all of them
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+$ticket_phrase:phraseList interchangeable
+- incident, incidents, issue, issues, ticket, tickets
+
+$ticket_create_phrase:phraseList interchangeable
+- add, added, create, created, open, opened, raise, raised
+
+$ticket_show_phrase:phraseList interchangeable
+- check, explore, search, see, show, view
+
+
+> # List entities
+
+$AttributeType:urgency=
+- urgency
+
+$AttributeType:title=
+- title
+
+$AttributeType:description=
+- description
+
+$AttributeType:state=
+- state
+
+$UrgencyLevel:low=
+- low
+
+$UrgencyLevel:medium=
+- medium
+
+$UrgencyLevel:high=
+- high
+- urgent
+
+$TicketState:new=
+- new
+
+$TicketState:inprogress=
+- in progress
+
+$TicketState:onhold=
+- on hold
+
+$TicketState:resolved=
+- resolved
+
+$TicketState:closed=
+- closed
+
+$TicketState:canceled=
+- canceled
+
+
+> # Regex entities
+
+$TicketNumber:/INC[0-9]{7}/

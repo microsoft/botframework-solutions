@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Services;
 using ToDoSkill.Tests.API.Fakes;

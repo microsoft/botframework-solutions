@@ -13,7 +13,7 @@ const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
 const templateName = "sample-skill";
-const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const languages = [`zh-cn`, `de-de`, `en-us`, `fr-fr`, `it-it`, `es-es`];
 let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let containsSpecialCharacter = false;
@@ -22,32 +22,32 @@ let finalSkillName = "";
 const languagesChoice = [
   {
     name: "Chinese",
-    value: "zh",
+    value: "zh-cn",
     checked: true
   },
   {
     name: "Deutsch",
-    value: "de",
+    value: "de-de",
     checked: true
   },
   {
     name: "English",
-    value: "en",
+    value: "en-us",
     checked: true
   },
   {
     name: "French",
-    value: "fr",
+    value: "fr-fr",
     checked: true
   },
   {
     name: "Italian",
-    value: "it",
+    value: "it-it",
     checked: true
   },
   {
     name: "Spanish",
-    value: "es",
+    value: "es-es",
     checked: true
   }
 ];
@@ -141,7 +141,7 @@ module.exports = class extends Generator {
       this.log.error(
         "ERROR: Language must be selected from the list:\n\t" +
           languages.map(l => `${l.value} -> ${l.name}`).join("\n\t") +
-          "\nDefault value: en"
+          "\nDefault value: en-us"
       );
       process.exit(1);
     }

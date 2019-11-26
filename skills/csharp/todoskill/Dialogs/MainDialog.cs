@@ -10,10 +10,10 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
@@ -65,8 +65,7 @@ namespace ToDoSkill.Dialogs
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
@@ -183,16 +182,15 @@ namespace ToDoSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
+                var toDoLuisResult = await localeConfig.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -278,13 +276,7 @@ namespace ToDoSkill.Dialogs
             // Initialize PageSize and TaskServiceType when the first input comes.
             if (state.PageSize <= 0)
             {
-                var pageSize = 0;
-
-                if (_settings.DisplaySize != null)
-                {
-                    pageSize = _settings.DisplaySize;
-                }
-
+                var pageSize = _settings.DisplaySize;
                 state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
             }
 

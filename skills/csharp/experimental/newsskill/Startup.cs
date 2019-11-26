@@ -6,19 +6,21 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NewsSkill.Adapters;
 using NewsSkill.Bots;
 using NewsSkill.Dialogs;
@@ -28,9 +30,7 @@ namespace NewsSkill
 {
     public class Startup
     {
-        private bool _isProduction = false;
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -54,7 +54,19 @@ namespace NewsSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            // Configure MVC
+            services.AddControllers();
+
+            // Configure server options
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
 
             // Load settings
             var settings = new BotSettings();
@@ -122,13 +134,18 @@ namespace NewsSkill
         /// </summary>
         /// <param name="app">Application Builder.</param>
         /// <param name="env">Hosting Environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _isProduction = env.IsProduction();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
-                .UseMvc();
+                .UseRouting()
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

@@ -28,7 +28,6 @@ namespace CalendarSkill
         public const string LoopNameList = "LoopNameList";
         public const string ConfirmAttendee = "ConfirmAttendee";
         public const string ConfirmNameList = "ConfirmNameList";
-        public const string SelectPerson = "SelectPerson";
         public const string SelectEmail = "SelectEmail";
         public const string FindContact = "FindContact";
         public const string UpdateRecipientName = "UpdateRecipientName";
@@ -61,5 +60,9 @@ namespace CalendarSkill
         public const string AddMoreUserPrompt = "AddMoreUserPrompt";
         public const string FallbackEventPrompt = "fallbackEventPrompt";
         public const string RetryUnknown = "retryUnknown";
+        public const string CheckAvailable = "CheckAvailable";
+        public const string FindNextAvailableTime = "FindNextAvailableTime";
+        public const string CollectTime = "CollectTime";
+        public const string CreateMeetingWithAvailableTime = "CreateMeetingWithAvailableTime";
     }
 }

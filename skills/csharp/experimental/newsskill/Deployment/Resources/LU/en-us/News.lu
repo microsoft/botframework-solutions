@@ -1,0 +1,96 @@
+> # Intent definitions
+
+## FindArticles
+- find me news about {topic=xbox}
+- find me news on {topic=microsoft}
+- find news about {topic}
+- latest news
+- news about {topic=microsoft}
+- news about {topic=the stock market}
+- {topic=sports} news
+- tell me the news
+- whats the latest news
+- whats the latest news on {topic=brexit}
+- whats the latest on {topic=microsoft}
+- what's the latest on {topic=usa}
+- whats the news
+- what's the latest on {topic}
+- whats the latest news on {topic}
+- find me news on {topic}
+- find news on {topic}
+- news about {topic}
+- news about {topic=microsoft} on {site=wsj.com}
+- whats the latest news on {site=nytimes.com}
+- news on {site=cnn.com}
+- latest news on {site}
+- find me news about {topic} on {site}
+- find me news on {topic} on {site}
+- whats the news on {site=cnn.com}
+- find news on {topic=technology} on {site=wsj.com}
+- whats the latest on {topic} on {site}
+- find me news from {site}
+- find me news about {topic} from {site}
+- {topic} news from {site}
+- {topic} news on {site}
+
+## TrendingArticles
+- what's trending now
+- what's the latest trending news
+- find trending news
+- what's the top news on social media
+- trending news
+- top news on social media
+- what news is popular right now
+- popular news
+- find trending articles
+- trending articles
+- news trending on social media
+- articles popular on social media
+- news trending now
+- find news trending on social networks
+- news popular on social networks
+- articles trending now
+
+## SetFavoriteTopics
+- set favorite news topics
+- set favorite news categories
+- choose favorite news topics
+- choose favorite news categories
+- set news topics
+- set news categories
+- set favorites
+- choose favorites
+- choose my topics
+- set my topics
+- set news I'm interested in
+- choose topics I'm interested in
+
+## ShowFavoriteTopics
+- favorite news
+- favorite news topics
+- my news categories
+- my news topics
+- my news interests
+- news I'm interested in
+- what's my favorite news
+- topics I'm interested in
+- my news
+- my favorite news
+- news for me
+- my news suggestions
+- news topics for me
+- what are my favorites
+- what are my favorite topics
+- find favorites
+- find favorite news
+- find favorite topics
+
+## None
+- all of them
+- i want them all
+- i want to all of them
+
+> # Entity definitions
+
+$topic:simple
+$site:simple

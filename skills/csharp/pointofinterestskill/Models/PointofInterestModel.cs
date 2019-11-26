@@ -57,7 +57,7 @@ namespace PointOfInterestSkill.Models
             // TODO for better display. English style now.
             if (Name == null && Address != null)
             {
-                AddressAlternative = new string[] { azureMapsPoi.Address.StreetName, azureMapsPoi.Address.CountrySecondarySubdivision, azureMapsPoi.Address.CountrySubdivisionName, azureMapsPoi.Address.CountryCodeISO3 }.Aggregate((source, acc) => string.IsNullOrEmpty(source) ? acc : (string.IsNullOrEmpty(acc) ? source : $"{source}, {acc}"));
+                AddressAlternative = new string[] { azureMapsPoi.Address.StreetName, azureMapsPoi.Address.MunicipalitySubdivision, azureMapsPoi.Address.CountrySecondarySubdivision, azureMapsPoi.Address.CountrySubdivisionName, azureMapsPoi.Address.CountryCodeISO3 }.Aggregate((source, acc) => string.IsNullOrEmpty(source) ? acc : (string.IsNullOrEmpty(acc) ? source : $"{source}, {acc}"));
             }
 
             if (Category == null)

@@ -9,7 +9,7 @@
             "query": "Hi",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.30505392
+                "score": 0.354118019
             },
             "entities": []
         },
@@ -19,13 +19,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "122",
+            "123",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "63d7ebc4-0bf7-4460-8a28-b5057d50de2f",
+            "2a87f818-fdd6-4619-8f33-f035d5db7691",
             "Request-Id",
-            "63d7ebc4-0bf7-4460-8a28-b5057d50de2f",
+            "2a87f818-fdd6-4619-8f33-f035d5db7691",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Wed, 15 May 2019 12:55:24 GMT",
+            "Fri, 06 Sep 2019 16:15:40 GMT",
             "Connection",
             "close"
         ]
@@ -48,7 +48,7 @@
             "query": "Hi",
             "topScoringIntent": {
                 "intent": "q_chitchat",
-                "score": 0.975212157
+                "score": 0.9720027
             },
             "entities": []
         },
@@ -58,13 +58,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "126",
+            "124",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "7001298a-a9c9-408a-bc18-f653fc41da8d",
+            "ea2fa1f5-9549-491a-a8f1-869482a6cc97",
             "Request-Id",
-            "7001298a-a9c9-408a-bc18-f653fc41da8d",
+            "ea2fa1f5-9549-491a-a8f1-869482a6cc97",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -72,13 +72,13 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Wed, 15 May 2019 12:55:26 GMT",
+            "Fri, 06 Sep 2019 16:15:41 GMT",
             "Connection",
             "close"
         ]
     },
     {
-        "scope": "https://vatsample-qnahost.azurewebsites.net:443",
+        "scope": "https://dcvasample-qnahost-buzbohw.azurewebsites.net:443",
         "method": "POST",
         "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
         "body": {
@@ -90,31 +90,10 @@
             "timeout": 100000
         },
         "status": 200,
-        "response": {
-            "answers": [
-                {
-                    "questions": [
-                        "Hiya",
-                        "Good morning",
-                        "Hi",
-                        "Hello",
-                        "Heya",
-                        "Hi there!",
-                        "Hey"
-                    ],
-                    "answer": "Hello.",
-                    "score": 100,
-                    "id": 14,
-                    "source": "custom editorial",
-                    "metadata": [],
-                    "context": {
-                        "isContextOnly": false,
-                        "prompts": []
-                    }
-                }
-            ],
-            "debugInfo": null
-        },
+        "response": [
+            "1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147d9b2b9caebe6a347dffbc51ffda275deb445b5c45f1f7dbbb8ce3e1a7df47955cdd245552f8be505fdf9ed02ffe46559f14f6ef2ed226de7799dffaef83dbffee8fb2385fad123fa9b9a8ee98b665ad5f9478f767776c63ba38f8a19fdba4f9f56eb7a4a1f7f345d376db548f359d156759195f4c6226fb359d666840c419c56cb367fd77ef4e8177f543427f2c797cbf2faa347e759d9e4a38f5675b558b540fdfbbfe497d00bb37cb2be385b9e571f3d5aaecbf297",
+            "fc3f19fd1057eb000000"
+        ],
         "rawHeaders": [
             "Cache-Control",
             "no-cache",
@@ -124,12 +103,16 @@
             "chunked",
             "Content-Type",
             "application/json; charset=utf-8",
+            "Content-Encoding",
+            "gzip",
             "Expires",
             "-1",
+            "Vary",
+            "Accept-Encoding",
             "Server",
             "Kestrel",
             "Request-Context",
-            "appId=cid-v1:8efd4ecb-faa7-41b5-92ad-443b0258ad0b",
+            "appId=cid-v1:fd050050-a942-417a-89a1-0c0d1f3b19ca",
             "X-AspNet-Version",
             "4.0.30319",
             "X-Powered-By",
@@ -139,9 +122,9 @@
             "Strict-Transport-Security",
             "max-age=31536000",
             "Set-Cookie",
-            "ARRAffinity=5fc328affd4968eb9e74f9acbf8303b1d86107eaccc771fdc8f0394325e15748;Path=/;HttpOnly;Domain=vatsample-qnahost.azurewebsites.net",
+            "ARRAffinity=86912b6fdad1d42635e70d93668c3305069f9db98535d761b5a1a95aca2bed9b;Path=/;HttpOnly;Domain=dcvasample-qnahost-buzbohw.azurewebsites.net",
             "Date",
-            "Wed, 15 May 2019 12:55:27 GMT",
+            "Fri, 06 Sep 2019 16:15:42 GMT",
             "Connection",
             "close"
         ]

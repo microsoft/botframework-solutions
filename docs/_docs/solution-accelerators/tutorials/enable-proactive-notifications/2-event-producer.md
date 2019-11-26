@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Produce a notification event
 order: 2
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
@@ -12,7 +11,7 @@ toc: true
 ## {{page.title}}
 {:.no_toc}
 
-The [**EventProducer**]({{site.repo}}) project is a console application that sends a sample message to your **Event Hubs Instance**.
+The [**EventProducer**]({{site.repo}}/tree/master/samples/csharp/clients/event-producer.event-hub) project is a console application that sends a sample message to your **Event Hubs Instance**.
 
 ### Create an Event Hubs Instance resource
 1. In your **Event Hub Namespace** resource, navigate to **Entities** > **Event Hubs**
@@ -25,7 +24,7 @@ The [**EventProducer**]({{site.repo}}) project is a console application that sen
 ### Configure the Event Producer project
 Update the **appSettings.json** with the values collected in the last step, as well as a random user id that you will use to test against later.
 
-#### [appSettings.json]({{site.repo}})
+#### [appSettings.json]({{site.repo}}/tree/master/samples/csharp/clients/event-producer.event-hub/appsettings.json)
 {:.no_toc}
 
 ```json

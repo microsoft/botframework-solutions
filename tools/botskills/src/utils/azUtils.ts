@@ -24,12 +24,12 @@ export async function isValidAzVersion(): Promise<boolean> {
     const azVersionCommand: string[] = ['az', '--version'];
     const azVersion: string = await childProcess.tryExecute(azVersionCommand);
     const azVersionArr: string | undefined = azVersion.split('\r\n')
-    .find((val: string) => {
-        return val.includes('azure-cli');
-    });
+        .find((val: string): boolean => {
+            return val.includes('azure-cli');
+        });
     if (azVersionArr) {
         const azVersionNum: string = azVersionArr.split(' ')
-        .filter((elem: string) => elem)[1];
+            .filter((elem: string): string => elem)[1];
 
         return gte(azVersionNum, '2.0.67');
     }

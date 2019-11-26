@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -31,11 +32,7 @@ namespace PointOfInterestSkill.Dialogs
 {
     public class PointOfInterestDialogBase : ComponentDialog
     {
-        public enum OpenDefaultAppType
-        {
-            Telephone,
-            Map,
-        }
+        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
 
         // Constants
         // TODO consider other languages
@@ -46,6 +43,7 @@ namespace PointOfInterestSkill.Dialogs
             { "it-IT", "it-IT-ElsaNeural" },
             { "zh-CN", "zh-CN-XiaoxiaoNeural" }
         };
+
         // TODO same as the one in ConfirmPrompt
         private static readonly Dictionary<string, string> ChoiceDefaults = new Dictionary<string, string>()
         {
@@ -58,7 +56,7 @@ namespace PointOfInterestSkill.Dialogs
             { Portuguese, "Sim" },
             { Chinese, "是的" },
         };
-        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
+
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestDialogBase(
@@ -85,6 +83,19 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt, CanNoInterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectActionPrompt, InterruptablePromptValidator) { Style = ListStyle.None });
             AddDialog(new ChoicePrompt(Actions.SelectRoutePrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+        }
+
+        public enum OpenDefaultAppType
+        {
+            /// <summary>
+            /// Telephone app type.
+            /// </summary>
+            Telephone,
+
+            /// <summary>
+            /// Map app type.
+            /// </summary>
+            Map,
         }
 
         protected BotSettings Settings { get; set; }
@@ -917,8 +928,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 localeConfig.LuisServices.TryGetValue("PointOfInterest", out var poiService);
                 var poiResult = await poiService.RecognizeAsync<PointOfInterestLuis>(promptContext.Context, CancellationToken.None);
                 var topIntent = poiResult.TopIntent();

@@ -14,11 +14,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -71,8 +71,7 @@ namespace ITSMSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
@@ -191,8 +190,7 @@ namespace ITSMSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);

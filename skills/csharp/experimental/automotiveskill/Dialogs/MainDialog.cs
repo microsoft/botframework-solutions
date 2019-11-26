@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -61,8 +59,7 @@ namespace AutomotiveSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Settings", out var luisService);
@@ -126,8 +123,7 @@ namespace AutomotiveSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);

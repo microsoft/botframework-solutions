@@ -76,8 +76,7 @@ namespace VirtualAssistantSample.Dialogs
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Get cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition and store result in turn state.
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
@@ -259,8 +258,7 @@ namespace VirtualAssistantSample.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                CognitiveModelSet localizedServices = _services.GetCognitiveModels();
 
                 // Get dispatch result from turn state.
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);

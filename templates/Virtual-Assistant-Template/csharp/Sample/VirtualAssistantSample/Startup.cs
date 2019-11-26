@@ -64,8 +64,6 @@ namespace VirtualAssistantSample
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
-            services.AddSingleton(appCredentials);
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -115,6 +113,8 @@ namespace VirtualAssistantSample
             services.AddTransient<MainDialog>();
             services.AddTransient<SwitchSkillDialog>();
             services.AddTransient<OnboardingDialog>();
+
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
 
             // Register skill dialogs
             foreach (var skill in settings.Skills)
