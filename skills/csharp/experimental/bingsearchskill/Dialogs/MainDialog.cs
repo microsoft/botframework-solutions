@@ -14,10 +14,10 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -63,10 +63,9 @@ namespace BingSearchSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
-            // Populate state from SkillContext slots as required 
+            // Populate state from SkillContext slots as required
             await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
@@ -157,8 +156,7 @@ namespace BingSearchSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
@@ -250,12 +248,12 @@ namespace BingSearchSkill.Dialogs
             if (skillContext != null)
             {
                 // Example of populating local state with data passed through Skill Context
-                //if (skillContext.ContainsKey("Location"))
-                //{
+                // if (skillContext.ContainsKey("Location"))
+                // {
                 //    // Add to your local state
                 //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
                 //    state.Location = skillContext["Location"];
-                //}
+                // }
             }
         }
 

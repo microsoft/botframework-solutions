@@ -7,8 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Utilities;
-using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Services.MSGraphAPI

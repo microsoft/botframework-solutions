@@ -59,8 +59,7 @@ namespace ToDoSkill.Tests.Flow.Utterances
                 AddTaskWithContentAndCustomizeListType,
                 listType: listType,
                 taskContentPattern: taskContentPattern,
-                taskContentML: taskContentML
-                ));
+                taskContentML: taskContentML));
         }
 
         public static string BaseAddTask { get; } = "add a task";

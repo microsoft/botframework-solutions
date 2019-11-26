@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Luis;
+using System;
 
 namespace $safeprojectname$.Models
 {
@@ -9,7 +9,7 @@ namespace $safeprojectname$.Models
     {
         public string Token { get; set; }
 
-        public $safeprojectname$Luis LuisResult { get; set; }
+        public TimeZoneInfo TimeZone { get; set; }
 
         public void Clear()
         {

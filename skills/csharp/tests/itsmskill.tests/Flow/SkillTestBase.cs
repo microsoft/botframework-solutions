@@ -20,13 +20,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -75,7 +74,7 @@ namespace ITSMSkill.Tests.Flow
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
-                        "en", new CognitiveModelSet()
+                        "en-us", new CognitiveModelSet()
                         {
                             LuisServices = new Dictionary<string, LuisRecognizer>
                             {

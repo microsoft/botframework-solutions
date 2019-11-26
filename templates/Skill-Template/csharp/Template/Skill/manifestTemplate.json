@@ -13,7 +13,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "$safeprojectname$#Sample"
               ]

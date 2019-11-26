@@ -17,7 +17,6 @@ At it's core is the [Virtual Assistant]({{site.baseurl}}/overview/virtual-assist
 For more details on Virtual Assistant review [What is the Virtual Assistant Solution?]({{site.baseurl}}/overview/virtual-assistant-solution).
 
 ## Virtual Assistant components
-{:.no_toc}
 
 There are four major components within the Virtual Assistant: 
 
@@ -79,11 +78,6 @@ Microsoft has also improved the conversations in many of the existing skills tha
 {:.no_toc}
 
 Microsoft has released a new experimental skill focused on Hospitality scenarios allowing for experiences such as managing reservations, check out, and amenity requests. You can find more details on scenarios that this supports in the [Hospitality Skill documentation]({{site.baseurl}}/skills/samples/hospitality).
-
-#### Event Skill (Experimental)
-{:.no_toc}
-
-Microsoft has released a new experimental skill focused on finding events from the popular platform [Eventbrite](http://www.eventbrite.com/). More details on scenarios that this supports can be found in the [Event Skill documentation]({{site.baseurl}}/skills/samples/event/).
 
 #### IT Service Management (ITSM) Skill (Experimental)
 {:.no_toc}

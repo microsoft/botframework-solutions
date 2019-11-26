@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using MusicSkill.Models;
 using MusicSkill.Responses.Main;
@@ -62,8 +62,7 @@ namespace MusicSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SemanticAction as required
             await PopulateStateFromSemanticAction(dc.Context);
@@ -143,8 +142,7 @@ namespace MusicSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);
@@ -233,13 +231,14 @@ namespace MusicSkill.Dialogs
             // Example of populating local state with data passed through semanticAction out of Activity
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            //if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-            //{
+
+            // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            // {
             //    var location = semanticAction.Entities["location"];
             //    var locationObj = location.Properties["location"].ToString();
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
-            //}
+            // }
         }
     }
 }

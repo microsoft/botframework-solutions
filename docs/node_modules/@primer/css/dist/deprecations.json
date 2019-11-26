@@ -1,0 +1,193 @@
+{
+  "versions": {
+    "13.0.0": [
+      {
+        "selectors": [
+          ".btn-purple",
+          ".btn-purple:focus",
+          ".btn-purple.focus",
+          ".btn-purple:hover",
+          ".btn-purple.hover",
+          ".btn-purple:active",
+          ".btn-purple.selected",
+          "[open]>.btn-purple",
+          ".btn-purple:disabled",
+          ".btn-purple.disabled",
+          ".btn-purple .Counter"
+        ],
+        "message": "Please don't make purple buttons."
+      },
+      {
+        "selectors": [
+          ".text-pending"
+        ],
+        "message": "Please use the \"text-yellow\" class instead of \"text-pending\"."
+      },
+      {
+        "selectors": [
+          ".bg-pending"
+        ],
+        "message": "Please use the \"bg-yellow-dark\" class instead of \"bg-pending\"."
+      },
+      {
+        "selectors": [
+          ".container",
+          ".container::before",
+          ".container::after",
+          ".columns",
+          ".columns::before",
+          ".columns::after",
+          ".column",
+          ".one-third",
+          ".two-thirds",
+          ".one-fourth",
+          ".one-half",
+          ".three-fourths",
+          ".one-fifth",
+          ".four-fifths"
+        ],
+        "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+      },
+      {
+        "selectors": [
+          ".centered"
+        ],
+        "message": "You can use the \"mx-auto\" class to center any element."
+      },
+      {
+        "selectors": [
+          ".dropdown-menu-content",
+          ".dropdown.active .dropdown-menu-content",
+          ".dropdown-menu-content.anim-scale-in"
+        ],
+        "message": "The \"dropdown-menu-content\" class is unnecessary."
+      }
+    ]
+  },
+  "selectors": {
+    ".btn-purple": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple:focus": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple.focus": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple:hover": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple.hover": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple:active": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple.selected": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    "[open]>.btn-purple": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple:disabled": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple.disabled": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".btn-purple .Counter": {
+      "version": "13.0.0",
+      "message": "Please don't make purple buttons."
+    },
+    ".text-pending": {
+      "version": "13.0.0",
+      "message": "Please use the \"text-yellow\" class instead of \"text-pending\"."
+    },
+    ".bg-pending": {
+      "version": "13.0.0",
+      "message": "Please use the \"bg-yellow-dark\" class instead of \"bg-pending\"."
+    },
+    ".container": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".container::before": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".container::after": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".columns": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".columns::before": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".columns::after": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".column": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".one-third": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".two-thirds": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".one-fourth": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".one-half": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".three-fourths": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".one-fifth": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".four-fifths": {
+      "version": "13.0.0",
+      "message": "Please use [grid classes](https://primer.style/css/objects/grid)."
+    },
+    ".centered": {
+      "version": "13.0.0",
+      "message": "You can use the \"mx-auto\" class to center any element."
+    },
+    ".dropdown-menu-content": {
+      "version": "13.0.0",
+      "message": "The \"dropdown-menu-content\" class is unnecessary."
+    },
+    ".dropdown.active .dropdown-menu-content": {
+      "version": "13.0.0",
+      "message": "The \"dropdown-menu-content\" class is unnecessary."
+    },
+    ".dropdown-menu-content.anim-scale-in": {
+      "version": "13.0.0",
+      "message": "The \"dropdown-menu-content\" class is unnecessary."
+    }
+  }
+}

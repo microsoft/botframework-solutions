@@ -1,0 +1,15 @@
+{
+    "defaultLocale": "en-us",
+    "cognitiveModels": {
+        "en-us": {
+            "dispatchModel": {
+                "subscriptionKey": "<--MOCK-VALUE-->",
+                "name": "nonExistenceen-usDispatch",
+                "appId": "",
+                "authoringKey": "<--MOCK-VALUE-->",
+                "type": "dispatch",
+                "region": "westus"
+            }
+        }
+    }
+}

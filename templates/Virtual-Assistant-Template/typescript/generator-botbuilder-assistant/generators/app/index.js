@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+
 "use strict";
 const { Copier } = require("./src/copier");
 const Generator = require(`yeoman-generator`);
@@ -13,7 +14,7 @@ const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
 const templateName = "sample-assistant";
-const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const languages = [`zh-cn`, `de-de`, `en-us`, `fr-fr`, `it-it`, `es-es`];
 let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let containsSpecialCharacter = false;
@@ -22,32 +23,32 @@ let finalAssistantName = "";
 const languagesChoice = [
   {
     name: "Chinese",
-    value: "zh",
+    value: "zh-cn",
     checked: true
   },
   {
     name: "Deutsch",
-    value: "de",
+    value: "de-de",
     checked: true
   },
   {
     name: "English",
-    value: "en",
+    value: "en-us",
     checked: true
   },
   {
     name: "French",
-    value: "fr",
+    value: "fr-fr",
     checked: true
   },
   {
     name: "Italian",
-    value: "it",
+    value: "it-it",
     checked: true
   },
   {
     name: "Spanish",
-    value: "es",
+    value: "es-es",
     checked: true
   }
 ];

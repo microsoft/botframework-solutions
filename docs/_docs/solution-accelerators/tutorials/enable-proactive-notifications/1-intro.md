@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications 
 title: Intro
 order: 1
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}
@@ -32,7 +31,7 @@ The [Enterprise Assistant sample]({{site.baseurl}}/virtual-assistant/samples/ent
 
 If you are using the core Virtual Assistant Template, you must create some additional Azure resources.
 
-1. [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/csharp/create-assistant/1-intro/) to setup your Virtual Assistant environment.
+1. [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/) to setup your Virtual Assistant environment.
 
 1. Manually deploy the following Azure resources:
     - [Create](https://ms.portal.azure.com/#create/Microsoft.EventHub) an [Event Hub](https://azure.microsoft.com/en-us/services/event-hubs/) resource
