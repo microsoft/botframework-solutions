@@ -343,7 +343,7 @@ namespace EmailSkill.Dialogs
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
 
-                var service = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
                 // send user message.
                 var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;

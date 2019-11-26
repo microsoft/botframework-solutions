@@ -287,7 +287,7 @@ namespace EmailSkill.Dialogs
 
                     // Set email as read.
                     sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-                    var service = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+                    var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
                     await service.MarkMessageAsReadAsync(message.Id);
 
                     await sc.Context.SendActivityAsync(replyMessage);

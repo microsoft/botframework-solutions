@@ -132,7 +132,7 @@ namespace EmailSkill.Dialogs
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-                var mailService = this.ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+                var mailService = this.ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
                 var focusMessage = state.Message.FirstOrDefault();
                 await mailService.DeleteMessageAsync(focusMessage.Id);
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(DeleteEmailResponses.DeleteSuccessfully));

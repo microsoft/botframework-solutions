@@ -90,7 +90,7 @@ namespace EmailSkill.Dialogs
                 var id = message.FirstOrDefault()?.Id;
                 var recipients = state.FindContactInfor.Contacts;
 
-                var service = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
                 // send user message.
                 var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;

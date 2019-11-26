@@ -673,13 +673,13 @@ namespace ToDoSkill.Dialogs
 
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                var emailService = ServiceManager.InitMailService((string)token);
+                var emailService = ServiceManager.InitMailService(token as string);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
                 state.UserStateId = senderMailAddress;
                 var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    var taskServiceInit = ServiceManager.InitTaskService((string)token, state.ListTypeIds, state.TaskServiceType);
+                    var taskServiceInit = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
                     if (taskServiceInit.IsListCreated)
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
@@ -703,7 +703,7 @@ namespace ToDoSkill.Dialogs
                 }
             }
 
-            var taskService = ServiceManager.InitTaskService((string)token, state.ListTypeIds, state.TaskServiceType);
+            var taskService = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
             await StoreListTypeIdsAsync(sc);
             return taskService;
         }

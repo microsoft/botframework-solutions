@@ -78,7 +78,7 @@ namespace EmailSkill.Dialogs
                 sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
                 var message = state.Message.FirstOrDefault();
 
-                var service = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
                 // reply user message.
                 if (message != null)

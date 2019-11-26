@@ -959,7 +959,7 @@ namespace EmailSkill.Dialogs
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-            var serivce = ServiceManager.InitMailService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+            var serivce = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             var isUnreadOnly = state.IsUnreadOnly;
             var isImportant = state.IsImportant;
@@ -1165,7 +1165,7 @@ namespace EmailSkill.Dialogs
         {
             var state = await EmailStateAccessor.GetAsync(context);
             context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             try
             {
@@ -1189,7 +1189,7 @@ namespace EmailSkill.Dialogs
         {
             var state = await EmailStateAccessor.GetAsync(context);
             context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.GetUserTimeZone(), state.MailSourceType);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
             var displayName = email.Name ?? email.Address;
 
             try
