@@ -10,11 +10,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using RestaurantBookingSkill.Models;
@@ -65,8 +65,7 @@ namespace RestaurantBookingSkill.Dialogs
             var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("Restaurant", out var luisService);
@@ -156,8 +155,7 @@ namespace RestaurantBookingSkill.Dialogs
                 if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                 {
                     // get current activity locale
-                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    var localeConfig = _services.CognitiveModelSets[locale];
+                    var localeConfig = _services.GetCognitiveModels();
 
                     // check general luis intent
                     localeConfig.LuisServices.TryGetValue("General", out var luisService);

@@ -87,15 +87,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "RetryInput": {
-    "replies": [
-      {
-        "text": "Sorry, I don't understand what you mean. Could you please try again?",
-        "speak": "Sorry, I don't understand what you mean. Could you please try again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "MultipleEventsFound": {
     "replies": [
 

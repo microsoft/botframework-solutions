@@ -22,11 +22,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
@@ -613,7 +613,7 @@ namespace CalendarSkill.Dialogs
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
+            var eventItemList = GetMeetingCardList(state, currentEvents);
 
             var stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
@@ -623,7 +623,7 @@ namespace CalendarSkill.Dialogs
             return result;
         }
 
-        protected async Task<Activity> GetGeneralMeetingListResponseAsync(
+        protected Task<Activity> GetGeneralMeetingListResponseAsync(
             ITurnContext context,
             CalendarSkillState state,
             bool isShowAll = false,
@@ -658,7 +658,7 @@ namespace CalendarSkill.Dialogs
                 }
             };
 
-            var eventItemList = await GetMeetingCardListAsync(state, currentEvents);
+            var eventItemList = GetMeetingCardList(state, currentEvents);
 
             var stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
@@ -1504,7 +1504,7 @@ namespace CalendarSkill.Dialogs
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
 
-                    if (mailAddress.Equals(formattedMailAddress))
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         isDup = true;
                         break;
@@ -1738,7 +1738,7 @@ namespace CalendarSkill.Dialogs
             return await GetUserPhotoUrlAsync(context, attendees[index]);
         }
 
-        private async Task<List<Card>> GetMeetingCardListAsync(CalendarSkillState state, List<EventModel> events)
+        private List<Card> GetMeetingCardList(CalendarSkillState state, List<EventModel> events)
         {
             var eventItemList = new List<Card>();
 

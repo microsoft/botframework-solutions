@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using MusicSkill.Models;
@@ -145,8 +145,7 @@ namespace MusicSkill.Dialogs
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
 
                 // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["MusicSkill"];
 
                 // Get intent and entities for activity

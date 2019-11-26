@@ -3,29 +3,27 @@
  * Licensed under the MIT License.
  */
 
- import { existsSync, readFileSync } from 'fs';
- import { isAbsolute, join, resolve } from 'path';
- import { get } from 'request-promise-native';
- import { ConsoleLogger, ILogger } from '../logger';
- import { IConnectConfiguration, IDisconnectConfiguration, ISkillFile, ISkillManifest, IUpdateConfiguration } from '../models';
- import { ConnectSkill } from './connectSkill';
- import { DisconnectSkill } from './disconnectSkill';
+import { existsSync, readFileSync } from 'fs';
+import { isAbsolute, join, resolve } from 'path';
+import { get } from 'request-promise-native';
+import { ConsoleLogger, ILogger } from '../logger';
+import { IConnectConfiguration, IDisconnectConfiguration, ISkillFile, ISkillManifest, IUpdateConfiguration } from '../models';
+import { ConnectSkill } from './connectSkill';
+import { DisconnectSkill } from './disconnectSkill';
 
- export class UpdateSkill {
-    public logger: ILogger;
-    private connectSkill: ConnectSkill;
-    private disconnectSkill: DisconnectSkill;
+export class UpdateSkill {
+    private readonly configuration: IUpdateConfiguration;
+    private readonly logger: ILogger;
 
-    constructor(logger?: ILogger) {
+    public constructor(configuration: IUpdateConfiguration, logger?: ILogger) {
+        this.configuration = configuration;
         this.logger = logger || new ConsoleLogger();
-        this.connectSkill = new ConnectSkill(this.logger);
-        this.disconnectSkill = new DisconnectSkill(this.logger);
     }
 
     private async getRemoteManifest(manifestUrl: string): Promise<ISkillManifest> {
         try {
             return get({
-                uri: <string> manifestUrl,
+                uri: manifestUrl,
                 json: true
             });
         } catch (err) {
@@ -41,20 +39,22 @@
 Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         }
 
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
     }
 
-    private async existSkill(configuration: IUpdateConfiguration): Promise<boolean> {
+    private async existSkill(): Promise<boolean> {
         try {
             // Take skillManifest
-            const skillManifest: ISkillManifest = configuration.localManifest
-            ? this.getLocalManifest(configuration.localManifest)
-            : await this.getRemoteManifest(configuration.remoteManifest);
-            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
-            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
+            const skillManifest: ISkillManifest = this.configuration.localManifest
+                ? this.getLocalManifest(this.configuration.localManifest)
+                : await this.getRemoteManifest(this.configuration.remoteManifest);
+            // eslint-disable-next-line @typescript-eslint/tslint/config
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
+            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
-                configuration.skillId = skillManifest.id;
+            if (assistantSkills.find((assistantSkill: ISkillManifest): boolean => assistantSkill.id === skillManifest.id)) {
+                this.configuration.skillId = skillManifest.id;
 
                 return true;
             }
@@ -65,23 +65,31 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         }
     }
 
-    public async updateSkill(configuration: IUpdateConfiguration): Promise<boolean> {
+    private async executeDisconnectSkill(): Promise<void> {
+        const disconnectConfiguration: IDisconnectConfiguration = {...{}, ...this.configuration};
+        disconnectConfiguration.noRefresh = true;
+        await new DisconnectSkill(disconnectConfiguration).disconnectSkill();
+    }
+
+    private async executeConnectSkill(): Promise<void> {
+        const connectConfiguration: IConnectConfiguration = {...{}, ...this.configuration};
+        connectConfiguration.noRefresh = this.configuration.noRefresh;
+        await new ConnectSkill(connectConfiguration, this.logger).connectSkill();
+    }
+
+    public async updateSkill(): Promise<boolean> {
         try {
-            if (await this.existSkill(configuration)) {
-                const disconnectConfiguration: IDisconnectConfiguration = {...{}, ...configuration};
-                disconnectConfiguration.noRefresh = true;
-                await this.disconnectSkill.disconnectSkill(disconnectConfiguration);
-                const connectConfiguration: IConnectConfiguration = {...{}, ...configuration};
-                connectConfiguration.noRefresh = configuration.noRefresh;
-                await this.connectSkill.connectSkill(connectConfiguration);
+            if (await this.existSkill()) {
+                await this.executeDisconnectSkill();
+                await this.executeConnectSkill();
                 this.logger.success(
-                    `Successfully updated '${configuration.skillId}' skill from your assistant's skills configuration file.`);
+                    `Successfully updated '${this.configuration.skillId}' skill from your assistant's skills configuration file.`);
             } else {
-                const manifestParameter: string = configuration.localManifest
-                ? `--localManifest "${configuration.localManifest}"`
-                : `--remoteManifest "${configuration.remoteManifest}"`;
-                // tslint:disable: max-line-length
-                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${manifestParameter} --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
+                const manifestParameter: string = this.configuration.localManifest
+                    ? `--localManifest "${this.configuration.localManifest}"`
+                    : `--remoteManifest "${this.configuration.remoteManifest}"`;
+                // tslint:disable-next-line: max-line-length
+                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${manifestParameter} --luisFolder "${this.configuration.luisFolder}" --${this.configuration.lgLanguage}'`);
             }
 
             return true;
@@ -91,4 +99,4 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             return false;
         }
     }
- }
+}

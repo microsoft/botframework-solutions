@@ -14,9 +14,15 @@
                 "triggers": {
                     "utteranceSources": [
                         {
-                            "locale": "en",
+                            "locale": "en-us",
                             "source": [
                                 "connectableSkill#Test"
+                            ]
+                        },
+                        {
+                            "locale": "en-us",
+                            "source": [
+                                "connectableSkill#Test2"
                             ]
                         }
                     ]

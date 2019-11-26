@@ -10,7 +10,7 @@ const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
-const someLanguages = [`zh`, `de`, `en`];
+const someLanguages = [`zh-cn`, `de-de`, `en-us`];
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant tests`, function() {

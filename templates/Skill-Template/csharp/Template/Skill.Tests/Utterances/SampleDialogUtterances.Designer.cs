@@ -19,7 +19,7 @@ namespace $safeprojectname$.Utterances {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SampleDialogUtterances {
@@ -61,11 +61,11 @@ namespace $safeprojectname$.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to this is a message.
+        ///   Looks up a localized string similar to Test name.
         /// </summary>
-        public static string MessagePromptResponse {
+        public static string NamePromptResponse {
             get {
-                return ResourceManager.GetString("MessagePromptResponse", resourceCulture);
+                return ResourceManager.GetString("NamePromptResponse", resourceCulture);
             }
         }
         

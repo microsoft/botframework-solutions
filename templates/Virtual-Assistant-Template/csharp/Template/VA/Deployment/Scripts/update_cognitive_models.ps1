@@ -40,13 +40,15 @@ foreach ($langCode in $languageMap.Keys) {
                     --subscriptionKey $luisApp.subscriptionKey `
                     --region $luisApp.authoringRegion | ConvertFrom-Json).culture
 
-            Write-Host "> Updating local $($luisApp.id).lu file ..."
+            Write-Host "> Updating local $($luisApp.id).lu file" 
             luis export version `
-                --appId $luisApp.appid `
-                --versionId $luisApp.version `
-                --region $luisApp.authoringRegion `
-                --authoringKey $luisApp.authoringKey | ludown refresh `
-                --stdin `
+                --appId "$($luisApp.appId)" `
+                --versionId "$($luisApp.version)" `
+                --region "$($luisApp.authoringRegion)" `
+                --authoringKey "$($luisApp.authoringKey)" > $(Join-Path $luisFolder $langCode "$($luisApp.id).luis")
+
+            ludown refresh `
+                -i $(Join-Path $luisFolder $langCode "$($luisApp.id).luis") `
                 -n "$($luisApp.id).lu" `
                 -o $(Join-Path $luisFolder $langCode)
 
@@ -76,7 +78,7 @@ foreach ($langCode in $languageMap.Keys) {
                 (dispatch add `
                         --type "luis" `
                         --name $luisApp.name `
-                        --id $luisApp.appid  `
+                        --id $luisApp.appId  `
                         --region $luisApp.authoringRegion `
                         --intentName "l_$($luisApp.id)" `
                         --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
@@ -90,8 +92,10 @@ foreach ($langCode in $languageMap.Keys) {
             qnamaker export kb `
                 --environment Prod `
                 --kbId $kb.kbId `
-                --subscriptionKey $kb.subscriptionKey | ludown refresh `
-                --stdin `
+                --subscriptionKey $kb.subscriptionKey > $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
+                
+            ludown refresh `
+                -q $(Join-Path $qnaFolder $langCode "$($kb.id).qna") `
                 -n "$($kb.id).lu" `
                 -o $(Join-Path $qnaFolder $langCode)
 		
@@ -117,7 +121,7 @@ foreach ($langCode in $languageMap.Keys) {
             $lu = Get-Item -Path $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
             UpdateLUIS `
                 -lu_file $lu `
-                -appId $luisApp.appid `
+                -appId $luisApp.appId `
                 -version $luisApp.version `
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `

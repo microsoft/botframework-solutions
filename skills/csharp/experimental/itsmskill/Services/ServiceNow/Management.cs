@@ -318,7 +318,7 @@ namespace ITSMSkill.Services.ServiceNow
             return sysparmQuery;
         }
 
-        private async Task<List<string>> CreateKnowledgeSearchQuery(string query)
+        private Task<List<string>> CreateKnowledgeSearchQuery(string query)
         {
             var sysparmQuery = new List<string>
             {
@@ -326,7 +326,7 @@ namespace ITSMSkill.Services.ServiceNow
                 $"IR_AND_OR_QUERY={query}"
             };
 
-            return sysparmQuery;
+            return Task.FromResult(sysparmQuery);
         }
 
         private async Task<string> GetUserId()

@@ -10,7 +10,7 @@ order: 5
 # {{ page.title }}
 {:.no_toc}
 
-The [Hospitality Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/hospitalityskill) demonstrates experiences that would be useful in a hospitality specific scenario, such as being able to check out of a hotel, ordering room service, and requesting hotel amenities. This skill does not integrate a hotel service at this time, and is instead simulated with static data for testing purposes.
+The [Hospitality Skill]({{site.repo}}/tree/master/skills/csharp/experimental/hospitalityskill) demonstrates experiences that would be useful in a hospitality specific scenario, such as being able to check out of a hotel, ordering room service, and requesting hotel amenities. This skill does not integrate a hotel service at this time, and is instead simulated with static data for testing purposes.
 
 This skill demonstrates the following scenarios:
 - Show reservation: *What is my current check out date?*
@@ -24,4 +24,4 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
-The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
+The [Hospitality Sample VA]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.

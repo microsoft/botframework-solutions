@@ -1,9 +1,13 @@
-﻿using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
 {
-    public class SwitchSkillDialogOptions
+    public class SwitchSkillDialogOptions : PromptOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SwitchSkillDialogOptions"/> class.
@@ -17,7 +21,5 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
         }
 
         public SkillManifest Skill { get; set; }
-
-        public Activity Prompt { get; set; }
     }
 }

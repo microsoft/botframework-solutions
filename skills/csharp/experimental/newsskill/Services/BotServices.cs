@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
@@ -11,6 +14,10 @@ namespace NewsSkill.Services
 {
     public class BotServices
     {
+        public BotServices()
+        {
+        }
+
         public BotServices(BotSettings settings, IBotTelemetryClient client)
         {
             foreach (var pair in settings.CognitiveModels)
@@ -20,7 +27,6 @@ namespace NewsSkill.Services
                 var config = pair.Value;
 
                 var telemetryClient = client;
-
                 var luisOptions = new LuisPredictionOptions()
                 {
                     TelemetryClient = telemetryClient,
@@ -62,5 +68,19 @@ namespace NewsSkill.Services
         }
 
         public Dictionary<string, CognitiveModelSet> CognitiveModelSets { get; set; } = new Dictionary<string, CognitiveModelSet>();
+
+        public CognitiveModelSet GetCognitiveModels()
+        {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+
+            var cognitiveModel = CognitiveModelSets.ContainsKey(locale)
+                ? CognitiveModelSets[locale]
+                : CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
+                ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
+                                        "Please review your available locales in your cognitivemodels.json file.");
+
+            return cognitiveModel;
+        }
     }
 }

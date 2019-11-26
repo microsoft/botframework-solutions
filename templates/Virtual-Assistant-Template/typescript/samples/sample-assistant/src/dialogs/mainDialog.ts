@@ -17,7 +17,7 @@ import {
     ISkillManifest,
     SkillContext,
     SkillDialog,
-    SkillRouter} from 'botbuilder-skills';
+    SkillRouter } from 'botbuilder-skills';
 import {
     ICognitiveModelSet,
     InterruptionAction,
@@ -92,13 +92,8 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async route(dc: DialogContext): Promise<void> {
-        // Get cognitive models for locale
-        const locale: string = i18next.language.substring(0, 2);
-        const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+        const cognitiveModels: ICognitiveModelSet = this.services.getCognitiveModel();
 
-        if (cognitiveModels === undefined) {
-            throw new Error('There is no value in cognitiveModels');
-        }
         // Check dispatch result
         const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc.context);
         const intent: string = LuisRecognizer.topIntent(dispatchResult);
@@ -260,12 +255,8 @@ export class MainDialog extends RouterDialog {
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const locale: string = i18next.language.substring(0, 2);
-            const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+            const cognitiveModels: ICognitiveModelSet = this.services.getCognitiveModel();
 
-            if (cognitiveModels === undefined) {
-                throw new Error('There is no cognitiveModels value');
-            }
             // check luis intent
             const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
 

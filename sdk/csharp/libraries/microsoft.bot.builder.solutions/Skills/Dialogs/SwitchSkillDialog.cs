@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -57,7 +60,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
             await _skillIdAccessor.SetAsync(stepContext.Context, options.Skill.Id).ConfigureAwait(false);
             await _lastActivityAccessor.SetAsync(stepContext.Context, stepContext.Context.Activity).ConfigureAwait(false);
 
-            return await stepContext.PromptAsync(_confirmPromptId, new PromptOptions() { Prompt = options.Prompt }).ConfigureAwait(false);
+            return await stepContext.PromptAsync(_confirmPromptId, options).ConfigureAwait(false);
         }
 
         // Ends this dialog, returning the prompt result.
