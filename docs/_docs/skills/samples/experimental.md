@@ -290,24 +290,6 @@ This skill has a very limited LUIS model (available in English, French, Italian,
 "BingAnswerSearchKey": "{YOUR_PROJECT_ANSWER_SEARCH_KEY}"
 ```
 
-### Event Skill
-
-The [Event Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/eventskill) provides a simple skill that integrates with [Eventbrite](https://www.eventbrite.com/platform/) to show information about events happening in the specified area.
-
-This skill currently supports one scenario to get local event information.
-
-![Event Example]({{site.baseurl}}/assets/images/skills-event-transcript.png)
-
-#### Configuration
-{:.no_toc}
-
-1. Get your own [Eventbrite API Key](https://www.eventbrite.com/platform/api-keys).
-1. Provide this value in your `appsettings.json` file.
-
-```
-"eventbriteKey":  "YOUR_EVENTBRITE_API_KEY"
-```
-
 ### Hospitality Skill
 
 The [Hospitality Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/hospitalityskill) demonstrates experiences that would be useful in a hospitality specific scenario, such as being able to check out of a hotel, ordering room service, and requesting hotel amenities. This skill does not integrate a hotel service at this time, and is instead simulated with static data for testing purposes.
@@ -328,7 +310,7 @@ The [Hospitality Sample VA]({{site.baseurl}}/reference/samples/hospitalitysample
 
 ### IT Service Management Skill
 
-The [IT Service Management skill](https://github.com/microsoft/AI/tree/next/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
 This skill demonstrates the following scenarios:
 - Create a ticket: *Create a ticket for my broken laptop*

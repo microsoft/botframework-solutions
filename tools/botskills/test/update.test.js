@@ -31,7 +31,8 @@ describe("The update command", function () {
     beforeEach(function () {
         undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
-        this.updater = new botskills.UpdateSkill(this.logger);
+        this.updater = new botskills.UpdateSkill();
+        this.updater.logger = this.logger;
     });
 
     after(function (){
@@ -39,13 +40,12 @@ describe("The update command", function () {
     });
     
     describe("should show an error", function () {
-        it("when the skill to update is not present in the assistant manifest", async function() {
-            const config = {
+        it("when the local skill to update is not present in the assistant manifest", async function() {
+            const configuration = {
                 botName: "mock-assistant",
                 localManifest: resolve(__dirname, join("mocks", "skills", "absentManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: "",
                 outFolder: "",
@@ -58,20 +58,50 @@ describe("The update command", function () {
                 logger: this.logger
             };
 
-            await this.updater.updateSkill(config);
+            this.updater.configuration = configuration;
+            await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localManifest "${config.localManifest}" --luisFolder "${config.luisFolder}" --${config.lgLanguage}'`);
+Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localManifest "${configuration.localManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
+        });
+
+        it("when the remote skill to update is not present in the assistant manifest", async function() {
+            sandbox.replace(this.updater, "existSkill", () => {
+                return Promise.resolve(false);
+            })
+
+            const configuration = {
+                botName: "mock-assistant",
+                localManifest: "",
+                remoteManifest: resolve(__dirname, join("mocks", "skills", "absentManifest.json")),
+                languages: "",
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile: "",
+                lgLanguage: "ts",
+                logger: this.logger
+            };
+
+            this.updater.configuration = configuration;
+            await this.updater.updateSkill(configuration);
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
+Error: The Skill doesn't exist in the Assistant, run 'botskills connect --remoteManifest "${configuration.remoteManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
         });
 
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "nonexistentSkill.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -84,7 +114,8 @@ Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localM
                 logger: this.logger
             };
 
-            await this.updater.updateSkill(config);
+            this.updater.configuration = configuration;
+            await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
@@ -93,12 +124,11 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         });
 
         it("when the remoteManifest points to a nonexisting Skill manifest URL", async function() {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: "",
                 remoteManifest: "http://nonexistentSkill.azurewebsites.net/api/skill/manifest",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -111,7 +141,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 logger: this.logger
             };
 
-            await this.updater.updateSkill(config);
+            this.updater.configuration = configuration;
+            await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
@@ -121,19 +152,18 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
 
     describe("should show a success message", function () {
         it("when the skill is successfully updated to the Assistant", async function () {
-            sandbox.replace(this.updater.disconnectSkill, "disconnectSkill", () => {
+            sandbox.replace(this.updater, "executeDisconnectSkill", () => {
                 return Promise.resolve("Mocked function successfully");
             })
-            sandbox.replace(this.updater.connectSkill, "connectSkill", () => {
+            sandbox.replace(this.updater, "executeConnectSkill", () => {
                 return Promise.resolve("Mocked function successfully");
             })
-            const config = {
+            const configuration = {
                 skillId: "testSkill",
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "repeatedManifest.json")),
                 remoteManifest: "",
-                dispatchName: "testSkill",
-                language: "",
+                languages: "",
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
@@ -146,10 +176,11 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
                 logger: this.logger
             };
 
-            await this.updater.updateSkill(config);
+            this.updater.configuration = configuration;
+            await this.updater.updateSkill(configuration);
             const successList = this.logger.getSuccess();
 
-            strictEqual(successList[successList.length - 1], `Successfully updated '${config.skillId}' skill from your assistant's skills configuration file.`);
+            strictEqual(successList[successList.length - 1], `Successfully updated '${configuration.skillId}' skill from your assistant's skills configuration file.`);
         });
     });
 });

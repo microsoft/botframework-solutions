@@ -4,7 +4,6 @@ title: Bot Framework Solutions Documentation
 ---
 
 # {{ page.title }}
-
 <div class="card-deck">
     <a href="{{site.baseurl}}/overview/virtual-assistant-solution/" class="card">
         <div class="card-body">
@@ -30,12 +29,13 @@ title: Bot Framework Solutions Documentation
 </div>
 
 ## What's new
-
+{:.no_toc}
 For Ignite 2019 we are releasing the v0.7 of the **Virtual Assistant**. We focused on providing support for the latest updates from Bot Framework SDK v4.6, enabling Language Generation (LG), a new documentation site to share tutorials and references, scenarios that support an Enterprise Assistant, and more.
 
 Learn more in the [what's new]({{site.baseurl}}/overview/whats-new) overview.
 
 ## Step-by-Step Tutorials
+{:.no_toc}
 <div class="card-deck">
     <a href="{{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/" class="card">
         <div class="card-body">
@@ -102,6 +102,7 @@ Learn more in the [what's new]({{site.baseurl}}/overview/whats-new) overview.
 </div>
 
 ## Need help?
+{:.no_toc}
 Review the [frequently asked questions]({{site.baseurl}}/help/faq/) for the most common questions.
 
 For more specific questions, please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 

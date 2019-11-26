@@ -18,7 +18,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "PointOfInterest#GetDirections"
               ]
@@ -40,7 +40,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "PointOfInterest#FindPointOfInterest"
               ]
@@ -62,7 +62,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "PointOfInterest#FindParking"
               ]

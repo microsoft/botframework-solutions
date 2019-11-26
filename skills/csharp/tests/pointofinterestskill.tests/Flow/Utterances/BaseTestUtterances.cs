@@ -8,7 +8,6 @@ using System.Text;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Extensions.Localization.Internal;
 using PointOfInterestSkill.Tests.Flow.Strings;
 using static Luis.PointOfInterestLuis;
 

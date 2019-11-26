@@ -32,7 +32,8 @@ describe("The connect command", function () {
     beforeEach(function() {
         undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
-        this.connector = new botskills.ConnectSkill(this.logger);
+        this.connector = new botskills.ConnectSkill();
+        this.connector.logger = this.logger;
     });
 
     after(function() {
@@ -41,12 +42,11 @@ describe("The connect command", function () {
 
 	describe("should show an error", function () {
         it("when there is no skills File", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: "",
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -54,25 +54,50 @@ describe("The connect command", function () {
                 skillsFile: "",
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
         });
 
+        it("when there is no cognitiveModels file", async function () {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifestWithTwoLanguages.json")),
+                remoteManifest: "",
+                languages: ["en-us", "es-es"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "nonCognitiveModels.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
+Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+        });
+
+
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "nonexistentSkill.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -80,12 +105,13 @@ Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.
                 skillsFile: "",
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
@@ -94,12 +120,11 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         });
 
         it("when the Skill is missing all mandatory fields", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "invalidManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -107,7 +132,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 skillsFile: "",
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
@@ -120,7 +145,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 `Missing property 'actions' of the manifest`
             ]
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             errorList.forEach((errorMessage, index) => {
@@ -129,12 +155,11 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         });
 
         it("when the Skill has an invalid id field", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "invalidIdManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -142,24 +167,24 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 skillsFile: "",
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
         });
 
         it("when the remoteManifest points to a nonexisting Skill manifest URL", async function() {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: "",
                 remoteManifest: "http://nonexistentSkill.azurewebsites.net/api/skill/manifest",
-                dispatchName: "",
-                language: "",
+                languages: "",
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -167,12 +192,13 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 skillsFile: "",
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
@@ -180,12 +206,11 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
         });
 
         it("when the luisFolder leads to a nonexistent folder", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: ["en-us"],
                 luisFolder: resolve(__dirname, join("mocks", "fail", "nonexistentLuis")),
                 dispatchFolder: "",
                 outFolder: "",
@@ -193,27 +218,27 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: Path to the LUIS folder (${config.luisFolder}) leads to a nonexistent folder.
+Error: Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         });
 
         it("when the .lu file path leads to a nonexistent file", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: ["en-us"],
                 luisFolder: resolve(__dirname, join("mocks", "success")),
                 dispatchFolder: "",
                 outFolder: "",
@@ -221,12 +246,13 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
@@ -236,71 +262,69 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         });
 
         it("when the dispatch folder path leads to a nonexistent folder", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: ["en-us"],
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
-                dispatchFolder: resolve(__dirname, join("mocks", "fail", "nonexistentDispatch")),
+                dispatchFolder: resolve(__dirname, join("mocks", "fail", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: Path to the Dispatch folder (${config.dispatchFolder}) leads to a nonexistent folder.
+Error: Path to the Dispatch folder (${configuration.dispatchFolder}\\${configuration.languages[0]}) leads to a nonexistent folder.
 Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
-        it("when the .dispatch file path leads to a nonexistent file", async function () {
-            const config = {
+        it("when the path to dispatch file doesn't exist", async function () {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "nonexistentDispatch",
-                language: "",
-                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
-                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                languages: ["en-us"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "lu")),
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithNoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill(configuration);
             const errorList = this.logger.getError();
-            
+
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: Path to the ${config.dispatchName}.dispatch file leads to a nonexistent file.
-Make sure to use the argument '--dispatchName' for your Assistant's Dispatch file name.`);
+Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
         });
 
         it("when the .luis file path leads to a nonexistent file", async function () {
             sandbox.replace(this.connector.childProcessUtils, "execute", (command, args) => {
                 return Promise.resolve("Mocked function successfully");
             });
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "connectableSkill",
-                language: "en",
+                languages: ["en-us"],
                 luisFolder: resolve(__dirname, join("mocks", "success", "lu")),
                 dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
@@ -308,33 +332,34 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: Path to ${config.dispatchName}.luis (${join(config.luisFolder, config.dispatchName)}.luis) leads to a nonexistent file. This may be due to a problem with the 'ludown' command.
-Command: ludown parse toluis --in "${join(config.luisFolder, config.dispatchName)}.lu" --luis_culture en --out_folder "${config.luisFolder}" --out "${config.dispatchName}.luis"`);
+Error: There was an error in the ludown parse command:
+Command: ludown parse toluis --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --luis_culture ${configuration.languages[0]} --out_folder "${join(configuration.luisFolder, configuration.languages[0])}" --out connectableSkill.luis
+Error: Path to connectableSkill.luis (${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.luis")}) leads to a nonexistent file.`);
         });
 
-        it("when the refreshSkill fails", async function () {
-            sandbox.replace(this.connector.childProcessUtils, "execute", (command, args) => {
+        it("when the dispatch add command fails", async function () {
+            sandbox.replace(this.connector, "executeLudownParse", () => {
                 return Promise.resolve("Mocked function successfully");
             });
-            sandbox.replace(this.connector.refreshSkill, "refreshSkill", (command, args) => {
-                return Promise.resolve(false);
+            sandbox.replace(this.connector, "runCommand", () => {
+                return Promise.reject(new Error("Mocked function throws an Error"));
             });
-            const config = {
+            const configuration = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifestWithTwoLanguages.json")),
                 remoteManifest: "",
-                dispatchName: "connectableSkill",
-                language: "",
+                languages: ["en-us", "es-es"],
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
@@ -342,28 +367,123 @@ Command: ludown parse toluis --in "${join(config.luisFolder, config.dispatchName
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error while refreshing the Dispatch model.`);
+Error: There was an error in the dispatch add command:
+Command: dispatch add --type file --name connectableSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.luis")} --intentName connectableSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch")}
+Error: Mocked function throws an Error`);
+        });
+
+        it("when languages argument contains non-supported cultures for the VA", async function () {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
+                remoteManifest: "",
+                languages: ["zh-hk"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
+Error: Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.
+Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
+        });
+
+        it("when the execution of an external command fails", async function () {
+            sandbox.replace(this.connector.childProcessUtils, "execute", (command, args) => {
+                return Promise.reject(new Error("Mocked function throws an Error"));
+            });
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifestWithTwoLanguages.json")),
+                remoteManifest: "",
+                languages: ["en-us", "es-es"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
+Error: An error ocurred while updating the Dispatch model:
+Error: There was an error in the ludown parse command:
+Command: ludown parse toluis --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --luis_culture ${configuration.languages[0]} --out_folder "${join(configuration.luisFolder, configuration.languages[0])}" --out connectableSkill.luis
+Error: The execution of the ludown command failed with the following error:
+Error: Mocked function throws an Error`);
+		});
+
+        it("when the refresh execution fails", async function () {
+            sandbox.replace(this.connector.childProcessUtils, "execute", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
+            });
+            sandbox.replace(this.connector, "executeRefresh", () => {
+                return Promise.reject(new Error("Mocked function throws an Error"));
+            });
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
+                remoteManifest: "",
+                languages: ["en-us"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
+Error: An error ocurred while updating the Dispatch model:
+Error: Mocked function throws an Error`);
         });
     });
 
     describe("should show a warning", function () {
         it("when the Skill is already connected", async function () {
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "repeatedManifest.json")),
                 remoteManifest: "",
-                dispatchName: "",
-                language: "",
+                languages: ["en-us"],
                 luisFolder: "",
                 dispatchFolder: "",
                 outFolder: "",
@@ -371,12 +491,13 @@ Error: There was an error while refreshing the Dispatch model.`);
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const warningList = this.logger.getWarning();
             
 			strictEqual(warningList[warningList.length - 1], `The skill 'Test Skill' is already registered.`);
@@ -389,16 +510,15 @@ Error: There was an error while refreshing the Dispatch model.`);
             sandbox.replace(this.connector.authenticationUtils, "authenticate", (configuration, manifest, logger) => {
                 return Promise.resolve("Mocked function successfully");
             });
-            sandbox.replace(this.connector.refreshSkill, "refreshSkill", (command, args) => {
-                return Promise.resolve(true);
+            sandbox.replace(this.connector, "executeRefresh", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
             });
-            const config = {
+            const configuration = {
                 botName: "",
                 localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 noRefresh: true,
-                dispatchName: "connectableSkill",
-                language: "",
+                languages: ["en-us"],
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
@@ -406,15 +526,16 @@ Error: There was an error while refreshing the Dispatch model.`);
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const warningList = this.logger.getWarning();
 
-            strictEqual(warningList[warningList.length - 1], `Run 'botskills refresh --${config.lgLanguage}' command to refresh your connected skills`);
+            strictEqual(warningList[warningList.length - 1], `Run 'botskills refresh --${configuration.lgLanguage}' command to refresh your connected skills`);
         });
     });
 
@@ -426,15 +547,14 @@ Error: There was an error while refreshing the Dispatch model.`);
             sandbox.replace(this.connector.authenticationUtils, "authenticate", (configuration, manifest, logger) => {
                 return Promise.resolve("Mocked function successfully");
             });
-            sandbox.replace(this.connector.refreshSkill, "refreshSkill", (command, args) => {
-                return Promise.resolve(true);
+            sandbox.replace(this.connector, "executeRefresh", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
             });
-            const config = {
+            const configuration = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifestWithTwoLanguages.json")),
                 remoteManifest: "",
-                dispatchName: "connectableSkill",
-                language: "",
+                languages: ["en-us", "es-es"],
                 luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
@@ -442,12 +562,13 @@ Error: There was an error while refreshing the Dispatch model.`);
                 skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
-                cognitiveModelsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "",
                 logger: this.logger
             };
 
-            await this.connector.connectSkill(config);
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
             const messageList = this.logger.getMessage();
 
 			strictEqual(messageList[messageList.length - 1], `Configuring bot auth settings`);

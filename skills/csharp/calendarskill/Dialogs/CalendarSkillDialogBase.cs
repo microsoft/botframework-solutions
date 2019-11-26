@@ -1487,7 +1487,7 @@ namespace CalendarSkill.Dialogs
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
 
-                    if (mailAddress.Equals(formattedMailAddress))
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         isDup = true;
                         break;
