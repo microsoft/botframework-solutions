@@ -486,10 +486,19 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward)[0];
-                var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName })[0];
+                var noEmailContentMessages = GetTemplates(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessages = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName });
 
-                Assert.AreEqual(recipientConfirmedMessage + " " + noEmailContentMessage, messageActivity.Text);
+                var allReply = new List<string>();
+                foreach (var recipientConfirmedMessage in recipientConfirmedMessages)
+                {
+                    foreach (var noEmailContentMessage in noEmailContentMessages)
+                    {
+                        allReply.Add(recipientConfirmedMessage + " " + noEmailContentMessage);
+                    }
+                }
+
+                CollectionAssert.Contains(allReply, messageActivity.Text);
             };
         }
 
@@ -501,35 +510,6 @@ namespace EmailSkill.Tests.Flow
 
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
 
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ShowEmailWithZeroItems()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                var replies = GetTemplates(EmailSharedResponses.ShowEmailPrompt, new
-                {
-                    SearchType = "relevant"
-                });
-
-                CollectionAssert.Contains(replies, messageActivity.Text);
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ShowNextPage()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                var replies = GetTemplates(EmailSharedResponses.ShowEmailPrompt);
-
-                CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

@@ -120,7 +120,6 @@ namespace EmailSkill.Tests.Flow
                 return adapter;
             });
 
-            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\..\emailskill";
             var templateFiles = new List<string>()
             {
                 @"DeleteEmail\DeleteEmailTexts.lg",
@@ -131,10 +130,11 @@ namespace EmailSkill.Tests.Flow
                 @"ShowEmail\ShowEmailTexts.lg",
             };
             var templates = new List<string>();
-            templateFiles.ForEach(s => templates.Add(Path.Combine(projPath, "Responses", s)));
+            templateFiles.ForEach(s => templates.Add(Path.Combine(Environment.CurrentDirectory, "Responses", s)));
             var engine = new TemplateEngine().AddFiles(templates);
             Services.AddSingleton(engine);
 
+            var projPath = Environment.CurrentDirectory.Substring(0, Environment.CurrentDirectory.IndexOf("bin"));
             var resourceExplorer = ResourceExplorer.LoadProject(projPath);
             Services.AddSingleton(resourceExplorer);
 
