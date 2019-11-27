@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
@@ -262,17 +263,25 @@ namespace EmailSkill.Tests.Flow
             return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
-
         private Action<IActivity> CollectEmailContentMessageForForward(string userName)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var noEmailContentMessage = GetTemplates(EmailSharedResponses.NoEmailContentForForward)[0];
-                var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName })[0];
+                var noEmailContentMessages = GetTemplates(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessages = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName });
 
-                Assert.AreEqual(recipientConfirmedMessage + " " + noEmailContentMessage, messageActivity.Text);
+                var allReply = new List<string>();
+                foreach (var recipientConfirmedMessage in recipientConfirmedMessages)
+                {
+                    foreach (var noEmailContentMessage in noEmailContentMessages)
+                    {
+                        allReply.Add(recipientConfirmedMessage + " " + noEmailContentMessage);
+                    }
+                }
+
+                CollectionAssert.Contains(allReply, messageActivity.Text);
             };
         }
     }
