@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Weather skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/weatherskill) provides a basic Skill that integrates with [AccuWeather](https://developer.accuweather.com) to demonstrate how a weather experience can be integrated into a Virtual Assistant.
+The [Weather skill]({{site.repo}}/tree/master/skills/csharp/experimental/weatherskill) provides a basic Skill that integrates with [AccuWeather](https://developer.accuweather.com) to demonstrate how a weather experience can be integrated into a Virtual Assistant.
 
 ## Configuration
 {:.no_toc}
