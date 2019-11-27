@@ -64,77 +64,102 @@ namespace ToDoSkill.Dialogs
         {
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
-            // get current activity locale
-            var localeConfig = _services.GetCognitiveModels();
-
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
 
-            // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("ToDo", out var luisService);
+            var luisResult = dc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+            var intent = luisResult?.TopIntent().intent;
+            var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+            var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-            if (luisService == null)
+            // switch on general intents
+            switch (intent)
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
-            }
-            else
-            {
-                var intent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                case ToDoLuis.Intent.AddToDo:
+                    {
+                        await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
+                        break;
+                    }
 
-                // switch on general intents
-                switch (intent)
-                {
-                    case ToDoLuis.Intent.AddToDo:
-                        {
-                            await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
-                            break;
-                        }
+                case ToDoLuis.Intent.MarkToDo:
+                    {
+                        await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
+                        break;
+                    }
 
-                    case ToDoLuis.Intent.MarkToDo:
-                        {
-                            await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
-                            break;
-                        }
+                case ToDoLuis.Intent.DeleteToDo:
+                    {
+                        await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
+                        break;
+                    }
 
-                    case ToDoLuis.Intent.DeleteToDo:
-                        {
-                            await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
-                            break;
-                        }
+                case ToDoLuis.Intent.ShowNextPage:
+                case ToDoLuis.Intent.ShowPreviousPage:
+                case ToDoLuis.Intent.ShowToDo:
+                    {
+                        await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
+                        break;
+                    }
 
-                    case ToDoLuis.Intent.ShowNextPage:
-                    case ToDoLuis.Intent.ShowPreviousPage:
-                    case ToDoLuis.Intent.ShowToDo:
+                case ToDoLuis.Intent.None:
+                    {
+                        if (generalTopIntent == General.Intent.ShowNext
+                            || generalTopIntent == General.Intent.ShowPrevious)
                         {
                             await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
-                            break;
                         }
-
-                    case ToDoLuis.Intent.None:
+                        else
                         {
-                            if (generalTopIntent == General.Intent.ShowNext
-                                || generalTopIntent == General.Intent.ShowPrevious)
-                            {
-                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
-                            }
-                            else
-                            {
-                                // No intent was identified, send confused message
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
-                            }
-
-                            break;
+                            // No intent was identified, send confused message
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
                         }
 
-                    default:
-                        {
-                            // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
-                            break;
-                        }
+                        break;
+                    }
+
+                default:
+                    {
+                        // intent was identified but not yet implemented
+                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
+                        break;
+                    }
+            }
+        }
+
+        // Runs on every turn of the conversation.
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("ToDo", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    var skillResult = await skillLuisService.RecognizeAsync<ToDoLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.ToDoLuisResultKey, skillResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                // Run LUIS recognition on General model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService != null)
+                {
+                    var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResultKey, generalResult);
+                }
+                else
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
                 }
             }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -181,49 +206,31 @@ namespace ToDoSkill.Dialogs
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // get current activity locale
-                var localeConfig = _services.GetCognitiveModels();
-
-                // Update state with email luis result and entities
-                var toDoLuisResult = await localeConfig.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-                state.LuisResult = toDoLuisResult;
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = generalLuisResult.TopIntent();
 
-                // check luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
-
-                if (luisService == null)
+                if (topIntent.score > 0.5)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent();
-
-                    if (topIntent.score > 0.5)
+                    switch (topIntent.intent)
                     {
-                        switch (topIntent.intent)
-                        {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
 
-                            case General.Intent.Help:
-                                {
-                                    // result = await OnHelp(dc);
-                                    break;
-                                }
+                        case General.Intent.Help:
+                            {
+                                // result = await OnHelp(dc);
+                                break;
+                            }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }

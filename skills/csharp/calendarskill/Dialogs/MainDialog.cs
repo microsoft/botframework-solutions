@@ -84,117 +84,104 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
-            // get current activity locale
-            var localeConfig = _services.GetCognitiveModels();
-
             await PopulateStateFromSemanticAction(dc.Context);
 
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
-
-            // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
             var options = new CalendarSkillDialogOptions()
             {
                 SubFlowMode = false
             };
 
-            if (luisService == null)
+            var luisResult = dc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+            var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+            var intent = luisResult?.TopIntent().intent;
+            var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
+            // switch on general intents
+            switch (intent)
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
-            }
-            else
-            {
-                var luisResult = dc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
-                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
-                var intent = luisResult?.TopIntent().intent;
-                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                case CalendarLuis.Intent.FindMeetingRoom:
+                case CalendarLuis.Intent.CreateCalendarEntry:
+                    {
+                        await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
+                        break;
+                    }
 
-                // switch on general intents
-                switch (intent)
-                {
-                    case CalendarLuis.Intent.FindMeetingRoom:
-                    case CalendarLuis.Intent.CreateCalendarEntry:
-                        {
-                            await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
-                            break;
-                        }
+                case CalendarLuis.Intent.AcceptEventEntry:
+                    {
+                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.AcceptEventEntry:
-                        {
-                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Accepted));
-                            break;
-                        }
+                case CalendarLuis.Intent.DeleteCalendarEntry:
+                    {
+                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.DeleteCalendarEntry:
-                        {
-                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
-                            break;
-                        }
+                case CalendarLuis.Intent.ChangeCalendarEntry:
+                    {
+                        await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.ChangeCalendarEntry:
-                        {
-                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
-                            break;
-                        }
+                case CalendarLuis.Intent.ConnectToMeeting:
+                    {
+                        await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.ConnectToMeeting:
-                        {
-                            await dc.BeginDialogAsync(nameof(JoinEventDialog), options);
-                            break;
-                        }
+                case CalendarLuis.Intent.FindCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarDetail:
+                case CalendarLuis.Intent.FindCalendarWhen:
+                case CalendarLuis.Intent.FindCalendarWhere:
+                case CalendarLuis.Intent.FindCalendarWho:
+                case CalendarLuis.Intent.FindDuration:
+                    {
+                        await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.FindCalendarEntry:
-                    case CalendarLuis.Intent.FindCalendarDetail:
-                    case CalendarLuis.Intent.FindCalendarWhen:
-                    case CalendarLuis.Intent.FindCalendarWhere:
-                    case CalendarLuis.Intent.FindCalendarWho:
-                    case CalendarLuis.Intent.FindDuration:
+                case CalendarLuis.Intent.TimeRemaining:
+                    {
+                        await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                        break;
+                    }
+
+                case CalendarLuis.Intent.CheckAvailability:
+                    {
+                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                        break;
+                    }
+
+                case CalendarLuis.Intent.ShowNextCalendar:
+                case CalendarLuis.Intent.ShowPreviousCalendar:
+                    {
+                        await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
+                        break;
+                    }
+
+                case CalendarLuis.Intent.None:
+                    {
+                        if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                         {
                             await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
-                            break;
                         }
-
-                    case CalendarLuis.Intent.TimeRemaining:
+                        else
                         {
-                            await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
-                            break;
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
                         }
 
-                    case CalendarLuis.Intent.CheckAvailability:
-                        {
-                            await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
-                            break;
-                        }
+                        break;
+                    }
 
-                    case CalendarLuis.Intent.ShowNextCalendar:
-                    case CalendarLuis.Intent.ShowPreviousCalendar:
-                        {
-                            await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.None:
-                        {
-                            if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
-                            {
-                                await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, options));
-                            }
-                            else
-                            {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
-                            break;
-                        }
-                }
+                default:
+                    {
+                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                        break;
+                    }
             }
         }
 
@@ -251,12 +238,28 @@ namespace CalendarSkill.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
+                localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    var skillResult = await skillLuisService.RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
 
                 // Run LUIS recognition on General model and store result in turn state.
-                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<General>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResultKey, generalResult);
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService != null)
+                {
+                    var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResultKey, generalResult);
+                }
+                else
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);

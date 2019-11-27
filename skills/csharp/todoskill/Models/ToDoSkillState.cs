@@ -23,8 +23,6 @@ namespace ToDoSkill.Models
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
             ListTypeIds = new Dictionary<string, string>();
-            LuisResult = null;
-            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             LastListType = null;
@@ -115,22 +113,6 @@ namespace ToDoSkill.Models
         /// OneNotePageId.
         /// </value>
         public Dictionary<string, string> ListTypeIds { get; set; }
-
-        /// <summary>
-        /// Gets or sets LuisResult.
-        /// </summary>
-        /// <value>
-        /// LuisResult.
-        /// </value>
-        public ToDoLuis LuisResult { get; set; }
-
-        /// <summary>
-        /// Gets or sets GeneralLuisResult.
-        /// </summary>
-        /// <value>
-        /// LuisResult.
-        /// </value>
-        public General GeneralLuisResult { get; set; }
 
         /// <summary>
         /// Gets or sets ConversationDialogState.
@@ -282,8 +264,6 @@ namespace ToDoSkill.Models
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
             ListTypeIds = new Dictionary<string, string>();
-            LuisResult = null;
-            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             LastListType = null;
