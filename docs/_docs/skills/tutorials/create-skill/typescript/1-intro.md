@@ -39,4 +39,4 @@ Install Bot Framework development prerequisites and create a Skill using the Bot
 
 ### Scenario
 
-A Bot Framework Skill app (in C#) that greets a new user.
+A Bot Framework Skill app (in TypeScript) that greets a new user.
