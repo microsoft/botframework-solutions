@@ -11,4 +11,4 @@ order: 7
 
 ## {{ page.title }}
 
-Test your skill works in your Bot through the emulator by typing "sample dialog"
+Test your skill works in your Bot through the emulator by typing "sample dialog."
