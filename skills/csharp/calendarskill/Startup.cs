@@ -23,6 +23,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
@@ -53,9 +55,13 @@ namespace CalendarSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+            HostingEnvironment = env;
+            TypeFactory.Configuration = Configuration;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -85,6 +91,10 @@ namespace CalendarSkill
                 return new BotStateSet(userState, conversationState, proactiveState);
             });
 
+            // Config LG
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(resourceExplorer);
+
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
             services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
@@ -102,20 +112,6 @@ namespace CalendarSkill
 
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
-
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new ChangeEventStatusResponses(),
-                new CreateEventResponses(),
-                new JoinEventResponses(),
-                new CalendarMainResponses(),
-                new CalendarSharedResponses(),
-                new SummaryResponses(),
-                new TimeRemainingResponses(),
-                new UpdateEventResponses(),
-                new CheckAvailableResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();

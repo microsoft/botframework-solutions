@@ -4,12 +4,15 @@
 using System.Globalization;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 
@@ -21,15 +24,17 @@ namespace CalendarSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
-            ResponseManager responseManager,
             TelemetryInitializerMiddleware telemetryMiddleware,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            ResourceExplorer resourceExplorer)
             : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+
+                var activity = await LGHelper.GenerateMessageAsync(context, CalendarSharedResponses.CalendarErrorMessage, null);
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };
@@ -41,6 +46,10 @@ namespace CalendarSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
+
+            this.UseState(userState, conversationState);
+            this.UseResourceExplorer(resourceExplorer);
+            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }

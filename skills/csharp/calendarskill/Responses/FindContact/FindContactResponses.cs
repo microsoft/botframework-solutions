@@ -15,8 +15,8 @@ namespace CalendarSkill.Responses.FindContact
         public const string PromptOneNameOneAddress = "PromptOneNameOneAddress";
         public const string ConfirmMultipleContactNameSinglePage = "ConfirmMultipleContactNameSinglePage";
         public const string ConfirmMultipleContactNameMultiPage = "ConfirmMultipleContactNameMultiPage";
-        public const string ConfirmMultiplContactEmailSinglePage = "ConfirmMultiplContactEmailSinglePage";
-        public const string ConfirmMultiplContactEmailMultiPage = "ConfirmMultiplContactEmailMultiPage";
+        public const string ConfirmMultipleContactEmailSinglePage = "ConfirmMultipleContactEmailSinglePage";
+        public const string ConfirmMultipleContactEmailMultiPage = "ConfirmMultipleContactEmailMultiPage";
         public const string UserNotFound = "UserNotFound";
         public const string UserNotFoundAgain = "UserNotFoundAgain";
         public const string BeforeSendingMessage = "BeforeSendingMessage";

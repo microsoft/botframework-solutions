@@ -1,0 +1,92 @@
+﻿[import](FindContactDialogTexts.lg)
+
+# NoAttendees
+[Activity
+    Text = {NoAttendees.Text()}
+    Speak = {NoAttendees.Text()}
+    InputHint = expectingInput
+]
+
+# AddMoreAttendees
+[Activity
+    Text = {AddMoreAttendees.Text()}
+    Speak = {AddMoreAttendees.Text()}
+    InputHint = expectingInput
+]
+
+# BeforeSendingMessage
+[Activity
+    Text = {BeforeSendingMessage.Text(NameList)}
+    Speak = {BeforeSendingMessage.Text(NameList)}
+    InputHint = expectingInput
+]
+
+# PromptOneNameOneAddress
+[Activity
+    Text = {PromptOneNameOneAddress.Text(UserName)}
+    Speak = {PromptOneNameOneAddress.Text(UserName)}
+    InputHint = expectingInput
+]
+
+# UserNotFound
+[Activity
+    Text = {UserNotFound.Text(UserName)}
+    Speak = {UserNotFound.Text(UserName)}
+    InputHint = expectingInput
+]
+
+# UserNotFoundAgain
+[Activity
+    Text = {UserNotFoundAgain.Text(UserName, Source)}
+    Speak = {UserNotFoundAgain.Text(UserName, Source)}
+    InputHint = expectingInput
+]
+
+# AlreadyFirstPage
+[Activity
+    Text = {AlreadyFirstPage.Text()}
+    Speak = {AlreadyFirstPage.Text()}
+    InputHint = expectingInput
+]
+
+# AlreadyLastPage
+[Activity
+    Text = {AlreadyLastPage.Text()}
+    Speak = {AlreadyLastPage.Text()}
+    InputHint = expectingInput
+]
+
+# AddMoreUserPrompt
+[Activity
+    Text = {AddMoreUserPrompt.Text(Users)}
+    Speak = {AddMoreUserPrompt.Text(Users)}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactEmailSinglePage
+[Activity
+    Text = {ConfirmMultipleContactEmailSinglePage.Text(userName)}
+    Speak = {ConfirmMultipleContactEmailSinglePage.Text(userName)}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactEmailMultiPage
+[Activity
+    Text = {ConfirmMultipleContactEmailMultiPage.Text(userName)}
+    Speak = {ConfirmMultipleContactEmailMultiPage.Speak(userName)}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactNameSinglePage
+[Activity
+    Text = {ConfirmMultipleContactNameSinglePage.Text(userName)}
+    Speak = {ConfirmMultipleContactNameSinglePage.Text(userName)}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactNameMultiPage
+[Activity
+    Text = {ConfirmMultipleContactNameMultiPage.Text(userName)}
+    Speak = {ConfirmMultipleContactNameMultiPage.Text(userName)}
+    InputHint = expectingInput
+]

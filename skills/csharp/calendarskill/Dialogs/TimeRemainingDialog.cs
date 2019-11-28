@@ -11,6 +11,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -27,12 +28,11 @@ namespace CalendarSkill.Dialogs
         public TimeRemainingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(TimeRemainingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(TimeRemainingDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -87,7 +87,7 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNoMeetingMessage);
+                    var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNoMeetingMessage, null);
                     await sc.Context.SendActivityAsync(prompt);
                     return await sc.EndDialogAsync();
                 }
@@ -99,14 +99,6 @@ namespace CalendarSkill.Dialogs
                     var timeDiffMinutes = (int)timeDiff.TotalMinutes % 60;
                     var timeDiffHours = (int)timeDiff.TotalMinutes / 60;
                     var timeDiffDays = timeDiff.Days;
-
-                    var tokens = new StringDictionary()
-                    {
-                        { "RemainingTime", string.Empty },
-                        { "Title", string.Empty },
-                        { "Time", string.Empty },
-                        { "TimeSpeak", string.Empty }
-                    };
 
                     var remainingMinutes = string.Empty;
                     var remainingHours = string.Empty;
@@ -149,10 +141,13 @@ namespace CalendarSkill.Dialogs
                     }
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
-                    tokens["RemainingTime"] = remainingTime;
                     if (state.MeetingInfor.OrderReference == "next")
                     {
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
+                        var tokens = new
+                        {
+                            RemainingTime = remainingTime
+                        };
+                        var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }
@@ -173,22 +168,15 @@ namespace CalendarSkill.Dialogs
                             timeToken += $"{state.MeetingInfor.StartTime[0].ToShortTimeString()}";
                         }
 
-                        if (timeSpeakToken.Length > 0)
+                        var tokens = new
                         {
-                            tokens["TimeSpeak"] = CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken;
-                        }
+                            RemainingTime = remainingTime,
+                            TimeSpeak = timeSpeakToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken : string.Empty,
+                            Time = timeToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeToken : string.Empty,
+                            Title = state.MeetingInfor.Title != null ? string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title) : string.Empty
+                        };
 
-                        if (timeToken.Length > 0)
-                        {
-                            tokens["Time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
-                        }
-
-                        if (state.MeetingInfor.Title != null)
-                        {
-                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title);
-                        }
-
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
+                        var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }

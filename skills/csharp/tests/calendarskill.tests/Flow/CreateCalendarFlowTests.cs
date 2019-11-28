@@ -1073,7 +1073,7 @@ namespace CalendarSkill.Test.Flow
                 {
                     { "UserName", userName }
                 };
-                var confirmedMessage = new List<string>(ParseReplies(FindContactResponses.ConfirmMultiplContactEmailSinglePage, responseParams));
+                var confirmedMessage = new List<string>(ParseReplies(FindContactResponses.ConfirmMultipleContactEmailSinglePage, responseParams));
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(confirmedMessage.Contains(messageLines[0]));
