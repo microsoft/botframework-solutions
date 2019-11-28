@@ -35,7 +35,7 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\..\sdk\typescript\libraries\botbuilder-solutions
-npm pack ..\..\sdk\typescript\libraries\botbuilder-skills
+npm pack sdk\typescript\libraries\botbuilder-solutions
+npm pack sdk\typescript\libraries\botbuilder-skills
 
 popd
