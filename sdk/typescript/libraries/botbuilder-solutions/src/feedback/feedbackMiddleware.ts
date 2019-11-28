@@ -18,8 +18,8 @@ import { FeedbackOptions } from './feedbackOptions';
 import { FeedbackRecord } from './feedbackRecord';
 
 export class FeedbackMiddleware implements Middleware {
-    private readonly options: FeedbackOptions;
-    private readonly feedbackAccessor: StatePropertyAccessor<FeedbackRecord>;
+    private static options: FeedbackOptions;
+    private static feedbackAccessor: StatePropertyAccessor<FeedbackRecord>;
     private readonly conversationState: ConversationState;
     private readonly telemetryClient: BotTelemetryClient;
     private readonly traceName: string = 'Feedback';
@@ -38,10 +38,10 @@ export class FeedbackMiddleware implements Middleware {
         if (telemetryClient === undefined) { throw new Error('The value of telemetryClient is undefined'); }
         this.conversationState = conversationState;
         this.telemetryClient = telemetryClient;
-        this.options = options !== undefined ? options : new FeedbackOptions();
+        FeedbackMiddleware.options = options !== undefined ? options : new FeedbackOptions();
 
         // Create FeedbackRecord state accessor
-        this.feedbackAccessor = conversationState.createProperty<FeedbackRecord>(FeedbackRecord.name);
+        FeedbackMiddleware.feedbackAccessor = conversationState.createProperty<FeedbackRecord>(FeedbackRecord.name);
     }
 
     /**
@@ -50,9 +50,9 @@ export class FeedbackMiddleware implements Middleware {
      * @param tag Tag to categorize feedback record in Application Insights.
      * @returns A Task representing the asynchronous operation.
      */
-    public async requestFeedback(context: TurnContext, tag: string): Promise<void> {
+    public static async requestFeedback(context: TurnContext, tag: string): Promise<void> {
         // clear state
-        await this.feedbackAccessor.delete(context);
+        await FeedbackMiddleware.feedbackAccessor.delete(context);
 
         // create feedbackRecord with original activity and tag
         const record: FeedbackRecord = {
@@ -87,35 +87,35 @@ export class FeedbackMiddleware implements Middleware {
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         // get feedback record from state. If we don't find anything, set to null.
-        const record: FeedbackRecord = await this.feedbackAccessor.get(context, new FeedbackRecord());
+        const record: FeedbackRecord = await FeedbackMiddleware.feedbackAccessor.get(context, new FeedbackRecord());
 
         // if we have requested feedback
         if (record !== undefined) {
             // if activity text matches a feedback action
             // save feedback in state
-            const feedback: CardAction | undefined = this.options.feedbackActions.find((cardAction: CardAction): boolean => {
+            const feedback: CardAction | undefined = FeedbackMiddleware.options.feedbackActions.find((cardAction: CardAction): boolean => {
                 return (context.activity.text === <string> cardAction.value || context.activity.text === cardAction.title);
             });
 
             if (feedback !== undefined) {
                 // Set the feedback to the action value for consistency
                 record.feedback = <string> feedback.value;
-                await this.feedbackAccessor.set(context, record);
+                await FeedbackMiddleware.feedbackAccessor.set(context, record);
 
-                if (this.options.commentsEnabled) {
+                if (FeedbackMiddleware.options.commentsEnabled) {
                     // if comments are enabled
                     // create comment prompt with dismiss action
                     if (supportsSuggestedActions(context.activity.channelId)) {
                         const commentPrompt: Partial<Activity> = MessageFactory.suggestedActions(
-                            [this.options.dismissAction],
-                            `${ this.options.feedbackReceivedMessage } ${this.options.commentPrompt}`
+                            [FeedbackMiddleware.options.dismissAction],
+                            `${ FeedbackMiddleware.options.feedbackReceivedMessage } ${FeedbackMiddleware.options.commentPrompt}`
                         );
 
                         // prompt for comment
                         await context.sendActivity(commentPrompt);
                     } else {
                         // channel doesn't support suggestedActions, so use hero card.
-                        const hero: Attachment = CardFactory.heroCard(this.options.commentPrompt, undefined, [this.options.dismissAction]);
+                        const hero: Attachment = CardFactory.heroCard(FeedbackMiddleware.options.commentPrompt, undefined, [FeedbackMiddleware.options.dismissAction]);
 
                         // prompt for comment
                         await context.sendActivity(MessageFactory.attachment(hero));
@@ -123,16 +123,16 @@ export class FeedbackMiddleware implements Middleware {
                 } else {
                     // comments not enabled, respond and cleanup
                     // send feedback response
-                    await context.sendActivity(this.options.feedbackReceivedMessage);
+                    await context.sendActivity(FeedbackMiddleware.options.feedbackReceivedMessage);
 
                     // log feedback in appInsights
                     this.logFeedback(record);
 
                     // clear state
-                    await this.feedbackAccessor.delete(context);
+                    await FeedbackMiddleware.feedbackAccessor.delete(context);
                 }
-            } else if (context.activity.text === <string> this.options.dismissAction.value
-                    || context.activity.text === this.options.dismissAction.title) {
+            } else if (context.activity.text === <string> FeedbackMiddleware.options.dismissAction.value
+                    || context.activity.text === FeedbackMiddleware.options.dismissAction.title) {
                 // if user dismissed
                 // log existing feedback
                 if (record.feedback !== undefined && record.feedback.trim().length > 0) {
@@ -141,25 +141,25 @@ export class FeedbackMiddleware implements Middleware {
                 }
 
                 // clear state
-                await this.feedbackAccessor.delete(context);
-            } else if (record.feedback !== undefined && record.feedback.trim().length > 0 && this.options.commentsEnabled) {
+                await FeedbackMiddleware.feedbackAccessor.delete(context);
+            } else if (record.feedback !== undefined && record.feedback.trim().length > 0 && FeedbackMiddleware.options.commentsEnabled) {
                 // if we received a comment and user didn't dismiss
                 // store comment in state
                 record.comment = context.activity.text;
-                await this.feedbackAccessor.set(context, record);
+                await FeedbackMiddleware.feedbackAccessor.set(context, record);
 
                 // Respond to comment
-                await context.sendActivity(this.options.commentReceivedMessage);
+                await context.sendActivity(FeedbackMiddleware.options.commentReceivedMessage);
 
                 // log feedback in appInsights
                 this.logFeedback(record);
 
                 // clear state
-                await this.feedbackAccessor.delete(context);
+                await FeedbackMiddleware.feedbackAccessor.delete(context);
             } else {
                 // we requested feedback, but the user responded with something else
                 // clear state and continue (so message can be handled by dialog stack)
-                await this.feedbackAccessor.delete(context);
+                await FeedbackMiddleware.feedbackAccessor.delete(context);
                 await next();
             }
 
@@ -170,10 +170,10 @@ export class FeedbackMiddleware implements Middleware {
         }
     }
 
-    private getFeedbackActions(): CardAction[] {
+    private static getFeedbackActions(): CardAction[] {
         return [
-            ...this.options.feedbackActions,
-            this.options.dismissAction
+            ...FeedbackMiddleware.options.feedbackActions,
+            FeedbackMiddleware.options.dismissAction
         ];
     }
 
