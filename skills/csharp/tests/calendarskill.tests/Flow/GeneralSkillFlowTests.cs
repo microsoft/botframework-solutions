@@ -23,7 +23,7 @@ namespace CalendarSkill.Test.Flow
         public void SetupLuisService()
         {
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
-            botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
+            botServices.CognitiveModelSets.Add("en-us", new CognitiveModelSet()
             {
                 LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
@@ -49,7 +49,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfusedResponse()
         {
-            return this.ParseReplies(CalendarSharedResponses.DidntUnderstandMessage, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.DidntUnderstandMessage);
         }
     }
 }

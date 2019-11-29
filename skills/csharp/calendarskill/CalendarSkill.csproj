@@ -239,7 +239,7 @@
     <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogText.lg">
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\TimeRemaining\TimeRemainingResponses.tt">

@@ -25,5 +25,9 @@ namespace CalendarSkill.Responses.FindContact
         public const string NoAttendees = "NoAttendees";
         public const string AddMoreUserPrompt = "AddMoreUserPrompt";
         public const string AddMoreAttendees = "AddMoreAttendees";
+        public const string FindMultipleContactNames = "FindMultipleContactNames";
+        public const string FindMultipleEmails = "FindMultipleEmails";
+        public const string EmailChoiceConfirmation = "EmailChoiceConfirmation";
+        public const string AskForEmail = "AskForEmail";
     }
 }
