@@ -73,7 +73,7 @@ namespace CalendarSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CalendarWelcomeMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CalendarWelcomeMessage);
             await dc.Context.SendActivityAsync(activity);
         }
 
@@ -178,7 +178,7 @@ namespace CalendarSkill.Dialogs
                             }
                             else
                             {
-                                var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarSharedResponses.DidntUnderstandMessage, null);
+                                var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarSharedResponses.DidntUnderstandMessage);
                                 await dc.Context.SendActivityAsync(activity);
                             }
 
@@ -187,7 +187,7 @@ namespace CalendarSkill.Dialogs
 
                     default:
                         {
-                            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.FeatureNotAvailable, null);
+                            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.FeatureNotAvailable);
                             await dc.Context.SendActivityAsync(activity);
                             break;
                         }
@@ -340,7 +340,7 @@ namespace CalendarSkill.Dialogs
             state.Clear();
             state.Clear();
 
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CancelMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CancelMessage);
             await dc.Context.SendActivityAsync(activity);
 
             await dc.CancelAllDialogsAsync();
@@ -349,7 +349,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.HelpMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.HelpMessage);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.Resume;
@@ -377,7 +377,7 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.LogOut, null);
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.LogOut);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.End;

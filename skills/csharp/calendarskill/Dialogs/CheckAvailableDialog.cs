@@ -127,8 +127,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions()
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime, null) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime, null) as Activity,
+                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
+                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
                     TimeZone = state.GetUserTimeZone(),
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 });

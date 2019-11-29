@@ -1,0 +1,33 @@
+# AskForCheckAvailableTime.Text
+- 什么时候？
+
+# AskForCheckAvailableUserName.Text
+- 你想问谁？
+
+# NotAvailable.Text(UserName, Time, Date)
+- 它看起来像{UserName}不可用，{Time} {Date}.
+
+# AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)
+- 它看起来像{UserName}可从{StartTime}自{EndTime} {Date}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)
+- 它看起来像{UserName}可从{StartTime}自{EndTime} {Date}，但你有一个会议，"{Title}"从{EventStartTime}自{EventEndTime}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)
+- 它看起来像{UserName}可从{StartTime}自{EndTime} {Date}，但你有{ConflictEventsCount}在此期间安排的其他会议。
+
+# AskForCreateNewMeeting.Text
+- 是否要安排新会议？
+
+# AskForCreateNewMeetingAnyway.Text(UserName, StartTime)
+- 是否要安排新会议{UserName}在{StartTime}到底吗？
+
+# AskForNextAvailableTime.Text(UserName)
+- 你想让我寻找下一次你和{UserName}两者都可用吗？
+
+# NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)
+- 好。你和{UserName}都可从{StartTime}自{EndTime} {EndDate}.
+
+# NoNextBothAvailableTime.Text(UserName)
+- 您没有两个可用时间{UserName}最近。
+

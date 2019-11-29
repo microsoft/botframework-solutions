@@ -33,7 +33,7 @@ namespace CalendarSkill.Adapters
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                var activity = await LGHelper.GenerateMessageAsync(context, CalendarSharedResponses.CalendarErrorMessage, null);
+                var activity = await LGHelper.GenerateMessageAsync(context, CalendarSharedResponses.CalendarErrorMessage);
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

@@ -374,7 +374,7 @@ namespace CalendarSkill.Dialogs
                         state.ShowMeetingInfor.ShowingCardTitle = CalendarCommonStrings.MeetingsToChoose;
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, state, false, CalendarSharedResponses.MultipleEventsFound, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, state, false, CalendarSharedResponses.MultipleEventsFound);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt });
                 }
@@ -419,7 +419,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoMoreEvent, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoMoreEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 
@@ -433,7 +433,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoPreviousEvent, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoPreviousEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 
@@ -494,7 +494,7 @@ namespace CalendarSkill.Dialogs
                 else if (!state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
                     // user has tried 3 times but can't get result
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.CancelAllDialogsAsync();
@@ -1389,7 +1389,7 @@ namespace CalendarSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage, null);
+            var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -1413,12 +1413,12 @@ namespace CalendarSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied || ex.ExceptionType == SkillExceptionType.APIUnauthorized || ex.ExceptionType == SkillExceptionType.APIForbidden || ex.ExceptionType == SkillExceptionType.APIBadRequest)
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessageAccountProblem, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessageAccountProblem);
                 await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage, null);
+                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage);
                 await sc.Context.SendActivityAsync(activity);
             }
 

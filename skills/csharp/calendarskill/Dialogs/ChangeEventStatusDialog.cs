@@ -173,14 +173,14 @@ namespace CalendarSkill.Dialogs
                         await calendarService.DeclineEventByIdAsync(deleteEvent.Id);
                     }
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventDeleted, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventDeleted);
                     await sc.Context.SendActivityAsync(activity);
                 }
                 else
                 {
                     await calendarService.AcceptEventByIdAsync(deleteEvent.Id);
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventAccepted, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventAccepted);
                     await sc.Context.SendActivityAsync(activity);
                 }
 
@@ -231,8 +231,8 @@ namespace CalendarSkill.Dialogs
                     {
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                         {
-                            Prompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.NoDeleteStartTime, null) as Activity,
-                            RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventWithStartTimeNotFound, null) as Activity,
+                            Prompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.NoDeleteStartTime) as Activity,
+                            RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventWithStartTimeNotFound) as Activity,
                             MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }
@@ -240,8 +240,8 @@ namespace CalendarSkill.Dialogs
                     {
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                         {
-                            Prompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.NoAcceptStartTime, null) as Activity,
-                            RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventWithStartTimeNotFound, null) as Activity,
+                            Prompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.NoAcceptStartTime) as Activity,
+                            RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, ChangeEventStatusResponses.EventWithStartTimeNotFound) as Activity,
                             MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                         }, cancellationToken);
                     }

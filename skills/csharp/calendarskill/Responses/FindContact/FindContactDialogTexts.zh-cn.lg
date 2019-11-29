@@ -1,0 +1,48 @@
+# AddMoreAttendees.Text
+- 您要添加谁？
+
+# BeforeSendingMessage.Text(NameList)
+- 好吧，我知道你想把活动送到{NameList}.
+
+# UserNotFound.Text
+- 我在你的联系人中找不到与这个名字匹配的人。
+
+# UserNotFoundAgain.Text(UserName, Source)
+- 不幸的是，我找不到"{UserName}" 你想选择.下次，如果将联系人添加到联系人簿中，它可能会提供帮助。{Source}.
+
+# AlreadyFirstPage.Text
+- 这已经是第一页了。
+
+# AlreadyLastPage.Text
+- 这已经是最后一页了。
+
+# AddMoreUserPrompt.Text
+- 你想邀请其他人吗？
+
+# ConfirmMultipleContactEmailSinglePage.Text
+- 您想使用哪一个？
+
+# ConfirmMultipleContactEmailMultiPage.Text
+- 您想使用哪一个？您也可以让我向您展示以前的或更多的选项。
+
+# ConfirmMultipleContactNameSinglePage.Text
+- 你在找哪一个？
+
+# ConfirmMultipleContactNameMultiPage.Text
+- 你在找哪一个？您也可以让我向您展示以前的或更多的选项。
+
+# PromptOneNameOneAddress.Text(User)
+- 好吧，我加了{User}.
+
+# AskForEmail.Text
+- 你能提供一个电子邮件地址吗？
+
+# FindMultipleEmails.Text(UserName)
+- 我发现多封电子邮件{UserName}.
+
+# FindMultipleContactNames.Text(UserName)
+- 我找到多个联系人，名为{UserName}.
+
+# EmailChoiceConfirmation.Text(Email)
+- 拿到了，我用{Email}.
+

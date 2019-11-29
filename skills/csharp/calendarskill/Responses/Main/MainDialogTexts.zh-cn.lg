@@ -1,0 +1,48 @@
+# CalendarWelcomeMessage.Text
+- 欢迎来到日历技能！我可以为您提供今天会议的概述，宣读您即将召开的会议，或为您创建一个新会议。
+
+# CalendarWelcomeMessage.S1
+- 我今天的会议是什么？
+
+# CalendarWelcomeMessage.S2
+- 我的下一次会议是什么？
+
+# CalendarWelcomeMessage.S3
+- 我想安排一个会议。
+
+# CalendarWelcomeMessage.S4
+- 您能更新会议吗？
+
+# CalendarWelcomeMessage.S5
+- 你能取消我的活动吗？
+
+# FeatureNotAvailable.Text
+- 此功能在"日历技能"中尚不可用。请尝试询问其他问题。
+
+# CancelMessage.Text
+- 好，我们重新开始吧。
+
+# HelpMessage.Text
+- 我可以为您提供今天会议的概述，宣读您即将召开的会议，或为您创建一个新会议。
+
+# HelpMessage.S1
+- 我今天的会议是什么？
+
+# HelpMessage.S2
+- 我的下一次会议是什么？
+
+# HelpMessage.S3
+- 我想安排一个会议。
+
+# HelpMessage.S4
+- 您能更新会议吗？
+
+# HelpMessage.S5
+- 你能取消我的活动吗？
+
+# LogOut.Text
+- 您的注销成功。
+- 您已成功注销。
+- 您已注销。
+
+

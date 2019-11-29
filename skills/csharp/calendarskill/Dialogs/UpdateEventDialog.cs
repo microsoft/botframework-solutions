@@ -105,8 +105,8 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoUpdateStartTime, null) as Activity,
-                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.EventWithStartTimeNotFound, null) as Activity,
+                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoUpdateStartTime) as Activity,
+                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.EventWithStartTimeNotFound) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -152,7 +152,7 @@ namespace CalendarSkill.Dialogs
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.ConfirmUpdateFailed, null) as Activity,
+                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.ConfirmUpdateFailed) as Activity,
                 });
             }
             catch (Exception ex)
@@ -175,7 +175,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.ActionEnded, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.ActionEnded);
                     await sc.Context.SendActivityAsync(activity);
                     if (options.SubFlowMode)
                     {
@@ -260,8 +260,8 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTime, null) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTimeRetry, null) as Activity,
+                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTime) as Activity,
+                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTimeRetry) as Activity,
                     TimeZone = state.GetUserTimeZone(),
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
@@ -402,7 +402,7 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     // user has tried 5 times but can't get result
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }

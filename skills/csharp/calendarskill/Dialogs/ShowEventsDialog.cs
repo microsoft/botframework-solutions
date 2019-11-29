@@ -229,7 +229,7 @@ namespace CalendarSkill.Dialogs
                 // no meeting
                 if (!state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ShowNoMeetingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ShowNoMeetingMessage);
                     await sc.Context.SendActivityAsync(activity);
                     state.Clear();
                     return await sc.EndDialogAsync(true);
@@ -372,7 +372,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ShowMultipleNextMeetingMessage, null);
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ShowMultipleNextMeetingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
 
@@ -528,7 +528,7 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions());
                 }
 
-                var prompt = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ReadOutMorePrompt, null) as Activity;
+                var prompt = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.ReadOutMorePrompt) as Activity;
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt });
             }
             catch (SkillException ex)
@@ -586,7 +586,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoMoreEvent, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoMoreEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 
@@ -602,7 +602,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoPreviousEvent, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoPreviousEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 

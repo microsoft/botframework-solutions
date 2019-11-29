@@ -87,7 +87,7 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNoMeetingMessage, null);
+                    var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNoMeetingMessage);
                     await sc.Context.SendActivityAsync(prompt);
                     return await sc.EndDialogAsync();
                 }

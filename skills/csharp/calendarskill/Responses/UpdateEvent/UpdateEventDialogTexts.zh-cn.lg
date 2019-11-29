@@ -1,0 +1,18 @@
+# ConfirmUpdate.Text
+- 是否确实要更新以下内容？
+
+# ConfirmUpdateFailed.Text
+- 是否确实要更新以下内容？请确认。
+
+# EventUpdated.Text
+- 我改变了你活动的时间。
+
+# NoNewTime.Text
+- 活动的新时间是什么？
+
+# NoNewTimeRetry.Text
+- 我不明白你提供的时间，你能再试一次吗？
+
+# NoUpdateStartTime.Text
+- 您想调整什么事件？通过提供开始时间或标题，我可以检索您的活动。
+

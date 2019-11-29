@@ -165,8 +165,8 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect, null) as Activity,
-                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect, null) as Activity,
+                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect) as Activity,
+                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -254,7 +254,7 @@ namespace CalendarSkill.Dialogs
                     if ((bool)sc.Result)
                     {
                         var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.JoinMeeting, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.JoinMeeting);
                         await sc.Context.SendActivityAsync(activity);
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
@@ -269,7 +269,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NotJoinMeeting, null);
+                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NotJoinMeeting);
                         await sc.Context.SendActivityAsync(activity);
                     }
                 }
