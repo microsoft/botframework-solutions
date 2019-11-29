@@ -1,0 +1,32 @@
+# EmailWelcomeMessage.Text
+- ¡Bienvenido! Soy la Habilidad de Correo Electrónico. Puedo ayudarle a administrar su correo electrónico de Office 365, mostrar su correo electrónico no leído, responder o reenviar correo electrónico para usted.
+
+# EmailWelcomeMessage.S1
+- Mostrar el correo electrónico más reciente
+
+# EmailWelcomeMessage.S2
+- Enviar un correo electrónico a alguien
+
+# FeatureNotAvailable.Text
+- Esta función aún no está disponible en la Habilidad de correo electrónico. Por favor, intente preguntar algo más.
+
+# CancelMessage.Text
+- Bien, empecemos de nuevo.
+
+# HelpMessage.Text
+- Puedo proporcionarle una visión general de sus últimos correos electrónicos, leer correos electrónicos importantes para usted, o crear y reenviar un nuevo correo electrónico para usted.
+
+# HelpMessage.S1
+- Mostrar correo electrónico más reciente
+
+# HelpMessage.S2
+- Enviar un correo electrónico a alguien
+
+# HelpMessage.S3
+- Reenvía el segundo correo electrónico a alguien
+
+# LogOut.Text
+- Tu cierre de sesión fue exitoso.
+- Ha cierre la sesión correctamente.
+- Ha cerrado la sesión.
+

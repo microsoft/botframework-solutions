@@ -99,24 +99,21 @@ namespace EmailSkill.Dialogs
                     };
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var stringToken = new StringDictionary
-                    {
-                        { "Subject", state.Subject },
-                    };
-
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                    var reply = ResponseManager.GetCardResponse(
+                    var reply = await LGHelper.GenerateMessageAsync(
+                        sc.Context,
                         EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                        new
+                        {
+                            subject = state.Subject,
+                            emailDetails = emailCard
+                        });
 
                     await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    await sc.Context.SendActivityAsync(activity);
                 }
             }
             catch (Exception ex)

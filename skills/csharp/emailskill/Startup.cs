@@ -5,14 +5,6 @@ using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
-using EmailSkill.Responses.DeleteEmail;
-using EmailSkill.Responses.FindContact;
-using EmailSkill.Responses.ForwardEmail;
-using EmailSkill.Responses.Main;
-using EmailSkill.Responses.ReplyEmail;
-using EmailSkill.Responses.SendEmail;
-using EmailSkill.Responses.Shared;
-using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -21,10 +13,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -43,16 +36,20 @@ namespace EmailSkill
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
-                 .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+            HostingEnvironment = env;
+            TypeFactory.Configuration = Configuration;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -80,6 +77,10 @@ namespace EmailSkill
                 return new BotStateSet(userState, conversationState);
             });
 
+            // Config LG
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(resourceExplorer);
+
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
             services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
@@ -97,18 +98,6 @@ namespace EmailSkill
 
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
-
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new DeleteEmailResponses(),
-                new ForwardEmailResponses(),
-                new EmailMainResponses(),
-                new ReplyEmailResponses(),
-                new SendEmailResponses(),
-                new EmailSharedResponses(),
-                new ShowEmailResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();
@@ -128,7 +117,6 @@ namespace EmailSkill
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 

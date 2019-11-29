@@ -1,0 +1,16 @@
+# ReadOutForOneEmail.Text
+- Möchten Sie den Inhalt dieser E-Mail kennen?
+
+# ReadOutForMultiEmails.Text
+- Möchten Sie mehr Details zur ersten E-Mail? Sie können auch nach anderen E-Mails fragen, entweder nach Betreff oder Absender.
+
+# ReadOutMore.Text
+- Möchten Sie zu Ihrer E-Mail-Übersicht zurückkehren? Alternativ können Sie mich bitten, eine Aktion für diese E-Mail abzuschließen.
+
+# ReadOutMessage.Text(emailDetailsWithoutContent)
+- Die E-Mail ist {emailDetailsWithoutContent}.
+
+# ReadOutMessage.Speak(emailDetailsWithContent)
+- Die E-Mail ist {emailDetailsWithContent}.
+
+

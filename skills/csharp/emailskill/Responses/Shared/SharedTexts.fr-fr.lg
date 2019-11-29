@@ -1,0 +1,115 @@
+# Cancel.Text
+- Bien sûr, on peut le faire plus tard.
+- Bien sûr, on peut commencer plus tard.
+- aucun problème. Vous pouvez essayer à nouveau à un autre moment.
+- D'accord, dis-moi quand tu as besoin de mon aide.
+- Bien sûr, je suis là si tu as besoin de moi.
+
+# NoAuth.Text
+- S'il vous plaît connectez-vous afin que je puisse prendre d'autres mesures.
+- S'il vous plaît connectez-vous afin que je puisse procéder à votre demande.
+- Pouvez-vous vous connecter pour que je puisse vous aider plus loin.
+- Vous devez vous connecter pour que je puisse prendre d'autres mesures.
+
+# NoFocusMessage.Text
+- À quel e-mail faites-vous allusion?
+- Quel e-mail voulez-vous dire exactement?
+- De quel e-mail parlez-vous ?
+- Pouvez-vous nous expliquer à quel courriel vous faites référence?
+
+# NoRecipients.Text
+- Bien sûr, à qui va l'e-mail ?
+
+# EmailNotFound.Text
+- Il semble que vous n'avez pas de nouveaux e-mails. Il suffit de me faire savoir si vous voulez mettre en place un nouvel e-mail.
+- Je n'ai pas récupéré de courriels pertinents pour le moment. Il suffit de me faire savoir si vous voulez mettre en place un nouvel e-mail.
+
+# EmailErrorMessage.Text
+- Désolé, on dirait que quelque chose s'est mal passé !
+- Une erreur s'est produite. Donnez-moi un peu de temps et réessayez plus tard.
+- Quelque chose s'est mal passé. Pardon!
+- Je crois que quelque chose a mal tourné. Tu peux réessayer plus tard ?
+- Désolé, je pense que je ne peux pas trouver ce que vous voulez en ce moment. Essayez à nouveau plus tard s'il vous plaît.
+
+# EmailErrorMessageBotProblem.Text
+- Désolé, il ya quelque chose de mal avec le bot pour le moment. Le développeur a été informé à ce sujet de sorte que vous serez en mesure d'effectuer l'action à nouveau très bientôt.
+
+# EmailErrorMessageAccountProblem.Text
+- Désolé, il ya quelque chose de mal avec votre compte de messagerie en ce moment. Veuillez suivre les instructions dans votre boîte de réception pour vérifier votre compte.
+
+# ConfirmSendRecipients.Text(recipientsList)
+- Les bénéficiaires sont {recipientsList}.
+
+# ConfirmSendRecipientsMessage.Text
+- Voulez-vous passer en revue le reste des bénéficiaires?
+
+# ConfirmSendRecipientsFailed.Text
+- S'il vous plaît confirmer si vous voulez ne passer par le reste des destinataires.
+
+# ConfirmSendMessage.Text
+- C'est ce que tu veux envoyer ?
+
+# ConfirmSend.Text
+- Je suis prêt à envoyer l'e-mail.
+
+# ConfirmSend.Speak(emailSubject)
+- Je suis prêt à envoyer l'e-mail. Le détail de l'e-mail est: {emailSubject}.
+
+# ConfirmSendFailed.Text
+- Veuillez confirmer avant d'envoyer cet e-mail.
+- S'il vous plaît confirmer cet e-mail.
+
+# NoEmailContent.Text
+- Que voulez-vous dire dans votre message?
+
+# NoEmailContentForReply.Text
+- Que voulez-vous dire dans votre réponse?
+
+# NoEmailContentForForward.Text
+- Qu'est-ce que tu veux dire dans ton attaquant ?
+
+# RecipientConfirmed.Text(userName)
+- D'accord, je vais envoyer ceci à {userName}.
+
+# ShowEmailPrompt.Text(totalCount,emailListDetails)
+- Vous avez {totalCount} e-mails dans votre boîte de réception. Le dernier e-mail a été {emailListDetails}.
+
+# ShowOneEmailPrompt.Text(emailListDetails)
+- Vous avez 1 e-mail dans votre boîte de réception. Le dernier e-mail a été {emailListDetails}.
+
+# ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
+- Vous avez {totalCount} e-mails dans votre boîte de réception. Le premier courriel a été {emailListDetails}.
+
+# ShowOneEmailPromptOtherPage.Text(emailListDetails)
+- Vous avez 1 e-mail dans votre boîte de réception. Le premier courriel a été {emailListDetails}.
+
+# FirstPageAlready.Text
+- C'est déjà la première page.
+
+# LastPageAlready.Text
+- C'est déjà la dernière page.
+
+# DidntUnderstandMessage.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire.
+- Je ne comprenais pas, peut-être essayer à nouveau d'une manière différente.
+- Pouvez-vous essayer de demander d'une manière différente.
+- Je n'ai pas eu ce que tu veux dire, tu peux essayer d'une manière différente.
+- Pourriez-vous nous donner des précisions?
+- Dites-le encore s'il vous plaît d'une manière différente.
+- Je n'ai pas tout à fait eu ça.
+- Pouvez-vous dire cela d'une manière différente?
+- Pouvez-vous essayer de me demander à nouveau, je n'ai pas eu ce que vous voulez dire.
+
+# CancellingMessage.Text
+- Bien sûr, on peut le faire plus tard.
+- Bien sûr, on peut commencer plus tard.
+- aucun problème. Vous pouvez essayer à nouveau à un autre moment.
+- D'accord, dis-moi quand tu as besoin de mon aide.
+- Bien sûr, je suis là si tu as besoin de moi.
+
+# SentSuccessfully.Text(subject)
+- J'ai envoyé l'e-mail avec le sujet {subject}.
+
+# RetryInput.Text
+- Désolé, je ne comprends pas ce que tu veux dire. Pourriez-vous s'il vous plaît essayer à nouveau?
+
