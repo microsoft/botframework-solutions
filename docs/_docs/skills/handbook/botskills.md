@@ -1,7 +1,7 @@
 ---
-category: Help
-subcategory: Reference
-title: BotSkills CLI Tool
+category: Skills
+subcategory: Handbook
+title: Skill CLI Tool
 description: Details on usage and commands.
 order: 2
 toc: true

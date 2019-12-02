@@ -11,10 +11,19 @@ order: 5
 
 ## {{ page.title }}
 
-Once deployment is complete, you can start debugging through the following steps:
+After deployment, you and run and test your Skill project using these steps:
 
-- Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator).
-- Within the Emulator, click **File > New Bot Configuration**.
-- Provide the endpoint of your running Bot, e.g: http://localhost:3978/api/messages
-- Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
-- Click on **Save and Connect**.
+1. Press **F5** within Visual Studio to run your skill.
+1. Open the **Bot Framework Emulator**.
+1. Select **Open Bot**.
+
+    ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbot.png)
+
+1. Provide the messaging endpoint of your running bot (e.g: http://localhost:3978/api/messages).
+1. Provide the Microsoft App ID and Microsoft App Password values from your **appsettings.json** file.
+
+    ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbotmodal.png)
+
+1. Congratulations, you've built and run your first skill!
+
+    ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-greetingemulator.png)
