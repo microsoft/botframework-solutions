@@ -1,7 +1,7 @@
 ---
-category: Help
-subcategory: Reference
-title: BotSkills CLI Tool
+category: Skills
+subcategory: Handbook
+title: Skill CLI Tool
 description: Details on usage and commands.
 order: 2
 toc: true
@@ -42,7 +42,7 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --botName <YOUR_VA_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
