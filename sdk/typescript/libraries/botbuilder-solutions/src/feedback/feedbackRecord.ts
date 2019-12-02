@@ -1,9 +1,10 @@
-import { Activity } from 'botframework-schema';
-
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+
+import { Activity } from 'botframework-schema';
+
 export class FeedbackRecord {
     /**
      * Gets or sets the activity for which feedback was requested.

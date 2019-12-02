@@ -87,7 +87,7 @@ export class FeedbackMiddleware implements Middleware {
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         // get feedback record from state. If we don't find anything, set to null.
-        const record: FeedbackRecord = await FeedbackMiddleware.feedbackAccessor.get(context, new FeedbackRecord());
+        const record: FeedbackRecord | undefined = await FeedbackMiddleware.feedbackAccessor.get(context);
 
         // if we have requested feedback
         if (record !== undefined) {

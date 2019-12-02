@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+
 import { ActionTypes, CardAction } from 'botframework-schema';
 import { ResponseManager } from '../responses/responseManager';
 import { FeedbackResponses } from './feedbackResponses';
@@ -10,8 +11,8 @@ import { FeedbackResponses } from './feedbackResponses';
  * Configures the FeedbackMiddleware object.
  */
 export class FeedbackOptions {
-    private _feedbackActions: CardAction[];
-    private _dismissAction: CardAction;
+    private _feedbackActions: CardAction[] | undefined;
+    private _dismissAction: CardAction | undefined;
     private _feedbackReceivedMessage: string = '';
     private _commentPrompt: string = '';
     private _commentReceivedMessage: string = '';
@@ -30,18 +31,6 @@ export class FeedbackOptions {
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
             [FeedbackResponses]
         );
-
-        this._feedbackActions = [ { type: ActionTypes.PostBack,
-            title: '👍',
-            value: 'positive'
-        },
-        { type: ActionTypes.PostBack,
-            title: '👎',
-            value: 'negative'
-        }];
-        this._dismissAction = { type: ActionTypes.PostBack,
-            title: this.responseManager.getResponseText(FeedbackResponses.dismissTitle),
-            value: 'dismiss'};
     }
 
     /**
@@ -50,6 +39,17 @@ export class FeedbackOptions {
      * @returns A `CardAction[]`.
      */
     public get feedbackActions(): CardAction[] {
+        if (this._feedbackActions === undefined) {
+            return [{ type: ActionTypes.PostBack,
+                title: '👍',
+                value: 'positive'
+            },
+            { type: ActionTypes.PostBack,
+                title: '👎',
+                value: 'negative'
+            }];
+        }
+
         return this._feedbackActions;
     }
 
@@ -66,6 +66,13 @@ export class FeedbackOptions {
      * @returns A `CardAction`.
      */
     public get dismissAction(): CardAction {
+        if (this._dismissAction === undefined) {
+            return { type: ActionTypes.PostBack,
+                title: this.responseManager.getResponseText(FeedbackResponses.dismissTitle),
+                value: 'dismiss'
+            };
+        }
+
         return this._dismissAction;
     }
 
@@ -83,7 +90,7 @@ export class FeedbackOptions {
      * @returns A feedbackReceivedMessage as `string`.
      */
     public get feedbackReceivedMessage(): string {
-        if (this._feedbackReceivedMessage === '') {
+        if (this._feedbackReceivedMessage === undefined || this._feedbackReceivedMessage.trim().length === 0) {
             return this.responseManager.getResponseText(FeedbackResponses.feedbackReceivedMessage);
         }
 
@@ -104,7 +111,7 @@ export class FeedbackOptions {
      * @returns A commentPrompt as `string`.
      */
     public get commentPrompt(): string {
-        if (this._commentPrompt === '') {
+        if (this._commentPrompt === undefined || this._commentPrompt.trim().length === 0) {
             return this.responseManager.getResponseText(FeedbackResponses.commentPrompt);
         }
 
@@ -125,7 +132,7 @@ export class FeedbackOptions {
      * @returns A commentReceivedMessage as `string`.
      */
     public get commentReceivedMessage(): string {
-        if (this._commentReceivedMessage === '') {
+        if (this._commentReceivedMessage === undefined || this._commentReceivedMessage.trim().length === 0) {
             return this.responseManager.getResponseText(FeedbackResponses.commentReceivedMessage);
         }
 
