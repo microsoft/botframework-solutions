@@ -1,6 +1,6 @@
 ---
 category: Overview
-title: What is Virtual Assistant?
+title: What is a Virtual Assistant?
 order: 2
 toc: true
 ---
@@ -12,11 +12,11 @@ toc: true
 
 Customers and partners have increasing need to deliver advanced conversational assistant experiences tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience and data.
 
-At it's core is the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices to developing a bot on the Microsoft Azure platform.
+At it's core the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices for developing a bot on the Microsoft Azure platform.
 
-Common assistant scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual skills can be added to an assistant, for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
+Common assistant scenarios are provided as reusable conversational skills, increasing developer productivity and enabling a vibrant ecosystem of reusable components. Individual skills can be added to an assistant to enable new scenarios, for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models and responses for multiple languages, dialogs, and code.
 
-Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. This contrasts with established in-market assistants that do not enable white-labelling, customization or privacy placed in control of the customer.
+Owning and enriching customer relationships and providing insights is vital to the goals of the Virtual Assistant. This contrasts with established in-market assistants that do not enable white-labelling, customization or privacy placed in control of the customer.
 
 Further skills can be created and made available either through your own assistant or made available through a broader ecosystem enabling assistant owners to curate the capabilities that make sense for their scenario and work across industries.
 

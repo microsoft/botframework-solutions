@@ -11,12 +11,6 @@ order: 3
 
 ## Edit your responses
 
-Each dialog within your assistant contains a set of responses stored in supporting resource (`.resx`) files. You can edit the responses in the Visual Studio resource editor (shown below) to modify how your assistant responds.
+Each dialog within your assistant contains a set of responses stored in supporting Language Generation (`.lg`) files. You can edit the responses directly in the file to modify how your assistant responds. Learn more about the Language Generation template syntax [here](https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/lg-file-format.md).
 
-You can change the responses in the Visual Studio resource editor as shown below to adjust how your bot responds.
-
-<p align="center">
-<img src="{{site.baseurl}}/assets/images/quickstart-virtualassistant-editresponses.png" width="600">
-</p>
-
-This approach supports multi-lingual responses using the standard resource file localization approach. Read more on [globalization and localization in ASP.NET Core.](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-2.1)
+This approach supports multi-lingual responses by providing alternate .lg files for different languages (e.g. "MyResponses.de-de.lg"). 
