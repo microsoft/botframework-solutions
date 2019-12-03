@@ -173,12 +173,12 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] NoTasksPrompt()
@@ -188,22 +188,22 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] ReadMoreTasksPrompt()
         {
-            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt, null);
+            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt);
         }
 
         private string[] ReadMoreTasksPrompt2()
         {
-            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt2, null);
+            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt2);
         }
 
         private string[] FirstReadMoreRefused()
         {
-            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
 
         private string[] ActionEndMessage()
         {
-            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
     }
 }

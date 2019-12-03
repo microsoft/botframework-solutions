@@ -155,7 +155,7 @@ namespace ToDoSkill.Dialogs
                         if (allTasksCount <= state.Tasks.Count)
                         {
 
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.AskAddOrCompleteTaskMessage, sc.Context, null);
+                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.AskAddOrCompleteTaskMessage, sc.Context);
                             await sc.Context.SendActivityAsync(activity);
                         }
                     }
@@ -255,8 +255,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt, sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksConfirmFailed, sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt, sc.Context);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksConfirmFailed, sc.Context);
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -279,7 +279,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }
@@ -346,8 +346,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt2, sc.Context, null);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.RetryReadMoreTasksPrompt2, sc.Context, null);
+                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.ReadMoreTasksPrompt2, sc.Context);
+                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ShowToDoResponses.RetryReadMoreTasksPrompt2, sc.Context);
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -370,7 +370,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }
@@ -482,7 +482,7 @@ namespace ToDoSkill.Dialogs
             else
             {
                 state.GoBackToStart = false;
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                 await sc.Context.SendActivityAsync(activity);
                 return await sc.EndDialogAsync(true);
             }
@@ -527,7 +527,7 @@ namespace ToDoSkill.Dialogs
             else
             {
                 state.GoBackToStart = false;
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                 await sc.Context.SendActivityAsync(activity);
                 return await sc.EndDialogAsync(true);
             }

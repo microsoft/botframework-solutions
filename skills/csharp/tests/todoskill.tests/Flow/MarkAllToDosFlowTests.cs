@@ -51,17 +51,17 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] CollectListType()
         {
-            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete, null);
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete);
         }
     }
 }

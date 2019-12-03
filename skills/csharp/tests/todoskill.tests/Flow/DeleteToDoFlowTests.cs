@@ -123,32 +123,32 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectTaskIndex()
         {
-            return GetTemplates(DeleteToDoResponses.AskTaskIndexForDelete, null);
+            return GetTemplates(DeleteToDoResponses.AskTaskIndexForDelete);
         }
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] DeleteAnotherTask()
         {
-            return GetTemplates(DeleteToDoResponses.DeleteAnotherTaskPrompt, null);
+            return GetTemplates(DeleteToDoResponses.DeleteAnotherTaskPrompt);
         }
 
         private string[] ActionEndMessage()
         {
-            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
 
         private string[] CollectListType()
         {
-            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete, null);
+            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete);
         }
     }
 }

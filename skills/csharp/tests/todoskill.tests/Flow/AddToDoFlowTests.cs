@@ -97,17 +97,17 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectToDoContent()
         {
-            return GetTemplates(AddToDoResponses.AskTaskContentText, null);
+            return GetTemplates(AddToDoResponses.AskTaskContentText);
         }
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] AskSwitchListType()
@@ -191,7 +191,7 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] ActionEndMessage()
         {
-            return GetTemplates(ToDoSharedResponses.ActionEnded, null);
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
     }
 }

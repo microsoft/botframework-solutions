@@ -12,7 +12,7 @@ namespace ToDoSkill.Utilities
     {
         public const int DefaultDisplaySize = 4;
 
-        public static async Task<Activity> GetToDoResponseActivity(string templateName, ITurnContext turnContext, object data)
+        public static async Task<Activity> GetToDoResponseActivity(string templateName, ITurnContext turnContext, object data = null)
         {
             string formatTemplateName = "@{" + templateName + "()}";
             return await new ActivityTemplate(formatTemplateName).BindToData(turnContext, data);

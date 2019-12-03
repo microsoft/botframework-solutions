@@ -50,7 +50,7 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectListType()
         {
-            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete, null);
+            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete);
         }
 
         private Action<IActivity> CollectConfirmation()
@@ -114,12 +114,12 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
     }
 }

@@ -103,32 +103,164 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\AddToDo\AddToDoActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\AddToDo\AddToDoResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AddToDoResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\AddToDo\AddToDoTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\DeleteToDo\DeleteToDoResponses.tt">
       <LastGenOutput>DeleteToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\Main\ToDoMainResponses.tt">
       <LastGenOutput>ToDoMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\ToDoMainTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\MarkToDo\MarkToDoResponses.tt">
       <LastGenOutput>MarkToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\Card.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\Shared\ResponseIdCollection.t4">
       <Generator></Generator>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\ToDoSharedResponses.tt">
       <LastGenOutput>ToDoSharedResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\ShowToDo\ShowToDoResponses.tt">
       <LastGenOutput>ShowToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
