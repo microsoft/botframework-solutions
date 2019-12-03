@@ -134,22 +134,22 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectListType()
         {
-            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete, null);
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete);
         }
 
         private string[] CollectTaskIndex()
         {
-            return GetTemplates(MarkToDoResponses.AskTaskIndexForComplete, null);
+            return GetTemplates(MarkToDoResponses.AskTaskIndexForComplete);
         }
 
         private string[] SettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage, null);
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage, null);
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
     }
 }

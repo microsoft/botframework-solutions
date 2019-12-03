@@ -52,7 +52,7 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.ToDoWelcomeMessage, dc.Context, null);
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.ToDoWelcomeMessage, dc.Context);
             await dc.Context.SendActivityAsync(activity);
         }
 
@@ -118,7 +118,7 @@ namespace ToDoSkill.Dialogs
                             else
                             {
                                 // No intent was identified, send confused message
-                                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.DidntUnderstandMessage, dc.Context, null);
+                                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.DidntUnderstandMessage, dc.Context);
                                 await dc.Context.SendActivityAsync(activity);
                             }
 
@@ -128,7 +128,7 @@ namespace ToDoSkill.Dialogs
                     default:
                         {
                             // intent was identified but not yet implemented
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.FeatureNotAvailable, dc.Context, null);
+                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.FeatureNotAvailable, dc.Context);
                             await dc.Context.SendActivityAsync(activity);
                             break;
                         }
@@ -233,7 +233,7 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.CancelMessage, dc.Context, null);
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.CancelMessage, dc.Context);
             await dc.Context.SendActivityAsync(activity);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
@@ -241,7 +241,7 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.HelpMessage, dc.Context, null);
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.HelpMessage, dc.Context);
             await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.Resume;
         }
@@ -268,7 +268,7 @@ namespace ToDoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.LogOut, dc.Context, null);
+            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.LogOut, dc.Context);
             await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.End;
         }

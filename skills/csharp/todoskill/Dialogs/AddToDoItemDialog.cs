@@ -132,7 +132,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -175,7 +175,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, sc.Context, null);
+                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, sc.Context);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -425,7 +425,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context, null);
+                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }

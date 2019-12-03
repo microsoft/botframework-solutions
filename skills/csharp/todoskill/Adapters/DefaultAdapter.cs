@@ -34,7 +34,7 @@ namespace ToDoSkill.Adapters
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, context, null);
+                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, context);
 
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));

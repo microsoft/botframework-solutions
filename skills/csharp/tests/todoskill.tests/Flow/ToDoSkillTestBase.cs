@@ -127,7 +127,6 @@ namespace ToDoSkill.Tests.Flow
             Services.AddTransient<ShowToDoItemDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
-            var projPath = Environment.CurrentDirectory + @"\..\..\..\..\..\todoskill";
             var templateFiles = new List<string>()
             {
                 @"AddToDo\AddToDoTexts.lg",
@@ -138,10 +137,11 @@ namespace ToDoSkill.Tests.Flow
                 @"ShowToDo\ShowToDoTexts.lg",
             };
             var templates = new List<string>();
-            templateFiles.ForEach(s => templates.Add(Path.Combine(projPath, "Responses", s)));
+            templateFiles.ForEach(s => templates.Add(Path.Combine(Environment.CurrentDirectory, "Responses", s)));
             var engine = new TemplateEngine().AddFiles(templates);
             Services.AddSingleton(engine);
 
+            var projPath = Environment.CurrentDirectory.Substring(0, Environment.CurrentDirectory.IndexOf("bin"));
             var resourceExplorer = ResourceExplorer.LoadProject(projPath);
             Services.AddSingleton(resourceExplorer);
 
@@ -150,7 +150,7 @@ namespace ToDoSkill.Tests.Flow
             TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
-        public string[] GetTemplates(string templateName, object data)
+        public string[] GetTemplates(string templateName, object data = null)
         {
             var sp = Services.BuildServiceProvider();
             var engine = sp.GetService<TemplateEngine>();
