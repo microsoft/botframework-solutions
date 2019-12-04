@@ -181,13 +181,6 @@
                 "https://hosting.onecloud.azure-test.net/"
             ]
           }
-        ],
-        "cors": {
-          "allowedOrigins": [
-              "https://botservice.hosting.portal.azure.net",
-              "https://botservice-ms.hosting.portal.azure.net",
-              "https://hosting.onecloud.azure-test.net/"
-          ]
         }
       },
       "dependsOn": [
@@ -212,26 +205,16 @@
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
       }
     },
-    "dependsOn": [
-      "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-    ]
-  },
-  {
-    "comments": "bot service",
-    "type": "Microsoft.BotService/botServices",
-    "kind": "sdk",
-    "apiVersion": "2018-07-12",
-    "name": "[parameters('botServiceName')]",
-    "location": "global",
-    "sku": {
-      "name": "[parameters('botServiceSku')]"
-    },
-    "properties": {
-      "displayName": "[parameters('botServiceName')]",
-      "endpoint": "[variables('botEndpoint')]",
-      "msaAppId": "[parameters('microsoftAppId')]",
-      "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
-      "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
+    {
+      "comments": "Cognitive service key for all LUIS apps.",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "LUIS",
+      "apiVersion": "2017-04-18",
+      "name": "[parameters('luisServiceName')]",
+      "location": "[parameters('luisServiceLocation')]",
+      "sku": {
+        "name": "[parameters('luisServiceSku')]"
+      }
     }
   ],
   "outputs": {
