@@ -87,7 +87,7 @@ export class FeedbackMiddleware implements Middleware {
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         // get feedback record from state. If we don't find anything, set to null.
-        const record: FeedbackRecord | undefined = await FeedbackMiddleware.feedbackAccessor.get(context);
+        const record: FeedbackRecord = await FeedbackMiddleware.feedbackAccessor.get(context, new FeedbackRecord());
 
         // if we have requested feedback
         if (record !== undefined) {
@@ -131,8 +131,9 @@ export class FeedbackMiddleware implements Middleware {
                     // clear state
                     await FeedbackMiddleware.feedbackAccessor.delete(context);
                 }
-            } else if (context.activity.text === <string> FeedbackMiddleware.options.dismissAction.value
-                    || context.activity.text === FeedbackMiddleware.options.dismissAction.title) {
+            } else if (context.activity.text !== undefined
+                    && (context.activity.text === <string> FeedbackMiddleware.options.dismissAction.value
+                    || context.activity.text === FeedbackMiddleware.options.dismissAction.title)) {
                 // if user dismissed
                 // log existing feedback
                 if (record.feedback !== undefined && record.feedback.trim().length > 0) {
