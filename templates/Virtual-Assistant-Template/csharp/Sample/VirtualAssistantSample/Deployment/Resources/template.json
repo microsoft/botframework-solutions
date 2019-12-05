@@ -83,17 +83,28 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
-    "luisServiceName": {
+    "luisRuntimeName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
+      "defaultValue": "[concat(parameters('name'), '-luisruntime-', parameters('suffix'))]"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "type": "string",
       "defaultValue": "S0"
     },
-    "luisServiceLocation": {
+    "luisRuntimeLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "luisAuthoringName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-luisauthoring-', parameters('suffix'))]"
+    },
+    "luisAuthoringSku": {
+      "type": "string",
+      "defaultValue": "F0"
+    },
+    "luisAuthoringLocation": {
+      "type": "string"
     },
     "qnaMakerServiceName": {
       "type": "string",
@@ -250,15 +261,33 @@
       "condition": "[parameters('useContentModerator')]"
     },
     {
-      "comments": "Cognitive service key for all LUIS apps.",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisRuntimeName')]",
+      "location": "[parameters('luisRuntimeLocation')]",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "LUIS",
-      "apiVersion": "2017-04-18",
-      "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('luisServiceLocation')]",
       "sku": {
-        "name": "[parameters('luisServiceSku')]"
+        "name": "[parameters('luisRuntimeSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisRuntimeName')]"
       }
+    },
+    {
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisAuthoringName')]",
+      "location": "[parameters('luisAuthoringLocation')]",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "LUIS.Authoring",
+      "sku": {
+        "name": "[parameters('luisAuthoringSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisAuthoringName')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
+      ]
     },
     {
       "comments": "Cognitive service key for all QnA Maker knowledgebases.",
@@ -306,7 +335,7 @@
         "enabled": true,
         "name": "[variables('qnaMakerWebAppName')]",
         "hostingEnvironment": "",
-        "serverFarmId": "[concat('/subscriptions/', subscription().id,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]",
+        "serverFarmId": "[concat('/subscriptions/', Subscription().SubscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]",
         "siteConfig": {
           "cors": {
             "allowedOrigins": [
@@ -377,9 +406,11 @@
     "luis": {
       "type": "object",
       "value": {
-        "accountName": "[parameters('luisServiceName')]",
-        "region": "[parameters('luisServiceLocation')]",
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
+        "accountName": "[parameters('luisRuntimeName')]",
+        "region": "[parameters('luisRuntimeLocation')]",
+        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
+        "authoringRegion": "[parameters('luisAuthoringLocation')]",
+        "authoringKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1]"
       }
     },
     "qnaMaker": {
