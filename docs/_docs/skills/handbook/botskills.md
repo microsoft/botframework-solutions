@@ -42,7 +42,7 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
@@ -70,7 +70,7 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
 For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
@@ -108,7 +108,7 @@ Connections depend on the triangulation of the following language sources:
 * The `--languages` argument of the `botskills connect` command
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs --languages "en-us,es-es"
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs --languages "en-us,es-es"
 ```
 
 For further information, see the [Multilanguage functionality documentation]({{site.repo}}/tree/master/tools/botskills/docs/multilanguage-functionality.md).

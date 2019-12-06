@@ -63,7 +63,7 @@ botskills connect --localManifest "./skills/customSkill/customSkillManifest.json
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs
 ```
 
 ## Further Reading
