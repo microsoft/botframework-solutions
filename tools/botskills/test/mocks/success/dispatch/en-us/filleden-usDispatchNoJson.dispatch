@@ -1,0 +1,11 @@
+{
+    "services": [
+        {
+            "name": "testDispatch",
+            "id": "1"
+        }
+    ],
+    "serviceIds": [
+        "1"
+    ]
+}

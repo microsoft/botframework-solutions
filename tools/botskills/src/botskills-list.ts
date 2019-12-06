@@ -11,7 +11,7 @@ import { ConsoleLogger, ILogger} from './logger';
 import { IListConfiguration } from './models';
 
 function showErrorHelp(): void {
-    program.outputHelp((str: string) => {
+    program.outputHelp((str: string): string => {
         logger.error(str);
 
         return '';
@@ -41,7 +41,7 @@ program
     .description('List all the Skills connected to your assistant')
     .option('-f, --skillsFile [path]', '[OPTIONAL] Path to assistant Skills configuration file')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
-    .action((cmd: program.Command, actions: program.Command) => undefined);
+    .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
 const args: program.Command = program.parse(process.argv);
 
@@ -78,7 +78,6 @@ const configuration: IListConfiguration = {
     skillsFile: skillsFile,
     logger: logger
 };
-
 new ListSkill(logger).listSkill(configuration);
 
 process.exit(0);

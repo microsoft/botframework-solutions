@@ -14,6 +14,7 @@ namespace AutomotiveSkill
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.ApplicationInsights;
     using Microsoft.Bot.Builder.Azure;
@@ -58,6 +59,17 @@ namespace AutomotiveSkill
         {
             // Configure MVC
             services.AddControllers();
+
+            // Configure server options
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
 
             // Load settings
             var settings = new BotSettings();

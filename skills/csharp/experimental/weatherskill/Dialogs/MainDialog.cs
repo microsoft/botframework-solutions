@@ -65,8 +65,7 @@ namespace WeatherSkill.Dialogs
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Populate state from SkillContext slots as required
             await PopulateStateFromSkillContext(dc.Context);
@@ -187,8 +186,7 @@ namespace WeatherSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check general luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);

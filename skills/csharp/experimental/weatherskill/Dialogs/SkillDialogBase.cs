@@ -148,8 +148,7 @@ namespace WeatherSkill.Dialogs
                 var state = await StateAccessor.GetAsync(dc.Context, () => new SkillState());
 
                 // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 var luisService = localeConfig.LuisServices["WeatherSkill"];
 
                 // Get intent and entities for activity

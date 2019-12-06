@@ -4,7 +4,6 @@ category: Solution Accelerators
 subcategory: Enable proactive notifications
 title: Run your solution
 order: 5
-toc: true
 ---
 
 # Tutorial: {{page.subcategory}}

@@ -70,8 +70,7 @@ namespace EmailSkill.Dialogs
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Get cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
                 var skillResult = await localizedServices.LuisServices["Email"].RecognizeAsync<EmailLuis>(innerDc.Context, cancellationToken);
@@ -143,14 +142,13 @@ namespace EmailSkill.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Populate state from activity as required.
                 await PopulateStateFromActivity(innerDc.Context);
 
                 // Get skill LUIS model from configuration.
-                localizedServices.LuisServices.TryGetValue("Email", out var luisService);
+                localeConfig.LuisServices.TryGetValue("Email", out var luisService);
 
                 if (luisService != null)
                 {

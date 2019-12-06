@@ -61,8 +61,7 @@ namespace ToDoSkill.Dialogs
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
@@ -181,16 +180,15 @@ namespace ToDoSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
+                var toDoLuisResult = await localeConfig.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {

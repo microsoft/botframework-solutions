@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 category: Solution Accelerators
-subcategory: View analytics using Power BI
+subcategory: View analytics with Power BI
 title: Next steps
 order: 4
 ---

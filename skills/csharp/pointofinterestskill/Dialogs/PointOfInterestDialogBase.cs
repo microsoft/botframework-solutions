@@ -26,6 +26,8 @@ using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
+using SkillServiceLibrary.Models;
+using SkillServiceLibrary.Services;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace PointOfInterestSkill.Dialogs
@@ -928,8 +930,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.CognitiveModelSets[locale];
+                var localeConfig = Services.GetCognitiveModels();
                 localeConfig.LuisServices.TryGetValue("PointOfInterest", out var poiService);
                 var poiResult = await poiService.RecognizeAsync<PointOfInterestLuis>(promptContext.Context, CancellationToken.None);
                 var topIntent = poiResult.TopIntent();

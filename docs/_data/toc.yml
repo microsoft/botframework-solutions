@@ -1,4 +1,5 @@
 Overview:
+- What's New
 Virtual Assistant:
 - Create
 - Customize
@@ -15,12 +16,13 @@ Skills:
 Solution Accelerators:
 - Assistants
 - Samples
+- Enable continuous integration
+- Enable continuous deployment
 - Enable proactive notifications
-- View analytics using Power BI
+- View analytics with Power BI
 Clients and Channels:
 - Clients
 - Channels
 - Extend to Direct Line Speech
 - Extend to Microsoft Teams
 Help:
-- Reference

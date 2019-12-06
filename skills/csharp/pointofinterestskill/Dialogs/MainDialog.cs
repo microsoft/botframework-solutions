@@ -23,6 +23,7 @@ using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Dialogs
 {
@@ -76,8 +77,7 @@ namespace PointOfInterestSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             await PopulateStateFromSemanticAction(dc.Context);
 
@@ -215,8 +215,7 @@ namespace PointOfInterestSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // check luis intent
                 localeConfig.LuisServices.TryGetValue("General", out var luisService);

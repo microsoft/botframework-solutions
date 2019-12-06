@@ -9,7 +9,7 @@ import { IListConfiguration, ISkillFile, ISkillManifest } from '../models';
 
 export class ListSkill {
     public logger: ILogger;
-    constructor(logger?: ILogger) {
+    public constructor(logger?: ILogger) {
         this.logger = logger || new ConsoleLogger();
     }
     public async listSkill(configuration: IListConfiguration): Promise<boolean> {
@@ -22,8 +22,9 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
             // Take VA Skills configurations
+            // eslint-disable-next-line @typescript-eslint/tslint/config
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
-            if (!assistantSkillsFile.skills) {
+            if (assistantSkillsFile.skills === undefined) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
                 return false;
@@ -36,7 +37,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             } else {
                 let message: string = `The skills already connected to the assistant are the following:`;
-                assistantSkills.forEach((skillManifest: ISkillManifest) => {
+                assistantSkills.forEach((skillManifest: ISkillManifest): void => {
                     message += `\n\t- ${skillManifest.id}`;
                 });
 

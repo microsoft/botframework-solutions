@@ -24,7 +24,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Phone#OutgoingCall"
               ]
