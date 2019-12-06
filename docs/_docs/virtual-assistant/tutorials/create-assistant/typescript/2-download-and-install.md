@@ -19,10 +19,10 @@ order: 2
    npm install -g botdispatch ludown luis-apis luisgen qnamaker@1.3.1
    ```
 
-4. Install Botskills (CLI) tool:
+4. Install Botskills CLI tool:
    
    ```
-   npm install -g botskills
+   npm install -g botskills@latest
    ```
 
 5. Install [Yeoman](http://yeoman.io)

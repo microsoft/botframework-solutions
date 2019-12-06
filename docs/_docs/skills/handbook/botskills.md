@@ -27,9 +27,9 @@ The CLI performs the following operations on your behalf:
     ```shell
     npm install -g botdispatch ludown luisgen
     ```
-- Install the `botskills` CLI
+- Install the Botskills CLI tool:
     ```shell
-    npm install -g botskills
+    npm install -g botskills@latest
     ```
 
 ## Commands
@@ -42,12 +42,12 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
 
-For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).
+For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md).
 
 ### Disconnect Skills
 {:.no_toc}
@@ -59,9 +59,9 @@ Here is an example:
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
 
-For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/disconnect.md).
+For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
 
 ### Update a connected Skill
 {:.no_toc}
@@ -70,10 +70,10 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
-For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).
+For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
 
 ### Refresh connected Skills
 {:.no_toc}
@@ -85,7 +85,7 @@ Here is an example:
 botskills refresh --cs
 ```
 
-For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/refresh.md).
+For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/refresh.md).
 
 ### List connected Skills
 {:.no_toc}

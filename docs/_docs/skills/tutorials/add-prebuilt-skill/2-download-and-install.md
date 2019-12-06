@@ -23,10 +23,10 @@ order: 2
    npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
    ```
 
-5. Install Botskills (CLI) tool:
+5. Install Botskills CLI tool:
    
    ```
-   npm install -g botskills
+   npm install -g botskills@latest
    ```
 
 6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)

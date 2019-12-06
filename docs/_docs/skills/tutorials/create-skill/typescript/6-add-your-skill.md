@@ -17,12 +17,12 @@ order: 6
 
 ## Adding your skill to an assistant
 
-To add your new Skill to your assistant we provide the `botskills` command line tool to automate the process of adding the skill to your dispatch model and creating authentication connections where needed. 
+To add your new Skill to your assistant we provide the [botskills](https://www.npmjs.com/package/botskills) command line tool to automate the process of adding the skill to your dispatch model and creating authentication connections where needed. 
 
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --ts
 ```
 
 See [Adding Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) for more details.

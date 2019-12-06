@@ -25,7 +25,7 @@ order: 2
 6. Install Botskills CLI tool:
    
    ```
-   npm install -g botskills
+   npm install -g botskills@latest
    ```
 
 7. Download and install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest) (Minimum version 2.0.64 required).
