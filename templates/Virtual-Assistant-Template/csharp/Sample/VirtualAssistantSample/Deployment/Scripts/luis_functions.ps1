@@ -1,27 +1,25 @@
 function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).luis"
-    $outFolder = $lu_file.DirectoryName
+    $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
     $appName = "$($name)$($langCode)_$($id)"
     
-    # Parse LU file
     Write-Host "> Parsing $($id) LU file ..." -NoNewline
 	bf luis:convert `
+        --name $appName `
         --in $lu_file `
         --culture $language `
-        --out $(Join-Path $outFolder $outFile) `
+        --out $outFile `
         --force 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 		
-    # Create LUIS app
     Write-Host "> Deploying $($id) LUIS app ..." -NoNewline
     $luisApp = (luis import application `
         --appName $appName `
         --authoringKey $luisAuthoringKey `
         --subscriptionKey $luisAuthoringKey `
         --region $region `
-        --in $(Join-Path $outFolder $outFile) `
+        --in $outFile `
         --wait) 2>> $log | ConvertFrom-Json
 
 	if (-not $luisApp) {
@@ -31,8 +29,7 @@ function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $lo
 	}
 	else {
         Write-Host "Done." -ForegroundColor Green
-        Write-Host "> Publishing and training app ..." -NoNewline
-	    # train and publish luis app
+        Write-Host "> Training and publishing LUIS app ..." -NoNewline
 		$(luis train version `
             --appId $luisApp.id `
             --region $region `
@@ -54,50 +51,37 @@ function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $lo
 function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).luis"
-    $outFolder = $lu_file.DirectoryName
+    $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
 
     Write-Host "> Getting hosted $($id) LUIS model settings..." -NoNewline
-    $luisApp = luis get application `
+    $luisApp = (luis get application `
         --appId $appId `
         --region $region `
-        --authoringKey $authoringKey | ConvertFrom-Json
-    Write-Host "Done." -ForegroundColor Green
-
-    # Parse LU file
-    Write-Host "> Parsing $($id) LU file ..." -NoNewline
-	bf luis:convert `
-        --in $lu_file `
-        --culture $luisApp.culture `
-        --out $(Join-Path $outFolder $outFile) `
-        --force 2>> $log | Out-Null
+        --authoringKey $authoringKey) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
      
     Write-Host "> Getting current versions ..." -NoNewline
-    # Get list of current versions
-	$versions = luis list versions `
+	$versions = (luis list versions `
         --appId $appId `
         --region $region `
-        --authoringKey $authoringKey | ConvertFrom-Json
+        --authoringKey $authoringKey) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
-    
-    # If the current version exists
+
     if ($versions | Where { $_.version -eq $version })
     {
-        # delete any old backups
         if ($versions | Where { $_.version -eq "backup" })
         {
             Write-Host "> Deleting old backup version ..." -NoNewline
             luis delete version `
                 --appId $appId `
-                --versionId "backup" `
+                --versionId backup `
                 --region $region `
                 --authoringKey $authoringKey `
-                --force --wait 2>> $log | Out-Null
+                --force `
+                --wait 2>> $log | Out-Null
             Write-Host "Done." -ForegroundColor Green
         }
         
-        # rename the active version to backup
         Write-Host "> Saving current version as backup ..." -NoNewline
 	    luis rename version `
             --appId $appId `
@@ -108,9 +92,17 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
             --subscriptionKey $subscriptionKey `
             --wait 2>> $log | Out-Null
         Write-Host "Done." -ForegroundColor Green
-    }
+    }   
     
-    # import the new 0.1 version from the .luis file
+    Write-Host "> Parsing $($id) LU file ..." -NoNewline
+	bf luis:convert `
+        --name $luisApp.name `
+        --in $lu_file `
+        --culture $luisApp.culture `
+        --out $outFile `
+        --force 2>> $log | Out-Null
+    Write-Host "Done." -ForegroundColor Green
+
     Write-Host "> Importing new version ..." -NoNewline
     luis import version `
         --appId $appId `
@@ -118,23 +110,22 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --region $region `
         --authoringKey $authoringKey `
         --subscriptionKey $subscriptionKey `
-        --in $(Join-Path $outFolder $outFile) `
+        --in $outFile `
         --wait 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
-    
-    # train and publish luis app
-    Write-Host "> Publishing and training app ..." -NoNewline
-    $(luis train version `
-        --appId $appId `
+
+    Write-Host "> Training and publishing LUIS app ..." -NoNewline
+	(luis train version `
+        --appId $result.id `
         --region $region `
-        --authoringKey $authoringKey `
-        --versionId $version `
+        --authoringKey $luisAuthoringKey `
+        --versionId $result.activeVersion `
         --wait 
     & luis publish version `
-        --appId $appId `
+        --appId $result.id `
         --region $region `
-        --authoringKey $authoringKey `
-        --versionId $version `
+        --authoringKey $luisAuthoringKey `
+        --versionId $result.activeVersion `
         --wait) 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 }
