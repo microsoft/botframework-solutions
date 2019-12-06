@@ -145,7 +145,7 @@
 ```
 
 > MeetingListCard.1.0
-# MeetingListCard.1.0.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview)
+# MeetingListCardV1.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview)
 - ```
 {
   "type": "AdaptiveCard",
@@ -187,7 +187,7 @@
                             }
                           ]
                         },
-						@{GetTotalAndOverlap.1.0(totalEventCount, overlapEventCount, dateTimeString, isOverview)}
+						@{GetTotalAndOverlapV1(totalEventCount, overlapEventCount, dateTimeString, isOverview)}
                         {
                           "type": "ColumnSet",
                           "height": "stretch",
@@ -248,13 +248,13 @@
 }
 ```
 
-# GetTotalAndOverlap.1.0(totalEventCount, overlapEventCount, dateTimeString, isOverview)
+# GetTotalAndOverlapV1(totalEventCount, overlapEventCount, dateTimeString, isOverview)
 - IF: {isOverview}
-	- @{GetTotalAndOverlapCard.1.0(totalEventCount, overlapEventCount, dateTimeString)}
+	- @{GetTotalAndOverlapCardV1(totalEventCount, overlapEventCount, dateTimeString)}
 - ELSE:
 	-
 
-# GetTotalAndOverlapCard.1.0(totalEventCount, overlapEventCount, dateTimeString)
+# GetTotalAndOverlapCardV1(totalEventCount, overlapEventCount, dateTimeString)
 - ```
 {
     "type": "ColumnSet",
@@ -680,7 +680,7 @@
 ```
 
 > MeetingDetailCard.1.0
-# MeetingDetailCard.1.0.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink)
+# MeetingDetailCardV1.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink)
 - ```
 {
   "type": "AdaptiveCard",
@@ -756,20 +756,6 @@
                               "type": "ColumnSet",
                               "spacing": "Small",
                               "columns": [
-                                {
-                                  "type": "Column",
-                                  "horizontalAlignment": "Center",
-                                  "verticalContentAlignment": "Center",
-                                  "items": [
-                                    {
-                                      "type": "Image",
-                                      "horizontalAlignment": "Center",
-                                      "url": "@{GetLocationIcon(location)}",
-                                      "height": "20px"
-                                    }
-                                  ],
-                                  "width": "auto"
-                                },
                                 {
                                   "type": "Column",
                                   "horizontalAlignment": "Left",

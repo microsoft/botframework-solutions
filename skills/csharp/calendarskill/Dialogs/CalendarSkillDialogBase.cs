@@ -1724,7 +1724,7 @@ namespace CalendarSkill.Dialogs
         {
             if (Microsoft.Bot.Builder.Dialogs.Choices.Channel.GetChannelId(turnContext) == Channels.Msteams)
             {
-                return card + ".1.0";
+                return card + "V1";
             }
             else
             {

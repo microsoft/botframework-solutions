@@ -143,19 +143,19 @@
     InputHint = acceptingInput
 ]
 
-# MeetingListCard.1.0
+# MeetingListCardV1
 [Activity
     Text = 
     Speak = 
-    Attachments = {json(MeetingListCard.1.0.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview))}
+    Attachments = {json(MeetingListCardV1.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview))}
     InputHint = acceptingInput
 ]
 
-# MeetingDetailCard.1.0
+# MeetingDetailCardV1
 [Activity
     Text = 
     Speak = 
-    Attachments = {json(MeetingDetailCard.1.0.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink))}
+    Attachments = {json(MeetingDetailCardV1.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink))}
     InputHint = acceptingInput
 ]
 
