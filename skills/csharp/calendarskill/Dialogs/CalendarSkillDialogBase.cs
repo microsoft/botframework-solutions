@@ -596,7 +596,8 @@ namespace CalendarSkill.Dialogs
             };
 
             var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
-            var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, SummaryResponses.MeetingListCard, overviewCardParams) as Activity;
+            var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingListCard);
+            var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
             showMeetingPrompt.Attachments = meetingListCard.Attachments;
             return showMeetingPrompt;
         }
@@ -638,15 +639,16 @@ namespace CalendarSkill.Dialogs
                 isOverview = false
             };
 
+            var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingListCard);
             if (templateId == null)
             {
-                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, SummaryResponses.MeetingListCard, overviewCardParams) as Activity;
+                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
                 return meetingListCard;
             }
             else
             {
                 var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
-                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, SummaryResponses.MeetingListCard, overviewCardParams) as Activity;
+                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
                 showMeetingPrompt.Attachments = meetingListCard.Attachments;
                 return showMeetingPrompt;
             }
@@ -680,15 +682,16 @@ namespace CalendarSkill.Dialogs
                 meetingLink = eventItem.OnlineMeetingUrl
             };
 
+            var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingDetailCard);
             if (templateId == null)
             {
-                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, SummaryResponses.MeetingDetailCard, data) as Activity;
+                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, data) as Activity;
                 return meetingDetailCard;
             }
             else
             {
                 var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
-                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, SummaryResponses.MeetingDetailCard, data) as Activity;
+                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, data) as Activity;
                 showMeetingPrompt.Attachments = meetingDetailCard.Attachments;
                 return showMeetingPrompt;
             }
