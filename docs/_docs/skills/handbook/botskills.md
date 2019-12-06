@@ -97,4 +97,18 @@ Here is an example:
 botskills list
 ```
 
-For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
+
+## Multilanguage Functionality
+We introduced the possibility to connect multiple languages of the same Skill at the same time to the Virtual Assistant using Botskills CLI Tool.
+
+Connections depend on the triangulation of the following language sources:
+* The `Dispatch models` available in the Virtual Assistant 
+* The `languages for the intents` in the [Skill Manifest](https://microsoft.github.io/botframework-solutions/skills/handbook/manifest/)
+* The `--languages` argument of the `botskills connect` command
+
+```bash
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs --languages "en-us,es-es"
+```
+
+For further information, see the [Multilanguage functionality documentation]({{site.repo}}/tree/master/tools/botskills/docs/multilanguage-functionality.md).
