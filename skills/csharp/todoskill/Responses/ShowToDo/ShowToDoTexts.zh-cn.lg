@@ -1,5 +1,5 @@
 # AskAddOrCompleteTaskMessage.Text
-- 如果你想添加或完成一个任务，你可以让我知道。
+- 如果想要添加或者完成一项任务的话请告诉我。
 
 # ReadMoreTasksPrompt.Text
 - 是否要查看下一个任务？
@@ -14,34 +14,34 @@
 - 对不起，我不明白你的意思。想了解更多吗？
 
 # NoTasksMessage.Text(ListType)
-- 看来你在你的{ListType}列表。让我知道，如果你想创建新的任务。
+- 您的{listType}列表没有事项。如果您想要创建一个的话尽管告诉我。
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
-- 你有{TaskCount}项目{ListType}列表。
+- 您今天的{listType}列表有{taskCount}个任务。
 
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- 您已经在开始您的{ListType}列表。你想先看看你的{TaskCount}任务再次？
+- 当前已经在{listType}列表的开始页了。您想要重新看最新的{taskCount}个任务吗？
 
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
-- 对不起，我不明白你的意思。你想先看看你的{TaskCount}任务再次？
+- 对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- 这是您最后的任务{ListType}列表。你想先看看你的{TaskCount}任务再次？
+- 这已经是您{listType}列表上的最后一个任务了。您想要重新看最新的{taskCount}个任务吗？
 
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- 对不起，我不明白你的意思。你想先看看你的{TaskCount}任务再次？
+- 对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？
 
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- 这些是您最后的任务{ListType}列表。你想先看看你的{TaskCount}任务再次？
+- 这些已经是您{listType}列表上最后的任务了。您想要重新看最新的{taskCount}个任务吗？
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- 对不起，我不明白你的意思。你想先看看你的{TaskCount}任务再次？
+- 对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？
 
 # CardSummaryMessageForSingleTask.Text(ListType)
-- 您有 1 个任务{ListType}列表：这里是1最近，它是
+- 您有 1 个任务在{ListType}列表：它是
 
 # CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
-- 你有{AllTasksCount}任务{ListType}列表：这里是{count(ToDos)}最近，他们是
+- 你有{AllTasksCount}任务{ListType}列表：这里是{count(ToDos)}最近的，他们是
 
 # LatestTask.Text
 - 您的最新任务是

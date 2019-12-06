@@ -23,17 +23,16 @@
 - 很抱歉，您的电子邮件帐户似乎出现问题。请按照收件箱中的说明验证您的帐户。
 
 # SettingUpOneNoteMessage.Text
-- 我注意到你不再有OneNote了。我正在为您创建新的 OneNote，包括待办事项列表。
+- 我注意到你还没有OneNote，我正在为您创建新的 OneNote，包括待办事项列表。
 
 # AfterOneNoteSetupMessage.Text
-- 全部设置。我已经向您发送了一封电子邮件，其中的链接指向您的新 OneNote。我准备记下你的事。
+- 设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的待办事项了。
 
 # SettingUpOutlookMessage.Text
-- 我注意到您没有任何 Outlook 任务文件夹了。我正在为您创建新的任务文件夹，包括"任务"文件夹。
+- 我注意到你还没有Outlook任务簿, 我正在为您创建，包含一个待办事项列表。
 
 # AfterOutlookSetupMessage.Text
-- 全部设置。我已经向您发送了一封电子邮件，其中包含指向您新 Outlook 任务文件夹的链接。我准备记下你的事。
+- 设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的待办事项了。
 
 # NoTasksInList.Text
 - 您的列表为空。
-
