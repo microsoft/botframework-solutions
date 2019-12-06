@@ -8,7 +8,7 @@
 - 我在你的联系人中找不到与这个名字匹配的人。
 
 # UserNotFoundAgain.Text(UserName, Source)
-- 不幸的是，我找不到"{UserName}" 你想选择.下次，如果将联系人添加到联系人簿中，它可能会提供帮助。{Source}.
+- 对不起, 我找不到您要选择的联系人"{UserName}"。下次，如果将联系人添加到{Source}中的联系人簿中，它可能会提供帮助。
 
 # AlreadyFirstPage.Text
 - 这已经是第一页了。
@@ -38,11 +38,11 @@
 - 你能提供一个电子邮件地址吗？
 
 # FindMultipleEmails.Text(UserName)
-- 我发现多封电子邮件{UserName}.
+- 我找到了多个{UserName}的邮件地址。
 
 # FindMultipleContactNames.Text(UserName)
-- 我找到多个联系人，名为{UserName}.
+- 我找到了多个叫{UserName}的联系人。
 
 # EmailChoiceConfirmation.Text(Email)
-- 拿到了，我用{Email}.
+- 好的，我会使用{Email}。
 

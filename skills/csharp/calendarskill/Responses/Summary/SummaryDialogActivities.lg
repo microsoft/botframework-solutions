@@ -143,6 +143,22 @@
     InputHint = acceptingInput
 ]
 
+# MeetingListCard.1.0
+[Activity
+    Text = 
+    Speak = 
+    Attachments = {json(MeetingListCard.1.0.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview))}
+    InputHint = acceptingInput
+]
+
+# MeetingDetailCard.1.0
+[Activity
+    Text = 
+    Speak = 
+    Attachments = {json(MeetingDetailCard.1.0.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink))}
+    InputHint = acceptingInput
+]
+
 # ShowMeetingSummaryNotFirstPageMessage
 [Activity
     Text = {ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)}

@@ -144,6 +144,167 @@
 }
 ```
 
+> MeetingListCard.1.0
+# MeetingListCard.1.0.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview)
+- ```
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "height": "stretch",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "height": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Large",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "@{listTitle}"
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+						@{GetTotalAndOverlap.1.0(totalEventCount, overlapEventCount, dateTimeString, isOverview)}
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "spacing": "Small",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Center",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "@{indicator}"
+                                }
+                              ],
+                              "width": "auto"
+                            }
+                          ]
+                        }
+						@{GetMePhoto(userPhoto, isOverview)}
+                      ],
+                      "width": 60
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EventItemContainer",
+      "type": "Container",
+      "items": [
+		@{MeetingItemContainerCard(itemData, timezone)}
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "Default",
+          "text": "@{provider}"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
+```
+
+# GetTotalAndOverlap.1.0(totalEventCount, overlapEventCount, dateTimeString, isOverview)
+- IF: {isOverview}
+	- @{GetTotalAndOverlapCard.1.0(totalEventCount, overlapEventCount, dateTimeString)}
+- ELSE:
+	-
+
+# GetTotalAndOverlapCard.1.0(totalEventCount, overlapEventCount, dateTimeString)
+- ```
+{
+    "type": "ColumnSet",
+    "height": "stretch",
+    "columns": [
+    {
+        "type": "Column",
+        "height": "stretch",
+        "items": [
+        {
+            "type": "TextBlock",
+            "horizontalAlignment": "Right",
+            "size": "Medium",
+            "color": "Default",
+            "text": "@{totalEventCount}"
+        },
+        {
+            "type": "TextBlock",
+            "horizontalAlignment": "Right",
+            "size": "Medium",
+            "color": "Default",
+            "text": "@{overlapEventCount}"
+        }
+        ],
+        "width": "auto"
+    },
+    {
+        "type": "Column",
+        "items": [
+        {
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "color": "Default",
+            "text": "@{GetTotalEventCountUnit(totalEventCount, dateTimeString)}"
+        },
+        {
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "color": "Default",
+            "text": "@{GetOverviewOverlapMeetingCountUnit(overlapEventCount)}"
+        }
+        ],
+        "width": "stretch"
+    }
+    ]
+},
+```
+
 # GetTotalAndOverlap(totalEventCount, overlapEventCount, dateTimeString, isOverview)
 - IF: {isOverview}
 	- @{GetTotalAndOverlapCard(totalEventCount, overlapEventCount, dateTimeString)}
@@ -475,6 +636,152 @@
                                       "horizontalAlignment": "Left",
                                       "size": "Medium",
                                       "color": "Light",
+                                      "text": "@{EscapeString(location)}",
+                                      "wrap": true,
+                                      "maxLines": 2
+                                    }
+                                  ],
+                                  "width": "auto"
+                                }
+                              ]
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    }
+                  ],
+                  "width": "stretch"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "id": "ContentPreview",
+          "color": "Default",
+          "text": "@{EscapeString(content)}",
+          "wrap": true,
+          "maxLines": 5
+        }
+      ]
+    }
+  ],
+  @{JoinOnlineMeetingButton(meetingLink)}
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
+```
+
+> MeetingDetailCard.1.0
+# MeetingDetailCard.1.0.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink)
+- ```
+{
+  "type": "AdaptiveCard",
+  "id": "CalendarCard",
+  "body": [
+    {
+      "id": "CalendarDetailContainer",
+      "type": "Container",
+      "items": [
+        {
+          "type": "Container",
+          "spacing": "Large",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "verticalContentAlignment": "Center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "horizontalAlignment": "Left",
+                              "size": "Large",
+                              "weight": "Bolder",
+                              "color": "Default",
+                              "text": "@{EscapeString(subject)}",
+                              "wrap": true
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ColumnSet",
+                      "spacing": "Medium",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "verticalContentAlignment": "Center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "id": "Time",
+                              "size": "Medium",
+                              "color": "Default",
+                              "text": "@{FormatTime(startDateTime, timezone)} (@{FormatDateTimeDuration(startDateTime, endDateTime)})"
+                            },
+                            {
+                              "type": "TextBlock",
+                              "id": "Date",
+                              "horizontalAlignment": "Left",
+                              "spacing": "Small",
+                              "size": "Medium",
+                              "color": "Default",
+                              "text": "@{FormatDateShort(startDateTime, timezone)}"
+                            },
+                            {
+                              "type": "ColumnSet",
+                              "id": "Participants",
+                              "columns": [
+							    @{GetParticipantsCards(attendeePhotoList)}
+                              ]
+                            },
+                            {
+                              "type": "ColumnSet",
+                              "spacing": "Small",
+                              "columns": [
+                                {
+                                  "type": "Column",
+                                  "horizontalAlignment": "Center",
+                                  "verticalContentAlignment": "Center",
+                                  "items": [
+                                    {
+                                      "type": "Image",
+                                      "horizontalAlignment": "Center",
+                                      "url": "@{GetLocationIcon(location)}",
+                                      "height": "20px"
+                                    }
+                                  ],
+                                  "width": "auto"
+                                },
+                                {
+                                  "type": "Column",
+                                  "horizontalAlignment": "Left",
+                                  "spacing": "None",
+                                  "verticalContentAlignment": "Center",
+                                  "items": [
+                                    {
+                                      "type": "TextBlock",
+                                      "id": "Location",
+                                      "horizontalAlignment": "Left",
+                                      "size": "Medium",
+                                      "color": "Default",
                                       "text": "@{EscapeString(location)}",
                                       "wrap": true,
                                       "maxLines": 2
