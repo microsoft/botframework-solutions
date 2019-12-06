@@ -25,10 +25,10 @@ toc: true
 To add your new Skill to your assistant/Bot we provide a [botskills](https://www.npmjs.com/package/botskills) command line tool to automate the process of adding the Skill to your dispatch model and creating authentication connections where needed. The CLI performs the following operations on your behalf:
 
 1. Retrieve the Skill Manifest from the remote Skill through the `/api/skill/manifest` endpoint.
-2. Identify which Language Models are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
-3. Add a new dispatch target using the `dispatch` tool using the trigger utterances retrieved in the previous step.
-4. Refresh the dispatch LUIS model with the new utterances
-5. In the case of Active Directory Authentication Providers, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
+1. Identify which Language Models are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
+1. Add a new dispatch target using the `dispatch` tool using the trigger utterances retrieved in the previous step.
+1. Refresh the dispatch LUIS model with the new utterances
+1. In the case of Active Directory Authentication Providers, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
 The `botskills` CLI can be installed using the following npm command:
 
@@ -67,8 +67,8 @@ Could not configure scopes automatically. You must configure the following scope
 In this situation for Microsoft Graph based skills follow the instructions below:
 
 1. Find the Azure AD Application for your Bot within the [Azure Portal](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview)
-2. In the Authentication section ensure the Redirect Uri is set to `https://token.botframework.com/.auth/web/redirect`
-3. In the API permissions section click Add Permission, then Microsoft Graph and Delegated Permissions. Find each scope provided in the message shown during Skill registration and add.
+1. In the Authentication section ensure the Redirect Uri is set to `https://token.botframework.com/.auth/web/redirect`
+1. In the API permissions section click Add Permission, then Microsoft Graph and Delegated Permissions. Find each scope provided in the message shown during Skill registration and add.
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
 

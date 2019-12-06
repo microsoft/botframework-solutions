@@ -18,7 +18,7 @@ order: 2
 1. Enable the Bot Framework Solutions packages
     - Add [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) and [`Microsoft.Bot.Builder.Skills`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) NuGet packages to your solution.
 
-2. Create a custom Skill adapter
+1. Create a custom Skill adapter
 
     - Create a a custom adapter class that derives from the SkillAdapter and add the `SkillMiddleware.cs` class is added to it.
 
@@ -40,7 +40,7 @@ order: 2
           }
       ```
 
-3. Add the Skill services to startup
+1. Add the Skill services to startup
     - In your `startup.cs` file, add the following Transient adapters:
 
       ```csharp
@@ -48,7 +48,7 @@ order: 2
       services.AddTransient<SkillAdapter, CustomSkillAdapter>();
       ```
 
-4. Update your BotController class
+1. Update your BotController class
 
     - Update your `BotController.cs` class to derive from `SkillController`
 

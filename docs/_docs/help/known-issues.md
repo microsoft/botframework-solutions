@@ -23,7 +23,7 @@ Run the above deployment script again but provide two new arguments `appId` and 
 Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please:
 
 1. Update to Bot Framework SDK 4.4.5 or higher
-2. Update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
+1. Update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
 
 Please be aware that you **must** use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest when using Teams. Otherwise you won't be able to click any login buttons within Teams. 
 
@@ -88,7 +88,7 @@ This has now been resolved in the latest deployment scripts which you can update
 
 ![Assign Resource]({{site.baseurl}}/assets/images/luis-assignresource.png)
 
-2. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
+1. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
 
 
 ## The introduction card isn't displayed when a locale is missing

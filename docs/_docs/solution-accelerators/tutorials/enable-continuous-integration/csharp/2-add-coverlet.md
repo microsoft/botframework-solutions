@@ -23,5 +23,3 @@ First add **Coverlet** package (named **coverlet.msbuild**) to your project. Thi
 ![Add NuGet Package]({{site.baseurl}}/assets/images/add-nuget.png)
 
 1. Build the solution and **Coverlet** will be added as a dependency in the project
-
-1. 

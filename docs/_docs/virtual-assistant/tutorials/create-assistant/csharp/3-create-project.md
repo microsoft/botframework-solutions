@@ -12,9 +12,9 @@ order: 3
 ## Create your Virtual Assistant project
 
 1. In Visual Studio, select **File > New Project**.
-2. Search for **Virtual Assistant Template** and select **Next**.
-3. Name your project and select **Create**.
-4. Build your project to restore the NuGet packages.
+1. Search for **Virtual Assistant Template** and select **Next**.
+1. Name your project and select **Create**.
+1. Build your project to restore the NuGet packages.
 
 ## What files were created?
     | - Adapters                            // BotAdapter implementations for configuring Middleware

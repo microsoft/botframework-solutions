@@ -37,15 +37,15 @@ The **appsettings.json** file in the LinkedAccounts sample project has the follo
 {:.no_toc}
 
 1. Sign in to the [Azure Portal](https://portal.azure.com/).
-2. On the left sidebar, select  **Azure Active Directory**.
-3. From the sidebar within, select **App Registrations (Preview)**.
-4. Select **New registration**
+1. On the left sidebar, select  **Azure Active Directory**.
+1. From the sidebar within, select **App Registrations (Preview)**.
+1. Select **New registration**
    * **Name**: *Provide a friendly name*
    * **Redirect URI**: http://localhost:XXXX/signin-oidc *(update with the local port of your project or replace with the address of your deployed website*
    * Click Register
-5. Select the Authentication section of your newly created application
+1. Select the Authentication section of your newly created application
    * Select **ID tokens** under the Implicit grant section
-6. On the **Overview** page of your new app, copy the following values into your **appsettings.json**
+1. On the **Overview** page of your new app, copy the following values into your **appsettings.json**
    * **Directory (tenant) ID** maps to **TenantId**
    * **Application (client) ID** maps to **ClientId**
 
