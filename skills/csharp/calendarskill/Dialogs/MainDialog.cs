@@ -19,7 +19,6 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -30,7 +29,6 @@ namespace CalendarSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
@@ -38,7 +36,6 @@ namespace CalendarSkill.Dialogs
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             ProactiveState proactiveState,
@@ -56,7 +53,6 @@ namespace CalendarSkill.Dialogs
             _settings = settings;
             _services = services;
             _userState = userState;
-            _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
 
@@ -77,7 +73,8 @@ namespace CalendarSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CalendarWelcomeMessage);
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -85,8 +82,7 @@ namespace CalendarSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.CognitiveModelSets[locale];
+            var localeConfig = _services.GetCognitiveModels();
 
             await PopulateStateFromSemanticAction(dc.Context);
 
@@ -182,7 +178,8 @@ namespace CalendarSkill.Dialogs
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                                var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarSharedResponses.DidntUnderstandMessage);
+                                await dc.Context.SendActivityAsync(activity);
                             }
 
                             break;
@@ -190,7 +187,8 @@ namespace CalendarSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.FeatureNotAvailable);
+                            await dc.Context.SendActivityAsync(activity);
                             break;
                         }
                 }
@@ -248,8 +246,7 @@ namespace CalendarSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.CognitiveModelSets[locale];
+                var localeConfig = _services.GetCognitiveModels();
 
                 // Update state with email luis result and entities
                 var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
@@ -341,14 +338,20 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
+            state.Clear();
+
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CancelMessage);
+            await dc.Context.SendActivityAsync(activity);
+
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.HelpMessage));
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.HelpMessage);
+            await dc.Context.SendActivityAsync(activity);
+
             return InterruptionAction.Resume;
         }
 
@@ -374,7 +377,8 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.LogOut));
+            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.LogOut);
+            await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.End;
         }

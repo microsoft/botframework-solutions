@@ -1,0 +1,33 @@
+# DidntUnderstandMessage.Text
+- Lo siento, no entendí lo que querías decir.
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+- ¿Puedes tratar de preguntar de una manera diferente?
+- No entendí lo que quieres decir, ¿puedes intentarlo de otra manera?
+- ¿Podrías explicarlo?
+- Por favor, di eso de otra manera de una manera diferente.
+- No lo entendí del todo.
+- ¿Puedes decir eso de una manera diferente?
+- ¿Puedes intentar preguntarme otra vez? No entendí lo que querías decir.
+
+# CalendarErrorMessage.Text
+- Lo siento, parece que algo salió mal!
+- Se ha producido un error, inténtelo de nuevo más tarde.
+- ¡Algo salió mal, lo siento!
+- Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
+- Siento no poder ayudar ahora. Inténtelo de nuevo más tarde.
+
+# RetryTooManyResponse.Text
+- Siento no poder ayudarte en esto. Probemos más tarde.
+
+# CalendarErrorMessageAccountProblem.Text
+- Lo siento, no puedo acceder a tu cuenta en este momento.
+
+# ActionEnded.Text
+- Avísame si necesitas mi ayuda con otra cosa.
+- Estoy aquí si me necesitas.
+
+# MultipleEventsFound.Text
+- Múltiples eventos encontrados, seleccione el que necesita.
+- He encontrado varios eventos, puede seleccionar el evento de su elección.
+- Hay varios eventos, seleccione el evento relevante.
+

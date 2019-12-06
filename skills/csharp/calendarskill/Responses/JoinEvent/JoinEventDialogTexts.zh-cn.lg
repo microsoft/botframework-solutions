@@ -1,0 +1,15 @@
+# JoinMeeting.Text
+- 好的，我正在拨打这个号码。
+
+# NotJoinMeeting.Text
+- 好的，不会加入这个会议。
+
+# NoMeetingToConnect.Text
+- 您想加入哪个会议？我可以根据会议主题或开始时间找到你的会议。
+
+# ConfirmPhoneNumber.Text(PhoneNumber)
+- 以下是我要拨打的号码：{PhoneNumber}.请注意，可能需要支付额外费用。是否要继续？
+
+# ConfirmMeetingLink.Text(MeetingLink)
+- 下面是我将要加入的会议链接：{MeetingLink}.请注意，可能需要支付额外费用。是否要继续？
+

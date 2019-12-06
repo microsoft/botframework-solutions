@@ -1,0 +1,48 @@
+# AddMoreAttendees.Text
+- Chi vuoi aggiungere?
+
+# BeforeSendingMessage.Text(NameList)
+- Ok, capisco che tu voglia mandare l'evento a {NameList}.
+
+# UserNotFound.Text
+- Non ho trovato nessuno che corrispondesse a quel nome nei tuoi contatti.
+
+# UserNotFoundAgain.Text(UserName, Source)
+- Purtroppo, non sono riuscito a trovare il "{UserName}" che si desidera selezionare. Per la prossima volta, potrebbe essere utile aggiungere il contatto alla rubrica in {Source}.
+
+# AlreadyFirstPage.Text
+- Questa è già la prima pagina.
+
+# AlreadyLastPage.Text
+- Questa è già l'ultima pagina.
+
+# AddMoreUserPrompt.Text
+- Vuoi invitare qualcun altro?
+
+# ConfirmMultipleContactEmailSinglePage.Text
+- Quale vuoi usare?
+
+# ConfirmMultipleContactEmailMultiPage.Text
+- Quale vuoi usare? Puoi anche chiedermi di mostrarti le opzioni precedenti o più.
+
+# ConfirmMultipleContactNameSinglePage.Text
+- Quale stavi cercando?
+
+# ConfirmMultipleContactNameMultiPage.Text
+- Quale stavi cercando? Puoi anche chiedermi di mostrarti le opzioni precedenti o più.
+
+# PromptOneNameOneAddress.Text(User)
+- Va bene, ho aggiunto {User}.
+
+# AskForEmail.Text
+- Puoi fornire un indirizzo email?
+
+# FindMultipleEmails.Text(UserName)
+- Ho trovato più di un'e-mail per {UserName}.
+
+# FindMultipleContactNames.Text(UserName)
+- Ho trovato più di un contatto denominato {UserName}.
+
+# EmailChoiceConfirmation.Text(Email)
+- Ho capito, userò {Email}.
+

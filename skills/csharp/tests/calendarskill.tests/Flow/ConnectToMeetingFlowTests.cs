@@ -25,7 +25,7 @@ namespace CalendarSkill.Test.Flow
         public void SetupLuisService()
         {
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
-            botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
+            botServices.CognitiveModelSets.Add("en-us", new CognitiveModelSet()
             {
                 LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
@@ -85,17 +85,23 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfirmPhoneNumberPrompt()
         {
-            return this.ParseReplies(JoinEventResponses.ConfirmPhoneNumber, new StringDictionary() { { "PhoneNumber", "12345678" } });
+            return GetTemplates(JoinEventResponses.ConfirmPhoneNumber, new
+            {
+                PhoneNumber = "12345678"
+            });
         }
 
         private string[] ConfirmMeetingLinkPrompt()
         {
-            return this.ParseReplies(JoinEventResponses.ConfirmMeetingLink, new StringDictionary() { { "MeetingLink", "meetinglink" } });
+            return GetTemplates(JoinEventResponses.ConfirmMeetingLink, new
+            {
+                MeetingLink = "meetinglink"
+            });
         }
 
         private string[] JoinMeetingResponse()
         {
-            return this.ParseReplies(JoinEventResponses.JoinMeeting, new StringDictionary());
+            return GetTemplates(JoinEventResponses.JoinMeeting);
         }
 
         private Action<IActivity> JoinMeetingEvent()

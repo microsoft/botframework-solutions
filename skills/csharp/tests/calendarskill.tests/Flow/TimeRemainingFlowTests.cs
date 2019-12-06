@@ -25,7 +25,7 @@ namespace CalendarSkill.Test.Flow
         public void SetupLuisService()
         {
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
-            botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
+            botServices.CognitiveModelSets.Add("en-us", new CognitiveModelSet()
             {
                 LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
@@ -48,12 +48,10 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ShowNextMeetingRemainingTime()
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, new
             {
-                { "RemainingTime", "23 hours 59 minutes " },
-            };
-
-            return this.ParseReplies(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, responseParams);
+                RemainingTime = "23 hours 59 minutes "
+            });
         }
 
         private Action<IActivity> ActionEndMessage()

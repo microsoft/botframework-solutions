@@ -24,7 +24,7 @@ namespace CalendarSkill.Test.Flow
         public void SetupLuisService()
         {
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
-            botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
+            botServices.CognitiveModelSets.Add("en-us", new CognitiveModelSet()
             {
                 LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
@@ -104,7 +104,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
+            return GetTemplates(UpdateEventResponses.NoNewTime);
         }
 
         private Action<IActivity> ShowCalendarList()
@@ -118,7 +118,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] UpdateEventPrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.EventUpdated, new StringDictionary());
+            return GetTemplates(UpdateEventResponses.EventUpdated);
         }
 
         private Action<IActivity> ActionEndMessage()

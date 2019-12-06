@@ -1,0 +1,47 @@
+# CalendarWelcomeMessage.Text
+- Welcome to the Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.
+
+# CalendarWelcomeMessage.S1
+- What are my meetings today?
+
+# CalendarWelcomeMessage.S2
+- What is my next meeting?
+
+# CalendarWelcomeMessage.S3
+- I want to set up a meeting.
+
+# CalendarWelcomeMessage.S4
+- Can you update a meeting?
+
+# CalendarWelcomeMessage.S5
+- Can you cancel my event?
+
+# FeatureNotAvailable.Text
+- This feature is not yet available in the Calendar Skill. Please try asking something else.
+
+# CancelMessage.Text
+- Ok, let's start over.
+
+# HelpMessage.Text
+- I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.
+
+# HelpMessage.S1
+- What are my meetings today?
+
+# HelpMessage.S2
+- What is my next meeting?
+
+# HelpMessage.S3
+- I want to set up a meeting.
+
+# HelpMessage.S4
+- Can you update a meeting?
+
+# HelpMessage.S5
+- Can you cancel my event?
+
+# LogOut.Text
+- Your sign out was successful.
+- You have successfully signed out.
+- You have been logged out.
+
