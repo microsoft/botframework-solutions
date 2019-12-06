@@ -29,7 +29,7 @@ Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minim
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "luisModel#intent"
               ]

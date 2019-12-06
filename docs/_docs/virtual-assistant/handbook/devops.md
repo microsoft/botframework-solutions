@@ -56,7 +56,7 @@ If you have added or removed an intent from your skill LUIS model, follow these 
         "triggers": {
             "utteranceSources": [
                 {
-                    "locale": "en",
+                    "locale": "en-us",
                     "source": [ "todo#AddToDo" ]
                 }
             ]
