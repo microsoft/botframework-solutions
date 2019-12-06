@@ -16,7 +16,7 @@ order: 2
 1. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions because the Virtual Assistant makes use of the latest capabilities: 
 
    ```shell
-   npm install -g botdispatch ludown luis-apis luisgen qnamaker@1.3.1
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
    ```
 
 1. Install Botskills CLI tool:

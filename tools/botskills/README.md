@@ -6,7 +6,7 @@ The Botskills Tool is a command line tool to manage the skills connected to your
 - Install the [LUDown](https://www.npmjs.com/package/ludown) and [LUISGen](https://www.npmjs.com/package/luisgen) CLI tools
 
 ```shell
-npm install -g ludown luisgen
+npm install -g botdispatch ludown luisgen
 ```
 
 ## Installation
