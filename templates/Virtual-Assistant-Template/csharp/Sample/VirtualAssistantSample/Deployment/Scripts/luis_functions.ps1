@@ -1,8 +1,17 @@
-function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $log)
+function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $log)
 {
     $id = $lu_file.BaseName
     $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
     $appName = "$($name)$($langCode)_$($id)"
+    
+    if ($gov)
+    {
+        $cloud = 'us'
+    }
+    else 
+    {
+        $cloud = 'com'
+    }
     
     Write-Host "> Parsing $($id) LU file ..." -NoNewline
 	bf luis:convert `
@@ -20,6 +29,7 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $log)
         --subscriptionKey $authoringKey `
         --region $region `
         --in $outFile `
+        --cloud $cloud `
         --wait) 2>> $log | ConvertFrom-Json
 
 	if (-not $luisApp)
@@ -37,12 +47,14 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $log)
             --region $region `
             --authoringKey $authoringKey `
             --versionId $luisApp.activeVersion `
+            --cloud $cloud `
             --wait
         & luis publish version `
             --appId $luisApp.id `
             --region $region `
             --authoringKey $authoringKey `
             --versionId $luisApp.activeVersion `
+            --cloud $cloud `
             --wait) 2>> $log | Out-Null
         Write-Host "Done." -ForegroundColor Green
 
@@ -50,23 +62,34 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $log)
 	}
 }
 
-function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $log)
+function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $gov, $log)
 {
     $id = $lu_file.BaseName
     $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
+    
+    if ($gov)
+    {
+        $cloud = 'us'
+    }
+    else 
+    {
+        $cloud = 'com'
+    }
 
     Write-Host "> Getting hosted $($id) LUIS model settings..." -NoNewline
     $luisApp = (luis get application `
         --appId $appId `
         --region $region `
-        --authoringKey $authoringKey) 2>> $log | ConvertFrom-Json
+        --authoringKey $authoringKey `
+        --cloud $cloud) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
      
     Write-Host "> Getting current versions ..." -NoNewline
 	$versions = (luis list versions `
         --appId $appId `
         --region $region `
-        --authoringKey $authoringKey) 2>> $log | ConvertFrom-Json
+        --authoringKey $authoringKey `
+        --cloud $cloud) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
 
     if ($versions | Where { $_.version -eq $version })
@@ -79,6 +102,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
                 --versionId backup `
                 --region $region `
                 --authoringKey $authoringKey `
+                --cloud $cloud `
                 --force `
                 --wait 2>> $log | Out-Null
             Write-Host "Done." -ForegroundColor Green
@@ -92,6 +116,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
             --newVersionId backup `
             --authoringKey $authoringKey `
             --subscriptionKey $subscriptionKey `
+            --cloud $cloud `
             --wait 2>> $log | Out-Null
         Write-Host "Done." -ForegroundColor Green
     }   
@@ -113,6 +138,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --authoringKey $authoringKey `
         --subscriptionKey $subscriptionKey `
         --in $outFile `
+        --cloud $cloud `
         --wait 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 
@@ -122,17 +148,19 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --region $region `
         --authoringKey $authoringKey `
         --versionId $luisApp.activeVersion `
+        --cloud $cloud `
         --wait
     & luis publish version `
         --appId $luisApp.id `
         --region $region `
         --authoringKey $authoringKey `
         --versionId $luisApp.activeVersion `
+        --cloud $cloud `
         --wait) 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 }
 
-function RunLuisGen($lu_file, $outName, $outFolder)
+function RunLuisGen($lu_file, $outName, $outFolder, $log)
 {
     $id = $lu_file.BaseName
 	$luisFolder = $lu_file.DirectoryName
@@ -142,5 +170,5 @@ function RunLuisGen($lu_file, $outName, $outFolder)
         --in $luisFile `
         --className "$($outName)Luis" `
         --out $outFolder `
-        --force 2>&1 | Out-Null
+        --force 2>> $log | Out-Null
 }

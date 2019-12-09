@@ -1,4 +1,4 @@
-function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
+function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
 {
     $id = $lu_file.BaseName
     $outFile = "$($id).qna"
@@ -25,6 +25,7 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
 		$bfconfig = (bf qnamaker:kb:create `
 			--name $name `
 			--subscriptionKey $qnaSubscriptionKey `
+            --endpoint $qnaEndpoint `
 			--in $(Join-Path $outFolder $outFile) | ConvertFrom-Json) 2>> $log
 
 		if (-not $bfconfig.kbId) {
@@ -54,15 +55,16 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
 	else {
 	    # Publish QnA Maker knowledgebase
         Write-Host "Done." -ForegroundColor Green
-		$(bf qnamaker:kb:publish `
+		bf qnamaker:kb:publish `
             --kbId $bfconfig.kbId `
-            --subscriptionKey $qnaSubscriptionKey) 2>> $log | Out-Null
+            --subscriptionKey $qnaSubscriptionKey `
+            --endpoint $qnaEndpoint 2>> $log | Out-Null
 
 		Return $bfconfig
 	}
 }
 
-function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey)
+function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $log)
 {
     $id = $lu_file.BaseName
     $outFile = "$($id).qna"
@@ -81,12 +83,13 @@ function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey)
         --in $(Join-Path $outFolder $outFile) `
         --kbId $kbId `
         --subscriptionKey $qnaSubscriptionKey `
-		--endpoint $qnaEndpoint
+		--endpoint $qnaEndpoint 2>> $log | Out-Null
 
     # Publish QnA Maker knowledgebase
-	$(bf qnamaker:kb:publish `
+	bf qnamaker:kb:publish `
         --kbId $kbId `
-        --subscriptionKey $qnaSubscriptionKey) 2>&1 | Out-Null
+        --endpoint $qnaEndpoint `
+        --subscriptionKey $qnaSubscriptionKey 2>> $log | Out-Null
 
     Write-Host "Done." -ForegroundColor Green
 }

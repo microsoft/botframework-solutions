@@ -9,7 +9,8 @@ Param(
 	[string] $luisSubscriptionKey,
 	[string] $resourceGroup,
     [string] $qnaSubscriptionKey,
-    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
+    [string] $qnaEndpoint,
+    [switch] $gov,
 	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
@@ -33,13 +34,17 @@ if (-not $name) {
 }
 
 if (-not $luisAuthoringRegion) {
-    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
+    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, virginia (US gov-only) or australiaeast)"
 }
 
 if (-not $luisAuthoringKey) {
 	Switch ($luisAuthoringRegion) {
 		"westus" { 
 			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.ai/user/settings)"
+			Break
+		}
+        "virginia" {
+			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.azure.us/user/settings)"
 			Break
 		}
 		"westeurope" {
@@ -102,6 +107,13 @@ else {
 	$useQna = $true
 }
 
+if ($gov){
+    $cloud = 'us'
+}
+else {
+    $cloud = 'com'
+}
+
 $azAccount = az account show --output json | ConvertFrom-Json
 $azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
@@ -132,6 +144,7 @@ foreach ($language in $languageArr)
 			--name $dispatchName `
 			--luisAuthoringKey $luisAuthoringKey `
 			--luisAuthoringRegion $luisAuthoringRegion `
+            --gov $gov `
 			--dataFolder $dataFolder) 2>> $logFile | Out-Null
         Write-Host "Done." -ForegroundColor Green
 	}
@@ -153,6 +166,7 @@ foreach ($language in $languageArr)
 				-region $luisAuthoringRegion `
 				-authoringKey $luisAuthoringKey `
 				-language $language `
+                -gov $gov `
 				-log $logFile
 
 			Write-Host "> Setting LUIS subscription key ..." -NoNewline
@@ -165,6 +179,7 @@ foreach ($language in $languageArr)
 					--accountName $luisAccountName `
 					--azureSubscriptionId $azAccount.id `
 					--resourceGroup $resourceGroup `
+                    --cloud $cloud `
 					--armToken "$($azAccessToken.accessToken)" 2>> $logFile
 
 				if (-not $addKeyResult) {
@@ -229,6 +244,7 @@ foreach ($language in $languageArr)
                         -name $name `
                         -lu_file $lu `
                         -qnaSubscriptionKey $qnaSubscriptionKey `
+                        -qnaEndpoint $qnaEndpoint `
                         -log $logFile
        
 					if ($qnaKb) {
@@ -284,6 +300,7 @@ foreach ($language in $languageArr)
 		Write-Host "> Creating dispatch model..." -NoNewline
 		$dispatch = (dispatch create `
 			--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")" `
+            --gov $gov `
 			--dataFolder  $dataFolder `
 			--culture $language) 2>> $logFile
         Write-Host "Done." -ForegroundColor Green
@@ -305,6 +322,7 @@ foreach ($language in $languageArr)
 				--region $luisAuthoringRegion `
 				--azureSubscriptionId $azAccount.id `
 				--resourceGroup $resourceGroup `
+                --cloud $cloud `
 				--armToken $azAccessToken.accessToken 2>> $logFile
 
 			if (-not $addKeyResult) {

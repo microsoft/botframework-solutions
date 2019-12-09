@@ -2,6 +2,7 @@
 
 Param(
     [switch] $RemoteToLocal,
+    [switch] $gov,
     [switch] $useLuisGen = $true,
     [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
     [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
@@ -21,6 +22,13 @@ if (Test-Path $logFile) {
 }
 else {
     New-Item -Path $logFile | Out-Null
+}
+
+if ($gov) {
+    $cloud = 'us'
+}
+else {
+    $cloud = 'com'
 }
 
 Write-Host "> Getting config file ..." -NoNewline
@@ -44,6 +52,7 @@ foreach ($langCode in $languageMap.Keys) {
             --luisAuthoringKey $dispatch.authoringkey `
             --luisAuthoringRegion $dispatch.region `
             --culture $langCode `
+            --gov $gov `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
         Write-Host "Done." -ForegroundColor Green
                  
@@ -96,6 +105,7 @@ foreach ($langCode in $languageMap.Keys) {
                     --appId $luisApp.appId `
                     --authoringKey $luisApp.authoringKey `
                     --subscriptionKey $luisApp.subscriptionKey `
+                    --cloud $cloud `
                     --region $luisApp.authoringRegion | ConvertFrom-Json).culture
 
             Write-Host "> Updating local $($luisApp.id).lu file ..." -NoNewline
@@ -103,6 +113,7 @@ foreach ($langCode in $languageMap.Keys) {
                 --appId $luisApp.appId `
                 --versionId $luisApp.version `
                 --region $luisApp.authoringRegion `
+                --cloud $cloud `
                 --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).luis")
 
             bf luis:convert `
@@ -131,7 +142,8 @@ foreach ($langCode in $languageMap.Keys) {
                 RunLuisGen `
                     -lu_file $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
-                    -outFolder $lgOutFolder
+                    -outFolder $lgOutFolder `
+                    -log $logFile
                 Write-Host "Done." -ForegroundColor Green
             }
 
@@ -193,6 +205,7 @@ foreach ($langCode in $languageMap.Keys) {
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `
                 -subscriptionKey $luisApp.subscriptionKey `
+                -gov $gov `
                 -log $logFile
 
              if ($useLuisGen) {
@@ -201,7 +214,8 @@ foreach ($langCode in $languageMap.Keys) {
                 RunLuisGen `
                     -lu_file $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
-                    -outFolder $lgOutFolder
+                    -outFolder $lgOutFolder `
+                    -log $logFile
                 Write-Host "Done." -ForegroundColor Green
             }
         }
@@ -213,6 +227,7 @@ foreach ($langCode in $languageMap.Keys) {
                 -lu_file $lu `
                 -kbId $kb.kbId `
                 -qnaSubscriptionKey $kb.subscriptionKey `
+                -qnaEndpoint $qnaEndpoint `
                 -log $logFile
         }
     }
@@ -221,6 +236,7 @@ foreach ($langCode in $languageMap.Keys) {
         # Update dispatch model
         Write-Host "> Updating dispatch model ..." -NoNewline
         dispatch refresh `
+            --gov $gov `
             --version $dispatch.version `
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
