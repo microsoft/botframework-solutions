@@ -1,6 +1,6 @@
-﻿[import](../Shared/Card.lg)
-[import](MarkToDoTexts.lg)
-[import](../ShowToDo/ShowToDoActivities.lg)
+[import](../Shared/Card.lg)
+[import](MarkToDoTexts.es-es.lg)
+[import](../ShowToDo/ShowToDoActivities.es-es.lg)
 
 # ListTypePromptForComplete
 [Activity
@@ -64,3 +64,4 @@
     Speak = {AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)}
     InputHint = ignoringInput
 ]
+

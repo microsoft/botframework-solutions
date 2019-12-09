@@ -7,11 +7,11 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
-using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Adapters
 {
@@ -21,6 +21,7 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IBotTelemetryClient telemetryClient,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(null, telemetryClient)
@@ -29,7 +30,7 @@ namespace ToDoSkill.Adapters
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, context);
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage, context);
 
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));

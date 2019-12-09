@@ -1,4 +1,4 @@
-﻿[import](ShowToDoTexts.lg)
+[import](ShowToDoTexts.fr-fr.lg)
 [import](../Shared/Card.lg)
 
 # AskAddOrCompleteTaskMessage
@@ -150,3 +150,4 @@
   - @{PreviousFirstSingleTask.Text(taskCount)}
 - ELSE:
   - @{PreviousFirstTasks.Text(taskCount)}
+

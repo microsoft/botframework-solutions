@@ -11,11 +11,5 @@ namespace ToDoSkill.Utilities
     public class ToDoCommonUtil
     {
         public const int DefaultDisplaySize = 4;
-
-        public static async Task<Activity> GetToDoResponseActivity(string templateName, ITurnContext turnContext, object data = null)
-        {
-            string formatTemplateName = "@{" + templateName + "()}";
-            return await new ActivityTemplate(formatTemplateName).BindToData(turnContext, data);
-        }
     }
 }

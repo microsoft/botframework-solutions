@@ -1,5 +1,5 @@
-﻿[import](../Shared/Card.lg)
-[import](DeleteToDoTexts.lg)
+[import](../Shared/Card.lg)
+[import](DeleteToDoTexts.es-es.lg)
 
 # AskDeletionAllConfirmation
 [Activity
@@ -71,3 +71,4 @@
   - @{AfterAllTasksDeleted.Text(ListType)}
 - ELSE:
   - @{AfterTaskDeleted.Text(TaskContent, ListType)}
+

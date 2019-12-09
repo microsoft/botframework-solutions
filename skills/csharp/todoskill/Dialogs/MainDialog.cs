@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
@@ -31,6 +32,7 @@ namespace ToDoSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             AddToDoItemDialog addToDoItemDialog,
             MarkToDoItemDialog markToDoItemDialog,
             DeleteToDoItemDialog deleteToDoItemDialog,
@@ -40,8 +42,9 @@ namespace ToDoSkill.Dialogs
         {
             _settings = settings;
             _services = services;
-            TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            TemplateEngine = localeTemplateEngineManager;
+            TelemetryClient = telemetryClient;
 
             // RegisterDialogs
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
@@ -50,9 +53,11 @@ namespace ToDoSkill.Dialogs
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
         }
 
+        private LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.ToDoWelcomeMessage, dc.Context);
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage);
             await dc.Context.SendActivityAsync(activity);
         }
 
@@ -117,7 +122,7 @@ namespace ToDoSkill.Dialogs
                             else
                             {
                                 // No intent was identified, send confused message
-                                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.DidntUnderstandMessage, dc.Context);
+                                var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.DidntUnderstandMessage);
                                 await dc.Context.SendActivityAsync(activity);
                             }
 
@@ -127,7 +132,7 @@ namespace ToDoSkill.Dialogs
                     default:
                         {
                             // intent was identified but not yet implemented
-                            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.FeatureNotAvailable, dc.Context);
+                            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.FeatureNotAvailable);
                             await dc.Context.SendActivityAsync(activity);
                             break;
                         }
@@ -231,7 +236,7 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.CancelMessage, dc.Context);
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage);
             await dc.Context.SendActivityAsync(activity);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
@@ -239,7 +244,7 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.HelpMessage, dc.Context);
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.HelpMessage);
             await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.Resume;
         }
@@ -266,7 +271,7 @@ namespace ToDoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.LogOut, dc.Context);
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut);
             await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.End;
         }

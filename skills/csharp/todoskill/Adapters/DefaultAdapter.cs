@@ -4,17 +4,14 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Declarative;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
-using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Adapters
 {
@@ -24,9 +21,9 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResourceExplorer resourceExplorer,
             UserState userState,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
         {
@@ -34,8 +31,7 @@ namespace ToDoSkill.Adapters
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, context);
-
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage, context);
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
@@ -49,8 +45,6 @@ namespace ToDoSkill.Adapters
             Use(new EventDebuggerMiddleware());
 
             this.UseState(userState, conversationState);
-            this.UseResourceExplorer(resourceExplorer);
-            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }

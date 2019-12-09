@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -27,11 +28,12 @@ namespace ToDoSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             UserState userState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
             IHttpContextAccessor httpContext)
-            : base(nameof(AddToDoItemDialog), settings, services, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
+            : base(nameof(AddToDoItemDialog), settings, services, conversationState, userState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -120,7 +122,7 @@ namespace ToDoSkill.Dialogs
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                     state.Tasks = state.AllTasks.GetRange(0, rangeCount);
 
-                    var toDoListCard = await ToAdaptiveCardForTaskAddedFlowByLG(
+                    var toDoListCard = ToAdaptiveCardForTaskAddedFlowByLG(
                         sc.Context,
                         state.Tasks,
                         state.TaskContent,
@@ -132,7 +134,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
+                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -175,7 +177,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, sc.Context);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.AskTaskContentText);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -248,12 +250,12 @@ namespace ToDoSkill.Dialogs
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
 
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListType, sc.Context, new
+                var prompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.SwitchListType, new
                 {
                     ListType = state.ListType
                 });
 
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListTypeConfirmFailed, sc.Context, new
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.SwitchListTypeConfirmFailed, new
                 {
                     ListType = state.ListType
                 });
@@ -322,12 +324,12 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskPrompt, sc.Context, new
+                    var prompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.AskAddDupTaskPrompt, new
                     {
                         TaskContent = state.TaskContent
                     });
 
-                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskConfirmFailed, sc.Context, new
+                    var retryPrompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.AskAddDupTaskConfirmFailed, new
                     {
                         TaskContent = state.TaskContent
                     });
@@ -384,12 +386,12 @@ namespace ToDoSkill.Dialogs
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
 
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTask, sc.Context, new
+                var prompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.AddMoreTask, new
                 {
                     ListType = state.ListType
                 });
 
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTaskConfirmFailed, sc.Context, new
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(AddToDoResponses.AddMoreTaskConfirmFailed, new
                 {
                     ListType = state.ListType
                 });
@@ -425,7 +427,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
+                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }

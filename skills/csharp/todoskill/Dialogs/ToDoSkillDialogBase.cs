@@ -47,6 +47,7 @@ namespace ToDoSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             UserState userState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
@@ -61,6 +62,8 @@ namespace ToDoSkill.Dialogs
             ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 
+            TemplateEngine = localeTemplateEngineManager;
+
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
@@ -68,6 +71,8 @@ namespace ToDoSkill.Dialogs
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
+
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected BotServices Services { get; set; }
 
@@ -107,7 +112,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.NoAuth, sc.Context);
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.NoAuth);
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -227,7 +232,7 @@ namespace ToDoSkill.Dialogs
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.NoTasksInList, sc.Context);
+                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.NoTasksInList);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -362,7 +367,7 @@ namespace ToDoSkill.Dialogs
             }
         }
 
-        protected async Task<Activity> ToAdaptiveCardForShowToDosByLG(
+        protected Activity ToAdaptiveCardForShowToDosByLG(
            ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
@@ -370,7 +375,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ShowToDo, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ShowToDo, new
             {
                 AllTasksCount = allTasksCount,
                 ListType = listType,
@@ -385,7 +390,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForReadMoreByLG(
+        protected Activity ToAdaptiveCardForReadMoreByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -393,7 +398,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ReadMore, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ReadMore, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -406,7 +411,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForPreviousPageByLG(
+        protected Activity ToAdaptiveCardForPreviousPageByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -415,7 +420,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.PreviousPage, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.PreviousPage, new
             {
                 Title = string.Format(ToDoStrings.CardTitle, listType),
                 TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
@@ -428,7 +433,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForTaskAddedFlowByLG(
+        protected Activity ToAdaptiveCardForTaskAddedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             string taskContent,
@@ -437,7 +442,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterTaskAdded, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterTaskAdded, new
             {
                 TaskContent = taskContent,
                 ListType = listType,
@@ -451,7 +456,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForTaskCompletedFlowByLG(
+        protected Activity ToAdaptiveCardForTaskCompletedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -461,7 +466,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.TaskCompleted, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.TaskCompleted, new
             {
                 AllTasksCount = allTasksCount,
                 ListType = listType,
@@ -477,7 +482,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForTaskDeletedFlowByLG(
+        protected Activity ToAdaptiveCardForTaskDeletedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -487,7 +492,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.TaskDeleted, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.TaskDeleted, new
             {
                 IsDeleteAll = isDeleteAll,
                 ListType = listType,
@@ -502,7 +507,7 @@ namespace ToDoSkill.Dialogs
             return activity;
         }
 
-        protected async Task<Activity> ToAdaptiveCardForDeletionRefusedFlowByLG(
+        protected Activity ToAdaptiveCardForDeletionRefusedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -510,7 +515,7 @@ namespace ToDoSkill.Dialogs
         {
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.DeletionAllConfirmationRefused, turnContext, new
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.DeletionAllConfirmationRefused, new
             {
                 TaskCount = allTasksCount,
                 ListType = listType,
@@ -535,7 +540,7 @@ namespace ToDoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, sc.Context);
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -556,17 +561,17 @@ namespace ToDoSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessageBotProblem, sc.Context);
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessageBotProblem);
                 await sc.Context.SendActivityAsync(activity);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessageAccountProblem, sc.Context);
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessageAccountProblem);
                 await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ToDoErrorMessage, sc.Context);
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage);
                 await sc.Context.SendActivityAsync(activity);
             }
 
@@ -591,18 +596,18 @@ namespace ToDoSkill.Dialogs
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.SettingUpOneNoteMessage, sc.Context);
+                            var settingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.SettingUpOneNoteMessage);
                             await sc.Context.SendActivityAsync(settingActivity);
 
-                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterOneNoteSetupMessage, sc.Context);
+                            var afterSettingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterOneNoteSetupMessage);
                             await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
                         else
                         {
-                            var settingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.SettingUpOutlookMessage, sc.Context);
+                            var settingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.SettingUpOutlookMessage);
                             await sc.Context.SendActivityAsync(settingActivity);
 
-                            var afterSettingActivity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.AfterOutlookSetupMessage, sc.Context);
+                            var afterSettingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterOutlookSetupMessage);
                             await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
 

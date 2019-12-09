@@ -1,5 +1,5 @@
-﻿[import](../Shared/Card.lg)
-[import](AddToDoTexts.lg)
+[import](../Shared/Card.lg)
+[import](AddToDoTexts.es-es.lg)
 
 # AskTaskContentText
 [Activity
@@ -57,3 +57,4 @@
     Speak = {AskAddDupTaskConfirmFailed.Text()}
     InputHint = expectingInput
 ]
+

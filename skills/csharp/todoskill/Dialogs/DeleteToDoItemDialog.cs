@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -29,11 +30,12 @@ namespace ToDoSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             UserState userState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
             IHttpContextAccessor httpContext)
-            : base(nameof(DeleteToDoItemDialog), settings, services, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
+            : base(nameof(DeleteToDoItemDialog), settings, services, conversationState, userState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -131,7 +133,7 @@ namespace ToDoSkill.Dialogs
 
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-                    cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
+                    cardReply = ToAdaptiveCardForTaskDeletedFlowByLG(
                         sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
@@ -152,7 +154,7 @@ namespace ToDoSkill.Dialogs
                         state.ShowTaskPageIndex = 0;
                         state.TaskIndexes = new List<int>();
 
-                        cardReply = await ToAdaptiveCardForTaskDeletedFlowByLG(
+                        cardReply = ToAdaptiveCardForTaskDeletedFlowByLG(
                             sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
@@ -162,7 +164,7 @@ namespace ToDoSkill.Dialogs
                     }
                     else
                     {
-                        cardReply = await ToAdaptiveCardForDeletionRefusedFlowByLG(
+                        cardReply = ToAdaptiveCardForDeletionRefusedFlowByLG(
                             sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
@@ -215,7 +217,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.ListTypePromptForDelete, sc.Context);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.ListTypePromptForDelete);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
@@ -284,11 +286,11 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexRetryForDelete, sc.Context);
+                        prompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.AskTaskIndexRetryForDelete);
                     }
                     else
                     {
-                        prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskTaskIndexForDelete, sc.Context);
+                        prompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.AskTaskIndexForDelete);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -379,12 +381,12 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmation, sc.Context, new
+                    var prompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.AskDeletionAllConfirmation, new
                     {
                         ListType = state.ListType
                     });
 
-                    var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.AskDeletionAllConfirmationFailed, sc.Context, new
+                    var retryPrompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.AskDeletionAllConfirmationFailed, new
                     {
                         ListType = state.ListType
                     });
@@ -447,8 +449,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskPrompt, sc.Context);
-                var retryPrompt = await ToDoCommonUtil.GetToDoResponseActivity(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed, sc.Context);
+                var prompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.DeleteAnotherTaskPrompt);
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed);
 
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -479,7 +481,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, sc.Context);
+                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.EndDialogAsync(true);
