@@ -221,6 +221,7 @@ foreach ($langCode in $languageMap.Keys) {
         # Update dispatch model
         Write-Host "> Updating dispatch model ..." -NoNewline
         dispatch refresh `
+            --version $dispatch.version `
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
         Write-Host "Done." -ForegroundColor Green

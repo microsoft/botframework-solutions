@@ -326,6 +326,7 @@ foreach ($language in $languageArr)
                 authoringRegion = $luisAuthoringRegion
 				subscriptionkey = $luisSubscriptionKey
 				region = $luisAccountRegion
+                version = $dispatchApp.version
 			}
 		}
 	}
