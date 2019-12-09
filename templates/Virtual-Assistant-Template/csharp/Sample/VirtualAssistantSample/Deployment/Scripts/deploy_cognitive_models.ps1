@@ -151,7 +151,7 @@ foreach ($language in $languageArr)
 				-name $name `
 				-lu_file $lu `
 				-region $luisAuthoringRegion `
-				-luisAuthoringKey $luisAuthoringKey `
+				-authoringKey $luisAuthoringKey `
 				-language $language `
 				-log $logFile
 

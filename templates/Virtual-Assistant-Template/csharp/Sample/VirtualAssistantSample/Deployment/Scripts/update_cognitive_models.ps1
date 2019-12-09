@@ -35,9 +35,9 @@ foreach ($langCode in $languageMap.Keys) {
 
     # try to get dispatch file
     $dispatchFile = $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch")
-    if (-not $(Test-Path $dispatchFile)) {
-
-         # Create a new dispatch file based on configuration
+    if (-not $(Test-Path $dispatchFile))
+    {
+        # Create a new dispatch file based on configuration
         Write-Host "> Creating new dispatch file ..." -NoNewline
         dispatch init `
             -n $dispatch.name `
