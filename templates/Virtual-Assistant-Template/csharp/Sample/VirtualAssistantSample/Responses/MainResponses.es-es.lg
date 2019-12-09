@@ -5,7 +5,7 @@
 - Ya está. Avísame si puedo hacer algo más.
 
 # CancelledMessage
-- Vale{RandName()}, cancelando su solicitud. Avísame si puedo hacer algo más por ti.
+- Vale@{RandName()}, cancelando su solicitud. Avísame si puedo hacer algo más por ti.
 - Ok, cancelando tu solicitud. Avísame si puedo hacer algo más por ti.
 - No hay problema, avísame si puedo ayudarte con cualquier otra cosa.
 - Claro, cancelaré tu solicitud. Avísame si puedo ayudarte con cualquier otra cosa
@@ -15,25 +15,25 @@
 - Lo siento, eso no es algo con lo que pueda ayudar todavía.
 - Disculpas, no sé cómo hacer eso ahora.
 - Desafortunadamente no puedo ayudarte con eso ahora mismo. Disculpas.
-- Lo siento{RandName()}, eso no es algo con lo que pueda ayudar todavía.
-- Disculpas{RandName()}, No sé cómo hacer eso en este momento.
+- Lo siento@{RandName()}, eso no es algo con lo que pueda ayudar todavía.
+- Disculpas@{RandName()}, No sé cómo hacer eso en este momento.
 
 # ConfusedMessage
 - Lo siento, no entendí eso. ¿Puedes darme más información?
 - Lo siento, no entendí eso. ¿Puedes decirme más?
-- Lo siento{RandName()}, no entendí eso. ¿Puedes decirme más?
+- Lo siento@{RandName()}, no entendí eso. ¿Puedes decirme más?
 - Disculpas, no lo entendí del todo. ¿Puede darme más información?
 
 # ErrorMessage
-- Lo siento{RandName()}, parece que algo salió mal. Inténtelo de nuevo más tarde.
-- Disculpas{RandName()}, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
+- Lo siento@{RandName()}, parece que algo salió mal. Inténtelo de nuevo más tarde.
+- Disculpas@{RandName()}, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
 - Lo siento, parece que algo salió mal. Inténtelo de nuevo más tarde.
 - Parece que hubo un error. Lo siento. Puedes intentarlo de nuevo más tarde.
 - Disculpas, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
 
 # StartOverMessage
-- Vale{RandName()}, intentémoslo de nuevo.
-- No hay problema{RandName()}, podemos empezar de nuevo.
+- Vale@{RandName()}, intentémoslo de nuevo.
+- No hay problema@{RandName()}, podemos empezar de nuevo.
 - Bien, intentémoslo de nuevo.
 - Claro, intentémoslo de nuevo.
 - No hay problema, podemos empezar de nuevo.
@@ -45,26 +45,26 @@
 - ¿Cómo puedo ayudarle?
 
 # LogoutMessage
-- Vale{RandName()}, ya está.
-- Bien{RandName()}, ya está.
-- No hay problema{RandName()}, te he cerrado la sesión.
+- Vale@{RandName()}, ya está.
+- Bien@{RandName()}, ya está.
+- No hay problema@{RandName()}, te he cerrado la sesión.
 - Bien, ya has cerrado la sesión.
 - Está bien, salió firme.
 - Claro, te han cerrado la sesión.
 - No hay problema, te he cerrado la sesión.
 
 # SkillSwitchPrompt
-- ¿Desea cambiar a la {Skill}?
+- ¿Desea cambiar a la @{Skill}?
 
 # EscalateMessage
-[HeroCard
+@{HeroCard
   subtitle=Nuestros agentes están disponibles 24/7 al 1(800)555-1234. O conéctese con nosotros a través de Microsoft Teams.
-]
+}
 
 # NewUserIntroCard
-[Activity
-    Attachments = {json(NewUserIntroCardJson())}
-]
+@{Activity
+    Attachments = @{json(NewUserIntroCardJson())}
+}
 
 # NewUserIntroCardTitle
 - ¡Hola!
@@ -142,11 +142,11 @@
 
 # ReturningUserIntroCard
 [Activity
-    Attachments = {json(ReturningUserIntroCardJson())}
+    Attachments = @{json(ReturningUserIntroCardJson())}
 ]
 
 # ReturningUserIntroCardTitle
-- Bienvenido{RandName()}!
+- Bienvenido@{RandName()}!
 - Me alegro de verte de nuevo.
 - ¡Bienvenidos de vuelta!
 
@@ -211,13 +211,13 @@
 ```
 
 # HelpCard
-[HeroCard 
+@{HeroCard 
     title=Ayuda para Virtual Assistant
     subtitle=Esta tarjeta se puede utilizar para mostrar información para ayudar al usuario a interactuar con el bot.
-]
+}
 
 # RandName 
-- IF: {Name && rand(0, 1000) > 500}
-    - {concat(' ', Name)}
+- IF: @{Name && rand(0, 1000) > 500}
+    - @{concat(' ', Name)}
 - ELSE:
     - 

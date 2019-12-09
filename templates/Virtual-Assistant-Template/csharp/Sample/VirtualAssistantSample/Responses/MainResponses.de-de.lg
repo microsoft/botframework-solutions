@@ -5,7 +5,7 @@
 - Fertig. Lassen Sie mich wissen, ob ich etwas anderes tun kann.
 
 # CancelledMessage
-- Okay{RandName()}, um Ihre Anfrage zu stornieren. Lassen Sie mich wissen, ob ich etwas anderes für Sie tun kann.
+- Okay@{RandName()}, um Ihre Anfrage zu stornieren. Lassen Sie mich wissen, ob ich etwas anderes für Sie tun kann.
 - OK, ihre Anfrage stornieren. Lassen Sie mich wissen, ob ich etwas anderes für Sie tun kann.
 - Kein Problem, lassen Sie mich wissen, ob ich Ihnen mit etwas anderem helfen kann.
 - Sicher, ich werde Ihre Anfrage stornieren. Lassen Sie mich wissen, ob ich mit etwas anderem helfen kann
@@ -15,25 +15,25 @@
 - Tut mir leid, das ist noch nichts, womit ich noch helfen kann.
 - Entschuldigen Sie, ich weiß nicht, wie ich das jetzt machen soll.
 - Leider kann ich Ihnen jetzt nicht helfen. Entschuldigung.
-- Tut mir Leid{RandName()}, das ist noch nicht etwas, mit dem ich helfen kann.
-- Entschuldigung{RandName()}, Ich weiß nicht, wie ich das im Moment machen soll.
+- Tut mir Leid@{RandName()}, das ist noch nicht etwas, mit dem ich helfen kann.
+- Entschuldigung@{RandName()}, Ich weiß nicht, wie ich das im Moment machen soll.
 
 # ConfusedMessage
 - Es tut mir leid, ich habe das nicht verstanden. Können Sie mir weitere Informationen geben?
 - Tut mir leid, das habe ich nicht bekommen. Können Sie mir mehr erzählen?
-- Tut mir Leid{RandName()}, das habe ich nicht bekommen. Können Sie mir mehr erzählen?
+- Tut mir Leid@{RandName()}, das habe ich nicht bekommen. Können Sie mir mehr erzählen?
 - Entschuldigung, ich habe es nicht ganz verstanden. Können Sie mir weitere Informationen geben?
 
 # ErrorMessage
-- Tut mir Leid{RandName()}, es sieht so aus, als ob etwas schief gelaufen ist. Versuchen Sie es später erneut.
-- Entschuldigung{RandName()}, es sieht so aus, als ob etwas schief gelaufen ist. Versuchen Sie es später erneut.
+- Tut mir Leid@{RandName()}, es sieht so aus, als ob etwas schief gelaufen ist. Versuchen Sie es später erneut.
+- Entschuldigung@{RandName()}, es sieht so aus, als ob etwas schief gelaufen ist. Versuchen Sie es später erneut.
 - Es tut uns leid, es sieht so aus, als ob etwas schief gelaufen wäre. Versuchen Sie es später erneut.
 - Hmm, es sieht so aus, als ob es einen Fehler gab. Es tut uns leid. Sie können es später erneut versuchen.
 - Entschuldigen Sie, es sieht so aus, als wäre etwas schief gelaufen. Versuchen Sie es später erneut.
 
 # StartOverMessage
-- Okay{RandName()}, versuchen wir es noch einmal.
-- Kein Problem{RandName()}können wir von vorne anfangen.
+- Okay@{RandName()}, versuchen wir es noch einmal.
+- Kein Problem@{RandName()}können wir von vorne anfangen.
 - OK, versuchen wir es noch einmal.
 - Sicher, versuchen wir es noch einmal.
 - Kein Problem, wir können von vorne anfangen.
@@ -45,26 +45,26 @@
 - Wie kann ich Ihnen helfen?
 
 # LogoutMessage
-- Okay{RandName()}, sind Sie abgemeldet.
-- Gut{RandName()}, sind Sie abgemeldet.
-- Kein Problem{RandName()}, Ich habe dich abgemeldet.
+- Okay@{RandName()}, sind Sie abgemeldet.
+- Gut@{RandName()}, sind Sie abgemeldet.
+- Kein Problem@{RandName()}, Ich habe dich abgemeldet.
 - OK, Sie sind abgemeldet.
 - In Ordnung, abgemeldet.
 - Sicher, Sie sind abgemeldet.
 - Kein Problem, ich habe dich abgemeldet.
 
 # SkillSwitchPrompt
-- Möchten Sie zum {Skill} wechseln?
+- Möchten Sie zum @{Skill} wechseln?
 
 # EscalateMessage
-[HeroCard
+@{HeroCard
 	subtitle=Unsere Agenten sind rund um die Uhr unter 1(800)555-1234 verfügbar. Oder verbinden Sie sich mit uns über Microsoft Teams.
-]
+}
 
 # NewUserIntroCard
-[Activity
-    Attachments = {json(NewUserIntroCardJson())}
-]
+@{Activity
+    Attachments = @{json(NewUserIntroCardJson())}
+}
 
 # NewUserIntroCardTitle
 - Hallo!
@@ -141,12 +141,12 @@
 ```
 
 # ReturningUserIntroCard
-[Activity
-    Attachments = {json(ReturningUserIntroCardJson())}
-]
+@{Activity
+    Attachments = @{json(ReturningUserIntroCardJson())}
+}
 
 # ReturningUserIntroCardTitle
-- Willkommen zurück{RandName()}!
+- Willkommen zurück@{RandName()}!
 - Gut, Sie wieder zu sehen.
 - Hey, willkommen zurück!
 
@@ -217,7 +217,7 @@
 ]
 
 # RandName 
-- IF: {Name && rand(0, 1000) > 500}
-    - {concat(' ', Name)}
+- IF: @{Name && rand(0, 1000) > 500}
+    - @{concat(' ', Name)}
 - ELSE:
     - 
