@@ -17,16 +17,7 @@ export abstract class RouterDialog extends InterruptableDialog {
     }
 
     protected async onBeginDialog(innerDc: DialogContext, options: object): Promise<DialogTurnResult> {
-        try {
-
-            return this.onContinueDialog(innerDc);
-        } catch (err) {
-            await innerDc.context.sendActivity({
-                type: ActivityTypes.Trace,
-                text: err.message
-            });
-            return await innerDc.endDialog();
-        }
+        return this.onContinueDialog(innerDc);
     }
 
     protected async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
