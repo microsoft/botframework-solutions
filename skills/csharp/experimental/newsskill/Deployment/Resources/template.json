@@ -26,7 +26,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
     },
     "useStorage": {
       "type": "bool",
@@ -67,17 +67,28 @@
       "type": "string",
       "defaultValue": "S1"
     },
-    "luisServiceName": {
+    "luisRuntimeName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
+      "defaultValue": "[concat(parameters('name'), '-luisruntime-', parameters('suffix'))]"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "type": "string",
       "defaultValue": "S0"
     },
-    "luisServiceLocation": {
+    "luisRuntimeLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "luisAuthoringName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-luisauthoring-', parameters('suffix'))]"
+    },
+    "luisAuthoringSku": {
+      "type": "string",
+      "defaultValue": "F0"
+    },
+    "luisAuthoringLocation": {
+      "type": "string"
     },
     "bingServiceName": {
       "type": "string",
@@ -86,10 +97,19 @@
     "azureMapsServiceName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-maps')]"
+    },
+    "resourceTagName": {
+      "type": "string",
+      "defaultValue": "bot"
+    },
+    "resourceTagValue": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     }
   },
   "variables": {
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+    "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
@@ -124,6 +144,9 @@
           }
         ]
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useCosmosDb')]"
     },
     {
@@ -136,6 +159,9 @@
       "sku": {
         "name": "Standard_LRS"
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useStorage')]"
     },
     {
@@ -145,7 +171,10 @@
       "name": "[parameters('appServicePlanName')]",
       "location": "[parameters('location')]",
       "sku": "[parameters('appServicePlanSku')]",
-      "properties": {}
+      "properties": {},
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      }
     },
     {
       "comments": "app insights",
@@ -156,6 +185,9 @@
       "location": "[parameters('appInsightsLocation')]",
       "properties": {
         "Application_Type": "web"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -180,6 +212,9 @@
           ]
         }
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ]
@@ -189,52 +224,64 @@
       "type": "Microsoft.BotService/botServices",
       "kind": "sdk",
       "apiVersion": "2018-07-12",
-      "name": "[parameters('botServiceName')]",
+      "name": "[variables('botServiceName')]",
       "location": "global",
       "sku": {
         "name": "[parameters('botServiceSku')]"
       },
       "properties": {
-        "displayName": "[parameters('botServiceName')]",
+        "displayName": "[variables('botServiceName')]",
         "endpoint": "[variables('botEndpoint')]",
+        "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
-      "comments": "Cognitive service key for all LUIS apps.",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisRuntimeName')]",
+      "location": "[parameters('luisRuntimeLocation')]",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "LUIS",
-      "apiVersion": "2017-04-18",
-      "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('luisServiceLocation')]",
       "sku": {
-        "name": "[parameters('luisServiceSku')]"
+        "name": "[parameters('luisRuntimeSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisRuntimeName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
-      "type": "Microsoft.CognitiveServices/accounts",
-      "kind": "Bing.Search.v7",
       "apiVersion": "2016-02-01-preview",
-      "name": "[parameters('bingServiceName')]",
-      "location": "global",
+      "name": "[parameters('luisAuthoringName')]",
+      "location": "[parameters('luisAuthoringLocation')]",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "LUIS.Authoring",
       "sku": {
-        "name": "S1"
-      }
-    },
-    {
-      "type": "Microsoft.Maps/accounts",
-      "apiVersion": "2018-05-01",
-      "name": "[parameters('azureMapsServiceName')]",
-      "location": "global",
-      "sku": {
-        "name": "s1",
-        "tier": "Standard"
-      }
+        "name": "[parameters('luisAuthoringSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisAuthoringName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
+      ]
     }
   ],
   "outputs": {
+    "resourceGroupName": {
+      "type": "string",
+      "value": "[parameters('name')]"
+    },
     "botWebAppName": {
       "type": "string",
       "value": "[variables('botWebAppName')]"
@@ -264,9 +311,11 @@
     "luis": {
       "type": "object",
       "value": {
-        "accountName": "[parameters('luisServiceName')]",
-        "region": "[parameters('luisServiceLocation')]",
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
+        "accountName": "[parameters('luisRuntimeName')]",
+        "region": "[parameters('luisRuntimeLocation')]",
+        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
+        "authoringRegion": "[parameters('luisAuthoringLocation')]",
+        "authoringKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1]"
       }
     },
     "BingNewsKey": {
