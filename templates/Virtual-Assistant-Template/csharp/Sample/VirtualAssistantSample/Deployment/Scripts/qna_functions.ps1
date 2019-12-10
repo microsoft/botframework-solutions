@@ -1,7 +1,7 @@
 function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
+    $outFile = "$($id).json"
     $outFolder = $lu_file.DirectoryName
 
     # Parse LU file
@@ -67,7 +67,7 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
 function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
+    $outFile = "$($id).json"
     $outFolder = $lu_file.DirectoryName
 
     # Parse LU file

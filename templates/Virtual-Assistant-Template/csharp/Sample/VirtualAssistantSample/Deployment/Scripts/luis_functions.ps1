@@ -1,7 +1,7 @@
 function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
+    $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
     $appName = "$($name)$($langCode)_$($id)"
     
     if ($gov)
@@ -65,7 +65,7 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $
 function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $gov, $log)
 {
     $id = $lu_file.BaseName
-    $outFile = Join-Path $lu_file.DirectoryName "$($id).luis"
+    $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
     
     if ($gov)
     {
@@ -164,7 +164,7 @@ function RunLuisGen($lu_file, $outName, $outFolder, $log)
 {
     $id = $lu_file.BaseName
 	$luisFolder = $lu_file.DirectoryName
-	$luisFile = Join-Path $luisFolder "$($id).luis"
+	$luisFile = Join-Path $luisFolder "$($id).json"
 
 	bf luis:generate:cs `
         --in $luisFile `

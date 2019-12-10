@@ -8,9 +8,9 @@ Param(
     [string] $appPassword,
     [string] $parametersFile,
     [string] $luisAuthoringRegion,
-    [string] $qnaEndpoint,
-    [switch] $gov,
+    [switch] $useGov,
 	[string] $languages = "en-us",
+    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
 	[string] $projDir = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
@@ -189,25 +189,15 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' `
-                            -name $($name) `
-                            -resourceGroup $($resourceGroup) `
-                            -gov $($gov) `
-                            -outFolder '$($projDir)' `
-                            -languages '$($languages)' `
-                            -luisAuthoringRegion $($outputs.luis.value.authoringRegion) `
-                            -luisAuthoringKey $($outputs.luis.value.authoringKey) `
-                            -luisAccountName $($outputs.luis.value.accountName) `
-                            -luisAccountRegion $($outputs.luis.value.region) `
-                            -luisSubscriptionKey $($outputs.luis.value.key) `
-                            -qnaSubscriptionKey $($outputs.qnaMaker.value.key) `
-                            -qnaEndpoint $($qnaEndpoint)"
+    if ($gov) {
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($outputs.luis.value.authoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
+    }
+    else {
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($outputs.luis.value.authoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint)"
+    }
 	
     # Publish bot
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' `
-                            -name $($outputs.botWebAppName.value)   
-                            -resourceGroup $($resourceGroup)    
-                            -projFolder '$($projDir)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 
 	# Summary 
 	Write-Host "+ Summary of the deployed resources:" -ForegroundColor Magenta

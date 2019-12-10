@@ -9,8 +9,8 @@ Param(
 	[string] $luisSubscriptionKey,
 	[string] $resourceGroup,
     [string] $qnaSubscriptionKey,
-    [string] $qnaEndpoint,
-    [switch] $gov,
+    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
+    [switch] $useGov,
 	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
@@ -107,11 +107,13 @@ else {
 	$useQna = $true
 }
 
-if ($gov){
+if ($useGov){
     $cloud = 'us'
+    $gov = $true
 }
 else {
     $cloud = 'com'
+    $gov = $false
 }
 
 $azAccount = az account show --output json | ConvertFrom-Json
@@ -225,65 +227,59 @@ foreach ($language in $languageArr)
 	}
 
 	if ($useQna) {
-        $qnaPath = "$(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)"
-		if (Test-Path $qnaPath) {
+        $qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".qna"}
+		if ($qnaFiles) {		
+            $config | Add-Member `
+                -MemberType NoteProperty `
+                -Name knowledgebases `
+                -Value @()
 
-			# Deploy QnA Maker KBs
-			$qnaFiles = Get-ChildItem $qnaPath -Recurse | Where {$_.extension -eq ".lu"} 
-		
-			if ($qnaFiles) {
-				$config | Add-Member `
-                    -MemberType NoteProperty `
-                    -Name knowledgebases `
-                    -Value @()
-
-				foreach ($lu in $qnaFiles)
-				{
-                    # Deploy QnA Knowledgebase
-					$qnaKb = DeployKB `
-                        -name $name `
-                        -lu_file $lu `
-                        -qnaSubscriptionKey $qnaSubscriptionKey `
-                        -qnaEndpoint $qnaEndpoint `
-                        -log $logFile
+			foreach ($lu in $qnaFiles)
+			{
+                # Deploy QnA Knowledgebase
+				$qnaKb = DeployKB `
+                    -name $name `
+                    -lu_file $lu `
+                    -qnaSubscriptionKey $qnaSubscriptionKey `
+                    -qnaEndpoint $qnaEndpoint `
+                    -log $logFile
        
-					if ($qnaKb) {
-						if ($useDispatch) {
-							Write-Host "> Adding $($lu.BaseName) kb to dispatch model ..." -NoNewline    
-							(dispatch add `
-								--type "qna" `
-								--name $lu.BaseName `
-								--id $qnaKb.kbId  `
-								--key $qnaSubscriptionKey `
-								--intentName "q_$($lu.BaseName)" `
-								--dataFolder $dataFolder `
-								--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
-                            Write-Host "Done." -ForegroundColor Green
-						}
-
-                        # get qna details
-                        $qnaEndpointKeys = bf qnamaker:endpointkeys:list `
-                            --endpoint $qnaEndpoint `
-                            --subscriptionKey $qnaSubscriptionKey  | ConvertFrom-Json
-
-                        $qnaKbSettings = bf qnamaker:kb:get `
-                            --kbId $qnaKb.kbId `
-                            --endpoint $qnaEndpoint `
-                            --subscriptionKey $qnaSubscriptionKey | ConvertFrom-Json
-
-						# Add to config
-						$config.knowledgebases += @{
-							id = $lu.BaseName
-							name = $lu.BaseName
-							kbId = $qnaKb.kbId
-							subscriptionKey = $qnaSubscriptionKey
-							endpointKey = $qnaEndpointKeys.primaryEndpointKey
-							hostname = $qnaKbSettings.hostName
-						}
+				if ($qnaKb) {
+					if ($useDispatch) {
+						Write-Host "> Adding $($lu.BaseName) kb to dispatch model ..." -NoNewline    
+						(dispatch add `
+							--type "qna" `
+							--name $lu.BaseName `
+							--id $qnaKb.kbId  `
+							--key $qnaSubscriptionKey `
+							--intentName "q_$($lu.BaseName)" `
+							--dataFolder $dataFolder `
+							--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
+                        Write-Host "Done." -ForegroundColor Green
 					}
-					else {
-						Write-Host "! Could not create knowledgebase. Skipping dispatch add." -ForegroundColor Cyan
+
+                    # get qna details
+                    $qnaEndpointKeys = bf qnamaker:endpointkeys:list `
+                        --endpoint $qnaEndpoint `
+                        --subscriptionKey $qnaSubscriptionKey  | ConvertFrom-Json
+
+                    $qnaKbSettings = bf qnamaker:kb:get `
+                        --kbId $qnaKb.kbId `
+                        --endpoint $qnaEndpoint `
+                        --subscriptionKey $qnaSubscriptionKey | ConvertFrom-Json
+
+					# Add to config
+					$config.knowledgebases += @{
+						id = $lu.BaseName
+						name = $lu.BaseName
+						kbId = $qnaKb.kbId
+						subscriptionKey = $qnaSubscriptionKey
+						endpointKey = $qnaEndpointKeys.primaryEndpointKey
+						hostname = $qnaKbSettings.hostName
 					}
+				}
+				else {
+					Write-Host "! Could not create knowledgebase. Skipping dispatch add." -ForegroundColor Cyan
 				}
 			}
 		}
