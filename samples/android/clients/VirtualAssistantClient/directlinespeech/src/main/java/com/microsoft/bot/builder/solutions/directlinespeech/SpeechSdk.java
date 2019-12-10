@@ -9,8 +9,10 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.directlinespeech.utils.DateUtils;
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
+import com.microsoft.cognitiveservices.speech.SpeechRecognitionResult;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioOutputStream;
+import com.microsoft.cognitiveservices.speech.dialog.BotFrameworkConfig;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConfig;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConnector;
 
@@ -39,6 +41,8 @@ import events.GpsLocationSent;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+
+import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizedKeyword;
 
 public class SpeechSdk {
 
@@ -141,8 +145,7 @@ public class SpeechSdk {
         AudioConfig audioInput = null;
         if (haveRecordAudioPermission) audioInput = AudioConfig.fromDefaultMicrophoneInput();//AudioConfig.fromStreamInput(createMicrophoneStream());
 
-        DialogServiceConfig botConfig = DialogServiceConfig.fromBotSecret(
-                configuration.botId,
+        DialogServiceConfig botConfig = BotFrameworkConfig.fromSubscription(
                 configuration.serviceKey,
                 configuration.serviceRegion);
         botConfig.setProperty("SPEECH-RecoLanguage", configuration.locale);
@@ -167,8 +170,10 @@ public class SpeechSdk {
             final String recognizedSpeech = speechRecognitionResultEventArgs.getResult().getText();
             LogInfo("Final result received: " + recognizedSpeech);
 
-            // trigger callback to expose result in 3rd party app
-            EventBus.getDefault().post(new Recognized(recognizedSpeech));
+            if (!speechRecognitionResultEventArgs.getResult().getReason().equals(RecognizedKeyword)) {
+                // trigger callback to expose result in 3rd party app
+                EventBus.getDefault().post(new Recognized(recognizedSpeech));
+            }
 
             startResponseTimeoutTimer();
         });
@@ -265,7 +270,7 @@ public class SpeechSdk {
     public void listenOnceAsync(){
         LogInfo("listenOnceAsync");
         EventBus.getDefault().post(new BotListening());
-        final Future<Void> task = botConnector.listenOnceAsync();
+        final Future<SpeechRecognitionResult> task = botConnector.listenOnceAsync();
         setOnTaskCompletedListener(task, result -> {
             // your code here
         });
@@ -276,7 +281,7 @@ public class SpeechSdk {
         try {
             final Future<Void> task = botConnector.startKeywordRecognitionAsync(KeywordRecognitionModel.fromStream(inputStream,keyword,false ));
             setOnTaskCompletedListener(task, result -> {
-                // your code here
+                LogInfo("keywordRecognitaionStarted");
             });
         }
         catch (FileNotFoundException e){
@@ -291,6 +296,7 @@ public class SpeechSdk {
         final Future<Void> task = botConnector.stopKeywordRecognitionAsync();
         setOnTaskCompletedListener(task, result -> {
             // your code here
+            LogInfo("stopKeywordListening");
         });
     }
 

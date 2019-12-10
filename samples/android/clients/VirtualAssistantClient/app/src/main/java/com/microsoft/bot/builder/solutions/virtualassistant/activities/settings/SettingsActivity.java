@@ -329,7 +329,10 @@ public class SettingsActivity extends BaseActivity {
 
         // keywords
         Spinner spinner = findViewById(R.id.keyword_dropdown);
-        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords);
+        int currentKeywordPosition = adapter.getPosition(configuration.keyword);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(currentKeywordPosition);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

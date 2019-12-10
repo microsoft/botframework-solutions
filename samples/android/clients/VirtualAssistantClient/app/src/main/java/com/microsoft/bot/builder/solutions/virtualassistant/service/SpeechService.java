@@ -179,7 +179,7 @@ public class SpeechService extends Service {
                     try {
                         InputStream is = am.open("keywords/" + keyword + "/kws.table");
                         speechSdk.startKeywordListeningAsync(is, keyword);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

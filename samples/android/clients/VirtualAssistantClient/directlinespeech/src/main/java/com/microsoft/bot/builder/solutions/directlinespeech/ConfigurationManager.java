@@ -67,6 +67,9 @@ public class ConfigurationManager {
         if (configuration.locale == null) {
             configuration.locale = defaultConfiguration.locale;
         }
+        if (configuration.keyword == null) {
+            configuration.keyword = defaultConfiguration.keyword;
+        }
 
         return configuration;
     }
