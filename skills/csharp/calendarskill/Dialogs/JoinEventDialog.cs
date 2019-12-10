@@ -31,10 +31,11 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(JoinEventDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(JoinEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -165,8 +166,8 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect) as Activity,
-                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NoMeetingToConnect) as Activity,
+                        Prompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
+                        RetryPrompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -234,7 +235,7 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, responseName, responseParams) as Activity,
+                    Prompt = TemplateEngine.GenerateActivityForLocale(responseName, responseParams) as Activity,
                 });
             }
             catch (Exception ex)
@@ -254,7 +255,7 @@ namespace CalendarSkill.Dialogs
                     if ((bool)sc.Result)
                     {
                         var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.JoinMeeting);
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.JoinMeeting);
                         await sc.Context.SendActivityAsync(activity);
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
@@ -269,7 +270,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, JoinEventResponses.NotJoinMeeting);
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NotJoinMeeting);
                         await sc.Context.SendActivityAsync(activity);
                     }
                 }

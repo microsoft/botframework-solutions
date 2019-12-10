@@ -32,10 +32,11 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpdateEventDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpdateEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -105,8 +106,8 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoUpdateStartTime) as Activity,
-                        RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.EventWithStartTimeNotFound) as Activity,
+                        Prompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoUpdateStartTime) as Activity,
+                        RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.EventWithStartTimeNotFound) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -152,7 +153,7 @@ namespace CalendarSkill.Dialogs
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.ConfirmUpdateFailed) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.ConfirmUpdateFailed) as Activity,
                 });
             }
             catch (Exception ex)
@@ -175,7 +176,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.ActionEnded);
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
                     await sc.Context.SendActivityAsync(activity);
                     if (options.SubFlowMode)
                     {
@@ -260,8 +261,8 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTime) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, UpdateEventResponses.NoNewTimeRetry) as Activity,
+                    Prompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoNewTime) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoNewTimeRetry) as Activity,
                     TimeZone = state.GetUserTimeZone(),
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
@@ -402,7 +403,7 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     // user has tried 5 times but can't get result
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse);
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }

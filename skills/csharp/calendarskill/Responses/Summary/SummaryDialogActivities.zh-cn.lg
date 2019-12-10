@@ -1,4 +1,4 @@
-﻿[import](SummaryDialogTexts.lg)
+[import](SummaryDialogTexts.zh-cn.lg)
 [import](../Card/Card.lg)
 
 # CalendarNoMoreEvent
@@ -200,3 +200,4 @@
     Speak = {ShowOneMeetingSummaryShortMessage.Text(Condition)}
     InputHint = acceptingInput
 ]
+

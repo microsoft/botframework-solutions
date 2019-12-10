@@ -143,12 +143,12 @@ namespace EmailSkill.Tests.Flow
             // Configure files for generating all responses. Response from bot should equal one of them.
             var templateFilesAll = new List<string>()
             {
-                @"DeleteEmail\DeleteEmailTexts.lg",
-                @"FindContact\FindContactTexts.lg",
-                @"Main\MainDialogTexts.lg",
-                @"SendEmail\SendEmailTexts.lg",
-                @"Shared\SharedTexts.lg",
-                @"ShowEmail\ShowEmailTexts.lg",
+                @"DeleteEmail/DeleteEmailTexts.lg",
+                @"FindContact/FindContactTexts.lg",
+                @"Main/MainDialogTexts.lg",
+                @"SendEmail/SendEmailTexts.lg",
+                @"Shared/SharedTexts.lg",
+                @"ShowEmail/ShowEmailTexts.lg",
             };
 
             var templatesAll = new List<string>();

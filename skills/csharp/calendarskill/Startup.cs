@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
@@ -24,8 +26,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
@@ -56,13 +56,9 @@ namespace CalendarSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            HostingEnvironment = env;
-            TypeFactory.Configuration = Configuration;
         }
 
         public IConfiguration Configuration { get; }
-
-        public IWebHostEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -103,9 +99,44 @@ namespace CalendarSkill
                 return new BotStateSet(userState, conversationState, proactiveState);
             });
 
-            // Config LG
-            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
-            services.AddSingleton(resourceExplorer);
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var templateFiles = new Dictionary<string, string>
+            {
+                { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
+                { "CheckAvailable", "CheckAvailableActivities" },
+                { "CreateEvent", "CreateEventDialogActivities" },
+                { "FindContact", "FindContactDialogActivities" },
+                { "JoinEvent", "JoinEventDialogActivities" },
+                { "Main", "MainDialogActivities" },
+                { "Shared", "SharedActivities" },
+                { "Summary", "SummaryDialogActivities" },
+                { "TimeRemaining", "TimeRemainingDialogActivities" },
+                { "UpcomingEvent", "UpcomingEventDialogActivities" },
+                { "UpdateEvent", "UpdateEventDialogActivities" },
+            };
+
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();

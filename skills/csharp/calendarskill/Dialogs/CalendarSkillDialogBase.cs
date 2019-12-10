@@ -23,6 +23,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
@@ -47,6 +48,7 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
@@ -58,6 +60,7 @@ namespace CalendarSkill.Dialogs
             Accessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
+            TemplateEngine = localeTemplateEngineManager;
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
@@ -66,6 +69,8 @@ namespace CalendarSkill.Dialogs
             AddDialog(new TimePrompt(Actions.TimePrompt));
             AddDialog(new GetEventPrompt(Actions.GetEventPrompt));
         }
+
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected BotSettings Settings { get; set; }
 
@@ -419,7 +424,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoMoreEvent);
+                        var activity = TemplateEngine.GenerateActivityForLocale(SummaryResponses.CalendarNoMoreEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 
@@ -433,7 +438,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, SummaryResponses.CalendarNoPreviousEvent);
+                        var activity = TemplateEngine.GenerateActivityForLocale(SummaryResponses.CalendarNoPreviousEvent);
                         await sc.Context.SendActivityAsync(activity);
                     }
 
@@ -494,7 +499,7 @@ namespace CalendarSkill.Dialogs
                 else if (!state.ShowMeetingInfor.ShowingMeetings.Any())
                 {
                     // user has tried 3 times but can't get result
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.RetryTooManyResponse);
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
 
                     return await sc.CancelAllDialogsAsync();
@@ -595,9 +600,9 @@ namespace CalendarSkill.Dialogs
                 isOverview = true
             };
 
-            var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
+            var showMeetingPrompt = TemplateEngine.GenerateActivityForLocale(templateId, tokens) as Activity;
             var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingListCard);
-            var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
+            var meetingListCard = TemplateEngine.GenerateActivityForLocale(cardName, overviewCardParams) as Activity;
             showMeetingPrompt.Attachments = meetingListCard.Attachments;
             return showMeetingPrompt;
         }
@@ -642,13 +647,13 @@ namespace CalendarSkill.Dialogs
             var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingListCard);
             if (templateId == null)
             {
-                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
+                var meetingListCard = TemplateEngine.GenerateActivityForLocale(cardName, overviewCardParams) as Activity;
                 return meetingListCard;
             }
             else
             {
-                var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
-                var meetingListCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, overviewCardParams) as Activity;
+                var showMeetingPrompt = TemplateEngine.GenerateActivityForLocale(templateId, tokens) as Activity;
+                var meetingListCard = TemplateEngine.GenerateActivityForLocale(cardName, overviewCardParams) as Activity;
                 showMeetingPrompt.Attachments = meetingListCard.Attachments;
                 return showMeetingPrompt;
             }
@@ -685,13 +690,13 @@ namespace CalendarSkill.Dialogs
             var cardName = GetDivergedCardName(dc.Context, SummaryResponses.MeetingDetailCard);
             if (templateId == null)
             {
-                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, data) as Activity;
+                var meetingDetailCard = TemplateEngine.GenerateActivityForLocale(cardName, data) as Activity;
                 return meetingDetailCard;
             }
             else
             {
-                var showMeetingPrompt = await LGHelper.GenerateMessageAsync(dc.Context, templateId, tokens) as Activity;
-                var meetingDetailCard = await LGHelper.GenerateMessageAsync(dc.Context, cardName, data) as Activity;
+                var showMeetingPrompt = TemplateEngine.GenerateActivityForLocale(templateId, tokens) as Activity;
+                var meetingDetailCard = TemplateEngine.GenerateActivityForLocale(cardName, data) as Activity;
                 showMeetingPrompt.Attachments = meetingDetailCard.Attachments;
                 return showMeetingPrompt;
             }
@@ -1392,7 +1397,7 @@ namespace CalendarSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage);
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessage);
             await sc.Context.SendActivityAsync(activity);
 
             // clear state
@@ -1416,12 +1421,12 @@ namespace CalendarSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied || ex.ExceptionType == SkillExceptionType.APIUnauthorized || ex.ExceptionType == SkillExceptionType.APIForbidden || ex.ExceptionType == SkillExceptionType.APIBadRequest)
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessageAccountProblem);
+                var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessageAccountProblem);
                 await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, CalendarSharedResponses.CalendarErrorMessage);
+                var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessage);
                 await sc.Context.SendActivityAsync(activity);
             }
 

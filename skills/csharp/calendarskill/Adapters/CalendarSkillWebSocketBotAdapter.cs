@@ -8,11 +8,9 @@ using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Declarative;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 
@@ -24,16 +22,16 @@ namespace CalendarSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             TelemetryInitializerMiddleware telemetryMiddleware,
-            IBotTelemetryClient telemetryClient,
-            ResourceExplorer resourceExplorer)
+            IBotTelemetryClient telemetryClient)
             : base(null, telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                var activity = await LGHelper.GenerateMessageAsync(context, CalendarSharedResponses.CalendarErrorMessage);
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessage);
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
@@ -46,10 +44,6 @@ namespace CalendarSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
-
-            this.UseState(userState, conversationState);
-            this.UseResourceExplorer(resourceExplorer);
-            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }

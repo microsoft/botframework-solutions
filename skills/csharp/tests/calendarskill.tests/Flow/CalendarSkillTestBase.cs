@@ -83,42 +83,69 @@ namespace CalendarSkill.Test.Flow
             Services.AddSingleton<TestAdapter>(sp =>
             {
                 var adapter = new DefaultTestAdapter();
-
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                adapter.UseState(userState, conversationState);
-
-                var resource = sp.GetService<ResourceExplorer>();
-                adapter.UseResourceExplorer(resource);
-                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
-
                 adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
-
                 return adapter;
             });
 
-            var templateFiles = new List<string>()
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var templateFiles = new Dictionary<string, string>
             {
-                @"ChangeEventStatus\ChangeEventStatusDialogTexts.lg",
-                @"CheckAvailable\CheckAvailableTexts.lg",
-                @"CreateEvent\CreateEventDialogTexts.lg",
-                @"FindContact\FindContactDialogTexts.lg",
-                @"JoinEvent\JoinEventDialogTexts.lg",
-                @"Main\MainDialogTexts.lg",
-                @"Shared\SharedTexts.lg",
-                @"Summary\SummaryDialogTexts.lg",
-                @"TimeRemaining\TimeRemainingDialogTexts.lg",
-                @"UpcomingEvent\UpcomingEventDialogTexts.lg",
-                @"UpdateEvent\UpdateEventDialogTexts.lg",
+                { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
+                { "CheckAvailable", "CheckAvailableActivities" },
+                { "CreateEvent", "CreateEventDialogActivities" },
+                { "FindContact", "FindContactDialogActivities" },
+                { "JoinEvent", "JoinEventDialogActivities" },
+                { "Main", "MainDialogActivities" },
+                { "Shared", "SharedActivities" },
+                { "Summary", "SummaryDialogActivities" },
+                { "TimeRemaining", "TimeRemainingDialogActivities" },
+                { "UpcomingEvent", "UpcomingEventDialogActivities" },
+                { "UpdateEvent", "UpdateEventDialogActivities" },
             };
-            var templates = new List<string>();
-            templateFiles.ForEach(s => templates.Add(Path.Combine(Environment.CurrentDirectory, "Responses", s)));
-            var engine = new TemplateEngine().AddFiles(templates);
-            Services.AddSingleton(engine);
 
-            var projPath = Environment.CurrentDirectory.Substring(0, Environment.CurrentDirectory.IndexOf("bin"));
-            var resourceExplorer = ResourceExplorer.LoadProject(projPath);
-            Services.AddSingleton(resourceExplorer);
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+
+            // Configure files for generating all responses. Response from bot should equal one of them.
+            var templateFilesAll = new List<string>()
+            {
+                @"ChangeEventStatus/ChangeEventStatusDialogTexts.lg",
+                @"CheckAvailable/CheckAvailableTexts.lg",
+                @"CreateEvent/CreateEventDialogTexts.lg",
+                @"FindContact/FindContactDialogTexts.lg",
+                @"JoinEvent/JoinEventDialogTexts.lg",
+                @"Main/MainDialogTexts.lg",
+                @"Shared/SharedTexts.lg",
+                @"Summary/SummaryDialogTexts.lg",
+                @"TimeRemaining/TimeRemainingDialogTexts.lg",
+                @"UpcomingEvent/UpcomingEventDialogTexts.lg",
+                @"UpdateEvent/UpdateEventDialogTexts.lg",
+            };
+
+            var templatesAll = new List<string>();
+            templateFilesAll.ForEach(s => templatesAll.Add(Path.Combine(".", "Responses", s)));
+            var engineAll = new TemplateEngine().AddFiles(templatesAll);
+            Services.AddSingleton(engineAll);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton(ServiceManager);

@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -32,12 +33,13 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpcomingEventDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpcomingEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
             _proactiveState = proactiveState;
@@ -125,7 +127,7 @@ namespace CalendarSkill.Dialogs
                     responseString = UpcomingEventResponses.UpcomingEventMessage;
                 }
 
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, responseString, responseParams);
+                var activity = TemplateEngine.GenerateActivityForLocale(responseString, responseParams);
                 await turnContext.SendActivityAsync(activity);
             };
         }

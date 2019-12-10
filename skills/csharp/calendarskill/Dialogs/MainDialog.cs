@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -38,7 +39,7 @@ namespace CalendarSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             UserState userState,
-            ProactiveState proactiveState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             CreateEventDialog createEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
             TimeRemainingDialog timeRemainingDialog,
@@ -54,6 +55,7 @@ namespace CalendarSkill.Dialogs
             _services = services;
             _userState = userState;
             _conversationState = conversationState;
+            TemplateEngine = localeTemplateEngineManager;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
@@ -70,10 +72,12 @@ namespace CalendarSkill.Dialogs
             AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
         }
 
+        private LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CalendarWelcomeMessage);
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage);
             await dc.Context.SendActivityAsync(activity);
         }
 
@@ -178,7 +182,7 @@ namespace CalendarSkill.Dialogs
                             }
                             else
                             {
-                                var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarSharedResponses.DidntUnderstandMessage);
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.DidntUnderstandMessage);
                                 await dc.Context.SendActivityAsync(activity);
                             }
 
@@ -187,7 +191,7 @@ namespace CalendarSkill.Dialogs
 
                     default:
                         {
-                            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.FeatureNotAvailable);
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
                             await dc.Context.SendActivityAsync(activity);
                             break;
                         }
@@ -340,7 +344,7 @@ namespace CalendarSkill.Dialogs
             state.Clear();
             state.Clear();
 
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.CancelMessage);
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.CancelMessage);
             await dc.Context.SendActivityAsync(activity);
 
             await dc.CancelAllDialogsAsync();
@@ -349,7 +353,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.HelpMessage);
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.HelpMessage);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.Resume;
@@ -377,7 +381,7 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            var activity = await LGHelper.GenerateMessageAsync(dc.Context, CalendarMainResponses.LogOut);
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.LogOut);
             await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.End;

@@ -29,10 +29,11 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(TimeRemainingDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(TimeRemainingDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -87,7 +88,7 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNoMeetingMessage);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowNoMeetingMessage);
                     await sc.Context.SendActivityAsync(prompt);
                     return await sc.EndDialogAsync();
                 }
@@ -147,7 +148,7 @@ namespace CalendarSkill.Dialogs
                         {
                             RemainingTime = remainingTime
                         };
-                        var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
+                        var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }
@@ -176,7 +177,7 @@ namespace CalendarSkill.Dialogs
                             Title = state.MeetingInfor.Title != null ? string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title) : string.Empty
                         };
 
-                        var prompt = await LGHelper.GenerateMessageAsync(sc.Context, TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
+                        var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }

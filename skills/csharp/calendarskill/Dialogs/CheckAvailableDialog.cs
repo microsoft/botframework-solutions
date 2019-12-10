@@ -15,6 +15,7 @@ using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -28,11 +29,12 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(CheckAvailableDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(CheckAvailableDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -127,8 +129,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions()
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
+                    Prompt = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AskForCheckAvailableTime) as Activity,
                     TimeZone = state.GetUserTimeZone(),
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 });
@@ -227,7 +229,7 @@ namespace CalendarSkill.Dialogs
                 if (!availabilityResult.AvailabilityViewList.First().StartsWith("0"))
                 {
                     // the attendee is not available
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.NotAvailable, new
+                    var activity = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.NotAvailable, new
                     {
                         UserName = state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address,
                         Time = timeString,
@@ -266,7 +268,7 @@ namespace CalendarSkill.Dialogs
                         // both attendee and current user is available
                         state.MeetingInfor.IsOrgnizerAvailable = true;
 
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AttendeeIsAvailable, new
+                        var activity = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AttendeeIsAvailable, new
                         {
                             StartTime = startAvailableTime.ToString(CommonStrings.DisplayTime),
                             EndTime = endAvailableTime.ToString(CommonStrings.DisplayTime),
@@ -299,7 +301,7 @@ namespace CalendarSkill.Dialogs
                                 EventStartTime = TimeConverter.ConvertUtcToUserTime(conflictMeetingTitleList.First().StartTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime),
                                 EventEndTime = TimeConverter.ConvertUtcToUserTime(conflictMeetingTitleList.First().EndTime, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime)
                             };
-                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, responseParams);
+                            var activity = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, responseParams);
                             await sc.Context.SendActivityAsync(activity);
                         }
                         else
@@ -312,7 +314,7 @@ namespace CalendarSkill.Dialogs
                                 UserName = state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address,
                                 ConflictEventsCount = conflictMeetingTitleList.Count.ToString()
                             };
-                            var activity = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts, responseParams);
+                            var activity = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts, responseParams);
                             await sc.Context.SendActivityAsync(activity);
                         }
                     }
@@ -340,8 +342,8 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForNextAvailableTime, data) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.AskForNextAvailableTime, data) as Activity,
+                    Prompt = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AskForNextAvailableTime, data) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AskForNextAvailableTime, data) as Activity,
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -394,7 +396,7 @@ namespace CalendarSkill.Dialogs
 
                         state.MeetingInfor.StartDateTime = startAvailableTime;
 
-                        var activity = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.NextBothAvailableTime, new
+                        var activity = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.NextBothAvailableTime, new
                         {
                             UserName = state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address,
                             StartTime = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone()).ToString(CommonStrings.DisplayTime),
@@ -406,7 +408,7 @@ namespace CalendarSkill.Dialogs
                         return await sc.BeginDialogAsync(Actions.CreateMeetingWithAvailableTime, sc.Options);
                     }
 
-                    var activityNoNextBothAvailableTime = await LGHelper.GenerateMessageAsync(sc.Context, CheckAvailableResponses.NoNextBothAvailableTime, new
+                    var activityNoNextBothAvailableTime = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.NoNextBothAvailableTime, new
                     {
                         UserName = state.MeetingInfor.ContactInfor.Contacts[0].DisplayName ?? state.MeetingInfor.ContactInfor.Contacts[0].Address
                     });
@@ -442,8 +444,8 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = await LGHelper.GenerateMessageAsync(sc.Context, responseId, data) as Activity,
-                    RetryPrompt = await LGHelper.GenerateMessageAsync(sc.Context, responseId, data) as Activity,
+                    Prompt = TemplateEngine.GenerateActivityForLocale(responseId, data) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(responseId, data) as Activity,
                 }, cancellationToken);
             }
             catch (Exception ex)
