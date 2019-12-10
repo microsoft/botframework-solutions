@@ -2,7 +2,7 @@ $jsonfile = '.\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssista
 $config = Get-Content -Raw -Path $jsonfile | ConvertFrom-Json
 $languageArr = "en-us", "de-de", "fr-fr", "it-it", "zh-cn"
 
-$dispatchModel = @{
+$dispatchModel = [pscustomobject]@{
     authoringkey = ""
     authoringRegion = ""
     appid = ""
@@ -12,7 +12,7 @@ $dispatchModel = @{
     type = "dispatch"
 }
 
-$languageModel = @{
+$languageModel = [pscustomobject]@{
     appid = ""
     authoringkey = ""
     authoringRegion = ""
@@ -23,7 +23,7 @@ $languageModel = @{
     version = ""
 }
 
-$knowledgeBase = @{
+$knowledgeBase = [pscustomobject]@{
     endpointKey = ""
     id = ""
     hostname = ""
@@ -32,7 +32,7 @@ $knowledgeBase = @{
     subscriptionKey = ""
 }
 
-$languageBlock = @{
+$languageBlock = [pscustomobject]@{
     dispatchModel = $dispatchModel
     languageModels = @($languageModel)
     knowledgeBases = @(
