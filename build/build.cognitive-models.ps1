@@ -1,7 +1,13 @@
-$jsonfile = '.\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample\CognitiveModels.json'
-$config = Get-Content -Raw -Path $jsonfile | ConvertFrom-Json
-$languageArr = "en-us", "de-de", "fr-fr", "it-it", "zh-cn"
+Param(
+	[string] $jsonFile,
+    [switch] $useDispatch = $false,
+    [int] $languageModels = 1,
+    [int] $knowledgeBases = 1,
+    [string] $languages = "en-us"
+)
+$config = Get-Content -Raw -Path $jsonFile | ConvertFrom-Json
 
+# Create reused variables
 $dispatchModel = [pscustomobject]@{
     authoringkey = ""
     authoringRegion = ""
@@ -32,15 +38,34 @@ $knowledgeBase = [pscustomobject]@{
     subscriptionKey = ""
 }
 
-$languageBlock = [pscustomobject]@{
+# Create a language block object with or without a dispatch model
+if ($useDispatch){
+    $languageBlock = [pscustomobject]@{
     dispatchModel = $dispatchModel
-    languageModels = @($languageModel)
-    knowledgeBases = @(
-        $knowledgeBase
-        $knowledgeBase
-    )
+    languageModels = @()
+    knowledgeBases = @()
+    }
+} else {
+    $languageBlock = [pscustomobject]@{
+        languageModels = @()
+        knowledgeBases = @()
+    }
 }
 
+# Add language models
+for($i = 0; $i -lt $languageModels; $i++){
+    $languageBlock.languageModels += $languageModel
+}
+
+# Add knowledge bases
+for($i = 0; $i -lt $knowledgeBases; $i++){
+    $languageBlock.knowledgeBases += $knowledgeBase
+}
+
+# Get languages
+$languageArr = $languages -split ","
+
+# Add block of models for each language
 foreach ($language in $languageArr){
     # If english, add additional knowledge base
     # If other, add all
@@ -52,4 +77,4 @@ foreach ($language in $languageArr){
     }
 }
 
-$config | ConvertTo-Json -depth 5 | Set-Content $jsonfile
+$config | ConvertTo-Json -depth 4 | Set-Content $jsonFile
