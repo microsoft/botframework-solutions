@@ -26,7 +26,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
     },
     "useStorage": {
       "type": "bool",
@@ -129,12 +129,21 @@
     "qnaMakerWebAppName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
+    },
+    "resourceTagName": {
+      "type": "string",
+      "defaultValue": "bot"
+    },
+    "resourceTagValue": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     }
   },
   "variables": {
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+    "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "cosmosDbAccountName": "[toLower(take(replace(take(parameters('cosmosDbName'), 29), '_', ''), 31))]",
+    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
     "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
@@ -169,6 +178,9 @@
           }
         ]
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useCosmosDb')]"
     },
     {
@@ -181,6 +193,9 @@
       "sku": {
         "name": "Standard_LRS"
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useStorage')]"
     },
     {
@@ -190,7 +205,10 @@
       "name": "[parameters('appServicePlanName')]",
       "location": "[parameters('location')]",
       "sku": "[parameters('appServicePlanSku')]",
-      "properties": {}
+      "properties": {},
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      }
     },
     {
       "comments": "app insights",
@@ -201,6 +219,9 @@
       "location": "[parameters('appInsightsLocation')]",
       "properties": {
         "Application_Type": "web"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -225,6 +246,9 @@
           ]
         }
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ]
@@ -234,18 +258,21 @@
       "type": "Microsoft.BotService/botServices",
       "kind": "sdk",
       "apiVersion": "2018-07-12",
-      "name": "[parameters('botServiceName')]",
+      "name": "[variables('botServiceName')]",
       "location": "global",
       "sku": {
         "name": "[parameters('botServiceSku')]"
       },
       "properties": {
-        "displayName": "[parameters('botServiceName')]",
+        "displayName": "[variables('botServiceName')]",
         "endpoint": "[variables('botEndpoint')]",
         "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -257,6 +284,9 @@
       "location": "[parameters('contentModeratorLocation')]",
       "sku": {
         "name": "[parameters('contentModeratorSku')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "condition": "[parameters('useContentModerator')]"
     },
@@ -271,6 +301,9 @@
       },
       "properties": {
         "customSubDomainName": "[parameters('luisRuntimeName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -284,6 +317,9 @@
       },
       "properties": {
         "customSubDomainName": "[parameters('luisAuthoringName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
@@ -304,6 +340,9 @@
           "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]"
         }
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
         "[resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName'))]",
@@ -323,6 +362,9 @@
         "replicaCount": 1,
         "partitionCount": 1,
         "hostingMode": "default"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -343,6 +385,9 @@
             ]
           }
         }
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
