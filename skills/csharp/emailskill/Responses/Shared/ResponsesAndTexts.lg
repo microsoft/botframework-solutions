@@ -1,6 +1,0 @@
-﻿[import](DeleteEmailActivities.lg)
-[import](FindContactActivities.lg)
-[import](MainDialogActivities.lg)
-[import](SendEmailActivities.lg)
-[import](SharedActivities.lg)
-[import](ShowEmailActivities.lg)

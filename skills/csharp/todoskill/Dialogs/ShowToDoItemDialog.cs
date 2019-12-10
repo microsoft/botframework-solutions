@@ -156,7 +156,6 @@ namespace ToDoSkill.Dialogs
 
                         if (allTasksCount <= state.Tasks.Count)
                         {
-
                             var activity = TemplateEngine.GenerateActivityForLocale(ShowToDoResponses.AskAddOrCompleteTaskMessage);
                             await sc.Context.SendActivityAsync(activity);
                         }

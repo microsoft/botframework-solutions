@@ -21,8 +21,6 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            UserState userState,
-            ConversationState conversationState,
             LocaleTemplateEngineManager localeTemplateEngineManager,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
@@ -43,8 +41,6 @@ namespace ToDoSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-
-            this.UseState(userState, conversationState);
         }
     }
 }

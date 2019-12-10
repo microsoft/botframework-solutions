@@ -22,9 +22,10 @@ namespace EmailSkill.Dialogs
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
         public ForwardEmailDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ForwardEmailDialog), serviceProvider, telemetryClient)
+            : base(nameof(ForwardEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -68,7 +69,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(serviceProvider, telemetryClient));
+            AddDialog(new FindContactDialog(localeTemplateEngineManager, serviceProvider, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
@@ -99,8 +100,7 @@ namespace EmailSkill.Dialogs
                     };
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var reply = await LGHelper.GenerateMessageAsync(
-                        sc.Context,
+                    var reply = TemplateEngine.GenerateActivityForLocale(
                         EmailSharedResponses.SentSuccessfully,
                         new
                         {
@@ -112,7 +112,7 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
             }

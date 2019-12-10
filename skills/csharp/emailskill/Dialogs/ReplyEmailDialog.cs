@@ -22,9 +22,10 @@ namespace EmailSkill.Dialogs
     public class ReplyEmailDialog : EmailSkillDialogBase
     {
         public ReplyEmailDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ReplyEmailDialog), serviceProvider, telemetryClient)
+            : base(nameof(ReplyEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -95,20 +96,19 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var reply = await LGHelper.GenerateMessageAsync(
-                     sc.Context,
-                     EmailSharedResponses.SentSuccessfully,
-                     new
-                     {
-                         subject = state.Subject,
-                         emailDetails = emailCard
-                     });
+                    var reply = TemplateEngine.GenerateActivityForLocale(
+                    EmailSharedResponses.SentSuccessfully,
+                    new
+                    {
+                        subject = state.Subject,
+                        emailDetails = emailCard
+                    });
 
                     await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
             }

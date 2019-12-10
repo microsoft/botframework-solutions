@@ -102,9 +102,6 @@ namespace ToDoSkill.Tests.Flow
             Services.AddSingleton<TestAdapter>(sp =>
             {
                 var adapter = new DefaultTestAdapter();
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                adapter.UseState(userState, conversationState);
                 adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
                 return adapter;
             });

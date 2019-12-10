@@ -1,4 +1,4 @@
-﻿[import](SharedTexts.lg)
+[import](SharedTexts.zh-cn.lg)
 [import](../Cards/EmailWithOutButtonCard.lg)
 [import](../Cards/EmailOverviewCard.lg)
 
@@ -205,3 +205,4 @@
     Speak = {RetryInput.Text()}
     InputHint = expectingInput
 ]
+

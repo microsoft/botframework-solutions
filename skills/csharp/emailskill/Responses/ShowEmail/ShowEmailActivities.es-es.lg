@@ -1,5 +1,5 @@
-﻿[import](../Cards/EmailDetailCard.lg)
-[import](ShowEmailTexts.lg)
+[import](../Cards/EmailDetailCard.lg)
+[import](ShowEmailTexts.es-es.lg)
 
 # ReadOut
 [Activity
@@ -28,3 +28,4 @@
     Attachments = {json(EmailDetailCard(emailDetails))}
     InputHint = acceptingInput
 ]
+

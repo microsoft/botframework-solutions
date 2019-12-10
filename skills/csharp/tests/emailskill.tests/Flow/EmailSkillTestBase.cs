@@ -22,10 +22,6 @@ using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Declarative;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
@@ -106,21 +102,46 @@ namespace EmailSkill.Tests.Flow
             Services.AddSingleton<TestAdapter>(sp =>
             {
                 var adapter = new DefaultTestAdapter();
-
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                adapter.UseState(userState, conversationState);
-
-                var resource = sp.GetService<ResourceExplorer>();
-                adapter.UseResourceExplorer(resource);
-                adapter.UseLanguageGeneration(resource, "ResponsesAndTexts.lg");
-
                 adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
-
                 return adapter;
             });
 
-            var templateFiles = new List<string>()
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var templateFiles = new Dictionary<string, string>
+            {
+                { "DeleteEmail", "DeleteEmailActivities" },
+                { "FindContact", "FindContactActivities" },
+                { "Main", "MainDialogActivities" },
+                { "SendEmail", "SendEmailActivities" },
+                { "Shared", "SharedActivities" },
+                { "ShowEmail", "ShowEmailActivities" }
+            };
+
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+
+            // Configure files for generating all responses. Response from bot should equal one of them.
+            var templateFilesAll = new List<string>()
             {
                 @"DeleteEmail\DeleteEmailTexts.lg",
                 @"FindContact\FindContactTexts.lg",
@@ -129,14 +150,11 @@ namespace EmailSkill.Tests.Flow
                 @"Shared\SharedTexts.lg",
                 @"ShowEmail\ShowEmailTexts.lg",
             };
-            var templates = new List<string>();
-            templateFiles.ForEach(s => templates.Add(Path.Combine(Environment.CurrentDirectory, "Responses", s)));
-            var engine = new TemplateEngine().AddFiles(templates);
-            Services.AddSingleton(engine);
 
-            var projPath = Environment.CurrentDirectory.Substring(0, Environment.CurrentDirectory.IndexOf("bin"));
-            var resourceExplorer = ResourceExplorer.LoadProject(projPath);
-            Services.AddSingleton(resourceExplorer);
+            var templatesAll = new List<string>();
+            templateFilesAll.ForEach(s => templatesAll.Add(Path.Combine(".", "Responses", s)));
+            var engineAll = new TemplateEngine().AddFiles(templatesAll);
+            Services.AddSingleton(engineAll);
 
             Services.AddSingleton<IStorage>(new MemoryStorage());
 
@@ -154,8 +172,6 @@ namespace EmailSkill.Tests.Flow
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;
-
-            TypeFactory.Configuration = new ConfigurationBuilder().Build();
         }
 
         public string[] GetTemplates(string templateName, object data = null)

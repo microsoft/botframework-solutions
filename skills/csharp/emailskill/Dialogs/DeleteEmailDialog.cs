@@ -16,6 +16,7 @@ using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -25,9 +26,10 @@ namespace EmailSkill.Dialogs
     public class DeleteEmailDialog : EmailSkillDialogBase
     {
         public DeleteEmailDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), serviceProvider, telemetryClient)
+            : base(nameof(DeleteEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -90,16 +92,15 @@ namespace EmailSkill.Dialogs
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
                     var speech = SpeakHelper.ToSpeechEmailSendDetailString(message.Subject, nameListString, message.BodyPreview);
-                    var prompt = await LGHelper.GenerateMessageAsync(
-                       sc.Context,
-                       DeleteEmailResponses.DeleteConfirm,
-                       new
-                       {
-                           emailInfo = speech,
-                           emailDetails = emailCard
-                       });
+                    var prompt = TemplateEngine.GenerateActivityForLocale(
+                        DeleteEmailResponses.DeleteConfirm,
+                        new
+                        {
+                            emailInfo = speech,
+                            emailDetails = emailCard
+                        });
 
-                    var retry = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.ConfirmSendFailed);
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendFailed);
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
 
@@ -125,12 +126,12 @@ namespace EmailSkill.Dialogs
                     var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, DeleteEmailResponses.DeleteSuccessfully);
+                    var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
                     await sc.Context.SendActivityAsync(activity);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                 }
 

@@ -8,11 +8,9 @@ using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Declarative;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 
@@ -24,15 +22,15 @@ namespace EmailSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IBotTelemetryClient telemetryClient,
-            ResourceExplorer resourceExplorer,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(null, telemetryClient)
         {
             OnTurnError = async (turnContext, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(turnContext.Activity.Locale);
-                var activity = await LGHelper.GenerateMessageAsync(turnContext, EmailSharedResponses.EmailErrorMessage);
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessage);
                 await turnContext.SendActivityAsync(activity);
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
@@ -44,10 +42,6 @@ namespace EmailSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
-
-            this.UseState(userState, conversationState);
-            this.UseResourceExplorer(resourceExplorer);
-            this.UseLanguageGeneration(resourceExplorer, "ResponsesAndTexts.lg");
         }
     }
 }

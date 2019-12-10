@@ -18,6 +18,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -30,9 +31,10 @@ namespace EmailSkill.Dialogs
     public class ShowEmailDialog : EmailSkillDialogBase
     {
         public ShowEmailDialog(
-        IServiceProvider serviceProvider,
-        IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowEmailDialog), serviceProvider, telemetryClient)
+            LocaleTemplateEngineManager localeTemplateEngineManager,
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ShowEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -140,7 +142,7 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, ShowEmailResponses.ReadOut, new { messageList = state.MessageList });
+                var activity = TemplateEngine.GenerateActivityForLocale(ShowEmailResponses.ReadOut, new { messageList = state.MessageList });
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
@@ -155,7 +157,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var activity = await LGHelper.GenerateMessageAsync(sc.Context, ShowEmailResponses.ReadOutMore);
+                var activity = TemplateEngine.GenerateActivityForLocale(ShowEmailResponses.ReadOutMore);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
@@ -187,7 +189,7 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(false);
                 }
@@ -258,8 +260,7 @@ namespace EmailSkill.Dialogs
                     };
 
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
-                    var replyMessage = await LGHelper.GenerateMessageAsync(
-                        sc.Context,
+                    var replyMessage = TemplateEngine.GenerateActivityForLocale(
                         ShowEmailResponses.ReadOutMessage,
                         new
                         {
@@ -304,7 +305,7 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.CancellingMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -373,7 +374,7 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
@@ -504,13 +505,13 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
                     }
 
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.DidntUnderstandMessage);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage);
                     await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    var activity = await LGHelper.GenerateMessageAsync(sc.Context, EmailSharedResponses.EmailNotFound);
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailNotFound);
                     await sc.Context.SendActivityAsync(activity);
                 }
 

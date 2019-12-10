@@ -1,4 +1,4 @@
-﻿[import](SendEmailTexts.lg)
+[import](SendEmailTexts.de-de.lg)
 [import](../Cards/EmailContentPreview.lg)
 
 # NoSubject
@@ -65,3 +65,4 @@
     Speak = {GetRecreateInfoRetry.Text()}
     InputHint = expectingInput
 ]
+

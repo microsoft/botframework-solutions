@@ -88,7 +88,6 @@ namespace ToDoSkill
             });
 
             // Configure localized responses
-            var localizedTemplates = new Dictionary<string, List<string>>();
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
@@ -100,6 +99,7 @@ namespace ToDoSkill
                 { "ShowToDo", "ShowToDoActivities" }
             };
 
+            var localizedTemplates = new Dictionary<string, List<string>>();
             foreach (var locale in supportedLocales)
             {
                 var localeTemplateFiles = new List<string>();

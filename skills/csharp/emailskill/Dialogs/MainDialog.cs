@@ -16,7 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
@@ -38,10 +38,13 @@ namespace EmailSkill.Dialogs
         private DeleteEmailDialog _deleteEmailDialog;
 
         public MainDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
+            TemplateEngine = localeTemplateEngineManager;
+
             _settings = serviceProvider.GetService<BotSettings>();
             _services = serviceProvider.GetService<BotServices>();
             _userState = serviceProvider.GetService<UserState>();
@@ -63,6 +66,8 @@ namespace EmailSkill.Dialogs
 
             GetReadingDisplayConfig();
         }
+
+        private LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         // Runs on every turn of the conversation.
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
@@ -101,14 +106,14 @@ namespace EmailSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.CancelMessage));
+                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.CancelMessage));
                                 await dc.CancelAllDialogsAsync();
                                 return InterruptionAction.End;
                             }
 
                         case General.Intent.Help:
                             {
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.HelpMessage));
+                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.HelpMessage));
                                 return InterruptionAction.Resume;
                             }
 
@@ -117,7 +122,7 @@ namespace EmailSkill.Dialogs
                                 // Log user out of all accounts.
                                 await LogUserOut(dc);
 
-                                await dc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(dc.Context, EmailMainResponses.LogOut));
+                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.LogOut));
                                 return InterruptionAction.End;
                             }
                     }
@@ -131,7 +136,7 @@ namespace EmailSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             // send a greeting if we're in local mode
-            await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.EmailWelcomeMessage));
+            await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage));
         }
 
         // Runs when the dialog stack is empty, and a new message activity comes in.
@@ -211,7 +216,7 @@ namespace EmailSkill.Dialogs
                                 }
                                 else
                                 {
-                                    await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailSharedResponses.DidntUnderstandMessage));
+                                    await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage));
                                 }
 
                                 break;
@@ -219,7 +224,7 @@ namespace EmailSkill.Dialogs
 
                         default:
                             {
-                                await innerDc.Context.SendActivityAsync(await LGHelper.GenerateMessageAsync(innerDc.Context, EmailMainResponses.FeatureNotAvailable));
+                                await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.FeatureNotAvailable));
                                 break;
                             }
                     }
@@ -354,5 +359,5 @@ namespace EmailSkill.Dialogs
             public const string TimezoneEvent = "Timezone";
             public const string LocationEvent = "Location";
         }
-}
+    }
 }

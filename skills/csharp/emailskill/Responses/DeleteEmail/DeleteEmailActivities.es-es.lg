@@ -1,4 +1,4 @@
-﻿[import](DeleteEmailTexts.lg)
+[import](DeleteEmailTexts.es-es.lg)
 [import](../Cards/EmailDetailCard.lg)
 
 # DeleteSuccessfully
@@ -15,3 +15,4 @@
     Attachments = {json(EmailDetailCard(emailDetails))}
     InputHint = expectingInput
 ]
+
