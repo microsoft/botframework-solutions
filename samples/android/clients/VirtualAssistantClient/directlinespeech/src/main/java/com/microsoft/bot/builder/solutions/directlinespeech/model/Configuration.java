@@ -13,10 +13,6 @@ public class Configuration {
     @Expose
     public String serviceRegion;
 
-    @SerializedName("bot_id")
-    @Expose
-    public String botId;
-
     @SerializedName("user_id")
     @Expose
     public String userId;
