@@ -281,7 +281,7 @@ public class SpeechSdk {
         try {
             final Future<Void> task = botConnector.startKeywordRecognitionAsync(KeywordRecognitionModel.fromStream(inputStream,keyword,false ));
             setOnTaskCompletedListener(task, result -> {
-                LogInfo("keywordRecognitaionStarted");
+                LogInfo("startKeywordRecognition");
             });
         }
         catch (FileNotFoundException e){
@@ -296,7 +296,7 @@ public class SpeechSdk {
         final Future<Void> task = botConnector.stopKeywordRecognitionAsync();
         setOnTaskCompletedListener(task, result -> {
             // your code here
-            LogInfo("stopKeywordListening");
+            LogInfo("stopKeywordRecognition");
         });
     }
 
