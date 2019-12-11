@@ -57,14 +57,14 @@
 - ¿Desea cambiar a la @{Skill}?
 
 # EscalateMessage
-@{HeroCard
+[HeroCard
   subtitle=Nuestros agentes están disponibles 24/7 al 1(800)555-1234. O conéctese con nosotros a través de Microsoft Teams.
-}
+]
 
 # NewUserIntroCard
-@{Activity
+[Activity
     Attachments = @{json(NewUserIntroCardJson())}
-}
+]
 
 # NewUserIntroCardTitle
 - ¡Hola!
@@ -211,10 +211,10 @@
 ```
 
 # HelpCard
-@{HeroCard 
+[HeroCard 
     title=Ayuda para Virtual Assistant
     subtitle=Esta tarjeta se puede utilizar para mostrar información para ayudar al usuario a interactuar con el bot.
-}
+]
 
 # RandomName 
 - IF: @{Name && rand(0, 1000) > 500}

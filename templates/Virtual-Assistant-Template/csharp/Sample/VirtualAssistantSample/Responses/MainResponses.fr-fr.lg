@@ -57,14 +57,14 @@
 - Voulez-vous passer à la @{Skill}?
 
 # EscalateMessage
-@{HeroCard
+[HeroCard
   subtitle=titres Nos agents sont disponibles 24/7 au 1(800)555-1234. Ou connectez-vous avec nous via Microsoft Teams.
-}
+]
 
 # NewUserIntroCard
-@{Activity
+[Activity
     Attachments = @{json(NewUserIntroCardJson())}
-}
+]
 
 # NewUserIntroCardTitle
 - Salut!
@@ -141,9 +141,9 @@
 ```
 
 # ReturningUserIntroCard
-@{Activity
+[Activity
     Attachments = @{json(ReturningUserIntroCardJson())}
-}
+]
 
 # ReturningUserIntroCardTitle
 - Bienvenue @{RandomName()}!

@@ -57,14 +57,14 @@
 - 您要切换到 @{Skill} 吗？
 
 # EscalateMessage
-@{HeroCard
+[HeroCard
   subtitle=我们的代理商全天候提供 1（800）555-1234。或者通过微软团队与我们联系。
-}
+]
 
 # NewUserIntroCard
-@{Activity
+[Activity
     Attachments = @{json(NewUserIntroCardJson())}
-}
+]
 
 # NewUserIntroCardTitle
 - 嘿，你好！
@@ -141,9 +141,9 @@
 ```
 
 # ReturningUserIntroCard
-@{Activity
+[Activity
     Attachments = @{json(ReturningUserIntroCardJson())}
-}
+]
 
 # ReturningUserIntroCardTitle
 - 欢迎回来 @{RandomName()}!
@@ -211,10 +211,10 @@
 ```
 
 # HelpCard
-@{HeroCard 
+[HeroCard 
     title=虚拟助理的帮助
     subtitle=此卡可用于显示信息，以帮助用户与您的机器人进行交互。
-}
+]
 
 # RandomName 
 - IF: @{Name && rand(0, 1000) > 500}
