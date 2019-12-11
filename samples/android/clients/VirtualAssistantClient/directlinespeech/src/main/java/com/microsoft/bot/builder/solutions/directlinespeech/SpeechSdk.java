@@ -160,6 +160,12 @@ public class SpeechSdk {
 
         botConnector.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
             final String recognizedSpeech = speechRecognitionResultEventArgs.getResult().getText();
+
+            if (speechRecognitionResultEventArgs.getResult().getReason().equals(RecognizedKeyword)) {
+                // show listening animation when keyword is recognized
+                EventBus.getDefault().post(new BotListening());
+            }
+
             LogInfo("Intermediate result received: " + recognizedSpeech);
 
             // trigger callback to expose result in 3rd party app
@@ -276,7 +282,7 @@ public class SpeechSdk {
         });
     }
 
-    public void startKeywordListeningAsync(InputStream inputStream, String keyword){ ;
+    public void startKeywordListeningAsync(InputStream inputStream, String keyword){
         LogInfo("startKeywordListeningAsync");
         try {
             final Future<Void> task = botConnector.startKeywordRecognitionAsync(KeywordRecognitionModel.fromStream(inputStream,keyword,false ));
