@@ -1,5 +1,5 @@
 Param(
-	[string] $jsonFile,
+    [string] $jsonFile,
     [switch] $useDispatch = $false,
     [int] $languageModels = 1,
     [int] $knowledgeBases = 1,
