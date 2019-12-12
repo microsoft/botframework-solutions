@@ -4,6 +4,7 @@
 using Luis;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Tests.Flow.Strings;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Tests.Flow.Utterances
 {

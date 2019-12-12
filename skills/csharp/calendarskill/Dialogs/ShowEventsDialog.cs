@@ -106,6 +106,12 @@ namespace CalendarSkill.Dialogs
                 ReShow
             };
 
+            var connectToMeeting = new WaterfallStep[]
+            {
+                ConnectToMeeting,
+                ReShow
+            };
+
             var reshow = new WaterfallStep[]
             {
                 AskForShowOverview,
@@ -121,6 +127,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.ShowFilteredEvents, showFilteredEvents) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateEvent, updateEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, connectToMeeting) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Reshow, reshow) { TelemetryClient = telemetryClient });
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
@@ -532,10 +539,9 @@ namespace CalendarSkill.Dialogs
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
-
-                var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
                 generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
@@ -597,7 +603,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var filteredMeetingList = GetFilteredEvents(state, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
+                        var filteredMeetingList = GetFilteredEvents(state, luisResult, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
 
                         if (filteredMeetingList.Count == 1)
                         {
@@ -612,24 +618,15 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    if (state.ShowMeetingInfor.FocusedEvents.Count == 1)
+                    var intentSwithingResult = await GetIntentSwitchingResult(sc, topIntent.Value, state);
+                    if (intentSwithingResult != null)
                     {
-                        if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
-                        {
-                            return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
-                        }
-                        else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                        {
-                            return await sc.BeginDialogAsync(Actions.UpdateEvent);
-                        }
-                        else
-                        {
-                            return await sc.BeginDialogAsync(Actions.Read);
-                        }
+                        return intentSwithingResult;
                     }
-
-                    // TODO - Need to clean this up
-                    return await sc.EndDialogAsync();
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.Read);
+                    }
                 }
             }
             catch (SkillException ex)
@@ -642,6 +639,51 @@ namespace CalendarSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        private async Task<DialogTurnResult> GetIntentSwitchingResult(WaterfallStepContext sc, CalendarLuis.Intent topIntent, CalendarSkillState state)
+        {
+            var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
+            if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+            {
+                return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
+            }
+            else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
+            {
+                return await sc.BeginDialogAsync(Actions.UpdateEvent);
+            }
+            else if (topIntent == CalendarLuis.Intent.CheckAvailability)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
+            }
+            else if (topIntent == CalendarLuis.Intent.ConnectToMeeting)
+            {
+                return await sc.BeginDialogAsync(Actions.ConnectToMeeting);
+            }
+            else if (topIntent == CalendarLuis.Intent.CreateCalendarEntry)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(CreateEventDialog), newFlowOptions);
+            }
+            else if (topIntent == CalendarLuis.Intent.FindCalendarDetail
+                || topIntent == CalendarLuis.Intent.FindCalendarEntry
+                || topIntent == CalendarLuis.Intent.FindCalendarWhen
+                || topIntent == CalendarLuis.Intent.FindCalendarWhere
+                || topIntent == CalendarLuis.Intent.FindCalendarWho
+                || topIntent == CalendarLuis.Intent.FindDuration
+                || topIntent == CalendarLuis.Intent.FindMeetingRoom)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
+            }
+            else if (topIntent == CalendarLuis.Intent.TimeRemaining)
+            {
+                state.Clear();
+                return await sc.ReplaceDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+            }
+
+            return null;
         }
 
         private async Task<DialogTurnResult> ReadEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -757,7 +799,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -770,13 +812,10 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
+                    var intentSwithingResult = await GetIntentSwitchingResult(sc, topIntent.Value, state);
+                    if (intentSwithingResult != null)
                     {
-                        return await sc.BeginDialogAsync(Actions.ChangeEventStatus);
-                    }
-                    else if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
-                    {
-                        return await sc.BeginDialogAsync(Actions.UpdateEvent);
+                        return intentSwithingResult;
                     }
                 }
 
@@ -837,7 +876,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
 
                 if (topIntent == CalendarLuis.Intent.AcceptEventEntry)
@@ -850,6 +889,25 @@ namespace CalendarSkill.Dialogs
                     var options = new ChangeEventStatusDialogOptions(new CalendarSkillDialogOptions() { SubFlowMode = true }, EventStatus.Cancelled);
                     return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), options);
                 }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> ConnectToMeeting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var options = new CalendarSkillDialogOptions() { SubFlowMode = true };
+                return await sc.BeginDialogAsync(nameof(JoinEventDialog), options);
             }
             catch (SkillException ex)
             {

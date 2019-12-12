@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\pointofinterestskill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\SkillServiceLibrary.Fakes\SkillServiceLibrary.Fakes.csproj" />
   </ItemGroup>
 
 </Project>
