@@ -39,20 +39,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\ForwardEmail\ForwardEmailResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ForwardEmailResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Responses\Main\EmailMainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailMainResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Responses\ReplyEmail\ReplyEmailResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ReplyEmailResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\SendEmail\SendEmailResponses.cs">
       <DesignTime>True</DesignTime>
@@ -193,10 +183,6 @@
     <None Update="Responses\FindContact\FindContactTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\ForwardEmail\ForwardEmailResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ForwardEmailResponses.cs</LastGenOutput>
-    </None>
     <None Update="Responses\Main\EmailMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailMainResponses.cs</LastGenOutput>
@@ -236,10 +222,6 @@
     </None>
     <None Update="Responses\Main\MainDialogTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ReplyEmail\ReplyEmailResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReplyEmailResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\SendEmail\SendEmailActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
