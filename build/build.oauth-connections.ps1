@@ -1,5 +1,5 @@
 Param(
-	[string] $jsonFile,
+    [string] $jsonFile,
     [int] $oauthConnections = 1
 )
 $config = Get-Content -Raw -Path $jsonFile | ConvertFrom-Json
