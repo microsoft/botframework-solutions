@@ -43,7 +43,7 @@ foreach ($langCode in $languageMap.Keys) {
 
     # try to get dispatch file
     $dispatchFile = $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch")
-    if (-not $(Test-Path $dispatchFile))
+    if ($dispatch -and (-not $(Test-Path $dispatchFile)))
     {
         # Create a new dispatch file based on configuration
         Write-Host "> Creating new dispatch file ..." -NoNewline
@@ -114,17 +114,17 @@ foreach ($langCode in $languageMap.Keys) {
                 --versionId $luisApp.version `
                 --region $luisApp.authoringRegion `
                 --cloud $cloud `
-                --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).luis")
+                --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
 
             bf luis:convert `
-                --in $(Join-Path $luisFolder $langCode "$($luisApp.id).luis") `
+                --in $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
                 --out $(Join-Path $luisFolder $langCode "$($luisApp.id).lu") `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
             # Parse LU file
             $id = $luisApp.id
-            $outFile = "$($id).luis"
+            $outFile = "$($id).json"
             $outFolder = $(Join-Path $luisFolder $langCode)
             $appName = "$($name)$($langCode)_$($id)"
 
@@ -132,7 +132,7 @@ foreach ($langCode in $languageMap.Keys) {
             bf luis:convert `
                 --in $(Join-Path $outFolder "$($luisApp.id).lu")`
                 --culture $culture `
-                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).luis") `
+                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
@@ -165,16 +165,16 @@ foreach ($langCode in $languageMap.Keys) {
 
         # Update local LU files based on hosted QnA KBs
         foreach ($kb in $models.knowledgebases) {
-            Write-Host "> Updating local $($kb.id).lu file ..." -NoNewline
+            Write-Host "> Updating local $($kb.id).qna file ..." -NoNewline
             bf qnamaker:kb:export `
                 --endpoint $qnaEndpoint `
                 --environment Prod `
                 --kbId $kb.kbId `
-                --subscriptionKey $kb.subscriptionKey > $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
+                --subscriptionKey $kb.subscriptionKey > $(Join-Path $qnaFolder $langCode "$($kb.id).json")
                 
             bf qnamaker:convert `
-                --in $(Join-Path $qnaFolder $langCode "$($kb.id).qna") `
-                --out $(Join-Path $qnaFolder $langCode "$($kb.id).lu") `
+                --in $(Join-Path $qnaFolder $langCode "$($kb.id).json") `
+                --out $(Join-Path $qnaFolder $langCode "$($kb.id).qna") `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 		
@@ -222,7 +222,7 @@ foreach ($langCode in $languageMap.Keys) {
 
         # Update each knowledgebase based on local LU files
         foreach ($kb in $models.knowledgebases) {
-            $lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).lu")
+            $lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
             UpdateKB `
                 -lu_file $lu `
                 -kbId $kb.kbId `
