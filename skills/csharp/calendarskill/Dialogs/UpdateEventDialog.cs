@@ -102,7 +102,7 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                    var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
@@ -217,7 +217,7 @@ namespace CalendarSkill.Dialogs
                 }
 
                 sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                 var newEvent = await calendarService.UpdateEventByIdAsync(updateEvent);
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);

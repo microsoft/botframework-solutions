@@ -631,7 +631,7 @@ namespace CalendarSkill.Dialogs
                 };
 
                 sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
                     var tokens = new StringDictionary

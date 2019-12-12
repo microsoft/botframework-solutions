@@ -3,6 +3,7 @@
 
 namespace ToDoSkill.Services
 {
+    using System;
     using System.Collections.Generic;
     using Microsoft.Extensions.Configuration;
     using ToDoSkill.Models;
@@ -29,6 +30,11 @@ namespace ToDoSkill.Services
         /// <returns>Task service itself.</returns>
         public ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderType taskServiceType)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             ITaskService taskService;
             if (taskServiceType == ServiceProviderType.OneNote)
             {
@@ -51,6 +57,11 @@ namespace ToDoSkill.Services
         /// <returns>Mail service itself.</returns>
         public IMailService InitMailService(string token)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             var service = new MailService();
             var mailService = service.InitAsync(token).Result;
             return mailService;

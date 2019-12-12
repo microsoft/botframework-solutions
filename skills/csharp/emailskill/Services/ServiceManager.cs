@@ -21,6 +21,11 @@ namespace EmailSkill.Services
         /// <inheritdoc/>
         public IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo, MailSource source)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             switch (source)
             {
                 case MailSource.Microsoft:
@@ -38,6 +43,11 @@ namespace EmailSkill.Services
         /// <inheritdoc/>
         public IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo, MailSource source)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             switch (source)
             {
                 case MailSource.Microsoft:

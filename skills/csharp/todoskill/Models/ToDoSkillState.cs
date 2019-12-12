@@ -17,7 +17,6 @@ namespace ToDoSkill.Models
             PageSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
-            MsGraphToken = null;
             ShowTaskPageIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
@@ -65,14 +64,6 @@ namespace ToDoSkill.Models
         /// ToDoTaskIndex.
         /// </value>
         public List<int> TaskIndexes { get; set; }
-
-        /// <summary>
-        /// Gets or sets MsGraphToken.
-        /// </summary>
-        /// <value>
-        /// MsGraphToken.
-        /// </value>
-        public string MsGraphToken { get; set; }
 
         /// <summary>
         /// Gets or sets ShowTaskPageIndex.
@@ -258,7 +249,6 @@ namespace ToDoSkill.Models
             PageSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
-            MsGraphToken = null;
             ShowTaskPageIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;

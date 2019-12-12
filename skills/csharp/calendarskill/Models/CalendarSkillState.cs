@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Luis;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
 
@@ -16,6 +17,8 @@ namespace CalendarSkill.Models
         public int PageSize { get; set; } = 0;
 
         public EventSource EventSource { get; set; } = EventSource.Other;
+
+        public CalendarLuis.Intent InitialIntent { get; set; } = CalendarLuis.Intent.None;
 
         public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
 
@@ -36,8 +39,8 @@ namespace CalendarSkill.Models
         public void Clear()
         {
             UserInfo = new UserInformation();
-            PageSize = 0;
             EventSource = EventSource.Other;
+            InitialIntent = CalendarLuis.Intent.None;
             MeetingInfor.Clear();
             ShowMeetingInfor.Clear();
             UpdateMeetingInfor.Clear();

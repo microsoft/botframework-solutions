@@ -180,7 +180,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
 
                 // search by time without cancelled meeting
                 if (!state.ShowMeetingInfor.ShowingMeetings.Any())
@@ -814,7 +814,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
 
             PersonModel me = null;
 
@@ -840,7 +840,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
             var displayName = attendee.DisplayName ?? attendee.Address;
 
             try
@@ -1540,7 +1540,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
 
             // Get users.
             result = await service.GetContactsAsync(name);
@@ -1552,7 +1552,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
 
             // Get users.
             result = await service.GetPeopleAsync(name);
@@ -1565,7 +1565,7 @@ namespace CalendarSkill.Dialogs
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
 
             // Get users.
             result = await service.GetUserAsync(name);
@@ -1577,7 +1577,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
             return await service.GetMyManagerAsync();
         }
 
@@ -1585,7 +1585,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
             return await service.GetManagerAsync(name);
         }
 
@@ -1593,7 +1593,7 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(context);
             context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
-            var service = ServiceManager.InitUserService((string)token, state.EventSource);
+            var service = ServiceManager.InitUserService(token as string, state.EventSource);
             return await service.GetMeAsync();
         }
 

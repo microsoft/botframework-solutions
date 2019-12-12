@@ -21,6 +21,7 @@ using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Dialogs
 {

@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Models
 {

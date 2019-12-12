@@ -25,6 +25,7 @@ namespace EmailSkill.Dialogs
     public class SendEmailDialog : EmailSkillDialogBase
     {
         public SendEmailDialog(
+            FindContactDialog findContactDialog,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
             : base(nameof(SendEmailDialog), serviceProvider, telemetryClient)
@@ -39,8 +40,13 @@ namespace EmailSkill.Dialogs
                 CollectRecipient,
                 CollectSubject,
                 CollectText,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeSending,
                 ConfirmAllRecipient,
+                AfterConfirmPrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 SendEmail,
             };
 
@@ -75,7 +81,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSubject, updateSubject) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateContent, updateContent) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(serviceProvider, telemetryClient));
+            AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
             AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             InitialDialogId = Actions.Send;
@@ -334,45 +340,37 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult)
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+
+                // send user message.
+                var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
+                var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
+                await service.SendMessageAsync(content, subject, state.FindContactInfor.Contacts);
+
+                var emailCard = new EmailCardData
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.Token;
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                };
+                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-                    // send user message.
-                    var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
-                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
-                    await service.SendMessageAsync(content, subject, state.FindContactInfor.Contacts);
-
-                    var emailCard = new EmailCardData
-                    {
-                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
-                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
-                    };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
-
-                    var stringToken = new StringDictionary
-                    {
-                        { "Subject", state.Subject },
-                    };
-
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                    var replyMessage = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
-
-                    await sc.Context.SendActivityAsync(replyMessage);
-                }
-                else
+                var stringToken = new StringDictionary
                 {
-                    return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
-                }
+                    { "Subject", state.Subject },
+                };
+
+                var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
+                var replyMessage = ResponseManager.GetCardResponse(
+                    EmailSharedResponses.SentSuccessfully,
+                    new Card("EmailWithOutButtonCard", emailCard),
+                    stringToken,
+                    "items",
+                    new List<Card>().Append(new Card(recipientCard, emailCard)));
+
+                await sc.Context.SendActivityAsync(replyMessage);
             }
             catch (SkillException ex)
             {

@@ -11,5 +11,6 @@ namespace EmailSkill.Models
         public const string EmailLuisResult = "emailLuisResult";
         public const string TimeZone = "timezone";
         public const string Location = "location";
+        public const string APIToken = "APIToken";
     }
 }

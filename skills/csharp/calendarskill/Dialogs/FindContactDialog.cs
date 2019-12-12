@@ -126,7 +126,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = sc.Options as FindContactDialogOptions;
 
-                if (options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                if (state.InitialIntent == CalendarLuis.Intent.CheckAvailability)
                 {
                     options.PromptMoreContact = false;
                 }
@@ -146,7 +146,7 @@ namespace CalendarSkill.Dialogs
                 }
 
                 // ask for attendee
-                if (options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                if (state.InitialIntent == CalendarLuis.Intent.CheckAvailability)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CheckAvailableResponses.AskForCheckAvailableUserName) }, cancellationToken);
                 }
@@ -204,7 +204,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.MeetingInfor.ContactInfor.ContactsNameList.Any())
                 {
-                    if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1 && !options.Scenario.Equals(nameof(CheckAvailableDialog)))
+                    if (state.MeetingInfor.ContactInfor.ContactsNameList.Count > 1 && !(state.InitialIntent == CalendarLuis.Intent.CheckAvailability))
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
@@ -237,7 +237,7 @@ namespace CalendarSkill.Dialogs
                 var options = sc.Options as FindContactDialogOptions;
 
                 // check available dialog can only recieve one contact
-                if (state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex < state.MeetingInfor.ContactInfor.ContactsNameList.Count && !(options.Scenario.Equals(nameof(CheckAvailableDialog)) && state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex > 0))
+                if (state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex < state.MeetingInfor.ContactInfor.ContactsNameList.Count && !((state.InitialIntent == CalendarLuis.Intent.CheckAvailability) && state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex > 0))
                 {
                     state.MeetingInfor.ContactInfor.CurrentContactName = state.MeetingInfor.ContactInfor.ContactsNameList[state.MeetingInfor.ContactInfor.ConfirmContactsNameIndex];
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
@@ -349,7 +349,7 @@ namespace CalendarSkill.Dialogs
                 var result = sc.Result as string;
 
                 // Highest probability
-                if (!options.Scenario.Equals(nameof(CheckAvailableDialog)) && (string.IsNullOrEmpty(result) || !result.Equals(nameof(AfterSelectEmail))))
+                if (!(state.InitialIntent == CalendarLuis.Intent.CheckAvailability) && (string.IsNullOrEmpty(result) || !result.Equals(nameof(AfterSelectEmail))))
                 {
                     var name = confirmedPerson.DisplayName;
                     var userString = string.Empty;
