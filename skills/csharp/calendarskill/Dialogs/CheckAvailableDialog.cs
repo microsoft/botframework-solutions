@@ -204,7 +204,7 @@ namespace CalendarSkill.Dialogs
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
 
                 sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
 
                 var dateTime = state.MeetingInfor.StartDateTime;
 

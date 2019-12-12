@@ -47,6 +47,8 @@ namespace ToDoSkill.Dialogs
 
             var doShowTasks = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowTasks,
                 FirstReadMoreTasks,
                 SecondReadMoreTasks,
