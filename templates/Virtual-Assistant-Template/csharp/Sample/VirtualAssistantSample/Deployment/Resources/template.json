@@ -114,9 +114,9 @@
       "type": "string",
       "defaultValue": "S0"
     },
-    "qnaServiceLocation": {
+    "qnaMakerServiceLocation": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]"
+      "defaultValue": "westus"
     },
     "qnaMakerSearchName": {
       "type": "string",
@@ -126,9 +126,17 @@
       "type": "string",
       "defaultValue": "standard"
     },
+    "qnaMakerSearchLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
     "qnaMakerWebAppName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
+    },
+    "qnaMakerWebAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
     },
     "resourceTagName": {
       "type": "string",
@@ -331,7 +339,7 @@
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
       "name": "[parameters('qnaMakerServiceName')]",
-      "location": "westus",
+      "location": "[parameters('qnaMakerServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerServiceSku')]"
       },
@@ -354,7 +362,7 @@
       "type": "Microsoft.Search/searchServices",
       "apiVersion": "2015-08-19",
       "name": "[variables('qnaMakerSearchName')]",
-      "location": "[parameters('qnaServiceLocation')]",
+      "location": "[parameters('qnaMakerSearchLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerSearchSku')]"
       },
@@ -372,7 +380,7 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
       "name": "[variables('qnaMakerWebAppName')]",
-      "location": "[parameters('qnaServiceLocation')]",
+      "location": "[parameters('qnaMakerWebAppLocation')]",
       "properties": {
         "enabled": true,
         "name": "[variables('qnaMakerWebAppName')]",
