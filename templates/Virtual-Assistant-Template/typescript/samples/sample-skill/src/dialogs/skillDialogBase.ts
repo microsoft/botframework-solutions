@@ -93,9 +93,8 @@ export class SkillDialogBase extends ComponentDialog {
             const providerTokenResponse: IProviderTokenResponse | undefined = sc.result as IProviderTokenResponse;
 
             if (providerTokenResponse !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const state: any = await this.stateAccessor.get(sc.context);
-                // tslint:disable-next-line: no-any no-unsafe-any
                 state.token = providerTokenResponse.tokenResponse.token;
             }
 
@@ -132,7 +131,7 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
-            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
@@ -166,9 +165,8 @@ export class SkillDialogBase extends ComponentDialog {
         await sc.context.sendActivity(this.responseManager.getResponse(SharedResponses.errorMessage));
 
         // clear state
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const state: any = await this.stateAccessor.get(sc.context);
-        // tslint:disable-next-line: no-unsafe-any
         state.clear();
     }
 }
