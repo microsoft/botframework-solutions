@@ -23,25 +23,9 @@
                             {% else %}
                                 {% assign collapse = 'collapse' %}
                             {% endif %}
-                            <ul id="category{{index}}" class="{{ collapse }}  mb-2">
+                            <ul id="category{{index}}" class="{{ collapse }} mb-2">
                                 {% assign subcategories = category.items | group_by: 'subcategory' %}
                                 {% assign index2 = 0 %}
-                                {% assign nosub = subcategories | where: "name", "" | first %}
-                                {% if nosub %}
-                                {% assign items = nosub.items | sort: 'order' %}
-                                {% for item in items %}
-                                {% if page.url == item.url %}
-                                {% assign selected-class = "is-selected" %}
-                                {% assign classes = "text-brand-dark" %}
-                                {% else %}
-                                {% assign selected-class = "" %}
-                                {% assign classes = "text-gray" %}
-                                {% endif %}
-                                <li class="{{selected-class}}">
-                                    <a class="d-block pl-1 py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
-                                </li>
-                                {% endfor %}
-                                {% endif %}
 
                                 {% for sc in c[1] %}
                                 {% for subcategory in subcategories %}
@@ -49,8 +33,8 @@
                                 {% assign index2 = index2 | plus: 1 %}
                                 {% assign items = subcategory.items | sort: 'order' %}
                                 <li>
-                                    <span class="mb-2">
-                                        <a href="#subcategory{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block py-1 text-brand-dark" aria-expanded="true">{{ subcategory.name }}</a>
+                                    <li>
+                                        <a href="#subcategory{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ subcategory.name }}</a>
                                     </span>
 
                                     {% if page.subcategory == subcategory.name %}
@@ -72,7 +56,7 @@
                                         {% assign classes = "text-gray" %}
                                         {% endif %}
                                         <li class="{{selected-class}}">
-                                            <a class="d-block py-1 pl-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                                            <a href="{{ site.baseurl }}{{ item.url }}" class="d-block py-1 pl-1 {{classes}}">{{ item.title }}</a>
                                         </li>
                                         {% endfor %}
                                         {% endif %}
@@ -94,7 +78,7 @@
                                         {% endif %}
                                         <li>
                                             <span class="mb-2">
-                                                <a href="#subcategory{{languageName}}{{index}}_{{index2}}" data-toggle="collapse" class="dropdown-toggle d-block py-1 text-brand-dark" aria-expanded="true">{{ language.name }}</a>
+                                                <a href="#subcategory{{languageName}}{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 pl-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ language.name }}</a>
                                             </span>
                                             <ul id="subcategory{{languageName}}{{index}}_{{index2}}" class="{{ collapse }}">
                                                 {% for item in language.items | sort: 'order' %}
@@ -118,6 +102,23 @@
                                 {% endif %}
                                 {% endfor %}
                                 {% endfor %}
+
+                                {% assign nosub = subcategories | where: "name", "" | first %}
+                                {% if nosub %}
+                                {% assign items = nosub.items | sort: 'order' %}
+                                {% for item in items %}
+                                {% if page.url == item.url %}
+                                {% assign selected-class = "is-selected" %}
+                                {% assign classes = "text-brand-dark" %}
+                                {% else %}
+                                {% assign selected-class = "" %}
+                                {% assign classes = "text-gray" %}
+                                {% endif %}
+                                <li class="{{selected-class}}">
+                                    <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
                             </ul>
                         </li>
                     {% endif %}

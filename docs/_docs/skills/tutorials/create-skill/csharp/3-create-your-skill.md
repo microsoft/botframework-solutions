@@ -11,20 +11,18 @@ order: 3
 
 ## {{ page.title }}
 
-1. In Visual Studio, click **File > New Project**.
-2. Under Bot, select **Skill Template**.
-3. Name your project and click **Create**.
-4. Build your project to restore your NuGet packages.
-
-You now have your new Skill! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
+1. In Visual Studio, select **File > New Project**.
+2. Search for **Skill Template** and select **Next**.
+3. Name your project and select **Create**.
+4. Build your project to restore the NuGet packages.
 
 ## What files were created?
 ```
 | - Adapters                           // BotAdapter implementations for configuring Middleware
-    | - CustomSkillAdapter.cs               // Configures middleware for skill-mode
-    | - DefaultAdapter.cs                   // Configures basic middleware for locale-mode
-| - Bots                               // IBot implementations for initializing dialog stack
-    | - DialogBot.cs                       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
+    | - CustomSkillAdapter.cs               // Configures middleware for skill mode
+    | - DefaultAdapter.cs                   // Configures basic middleware for local mode
+| - Bots                               // ActivityHandler implementations for initializing dialog stack
+    | - DefaultActivityHandler.cs                       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
 | - Controllers                        // API Controllers
     | - BotController.cs                   // API Controller for api/messages and api/skill/messages endpoints
 | - Deployment                         // Files for deployment and provisioning
@@ -49,15 +47,8 @@ You now have your new Skill! Follow the Deployment steps below before you try an
 | - Pipeline                           // Files for setting up an deployment pipeline in Azure DevOps
     | - Skill.yml                          // Build pipeline template for Azure DevOps
 | - Responses                          // Classes and files for representing bot responses
-    | - Main                                // Main responses                              
-        | - MainResponses.tt                    // Main dialog responses text template
-        | - MainResponses.json                  // Main dialog responses
-    | - Sample                              // Sample responses   
-        | - SampleResponses.tt                  // Sample dialog responses text template
-        | - SampleResponses.json                // Sample dialog responses
-    | - Shared                              // Shared responses   
-        | - SharedResponses.tt                  // Shared dialog responses text template
-        | - SharedResponses.json                // Shared dialog responses
+    | - MainResponses.lg               // LG templates for MainDialog 
+    | - SampleResponses.lg             // LG templates for SampleDialog 
 | - Services                           // Configuration for connected services and service clients
     | - BotServices.cs                     // Class representation of service clients and recognizers
     | - BotSettings.cs                     // Class representation of configuration files

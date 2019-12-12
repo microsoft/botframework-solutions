@@ -109,6 +109,8 @@ namespace CalendarSkill.Dialogs
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
+                state.InitialIntent = intent.Value;
+
                 // switch on general intents
                 switch (intent)
                 {
@@ -249,7 +251,7 @@ namespace CalendarSkill.Dialogs
                 // get current activity locale
                 var localeConfig = _services.GetCognitiveModels();
 
-                // Update state with email luis result and entities
+                // Update state with calendar luis result and entities
                 var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
@@ -289,6 +291,58 @@ namespace CalendarSkill.Dialogs
                                     result = await OnLogout(dc);
                                     break;
                                 }
+                        }
+                    }
+
+                    if (result == InterruptionAction.NoAction && dc.ActiveDialog != null)
+                    {
+                        var topCalendarIntent = calendarLuisResult.TopIntent();
+
+                        if (topCalendarIntent.score > 0.9 && !CalendarCommonUtil.IsFindEventsDialog(state.InitialIntent))
+                        {
+                            var intentSwitchingResult = CalendarCommonUtil.CheckIntentSwitching(topCalendarIntent.intent);
+                            var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
+
+                            if (intentSwitchingResult != CalendarLuis.Intent.None)
+                            {
+                                result = InterruptionAction.Waiting;
+                                state.Clear();
+                                await dc.CancelAllDialogsAsync();
+                                state.InitialIntent = intentSwitchingResult;
+
+                                switch (intentSwitchingResult)
+                                {
+                                    case CalendarLuis.Intent.DeleteCalendarEntry:
+                                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Cancelled));
+                                        break;
+                                    case CalendarLuis.Intent.AcceptEventEntry:
+                                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Accepted));
+                                        break;
+                                    case CalendarLuis.Intent.ChangeCalendarEntry:
+                                        await dc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
+                                        break;
+                                    case CalendarLuis.Intent.CheckAvailability:
+                                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
+                                        break;
+                                    case CalendarLuis.Intent.ConnectToMeeting:
+                                        await dc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);
+                                        break;
+                                    case CalendarLuis.Intent.CreateCalendarEntry:
+                                        await dc.BeginDialogAsync(nameof(CreateEventDialog), newFlowOptions);
+                                        break;
+                                    case CalendarLuis.Intent.FindCalendarDetail:
+                                    case CalendarLuis.Intent.FindCalendarEntry:
+                                    case CalendarLuis.Intent.FindCalendarWhen:
+                                    case CalendarLuis.Intent.FindCalendarWhere:
+                                    case CalendarLuis.Intent.FindCalendarWho:
+                                    case CalendarLuis.Intent.FindDuration:
+                                        await dc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
+                                        break;
+                                    case CalendarLuis.Intent.TimeRemaining:
+                                        await dc.BeginDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+                                        break;
+                                }
+                            }
                         }
                     }
                 }

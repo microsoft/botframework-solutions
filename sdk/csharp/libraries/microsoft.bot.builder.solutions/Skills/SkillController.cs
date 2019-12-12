@@ -60,6 +60,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         /// </summary>
         /// <returns>Task.</returns>
         [Route("api/messages")]
+        [HttpGet]
         [HttpPost]
         public async Task BotMessageAsync()
         {
