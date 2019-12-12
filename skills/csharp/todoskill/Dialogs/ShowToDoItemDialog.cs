@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;
@@ -126,7 +127,8 @@ namespace ToDoSkill.Dialogs
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
-                var topIntent = state.LuisResult?.TopIntent().intent;
+                var luisResult = sc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var topIntent = luisResult.TopIntent().intent;
                 if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
@@ -135,7 +137,8 @@ namespace ToDoSkill.Dialogs
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var generalTopIntent = generalLuisResult.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { "listType", state.ListType } }));

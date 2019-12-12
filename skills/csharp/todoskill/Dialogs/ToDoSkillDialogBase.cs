@@ -151,8 +151,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var topIntent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                var luisResult = sc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = luisResult.TopIntent().intent;
+                var generalTopIntent = generalLuisResult.TopIntent().intent;
 
                 if (topIntent == ToDoLuis.Intent.ShowToDo)
                 {
@@ -290,9 +292,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(dc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = dc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var entities = luisResult.Entities;
-                var generalEntities = state.GeneralLuisResult.Entities;
+                var generalEntities = generalLuisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;

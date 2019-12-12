@@ -539,10 +539,9 @@ namespace CalendarSkill.Dialogs
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
-
-                var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
                 generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
@@ -604,7 +603,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var filteredMeetingList = GetFilteredEvents(state, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
+                        var filteredMeetingList = GetFilteredEvents(state, luisResult, userInput, sc.Context.Activity.Locale ?? English, out var showingCardTitle);
 
                         if (filteredMeetingList.Count == 1)
                         {
@@ -800,7 +799,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -877,7 +876,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
 
                 if (topIntent == CalendarLuis.Intent.AcceptEventEntry)

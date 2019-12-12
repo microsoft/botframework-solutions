@@ -690,10 +690,10 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (FindContactDialogOptions)sc.Options;
-                var luisResult = state.LuisResult;
+                var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var topIntent = luisResult?.TopIntent().intent;
-                var generlLuisResult = state.GeneralLuisResult;
-                var generalTopIntent = generlLuisResult?.TopIntent().intent;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
                 generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
                 if (sc.Result == null)
