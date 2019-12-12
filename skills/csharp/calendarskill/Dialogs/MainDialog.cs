@@ -408,7 +408,6 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            state.Clear();
 
             var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.CancelMessage);
             await dc.Context.SendActivityAsync(activity);
