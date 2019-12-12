@@ -55,8 +55,7 @@ namespace VirtualAssistantSample.Services
                         Host = kb.Hostname,
                     };
 
-                    var qnaMaker = new QnAMaker(qnaEndpoint, null, null, telemetryClient: telemetryClient, logPersonalInformation: true);
-                    set.QnAServices.Add(kb.Id, qnaMaker);
+                    set.QnAConfiguration.Add(kb.Id, qnaEndpoint);
                 }
 
                 CognitiveModelSets.Add(language, set);

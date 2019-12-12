@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions.Responses
 {
@@ -69,7 +70,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             // Do we have a template engine for this locale?
             if (TemplateEnginesPerLocale.ContainsKey(locale))
             {
-                return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data));
+                return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
             }
             else
             {
@@ -88,7 +89,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     if (TemplateEnginesPerLocale.ContainsKey(fallBackLocale))
                     {
-                        return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data));
+                        return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
                     }
                 }
             }
