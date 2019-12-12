@@ -41,13 +41,20 @@ namespace EmailSkill.Dialogs
                 SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
+                GetAuthToken,
+                AfterGetAuthToken,
                 PromptToDelete,
+                AfterConfirmPrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 DeleteEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
                 PagingStep,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEmails,
             };
 
@@ -119,21 +126,13 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult == true)
-                {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
-                    var focusMessage = state.Message.FirstOrDefault();
-                    await mailService.DeleteMessageAsync(focusMessage.Id);
-                    var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
-                    await sc.Context.SendActivityAsync(activity);
-                }
-                else
-                {
-                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
-                    await sc.Context.SendActivityAsync(activity);
-                }
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+                var mailService = this.ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+                var focusMessage = state.Message.FirstOrDefault();
+                await mailService.DeleteMessageAsync(focusMessage.Id);
+                var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
+                await sc.Context.SendActivityAsync(activity);
 
                 return await sc.EndDialogAsync();
             }

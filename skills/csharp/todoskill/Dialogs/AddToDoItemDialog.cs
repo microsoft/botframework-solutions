@@ -50,6 +50,8 @@ namespace ToDoSkill.Dialogs
                 CollectTaskContent,
                 CollectSwitchListTypeConfirmation,
                 CollectAddDupTaskConfirmation,
+                GetAuthToken,
+                AfterGetAuthToken,
                 AddTask,
                 ContinueAddTask,
             };
@@ -68,6 +70,8 @@ namespace ToDoSkill.Dialogs
 
             var collectAddDupTaskConfirmation = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 AskAddDupTaskConfirmation,
                 AfterAskAddDupTaskConfirmation,
             };

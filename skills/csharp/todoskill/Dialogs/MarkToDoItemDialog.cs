@@ -44,6 +44,8 @@ namespace ToDoSkill.Dialogs
                 AfterGetAuthToken,
                 ClearContext,
                 CollectListTypeForComplete,
+                GetAuthToken,
+                AfterGetAuthToken,
                 InitAllTasks,
                 DoMarkTask,
             };
@@ -51,6 +53,8 @@ namespace ToDoSkill.Dialogs
             var doMarkTask = new WaterfallStep[]
             {
                 CollectTaskIndexForComplete,
+                GetAuthToken,
+                AfterGetAuthToken,
                 MarkTaskCompleted,
                 ContinueMarkTask,
             };

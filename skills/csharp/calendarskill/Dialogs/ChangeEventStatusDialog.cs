@@ -160,9 +160,9 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
 
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                 var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
                 if (options.NewEventStatus == EventStatus.Cancelled)
                 {
@@ -227,8 +227,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                     if (options.NewEventStatus == EventStatus.Cancelled)
                     {
                         return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())

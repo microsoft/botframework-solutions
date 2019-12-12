@@ -64,7 +64,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var calendarState = await Accessor.GetAsync(sc.Context, () => new CalendarSkillState());
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var apiToken);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var apiToken);
 
                 if (!string.IsNullOrWhiteSpace((string)apiToken))
                 {

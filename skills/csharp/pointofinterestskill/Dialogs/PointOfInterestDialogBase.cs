@@ -957,7 +957,9 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 var state = await Accessor.GetAsync(promptContext.Context);
-                if (state.GeneralIntent == General.Intent.Reject || state.GeneralIntent == General.Intent.SelectNone)
+                var generalLuisResult = promptContext.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var intent = generalLuisResult.TopIntent().intent;
+                if (intent == General.Intent.Reject || intent == General.Intent.SelectNone)
                 {
                     promptContext.Recognized.Value = new FoundChoice { Index = -1 };
                     return true;

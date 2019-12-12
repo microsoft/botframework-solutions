@@ -48,6 +48,8 @@ namespace EmailSkill.Dialogs
 
             var readEmail = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ReadEmail,
                 Reshow
             };
@@ -74,6 +76,8 @@ namespace EmailSkill.Dialogs
             {
                 IfClearPagingConditionStep,
                 PagingStep,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEmails,
                 PromptToHandle,
                 CheckRead,
@@ -82,6 +86,8 @@ namespace EmailSkill.Dialogs
 
             var displayFilteredEmail = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowFilteredEmails,
                 PromptToHandle,
                 CheckRead,
@@ -270,7 +276,8 @@ namespace EmailSkill.Dialogs
                         });
 
                     // Set email as read.
-                    var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
+                    sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+                    var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
                     await service.MarkMessageAsReadAsync(message.Id);
 
                     await sc.Context.SendActivityAsync(replyMessage);

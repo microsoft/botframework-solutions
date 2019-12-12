@@ -41,8 +41,13 @@ namespace EmailSkill.Dialogs
                 CollectRecipient,
                 CollectSubject,
                 CollectText,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeSending,
                 ConfirmAllRecipient,
+                AfterConfirmPrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 SendEmail,
             };
 
@@ -342,25 +347,22 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult)
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+
+                // send user message.
+                var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
+                var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
+                await service.SendMessageAsync(content, subject, state.FindContactInfor.Contacts);
+
+                var emailCard = new EmailCardData
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.Token;
-
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-                    // send user message.
-                    var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
-                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
-                    await service.SendMessageAsync(content, subject, state.FindContactInfor.Contacts);
-
-                    var emailCard = new EmailCardData
-                    {
-                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
-                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
-                    };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                };
+                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
                     var replyMessage = TemplateEngine.GenerateActivityForLocale(
                         EmailSharedResponses.SentSuccessfully,
@@ -370,12 +372,7 @@ namespace EmailSkill.Dialogs
                             emailDetails = emailCard
                         });
 
-                    await sc.Context.SendActivityAsync(replyMessage);
-                }
-                else
-                {
-                    return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
-                }
+                await sc.Context.SendActivityAsync(replyMessage);
             }
             catch (SkillException ex)
             {

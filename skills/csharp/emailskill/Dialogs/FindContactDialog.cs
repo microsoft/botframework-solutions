@@ -16,6 +16,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -46,7 +47,6 @@ namespace EmailSkill.Dialogs
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
             ServiceManager = serviceProvider.GetService<IServiceManager>();
-            TelemetryClient = telemetryClient;
 
             // entry, get the name list
             var confirmNameList = new WaterfallStep[]
@@ -95,6 +95,9 @@ namespace EmailSkill.Dialogs
                 // if got multiple persons, call selectPerson. use replace
                 // if got no person, replace/restart this flow.
                 AfterUpdateUserName,
+                GetAuthToken,
+                AfterGetAuthToken,
+                GetUserFromUserName
             };
 
             // select person, called bt updateName with replace.
@@ -448,7 +451,29 @@ namespace EmailSkill.Dialogs
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
                 state.FindContactInfor.CurrentContactName = currentRecipientName;
+                return await sc.NextAsync();
+            }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
 
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> GetUserFromUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var options = (FindContactDialogOptions)sc.Options;
+                var currentRecipientName = state.FindContactInfor.CurrentContactName;
                 var unionList = new List<PersonModel>();
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
@@ -548,12 +573,6 @@ namespace EmailSkill.Dialogs
                 {
                     return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, sc.Options, cancellationToken);
                 }
-            }
-            catch (SkillException skillEx)
-            {
-                await HandleDialogExceptions(sc, skillEx);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
@@ -841,8 +860,8 @@ namespace EmailSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetContactsAsync(name);
@@ -853,8 +872,8 @@ namespace EmailSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetPeopleAsync(name);
@@ -866,8 +885,8 @@ namespace EmailSkill.Dialogs
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             // Get users.
             result = await service.GetUserAsync(name);
@@ -1117,6 +1136,63 @@ namespace EmailSkill.Dialogs
 
             var nameString = string.Join(", ", unionList.ToArray().SkipLast(1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + unionList.Last();
             return nameString;
+        }
+
+        private async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoAuth);
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retry });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
+                {
+                    var state = await Accessor.GetAsync(sc.Context);
+
+                    if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
+                    {
+                        sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(StateProperties.APIToken, providerTokenResponse.TokenResponse.Token);
+                    }
+
+                    var provider = providerTokenResponse.AuthenticationProvider;
+
+                    if (provider == OAuthProvider.AzureAD)
+                    {
+                        state.MailSourceType = MailSource.Microsoft;
+                    }
+                    else if (provider == OAuthProvider.Google)
+                    {
+                        state.MailSourceType = MailSource.Google;
+                    }
+                    else
+                    {
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Email Skill.");
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
     }
 }

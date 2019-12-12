@@ -78,12 +78,28 @@ namespace EmailSkill.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["Email"].RecognizeAsync<EmailLuis>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.EmailLuisResult, skillResult);
+                localizedServices.LuisServices.TryGetValue("Email", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    var skillResult = await skillLuisService.RecognizeAsync<EmailLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.EmailLuisResult, skillResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
 
                 // Run LUIS recognition on General model and store result in turn state.
-                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<General>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService != null)
+                {
+                    var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+                }
+                else
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
@@ -146,92 +162,79 @@ namespace EmailSkill.Dialogs
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
-                // Get current cognitive models for the current locale.
-                var localeConfig = _services.GetCognitiveModels();
-
                 // Populate state from activity as required.
                 await PopulateStateFromActivity(innerDc.Context);
 
-                // Get skill LUIS model from configuration.
-                localeConfig.LuisServices.TryGetValue("Email", out var luisService);
+                var result = innerDc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
+                var intent = result?.TopIntent().intent;
 
-                if (luisService != null)
+                var generalResult = innerDc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                var generalIntent = generalResult?.TopIntent().intent;
+
+                var skillOptions = new EmailSkillDialogOptions
                 {
-                    var result = innerDc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
-                    var intent = result?.TopIntent().intent;
+                    SubFlowMode = false
+                };
 
-                    var generalResult = innerDc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
-                    var generalIntent = generalResult?.TopIntent().intent;
+                switch (intent)
+                {
+                    case EmailLuis.Intent.SendEmail:
+                        {
+                            await innerDc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
+                            break;
+                        }
 
-                    var skillOptions = new EmailSkillDialogOptions
-                    {
-                        SubFlowMode = false
-                    };
+                    case EmailLuis.Intent.Forward:
+                        {
+                            await innerDc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
+                            break;
+                        }
 
-                    switch (intent)
-                    {
-                        case EmailLuis.Intent.SendEmail:
-                            {
-                                await innerDc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
-                                break;
-                            }
+                    case EmailLuis.Intent.Reply:
+                        {
+                            await innerDc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
+                            break;
+                        }
 
-                        case EmailLuis.Intent.Forward:
-                            {
-                                await innerDc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
-                                break;
-                            }
+                    case EmailLuis.Intent.SearchMessages:
+                    case EmailLuis.Intent.CheckMessages:
+                    case EmailLuis.Intent.ReadAloud:
+                    case EmailLuis.Intent.QueryLastText:
+                        {
+                            await innerDc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            break;
+                        }
 
-                        case EmailLuis.Intent.Reply:
-                            {
-                                await innerDc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
-                                break;
-                            }
+                    case EmailLuis.Intent.Delete:
+                        {
+                            await innerDc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
+                            break;
+                        }
 
-                        case EmailLuis.Intent.SearchMessages:
-                        case EmailLuis.Intent.CheckMessages:
-                        case EmailLuis.Intent.ReadAloud:
-                        case EmailLuis.Intent.QueryLastText:
+                    case EmailLuis.Intent.ShowNext:
+                    case EmailLuis.Intent.ShowPrevious:
+                    case EmailLuis.Intent.None:
+                        {
+                            if (intent == EmailLuis.Intent.ShowNext
+                                || intent == EmailLuis.Intent.ShowPrevious
+                                || generalIntent == General.Intent.ShowNext
+                                || generalIntent == General.Intent.ShowPrevious)
                             {
                                 await innerDc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                                break;
                             }
-
-                        case EmailLuis.Intent.Delete:
+                            else
                             {
-                                await innerDc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
-                                break;
+                                await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage));
                             }
 
-                        case EmailLuis.Intent.ShowNext:
-                        case EmailLuis.Intent.ShowPrevious:
-                        case EmailLuis.Intent.None:
-                            {
-                                if (intent == EmailLuis.Intent.ShowNext
-                                    || intent == EmailLuis.Intent.ShowPrevious
-                                    || generalIntent == General.Intent.ShowNext
-                                    || generalIntent == General.Intent.ShowPrevious)
-                                {
-                                    await innerDc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                                }
-                                else
-                                {
-                                    await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage));
-                                }
+                            break;
+                        }
 
-                                break;
-                            }
-
-                        default:
-                            {
-                                await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.FeatureNotAvailable));
-                                break;
-                            }
-                    }
-                }
-                else
-                {
-                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                    default:
+                        {
+                            await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.FeatureNotAvailable));
+                            break;
+                        }
                 }
             }
         }
