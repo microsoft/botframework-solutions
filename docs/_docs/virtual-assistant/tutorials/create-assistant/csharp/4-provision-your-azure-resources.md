@@ -42,6 +42,6 @@ To deploy your Assistant using the Azure Resource Manager (ARM) template provide
     appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     luisAuthoringKey | The authoring key for your LUIS account. | **Yes**
 
-> You can find more detailed deployment steps including customization instructions in the [Deployment Scripts reference]({{site.baseurl}}/help/reference/deployment-scripts/). 
+You can find more detailed deployment steps including customization instructions in the [Deployment Scripts reference]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/). 
 
 > For manual deployment steps, refer to the [Deploy using CLI tools]({{site.baseurl}}/virtual-assistant/tutorials/deploy-assistant/cli/1-intro/) and [Deploy using web]({{site.baseurl}}/virtual-assistant/tutorials/deploy-assistant/web/1-intro/) tutorials.
