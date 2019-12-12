@@ -82,7 +82,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options, scenario: nameof(CheckAvailableDialog)), cancellationToken: cancellationToken);
+                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {

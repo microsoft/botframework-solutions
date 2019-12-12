@@ -17,15 +17,13 @@ namespace CalendarSkill.Models.DialogOptions
             FindContactReasonType findContactReason = FindContactReasonType.FirstFindContact,
             UpdateUserNameReasonType updateUserNameReason = UpdateUserNameReasonType.NotFound,
             bool promptMoreContact = true,
-            bool firstRetry = true,
-            string scenario = nameof(CreateEventDialog))
+            bool firstRetry = true)
         {
             var calendarOptions = options as CalendarSkillDialogOptions;
             FindContactReason = findContactReason;
             UpdateUserNameReason = updateUserNameReason;
             PromptMoreContact = promptMoreContact;
             FirstRetry = firstRetry;
-            Scenario = scenario;
         }
 
         public enum FindContactReasonType
@@ -71,7 +69,5 @@ namespace CalendarSkill.Models.DialogOptions
         public bool PromptMoreContact { get; set; }
 
         public bool FirstRetry { get; set; }
-
-        public string Scenario { get; set; }
     }
 }
