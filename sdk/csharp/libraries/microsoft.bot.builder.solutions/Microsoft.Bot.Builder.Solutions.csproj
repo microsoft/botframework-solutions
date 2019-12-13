@@ -16,7 +16,7 @@
     <Authors>Microsoft</Authors>
     <Description>Shared library for Conversational AI Virtual Assistants and Skills.</Description>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
@@ -131,6 +131,5 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  
+
 </Project>
- 
