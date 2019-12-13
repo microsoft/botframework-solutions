@@ -14,7 +14,7 @@ for($i = 0; $i -lt $oauthConnections; $i++){
 }
 
 # Add botWebAppName and resourceGroupName for connecting skills
-$config.cognitiveModels | Add-Member -Force -Name "botWebAppName" -Value "" -MemberType NoteProperty
-$config.cognitiveModels | Add-Member -Force -Name "resourceGroupName" -Value "" -MemberType NoteProperty
+$config | Add-Member -Force -Name "botWebAppName" -Value "" -MemberType NoteProperty
+$config | Add-Member -Force -Name "resourceGroupName" -Value "" -MemberType NoteProperty
 
 $config | ConvertTo-Json -depth 4 | Set-Content $jsonfile
