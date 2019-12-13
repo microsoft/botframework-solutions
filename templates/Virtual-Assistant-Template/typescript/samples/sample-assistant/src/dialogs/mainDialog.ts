@@ -170,7 +170,6 @@ export class MainDialog extends RouterDialog {
     protected async onEvent(dc: DialogContext): Promise<void> {
         // Check if there was an action submitted from intro card
         if (dc.context.activity.value) {
-            // tslint:disable-next-line: no-unsafe-any
             if (dc.context.activity.value.action === 'startOnboarding') {
                 await dc.beginDialog(OnboardingDialog.name);
 

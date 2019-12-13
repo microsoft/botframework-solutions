@@ -82,7 +82,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options, scenario: nameof(CheckAvailableDialog)), cancellationToken: cancellationToken);
+                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -203,8 +203,8 @@ namespace CalendarSkill.Dialogs
                 state.MeetingInfor.StartDateTime = DateTimeHelper.ChooseStartTime(startTimes, endTimes, startTimeRestricted, endTimeRestricted, userNow);
                 state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
 
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
 
                 var dateTime = state.MeetingInfor.StartDateTime;
 

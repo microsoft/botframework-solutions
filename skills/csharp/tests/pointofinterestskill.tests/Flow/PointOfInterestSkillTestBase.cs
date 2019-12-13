@@ -24,6 +24,7 @@ using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Tests.API.Fakes;
 using PointOfInterestSkill.Tests.Flow.Utterances;
+using SkillServiceLibrary.Fakes.AzureMapsAPI.Fakes;
 
 namespace PointOfInterestSkill.Tests.Flow
 {

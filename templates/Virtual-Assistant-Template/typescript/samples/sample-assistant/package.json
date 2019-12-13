@@ -38,7 +38,6 @@
         "@types/i18next-node-fs-backend": "^0.0.30",
         "@types/restify": "^7.2.4",
         "@typescript-eslint/eslint-plugin": "^2.1.0",
-        "@typescript-eslint/eslint-plugin-tslint": "^2.1.0",
         "@typescript-eslint/parser": "^2.1.0",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
@@ -48,8 +47,6 @@
         "nodemon": "^1.18.4",
         "nyc": "^14.1.1",
         "rimraf": "^2.6.2",
-        "tslint": "^5.12.1",
-        "tslint-microsoft-contrib": "^6.0.0",
         "typescript": "^3.2.2"
     },
     "env": {

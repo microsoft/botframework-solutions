@@ -126,8 +126,15 @@ namespace ToDoSkill.Dialogs
             {
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
+
+                    if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
+                    {
+                        sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(StateProperties.APIToken, providerTokenResponse.TokenResponse.Token);
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -144,8 +151,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var topIntent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                var luisResult = sc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = luisResult.TopIntent().intent;
+                var generalTopIntent = generalLuisResult.TopIntent().intent;
 
                 if (topIntent == ToDoLuis.Intent.ShowToDo)
                 {
@@ -283,9 +292,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(dc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = dc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var entities = luisResult.Entities;
-                var generalEntities = state.GeneralLuisResult.Entities;
+                var generalEntities = generalLuisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;
@@ -662,15 +672,17 @@ namespace ToDoSkill.Dialogs
         protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                var emailService = ServiceManager.InitMailService(state.MsGraphToken);
+                var emailService = ServiceManager.InitMailService(token as string);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
                 state.UserStateId = senderMailAddress;
                 var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    var taskServiceInit = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
                     if (taskServiceInit.IsListCreated)
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
@@ -694,7 +706,7 @@ namespace ToDoSkill.Dialogs
                 }
             }
 
-            var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            var taskService = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
             await StoreListTypeIdsAsync(sc);
             return taskService;
         }

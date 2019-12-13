@@ -55,9 +55,9 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
 
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
 
                 var eventList = await calendarService.GetUpcomingEventsAsync();
                 var nextEventList = new List<EventModel>();

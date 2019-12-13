@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Models
 {
@@ -40,12 +41,7 @@ namespace PointOfInterestSkill.Models
 
         public string PoiType { get; set; }
 
-        public PointOfInterestLuis LuisResult { get; set; }
-
         public int UserSelectIndex { get; set; }
-
-        // from OnInterruptDialogAsync
-        public General.Intent GeneralIntent { get; set; }
 
         public void Clear()
         {
@@ -64,7 +60,6 @@ namespace PointOfInterestSkill.Models
             RouteType = string.Empty;
             PoiType = string.Empty;
             UserSelectIndex = -1;
-            LuisResult = null;
         }
 
         public bool CheckForValidCurrentCoordinates()

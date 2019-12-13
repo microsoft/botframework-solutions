@@ -45,6 +45,8 @@ namespace ToDoSkill.Dialogs
                 AfterGetAuthToken,
                 ClearContext,
                 CollectListTypeForDelete,
+                GetAuthToken,
+                AfterGetAuthToken,
                 InitAllTasks,
                 DoDeleteTask,
             };
@@ -53,6 +55,8 @@ namespace ToDoSkill.Dialogs
             {
                 CollectTaskIndexForDelete,
                 CollectAskDeletionConfirmation,
+                GetAuthToken,
+                AfterGetAuthToken,
                 DeleteTask,
                 ContinueDeleteTask,
             };

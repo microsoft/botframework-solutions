@@ -32,7 +32,6 @@ export class DisconnectSkill {
             throw new Error(`Could not find the cognitiveModels file (${
                 this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         }
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
         const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
         Array.from(dispatchNames.entries())
@@ -41,7 +40,6 @@ export class DisconnectSkill {
                 const dispatchName: string = item[1];
                 const dispatchFilePath: string = join(this.configuration.dispatchFolder, culture, `${dispatchName}.dispatch`);
                 if (existsSync(dispatchFilePath)) {
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const dispatchData: IDispatchFile = JSON.parse(
                         readFileSync(dispatchFilePath)
                             .toString());
@@ -99,7 +97,6 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             }
 
             // Take VA Skills configurations
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
 

@@ -2,10 +2,14 @@
     "name": "botbuilder-solutions",
     "version": "4.4.6",
     "description": "Shared library for Conversational AI Virtual Assistants and Skills.",
-    "homepage": "https://github.com/Microsoft/AI/",
+    "homepage": "https://github.com/microsoft/botframework-solutions",
     "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
+    "files": [
+        "src",
+        "lib"
+    ],
     "scripts": {
         "clean": "rimraf ./lib",
         "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
