@@ -1,8 +1,7 @@
 module.exports = {
     parser: '@typescript-eslint/parser',  // Specifies the ESLint parser
     plugins: [
-        '@typescript-eslint',
-        '@typescript-eslint/tslint'
+        '@typescript-eslint'
     ],
     extends: [
         'plugin:@typescript-eslint/recommended'
@@ -22,12 +21,6 @@ module.exports = {
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/interface-name-prefix': [ 'error', 'always' ],
-        '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
-        '@typescript-eslint/tslint/config': [
-            'warn',
-            {
-                lintFile: './tslint.json'
-            }
-        ]
+        '@typescript-eslint/no-angle-bracket-type-assertion': 'off'
     },
 };
