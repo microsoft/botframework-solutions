@@ -44,12 +44,12 @@ if ($useDispatch){
     $languageBlock = [pscustomobject]@{
     dispatchModel = $dispatchModel
     languageModels = @()
-    knowledgeBases = @()
+    knowledgebases = @()
     }
 } else {
     $languageBlock = [pscustomobject]@{
         languageModels = @()
-        knowledgeBases = @()
+        knowledgebases = @()
     }
 }
 
@@ -60,7 +60,7 @@ for($i = 0; $i -lt $languageModels; $i++){
 
 # Add knowledge bases
 for($i = 0; $i -lt $knowledgeBases; $i++){
-    $languageBlock.knowledgeBases += $knowledgeBase
+    $languageBlock.knowledgebases += $knowledgeBase
 }
 
 # Get languages
@@ -68,8 +68,6 @@ $languageArr = $languages -split ","
 
 # Add block of models for each language
 foreach ($language in $languageArr){
-    Write-Host "Adding block for ${language}"
-    Write-Host $languageBlock
     $config.cognitiveModels | Add-Member -Force -Name $language -Value $languageBlock -MemberType NoteProperty
 }
 
