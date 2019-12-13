@@ -68,6 +68,7 @@ $languageArr = $languages -split ","
 
 # Add block of models for each language
 foreach ($language in $languageArr){
+    Write-Host $language "Adding ${language}: ${languageBlock}"
     $config.cognitiveModels | Add-Member -Force -Name $language -Value $languageBlock -MemberType NoteProperty
 }
 
