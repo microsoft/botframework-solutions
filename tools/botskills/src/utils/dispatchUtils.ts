@@ -9,7 +9,6 @@ import { ICognitiveModel } from '../models';
  * @param cognitiveModelsFile cognitiveModels assistant file which contains the dispatchs.
  * @returns Returns a map containing the culture with the related dispatchName
  */
-// tslint:disable-next-line:export-name
 export function getDispatchNames(cognitiveModelsFile: ICognitiveModel): Map<string, string> {
     try {
         const dispatchNames: Map<string, string> = new Map();

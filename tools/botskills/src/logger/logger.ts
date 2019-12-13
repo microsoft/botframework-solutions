@@ -3,7 +3,6 @@
  * Licensed under the MIT License.
  */
 
-// tslint:disable: no-console
 import chalk from 'chalk';
 
 export interface ILogger {
@@ -18,10 +17,8 @@ export interface ILogger {
 }
 
 export class ConsoleLogger implements ILogger {
-    // tslint:disable: variable-name
     private _isError: boolean = false;
     private _isVerbose: boolean = false;
-    // tslint:enable: variable-name
     public get isError(): boolean { return this._isError; }
     public get isVerbose(): boolean { return this._isVerbose; }
     public set isVerbose(value: boolean) { this._isVerbose = value || false; }
