@@ -19,12 +19,12 @@
     - `What will your skill do? ()`
         > The description of your skill.
     - `Which languages will your skill use? (by default takes all the languages)`
-        - [x] Chinese (`zh`)
-        - [x] Deutsch (`de`)
-        - [x] English (`en`)
-        - [x] French (`fr`)
-        - [x] Italian (`it`)
-        - [x] Spanish (`es`)
+        - [x] Chinese (`zh-zh`)
+        - [x] Deutsch (`de-de`)
+        - [x] English (`en-us`)
+        - [x] French (`fr-fr`)
+        - [x] Italian (`it-it`)
+        - [x] Spanish (`es-es`)
     - `Do you want to change the new skill's location?`
         > A confirmation to change the destination for the generation.
         - `Where do you want to generate the skill? (by default takes the path where you are running the generator)`
@@ -38,7 +38,7 @@
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --skillName [name]              | name of new skill (by default takes `sample-skill`)                                                          |
 | -d, --skillDesc [description]       | description of the new skill (by default takes ``) |
-| -l, --skillLang [languages]| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
+| -l, --skillLang [languages]| languages for the new skill. Possible values are `de-de`, `en-us`, `es-es`, `fr-fr`, `it-it`, `zh-zh` (by default takes all the languages)| 
 | -p, --skillGenerationPath [path]    | destination path for the new skill (by default takes the path where you are runnning the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
@@ -47,7 +47,7 @@
 #### Example
 
 ```bash
-> yo botbuilder-skill -n "My Skill" -d "A description for my new skill" -l "en,es" -p "\aPath" --noPrompt
+> yo botbuilder-skill -n "My Skill" -d "A description for my new skill" -l "en-us,es-es" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:

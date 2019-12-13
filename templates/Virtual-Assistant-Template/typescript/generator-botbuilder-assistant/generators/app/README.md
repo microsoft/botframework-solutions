@@ -19,12 +19,12 @@
     - `What will your assistant do? ()`
         > The description of your assistant.
     - `Which languages will your assistant use? (by default takes all the languages)`
-        - [x] Chinese (`zh`)
-        - [x] Deutsch (`de`)
-        - [x] English (`en`)
-        - [x] French (`fr`)
-        - [x] Italian (`it`)
-        - [x] Spanish (`es`)
+        - [x] Chinese (`zh-zh`)
+        - [x] Deutsch (`de-de`)
+        - [x] English (`en-us`)
+        - [x] French (`fr-fr`)
+        - [x] Italian (`it-it`)
+        - [x] Spanish (`es-es`)
     - `Do you want to change the new assistant's location?`
         > A confirmation to change the destination for the generation.
         - `Where do you want to generate the assistant? (by default takes the path where you are running the generator)`
@@ -38,7 +38,7 @@
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --assistantName [name]              | name of new assistant (by default takes `sample-assistant`)                                                          |
 | -d, --assistantDesc [description]       | description of the new assistant (by default takes ``) |
-| -l, --assistantLang [languages]| languages for the new assistant. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
+| -l, --assistantLang [languages]| languages for the new assistant. Possible values are `de-de`, `en-us`, `es-es`, `fr-fr`, `it-it`, `zh-zh` (by default takes all the languages)| 
 | -p, --assistantGenerationPath [path]    | destination path for the new assistant (by default takes the path where you are runnning the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
@@ -47,7 +47,7 @@
 #### Example
 
 ```bash
-> yo botbuilder-assistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en,es" -p "\aPath" --noPrompt
+> yo botbuilder-assistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en-us,es-es" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:
