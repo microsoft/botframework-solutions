@@ -27,7 +27,6 @@ import {
     Locales,
     ResponseManager} from 'botbuilder-solutions';
 import i18next from 'i18next';
-// tslint:disable-next-line: match-default-export-name
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
@@ -46,7 +45,6 @@ import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 
 // Configure internationalization and default locale
-// tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
     .init({
         fallbackLng: 'en-us',
@@ -162,15 +160,11 @@ const server: restify.Server = restify.createServer();
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
 server.use(restify.plugins.bodyParser());
-// tslint:disable-next-line:no-unsafe-any
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3980', (): void => {
-    // tslint:disable-next-line:no-console
     console.log(`${server.name} listening to ${server.url}`);
-    // tslint:disable-next-line:no-console
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
-    // tslint:disable-next-line:no-console
     console.log(`To talk to your bot, open your '.bot' file in the Emulator`);
 });
 

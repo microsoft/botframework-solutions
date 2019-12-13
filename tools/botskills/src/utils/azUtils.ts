@@ -19,7 +19,6 @@ export function isAzPreviewMessage(message: string): boolean {
  * @returns Returns if it is a valid azure-cli version (lower than 2.0.66)
  */
 const childProcess: ChildProcessUtils = new ChildProcessUtils();
-// tslint:disable-next-line:export-name
 export async function isValidAzVersion(): Promise<boolean> {
     const azVersionCommand: string[] = ['az', '--version'];
     const azVersion: string = await childProcess.tryExecute(azVersionCommand);

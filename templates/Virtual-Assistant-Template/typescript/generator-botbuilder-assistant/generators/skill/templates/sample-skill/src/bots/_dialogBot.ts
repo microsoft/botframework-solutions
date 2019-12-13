@@ -36,7 +36,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
         this.onTurn(this.turn.bind(this));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
         // Client notifying this bot took to long to respond (timed out)
         if (turnContext.activity.code === EndOfConversationCodes.BotTimedOut) {

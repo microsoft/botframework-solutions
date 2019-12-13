@@ -39,7 +39,6 @@ export class UpdateSkill {
 Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         }
 
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
     }
 
@@ -49,7 +48,6 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             const skillManifest: ISkillManifest = this.configuration.localManifest
                 ? this.getLocalManifest(this.configuration.localManifest)
                 : await this.getRemoteManifest(this.configuration.remoteManifest);
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
             // Check if the skill is already connected to the assistant
@@ -88,7 +86,6 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 const manifestParameter: string = this.configuration.localManifest
                     ? `--localManifest "${this.configuration.localManifest}"`
                     : `--remoteManifest "${this.configuration.remoteManifest}"`;
-                // tslint:disable-next-line: max-line-length
                 throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${manifestParameter} --luisFolder "${this.configuration.luisFolder}" --${this.configuration.lgLanguage}'`);
             }
 

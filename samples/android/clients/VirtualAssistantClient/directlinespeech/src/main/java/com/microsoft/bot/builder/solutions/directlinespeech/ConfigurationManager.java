@@ -55,9 +55,6 @@ public class ConfigurationManager {
         if (configuration.serviceRegion == null) {
             configuration.serviceRegion = defaultConfiguration.serviceRegion;
         }
-        if (configuration.botId == null) {
-            configuration.botId = defaultConfiguration.botId;
-        }
         if (configuration.userId == null) {
             configuration.userId = defaultConfiguration.userId;
         }
@@ -66,6 +63,9 @@ public class ConfigurationManager {
         }
         if (configuration.locale == null) {
             configuration.locale = defaultConfiguration.locale;
+        }
+        if (configuration.keyword == null) {
+            configuration.keyword = defaultConfiguration.keyword;
         }
 
         return configuration;

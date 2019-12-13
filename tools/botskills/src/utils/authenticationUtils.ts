@@ -119,7 +119,6 @@ export class AuthenticationUtils {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length export-name
     public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<boolean> {
         let currentCommand: string[] = [];
         try {
@@ -146,7 +145,6 @@ export class AuthenticationUtils {
                     currentCommand = listAuthSettingsCommand;
 
                     const connectionsResult: string = await this.childProcessUtils.tryExecute(listAuthSettingsCommand);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
                     const aadConnection: IAzureAuthSetting | undefined = connections.find(
                         (connection: IAzureAuthSetting): boolean =>
@@ -165,7 +163,6 @@ export class AuthenticationUtils {
                         currentCommand = showAuthSettingsCommand;
 
                         const botAuthSettingResult: string = await this.childProcessUtils.tryExecute(showAuthSettingsCommand);
-                        // eslint-disable-next-line @typescript-eslint/tslint/config
                         const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
                         const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
                         scopes = scopes.concat(existingScopes);
@@ -218,7 +215,6 @@ export class AuthenticationUtils {
                     currentCommand = azureAppShowCommand;
 
                     const azureAppShowResult: string = await this.childProcessUtils.tryExecute(azureAppShowCommand);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 
                     // get the Reply Urls from the app

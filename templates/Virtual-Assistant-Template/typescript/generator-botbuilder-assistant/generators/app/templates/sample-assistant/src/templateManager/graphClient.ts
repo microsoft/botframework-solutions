@@ -17,7 +17,7 @@ export class GraphClient {
     }
 
     public async getMe(): Promise<User> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return new Promise((resolve, reject): Promise<any> => {
             const client: Client = this.getAuthenticatedClient();
 

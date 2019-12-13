@@ -6,7 +6,7 @@
 import { TurnContext } from 'botbuilder-core';
 import { ITemplateRenderer } from './templateRenderer';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export declare type TemplateFunction = (turnContext: TurnContext, data: any) => Promise<any>;
 
 /**
@@ -38,13 +38,13 @@ export class DictionaryRenderer implements ITemplateRenderer {
         this.languages = templates;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
         const templates: TemplateIdMap | undefined = this.languages.get(language);
         if (templates !== undefined) {
             const template: TemplateFunction | undefined = templates.get(templateId);
             if (template !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const result: Promise<any> = template(turnContext, data);
                 if (result !== undefined) {
                     return result;

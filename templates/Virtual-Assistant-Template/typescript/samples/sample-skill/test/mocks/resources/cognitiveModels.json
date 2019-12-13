@@ -25,9 +25,9 @@
           "id": "sampleSkill",
           "authoringRegion": "westus",
           "appId": "00000002-0000-0000-0000-000000000001",
-          "authoringKey":  "<--MOCK-VALUE-->",
+          "authoringKey": "<--MOCK-VALUE-->",
           "version": "0.1",
-          "subscriptionKey":  "<--MOCK-VALUE-->",
+          "subscriptionKey": "<--MOCK-VALUE-->",
           "name": "sampleSkill",
           "region": "westus"
         }
