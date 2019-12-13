@@ -19,7 +19,7 @@
     - `What will your assistant do? ()`
         > The description of your assistant.
     - `Which languages will your assistant use? (by default takes all the languages)`
-        - [x] Chinese (`zh-zh`)
+        - [x] Chinese (`zh-cn`)
         - [x] Deutsch (`de-de`)
         - [x] English (`en-us`)
         - [x] French (`fr-fr`)
@@ -38,7 +38,7 @@
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --assistantName [name]              | name of new assistant (by default takes `sample-assistant`)                                                          |
 | -d, --assistantDesc [description]       | description of the new assistant (by default takes ``) |
-| -l, --assistantLang [languages]| languages for the new assistant. Possible values are `de-de`, `en-us`, `es-es`, `fr-fr`, `it-it`, `zh-zh` (by default takes all the languages)| 
+| -l, --assistantLang [languages]| languages for the new assistant. Possible values are `de-de`, `en-us`, `es-es`, `fr-fr`, `it-it`, `zh-cn` (by default takes all the languages)| 
 | -p, --assistantGenerationPath [path]    | destination path for the new assistant (by default takes the path where you are runnning the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
