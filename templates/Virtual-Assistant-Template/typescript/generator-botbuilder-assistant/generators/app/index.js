@@ -142,7 +142,7 @@ module.exports = class extends Generator {
       this.log.error(
         "ERROR: Language must be selected from the list:\n\t" +
           languages.map(l => `${l.value} -> ${l.name}`).join("\n\t") +
-          "\nDefault value: en"
+          "\nDefault value: en-us"
       );
       process.exit(1);
     }
