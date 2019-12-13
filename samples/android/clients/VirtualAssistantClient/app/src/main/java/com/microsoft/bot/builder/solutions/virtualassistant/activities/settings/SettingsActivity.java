@@ -51,7 +51,6 @@ public class SettingsActivity extends BaseActivity {
     // VIEWS
     @BindView(R.id.service_key) TextInputEditText serviceKey;
     @BindView(R.id.service_region) TextInputEditText serviceRegion;
-    @BindView(R.id.bot_id) TextInputEditText botId;
     @BindView(R.id.user_id) TextInputEditText userId;
     @BindView(R.id.locale) TextInputEditText locale;
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
@@ -131,7 +130,7 @@ public class SettingsActivity extends BaseActivity {
         showAppConfiguration();
     }
 
-    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.bot_id, R.id.user_id, R.id.locale})
+    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale})
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_SEND || (key != null && key.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -320,7 +319,6 @@ public class SettingsActivity extends BaseActivity {
 
         serviceKey.setText(configuration.serviceKey);
         serviceRegion.setText(configuration.serviceRegion);
-        botId.setText(configuration.botId);
         userId.setText(configuration.userId);
         locale.setText(configuration.locale);
 
@@ -329,7 +327,10 @@ public class SettingsActivity extends BaseActivity {
 
         // keywords
         Spinner spinner = findViewById(R.id.keyword_dropdown);
-        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords);
+        int currentKeywordPosition = adapter.getPosition(configuration.keyword);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(currentKeywordPosition);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -394,7 +395,6 @@ public class SettingsActivity extends BaseActivity {
     private void saveConfiguration() {
         configuration.serviceKey = serviceKey.getText().toString();
         configuration.serviceRegion = serviceRegion.getText().toString();
-        configuration.botId = botId.getText().toString();
         configuration.userId = userId.getText().toString();
         configuration.locale = locale.getText().toString();
 
