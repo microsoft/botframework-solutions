@@ -41,16 +41,6 @@ The following Skill samples are available out of the box, each with deployment s
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/skills/samples/to-do/" class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
-            <h4 class="card-title no_toc">To Do Skill</h4>
-            <p class="card-text">Get up and running with the To Do Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
 </div>
 <br/>
 <div class="card-deck">
@@ -64,11 +54,11 @@ The following Skill samples are available out of the box, each with deployment s
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
-    <a href="{{site.baseurl}}/skills/samples/experimental" class="card">
+    <a href="{{site.baseurl}}/skills/samples/to-do/" class="card">
         <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/experimental-skill.png" alt="Experimental icon" width="48px">
-            <h4 class="card-title no_toc">Experimental Skills</h4>
-            <p class="card-text">Get up and running with the additional experimental Skill samples.</p>
+        <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
+            <h4 class="card-title no_toc">To Do Skill</h4>
+            <p class="card-text">Get up and running with the To Do Skill sample.</p>
         </div>
         <div class="card-footer">
             <div class="btn btn-primary">Learn more</div>
