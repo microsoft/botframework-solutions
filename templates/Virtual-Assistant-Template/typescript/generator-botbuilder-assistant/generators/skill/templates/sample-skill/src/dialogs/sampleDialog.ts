@@ -66,9 +66,8 @@ export class SampleDialog extends SkillDialogBase {
         const tokens: Map<string, string> = new Map<string, string>();
         tokens.set(this.nameKey, sc.result as string);
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const response: any = this.responseManager.getResponse(SampleResponses.haveNameMessage, tokens);
-        // tslint:disable-next-line: no-unsafe-any
         await sc.context.sendActivity(response);
 
         return sc.next();

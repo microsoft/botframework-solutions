@@ -2,10 +2,14 @@
     "name": "botbuilder-skills",
     "version": "4.4.6",
     "description": "Shared library for building Conversational AI Skills.",
-    "homepage": "https://github.com/Microsoft/AI/",
+    "homepage": "https://github.com/microsoft/botframework-solutions",
     "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
+    "files": [
+        "src",
+        "lib"
+    ],
     "scripts": {
         "clean": "rimraf ./lib",
         "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
@@ -35,6 +39,7 @@
         "uuid": "^3.3.2"
     },
     "devDependencies": {
+        "@types/nock": "^10.0.3",
         "@types/restify": "^7.2.4",
         "@types/request-promise-native": "^1.0.7",
         "@types/uuid": "^3.4.4",
@@ -44,11 +49,11 @@
         "eslint": "^5.16.0",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
+        "nock": "^11.7.0",
         "nyc": "^14.1.1",
         "restify": "^8.3.2",
         "rimraf": "^2.6.2",
         "supertest": "^4.0.2",
-        "@types/nock": "^10.0.3",
         "typescript": "3.4.5"
     },
     "env": {

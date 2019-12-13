@@ -34,27 +34,23 @@ export class OnboardingResponses extends TemplateManager {
     private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
             [OnboardingResponses.responseIds.emailPrompt, OnboardingResponses.fromResources('onboarding.emailPrompt')],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             [OnboardingResponses.responseIds.haveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveEmail');
 
-                // tslint:disable-next-line: no-unsafe-any
                 return value.replace('{0}', data.email);
             }],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             [OnboardingResponses.responseIds.haveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveLocation');
 
-                // tslint:disable-next-line: no-unsafe-any
                 return value.replace('{0}', data.name)
-                    // tslint:disable-next-line: no-unsafe-any
                     .replace('{1}', data.location);
             }],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             [OnboardingResponses.responseIds.haveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveName');
 
-                // tslint:disable-next-line: no-unsafe-any
                 return value.replace('{0}', data.name);
             }],
             [OnboardingResponses.responseIds.namePrompt, OnboardingResponses.fromResources('onboarding.namePrompt')],
