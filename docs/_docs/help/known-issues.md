@@ -182,3 +182,36 @@ In the Bot Builder SDK version 4.5.3 and below, there is a bug which causes the 
 For more information, refer to the following resources:
 - [Bot Builder SDK issue](https://github.com/microsoft/botbuilder-dotnet/issues/2474)
 - [Bot Builder SDK pull request](https://github.com/microsoft/botbuilder-dotnet/pull/2580)
+
+## Dialogs are not ending when an error is raised in the conversation
+There is a known issue in the dialogs of the Virtual Assistant and the Skill in which the executed conversation is not ending when an error is raised, this is happening in C# and in TypeScript as well.
+
+To resolve this issue, it's necessary to add a `try/catch` in the `MainDialog` of the bots, to handle any error during the conversation:
+
+[MainDialog.ts](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/src/dialogs/mainDialog.ts)
+```typescript
+protected async onContinueDialog(dc: DialogContext): Promise<DialogTurnResult> {
+    try {
+        …
+    } catch (error) {
+        …
+        return await dc.endDialog();
+    }
+}
+```
+
+[MainDialog.cs](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Dialogs/MainDialog.cs)
+```C#
+protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+    try {
+        …
+    } catch (Exception ex) {
+        …
+        return await innerDc.EndDialogAsync().ConfigureAwait(false);
+    }
+}
+```
+
+For more information, check the following issues:
+* [#1589](https://github.com/microsoft/botframework-solutions/issues/1589) - `OnTurnError function inside DefaultAdapter doesn't end the current dialog`
+* [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
