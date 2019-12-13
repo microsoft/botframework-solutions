@@ -5,6 +5,7 @@ Param(
     [int] $knowledgeBases = 1,
     [string] $languages = "en-us"
 )
+
 $config = Get-Content -Raw -Path $jsonFile | ConvertFrom-Json
 
 # Create reused variables
@@ -67,14 +68,7 @@ $languageArr = $languages -split ","
 
 # Add block of models for each language
 foreach ($language in $languageArr){
-    # If english, add additional knowledge base
-    # If other, add all
-    if ($language -eq "en-us"){
-        $config.cognitiveModels.$language.knowledgebases += $knowledgeBase
-    }
-    else {
-        $config.cognitiveModels | Add-Member -Name $language -Value $languageBlock -MemberType NoteProperty
-    }
+    $config.cognitiveModels | Add-Member -Force -Name $language -Value $languageBlock -MemberType NoteProperty
 }
 
-$config | ConvertTo-Json -depth 4 | Set-Content $jsonFile
+$config | ConvertTo-Json -depth 4 | Set-Content -Encoding utf8 $jsonFile
