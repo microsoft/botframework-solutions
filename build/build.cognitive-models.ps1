@@ -72,4 +72,4 @@ foreach ($language in $languageArr){
     $config.cognitiveModels | Add-Member -Force -Name $language -Value $languageBlock -MemberType NoteProperty
 }
 
-$config | ConvertTo-Json -depth 4 | Set-Content -Encoding utf8 $jsonFile
+$config | ConvertTo-Json -depth 4 | Set-Content $jsonFile
