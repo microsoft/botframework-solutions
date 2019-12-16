@@ -30,7 +30,6 @@ namespace CalendarSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
@@ -38,10 +37,9 @@ namespace CalendarSkill.Dialogs
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            ProactiveState proactiveState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             CreateEventDialog createEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
             TimeRemainingDialog timeRemainingDialog,
@@ -56,8 +54,8 @@ namespace CalendarSkill.Dialogs
             _settings = settings;
             _services = services;
             _userState = userState;
-            _responseManager = responseManager;
             _conversationState = conversationState;
+            TemplateEngine = localeTemplateEngineManager;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
@@ -74,10 +72,13 @@ namespace CalendarSkill.Dialogs
             AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
         }
 
+        private LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage);
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -173,7 +174,8 @@ namespace CalendarSkill.Dialogs
                         }
                         else
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.DidntUnderstandMessage);
+                            await dc.Context.SendActivityAsync(activity);
                         }
 
                         break;
@@ -181,10 +183,12 @@ namespace CalendarSkill.Dialogs
 
                 default:
                     {
-                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                        var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                        await dc.Context.SendActivityAsync(activity);
                         break;
                     }
             }
+
         }
 
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -404,14 +408,19 @@ namespace CalendarSkill.Dialogs
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
+
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.CancelMessage);
+            await dc.Context.SendActivityAsync(activity);
+
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.HelpMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.HelpMessage);
+            await dc.Context.SendActivityAsync(activity);
+
             return InterruptionAction.Resume;
         }
 
@@ -437,7 +446,8 @@ namespace CalendarSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.LogOut));
+            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.LogOut);
+            await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.End;
         }

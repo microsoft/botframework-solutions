@@ -24,5 +24,12 @@ namespace ToDoSkill.Responses.Shared
         public const string CardSummaryMessageForMultipleTasks = "CardSummaryMessageForMultipleTasks";
         public const string CardSummaryMessageForSingleTask = "CardSummaryMessageForSingleTask";
         public const string NoTasksInList = "NoTasksInList";
+        public const string ShowToDo = "ShowToDo";
+        public const string ReadMore = "ReadMore";
+        public const string PreviousPage = "PreviousPage";
+        public const string AfterTaskAdded = "AfterTaskAdded";
+        public const string TaskCompleted = "TaskCompleted";
+        public const string TaskDeleted = "TaskDeleted";
+        public const string DeletionAllConfirmationRefused = "DeletionAllConfirmationRefused";
     }
 }

@@ -1,0 +1,115 @@
+# Cancel.Text
+- 当然，我们可以在以后再做。
+- 当然，我们可以稍后开始。
+- 没关系。您可以在其他时间重试。
+- 好吧，当你需要我的帮助时，让我知道。
+- 当然，如果你需要我，我在这里。
+
+# NoAuth.Text
+- 请登录，以便我采取进一步的行动。
+- 请登录，以便我可以继续您的请求。
+- 你能登录，这样我就能进一步帮助你。
+- 您需要登录，以便我采取进一步操作。
+
+# NoFocusMessage.Text
+- 您指的是哪封电子邮件？
+- 您究竟指的是哪封电子邮件？
+- 您谈论的是哪封电子邮件？
+- 你能解释一下你指的是哪封电子邮件吗？
+
+# NoRecipients.Text
+- 当然，电子邮件要给谁？
+
+# EmailNotFound.Text
+- 看来你没有新的电子邮件。如果你想设置一个新的电子邮件请告诉我。
+- 我目前没有检索任何相关的电子邮件。如果你想设置一个新的电子邮件请告诉我。
+
+# EmailErrorMessage.Text
+- 对不起，好像出了什么问题！
+- 发生错误。给我一些时间，稍后再试一次。
+- 出问题了对不起！
+- 我相信出了什么问题。您以后再试一次吗？
+- 对不起，我想我现在找不到你想要的。请稍后再试。
+
+# EmailErrorMessageBotProblem.Text
+- 对不起，目前机器人有问题。开发人员已接到通知，以便您很快能够再次执行该操作。
+
+# EmailErrorMessageAccountProblem.Text
+- 很抱歉，您的电子邮件帐户目前出现问题。请按照收件箱中的说明验证您的帐户。
+
+# ConfirmSendRecipients.Text(recipientsList)
+- 收件人是{recipientsList}.
+
+# ConfirmSendRecipientsMessage.Text
+- 是否要浏览其余收件人？
+
+# ConfirmSendRecipientsFailed.Text
+- 请确认您是否需要通过其余的收件人。
+
+# ConfirmSendMessage.Text
+- 这是你想发送的吗？
+
+# ConfirmSend.Text
+- 我准备好发送电子邮件了。
+
+# ConfirmSend.Speak(emailSubject)
+- 我准备好发送电子邮件了。电子邮件详细信息为：{emailSubject}.
+
+# ConfirmSendFailed.Text
+- 请在发送此电子邮件之前确认。
+- 请确认此电子邮件。
+
+# NoEmailContent.Text
+- 你在留言中想说什么？
+
+# NoEmailContentForReply.Text
+- 你在答复中想说什么？
+
+# NoEmailContentForForward.Text
+- 你在前行想说什么？
+
+# RecipientConfirmed.Text(userName)
+- 好吧，我会把这个发给{userName}.
+
+# ShowEmailPrompt.Text(totalCount,emailListDetails)
+- 你有{totalCount}收件箱中的电子邮件。最新的电子邮件是{emailListDetails}.
+
+# ShowOneEmailPrompt.Text(emailListDetails)
+- 您的收件箱中包含 1 封电子邮件。最新的电子邮件是{emailListDetails}.
+
+# ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
+- 你有{totalCount}收件箱中的电子邮件。第一封电子邮件是{emailListDetails}.
+
+# ShowOneEmailPromptOtherPage.Text(emailListDetails)
+- 您的收件箱中包含 1 封电子邮件。第一封电子邮件是{emailListDetails}.
+
+# FirstPageAlready.Text
+- 这已经是第一页了。
+
+# LastPageAlready.Text
+- 这已经是最后一页了。
+
+# DidntUnderstandMessage.Text
+- 对不起，我不明白你的意思。
+- 我不明白，也许用另一种方式再试一次。
+- 你能试着用另一种方式问吗？
+- 我不明白你的意思，你能换个方法试试吗？
+- 你能详细说明一下吗？
+- 请用不同的方式再说一遍。
+- 我不太明白。
+- 你能用不同的方式说吗？
+- 你能再问我一次吗？我不明白你的意思。
+
+# CancellingMessage.Text
+- 当然，我们可以在以后再做。
+- 当然，我们可以稍后开始。
+- 没关系。您可以在其他时间重试。
+- 好吧，当你需要我的帮助时，让我知道。
+- 当然，如果你需要我，我在这里。
+
+# SentSuccessfully.Text(subject)
+- 我已经发送了主题的电子邮件{subject}.
+
+# RetryInput.Text
+- 对不起，我不明白你的意思。请再试一次好吗？
+

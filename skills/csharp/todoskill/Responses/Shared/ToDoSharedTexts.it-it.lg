@@ -1,0 +1,39 @@
+# NoAuth.Text
+- Si prega di accedere prima di intraprendere ulteriori azioni.
+- Si prega di accedere in modo da poter dare una mano.
+- Si prega di accedere in modo da poter procedere con la vostra richiesta.
+- Puoi accedere così posso aiutarti ulteriormente?
+- Devi effettuare l'accesso per poter intraprendere ulteriori azioni.
+
+# ActionEnded.Text
+- Fammi sapere se hai bisogno del mio aiuto con qualcos'altro.
+- Ok, sono qui se hai bisogno di me.
+
+# ToDoErrorMessage.Text
+- Mi dispiace, sembra che qualcosa sia andato storto!
+- Si è verificato un errore, riprovare più tardi.
+- Qualcosa è andato storto, scusa!
+- Sembra che qualcosa sia andato storto. Puoi riprovarci più tardi?
+- Scusa se non posso aiutarti in questo momento. Riprova più tardi.
+
+# ToDoErrorMessageBotProblem.Text
+- Spiacenti, c'è qualcosa che non va con il bot al momento. Lo sviluppatore è stato avvisato su di esso in modo da essere in grado di eseguire l'azione di nuovo molto presto.
+
+# ToDoErrorMessageAccountProblem.Text
+- Spiacenti, sembra che qualcosa sia andato storto con il tuo account e-mail. Segui le istruzioni nella Posta in arrivo per verificare il tuo account.
+
+# SettingUpOneNoteMessage.Text
+- Ho notato che non hai più un OneNote. Si sta creando un nuovo OneNote, incluso un elenco Da fare.
+
+# AfterOneNoteSetupMessage.Text
+- Tutto pronto. È stato inviato un messaggio di posta elettronica con un collegamento al nuovo OneNote. Sono pronto a annotare il tuo To Do.
+
+# SettingUpOutlookMessage.Text
+- Ho notato che non hai più alcuna cartella di attività di Outlook. Sto creando nuove cartelle di attività per te, inclusa una cartella Da fare.
+
+# AfterOutlookSetupMessage.Text
+- Tutto pronto. Ti ho inviato un'e-mail con un collegamento alle nuove cartelle delle attività di Outlook. Sono pronto a annotare il tuo To Do.
+
+# NoTasksInList.Text
+- La tua lista è vuota.
+

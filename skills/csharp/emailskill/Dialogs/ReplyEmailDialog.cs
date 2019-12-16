@@ -22,9 +22,10 @@ namespace EmailSkill.Dialogs
     public class ReplyEmailDialog : EmailSkillDialogBase
     {
         public ReplyEmailDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ReplyEmailDialog), serviceProvider, telemetryClient)
+            : base(nameof(ReplyEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -99,13 +100,13 @@ namespace EmailSkill.Dialogs
                     { "Subject", state.Subject },
                 };
 
-                var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                var reply = ResponseManager.GetCardResponse(
-                    EmailSharedResponses.SentSuccessfully,
-                    new Card("EmailWithOutButtonCard", emailCard),
-                    stringToken,
-                    "items",
-                    new List<Card>().Append(new Card(recipientCard, emailCard)));
+                var reply = TemplateEngine.GenerateActivityForLocale(
+                EmailSharedResponses.SentSuccessfully,
+                new
+                {
+                    subject = state.Subject,
+                    emailDetails = emailCard
+                });
 
                 await sc.Context.SendActivityAsync(reply);
             }

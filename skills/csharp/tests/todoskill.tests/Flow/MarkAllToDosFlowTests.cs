@@ -37,24 +37,31 @@ namespace ToDoSkill.Tests.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  messageActivity.Speak);
+                 this.AfterAllTasksCompleted(new
+                 {
+                     ListType = MockData.ToDo
+                 }), messageActivity.Speak);
             };
+        }
+
+        private string[] AfterAllTasksCompleted(object data)
+        {
+            return GetTemplates(MarkToDoResponses.AfterAllTasksCompleted, data);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete);
         }
     }
 }

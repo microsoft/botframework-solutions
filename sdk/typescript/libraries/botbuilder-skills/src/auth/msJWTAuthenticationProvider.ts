@@ -39,7 +39,6 @@ export class MsJWTAuthenticationProvider implements IAuthenticationProvider {
                 url: this.openIdMetadataUrl
             });
 
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const jwksUri: string = <string>jwksInfo.parsedBody.jwks_uri;
             const jwksClient: jwks.JwksClient = jwks({ jwksUri: jwksUri });
 
@@ -49,7 +48,6 @@ export class MsJWTAuthenticationProvider implements IAuthenticationProvider {
                 });
             };
 
-            // tslint:disable-next-line:typedef
             const decoder: Promise<{[key: string]: Object}> = new Promise((resolve, reject): void => {
                 verify(token, getKey, (err: Error, decodedObj: Object): void => {
                     if (err !== undefined) { reject(err); }

@@ -97,27 +97,27 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectToDoContent()
         {
-            return this.ParseReplies(AddToDoResponses.AskTaskContentText, new StringDictionary());
+            return GetTemplates(AddToDoResponses.AskTaskContentText);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] AskSwitchListType()
         {
-            return this.ParseReplies(AddToDoResponses.SwitchListType, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
+            return GetTemplates(AddToDoResponses.SwitchListType, new { ListType = MockData.Grocery });
         }
 
         private string[] AddMoreTask(string listType)
         {
-            return this.ParseReplies(AddToDoResponses.AddMoreTask, new StringDictionary() { { MockData.ListType, listType } });
+            return GetTemplates(AddToDoResponses.AddMoreTask, new { ListType = listType });
         }
 
         private Action<IActivity> ShowUpdatedToDoList()
@@ -128,11 +128,11 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
-                    {
-                        { MockData.TaskContent, AddToDoFlowTestUtterances.TaskContent },
-                        { MockData.ListType, MockData.ToDo }
-                    }), messageActivity.Speak);
+                 this.AfterTaskAdded(new
+                 {
+                     TaskContent = AddToDoFlowTestUtterances.TaskContent,
+                     ListType = MockData.ToDo
+                 }), messageActivity.Speak);
             };
         }
 
@@ -144,11 +144,11 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.GroceryItemEggs },
-                        { MockData.ListType, MockData.Grocery }
-                    }), messageActivity.Speak);
+                  this.AfterTaskAdded(new
+                  {
+                      TaskContent = MockData.GroceryItemEggs,
+                      ListType = MockData.Grocery
+                  }), messageActivity.Speak);
             };
         }
 
@@ -160,11 +160,11 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                   this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
-                   {
-                        { MockData.TaskContent, MockData.ShoppingItemShoes },
-                        { MockData.ListType, MockData.Shopping }
-                   }), messageActivity.Speak);
+                 this.AfterTaskAdded(new
+                 {
+                     TaskContent = MockData.ShoppingItemShoes,
+                     ListType = MockData.Shopping
+                 }), messageActivity.Speak);
             };
         }
 
@@ -176,17 +176,22 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.CustomizedListTypeItemHistory },
-                        { MockData.ListType, MockData.CustomizedListType }
-                    }), messageActivity.Speak);
+                   this.AfterTaskAdded(new
+                   {
+                       TaskContent = MockData.CustomizedListTypeItemHistory,
+                       ListType = MockData.CustomizedListType
+                   }), messageActivity.Speak);
             };
+        }
+
+        private string[] AfterTaskAdded(object data)
+        {
+            return GetTemplates(AddToDoResponses.AfterTaskAdded, data);
         }
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
     }
 }

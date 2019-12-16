@@ -25,7 +25,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] ConfusedResponse()
         {
-            return this.ParseReplies(EmailSharedResponses.DidntUnderstandMessage, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.DidntUnderstandMessage);
         }
     }
 }
