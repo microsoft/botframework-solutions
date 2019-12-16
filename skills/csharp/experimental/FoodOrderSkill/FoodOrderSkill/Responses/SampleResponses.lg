@@ -1,0 +1,84 @@
+﻿> ------------ Activity templates ------------
+
+# NamePrompt
+[Activity
+    Text = {NamePromptText()}
+    InputHint = expectingInput
+]
+
+# HaveNameMessage
+[Activity
+    Text = {HaveNameMessageText()}
+    InputHint = expectingInput
+]
+
+# FavoriteOrderPrompt
+[Activity
+    Text = {FavoriteOrderPromptText()}
+    InputHint = expectingInput
+]
+
+# showOrderComponentsMessage
+[Activity
+    Text = {ShowOrderComponentsText()}
+    InputHint = expectingInput
+]
+
+# promptForAddressMessage
+[Activity
+    Text = {PromptForAddressText()}
+    InputHint = expectingInput
+]
+
+# promptForNewAddressMessage
+[Activity
+    Text = {PromptForNewAddressText()}
+    InputHint = expectingInput
+]
+
+# orderConfirmationMessage
+[Activity
+    Text = {OrderOverviewText()}
+    InputHint = expectingInput
+]
+
+# promptForOrderConfirmation
+[Activity
+    Text = {OrderConfirmationText()}
+    InputHint = expectingInput
+]
+
+# orderPlacedMessage
+[Activity
+    Text = {OrderPlacedText()}
+    InputHint = ignoringInput
+]
+> ------------ Text templates ------------
+
+# NamePromptText
+- What is your name?
+
+# HaveNameMessageText
+- Hi, {Name}!
+- Nice to meet you, {Name}!
+
+# FavoriteOrderPromptText
+- Which favorited order would you like to order today? 
+
+# ShowOrderComponentsText
+- Your {OrderName} order is from {RestaurantName} and consists of the following:  \n{OrderComponents}
+
+# PromptForAddressText
+- The default address I have for this order is {addressOnFile}, would you like me to deliver to this address?
+
+# PromptForNewAddressText
+- What address would you like us to deliver your order to?
+
+# OrderOverviewText
+- Here is a breakdown of your order  \n  \n**Order Name**: {OrderName},  \n**Restaurant Name**: {RestaurantName},  \n**Order Contents**: {orderContents},  \n**Address**: {address}
+
+# OrderConfirmationText
+- Are you ready for me to place this order?
+
+# OrderPlacedText
+- I have placed your {orderName} order. Your order will arrive at {address} shortly.
