@@ -344,19 +344,13 @@ ASALocalRun/
 **/skills.production.json
 **/skills.development.json
 
-# LUIS json files
-/solutions/**/*.luis
-
-# QnAMaker json files
-/solutions/**/*.qna
 
 # Local deployment files
 /solutions/**/.deployment
 /solutions/**/publish
 /solutions/**/publish.cmd
 **/Deployment/Resources/Dispatch/**
-**/Deployment/**/*.luis
-**/Deployment/**/*.qna
+**/Deployment/Resources/**/*.json
 **/deploy_log.txt
 **/deploy_cognitive_models_log.txt
 **/update_cognitive_models_log.txt
