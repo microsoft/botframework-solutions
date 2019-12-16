@@ -1,11 +1,11 @@
-function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
+function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
     $id = $lu_file.BaseName
     $outFile = "$($id).json"
     $outFolder = $lu_file.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($id) LU file ..." -NoNewline
+    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
 	bf qnamaker:convert `
         --in $lu_file `
         --out $(Join-Path $outFolder $outFile) `
@@ -13,7 +13,7 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
     Write-Host "Done." -ForegroundColor Green
         
 	# Create QnA Maker kb
-    Write-Host "> Deploying $($id) QnA kb ..." -NoNewline
+    Write-Host "> Deploying $($language) $($id) QnA kb ..." -NoNewline
 
 	# These values pretty much guarantee success. We can decrease them if the QnA backend gets faster
     $initialDelaySeconds = 60;
@@ -64,21 +64,21 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $log)
 	}
 }
 
-function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $log)
+function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
     $id = $lu_file.BaseName
     $outFile = "$($id).json"
     $outFolder = $lu_file.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($id) LU file ..." -NoNewline
+    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
 	bf qnamaker:convert `
         --in $lu_file `
         --out $(Join-Path $outFolder $outFile) `
         --force 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 
-    Write-Host "> Replacing $($id) QnA kb ..." -NoNewline
+    Write-Host "> Replacing $($language) $($id) QnA kb ..." -NoNewline
 	bf qnamaker:kb:replace `
         --in $(Join-Path $outFolder $outFile) `
         --kbId $kbId `

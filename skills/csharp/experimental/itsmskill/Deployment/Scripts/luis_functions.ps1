@@ -13,7 +13,7 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $
         $cloud = 'com'
     }
     
-    Write-Host "> Parsing $($id) LU file ..." -NoNewline
+    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
 	bf luis:convert `
         --name $appName `
         --in $lu_file `
@@ -22,7 +22,7 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $
         --force 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
 		
-    Write-Host "> Deploying $($id) LUIS app ..." -NoNewline
+    Write-Host "> Deploying $($language) $($id) LUIS app ..." -NoNewline
     $luisApp = (luis import application `
         --appName $appName `
         --authoringKey $authoringKey `
@@ -62,7 +62,7 @@ function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $
 	}
 }
 
-function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $gov, $log)
+function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringKey, $subscriptionKey, $gov, $log)
 {
     $id = $lu_file.BaseName
     $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
@@ -76,7 +76,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         $cloud = 'com'
     }
 
-    Write-Host "> Getting hosted $($id) LUIS model settings..." -NoNewline
+    Write-Host "> Getting hosted $($language) $($id) LUIS model settings..." -NoNewline
     $luisApp = (luis get application `
         --appId $appId `
         --region $region `
@@ -121,7 +121,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         Write-Host "Done." -ForegroundColor Green
     }   
     
-    Write-Host "> Parsing $($id) LU file ..." -NoNewline
+    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
 	bf luis:convert `
         --name $luisApp.name `
         --in $lu_file `

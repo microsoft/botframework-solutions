@@ -139,7 +139,7 @@ foreach ($language in $languageArr)
             -Value $(New-Object PSObject)
 
 	    # Initialize Dispatch
-        Write-Host "> Initializing dispatch model ..." -NoNewline
+        Write-Host "> Initializing $($langCode) dispatch model ..." -NoNewline
 		$dispatchName = "$($name)$($langCode)_Dispatch"
 		$dataFolder = Join-Path $PSScriptRoot .. Resources Dispatch $langCode
 		(dispatch init `
@@ -196,7 +196,7 @@ foreach ($language in $languageArr)
 
 				if ($useDispatch) {
 					# Add luis app to dispatch
-					Write-Host "> Adding $($lu.BaseName) app to dispatch model ..." -NoNewline
+					Write-Host "> Adding $($langCode) $($lu.BaseName) app to dispatch model ..." -NoNewline
 					(dispatch add `
 						--type "luis" `
 						--name $luisApp.name `
@@ -242,11 +242,12 @@ foreach ($language in $languageArr)
                     -lu_file $lu `
                     -qnaSubscriptionKey $qnaSubscriptionKey `
                     -qnaEndpoint $qnaEndpoint `
+                    -language $langCode `
                     -log $logFile
        
 				if ($qnaKb) {
 					if ($useDispatch) {
-						Write-Host "> Adding $($lu.BaseName) kb to dispatch model ..." -NoNewline    
+						Write-Host "> Adding $($langCode) $($lu.BaseName) kb to dispatch model ..." -NoNewline    
 						(dispatch add `
 							--type "qna" `
 							--name $lu.BaseName `
@@ -293,7 +294,7 @@ foreach ($language in $languageArr)
 
 	if ($useDispatch) {
 		# Create dispatch model
-		Write-Host "> Creating dispatch model..." -NoNewline
+		Write-Host "> Creating $($langCode) dispatch model ..." -NoNewline
 		$dispatch = (dispatch create `
 			--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")" `
             --gov $gov `
