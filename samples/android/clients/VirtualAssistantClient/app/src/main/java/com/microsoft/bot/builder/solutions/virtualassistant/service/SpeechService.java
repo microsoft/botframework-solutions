@@ -21,6 +21,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -179,7 +180,7 @@ public class SpeechService extends Service {
                     try {
                         InputStream is = am.open("keywords/" + keyword + "/kws.table");
                         speechSdk.startKeywordListeningAsync(is, keyword);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -380,6 +381,13 @@ public class SpeechService extends Service {
         File directory = getFilesDir();
         Configuration configuration = configurationManager.getConfiguration();
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
+        if (configuration.enableKWS) {
+            try {
+                binder.startKeywordListeningAsync(configuration.keyword);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Initialize listening animation view

@@ -105,18 +105,10 @@
 
 
 ## ExtractName
-- llámame steve !
-- Soy anna
-- Soy John Jackson.
-- Soy lirio
-- es Jackson .
-- es Alice Anderson!
-- mi nombre es Bill Jones
-- este es John w.smith .
-- ([se puede] [por favor]) Llámame  {PersonName.Any} [.]
-- Mi nombre es  {PersonName.Any} [.]
-- (Soy yo)  {PersonName.Any} [.]
-- (es esto)  {PersonName.Any} [.]
+- ([se puede]|[por favor]) Llámame {PersonName.Any} [.]
+- Mi nombre es {PersonName.Any} [.]
+- (Soy|yo) {PersonName.Any} [.]
+- (es|esto) {PersonName.Any} [.]
 
 
 ## FinishTask
@@ -528,9 +520,6 @@ $DirectionalReference:simple
 $PREBUILT:number
 
 $PREBUILT:ordinal
-
-$PREBUILT:personName
-
 
 > # Phrase list definitions
 

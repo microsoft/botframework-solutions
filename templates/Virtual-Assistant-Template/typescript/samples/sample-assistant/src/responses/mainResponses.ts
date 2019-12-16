@@ -60,14 +60,13 @@ export class MainResponses extends TemplateManager {
         this.register(new DictionaryRenderer(MainResponses.responseTemplates));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public static async buildNewUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introGreetingFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const introCard: any = JSON.parse(readFileSync(introPath, 'UTF8'));
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
 
         response.suggestedActions = {
@@ -94,14 +93,13 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(response);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public static async buildReturningUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introReturningFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const introCard: any = JSON.parse(readFileSync(introPath, 'UTF8'));
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
 
         response.suggestedActions = {
@@ -128,7 +126,7 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(response);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public static async buildHelpCard(turnContext: TurnContext, data: any): Promise<any> {
         const title: string = i18next.t('main.helpTitle');
         const text: string = i18next.t('main.helpText');

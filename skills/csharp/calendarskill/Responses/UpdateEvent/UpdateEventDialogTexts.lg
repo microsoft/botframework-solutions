@@ -1,0 +1,17 @@
+# ConfirmUpdate.Text
+- Are you sure you want to update the following?
+
+# ConfirmUpdateFailed.Text
+- Are you sure you want to update the following? Please confirm.
+
+# EventUpdated.Text
+- I have changed the time of your event.
+
+# NoNewTime.Text
+- What will be the new time of the event?
+
+# NoNewTimeRetry.Text
+- I don't understand the time you provided, can you try again?
+
+# NoUpdateStartTime.Text
+- What event would you like to adjust? By providing the start time or title I can retrieve your event.

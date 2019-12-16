@@ -95,80 +95,80 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AvailableResponse()
         {
-            return this.ParseReplies(CheckAvailableResponses.AttendeeIsAvailable, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.AttendeeIsAvailable, new
             {
-                { "UserName", Strings.Strings.DefaultUserName },
-                { "StartTime", "4:00 PM" },
-                { "EndTime", "5:00 PM" },
-                { "Date", "today" },
+                UserName = Strings.Strings.DefaultUserName,
+                StartTime = "4:00 PM",
+                EndTime = "5:00 PM",
+                Date = "today"
             });
         }
 
         private string[] BothAvailableResponse()
         {
-            return this.ParseReplies(CheckAvailableResponses.NextBothAvailableTime, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.NextBothAvailableTime, new
             {
-                { "UserName", Strings.Strings.DefaultUserName },
-                { "StartTime", "4:30 PM" },
-                { "EndTime", "5:00 PM" },
-                { "EndDate", "today" },
+                UserName = Strings.Strings.DefaultUserName,
+                StartTime = "4:30 PM",
+                EndTime = "5:00 PM",
+                EndDate = "today"
             });
         }
 
         private string[] NotAvailableResponse()
         {
-            return this.ParseReplies(CheckAvailableResponses.NotAvailable, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.NotAvailable, new
             {
-                { "UserName", Strings.Strings.DefaultUserName },
-                { "Time", "4:00 PM" },
-                { "Date", "today" },
+                UserName = Strings.Strings.DefaultUserName,
+                Time = "4:00 PM",
+                Date = "today"
             });
         }
 
         private string[] OrgnizerNotAvailableResponse()
         {
-            return this.ParseReplies(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, new
             {
-                { "UserName", Strings.Strings.DefaultUserName },
-                { "StartTime", "4:00 PM" },
-                { "EndTime", "5:00 PM" },
-                { "Title", Strings.Strings.DefaultEventName },
-                { "EventStartTime", "4:00 PM" },
-                { "EventEndTime", "5:00 PM" },
-                { "Date", "today" },
+                UserName = Strings.Strings.DefaultUserName,
+                StartTime = "4:00 PM",
+                EndTime = "5:00 PM",
+                Title = Strings.Strings.DefaultEventName,
+                EventStartTime = "4:00 PM",
+                EventEndTime = "5:00 PM",
+                Date = "today"
             });
         }
 
         private string[] AskForFindNextAvailableTimeResponse()
         {
-            return this.ParseReplies(CheckAvailableResponses.AskForNextAvailableTime, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.AskForNextAvailableTime, new
             {
-                { "UserName", Strings.Strings.DefaultUserName }
+                UserName = Strings.Strings.DefaultUserName,
             });
         }
 
         private string[] AskForCreateNewMeeting()
         {
-            return this.ParseReplies(CheckAvailableResponses.AskForCreateNewMeeting, new StringDictionary());
+            return GetTemplates(CheckAvailableResponses.AskForCreateNewMeeting);
         }
 
         private string[] AskForCreateNewMeetingAnyway()
         {
-            return this.ParseReplies(CheckAvailableResponses.AskForCreateNewMeetingAnyway, new StringDictionary()
+            return GetTemplates(CheckAvailableResponses.AskForCreateNewMeetingAnyway, new
             {
-                { "UserName", Strings.Strings.DefaultUserName },
-                { "StartTime", "4:00 PM" },
+                UserName = Strings.Strings.DefaultUserName,
+                StartTime = "4:00 PM"
             });
         }
 
         private string[] AskForCollectContact()
         {
-            return this.ParseReplies(CheckAvailableResponses.AskForCheckAvailableUserName, new StringDictionary());
+            return GetTemplates(CheckAvailableResponses.AskForCheckAvailableUserName);
         }
 
         private string[] AskForCollectTime()
         {
-            return this.ParseReplies(CheckAvailableResponses.AskForCheckAvailableTime, new StringDictionary());
+            return GetTemplates(CheckAvailableResponses.AskForCheckAvailableTime);
         }
 
         private Action<IActivity> ActionEndMessage()

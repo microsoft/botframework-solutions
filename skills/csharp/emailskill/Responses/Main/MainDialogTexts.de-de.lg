@@ -1,0 +1,32 @@
+# EmailWelcomeMessage.Text
+- Willkommen! Ich bin die E-Mail-Fähigkeit. Ich kann Ihnen helfen, Ihre Office 365-E-Mail zu verwalten, Ihre ungelesene E-Mail anzuzeigen, zu antworten oder E-Mails weiterzuleiten.
+
+# EmailWelcomeMessage.S1
+- Neueste E-Mail anzeigen
+
+# EmailWelcomeMessage.S2
+- Senden Sie eine E-Mail an jemanden
+
+# FeatureNotAvailable.Text
+- Diese Funktion ist in der E-Mail-Fähigkeit noch nicht verfügbar. Bitte versuchen Sie, etwas anderes zu fragen.
+
+# CancelMessage.Text
+- Ok, fangen wir von vorne an.
+
+# HelpMessage.Text
+- Ich kann Ihnen einen Überblick über Ihre neuesten E-Mails geben, wichtige E-Mails an Sie auslesen oder eine neue E-Mail für Sie erstellen und weiterleiten.
+
+# HelpMessage.S1
+- Neueste E-Mail anzeigen
+
+# HelpMessage.S2
+- Senden Sie eine E-Mail an jemanden
+
+# HelpMessage.S3
+- Weiterleiten der zweiten E-Mail an jemanden
+
+# LogOut.Text
+- Ihr Abmelden war erfolgreich.
+- Sie haben sich erfolgreich abmelden.
+- Sie wurden abgemeldet.
+

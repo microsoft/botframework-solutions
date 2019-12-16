@@ -1,0 +1,18 @@
+# ConfirmUpdate.Text
+- Möchten Sie folgendes wirklich aktualisieren?
+
+# ConfirmUpdateFailed.Text
+- Möchten Sie folgendes wirklich aktualisieren? Bitte bestätigen Sie.
+
+# EventUpdated.Text
+- Ich habe die Zeit Ihres Events geändert.
+
+# NoNewTime.Text
+- Was wird die neue Zeit der Veranstaltung sein?
+
+# NoNewTimeRetry.Text
+- Ich verstehe nicht, wie viel Zeit Sie angegeben haben, können Sie es noch einmal versuchen?
+
+# NoUpdateStartTime.Text
+- Welches Ereignis möchten Sie anpassen? Durch Angabe der Startzeit oder des Titels kann ich Ihr Event abrufen.
+
