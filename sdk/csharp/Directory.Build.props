@@ -39,12 +39,13 @@
 
   <PropertyGroup>
     <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
-    <PackageProjectUrl>https://github.com/Microsoft/AI</PackageProjectUrl>
-    <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/Microsoft/AI/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/botframework-solutions</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png</PackageIconUrl>
+
+<PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RepositoryUrl>https://github.com/Microsoft/AI</RepositoryUrl>
-    <LicenseUrl>https://github.com/Microsoft/AI/blob/master/LICENSE</LicenseUrl>
+    <RepositoryUrl>https://github.com/Microsoft/botframework-solutions</RepositoryUrl>
+    <LicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</LicenseUrl>
     <PackageTags>bots;ai;botframework;botbuilder</PackageTags>
     <RepositoryType />
     <NeutralLanguage>en-US</NeutralLanguage>

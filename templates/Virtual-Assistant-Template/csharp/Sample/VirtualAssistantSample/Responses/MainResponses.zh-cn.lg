@@ -221,3 +221,11 @@
     - @{concat(' ', Name)}
 - ELSE:
     - 
+
+# QnaMakerAdaptiveLearningCardTitle
+- 你的意思是：
+- 其中之一？
+
+# QnaMakerNoMatchText
+- 以上都不是。
+- 这些都不是。

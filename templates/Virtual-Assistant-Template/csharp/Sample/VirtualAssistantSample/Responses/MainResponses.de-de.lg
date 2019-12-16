@@ -221,3 +221,11 @@
     - @{concat(' ', Name)}
 - ELSE:
     - 
+
+# QnaMakerAdaptiveLearningCardTitle
+- Meinten Sie:
+- Eine davon?
+
+# QnaMakerNoMatchText
+- Keines der oben genannten.
+- Nichts davon.
