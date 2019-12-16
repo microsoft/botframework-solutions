@@ -79,6 +79,10 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
+    "useLuisAuthoring": {
+      "type": "bool",
+      "defaultValue": true
+    },
     "luisAuthoringName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-luisauthoring-', parameters('suffix'))]"
@@ -274,7 +278,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
-      ]
+      ],
+      "condition": "[parameters('useLuisAuthoring')]"
     }
   ],
   "outputs": {
@@ -315,7 +320,7 @@
         "region": "[parameters('luisRuntimeLocation')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
         "authoringRegion": "[parameters('luisAuthoringLocation')]",
-        "authoringKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1]"
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]"
       }
     },
     "BingNewsKey": {
