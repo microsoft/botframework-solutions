@@ -9,6 +9,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Proactive;
 using CalendarSkill.Responses.UpcomingEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -27,24 +28,22 @@ namespace CalendarSkill.Dialogs
         private IBackgroundTaskQueue _backgroundTaskQueue;
         private ProactiveState _proactiveState;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
-        private ResponseManager _responseManager;
 
         public UpcomingEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpcomingEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
             _proactiveState = proactiveState;
             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
-            _responseManager = responseManager;
 
             var upcomingMeeting = new WaterfallStep[]
             {
@@ -111,30 +110,24 @@ namespace CalendarSkill.Dialogs
             return async (turnContext, token) =>
             {
                 var responseString = string.Empty;
-                var responseParams = new StringDictionary()
+                var responseParams = new
                 {
-                    { "Minutes", (eventModel.StartTime - DateTime.UtcNow).Minutes.ToString() },
-                    { "Attendees", string.Join(",", eventModel.Attendees.ToSpeechString(CommonStrings.And, attendee => attendee.DisplayName ?? attendee.Address)) },
-                    { "Title", eventModel.Title },
+                    Minutes = (eventModel.StartTime - DateTime.UtcNow).Minutes.ToString(),
+                    Attendees = string.Join(",", eventModel.Attendees.ToSpeechString(CommonStrings.And, attendee => attendee.DisplayName ?? attendee.Address)),
+                    Title = eventModel.Title,
+                    Location = eventModel.Location ?? string.Empty
                 };
 
                 if (!string.IsNullOrWhiteSpace(eventModel.Location))
                 {
                     responseString = UpcomingEventResponses.UpcomingEventMessageWithLocation;
-                    responseParams.Add("Location", eventModel.Location);
                 }
                 else
                 {
                     responseString = UpcomingEventResponses.UpcomingEventMessage;
                 }
 
-                var activity = turnContext.Activity.CreateReply();
-                var response = _responseManager.GetResponse(responseString, responseParams);
-                activity.Text = response.Text;
-                activity.Speak = response.Speak;
-                activity.InputHint = response.InputHint;
-                activity.SuggestedActions = response.SuggestedActions;
-                activity.DeliveryMode = CommonUtil.DeliveryModeProactive;
+                var activity = TemplateEngine.GenerateActivityForLocale(responseString, responseParams);
                 await turnContext.SendActivityAsync(activity);
             };
         }

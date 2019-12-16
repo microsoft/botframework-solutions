@@ -4,6 +4,7 @@
 using System.Globalization;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
+using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -21,14 +22,17 @@ namespace EmailSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
+            UserState userState,
+            ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(turnContext.Activity.Locale);
-                await turnContext.SendActivityAsync(responseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessage);
+                await turnContext.SendActivityAsync(activity);
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };

@@ -1,0 +1,39 @@
+# DidntUnderstandMessage.Text
+- 对不起，我不明白你的意思。
+- 我不明白，也许用另一种方式再试一次。
+- 你能用另一种方式问吗？
+- 我不明白你的意思，你能换个方法试试吗？
+- 你能详细说明一下吗？
+- 请用不同的方式再说一遍。
+- 我不太明白。
+- 你能用不同的方式说吗？
+- 你能再问我一次吗？我不明白你的意思。
+
+# ToDoWelcomeMessage.Text
+- 你好！我是事务机器人. 我可以帮助你管理待办事项清单，购物清单以及杂货清单。
+
+# ToDoWelcomeMessage.S1
+- 读出我的待办事项
+
+# ToDoWelcomeMessage.S2
+- 为我创建任务
+
+# ToDoWelcomeMessage.S3
+- 将第二个任务标记为已完成
+
+# ToDoWelcomeMessage.S4
+- 删除第三个任务
+
+# HelpMessage.Text
+- 我可以读出您的待办事项，购物清单以及杂货清单, 创建新的待办事项，购物项以及杂货项, 或改变和删除一个待办事项，购物项以及杂货项。
+
+# LogOut.Text
+- 您的注销成功。
+- 您已成功注销。
+- 您已注销。
+
+# FeatureNotAvailable.Text
+- 此功能尚不可用。
+
+# CancelMessage.Text
+- 好的, 我们从头再来。

@@ -157,7 +157,6 @@ export class SetSpeakMiddleware implements Middleware {
 
             // If an existing voice element is undefined (absent), then add it. Otherwise, assume the author has set it correctly.
             if (existingVoiceElement === undefined) {
-                // tslint:disable-next-line:no-unsafe-any
                 const oldElements: Element[] = JSON.parse(JSON.stringify(element.elements[0].elements));
                 element.elements[0].elements = [
                     {
@@ -171,12 +170,10 @@ export class SetSpeakMiddleware implements Middleware {
                 ];
             } else {
                 if (existingVoiceElement.attributes !== undefined) {
-                    // tslint:disable-next-line:no-string-literal
                     existingVoiceElement.attributes['name'] = attValue;
                 }
             }
         } catch (error) {
-            // tslint:disable-next-line:no-unsafe-any
             throw new Error(`Could not add voice element to speak property: ${error.message}`);
         }
     }

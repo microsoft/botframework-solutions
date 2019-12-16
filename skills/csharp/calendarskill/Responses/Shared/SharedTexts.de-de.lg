@@ -1,0 +1,33 @@
+# DidntUnderstandMessage.Text
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten.
+- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
+- Können Sie versuchen, auf eine andere Art und Weise zu fragen?
+- Ich habe nicht bekommen, was du meinst, kannst du es anders versuchen?
+- Könnten Sie nähere Angaben machen?
+- Bitte sagen Sie das noch einmal anders.
+- Das habe ich nicht ganz bekommen.
+- Können Sie das anders sagen?
+- Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst.
+
+# CalendarErrorMessage.Text
+- Es tut uns leid, es sieht so aus, als wäre etwas schief gelaufen!
+- Ein Fehler ist aufgetreten, versuchen Sie es später erneut.
+- Irgendetwas ist schief gelaufen, tut mir leid!
+- Es scheint, als wäre etwas schief gelaufen. Können Sie es später noch einmal versuchen?
+- Es tut mir leid, dass ich jetzt nicht helfen kann. Versuchen Sie es später erneut.
+
+# RetryTooManyResponse.Text
+- Es tut mir leid, dass ich Ihnen dabei nicht helfen kann. Versuchen wir es später.
+
+# CalendarErrorMessageAccountProblem.Text
+- Es tut mir leid, ich kann im Moment nicht auf Ihr Konto zugreifen.
+
+# ActionEnded.Text
+- Lassen Sie mich wissen, wenn Sie meine Hilfe mit etwas anderem brauchen.
+- Ich bin hier, wenn du mich brauchst.
+
+# MultipleEventsFound.Text
+- Mehrere Ereignisse gefunden, wählen Sie bitte die, die Sie benötigen.
+- Ich habe mehrere Ereignisse gefunden, können Sie das Ereignis ihrer Wahl auswählen.
+- Es gibt mehrere Veranstaltungen, bitte wählen Sie das entsprechende Ereignis aus.
+

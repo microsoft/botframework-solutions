@@ -255,67 +255,62 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForShowOverviewAgainPrompt(string dateTime = "today")
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(SummaryResponses.AskForShowOverview, new
             {
-                { "DateTime", dateTime }
-            };
-
-            return this.ParseReplies(SummaryResponses.AskForShowOverview, responseParams);
+                DateTime = dateTime
+            });
         }
 
         private string[] FoundOneEventPrompt(string conditionString = "today", string dateTime = "today")
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(SummaryResponses.ShowOneMeetingSummaryMessage, new
             {
-                { "Condition", conditionString },
-                { "Count", "1" },
-                { "EventName1", Strings.Strings.DefaultEventName },
-                { "EventDuration", "1 hour" },
-                { "DateTime", dateTime },
-                { "EventTime1", "at 6:00 PM" },
-                { "Participants1", Strings.Strings.DefaultUserName }
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams);
+                Condition = conditionString,
+                Count = "1",
+                EventName1 = Strings.Strings.DefaultEventName,
+                EventDuration = "1 hour",
+                DateTime = dateTime,
+                EventTime1 = "at 6:00 PM",
+                Participants1 = Strings.Strings.DefaultUserName
+            });
         }
 
         private string[] FoundOneEventAgainPrompt(string conditionString = "today")
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(SummaryResponses.ShowOneMeetingSummaryShortMessage, new
             {
-                { "Condition", conditionString },
-                { "Count", "1" },
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryShortMessage, responseParams);
+                Condition = conditionString,
+                Count = "1"
+            });
         }
 
         private string[] FoundMultipleEventPrompt(int count, string conditionString = "today", string dateTime = "today")
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(SummaryResponses.ShowMultipleMeetingSummaryMessage, new
             {
-                { "Condition", conditionString },
-                { "Count", count.ToString() },
-                { "DateTime", dateTime },
-                { "Participants1", Strings.Strings.DefaultUserName + "0" },
-                { "EventName1", Strings.Strings.DefaultEventName + "0" },
-                { "EventTime1", "at 6:00 PM" },
-                { "Participants2", Strings.Strings.DefaultUserName + (count - 1).ToString() },
-                { "EventName2", Strings.Strings.DefaultEventName + (count - 1).ToString() },
-                { "EventTime2", "at 6:00 PM" },
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
+                Condition = conditionString,
+                Count = count.ToString(),
+                DateTime = dateTime,
+                Participants1 = Strings.Strings.DefaultUserName + "0",
+                EventName1 = Strings.Strings.DefaultEventName + "0",
+                EventTime1 = "at 6:00 PM",
+                Participants2 = Strings.Strings.DefaultUserName + (count - 1).ToString(),
+                EventName2 = Strings.Strings.DefaultEventName + (count - 1).ToString(),
+                EventTime2 = "at 6:00 PM"
+            });
         }
 
         private string[] ReadOutMorePrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadOutMorePrompt, new StringDictionary());
+            return GetTemplates(SummaryResponses.ReadOutMorePrompt);
         }
 
         private string[] AskForOrgnizerActionPrompt(string dateString = "today")
         {
-            return this.ParseReplies(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", dateString } });
+            return GetTemplates(SummaryResponses.AskForOrgnizerAction, new
+            {
+                DateTime = dateString
+            });
         }
 
         private Action<IActivity> ShowReadOutEventList(string suffix = "")
@@ -324,35 +319,27 @@ namespace CalendarSkill.Test.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 var startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Today.AddHours(18)).AddDays(1);
-                var data = new StringDictionary()
+                var data = new
                 {
-                    {
-                        "Date", startTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
-                    },
-                    {
-                        "Time", "at 6:00 PM"
-                    },
-                    {
-                        "Participants", Strings.Strings.DefaultUserName + suffix
-                    },
-                    {
-                        "Subject", Strings.Strings.DefaultEventName + suffix
-                    }
+                    Date = startTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear),
+                    Time = "at 6:00 PM",
+                    Participants = Strings.Strings.DefaultUserName + suffix,
+                    Subject = Strings.Strings.DefaultEventName + suffix
                 };
 
-                CollectionAssert.Contains(this.ParseReplies(SummaryResponses.ReadOutMessage, data), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(SummaryResponses.ReadOutMessage, data), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
         private string[] NoEventResponse()
         {
-            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage, new StringDictionary());
+            return GetTemplates(SummaryResponses.ShowNoMeetingMessage, null);
         }
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
+            return GetTemplates(UpdateEventResponses.NoNewTime, null);
         }
 
         private Action<IActivity> ShowUpdateCalendarList()

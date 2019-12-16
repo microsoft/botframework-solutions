@@ -30,12 +30,12 @@ namespace CalendarSkill.Dialogs
         public JoinEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(JoinEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(JoinEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -166,8 +166,8 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
-                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
+                        Prompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
+                        RetryPrompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -225,15 +225,18 @@ namespace CalendarSkill.Dialogs
                 var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
                 var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
                 var meetingLink = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent);
-                var responseParams = new StringDictionary()
-                {
-                    { "PhoneNumber", phoneNumber },
-                    { "MeetingLink", meetingLink }
-                };
 
+                var responseParams = new
+                {
+                    PhoneNumber = phoneNumber,
+                    MeetingLink = meetingLink
+                };
                 var responseName = phoneNumber == null ? JoinEventResponses.ConfirmMeetingLink : JoinEventResponses.ConfirmPhoneNumber;
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(responseName, responseParams) });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
+                {
+                    Prompt = TemplateEngine.GenerateActivityForLocale(responseName, responseParams) as Activity,
+                });
             }
             catch (Exception ex)
             {
@@ -252,7 +255,8 @@ namespace CalendarSkill.Dialogs
                     if ((bool)sc.Result)
                     {
                         var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.JoinMeeting);
+                        await sc.Context.SendActivityAsync(activity);
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
                         replyEvent.Name = "OpenDefaultApp";
@@ -266,7 +270,8 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NotJoinMeeting);
+                        await sc.Context.SendActivityAsync(activity);
                     }
                 }
 
