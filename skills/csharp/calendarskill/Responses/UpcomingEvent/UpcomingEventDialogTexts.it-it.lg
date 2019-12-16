@@ -1,0 +1,6 @@
+# UpcomingEventMessage.Text(Minutes, Attendees, Title)
+- Hai una riunione in arrivo in {Minutes} minuti con {Attendees}: {Title}
+
+# UpcomingEventMessageWithLocation.Text(Minutes, Attendees, Location, Title)
+- Hai una riunione in arrivo in {Minutes} minuti con {Attendees} A {Location}: {Title}
+

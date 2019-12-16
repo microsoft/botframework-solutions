@@ -1,0 +1,30 @@
+# AskDeletionAllConfirmation.Text(ListType)
+- Sei sicuro di voler eliminare tutte le attività dal tuo {ListType} elenco?
+
+# AskDeletionAllConfirmationFailed.Text(ListType)
+- Scusa, non capivo cosa intendevi. Sei sicuro di voler eliminare tutte le attività dal tuo {ListType} elenco?
+
+# AfterAllTasksDeleted.Text(ListType)
+- Ho eliminato il vostro {ListType} elenco.
+
+# AfterTaskDeleted.Text(TaskContent, ListType)
+- Ho cancellato {TaskContent} dal vostro {ListType} elenco.
+
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
+- Ok, non ho cancellato tutti i tuoi compiti. Hai ancora {TaskCount} attività sul/i {ListType} elenco di oggi.
+
+# ListTypePromptForDelete.Text
+- Puoi essere specifico da quale elenco desideri eliminare un'attività. È la tua lista Da fare, la lista della spesa o la lista della spesa?
+
+# AskTaskIndexForDelete.Text
+- Quale attività si desidera eliminare? È anche possibile eliminare tutte le attività assegnando a nome delete all.
+
+# AskTaskIndexRetryForDelete.Text
+- Spiacenti, non sono riuscito a trovare questa attività. Riprovare. Quale attività si desidera eliminare?
+
+# DeleteAnotherTaskPrompt.Text
+- Eliminare un'altra attività?
+
+# DeleteAnotherTaskConfirmFailed.Text
+- Scusa, non capivo cosa intendevi. Eliminare un'altra attività?
+

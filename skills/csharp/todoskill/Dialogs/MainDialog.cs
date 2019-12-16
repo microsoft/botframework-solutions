@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
@@ -27,14 +26,13 @@ namespace ToDoSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             AddToDoItemDialog addToDoItemDialog,
             MarkToDoItemDialog markToDoItemDialog,
             DeleteToDoItemDialog deleteToDoItemDialog,
@@ -44,9 +42,9 @@ namespace ToDoSkill.Dialogs
         {
             _settings = settings;
             _services = services;
-            _responseManager = responseManager;
-            TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            TemplateEngine = localeTemplateEngineManager;
+            TelemetryClient = telemetryClient;
 
             // RegisterDialogs
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
@@ -55,9 +53,12 @@ namespace ToDoSkill.Dialogs
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
         }
 
+        private LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage);
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -101,18 +102,19 @@ namespace ToDoSkill.Dialogs
                         break;
                     }
 
-                case ToDoLuis.Intent.None:
-                    {
-                        if (generalTopIntent == General.Intent.ShowNext
-                            || generalTopIntent == General.Intent.ShowPrevious)
+                    case ToDoLuis.Intent.None:
                         {
-                            await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
-                        }
-                        else
-                        {
-                            // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
-                        }
+                            if (generalTopIntent == General.Intent.ShowNext
+                                || generalTopIntent == General.Intent.ShowPrevious)
+                            {
+                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
+                            }
+                            else
+                            {
+                                // No intent was identified, send confused message
+                                var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.DidntUnderstandMessage);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
 
                         break;
                     }
@@ -120,7 +122,8 @@ namespace ToDoSkill.Dialogs
                 default:
                     {
                         // intent was identified but not yet implemented
-                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
+                        var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.FeatureNotAvailable);
+                        await dc.Context.SendActivityAsync(activity);
                         break;
                     }
             }
@@ -240,14 +243,16 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.CancelMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage);
+            await dc.Context.SendActivityAsync(activity);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.HelpMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.HelpMessage);
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.Resume;
         }
 
@@ -273,8 +278,8 @@ namespace ToDoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.LogOut));
-
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut);
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.End;
         }
 

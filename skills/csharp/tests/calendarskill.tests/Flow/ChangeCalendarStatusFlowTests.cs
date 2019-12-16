@@ -88,12 +88,12 @@ namespace CalendarSkill.Test.Flow
 
         private string[] DeleteEventPrompt()
         {
-            return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
+            return GetTemplates(ChangeEventStatusResponses.EventDeleted);
         }
 
         private string[] AcceptEventPrompt()
         {
-            return this.ParseReplies(ChangeEventStatusResponses.EventAccepted, new StringDictionary());
+            return GetTemplates(ChangeEventStatusResponses.EventAccepted);
         }
 
         private Action<IActivity> ShowCalendarList()

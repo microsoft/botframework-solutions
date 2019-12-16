@@ -1,0 +1,16 @@
+# DeletePrompt.Text
+- Lequel voulez-vous supprimer?
+- Quel e-mail aimeriez-vous que je supprime?
+- Tout e-mail que vous souhaitez que je supprime?
+- Quel e-mail voulez-vous que je supprime?
+
+# DeleteConfirm.Text
+- Etes-vous sûr que vous voulez supprimer?
+
+# DeleteConfirm.Speak(emailInfo)
+- Etes-vous sûr que vous voulez supprimer? Détails de l'e-mail: {emailInfo}.
+
+# DeleteSuccessfully.Text
+- Votre e-mail a été supprimé avec succès.
+
+

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
@@ -25,8 +26,16 @@ namespace EmailSkill.Tests.Flow
             var testRecipient = ContextStrings.TestRecipient;
             var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            var recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
@@ -54,8 +63,16 @@ namespace EmailSkill.Tests.Flow
             var testRecipient = ContextStrings.TestRecipient;
             var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            var recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
@@ -83,8 +100,16 @@ namespace EmailSkill.Tests.Flow
             var testRecipient = ContextStrings.TestRecipient;
             var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            var recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
@@ -110,8 +135,16 @@ namespace EmailSkill.Tests.Flow
             var testRecipient = ContextStrings.TestRecipient;
             var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            var recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
@@ -151,19 +184,19 @@ namespace EmailSkill.Tests.Flow
             };
         }
 
-        private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
+        private string[] ConfirmOneNameOneAddress(object recipientDict)
         {
-            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, recipientDict);
         }
 
-        private string[] AddMoreContacts(StringDictionary recipientDict)
+        private string[] AddMoreContacts(object recipientDict)
         {
-            return ParseReplies(FindContactResponses.AddMoreContactsPrompt, recipientDict);
+            return GetTemplates(FindContactResponses.AddMoreContactsPrompt, recipientDict);
         }
 
         private string[] EmailNotFoundPrompt()
         {
-            return ParseReplies(EmailSharedResponses.EmailNotFound, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.EmailNotFound);
         }
 
         private Action<IActivity> AfterSendingMessage(string subject)
@@ -172,19 +205,14 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var stringToken = new StringDictionary
-                {
-                    { "Subject", subject },
-                };
-
-                var replies = ParseReplies(EmailSharedResponses.SentSuccessfully, stringToken);
+                var replies = GetTemplates(EmailSharedResponses.SentSuccessfully, new { Subject = subject });
                 CollectionAssert.Contains(replies, messageActivity.Text);
             };
         }
 
         private string[] NotSendingMessage()
         {
-            return ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private Action<IActivity> ShowEmailList()
@@ -195,11 +223,14 @@ namespace EmailSkill.Tests.Flow
 
                 // Get showed mails:
                 var showedItems = ServiceManager.MailService.MyMessages;
-                var replies = ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
-                {
-                    { "TotalCount", showedItems.Count.ToString() },
-                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
-                });
+
+                var replies = GetTemplates(
+                    EmailSharedResponses.ShowEmailPrompt,
+                    new
+                    {
+                        TotalCount = showedItems.Count.ToString(),
+                        EmailListDetails = SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize)
+                    });
 
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreNotEqual(messageActivity.Attachments.Count, 0);
@@ -212,7 +243,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.NoFocusMessage), messageActivity.Text);
             };
         }
 
@@ -221,7 +252,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var confirmSend = ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary());
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -229,12 +260,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectRecipientsMessage()
         {
-            return ParseReplies(EmailSharedResponses.NoRecipients, new StringDictionary());
-        }
-
-        private string[] CollectFocusedMessage()
-        {
-            return ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
         private Action<IActivity> CollectEmailContentMessageForForward(string userName)
@@ -243,12 +269,19 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
-                var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", userName } });
-                noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
-                noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+                var noEmailContentMessages = GetTemplates(EmailSharedResponses.NoEmailContentForForward);
+                var recipientConfirmedMessages = GetTemplates(EmailSharedResponses.RecipientConfirmed, new { userName = userName });
 
-                Assert.AreEqual(noEmailContentMessage.Text, messageActivity.Text);
+                var allReply = new List<string>();
+                foreach (var recipientConfirmedMessage in recipientConfirmedMessages)
+                {
+                    foreach (var noEmailContentMessage in noEmailContentMessages)
+                    {
+                        allReply.Add(recipientConfirmedMessage + " " + noEmailContentMessage);
+                    }
+                }
+
+                CollectionAssert.Contains(allReply, messageActivity.Text);
             };
         }
     }

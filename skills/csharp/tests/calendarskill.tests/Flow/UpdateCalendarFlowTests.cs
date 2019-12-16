@@ -104,7 +104,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
+            return GetTemplates(UpdateEventResponses.NoNewTime);
         }
 
         private Action<IActivity> ShowCalendarList()
@@ -118,7 +118,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] UpdateEventPrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.EventUpdated, new StringDictionary());
+            return GetTemplates(UpdateEventResponses.EventUpdated);
         }
 
         private Action<IActivity> ActionEndMessage()

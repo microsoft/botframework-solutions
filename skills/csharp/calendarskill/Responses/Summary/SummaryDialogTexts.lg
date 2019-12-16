@@ -1,0 +1,77 @@
+# ShowNoMeetingMessage.Text
+- You don't have any events.
+
+# ReadOutMessage.Text(Date, Time, Participants, Subject)
+- The event on {Date} is {Time} with {Participants} titled {Subject}.
+
+# CalendarNoMoreEvent.Text
+- No more events!
+
+# CalendarNoPreviousEvent.Text
+- This is already the first page!
+
+# BeforeShowEventDetails.Text(EventName)
+- Here is the details of your event {EventName}:
+
+# ReadTime.Text(EventStartTime, EventEndTime)
+- It starts at {EventStartTime}, and ends at {EventEndTime}.
+
+# ReadDuration.Text(EventDuration)
+- It lasts for {EventDuration}.
+
+# ReadNoLocation.Text
+- There is no location, possibly online?
+
+# ReadLocation.Text(EventLocation)
+- It held at {EventLocation}.
+
+# ReadStartDate.Text(EventStartDate)
+- It starts on {EventStartDate}.
+
+# ShowNextMeetingNoLocationMessage.Text
+- You have the following event on your calendar:
+
+# ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
+- You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people.
+
+# ShowNextMeetingMessage.Text
+- You have the following event on your calendar:
+
+# ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
+- You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}.
+
+# ShowMultipleNextMeetingMessage.Text
+- You have the following event on your calendar:
+
+# AskForShowOverview.Text(DateTime)
+- Would you like to see your calendar overview again of {DateTime}?
+
+# ReadOutMorePrompt.Text
+- Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees.
+
+# AskForOrgnizerAction.Text(DateTime)
+- Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you.
+
+# AskForAction.Text(DateTime)
+- Want to go back to the calendar overview again for {DateTime}? You can also ask me to decline this event for you.
+
+# AskForChangeStatus.Text(DateTime)
+- Want to go back to the calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.
+
+# ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
+- The first event in this page is with {Participants1} {EventTime1} titled {EventName1}.
+
+# ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
+- It looks like you have {Count} events planned {Condition}, the first event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.
+
+# ShowMeetingSummaryShortMessage.Text(Count, Condition)
+- You have {Count} events planned {Condition}.
+
+# ShowMultipleFilteredMeetings.Text(Count)
+- I found {Count} events with your keyword.
+
+# ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
+- You have 1 meeting {Condition}: {EventName1}. It's with {Participants1} {EventTime1}.
+
+# ShowOneMeetingSummaryShortMessage.Text(Condition)
+- You have 1 meeting {Condition}.

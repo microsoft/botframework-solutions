@@ -19,15 +19,17 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs
 {
     public class DeleteEmailDialog : EmailSkillDialogBase
     {
         public DeleteEmailDialog(
-             IServiceProvider serviceProvider,
-             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), serviceProvider, telemetryClient)
+            LocaleTemplateEngineManager localeTemplateEngineManager,
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -97,22 +99,16 @@ namespace EmailSkill.Dialogs
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
                     var speech = SpeakHelper.ToSpeechEmailSendDetailString(message.Subject, nameListString, message.BodyPreview);
-                    var tokens = new StringDictionary
-                    {
-                        { "EmailDetails", speech },
-                    };
-
-                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
-                    var prompt = ResponseManager.GetCardResponse(
+                    var prompt = TemplateEngine.GenerateActivityForLocale(
                         DeleteEmailResponses.DeleteConfirm,
-                        new Card("EmailDetailCard", emailCard),
-                        tokens,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                        new
+                        {
+                            emailInfo = speech,
+                            emailDetails = emailCard
+                        });
 
-                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
-
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendFailed);
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
 
                 skillOptions.SubFlowMode = true;
@@ -135,7 +131,8 @@ namespace EmailSkill.Dialogs
                 var mailService = this.ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
                 var focusMessage = state.Message.FirstOrDefault();
                 await mailService.DeleteMessageAsync(focusMessage.Id);
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(DeleteEmailResponses.DeleteSuccessfully));
+                var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
+                await sc.Context.SendActivityAsync(activity);
 
                 return await sc.EndDialogAsync();
             }
