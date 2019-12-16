@@ -46,7 +46,7 @@ foreach ($langCode in $languageMap.Keys) {
     if ($dispatch -and (-not $(Test-Path $dispatchFile)))
     {
         # Create a new dispatch file based on configuration
-        Write-Host "> Creating new dispatch file ..." -NoNewline
+        Write-Host "> Creating new $($langCode) dispatch file ..." -NoNewline
         dispatch init `
             -n $dispatch.name `
             --luisAuthoringKey $dispatch.authoringkey `
@@ -57,7 +57,7 @@ foreach ($langCode in $languageMap.Keys) {
         Write-Host "Done." -ForegroundColor Green
                  
         # Add appId from config
-        Write-Host "> Updating dispatch file app id ..." -NoNewline
+        Write-Host "> Updating $($langCode) dispatch file app id ..." -NoNewline
         $dispatchConfig = Get-Content -Raw -Path $dispatchFile | ConvertFrom-Json
         $dispatchConfig | Add-Member -Name "appId" -value $dispatch.appid -MemberType NoteProperty
         $dispatchConfig | ConvertTo-Json -depth 5 | Set-Content $dispatchFile
@@ -67,7 +67,7 @@ foreach ($langCode in $languageMap.Keys) {
         {
             # Add the LUIS application to the dispatch model. 
             # If the LUIS application id already exists within the model no action will be taken
-            Write-Host "> Adding $($luisApp.id) app to dispatch file ... " -NoNewline
+            Write-Host "> Adding $($langCode) $($luisApp.id) app to dispatch file ... " -NoNewline
             dispatch add `
                 --type "luis" `
                 --name $luisApp.name `
@@ -84,7 +84,7 @@ foreach ($langCode in $languageMap.Keys) {
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
             if ($dispatch) {
-                Write-Host "> Adding $($kb.id) kb to dispatch file ..." -NoNewline
+                Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch file ..." -NoNewline
                 dispatch add `
                     --type "qna" `
                     --name $kb.name `
@@ -108,7 +108,7 @@ foreach ($langCode in $languageMap.Keys) {
                     --cloud $cloud `
                     --region $luisApp.authoringRegion | ConvertFrom-Json).culture
 
-            Write-Host "> Updating local $($luisApp.id).lu file ..." -NoNewline
+            Write-Host "> Updating local $($langCode) $($luisApp.id).lu file ..." -NoNewline
             luis export version `
                 --appId $luisApp.appId `
                 --versionId $luisApp.version `
@@ -128,7 +128,7 @@ foreach ($langCode in $languageMap.Keys) {
             $outFolder = $(Join-Path $luisFolder $langCode)
             $appName = "$($name)$($langCode)_$($id)"
 
-            Write-Host "> Parsing $($luisApp.id) LU file ..." -NoNewline
+            Write-Host "> Parsing $($langCode) $($luisApp.id) LU file ..." -NoNewline
             bf luis:convert `
                 --in $(Join-Path $outFolder "$($luisApp.id).lu")`
                 --culture $culture `
@@ -150,7 +150,7 @@ foreach ($langCode in $languageMap.Keys) {
             # Add the LUIS application to the dispatch model. 
             # If the LUIS application id already exists within the model no action will be taken
             if ($dispatch) {
-                Write-Host "> Adding $($luisApp.id) app to dispatch model ... " -NoNewline
+                Write-Host "> Adding $($langCode) $($luisApp.id) app to dispatch model ... " -NoNewline
                 (dispatch add `
                         --type "luis" `
                         --name $luisApp.name `
@@ -165,7 +165,7 @@ foreach ($langCode in $languageMap.Keys) {
 
         # Update local LU files based on hosted QnA KBs
         foreach ($kb in $models.knowledgebases) {
-            Write-Host "> Updating local $($kb.id).qna file ..." -NoNewline
+            Write-Host "> Updating local $($langCode) $($kb.id).qna file ..." -NoNewline
             bf qnamaker:kb:export `
                 --endpoint $qnaEndpoint `
                 --environment Prod `
@@ -181,7 +181,7 @@ foreach ($langCode in $languageMap.Keys) {
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
             if ($dispatch) {
-                Write-Host "> Adding $($kb.id) kb to dispatch model ..." -NoNewline
+                Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch model ..." -NoNewline
                 (dispatch add `
                     --type "qna" `
                     --name $kb.name `
@@ -202,6 +202,7 @@ foreach ($langCode in $languageMap.Keys) {
                 -lu_file $lu `
                 -appId $luisApp.appid `
                 -version $luisApp.version `
+                -language $langCode `
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `
                 -subscriptionKey $luisApp.subscriptionKey `
@@ -228,13 +229,14 @@ foreach ($langCode in $languageMap.Keys) {
                 -kbId $kb.kbId `
                 -qnaSubscriptionKey $kb.subscriptionKey `
                 -qnaEndpoint $qnaEndpoint `
+                -language $langCode `
                 -log $logFile
         }
     }
 
     if ($dispatch) {
         # Update dispatch model
-        Write-Host "> Updating dispatch model ..." -NoNewline
+        Write-Host "> Updating $($langCode) dispatch model ..." -NoNewline
         dispatch refresh `
             --gov $gov `
             --version $dispatch.version `
