@@ -7,6 +7,7 @@ Param(
 	[string] $appId,
     [string] $appPassword,
     [string] $parametersFile,
+    [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
     [switch] $useGov,
 	[string] $languages = "en-us",
@@ -45,6 +46,18 @@ if (-not $location) {
 
 if (-not $appPassword) {
     $appPassword = Read-Host "? Password for MSA app registration (must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character)"
+}
+
+if (-not $luisAuthoringKey) {
+    $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
+
+    if ($confirmCreateKey -ne 'y') {
+        $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
+        $createLuisAuthoring = "false"
+    }
+    else {
+        $createLuisAuthoring = "true"
+    }
 }
 
 if (-not $luisAuthoringRegion) {
@@ -88,7 +101,7 @@ if ($parametersFile) {
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json
 
 	if ($validation) {    
@@ -103,7 +116,7 @@ if ($parametersFile) {
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion `
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
                 --output json 2>> $logFile | Out-Null
 
             Write-Host "Done." -ForegroundColor Green
@@ -122,7 +135,7 @@ else {
 	$validation = az group deployment validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json
 
 	if ($validation) {
@@ -136,7 +149,7 @@ else {
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion `
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
                 --output json 2>> $logFile | Out-Null
 
             Write-Host "Done." -ForegroundColor Green
@@ -182,6 +195,7 @@ if ($outputs)
 	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $projDir appsettings.json)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
+    if (-not $luisAuthoringKey) { $luisAuthoringKey = $outputs.luis.value.authoringKey }
     
     Write-Host "Done." -ForegroundColor Green
 
@@ -190,10 +204,10 @@ if ($outputs)
 
 	# Deploy cognitive models
     if ($gov) {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($outputs.luis.value.authoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
     }
     else {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($outputs.luis.value.authoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint)"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint)"
     }
 	
     # Publish bot
