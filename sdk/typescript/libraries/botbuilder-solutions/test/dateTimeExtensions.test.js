@@ -3,13 +3,11 @@
  * Licensed under the MIT License.
  */
 
-// tslint:disable
 require("dayjs/locale/de");
 require("dayjs/locale/es");
 require("dayjs/locale/it");
 require("dayjs/locale/fr");
 require("../lib/resources/customizeLocale/zh");
-// tslint:enable
 const { strictEqual } = require("assert");
 const dayjs = require("dayjs");
 const { join } = require("path");

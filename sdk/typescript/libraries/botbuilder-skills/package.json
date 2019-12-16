@@ -44,7 +44,6 @@
         "@types/request-promise-native": "^1.0.7",
         "@types/uuid": "^3.4.4",
         "@typescript-eslint/eslint-plugin": "^1.10.2",
-        "@typescript-eslint/eslint-plugin-tslint": "^1.10.2",
         "@typescript-eslint/parser": "^1.10.2",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
@@ -55,8 +54,6 @@
         "restify": "^8.3.2",
         "rimraf": "^2.6.2",
         "supertest": "^4.0.2",
-        "tslint": "^5.12.1",
-        "tslint-microsoft-contrib": "^6.2.0",
         "typescript": "3.4.5"
     },
     "env": {

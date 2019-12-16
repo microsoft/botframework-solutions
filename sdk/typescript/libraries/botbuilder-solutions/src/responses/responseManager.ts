@@ -138,7 +138,6 @@ export class ResponseManager {
                     const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
                     const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
                     if (itemCard.body && itemCard.body[0]) {
-                        // eslint-disable-next-line @typescript-eslint/tslint/config
                         const items: ICardElement[] = itemCard.body[0].items;
                         items.push(itemContainer);
                     }
@@ -236,7 +235,6 @@ export class ResponseManager {
         }
 
         try {
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const content: { [key: string]: Object } = JSON.parse(this.jsonFromFile(jsonPath));
 
             const localeResponses: Map<string, ResponseTemplate> = this.jsonResponses.get(localeKey) || new Map<string, ResponseTemplate>();
@@ -359,12 +357,10 @@ export class ResponseManager {
         }
 
         // Deserialize/Serialize logic is needed to prevent JSON exception in prompts
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(jsonOut);
     }
 
     private jsonFromFile(filePath: string): string {
-        // tslint:disable-next-line:non-literal-fs-path
         return readFileSync(filePath, 'utf8');
     }
 }

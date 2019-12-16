@@ -7,6 +7,6 @@ import { WebResource } from '@azure/ms-rest-js';
 
 export interface IServiceClientCredentials {
     getToken(forceRefresh?: boolean): Promise<string>;
-    // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     signRequest(webResource: WebResource | any): Promise<WebResource | any>;
 }
