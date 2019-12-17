@@ -9,6 +9,7 @@ Param(
     [string] $parametersFile,
     [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
+    [string] $armLuisAuthoringRegion,
     [switch] $useGov,
 	[string] $languages = "en-us",
     [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -64,13 +65,6 @@ if (-not $luisAuthoringRegion) {
     $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
 }
 
-if (useGov) {
-    $armLuisAuthoringRegion = "usgovvirginia"
-}
-else {
-    $armLuisAuthoringRegion = $luisAuthoringRegion
-}
-
 if (-not $appId) {
 	# Create app registration
 	$app = (az ad app create `
@@ -91,6 +85,10 @@ if (-not $appId) {
 		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments. See https://aka.ms/vamanualappcreation for more information." -ForegroundColor Magenta
 		Break
 	}
+}
+
+if (-not $armLuisAuthoringRegion) {
+    $armLuisAuthoringRegion = $luisAuthoringRegion
 }
 
 # Get timestamp
@@ -210,7 +208,7 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-    if ($gov) {
+    if ($useGov) {
         Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
     }
     else {
