@@ -43,6 +43,7 @@ import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
 
 import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizedKeyword;
+import static com.microsoft.cognitiveservices.speech.ResultReason.RecognizingKeyword;
 
 public class SpeechSdk {
 
@@ -161,7 +162,7 @@ public class SpeechSdk {
         botConnector.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
             final String recognizedSpeech = speechRecognitionResultEventArgs.getResult().getText();
 
-            if (speechRecognitionResultEventArgs.getResult().getReason().equals(RecognizedKeyword)) {
+            if (speechRecognitionResultEventArgs.getResult().getReason().equals(RecognizingKeyword)) {
                 // show listening animation when keyword is recognized
                 EventBus.getDefault().post(new BotListening());
             }
