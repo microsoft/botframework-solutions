@@ -160,7 +160,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
     if ($output) {
         Write-Host "Error." -ForegroundColor Red
 
-        Write-Host "> Looking for backup versions ..."
+        Write-Host "> Looking for backup versions ..." -NoNewline
         $versions = (luis list versions `
             --appId $appId `
             --region $region `
@@ -171,7 +171,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
         {
             Write-Host "Done." -ForegroundColor Green
 
-            Write-Host "> Setting backup version as active ..."
+            Write-Host "> Setting backup version as active ..." -NoNewline
             luis set $appId `
                 --versionId 'backup' `
                 --authoringKey $authoringKey `
