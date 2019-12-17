@@ -67,6 +67,9 @@ public class ConfigurationManager {
         if (configuration.keyword == null) {
             configuration.keyword = defaultConfiguration.keyword;
         }
+        if (configuration.enableKWS == null) {
+            configuration.enableKWS = false;
+        }
 
         return configuration;
     }

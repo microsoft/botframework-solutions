@@ -48,13 +48,13 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
 
         public PointOfInterestLuis GetBaseNoneIntent()
         {
-            var emailIntent = new PointOfInterestLuis
+            var result = new PointOfInterestLuis
             {
                 Intents = new Dictionary<Intent, IntentScore>()
             };
-            emailIntent.Intents.Add(Intent.None, new IntentScore() { Score = TopIntentScore });
+            result.Intents.Add(Intent.None, new IntentScore() { Score = TopIntentScore });
 
-            return emailIntent;
+            return result;
         }
 
         protected PointOfInterestLuis CreateIntent(
