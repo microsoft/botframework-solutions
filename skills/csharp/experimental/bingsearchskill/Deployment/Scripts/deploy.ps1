@@ -9,6 +9,7 @@ Param(
     [string] $parametersFile,
     [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
+    [string] $armLuisAuthoringRegion,
     [switch] $useGov,
 	[string] $languages = "en-us",
     [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -23,6 +24,33 @@ if (Test-Path $logFile) {
 else {
 	New-Item -Path $logFile | Out-Null
 }
+
+# Check for AZ CLI and confirm version
+if (Get-Command az -ErrorAction SilentlyContinue) {
+    $azcliversionoutput = az -v
+    [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
+    [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
+    [version]$minversion = '2.0.72'
+
+    if ($azcliversion -ge $minversion) {
+        $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
+        Write-Debug $azclipassmessage
+        $azclipassmessage | Out-File -Append -FilePath $logfile
+    }
+    else {
+        $azcliwarnmessage = "You are using an older version of the AZ CLI, `
+    please ensure you are using version $minversion or newer. `
+    The most recent version can be found here: http://aka.ms/installazurecliwindows"
+        Write-Warning $azcliwarnmessage
+        $azcliwarnmessage | Out-File -Append -FilePath $logfile
+    }
+}
+else {
+    $azclierrormessage = 'AZ CLI not found. Please install latest version.'
+    Write-Error $azclierrormessage
+    $azclierrormessage | Out-File -Append -FilePath $logfile
+}
+
 
 if (-not (Test-Path (Join-Path $projDir 'appsettings.json')))
 {
@@ -86,6 +114,10 @@ if (-not $appId) {
 	}
 }
 
+if (-not $armLuisAuthoringRegion) {
+    $armLuisAuthoringRegion = $luisAuthoringRegion
+}
+
 # Get timestamp
 $timestamp = Get-Date -f MMddyyyyHHmmss
 
@@ -101,7 +133,7 @@ if ($parametersFile) {
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json
 
 	if ($validation) {    
@@ -116,7 +148,7 @@ if ($parametersFile) {
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
                 --output json 2>> $logFile | Out-Null
 
             Write-Host "Done." -ForegroundColor Green
@@ -135,7 +167,7 @@ else {
 	$validation = az group deployment validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json
 
 	if ($validation) {
@@ -149,7 +181,7 @@ else {
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$luisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
                 --output json 2>> $logFile | Out-Null
 
             Write-Host "Done." -ForegroundColor Green
@@ -203,9 +235,9 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-    if ($gov) {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
-    }
+    if ($useGov) {
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
+     }
     else {
         Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint)"
     }
