@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -55,80 +56,88 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// </remarks>
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            // Check for any interruptions.
-            var status = await OnInterruptDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                // Check for any interruptions.
+                var status = await OnInterruptDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
 
-            if (status == InterruptionAction.Resume)
-            {
-                // Interruption message was sent, and the waiting dialog should resume/reprompt.
-                await innerDc.RepromptDialogAsync().ConfigureAwait(false);
-            }
-            else if (status == InterruptionAction.Waiting)
-            {
-                // Interruption intercepted conversation and is waiting for user to respond.
-                return EndOfTurn;
-            }
-            else if (status == InterruptionAction.End)
-            {
-                // Interruption ended conversation, and current dialog should end.
-                return await innerDc.EndDialogAsync().ConfigureAwait(false);
-            }
-            else if (status == InterruptionAction.NoAction)
-            {
-                // No interruption was detected. Process activity normally.
-                var activity = innerDc.Context.Activity;
-
-                switch (activity.Type)
+                if (status == InterruptionAction.Resume)
                 {
-                    case ActivityTypes.Message:
-                        {
-                            // Pass message to waiting child dialog.
-                            var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
+                    // Interruption message was sent, and the waiting dialog should resume/reprompt.
+                    await innerDc.RepromptDialogAsync().ConfigureAwait(false);
+                }
+                else if (status == InterruptionAction.Waiting)
+                {
+                    // Interruption intercepted conversation and is waiting for user to respond.
+                    return EndOfTurn;
+                }
+                else if (status == InterruptionAction.End)
+                {
+                    // Interruption ended conversation, and current dialog should end.
+                    return await innerDc.EndDialogAsync().ConfigureAwait(false);
+                }
+                else if (status == InterruptionAction.NoAction)
+                {
+                    // No interruption was detected. Process activity normally.
+                    var activity = innerDc.Context.Activity;
 
-                            if (result.Status == DialogTurnStatus.Empty)
+                    switch (activity.Type)
+                    {
+                        case ActivityTypes.Message:
                             {
-                                // There was no waiting dialog on the stack, process message normally.
-                                await OnMessageActivityAsync(innerDc).ConfigureAwait(false);
+                                // Pass message to waiting child dialog.
+                                var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
+
+                                if (result.Status == DialogTurnStatus.Empty)
+                                {
+                                    // There was no waiting dialog on the stack, process message normally.
+                                    await OnMessageActivityAsync(innerDc).ConfigureAwait(false);
+                                }
+
+                                break;
                             }
 
-                            break;
-                        }
+                        case ActivityTypes.Event:
+                            {
+                                await OnEventActivityAsync(innerDc).ConfigureAwait(false);
+                                break;
+                            }
 
-                    case ActivityTypes.Event:
-                        {
-                            await OnEventActivityAsync(innerDc).ConfigureAwait(false);
-                            break;
-                        }
+                        case ActivityTypes.Invoke:
+                            {
+                                // Used by Teams for Authentication scenarios.
+                                await innerDc.ContinueDialogAsync().ConfigureAwait(false);
+                                break;
+                            }
 
-                    case ActivityTypes.Invoke:
-                        {
-                            // Used by Teams for Authentication scenarios.
-                            await innerDc.ContinueDialogAsync().ConfigureAwait(false);
-                            break;
-                        }
+                        case ActivityTypes.ConversationUpdate:
+                            {
+                                await OnMembersAddedAsync(innerDc).ConfigureAwait(false);
+                                break;
+                            }
 
-                    case ActivityTypes.ConversationUpdate:
-                        {
-                            await OnMembersAddedAsync(innerDc).ConfigureAwait(false);
-                            break;
-                        }
-
-                    default:
-                        {
-                            // All other activity types will be routed here. Custom handling should be added in implementation.
-                            await OnUnhandledActivityTypeAsync(innerDc).ConfigureAwait(false);
-                            break;
-                        }
+                        default:
+                            {
+                                // All other activity types will be routed here. Custom handling should be added in implementation.
+                                await OnUnhandledActivityTypeAsync(innerDc).ConfigureAwait(false);
+                                break;
+                            }
+                    }
                 }
-            }
 
-            if (innerDc.ActiveDialog == null)
+                if (innerDc.ActiveDialog == null)
+                {
+                    // If the inner dialog stack completed during this turn, this component should be ended.
+                    return await innerDc.EndDialogAsync().ConfigureAwait(false);
+                }
+
+                return EndOfTurn;
+            }
+            catch (Exception ex)
             {
-                // If the inner dialog stack completed during this turn, this component should be ended.
+                await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {ex.Message}, Stack: {ex.StackTrace}")).ConfigureAwait(false);
                 return await innerDc.EndDialogAsync().ConfigureAwait(false);
             }
-
-            return EndOfTurn;
         }
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)

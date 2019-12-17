@@ -21,62 +21,70 @@ export abstract class RouterDialog extends InterruptableDialog {
     }
 
     protected async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
-        const status: InterruptionAction = await this.onInterruptDialog(innerDc);
+        try {
+            const status: InterruptionAction = await this.onInterruptDialog(innerDc);
 
-        if (status === InterruptionAction.MessageSentToUser) {
-            // Resume the waiting dialog after interruption
-            await innerDc.repromptDialog();
+            if (status === InterruptionAction.MessageSentToUser) {
+                // Resume the waiting dialog after interruption
+                await innerDc.repromptDialog();
 
-            return Dialog.EndOfTurn;
-        } else if (status === InterruptionAction.StartedDialog) {
-            // Stack is already waiting for a response, shelve inner stack
-            return Dialog.EndOfTurn;
-        } else {
-            const activity: Activity = innerDc.context.activity;
+                return Dialog.EndOfTurn;
+            } else if (status === InterruptionAction.StartedDialog) {
+                // Stack is already waiting for a response, shelve inner stack
+                return Dialog.EndOfTurn;
+            } else {
+                const activity: Activity = innerDc.context.activity;
 
-            if (ActivityExtensions.isStartActivity(activity)) {
-                await this.onStart(innerDc);
-            }
+                if (ActivityExtensions.isStartActivity(activity)) {
+                    await this.onStart(innerDc);
+                }
 
-            switch (activity.type) {
-                case ActivityTypes.Message: {
-                    // Note: This check is a workaround for adaptive card buttons that should map to an event
-                    // (i.e. startOnboarding button in intro card)
-                    if (activity.value) {
-                        await this.onEvent(innerDc);
-                    } else if (activity.text !== undefined && activity.text !== '') {
-                        const result: DialogTurnResult = await innerDc.continueDialog();
-                        switch (result.status) {
-                            case DialogTurnStatus.empty: {
-                                await this.route(innerDc);
-                                break;
+                switch (activity.type) {
+                    case ActivityTypes.Message: {
+                        // Note: This check is a workaround for adaptive card buttons that should map to an event
+                        // (i.e. startOnboarding button in intro card)
+                        if (activity.value) {
+                            await this.onEvent(innerDc);
+                        } else if (activity.text !== undefined && activity.text !== '') {
+                            const result: DialogTurnResult = await innerDc.continueDialog();
+                            switch (result.status) {
+                                case DialogTurnStatus.empty: {
+                                    await this.route(innerDc);
+                                    break;
+                                }
+                                case DialogTurnStatus.complete: {
+                                    await this.complete(innerDc, result);
+                                    // End active dialog
+                                    await innerDc.endDialog();
+                                    break;
+                                }
+                                default:
                             }
-                            case DialogTurnStatus.complete: {
-                                await this.complete(innerDc, result);
-                                // End active dialog
-                                await innerDc.endDialog();
-                                break;
-                            }
-                            default:
                         }
+                        break;
                     }
-                    break;
+                    case ActivityTypes.Event: {
+                        await this.onEvent(innerDc);
+                        break;
+                    }
+                    case ActivityTypes.Invoke: {
+                        // Used by Teams for Authentication scenarios.
+                        await innerDc.continueDialog();
+                        break;
+                    }
+                    default: {
+                        await this.onSystemMessage(innerDc);
+                    }
                 }
-                case ActivityTypes.Event: {
-                    await this.onEvent(innerDc);
-                    break;
-                }
-                case ActivityTypes.Invoke: {
-                    // Used by Teams for Authentication scenarios.
-                    await innerDc.continueDialog();
-                    break;
-                }
-                default: {
-                    await this.onSystemMessage(innerDc);
-                }
-            }
 
-            return Dialog.EndOfTurn;
+                return Dialog.EndOfTurn;
+            }
+        } catch (err) {
+            await innerDc.context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: err.message
+            });
+            return await innerDc.endDialog();
         }
     }
 
