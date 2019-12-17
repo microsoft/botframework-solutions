@@ -94,7 +94,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
 
     Write-Host $output
 
-    if (-not Test-Path $outFile) {
+    if (-not (Test-Path $outFile)) {
         Write-Host "Error." -ForegroundColor Red
         Write-Host "! File not created. Review the log for more information." -ForegroundColor Red
 		Write-Host "! Log: $($log)" -ForegroundColor Red
