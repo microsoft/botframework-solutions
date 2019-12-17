@@ -92,7 +92,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
         --out $outFile `
         --force 2>&1) >> $log
 
-    if ($output.Contains('[ERROR]')) {
+    if ($output -match 'error') {
         Write-Host "Error." -ForegroundColor Red
         Write-Host "! Could not parse the LU file. Review the log for more information." -ForegroundColor Red
 		Write-Host "! Log: $($log)" -ForegroundColor Red
