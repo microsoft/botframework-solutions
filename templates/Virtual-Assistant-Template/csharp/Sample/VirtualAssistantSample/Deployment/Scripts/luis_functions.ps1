@@ -92,8 +92,6 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
         --out $outFile `
         --force 2>&1) >> $log
 
-    Write-Host $output
-
     if (-not (Test-Path $outFile)) {
         Write-Host "Error." -ForegroundColor Red
         Write-Host "! File not created. Review the log for more information." -ForegroundColor Red
@@ -161,7 +159,6 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
 
     if ($output) {
         Write-Host "Error." -ForegroundColor Red
-        Write-Host $output -ForegroundColor Red
 
         Write-Host "> Looking for backup versions ..."
         $versions = (luis list versions `
