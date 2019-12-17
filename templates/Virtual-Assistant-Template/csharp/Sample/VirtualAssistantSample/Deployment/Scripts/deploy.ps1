@@ -25,32 +25,6 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
-# Check for AZ CLI and confirm version
-if (Get-Command az -ErrorAction SilentlyContinue) {
-    $azcliversionoutput = az -v
-    [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
-    [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
-
-    if ($azcliversion -ge $minversion) {
-        $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
-        Write-Debug $azclipassmessage
-        $azclipassmessage | Out-File -Append -FilePath $logfile
-    }
-    else {
-        $azcliwarnmessage = "You are using an older version of the AZ CLI, `
-    please ensure you are using version $minversion or newer. `
-    The most recent version can be found here: http://aka.ms/installazurecliwindows"
-        Write-Warning $azcliwarnmessage
-        $azcliwarnmessage | Out-File -Append -FilePath $logfile
-    }
-}
-else {
-    $azclierrormessage = 'AZ CLI not found. Please install latest version.'
-    Write-Error $azclierrormessage
-    $azclierrormessage | Out-File -Append -FilePath $logfile
-}
-
 if (-not (Test-Path (Join-Path $projDir 'appsettings.json')))
 {
 	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor Red
@@ -235,8 +209,8 @@ if ($outputs)
 
 	# Deploy cognitive models
     if ($useGov) {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
-    }
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint) -useGov"
+     }
     else {
         Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion $($outputs.luis.value.authoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -qnaEndpoint $($qnaEndpoint)"
     }
