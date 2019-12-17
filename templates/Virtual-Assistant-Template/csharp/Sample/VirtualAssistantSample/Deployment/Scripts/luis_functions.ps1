@@ -152,6 +152,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
 
     if ($output) {
         Write-Host "Error." -ForegroundColor Red
+        Write-Host $output -ForegroundColor Red
 
         Write-Host "> Looking for backup versions ..."
         $versions = (luis list versions `
