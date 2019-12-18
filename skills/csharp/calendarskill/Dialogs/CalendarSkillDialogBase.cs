@@ -676,13 +676,16 @@ namespace CalendarSkill.Dialogs
 
             Task.WaitAll(taskList);
 
+            var attendeePhotoList = new List<string>();
+            attendeePhotoList.AddRange(taskList.Select(li => li.Result));
+
             var data = new
             {
                 startDateTime = eventItem.StartTime,
                 endDateTime = eventItem.EndTime,
                 timezone = state.GetUserTimeZone().Id,
                 attendees = eventItem.Attendees,
-                taskList,
+                attendeePhotoList,
                 subject = eventItem.Title,
                 location = eventItem.Location,
                 content = eventItem.ContentPreview ?? eventItem.Content,
