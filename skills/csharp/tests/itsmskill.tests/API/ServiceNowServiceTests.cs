@@ -15,18 +15,20 @@ namespace ITSMSkill.Tests.API
     [TestClass]
     public class ServiceNowServiceTests
     {
+        private MockServiceNowRestClient mockServiceNowRestClient;
         private IRestClient mockClient;
 
         [TestInitialize]
         public void Initialize()
         {
-            mockClient = new MockServiceNowRestClient().MockRestClient;
+            mockServiceNowRestClient = new MockServiceNowRestClient();
+            mockClient = mockServiceNowRestClient.MockRestClient;
         }
 
         [TestMethod]
         public async Task CreateTicketTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.CreateTicket(MockData.CreateTicketTitle, MockData.CreateTicketDescription, MockData.CreateTicketUrgencyLevel);
 
@@ -44,7 +46,7 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task SearchTicketTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.SearchTicket(0);
 
@@ -62,7 +64,7 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task CountTicketTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.CountTicket();
 
@@ -73,7 +75,7 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task UpdateTicketTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.UpdateTicket(MockData.CreateTicketId);
 
@@ -91,7 +93,7 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task CloseTicketTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.CloseTicket(MockData.CloseTicketId, MockData.CloseTicketReason);
 
@@ -110,7 +112,7 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task SearchKnowledgeTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.SearchKnowledge(MockData.KnowledgeTitle, 0);
 
@@ -127,12 +129,32 @@ namespace ITSMSkill.Tests.API
         [TestMethod]
         public async Task CountKnowledgeTest()
         {
-            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, mockClient);
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
 
             var result = await service.CountKnowledge(MockData.KnowledgeTitle);
 
             Assert.AreEqual(result.Success, true);
             Assert.AreEqual(result.Knowledges.Length, MockData.KnowledgeCount);
+        }
+
+        [TestMethod]
+        public async Task ServiceHasCacheTest()
+        {
+            var cache = new ServiceCache();
+
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, cache, mockClient);
+            var result = await service.CountKnowledge(MockData.KnowledgeTitle);
+            Assert.AreEqual(result.Success, true);
+            Assert.AreEqual(result.Knowledges.Length, MockData.KnowledgeCount);
+
+            Assert.AreEqual(mockServiceNowRestClient.GetUserIdResponseCount, 1);
+
+            service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, cache, mockClient);
+            result = await service.CountKnowledge(MockData.KnowledgeTitle);
+            Assert.AreEqual(result.Success, true);
+            Assert.AreEqual(result.Knowledges.Length, MockData.KnowledgeCount);
+
+            Assert.AreEqual(mockServiceNowRestClient.GetUserIdResponseCount, 1);
         }
     }
 }

@@ -12,8 +12,12 @@ namespace ITSMSkill.Models
     {
         public SkillState()
         {
+            ServiceCache = new ServiceCache();
             ClearLuisResult();
         }
+
+        // used by Service to cache internal states
+        public ServiceCache ServiceCache { get; set; }
 
         // handle manually
         public int PageIndex { get; set; }
