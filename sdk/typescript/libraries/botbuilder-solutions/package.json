@@ -29,7 +29,7 @@
         "botbuilder-dialogs": "^4.7.0",
         "botframework-config": "^4.7.0",
         "botframework-connector": "^4.7.0",
-        "dayjs": "^1.8.14",
+        "dayjs": "1.8.17",
         "ms-rest-azure": "^2.5.0",
         "i18next": "^15.0.6",
         "i18next-node-fs-backend": "^2.1.1",
