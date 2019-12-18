@@ -1,0 +1,48 @@
+# CalendarWelcomeMessage.Text
+- Bienvenue à la compétence calendrier! Je peux vous donner un aperçu de vos réunions d'aujourd'hui, lire votre prochaine réunion ou créer une nouvelle réunion pour vous.
+
+# CalendarWelcomeMessage.S1
+- Quelles sont mes réunions aujourd'hui ?
+
+# CalendarWelcomeMessage.S2
+- Quelle est ma prochaine réunion?
+
+# CalendarWelcomeMessage.S3
+- Je veux mettre en place une réuni on.
+
+# CalendarWelcomeMessage.S4
+- Pouvez-vous mettre à jour une réunion?
+
+# CalendarWelcomeMessage.S5
+- Pouvez-vous annuler mon événement?
+
+# FeatureNotAvailable.Text
+- Cette fonctionnalité n'est pas encore disponible dans la compétence calendrier. S'il vous plaît essayer de demander autre chose.
+
+# CancelMessage.Text
+- Ok, recommençons à tout recommencer.
+
+# HelpMessage.Text
+- Je peux vous donner un aperçu de vos réunions d'aujourd'hui, lire votre prochaine réunion ou créer une nouvelle réunion pour vous.
+
+# HelpMessage.S1
+- Quelles sont mes réunions aujourd'hui ?
+
+# HelpMessage.S2
+- Quelle est ma prochaine réunion?
+
+# HelpMessage.S3
+- Je veux mettre en place une réuni on.
+
+# HelpMessage.S4
+- Pouvez-vous mettre à jour une réunion?
+
+# HelpMessage.S5
+- Pouvez-vous annuler mon événement?
+
+# LogOut.Text
+- Votre signature a été un succès.
+- Vous avez signé avec succès.
+- Vous avez été déconnecté.
+
+

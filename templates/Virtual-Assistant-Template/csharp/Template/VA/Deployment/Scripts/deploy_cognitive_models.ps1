@@ -7,8 +7,10 @@ Param(
 	[string] $luisAccountName,
     [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
-    [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
+    [string] $qnaSubscriptionKey,
+    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
+    [switch] $useGov,
 	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
@@ -32,13 +34,17 @@ if (-not $name) {
 }
 
 if (-not $luisAuthoringRegion) {
-    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
+    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, virginia (US gov-only) or australiaeast)"
 }
 
 if (-not $luisAuthoringKey) {
 	Switch ($luisAuthoringRegion) {
 		"westus" { 
 			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.ai/user/settings)"
+			Break
+		}
+        "virginia" {
+			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.azure.us/user/settings)"
 			Break
 		}
 		"westeurope" {
@@ -75,7 +81,10 @@ if (-not $resourceGroup) {
 }
 
 if (-not $luisSubscriptionKey) {
-	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup --output json | ConvertFrom-Json
+	$keys = az cognitiveservices account keys list `
+        --name $luisAccountName `
+        --resource-group $resourceGroup `
+        --output json | ConvertFrom-Json
 
 	if ($keys) {
 		$luisSubscriptionKey = $keys.key1
@@ -98,6 +107,15 @@ else {
 	$useQna = $true
 }
 
+if ($useGov){
+    $cloud = 'us'
+    $gov = $true
+}
+else {
+    $cloud = 'com'
+    $gov = $false
+}
+
 $azAccount = az account show --output json | ConvertFrom-Json
 $azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
@@ -108,31 +126,38 @@ $languageArr = $languages -split ","
 $settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSObject }
 
 # Deploy localized resources
-Write-Host "> Deploying cognitive models ..."
 foreach ($language in $languageArr)
 {
-	$langCode = $language
-	$config = New-Object PSObject
+    $langCode = $language
+    $config = New-Object PSObject
 
 	if ($useDispatch) {
 		# Add dispatch to config
-		$config | Add-Member -MemberType NoteProperty -Name dispatchModel -Value $(New-Object PSObject)
+		$config | Add-Member `
+            -MemberType NoteProperty `
+            -Name dispatchModel `
+            -Value $(New-Object PSObject)
 
 	    # Initialize Dispatch
-		Write-Host "> Initializing dispatch model ..."
+        Write-Host "> Initializing $($langCode) dispatch model ..." -NoNewline
 		$dispatchName = "$($name)$($langCode)_Dispatch"
 		$dataFolder = Join-Path $PSScriptRoot .. Resources Dispatch $langCode
 		(dispatch init `
 			--name $dispatchName `
 			--luisAuthoringKey $luisAuthoringKey `
 			--luisAuthoringRegion $luisAuthoringRegion `
+            --gov $gov `
 			--dataFolder $dataFolder) 2>> $logFile | Out-Null
+        Write-Host "Done." -ForegroundColor Green
 	}
 
     # Deploy LUIS apps
     $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
 	if ($luisFiles) {
-		$config | Add-Member -MemberType NoteProperty -Name languageModels -Value @()
+		$config | Add-Member `
+            -MemberType NoteProperty `
+            -Name languageModels `
+            -Value @()
 
 		foreach ($lu in $luisFiles)
 		{
@@ -141,11 +166,12 @@ foreach ($language in $languageArr)
 				-name $name `
 				-lu_file $lu `
 				-region $luisAuthoringRegion `
-				-luisAuthoringKey $luisAuthoringKey `
+				-authoringKey $luisAuthoringKey `
 				-language $language `
+                -gov $gov `
 				-log $logFile
-        
-			Write-Host "> Setting LUIS subscription key ..."
+
+			Write-Host "> Setting LUIS subscription key ..." -NoNewline
 			if ($luisApp) {
 				# Setting subscription key
 				$addKeyResult = luis add appazureaccount `
@@ -155,6 +181,7 @@ foreach ($language in $languageArr)
 					--accountName $luisAccountName `
 					--azureSubscriptionId $azAccount.id `
 					--resourceGroup $resourceGroup `
+                    --cloud $cloud `
 					--armToken "$($azAccessToken.accessToken)" 2>> $logFile
 
 				if (-not $addKeyResult) {
@@ -163,18 +190,22 @@ foreach ($language in $languageArr)
 					Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 					Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
 				}
+                else {
+                    Write-Host "Done." -ForegroundColor Green
+                }
 
 				if ($useDispatch) {
 					# Add luis app to dispatch
-					Write-Host "> Adding $($lu.BaseName) app to dispatch model ..."
+					Write-Host "> Adding $($langCode) $($lu.BaseName) app to dispatch model ..." -NoNewline
 					(dispatch add `
 						--type "luis" `
 						--name $luisApp.name `
 						--id $luisApp.id  `
-						--region $luisApp.region `
+						--region $luisAuthoringRegion `
 						--intentName "l_$($lu.BaseName)" `
 						--dataFolder $dataFolder `
 						--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
+                     Write-Host "Done." -ForegroundColor Green
 				}
 
 				# Add to config 
@@ -196,44 +227,60 @@ foreach ($language in $languageArr)
 	}
 
 	if ($useQna) {
-		if (Test-Path $(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)) {
-			# Deploy QnA Maker KBs
-			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
-		
-			if ($qnaFiles) {
-				$config | Add-Member -MemberType NoteProperty -Name knowledgebases -Value @()
+        $qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".qna"}
+		if ($qnaFiles) {		
+            $config | Add-Member `
+                -MemberType NoteProperty `
+                -Name knowledgebases `
+                -Value @()
 
-				foreach ($lu in $qnaFiles)
-				{
-					# Deploy QnA Knowledgebase
-					$qnaKb = DeployKB -name $name -lu_file $lu -qnaSubscriptionKey $qnaSubscriptionKey -log $logFile
+			foreach ($lu in $qnaFiles)
+			{
+                # Deploy QnA Knowledgebase
+				$qnaKb = DeployKB `
+                    -name $name `
+                    -lu_file $lu `
+                    -qnaSubscriptionKey $qnaSubscriptionKey `
+                    -qnaEndpoint $qnaEndpoint `
+                    -language $langCode `
+                    -log $logFile
        
-					if ($qnaKb) {
-						if ($useDispatch) {
-							Write-Host "> Adding $($lu.BaseName) kb to dispatch model ..."        
-							(dispatch add `
-								--type "qna" `
-								--name $qnaKb.name `
-								--id $qnaKb.id  `
-								--key $qnaSubscriptionKey `
-								--intentName "q_$($lu.BaseName)" `
-								--dataFolder $dataFolder `
-								--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
-						}
-					
-						# Add to config
-						$config.knowledgebases += @{
-							id = $lu.BaseName
-							name = $qnaKb.name
-							kbId = $qnaKb.kbId
-							subscriptionKey = $qnaKb.subscriptionKey
-							endpointKey = $qnaKb.endpointKey
-							hostname = $qnaKb.hostname
-						}
+				if ($qnaKb) {
+					if ($useDispatch) {
+						Write-Host "> Adding $($langCode) $($lu.BaseName) kb to dispatch model ..." -NoNewline    
+						(dispatch add `
+							--type "qna" `
+							--name $lu.BaseName `
+							--id $qnaKb.kbId  `
+							--key $qnaSubscriptionKey `
+							--intentName "q_$($lu.BaseName)" `
+							--dataFolder $dataFolder `
+							--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
+                        Write-Host "Done." -ForegroundColor Green
 					}
-					else {
-						Write-Host "! Could not create knowledgebase. Skipping dispatch add." -ForegroundColor Cyan
-					}        
+
+                    # get qna details
+                    $qnaEndpointKeys = bf qnamaker:endpointkeys:list `
+                        --endpoint $qnaEndpoint `
+                        --subscriptionKey $qnaSubscriptionKey  | ConvertFrom-Json
+
+                    $qnaKbSettings = bf qnamaker:kb:get `
+                        --kbId $qnaKb.kbId `
+                        --endpoint $qnaEndpoint `
+                        --subscriptionKey $qnaSubscriptionKey | ConvertFrom-Json
+
+					# Add to config
+					$config.knowledgebases += @{
+						id = $lu.BaseName
+						name = $lu.BaseName
+						kbId = $qnaKb.kbId
+						subscriptionKey = $qnaSubscriptionKey
+						endpointKey = $qnaEndpointKeys.primaryEndpointKey
+						hostname = $qnaKbSettings.hostName
+					}
+				}
+				else {
+					Write-Host "! Could not create knowledgebase. Skipping dispatch add." -ForegroundColor Cyan
 				}
 			}
 		}
@@ -247,11 +294,13 @@ foreach ($language in $languageArr)
 
 	if ($useDispatch) {
 		# Create dispatch model
-		Write-Host "> Creating dispatch model..."  
+		Write-Host "> Creating $($langCode) dispatch model ..." -NoNewline
 		$dispatch = (dispatch create `
 			--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")" `
+            --gov $gov `
 			--dataFolder  $dataFolder `
 			--culture $language) 2>> $logFile
+        Write-Host "Done." -ForegroundColor Green
 
 		if (-not $dispatch) {
 			Write-Host "! Could not create Dispatch app. Review the log for more information." -ForegroundColor DarkRed
@@ -262,7 +311,7 @@ foreach ($language in $languageArr)
 			$dispatchApp  = $dispatch | ConvertFrom-Json
 
 			# Setting subscription key
-			Write-Host "> Setting LUIS subscription key ..."
+			Write-Host "> Setting LUIS subscription key ..." -NoNewline
 			$addKeyResult = luis add appazureaccount `
 				--appId $dispatchApp.appId `
 				--accountName $luisAccountName `
@@ -270,6 +319,7 @@ foreach ($language in $languageArr)
 				--region $luisAuthoringRegion `
 				--azureSubscriptionId $azAccount.id `
 				--resourceGroup $resourceGroup `
+                --cloud $cloud `
 				--armToken $azAccessToken.accessToken 2>> $logFile
 
 			if (-not $addKeyResult) {
@@ -278,6 +328,9 @@ foreach ($language in $languageArr)
 				Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 				Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
 			}
+            else {
+                Write-Host "Done." -ForegroundColor Green
+            }
 
 			# Add to config
 			$config.dispatchModel = @{
@@ -288,12 +341,17 @@ foreach ($language in $languageArr)
                 authoringRegion = $luisAuthoringRegion
 				subscriptionkey = $luisSubscriptionKey
 				region = $luisAccountRegion
+                version = $dispatchApp.version
 			}
 		}
 	}
 
     # Add config to cognitivemodels dictionary
-    $settings.cognitiveModels | Add-Member -Type NoteProperty -Force -Name $langCode -Value $config
+    $settings.cognitiveModels | Add-Member `
+        -Type NoteProperty `
+        -Name $langCode `
+        -Value $config `
+        -Force
 }
 
 # Write out config to file

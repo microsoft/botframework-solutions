@@ -41,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
@@ -129,7 +130,8 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        enableKws = getBooleanSharedPref(SHARED_PREF_ENABLE_KWS);
+        Configuration speechConfig = configurationManager.getConfiguration();
+        enableKws = speechConfig.enableKWS;
         switchEnableKws.setChecked(enableKws);
 
         // NAV DRAWER
@@ -396,7 +398,9 @@ public class MainActivity extends BaseActivity
                 enableKws = checked;
             }
 
-            putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
+            Configuration speechConfig =  configurationManager.getConfiguration();
+            speechConfig.enableKWS = enableKws;
+            configurationManager.setConfiguration(speechConfig);
 
             if (checked && !enableKws) {
                 switchEnableKws.setChecked(false);

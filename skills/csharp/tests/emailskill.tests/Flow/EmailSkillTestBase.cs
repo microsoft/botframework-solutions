@@ -1,25 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
 using EmailSkill.Models;
-using EmailSkill.Responses.DeleteEmail;
-using EmailSkill.Responses.FindContact;
-using EmailSkill.Responses.ForwardEmail;
-using EmailSkill.Responses.Main;
-using EmailSkill.Responses.ReplyEmail;
-using EmailSkill.Responses.SendEmail;
-using EmailSkill.Responses.Shared;
-using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -29,6 +24,7 @@ using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -95,21 +91,68 @@ namespace EmailSkill.Tests.Flow
                 return new BotStateSet(userState, conversationState);
             });
 
-            ResponseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new FindContactResponses(),
-                new DeleteEmailResponses(),
-                new ForwardEmailResponses(),
-                new EmailMainResponses(),
-                new ReplyEmailResponses(),
-                new SendEmailResponses(),
-                new EmailSharedResponses(),
-                new ShowEmailResponses());
-            Services.AddSingleton(ResponseManager);
+            Services.AddSingleton<TestAdapter>(sp =>
+            {
+                var adapter = new DefaultTestAdapter();
+                adapter.AddUserToken("Azure Active Directory v2", Channels.Test, "user1", "test");
+                return adapter;
+            });
+
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var templateFiles = new Dictionary<string, string>
+            {
+                { "DeleteEmail", "DeleteEmailActivities" },
+                { "FindContact", "FindContactActivities" },
+                { "Main", "MainDialogActivities" },
+                { "SendEmail", "SendEmailActivities" },
+                { "Shared", "SharedActivities" },
+                { "ShowEmail", "ShowEmailActivities" }
+            };
+
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals("en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+
+            // Configure files for generating all responses. Response from bot should equal one of them.
+            var templateFilesAll = new List<string>()
+            {
+                @"DeleteEmail/DeleteEmailTexts.lg",
+                @"FindContact/FindContactTexts.lg",
+                @"Main/MainDialogTexts.lg",
+                @"SendEmail/SendEmailTexts.lg",
+                @"Shared/SharedTexts.lg",
+                @"ShowEmail/ShowEmailTexts.lg",
+            };
+
+            var templatesAll = new List<string>();
+            templateFilesAll.ForEach(s => templatesAll.Add(Path.Combine(".", "Responses", s)));
+            var engineAll = new TemplateEngine().AddFiles(templatesAll);
+            Services.AddSingleton(engineAll);
+
+            Services.AddSingleton<IStorage>(new MemoryStorage());
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+
             Services.AddTransient<MainDialog>();
             Services.AddTransient<DeleteEmailDialog>();
             Services.AddTransient<FindContactDialog>();
@@ -121,6 +164,14 @@ namespace EmailSkill.Tests.Flow
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;
+        }
+
+        public string[] GetTemplates(string templateName, object data = null)
+        {
+            var sp = Services.BuildServiceProvider();
+            var engine = sp.GetService<TemplateEngine>();
+            var formatTemplateName = templateName + ".Text";
+            return engine.ExpandTemplate(formatTemplateName, data).ToArray();
         }
 
         public TestFlow GetTestFlow()

@@ -92,7 +92,7 @@ export class SkillDialog extends ComponentDialog {
         // In instances where the caller is able to identify/specify the action we process the Action specific slots
         // In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
         // enabling the Skill to perform it's own action identification.
-        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const actionName: string|undefined = <any> options;
         if (actionName !== undefined) {
             // Find the specified within the selected Skill for slot filling evaluation
@@ -147,7 +147,7 @@ export class SkillDialog extends ComponentDialog {
         // PENDING: Review Entity values
         // PENDING: Entity class does not have the prop 'Properties'
         slots.forEachObj((value: Object, key: string): void => {
-            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             entities[key] = <any> {
                 type: '',
                 properties: value

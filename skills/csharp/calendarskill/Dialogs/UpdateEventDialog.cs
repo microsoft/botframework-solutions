@@ -21,6 +21,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill.Dialogs
@@ -30,12 +31,12 @@ namespace CalendarSkill.Dialogs
         public UpdateEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(UpdateEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -101,12 +102,12 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound),
+                        Prompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoUpdateStartTime) as Activity,
+                        RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.EventWithStartTimeNotFound) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -152,7 +153,7 @@ namespace CalendarSkill.Dialogs
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.ConfirmUpdateFailed),
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.ConfirmUpdateFailed) as Activity,
                 });
             }
             catch (Exception ex)
@@ -175,7 +176,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
+                    await sc.Context.SendActivityAsync(activity);
                     if (options.SubFlowMode)
                     {
                         state.UpdateMeetingInfor.Clear();
@@ -216,8 +218,8 @@ namespace CalendarSkill.Dialogs
                     updateEvent.Id = origin.RecurringId;
                 }
 
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                 var newEvent = await calendarService.UpdateEventByIdAsync(updateEvent);
 
                 var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);
@@ -259,8 +261,8 @@ namespace CalendarSkill.Dialogs
 
                 return await sc.PromptAsync(Actions.TimePrompt, new TimePromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry),
+                    Prompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoNewTime) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(UpdateEventResponses.NoNewTimeRetry) as Activity,
                     TimeZone = state.GetUserTimeZone(),
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
@@ -401,7 +403,8 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     // user has tried 5 times but can't get result
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }
             }

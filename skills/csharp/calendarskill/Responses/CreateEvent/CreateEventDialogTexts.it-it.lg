@@ -1,0 +1,79 @@
+# NoTitle.Text(UserName)
+- OK, invierò un invito a {UserName}, qual è l'oggetto della riunione?
+
+# NoTitleShort.Text
+- Qual è l'oggetto della riunione?
+
+# NoContent.Text
+- Qual è la descrizione della riunione?
+- È possibile fornire una descrizione per la riunione?
+
+# NoAttendees.Text
+- Certo, chi si unirà?
+
+# NoLocation.Text
+- Dove si svolgerà l'evento?
+
+# ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
+- Sono pronto a creare l'evento. L'evento è {Date}Da {Time} fino a {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}
+
+# ConfirmCreateAttendees.Text(Attendees)
+- Con {Attendees}
+
+# ConfirmCreateSubject.Text(Subject)
+- L'oggetto dell'evento è {Subject}.
+
+# ConfirmCreateLocation.Text(Location)
+- L'evento si svolgerà all'atto {Location}.
+
+# ConfirmCreateContent.Text(Content)
+- Il messaggio è {Content}.
+
+# ConfirmCreatePrompt.Text
+- Può confermare questo evento?
+
+# ConfirmCreateFailed.Text
+- Sono pronto a creare l'evento. Confermare quanto segue:
+
+# ShowRestParticipantsPrompt.Text
+- Vuoi passare attraverso il resto dei partecipanti?
+
+# EventCreated.Text(Subject)
+- OK, ho aggiunto {Subject} al calendario.
+
+# EventCreationFailed.Text
+- Creazione dell'evento non riuscita.
+- Si è verificato un problema sconosciuto.
+- Sembra che l'evento non sia stato possibile creare, riprova più tardi.
+- Creazione dell'evento non riuscita, riprovare.
+- Si è verificato un errore durante la creazione dell'evento.
+
+# NoStartDate.Text
+- Che data?
+
+# NoStartDateRetry.Text
+- Non ho capito la data che hai fornito, puoi riprovare?
+- Non capisco la data che hai fornito, puoi provare in un modo diverso? Puoi dire domani, lunedì o una data specifica, ad esempio il 1 gennaio.
+
+# NoStartTime.Text
+- A che ora inizia? Fornendo AM o PM mi aiuterà.
+
+# NoStartTimeRetry.Text
+- Non ho capito il tempo che mi hai fornito, puoi riprovarci?
+- Non ho capito quella volta. Puoi riprovarci?
+
+# NoStartTimeNoSkip.Text
+- Non è possibile ignorare l'ora di inizio. Riprovare.
+
+# NoDuration.Text
+- Per quanto tempo?
+
+# NoDurationRetry.Text
+- Non capisco la durata che hai fornito, puoi riprovarci?
+
+# GetRecreateInfo.Text
+- Cosa vorresti regolare?
+
+# GetRecreateInfoRetry.Text
+- Non capisco il tuo contributo. Puoi provare Ora, Durata, Posizione, Partecipanti, Oggetto o Contenuto. O dire annullare
+

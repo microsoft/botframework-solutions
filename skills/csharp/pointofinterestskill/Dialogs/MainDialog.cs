@@ -23,6 +23,7 @@ using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Dialogs
 {
@@ -65,6 +66,42 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(getDirectionsDialog ?? throw new ArgumentNullException(nameof(getDirectionsDialog)));
         }
 
+        // Runs on every turn of the conversation.
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("PointOfInterest", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    var skillResult = await skillLuisService.RecognizeAsync<PointOfInterestLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.POILuisResultKey, skillResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                // Run LUIS recognition on General model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService != null)
+                {
+                    var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResultKey, generalResult);
+                }
+                else
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
         // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -75,62 +112,49 @@ namespace PointOfInterestSkill.Dialogs
         // Runs when the dialog stack is empty, and a new message activity comes in.
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // get current activity locale
-            var localeConfig = _services.GetCognitiveModels();
-
             await PopulateStateFromSemanticAction(dc.Context);
 
-            // If dispatch result is General luis model
-            localeConfig.LuisServices.TryGetValue("PointOfInterest", out var luisService);
+            var result = dc.Context.TurnState.Get<PointOfInterestLuis>(StateProperties.POILuisResultKey);
+            var intent = result?.TopIntent().intent;
 
-            if (luisService == null)
+            if (intent != PointOfInterestLuis.Intent.None)
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+                await DigestLuisResult(dc, result);
             }
-            else
+
+            // switch on General intents
+            switch (intent)
             {
-                var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
+                case PointOfInterestLuis.Intent.GetDirections:
+                    {
+                        await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
+                        break;
+                    }
 
-                if (intent != PointOfInterestLuis.Intent.None)
-                {
-                    var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
-                    await DigestLuisResult(dc, result);
-                }
+                case PointOfInterestLuis.Intent.FindPointOfInterest:
+                    {
+                        await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
+                        break;
+                    }
 
-                // switch on General intents
-                switch (intent)
-                {
-                    case PointOfInterestLuis.Intent.GetDirections:
-                        {
-                            await dc.BeginDialogAsync(nameof(GetDirectionsDialog));
-                            break;
-                        }
+                case PointOfInterestLuis.Intent.FindParking:
+                    {
+                        await dc.BeginDialogAsync(nameof(FindParkingDialog));
+                        break;
+                    }
 
-                    case PointOfInterestLuis.Intent.FindPointOfInterest:
-                        {
-                            await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
-                            break;
-                        }
+                case PointOfInterestLuis.Intent.None:
+                    {
+                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
+                        break;
+                    }
 
-                    case PointOfInterestLuis.Intent.FindParking:
-                        {
-                            await dc.BeginDialogAsync(nameof(FindParkingDialog));
-                            break;
-                        }
-
-                    case PointOfInterestLuis.Intent.None:
-                        {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
-                            break;
-                        }
-
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.FeatureNotAvailable));
-                            break;
-                        }
-                }
+                default:
+                    {
+                        await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.FeatureNotAvailable));
+                        break;
+                    }
             }
         }
 
@@ -213,49 +237,31 @@ namespace PointOfInterestSkill.Dialogs
 
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
             {
-                // get current activity locale
-                var localeConfig = _services.GetCognitiveModels();
+                var luisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+                var topIntent = luisResult.TopIntent();
 
-                // check luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
-
-                if (luisService == null)
+                if (topIntent.score > 0.5)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
-                    var topIntent = luisResult.TopIntent();
-
-                    if (topIntent.score > 0.5)
+                    switch (topIntent.intent)
                     {
-                        state.GeneralIntent = topIntent.intent;
-                        switch (topIntent.intent)
-                        {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
 
-                            case General.Intent.Help:
-                                {
-                                    // result = await OnHelp(dc);
-                                    break;
-                                }
+                        case General.Intent.Help:
+                            {
+                                // result = await OnHelp(dc);
+                                break;
+                            }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
-                    }
-                    else
-                    {
-                        state.GeneralIntent = General.Intent.None;
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }
@@ -267,10 +273,10 @@ namespace PointOfInterestSkill.Dialogs
         {
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.LocationKey))
             {
-                var location = semanticAction.Entities["location"];
-                var locationObj = location.Properties["location"].ToString();
+                var location = semanticAction.Entities[StateProperties.LocationKey];
+                var locationObj = location.Properties[StateProperties.LocationKey].ToString();
 
                 var coords = locationObj.Split(',');
                 if (coords.Length == 2)
@@ -340,7 +346,6 @@ namespace PointOfInterestSkill.Dialogs
                 if (luisResult != null)
                 {
                     state.Clear();
-                    state.LuisResult = luisResult;
 
                     var entities = luisResult.Entities;
 

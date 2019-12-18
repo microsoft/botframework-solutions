@@ -19,6 +19,11 @@ namespace CalendarSkill.Services
 
         public IUserService InitUserService(string token, EventSource source)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             IUserService userService = null;
             switch (source)
             {
@@ -40,6 +45,11 @@ namespace CalendarSkill.Services
 
         public ICalendarService InitCalendarService(string token, EventSource source)
         {
+            if (token == null)
+            {
+                throw new Exception("API token is null");
+            }
+
             ICalendarService calendarAPI = null;
             switch (source)
             {

@@ -35,13 +35,15 @@ namespace EmailSkill.Dialogs
     {
         public EmailSkillDialogBase(
              string dialogId,
+             LocaleTemplateEngineManager localeTemplateEngineManager,
              IServiceProvider serviceProvider,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
+            TemplateEngine = localeTemplateEngineManager;
+
             Settings = serviceProvider.GetService<BotSettings>();
             Services = serviceProvider.GetService<BotServices>();
-            ResponseManager = serviceProvider.GetService<ResponseManager>();
 
             var conversationState = serviceProvider.GetService<ConversationState>();
             EmailStateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
@@ -61,6 +63,8 @@ namespace EmailSkill.Dialogs
         {
         }
 
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected BotServices Services { get; set; }
 
         protected BotSettings Settings { get; set; }
@@ -70,8 +74,6 @@ namespace EmailSkill.Dialogs
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -195,8 +197,8 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var retry = ResponseManager.GetResponse(EmailSharedResponses.NoAuth);
-                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retry });
+                var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoAuth);
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = activity as Activity });
             }
             catch (Exception ex)
             {
@@ -212,7 +214,15 @@ namespace EmailSkill.Dialogs
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    state.Token = providerTokenResponse.TokenResponse.Token;
+
+                    if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
+                    {
+                        sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(StateProperties.APIToken, providerTokenResponse.TokenResponse.Token);
+                    }
 
                     var provider = providerTokenResponse.AuthenticationProvider;
 
@@ -275,9 +285,10 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
+                var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoFocusMessage);
                 return await sc.PromptAsync(
                     Actions.Prompt,
-                    new PromptOptions() { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoFocusMessage) });
+                    new PromptOptions() { Prompt = activity as Activity });
             }
             catch (Exception ex)
             {
@@ -406,46 +417,58 @@ namespace EmailSkill.Dialogs
                 emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
-                var tokens = new StringDictionary
-                {
-                    { "EmailDetails", speech },
-                };
-
-                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
 
                 if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
                 {
-                    var confirmRecipientsMessages = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipientsMessage);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(
+                        EmailSharedResponses.ConfirmSendWithRecipients,
+                        new
+                        {
+                            emailSubject = state.Subject,
+                            emailDetails = emailCard
+                        });
 
-                    var prompt = ResponseManager.GetCardResponse(
-                    EmailSharedResponses.ConfirmSend,
-                    new Card("EmailWithOutButtonCard", emailCard),
-                    tokens,
-                    "items",
-                    new List<Card>().Append(new Card(recipientCard, emailCard)));
-                    prompt.Text += confirmRecipientsMessages.Text;
-                    prompt.Speak += confirmRecipientsMessages.Speak;
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendRecipientsFailed);
 
-                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipientsFailed);
-
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
                 else
                 {
-                    var confirmEmailMessages = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendMessage);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(
+                        EmailSharedResponses.ConfirmSendWithoutRecipients,
+                        new
+                        {
+                            emailSubject = state.Subject,
+                            emailDetails = emailCard
+                        });
 
-                    var prompt = ResponseManager.GetCardResponse(
-                    EmailSharedResponses.ConfirmSend,
-                    new Card("EmailWithOutButtonCard", emailCard),
-                    tokens,
-                    "items",
-                    new List<Card>().Append(new Card(recipientCard, emailCard)));
-                    prompt.Text += confirmEmailMessages.Text;
-                    prompt.Speak += confirmEmailMessages.Speak;
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendFailed);
 
-                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
 
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterConfirmPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
+                    await sc.Context.SendActivityAsync(activity);
+                    return await sc.EndDialogAsync();
                 }
             }
             catch (Exception ex)
@@ -465,19 +488,10 @@ namespace EmailSkill.Dialogs
                 if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber)
                 {
                     var nameListString = DisplayHelper.ToDisplayRecipientsString(state.FindContactInfor.Contacts);
-                    var tokens = new StringDictionary
-                    {
-                        { "RecipientsList", nameListString },
-                    };
+                    var confirmRecipients = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendAfterConfirmRecipients, new { recipientsList = nameListString });
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendFailed);
 
-                    var confirmRecipients = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipients, tokens);
-                    var confirmEmail = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendMessage);
-                    confirmRecipients.Text += confirmEmail.Text;
-                    confirmRecipients.Speak += confirmEmail.Speak;
-
-                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
-
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = confirmRecipients, RetryPrompt = retry });
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = confirmRecipients as Activity, RetryPrompt = retry as Activity });
                 }
                 else
                 {
@@ -500,28 +514,25 @@ namespace EmailSkill.Dialogs
 
                 if (string.IsNullOrEmpty(state.Content))
                 {
-                    var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContent);
+                    var noEmailContentMessage = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoEmailContent);
                     if (sc.ActiveDialog.Id == Actions.Forward)
                     {
-                        noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForForward);
                         if (state.FindContactInfor.Contacts.Count == 0 || state.FindContactInfor.Contacts == null)
                         {
                             state.FindContactInfor.FirstRetryInFindContact = true;
                             return await sc.EndDialogAsync();
                         }
 
-                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc, false) } });
-                        noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
-                        noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
+                        noEmailContentMessage = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoEmailContentWithRecipientConfirmed, new { userName = await GetNameListStringAsync(sc, false) });
                     }
                     else if (sc.ActiveDialog.Id == Actions.Reply)
                     {
-                        noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContentForReply);
+                        noEmailContentMessage = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoEmailContentForReply);
                     }
 
                     return await sc.PromptAsync(
                         Actions.Prompt,
-                        new PromptOptions { Prompt = noEmailContentMessage, });
+                        new PromptOptions { Prompt = noEmailContentMessage as Activity });
                 }
                 else
                 {
@@ -568,7 +579,8 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoRecipients) });
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.NoRecipients);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
                 }
             }
             catch (Exception ex)
@@ -670,7 +682,8 @@ namespace EmailSkill.Dialogs
                 {
                     state.MessageList.Clear();
                     state.Message.Clear();
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
+                    var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailNotFound);
+                    await sc.Context.SendActivityAsync(activity);
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -927,8 +940,8 @@ namespace EmailSkill.Dialogs
 
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var token = state.Token;
-            var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var serivce = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             var isUnreadOnly = state.IsUnreadOnly;
             var isImportant = state.IsImportant;
@@ -994,6 +1007,7 @@ namespace EmailSkill.Dialogs
             var state = await EmailStateAccessor.GetAsync(sc.Context);
 
             var cards = new List<Card>();
+            var emailList = new List<EmailCardData>();
 
             var taskList = new Task<string>[messages.Count()];
             for (int i = 0; i < messages.Count(); i++)
@@ -1039,6 +1053,7 @@ namespace EmailSkill.Dialogs
                 }
 
                 cards.Add(new Card("EmailOverviewItem", emailCard));
+                emailList.Add(emailCard);
                 updatedMessages.Add(message);
             }
 
@@ -1067,7 +1082,8 @@ namespace EmailSkill.Dialogs
                     EmailCommonStrings.PageIndexerFormat,
                     startIndex.ToString(),
                     endIndex.ToString(),
-                    totalCount.ToString())
+                    totalCount.ToString()),
+                EmailList = emailList
             };
 
             var overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewCard");
@@ -1082,56 +1098,24 @@ namespace EmailSkill.Dialogs
                 overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
 
-            var reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowEmailPrompt,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
-
-            if (state.ShowEmailIndex == 0)
-            {
-                if (updatedMessages.Count == 1)
-                {
-                    reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowOneEmailPrompt,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
-                }
-            }
-            else
-            {
-                reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowEmailPromptOtherPage,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
-                if (updatedMessages.Count == 1)
-                {
-                    reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowOneEmailPromptOtherPage,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
-                }
-            }
+            var reply = TemplateEngine.GenerateActivityForLocale(
+                        EmailSharedResponses.ShowEmailPromptWithFirstLastPrefix,
+                        new
+                        {
+                            totalCount = totalCount.ToString(),
+                            emailListDetails = SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize),
+                            showEmailIndex = state.ShowEmailIndex,
+                            showEmailCount = updatedMessages.Count,
+                            maxEmailPage = maxPage,
+                            emailOverview = overviewData
+                        });
 
             if (state.ShowEmailIndex < 0)
             {
-                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
-                reply.Text = pagingInfo.Text + reply.Text;
-                reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex = 0;
             }
             else if (state.ShowEmailIndex > maxPage)
             {
-                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
-                reply.Text = pagingInfo.Text + reply.Text;
-                reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex--;
             }
 
@@ -1142,8 +1126,8 @@ namespace EmailSkill.Dialogs
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
             var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
 
             try
             {
@@ -1166,8 +1150,8 @@ namespace EmailSkill.Dialogs
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EmailAddress email)
         {
             var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+            var service = ServiceManager.InitUserService(token as string, state.GetUserTimeZone(), state.MailSourceType);
             var displayName = email.Name ?? email.Address;
 
             try
@@ -1497,7 +1481,8 @@ namespace EmailSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessage);
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             await ClearAllState(sc);
@@ -1514,18 +1499,21 @@ namespace EmailSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
+            IMessageActivity activity = new Activity();
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied || ex.ExceptionType == SkillExceptionType.APIUnauthorized || ex.ExceptionType == SkillExceptionType.APIForbidden || ex.ExceptionType == SkillExceptionType.APIBadRequest)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageBotProblem));
+                activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessageBotProblem);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageAccountProblem));
+                activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessageAccountProblem);
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+                activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessage);
             }
+
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             await ClearAllState(sc);

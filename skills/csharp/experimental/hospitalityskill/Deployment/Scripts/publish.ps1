@@ -1,4 +1,4 @@
-﻿#Requires -Version 6
+#Requires -Version 6
 
 Param(
 	[string] $name,
@@ -43,7 +43,7 @@ if (Test-Path $zipPath) {
 }
 
 # Perform dotnet publish step ahead of zipping up
-$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp2.2')
+$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp3.0')
 dotnet publish -c release -o $publishFolder -v q > $logFile
 
 if($?) {
@@ -51,7 +51,7 @@ if($?) {
     Get-ChildItem -Path "$($publishFolder)" | Compress-Archive -DestinationPath "$($zipPath)" -Force | Out-Null
 
     # Publish zip to Azure
-    Write-Host "> Publishing to Azure ..." -ForegroundColor Green
+    Write-Host "> Publishing to Azure ..." -NoNewline
     Invoke-Expression "az webapp deployment source config-zip --resource-group $($resourceGroup) --name $($name) --src $($zipPath) --output json" -ErrorVariable publishError -OutVariable publishOutput 2>&1 | Out-Null
     Add-Content $logFile $publishOutput | Out-Null
     Add-Content $logFile $publishError | Out-Null
@@ -63,6 +63,9 @@ if($?) {
         Write-Host "! Could not deploy automatically to Azure. Review the log for more information." -ForegroundColor DarkRed
         Write-Host "! Error: $($err.Exception.ErrorRecord)" -ForegroundColor DarkRed
 	    Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+    }
+    else {
+        Write-Host "Done." -ForegroundColor Green
     }
 }
 else {

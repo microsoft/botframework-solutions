@@ -45,9 +45,9 @@ namespace ToDoSkill.Dialogs
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials,
@@ -57,11 +57,12 @@ namespace ToDoSkill.Dialogs
             _httpContext = httpContext;
             _settings = settings;
             Services = services;
-            ResponseManager = responseManager;
 
             // Initialize state accessor
             ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
+
+            TemplateEngine = localeTemplateEngineManager;
 
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -71,6 +72,8 @@ namespace ToDoSkill.Dialogs
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
+
         protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
@@ -78,8 +81,6 @@ namespace ToDoSkill.Dialogs
         protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -111,7 +112,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.NoAuth);
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -126,8 +128,15 @@ namespace ToDoSkill.Dialogs
             {
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
+
+                    if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
+                    {
+                        sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
+                    }
+                    else
+                    {
+                        sc.Context.TurnState.Add(StateProperties.APIToken, providerTokenResponse.TokenResponse.Token);
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -144,8 +153,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var topIntent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+                var luisResult = sc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = luisResult.TopIntent().intent;
+                var generalTopIntent = generalLuisResult.TopIntent().intent;
 
                 if (topIntent == ToDoLuis.Intent.ShowToDo)
                 {
@@ -230,7 +241,8 @@ namespace ToDoSkill.Dialogs
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.NoTasksInList));
+                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.NoTasksInList);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -283,9 +295,10 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(dc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = dc.Context.TurnState.Get<ToDoLuis>(StateProperties.ToDoLuisResultKey);
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var entities = luisResult.Entities;
-                var generalEntities = state.GeneralLuisResult.Entities;
+                var generalEntities = generalLuisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;
@@ -364,134 +377,96 @@ namespace ToDoSkill.Dialogs
             }
         }
 
-        protected Activity ToAdaptiveCardForShowToDos(
+        protected Activity ToAdaptiveCardForShowToDosByLG(
            ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            ResponseTemplate response;
-            var speakText = string.Empty;
-            var showText = string.Empty;
-
-            if (allTasksCount <= todos.Count)
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ShowToDo, new
             {
-                if (todos.Count == 1)
-                {
-                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestTask);
-                    speakText = response.Reply.Speak;
-                }
-                else if (todos.Count >= 2)
-                {
-                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestTasks);
-                    speakText = response.Reply.Speak;
-                }
-            }
-            else
-            {
-                if (todos.Count == 1)
-                {
-                    response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-                }
-                else
-                {
-                    response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-                }
-
-                speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-                showText = speakText;
-
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.MostRecentTasks);
-                var mostRecentTasksString = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
-                speakText += mostRecentTasksString;
-            }
-
-            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
-            cardReply.Speak = speakText;
-            cardReply.Text = showText;
-
-            return cardReply;
+                AllTasksCount = allTasksCount,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            return activity;
         }
 
-        protected Activity ToAdaptiveCardForReadMore(
-           ITurnContext turnContext,
-           List<TaskItem> todos,
-           int allTasksCount,
-           string listType)
+        protected Activity ToAdaptiveCardForReadMoreByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string listType)
         {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            // Build up speach
-            var speakText = string.Empty;
-            var response = new ResponseTemplate();
-
-            if (todos.Count == 1)
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ReadMore, new
             {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.NextTask);
-                speakText = response.Reply.Speak;
-            }
-            else if (todos.Count >= 2)
-            {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.NextTasks);
-                speakText = response.Reply.Speak;
-            }
-
-            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
-            cardReply.Speak = speakText;
-
-            return cardReply;
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            return activity;
         }
 
-        protected Activity ToAdaptiveCardForPreviousPage(
-           ITurnContext turnContext,
-           List<TaskItem> todos,
-           int allTasksCount,
-           bool isFirstPage,
-           string listType)
+        protected Activity ToAdaptiveCardForPreviousPageByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            bool isFirstPage,
+            string listType)
         {
-            var cardReply = BuildTodoCard(turnContext, ToDoSharedResponses.CardSummaryMessageForMultipleTasks, todos, allTasksCount, listType);
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousTasks);
-            var speakText = response.Reply.Speak;
-            if (isFirstPage)
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.PreviousPage, new
             {
-                if (todos.Count == 1)
-                {
-                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousFirstSingleTask);
-                }
-                else
-                {
-                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousFirstTasks);
-                }
-
-                speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
-            }
-
-            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
-            cardReply.Speak = speakText;
-
-            return cardReply;
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            return activity;
         }
 
-        protected Activity ToAdaptiveCardForTaskAddedFlow(
-           ITurnContext turnContext,
-           List<TaskItem> todos,
-           string taskContent,
-           int allTasksCount,
-           string listType)
+        protected Activity ToAdaptiveCardForTaskAddedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            string taskContent,
+            int allTasksCount,
+            string listType)
         {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var response = ResponseManager.GetResponseTemplate(AddToDoResponses.AfterTaskAdded);
-            cardReply.Text = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
-            cardReply.Speak = cardReply.Text;
-
-            return cardReply;
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterTaskAdded, new
+            {
+                TaskContent = taskContent,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
         }
 
-        protected Activity ToAdaptiveCardForTaskCompletedFlow(
+        protected Activity ToAdaptiveCardForTaskCompletedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -499,36 +474,25 @@ namespace ToDoSkill.Dialogs
             string listType,
             bool isCompleteAll)
         {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var response = new ResponseTemplate();
-            if (isCompleteAll)
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.TaskCompleted, new
             {
-                response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
-                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
-                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
-            }
-
-            if (allTasksCount == 1)
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            }
-
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            cardReply.Text = showText;
-
-            return cardReply;
+                AllTasksCount = allTasksCount,
+                ListType = listType,
+                IsCompleteAll = isCompleteAll,
+                TaskContent = taskContent,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
         }
 
-        protected Activity ToAdaptiveCardForTaskDeletedFlow(
+        protected Activity ToAdaptiveCardForTaskDeletedFlowByLG(
             ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
@@ -536,80 +500,43 @@ namespace ToDoSkill.Dialogs
             string listType,
             bool isDeleteAll)
         {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
-
-            var response = new ResponseTemplate();
-            if (isDeleteAll)
-            {
-                response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterAllTasksDeleted);
-                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterTaskDeleted);
-                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
-            }
-
-            cardReply.Text = cardReply.Speak;
-            return cardReply;
-        }
-
-        protected Activity ToAdaptiveCardForDeletionRefusedFlow(
-            ITurnContext turnContext,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string listType)
-        {
-            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
-
-            var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.DeletionAllConfirmationRefused);
-            cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            cardReply.Text = cardReply.Speak;
-            return cardReply;
-        }
-
-        protected Activity BuildTodoCard(
-            ITurnContext turnContext,
-            string tempId,
-            List<TaskItem> todos,
-            int allTasksCount,
-            string listType)
-        {
-            var tokens = new StringDictionary()
-            {
-                { "taskCount", allTasksCount.ToString() },
-                { "listType", listType },
-            };
-
-            var showTodoListData = new TodoListData
-            {
-                Title = string.Format(ToDoStrings.CardTitle, listType),
-                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString())
-            };
-
-            List<Card> todoItems = new List<Card>();
-
-            int index = 0;
             bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
-            foreach (var todo in todos)
+
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.TaskDeleted, new
             {
-                todoItems.Add(new Card(GetDivergedCardName(turnContext, "ShowTodoItem"), new TodoItemData
-                {
-                    CheckIconUrl = todo.IsCompleted ? (useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource) : (useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource),
-                    Topic = todo.Topic
-                }));
+                IsDeleteAll = isDeleteAll,
+                ListType = listType,
+                TaskContent = taskContent,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
+        }
 
-                index++;
-            }
+        protected Activity ToAdaptiveCardForDeletionRefusedFlowByLG(
+            ITurnContext turnContext,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string listType)
+        {
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
 
-            var cardReply = ResponseManager.GetCardResponse(
-                tempId,
-                new Card(GetDivergedCardName(turnContext, "ShowTodoCard"), showTodoListData),
-                tokens,
-                "items",
-                todoItems);
-
-            return cardReply;
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.DeletionAllConfirmationRefused, new
+            {
+                TaskCount = allTasksCount,
+                ListType = listType,
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString()),
+                ToDos = todos,
+                UseFile = useFile,
+                CheckIconUrl = useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource,
+                UnCheckIconUrl = useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource
+            });
+            return activity;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
@@ -623,7 +550,8 @@ namespace ToDoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+            var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage);
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
@@ -643,15 +571,18 @@ namespace ToDoSkill.Dialogs
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageBotProblem));
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessageBotProblem);
+                await sc.Context.SendActivityAsync(activity);
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageAccountProblem));
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessageAccountProblem);
+                await sc.Context.SendActivityAsync(activity);
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage);
+                await sc.Context.SendActivityAsync(activity);
             }
 
             // clear state
@@ -662,26 +593,34 @@ namespace ToDoSkill.Dialogs
         protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                var emailService = ServiceManager.InitMailService(state.MsGraphToken);
+                var emailService = ServiceManager.InitMailService(token as string);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
                 state.UserStateId = senderMailAddress;
                 var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    var taskServiceInit = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
                     if (taskServiceInit.IsListCreated)
                     {
                         if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOneNoteMessage));
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                            var settingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.SettingUpOneNoteMessage);
+                            await sc.Context.SendActivityAsync(settingActivity);
+
+                            var afterSettingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterOneNoteSetupMessage);
+                            await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
                         else
                         {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOutlookMessage));
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOutlookSetupMessage));
+                            var settingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.SettingUpOutlookMessage);
+                            await sc.Context.SendActivityAsync(settingActivity);
+
+                            var afterSettingActivity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.AfterOutlookSetupMessage);
+                            await sc.Context.SendActivityAsync(afterSettingActivity);
                         }
 
                         var taskWebLink = await taskServiceInit.GetTaskWebLink();
@@ -694,7 +633,7 @@ namespace ToDoSkill.Dialogs
                 }
             }
 
-            var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            var taskService = ServiceManager.InitTaskService(token as string, state.ListTypeIds, state.TaskServiceType);
             await StoreListTypeIdsAsync(sc);
             return taskService;
         }

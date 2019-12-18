@@ -4,6 +4,7 @@
 using System.Globalization;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
@@ -21,7 +22,7 @@ namespace CalendarSkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
             : base(null, telemetryClient)
@@ -29,7 +30,9 @@ namespace CalendarSkill.Adapters
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessage);
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };

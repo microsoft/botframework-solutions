@@ -43,7 +43,6 @@ export namespace SpeechUtility {
         } else {
             const activity: Activity = <Activity>toProcess;
             const attachments: Attachment[] = activity.attachments || [];
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             speakStrings = attachments.map((value: Attachment): string => <string> value.content.speak);
             parent = activity.speak || '';
         }

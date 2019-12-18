@@ -31,7 +31,6 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
                 // hack directly in the POST method. Replicating that here
                 // to keep the behavior as close as possible to facilitate
                 // more realistic tests.
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const delayMs: number = activity.value;
                 await sleep(delayMs);
             } else if (activity.type === ActivityTypes.Trace && activity.channelId !== 'emulator') {

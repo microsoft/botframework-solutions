@@ -3,13 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -61,6 +61,23 @@ namespace VirtualAssistantSample.Dialogs
             _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
             AddDialog(_switchSkillDialog);
+
+            // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
+            var localizedServices = _services.GetCognitiveModels();
+            foreach (var knowledgebase in localizedServices.QnAConfiguration)
+            {
+                var qnaDialog = new QnAMakerDialog(
+                    knowledgeBaseId: knowledgebase.Value.KnowledgeBaseId,
+                    endpointKey: knowledgebase.Value.EndpointKey,
+                    hostName: knowledgebase.Value.Host,
+                    noAnswer: _templateEngine.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateEngine.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateEngine.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebase.Key
+                };
+                AddDialog(qnaDialog);
+            }
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -274,13 +291,13 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Faq"]);
+                    await innerDc.BeginDialogAsync("Faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     innerDc.SuppressCompletionMessage(true);
 
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
+                    await innerDc.BeginDialogAsync("Chitchat");
                 }
                 else
                 {
@@ -387,22 +404,6 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
-            }
-        }
-
-        private async Task CallQnAMaker(DialogContext innerDc, QnAMaker qnaMaker)
-        {
-            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
-
-            var answers = await qnaMaker.GetAnswersAsync(innerDc.Context);
-
-            if (answers != null && answers.Count() > 0)
-            {
-                await innerDc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
-            }
-            else
-            {
-                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
             }
         }
 

@@ -26,7 +26,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
     },
     "useStorage": {
       "type": "bool",
@@ -83,17 +83,32 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
-    "luisServiceName": {
+    "luisRuntimeName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
+      "defaultValue": "[concat(parameters('name'), '-luisruntime-', parameters('suffix'))]"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "type": "string",
       "defaultValue": "S0"
     },
-    "luisServiceLocation": {
+    "luisRuntimeLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "useLuisAuthoring": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "luisAuthoringName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-luisauthoring-', parameters('suffix'))]"
+    },
+    "luisAuthoringSku": {
+      "type": "string",
+      "defaultValue": "F0"
+    },
+    "luisAuthoringLocation": {
+      "type": "string"
     },
     "qnaMakerServiceName": {
       "type": "string",
@@ -103,9 +118,9 @@
       "type": "string",
       "defaultValue": "S0"
     },
-    "qnaServiceLocation": {
+    "qnaMakerServiceLocation": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]"
+      "defaultValue": "westus"
     },
     "qnaMakerSearchName": {
       "type": "string",
@@ -115,13 +130,30 @@
       "type": "string",
       "defaultValue": "standard"
     },
+    "qnaMakerSearchLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
     "qnaMakerWebAppName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
+    },
+    "qnaMakerWebAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "resourceTagName": {
+      "type": "string",
+      "defaultValue": "bot"
+    },
+    "resourceTagValue": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     }
   },
   "variables": {
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+    "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
@@ -158,6 +190,9 @@
           }
         ]
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useCosmosDb')]"
     },
     {
@@ -170,6 +205,9 @@
       "sku": {
         "name": "Standard_LRS"
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useStorage')]"
     },
     {
@@ -179,7 +217,10 @@
       "name": "[parameters('appServicePlanName')]",
       "location": "[parameters('location')]",
       "sku": "[parameters('appServicePlanSku')]",
-      "properties": {}
+      "properties": {},
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      }
     },
     {
       "comments": "app insights",
@@ -190,6 +231,9 @@
       "location": "[parameters('appInsightsLocation')]",
       "properties": {
         "Application_Type": "web"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -210,20 +254,12 @@
             {
               "name": "MicrosoftAppPassword",
               "value": "[parameters('microsoftAppPassword')]"
-            },
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "10.14.1"
             }
-          ],
-          "cors": {
-            "allowedOrigins": [
-                "https://botservice.hosting.portal.azure.net",
-                "https://botservice-ms.hosting.portal.azure.net",
-                "https://hosting.onecloud.azure-test.net/"
-            ]
-          }
+          ]
         }
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
@@ -234,18 +270,21 @@
       "type": "Microsoft.BotService/botServices",
       "kind": "sdk",
       "apiVersion": "2018-07-12",
-      "name": "[parameters('botServiceName')]",
+      "name": "[variables('botServiceName')]",
       "location": "global",
       "sku": {
         "name": "[parameters('botServiceSku')]"
       },
       "properties": {
-        "displayName": "[parameters('botServiceName')]",
+        "displayName": "[variables('botServiceName')]",
         "endpoint": "[variables('botEndpoint')]",
         "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
-        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]",
+        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -258,26 +297,54 @@
       "sku": {
         "name": "[parameters('contentModeratorSku')]"
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useContentModerator')]"
     },
     {
-      "comments": "Cognitive service key for all LUIS apps.",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisRuntimeName')]",
+      "location": "[parameters('luisRuntimeLocation')]",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "LUIS",
-      "apiVersion": "2017-04-18",
-      "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('luisServiceLocation')]",
       "sku": {
-        "name": "[parameters('luisServiceSku')]"
+        "name": "[parameters('luisRuntimeSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisRuntimeName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
-      "comments": "Cognitive service key for all QnA Maker knowledgeBases.",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisAuthoringName')]",
+      "location": "[parameters('luisAuthoringLocation')]",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "LUIS.Authoring",
+      "sku": {
+        "name": "[parameters('luisAuthoringSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisAuthoringName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
+      ],
+      "condition": "[parameters('useLuisAuthoring')]"
+    },
+    {
+      "comments": "Cognitive service key for all QnA Maker knowledgebases.",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
       "name": "[parameters('qnaMakerServiceName')]",
-      "location": "westus",
+      "location": "[parameters('qnaMakerServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerServiceSku')]"
       },
@@ -285,6 +352,9 @@
         "apiProperties": {
           "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]"
         }
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
@@ -297,7 +367,7 @@
       "type": "Microsoft.Search/searchServices",
       "apiVersion": "2015-08-19",
       "name": "[variables('qnaMakerSearchName')]",
-      "location": "[parameters('qnaServiceLocation')]",
+      "location": "[parameters('qnaMakerSearchLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerSearchSku')]"
       },
@@ -305,6 +375,9 @@
         "replicaCount": 1,
         "partitionCount": 1,
         "hostingMode": "default"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -312,12 +385,12 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
       "name": "[variables('qnaMakerWebAppName')]",
-      "location": "[parameters('qnaServiceLocation')]",
+      "location": "[parameters('qnaMakerWebAppLocation')]",
       "properties": {
         "enabled": true,
         "name": "[variables('qnaMakerWebAppName')]",
         "hostingEnvironment": "",
-        "serverFarmId": "[concat('/subscriptions/', subscription().id,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]",
+        "serverFarmId": "[concat('/subscriptions/', Subscription().SubscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]",
         "siteConfig": {
           "cors": {
             "allowedOrigins": [
@@ -325,6 +398,9 @@
             ]
           }
         }
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
@@ -342,7 +418,7 @@
           "properties": {
             "AzureSearchName": "[variables('qnaMakerSearchName')]",
             "AzureSearchAdminKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName')), '2015-08-19').primaryKey]",
-            "UserAppInsightsKey": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').instrumentationKey]",
+            "UserAppInsightsKey": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').InstrumentationKey]",
             "UserAppInsightsName": "[parameters('appInsightsName')]",
             "UserAppInsightsAppId": "[reference(resourceId('Microsoft.Insights/components/', parameters('appInsightsName')), '2015-05-01').AppId]",
             "PrimaryEndpointKey": "[concat(variables('qnaMakerWebAppName'), '-PrimaryEndpointKey')]",
@@ -363,10 +439,10 @@
       "type": "string",
       "value": "[variables('botWebAppName')]"
     },
-    "appInsights": {
+    "ApplicationInsights": {
       "type": "object",
       "value": {
-        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]"
+        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
     "blobStorage": {
@@ -388,9 +464,11 @@
     "luis": {
       "type": "object",
       "value": {
-        "accountName": "[parameters('luisServiceName')]",
-        "region": "[parameters('luisServiceLocation')]",
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
+        "accountName": "[parameters('luisRuntimeName')]",
+        "region": "[parameters('luisRuntimeLocation')]",
+        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
+        "authoringRegion": "[parameters('luisAuthoringLocation')]",
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]"
       }
     },
     "qnaMaker": {

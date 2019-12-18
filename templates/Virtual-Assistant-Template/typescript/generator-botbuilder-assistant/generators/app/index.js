@@ -22,32 +22,32 @@ let finalAssistantName = "";
 
 const languagesChoice = [
   {
-    name: "Chinese",
+    name: "Chinese: zh-cn",
     value: "zh-cn",
     checked: true
   },
   {
-    name: "Deutsch",
+    name: "Deutsch: de-de",
     value: "de-de",
     checked: true
   },
   {
-    name: "English",
+    name: "English: en-us",
     value: "en-us",
     checked: true
   },
   {
-    name: "French",
+    name: "French: fr-fr",
     value: "fr-fr",
     checked: true
   },
   {
-    name: "Italian",
+    name: "Italian: it-it",
     value: "it-it",
     checked: true
   },
   {
-    name: "Spanish",
+    name: "Spanish: es-es",
     value: "es-es",
     checked: true
   }
@@ -142,7 +142,7 @@ module.exports = class extends Generator {
       this.log.error(
         "ERROR: Language must be selected from the list:\n\t" +
           languages.map(l => `${l.value} -> ${l.name}`).join("\n\t") +
-          "\nDefault value: en"
+          "\nDefault value: en-us"
       );
       process.exit(1);
     }
