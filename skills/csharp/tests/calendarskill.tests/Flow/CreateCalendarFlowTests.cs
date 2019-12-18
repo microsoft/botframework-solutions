@@ -60,12 +60,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -88,6 +90,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -124,6 +128,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -142,7 +148,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -165,6 +171,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -179,7 +187,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -202,6 +210,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -211,12 +221,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithLocation)
 
                 // test limitation for now. need to do further investigate.
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -239,6 +251,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -256,7 +270,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -279,6 +293,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -293,7 +309,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -316,6 +332,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -330,7 +348,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -355,12 +373,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -398,12 +418,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -438,12 +460,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -473,12 +497,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -501,12 +527,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -529,12 +557,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -553,12 +583,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -586,7 +618,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -609,12 +641,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -639,12 +673,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -708,6 +744,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -716,7 +754,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(RestParticipantsResponse(6))
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(BookedMeeting())
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
@@ -942,6 +980,11 @@ namespace CalendarSkill.Test.Flow
             return GetTemplates(CreateEventResponses.NoDurationRetry);
         }
 
+        private string[] AskForMeetingRoomPrompt()
+        {
+            return GetTemplates(CreateEventResponses.NoMeetingRoom);
+        }
+
         private string[] AskForLocationPrompt()
         {
             return GetTemplates(CreateEventResponses.NoLocation);
@@ -974,6 +1017,11 @@ namespace CalendarSkill.Test.Flow
         private string[] ConfirmPrompt()
         {
             return GetTemplates(CreateEventResponses.ConfirmCreatePrompt);
+        }
+
+        private string[] BookedMeeting()
+        {
+            return GetTemplates(CreateEventResponses.MeetingBooked);
         }
 
         private Action<IActivity> CheckCreatedMeetingInFuture()

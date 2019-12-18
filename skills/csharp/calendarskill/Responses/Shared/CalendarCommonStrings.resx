@@ -163,7 +163,7 @@
     <value>(adjust|change|update)?.*(subject|title)</value>
   </data>
   <data name="AdjustTime" xml:space="preserve">
-    <value>(adjust|change|update)?.*time</value>
+    <value>(adjust|change|update|different)?.*time</value>
   </data>
   <data name="NoAttendees" xml:space="preserve">
     <value>no attendees</value>
@@ -317,5 +317,17 @@
   </data>
   <data name="DisplayDateLong" xml:space="preserve">
     <value>dddd, MMMM d</value>
+  </data>
+  <data name="RightNow" xml:space="preserve">
+    <value>right now</value>
+  </data>
+  <data name="AdjustMeetingRoom" xml:space="preserve">
+    <value>(adjust|change|update|different)?.*(room)</value>
+  </data>
+  <data name="ShowBuildingCondition" xml:space="preserve">
+    <value>in {0}</value>
+  </data>
+  <data name="ShowFloorNumberCondition" xml:space="preserve">
+    <value>on {0}</value>
   </data>
 </root>

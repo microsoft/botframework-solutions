@@ -35,6 +35,8 @@ namespace CalendarSkill.Test.Flow.Utterances
             string[] toTime = null,
             string[] duration = null,
             string[] meetingRoom = null,
+            string[] building = null,
+            string[] floorNumber = null,
             string[] location = null,
             string[] moveEarlierTimeSpan = null,
             string[] moveLaterTimeSpan = null,
@@ -65,6 +67,8 @@ namespace CalendarSkill.Test.Flow.Utterances
             intent.Entities._instance.ToTime = GetInstanceDatas(userInput, toTime);
             intent.Entities.Duration = duration;
             intent.Entities.MeetingRoom = meetingRoom;
+            intent.Entities.Building = building;
+            intent.Entities.FloorNumber = floorNumber;
             intent.Entities.Location = location;
             intent.Entities.MoveEarlierTimeSpan = moveEarlierTimeSpan;
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;

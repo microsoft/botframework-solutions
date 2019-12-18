@@ -1,0 +1,65 @@
+# NoBuilding.Text
+- Bien, ¿qué edificio?
+
+# BuildingNonexistent.Text
+- Lo siento, no pude encontrar ese edificio. ¿Puedes decirlo de otra manera, o elegir otro edificio?
+
+# NoMeetingRoom.Text
+- ¿Cómo se llama la sala de reuniones?
+
+# MeetingRoomNotFound.Text(MeetingRoom)
+- Parece que {MeetingRoom} no existe.
+
+# ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
+- {MeetingRoom} está disponible {DateTime}, ¿quierereservar?
+
+# MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
+- Parece que {MeetingRoom} no está disponible {DateTime}.
+
+# FloorNumberRetry.Text
+- Lo siento, no entendí eso. ¿Puedes decirlo de otra manera?
+
+# NoFloorNumber.Text
+- Muy bien, ¿tienes una preferencia de piso?
+
+# CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+- No parece que haya otras habitaciones disponibles{InBulding}{OnFloorNumber} {DateTime}.
+
+# CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+- No parece que haya habitaciones disponibles{InBulding}{OnFloorNumber} {DateTime}.
+
+# IgnoreMeetingRoom.Text
+- No hay problema.
+
+# RecreateMeetingRoomAgain.Text
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+
+# RecreateMeetingRoom.Text
+- Puede buscar una hora diferente, una habitación diferente o cancelar su solicitud.
+
+# CancelRequest.Text
+- Okey, su solicitud ha sido cancelada.
+
+# ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)
+- Muy bien, estás confirmado en {MeetingRoom} {DateTime}{ForSubject}
+
+# ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
+- Muy bien, he añadido {MeetingRoom} a su reunión{Subject}.
+
+# ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
+- Muy bien, tengo tu reunión.{Subject} cambiando a {MeetingRoom}.
+
+# ConfirmedMeetingRoom.Text
+- Okey, crearé una nueva reunión con esa habitación.
+
+# ConfirmBeforCreatePrompt.Text
+- ¿Quieres confirmarlo?
+
+# MeetingRoomAdded.Text(MeetingRoom, Subject)
+- Muy bien, he añadido {MeetingRoom} a su reunión {Subject}.
+
+# MeetingRoomAddChanged.Text(MeetingRoom, Subject)
+- Muy bien, tengo tu reunión.{Subject} cambiando a {MeetingRoom}.
+
+# MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
+- Muy bien, he cancelado la sala de reuniones para {subject}.

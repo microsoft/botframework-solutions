@@ -154,6 +154,11 @@ namespace CalendarSkill.Dialogs
                     var prompt = TemplateEngine.GenerateActivityForLocale(CheckAvailableResponses.AskForCheckAvailableUserName) as Activity;
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
+                if (state.InitialIntent == CalendarLuis.Intent.FindMeetingRoom)
+                {
+                    var prompt = TemplateEngine.GenerateActivityForLocale(FindContactResponses.AddMoreAttendees) as Activity;
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
+                }
                 else if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
                 {
                     var prompt = TemplateEngine.GenerateActivityForLocale(FindContactResponses.NoAttendees) as Activity;

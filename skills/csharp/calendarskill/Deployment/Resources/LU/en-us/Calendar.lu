@@ -32,6 +32,49 @@
 - ^i (want to|would like to|'d like to) (join|attend) the {Subject}^
 
 
+## AddAttendee
+- add {ContactName=carlos} to the meeting
+- add {ContactName=chelsea}
+- add {ContactName=enrique}
+- add {ContactName=eric} to the meeting
+- add {ContactName=hazem}
+- add {ContactName=jackie}
+- add {ContactName=john}
+- add {ContactName=kerry clarkson}
+- add {ContactName=lisa}
+- add {ContactName=mohamed} to the meeting
+- add {ContactName=omar}
+- add {ContactName=tammy}
+- ask {ContactName=john} to come to {MeetingRoom=enterprise}.
+- ask {ContactName=robert} to attend tonight's meeting at 6
+- {ContactName=bob} can you attend tonight's meeting at 6
+- can you ask {ContactName=jane} to attend the meeting?
+- can you invite {ContactName=paula} for a meeting at the smith building this wednesday at 10am
+- i would like to invite {ContactName=mr. birden} to attend today's meeting.
+- invite {ContactName=andy}
+- invite {ContactName=cheryl} to the meeting this afternoon
+- invite {ContactName=frank} to friday's meeting at 2:30.
+- invite {ContactName=jeff matthews}
+- invite {ContactName=john malkovich} to the meeting.
+- invite {ContactName=kathy} to the meeting this afternoon
+- invite {ContactName=paul} to the meeting
+- invite {ContactName=sophia} to the meeting
+- {ContactName=patrick}, i wish to invite you to the next meeting.
+- please add {ContactName=eileen} to the meeting invite.
+- please can i add {ContactName=johnathon kelly} to the meeting
+- please can i invite {ContactName=khaleesi} to the meeting
+- please invite {ContactName=kathy rood} to the meeting today.
+- send an invitation to {ContactName=jane}
+- send an invitation to {ContactName=jerry seinfeld}
+
+
+## AddMeetingRoom
+- add a room to my {ToTime=3pm} meeting
+- add city center {MeetingRoom=2122} to {ToTime=10am} meeting
+- can you add a room to {FromDate={ToDate=tomorrow}}'s {Subject=dev meeting}
+- please add a meeting room to the {Subject=daily scrum meeting}
+
+
 ## CancelCalendar
 - cancel it, i don't want to create the meeting
 - cancel the creating process
@@ -49,6 +92,13 @@
 - stop connecting it
 - stop finding it
 
+
+## CancelMeetingRoom
+- cancel the meeting room
+- cancel the room for {Subject=daily scrum meeting}
+- cancel the room for my 4pm meeting
+- cancel the meeting room of my 6pm meeting
+- please cancel the room of my 7pm meeting
 
 ## ChangeCalendarEntry
 - bring forward my {FromTime=4 o'clock} appointment {MoveEarlierTimeSpan=2 hours}
@@ -170,6 +220,14 @@
 - ^[(would|can|could) you] [please] (change|reschedule) [the] ({Subject}|meeting) to {ToTime}^
 
 
+## ChangeMeetingRoom
+- change the meeting room to {MeetingRoom=london confroom excalibur}
+- find a new room for my 3pm meeting
+- i want to change to another meeting room
+- i'd like to change the meeting room
+- please change the meeting room to {MeetingRoom=2212}
+
+
 ## CheckAvailability
 - am i available
 - am i available at {FromTime=10 am} on {FromDate=monday}
@@ -195,22 +253,74 @@
 - am i free {FromDate=tuesday} at {FromTime=7 am}
 - can you check my dad 's calendar for free time {FromDate=this week}
 - can you tell me if my husband is free on {FromDate=sunday}
+- can i reserve a room in building {Building=5} for a meeting?
+- can i reserve a room on {FloorNumber=floor 7} in {Building=building 8} for a meeting tomorrow?
+- can i reserve {MeetingRoom=alderaan} right {FromTime=now?}
+- can i reserve {MeetingRoom=excalibur} for {FromTime=2pm} or is it not available?
+- can i reserve room {MeetingRoom=gandhi} for the whole week?
+- can i reserve the {MeetingRoom=enterprise} room on {FloorNumber=floor 6} of the {Building=bob} building for a meeting?
+- can i reserve the meeting room {MeetingRoom=bespin}?
+- can i reserve the meeting room that's free on the {FloorNumber=21st floor}?
+- can i reserve the {MeetingRoom=williams} room for a meeting?
+- can you tell if if the meeting room {MeetingRoom=bespin} is now available for me?
+- can you tell me if the meeting room {MeetingRoom=no 20} is available at {FromTime=noon}?
+- hello, am i able to reserve {MeetingRoom=hoth} {FromTime=right now}?
+- i was wondering if you have a meeting room available in your {Building=atlantic} building for the {FromDate=4th of december}?
+- i would like to reserve a {FloorNumber=ground floor} {MeetingRoom=conference room} in the {Building=delta building}, is there one available?
+- is {MeetingRoom=coruscant} available at {FromTime=2 pm}
+- is {MeetingRoom=enterprise} available?
+- is {MeetingRoom=excalibur} available {FromTime=now}?
+- is {MeetingRoom=hoth} currently available for use?
+- is it at all possible to reserve a room in the {Building=redmond} building?
+- is meeting {MeetingRoom=room 201} available?
+- is meeting room {MeetingRoom=kamino} available for the whole afternoon?
+- is {MeetingRoom=room 224} available today?
+- is {MeetingRoom=tatooine} available in the {FromTime=evening}?
+- is the {MeetingRoom=alderaan} room on the {FloorNumber=lobby floor} at the {Building=city center} available?
+- is the {MeetingRoom=bespin} meeting room available at {FromTime=2:00 pm}?
+- is the {MeetingRoom=carpenter} room available for a meeting
+- is the {MeetingRoom=gandhi} room free now?
+- is the meeting room {MeetingRoom=endor} available
+- is the meeting room on the {FloorNumber=4th floor} available?
+- is the {MeetingRoom=room 1192} available for {FromTime=2:00pm tomorrow}?
+- is the room {MeetingRoom=2211} available for a meeting at {FromTime=6}
+- is there a meeting room on the {FloorNumber=5th floor} currently available to reserve?
+- is there a room available at the {FloorNumber=first floor} for {FromTime=tonight}?
+- is there a room available on {FloorNumber=floor 6} {FromTime=now}?
+- is there a room on the {FloorNumber=3rd floor} that i can reserve?
+- please can i reserve a meeting room in {Building=city center}?
+- please can i reserve {MeetingRoom=kamino}?
+- please can i reserve the meeting room on {FloorNumber=floor 6} at {Building=lime tree house}?
+- please check and see if meeting room {MeetingRoom=2} is available at {FromTime=12} tomorrow.
+- see if meeting room {MeetingRoom=3} available tuesday at 11:30 for the meeting.
+- tell me if {MeetingRoom=kamino} is open at {FromTime=11:00am}.
+- will the meeting room {MeetingRoom=2b} be available at {FromTime=2 pm}
+- will the {MeetingRoom=tatooine} room be available {FromTime=tomorrow}?
+- would you please check availability of the room on the {FloorNumber=third floor} at {FromTime=3 p.m.} tomorrow?
 - display olivia 's availability
 - do i have any free time {FromDate=this weekend}
 - i would like to know if my mother is available {FromDate=today}
 - is carolyn available {FromDate=tuesday} {FromTime=afternoon}
+- is conference {MeetingRoom=room xi} free on 10 am?
 - is debra available on {FromDate=saturday}
 - is gerald busy {FromDate=this weekend}
 - is grace available for the {Subject=daily scrum meeting} with engineering team from {FromTime=10} to {ToTime=11}
 - is madison busy
+- is meeting {MeetingRoom=room 345} open on 3pm?
+- is meeting {MeetingRoom=room cake} available now?
 - is nicholas available {FromDate=friday}
 - is raymond free on {FromDate=monday} {FromTime=evening}
 - is rebecca busy {FromDate=thursday} at {FromTime=4}
+- is {MeetingRoom=room 235} free on 3pm?
+- is {MeetingRoom=room 246} open right now?
+- is {MeetingRoom=room 63} available {FromDate=tomorrow} {ToTime={FromTime=4pm}}
+- is {MeetingRoom=room alpha} open on 3pm?
 - is russell free on {FromDate=friday} at {FromTime=4pm}
 - is {FromDate=saturday} free
 - is theresa free {FromDate=october 9th}
 - is virginia free on {FromDate=monday}
 - search jesse 's calendar for availability
+- what else is available
 - what is anna 's availability {FromDate=next tuesday}
 - when am i free
 - when am i free {FromDate=today}
@@ -224,9 +334,9 @@
 - when is samuel available {FromDate=tomorrow}
 - when will jordan be free
 - will tyler be free on {FromDate=friday}
-- ^do i have time (at|on|for) {FromTime} [on] {FromDate}
-- ^does {personName} have time at {FromTime}
 - ^is {personName} (available|free) from {FromTime} to {ToTime} [on {FromDate}]
+- ^does {personName} have time at {FromTime}
+- ^do i have time (at|on|for) {FromTime} [on] {FromDate}
 
 
 ## ConnectToMeeting
@@ -1034,38 +1144,134 @@
 
 
 ## FindMeetingRoom
-- find a new meeting location
 - bing find me a conference room in the {Location=bravern} {FromTime=this afternoon}
 - book a conference room
 - book a meeting
+- book a meeting room on {FloorNumber=floor 1}
+- book a room at {FloorNumber=floor 4}
+- book a room for {Duration=30 min}
 - book {MeetingRoom=blue meeting room}
+- book {MeetingRoom=room 101} now
 - book the conference room for {FromDate=thursday} at {FromTime=one} i want to meet with benjamin
 - can you reserve {MeetingRoom=room 649} right away
+- check meeting room at {FloorNumber=2nd floor}
 - check meeting room for {FromDate=tomorrow}
+- check {MeetingRoom=room lucky}
+- do you have a room available at {FromTime=3pm} in {Building=city center}
+- find a conference room at {FloorNumber=second floor} in {Building=building 34}
 - find a free meeting room for {FromDate=next tuesday}
+- find a meeting room at {FloorNumber=3rd floor} in {Building=city center}
+- find a new meeting location
+- find a room at the {FloorNumber=25th floor}
+- find a room between for {Duration=all day} please
+- find a room for {Duration=1 hour} please
+- find a room on {Building=building lack}
+- find a room on {FromDate=friday}
 - find an available meeting room from {FromTime=3} to {ToTime=5} {FromDate=tomorrow}
 - find me an empty conference room
 - help me to book a conference room
 - help me to book a meeting room from {FromTime=10 am} to {ToTime=3 pm}
+- help me to book meeting room at {FloorNumber=3rd floor}
 - help me to book the {MeetingRoom=room 102}
 - help me to find a meeting room
+- help me to find a room in {Building=city center}
+- how about {Building=building 99}
+- how about {MeetingRoom=meeting room enterprise}
+- how about {MeetingRoom=room 2213}
+- how about the {FloorNumber=4th floor}
 - i need you to find a new meeting location
+- i want to book a room at 23th floor in {Building=city center}
 - i want to meet with bruce lee so book the conference room for {FromDate=thursday} at {FromTime=one}
 - i want to meet with donna please book for {FromDate=thursday} the conference room at {FromTime=one}
 - i'm looking for a conference room
+- i'm looking for a room available {FromDate=this afternoon} in {Building=studiox}
+- is there a room available at 3pm today
+- is there a room available on {Building=building 1}
+- is there any room available the {Duration=whole day}?
 - is this room busy at {FromTime=5 pm}
 - is this room busy {FromDate=tomorrow}
 - let's find a new meeting location
 - locate another meeting location
-- reserve {MeetingRoom=room 258}
-- reserve {MeetingRoom=room 101} now
-- reserve {MeetingRoom=room 313} right away
+- look for {MeetingRoom=room hello}
+- reserve {MeetingRoom=room 313} right now
+- reserve {MeetingRoom=room 7/154} please
 - reserve the conference room for {FromTime=1 pm} {FromDate=thursday} because i need to have a meeting with amber
 - reserve the conference room for {FromTime=3pm} {FromDate=tomorrow}
 - schedule conference room with mary cooper for {FromDate=thursday} at {FromTime=one}
+- try {MeetingRoom=2312}
+- try {FloorNumber=8th floor}
+- try buillding {Building=bjw2}
+- try {MeetingRoom=excalibur}
+- try {FloorNumber=floor 2}
+- try {MeetingRoom=room jupyter}
+- try {Building=studiox}
+- try the {FloorNumber=3rd floor}
+- try {FloorNumber=the floor 23}
+- use {MeetingRoom=room wender}
 - what meet rooms do i have
 - where shall we meet
+- a new meeting location find one
+- book a meeting in the {MeetingRoom=endor conference room}
+- book a meeting room at the {FloorNumber=4th floor} in the {Building=redmond} building
+- book a meeting room on {FloorNumber=floor 5}
+- book a place on the {FloorNumber=7th} floor in {Building=lloyds building}
+- book a space in {Building=redmond center}
+- book {MeetingRoom=excalibur} please
+- book {MeetingRoom=kamino} for me please
+- book {MeetingRoom=kamino} tomorrow
+- can you reserve {MeetingRoom=room 258} right away
+- have the meeting in {MeetingRoom=hoth}
+- hold a meeting on the {FloorNumber=1st floor}
+- i need to book a meeting room on the {FloorNumber=2nd floor} with a projector in it
+- i need to reserve {MeetingRoom=endor} on the {FloorNumber=1st floor} in the {Building=crocker hall building}.
+- i need to reserve {MeetingRoom=mustafar} for a client at 5pm.
+- i need to reserve the {MeetingRoom=alderaan conference room} for a meeting.
+- i need to reserve the {Building=bespin} meeting room.
+- i need you to reserve the meeting room on {FloorNumber=floor 2}.
+- i want to book {MeetingRoom=tatooine}
+- i want to have a meeting in {MeetingRoom=mustafar}
+- i want to reserve {MeetingRoom=gandhi} at {FromTime=6pm}
+- i want to see people in {MeetingRoom=tatooine} in the hall {FloorNumber=floor 4}.
+- i will like to book the {MeetingRoom=coruscant} meeting room on the {FloorNumber=5th floor} of the {Building=pacific building} for 9am tomorrow
+- i wish to book a meeting room at the {Building=london building} for {FromDate=january the {FloorNumber=9th}} at {FromTime=1pm}
+- i wish to reserve a room now at the {Building=bellevue} building.
+- i would like to book a meeting in the {Building=hitchcock} building on the {FloorNumber=23rd floor}.
+- i would like to reserve meeting room {MeetingRoom=excalibur} on the {FloorNumber=first floor} of the {Building=alfred building}
+- i would like to reserve one of your meeting rooms on the {FloorNumber=2nd} floor of the {Building=langham} building please
+- i'd like to reserve a room on the {FloorNumber=2nd floor} of the {Building=albert hall}, please.
+- organize a meeting in the {MeetingRoom=gandhi} room in the {FloorNumber=3rd floor} on the {Building=greenpark hotel}
+- please book meeting room {MeetingRoom=excalibur} on {FromDate=friday}
+- please can i reserve meeting room {MeetingRoom=excalibur} on the {FloorNumber=first floor} of {Building=webb house}
+- please reserve a meeting room in building {Building=3}.
+- please reserve a meeting room on the {FloorNumber=1st floor}.
+- please reserve a meeting room on the {FloorNumber=3rd floor} of {Building=terman tower}.
+- please reserve {MeetingRoom=excalibur} for the morning meeting.
+- please reserve meeting room {MeetingRoom=hoth} on {FloorNumber=floor 10} of the {Building=london building} for {FromDate=friday afternoon}.
+- please reserve the {MeetingRoom=green room} on the {FloorNumber=2nd floor} of the {Building=hewitt} building.
+- please reserve the {FloorNumber=second floor} meeting room at {Building=building 5} for tomorrow.
+- please will you reserve a meeting room for me at {Building=city center} on the {FromDate=23rd of january}.
+- reserve a conference room at the {Building=redmond building}
+- reserve a meeting room in the {Building=redmond} building
+- reserve a meeting room on {FloorNumber=floor 1} of the {Building=mercator center}
+- reserve a meeting room on the {FloorNumber=3rd floor}
+- reserve a room in the {Building=london} building for the meeting
+- reserve {MeetingRoom=enterprise} for a meeting
+- reserve me a meeting room at the {Building=london building}, {FloorNumber=floor 5} for saturday at {FromTime=1 p.m.}
+- reserve meeting room {MeetingRoom=coruscant} please
+- reserve meeting room {MeetingRoom=gandhi} for monday morning.
+- reserve {MeetingRoom=room 258}
+- reserve {MeetingRoom=room 258} now
+- reserve {MeetingRoom=room 258} right away
+- reserve the meeting room {MeetingRoom=enterprise} on {FloorNumber=floor 2} of the {Building=mercator center}
+- reserve the meeting room on the {FloorNumber=12th floor} at the {Building=ferry}
+- reserve the {MeetingRoom=mustafar} room in the {Building=school} {FloorNumber=fourth floor} for the meeting
+- reserve the {MeetingRoom=tatooine} meeting room on the {FloorNumber=2nd floor}.
+- reserve the {FloorNumber=third floor} for the meeting
+- we want to reserve the {FloorNumber=second floor} in the {Building=main building} for our meeting room
+
+
 - ^is (this|the|that) (meeting|conference) room (available|booked) [(at|on|for)] [{FromDate}] [(at|on|for)] [{FromTime}]^
+
 
 
 ## None
@@ -1178,9 +1384,15 @@
 
 > # Entity definitions
 
+$Building:simple
+
+$ContactName:simple
+
 $DestinationCalendar:simple
 
 $Duration:simple
+
+$FloorNumber:simple
 
 $ToDate:simple
 
@@ -1222,6 +1434,28 @@ $PREBUILT:ordinal
 
 
 > # List entities
+
+$BuildingName:StudioX=
+
+$BuildingName:City Center=
+
+$BuildingName:StudioA=
+
+$BuildingName:StudioB=
+
+$BuildingName:StudioC=
+
+$BuildingName:StudioE=
+
+$BuildingName:StudioD=
+
+$BuildingName:StudioF=
+
+$BuildingName:Building 99=
+
+$MeetingRoomName:BJW2-63=
+
+$MeetingRoomName:BJW2-64=
 
 $PossessivePronoun:FirstPerson=
 - my

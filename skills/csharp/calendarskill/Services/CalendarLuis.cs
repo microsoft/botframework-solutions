@@ -10,30 +10,35 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public partial class CalendarLuis: IRecognizerConvert
+    public partial class CalendarLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            AcceptEventEntry, 
-            CancelCalendar, 
-            ChangeCalendarEntry, 
-            CheckAvailability, 
-            ConnectToMeeting, 
-            ContactMeetingAttendees, 
-            CreateCalendarEntry, 
-            DeleteCalendarEntry, 
-            FindCalendarDetail, 
-            FindCalendarEntry, 
-            FindCalendarWhen, 
-            FindCalendarWhere, 
-            FindCalendarWho, 
-            FindDuration, 
-            FindMeetingRoom, 
-            None, 
-            RejectCalendar, 
-            ShowNextCalendar, 
-            ShowPreviousCalendar, 
+        public enum Intent
+        {
+            AcceptEventEntry,
+            AddAttendee,
+            AddMeetingRoom,
+            CancelCalendar,
+            CancelMeetingRoom,
+            ChangeCalendarEntry,
+            ChangeMeetingRoom,
+            CheckAvailability,
+            ConnectToMeeting,
+            ContactMeetingAttendees,
+            CreateCalendarEntry,
+            DeleteCalendarEntry,
+            FindCalendarDetail,
+            FindCalendarEntry,
+            FindCalendarWhen,
+            FindCalendarWhere,
+            FindCalendarWho,
+            FindDuration,
+            FindMeetingRoom,
+            None,
+            RejectCalendar,
+            ShowNextCalendar,
+            ShowPreviousCalendar,
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -47,12 +52,15 @@ namespace Luis
             public string[] ToTime;
             public string[] MeetingRoom;
             public string[] Location;
+            public string[] ContactName;
+            public string[] ToDate;
             public string[] MoveEarlierTimeSpan;
             public string[] MoveLaterTimeSpan;
-            public string[] ToDate;
             public string[] SlotAttribute;
             public string[] OrderReference;
             public string[] PositionReference;
+            public string[] Building;
+            public string[] FloorNumber;
             public string[] Message;
             public string[] Duration;
             public string[] DestinationCalendar;
@@ -63,6 +71,8 @@ namespace Luis
             public double[] ordinal;
 
             // Lists
+            public string[][] BuildingName;
+            public string[][] MeetingRoomName;
             public string[][] PossessivePronoun;
             public string[][] RelationshipName;
 
@@ -75,18 +85,23 @@ namespace Luis
                 public InstanceData[] ToTime;
                 public InstanceData[] MeetingRoom;
                 public InstanceData[] Location;
+                public InstanceData[] ContactName;
+                public InstanceData[] ToDate;
                 public InstanceData[] MoveEarlierTimeSpan;
                 public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] ToDate;
                 public InstanceData[] SlotAttribute;
                 public InstanceData[] OrderReference;
                 public InstanceData[] PositionReference;
+                public InstanceData[] Building;
+                public InstanceData[] FloorNumber;
                 public InstanceData[] Message;
                 public InstanceData[] Duration;
                 public InstanceData[] DestinationCalendar;
                 public InstanceData[] datetime;
                 public InstanceData[] personName;
                 public InstanceData[] ordinal;
+                public InstanceData[] BuildingName;
+                public InstanceData[] MeetingRoomName;
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
             }
@@ -96,7 +111,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties {get; set; }
+        public IDictionary<string, object> Properties { get; set; }
 
         public void Convert(dynamic result)
         {

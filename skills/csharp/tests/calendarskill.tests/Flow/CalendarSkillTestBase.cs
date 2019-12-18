@@ -51,10 +51,13 @@ namespace CalendarSkill.Test.Flow
 
         public IServiceManager ServiceManager { get; set; }
 
+        public ISearchService SearchService { get; set; }
+
         [TestInitialize]
         public override void Initialize()
         {
             this.ServiceManager = MockServiceManager.GetCalendarService();
+            this.SearchService = new MockSearchClient();
 
             // Initialize service collection
             Services = new ServiceCollection();
@@ -102,6 +105,7 @@ namespace CalendarSkill.Test.Flow
                 { "TimeRemaining", "TimeRemainingDialogActivities" },
                 { "UpcomingEvent", "UpcomingEventDialogActivities" },
                 { "UpdateEvent", "UpdateEventDialogActivities" },
+                { "FindMeetingRoom", "FindMeetingRoomDialogActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -125,6 +129,7 @@ namespace CalendarSkill.Test.Flow
             }
 
             Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+            Services.AddSingleton(SearchService);
 
             // Configure files for generating all responses. Response from bot should equal one of them.
             var templateFilesAll = new List<string>()
@@ -140,6 +145,7 @@ namespace CalendarSkill.Test.Flow
                 @"TimeRemaining/TimeRemainingDialogTexts.lg",
                 @"UpcomingEvent/UpcomingEventDialogTexts.lg",
                 @"UpdateEvent/UpdateEventDialogTexts.lg",
+                @"FindMeetingRoom/FindMeetingRoomDialogTexts.lg",
             };
 
             var templatesAll = new List<string>();
@@ -159,6 +165,9 @@ namespace CalendarSkill.Test.Flow
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();
             Services.AddTransient<CheckAvailableDialog>();
+            Services.AddTransient<FindMeetingRoomDialog>();
+            Services.AddTransient<BookMeetingRoomDialog>();
+            Services.AddTransient<UpdateMeetingRoomDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();

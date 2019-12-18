@@ -122,6 +122,22 @@ namespace CalendarSkill.Models
 
             public bool IsOrgnizerAvailable { get; set; }
 
+            public string MeetingRoomName { get; set; }
+
+            public RoomModel MeetingRoom { get; set; }
+
+            public List<RoomModel> UnconfirmedMeetingRoom { get; set; } = new List<RoomModel>();
+
+            public List<string> IgnoredMeetingRoom { get; set; } = new List<string>();
+
+            public int ShowMeetingRoomIndex { get; set; } = 0;
+
+            public string Building { get; set; }
+
+            public int? FloorNumber { get; set; }
+
+            public bool Allday { get; set; } = false;
+
             public void Clear()
             {
                 ContactInfor.Clear();
@@ -140,13 +156,42 @@ namespace CalendarSkill.Models
                 CreateHasDetail = false;
                 RecreateState = null;
                 AvailabilityResult = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
+                UnconfirmedMeetingRoom.Clear();
+                IgnoredMeetingRoom.Clear();
+                ShowMeetingRoomIndex = 0;
+                Building = null;
+                FloorNumber = null;
+                Allday = false;
             }
 
             public void ClearLocationForRecreate()
             {
+                if (MeetingRoom != null)
+                {
+                    IgnoredMeetingRoom.Add(MeetingRoom.DisplayName + StartDateTime.ToString());
+                }
+
                 Location = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Location;
+            }
+
+            public void ClearMeetingRoomForRecreate()
+            {
+                if (MeetingRoom != null)
+                {
+                    IgnoredMeetingRoom.Add(MeetingRoom.DisplayName + StartDateTime.ToString());
+                }
+
+                Location = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.MeetingRoom;
             }
 
             public void ClearParticipantsForRecreate()
