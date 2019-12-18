@@ -293,7 +293,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-m6m4f0dXcP86+gQRhIYKgDDHl9cEHPdEIxyPAjkyNHkS73guh65GqhBiTaL6IdWPL5GhSXDOTcF0OHGzz1Q1/A==",
+      "integrity": "sha512-+uef7LeNLKSClDaLzxEryCh2+4nd8C4AjLKn+qEMiZnUoR3bpZ8YNJHSQVGXdTKqttO1t+xNX1O9so5geLoUOg==",
       "requires": {
         "@azure/cognitiveservices-luis-authoring": "^2.1.0",
         "@azure/ms-rest-js": "1.8.7",
@@ -307,6 +307,7 @@
         "botbuilder-ai": "^4.7.0",
         "botbuilder-azure": "^4.7.0",
         "botbuilder-dialogs": "^4.7.0",
+        "botbuilder-solutions": "^4.4.9",
         "botframework-config": "^4.7.0",
         "botframework-connector": "^4.7.0",
         "copyfiles": "^2.1.0",
@@ -999,6 +1000,31 @@
           "resolved": "https://registry.npmjs.org/@types/node/-/node-10.17.11.tgz",
           "integrity": "sha512-dNd2pp8qTzzNLAs3O8nH3iU9DG9866KHq9L3ISPB7DOGERZN81nW/5/g/KzMJpCU8jrbCiMRBzV9/sCEdRosig=="
         }
+      }
+    },
+    "botbuilder-solutions": {
+      "version": "4.4.9",
+      "resolved": "https://registry.npmjs.org/botbuilder-solutions/-/botbuilder-solutions-4.4.9.tgz",
+      "integrity": "sha512-3ERsq4OmXlKSpxwUg6/C2hKSX6MLyuthvDaA65RQaSz9jyExKwcH3VP9ue/PBf5xwD+zloFNry3WkegiZ/fYHw==",
+      "requires": {
+        "@microsoft/recognizers-text": "^1.1.4",
+        "@microsoft/recognizers-text-choice": "^1.1.4",
+        "adaptivecards": "^1.1.3",
+        "azure-cognitiveservices-contentmoderator": "^4.0.0",
+        "botbuilder": "^4.5.3",
+        "botbuilder-ai": "^4.5.3",
+        "botbuilder-azure": "^4.5.3",
+        "botbuilder-core": "^4.5.3",
+        "botbuilder-dialogs": "^4.5.3",
+        "botframework-config": "^4.5.3",
+        "botframework-connector": "^4.5.3",
+        "botframework-schema": "^4.5.3",
+        "dayjs": "^1.8.14",
+        "i18next": "^15.0.6",
+        "i18next-node-fs-backend": "^2.1.1",
+        "ms-rest-azure": "^2.5.0",
+        "p-queue": "^4.0.0",
+        "xml-js": "^1.6.11"
       }
     },
     "botframework-config": {
@@ -2527,13 +2553,6 @@
       "integrity": "sha512-0EdQvHuLm7yJ7lyG5dp7Q3X2ku++BG5ZHaJ5FTnaXpKqDrw4pMxel5Bt3oAYMthnrthFBdnZ1FcsXTPyrQlV0w==",
       "requires": {
         "minimist": "^1.2.0"
-      },
-      "dependencies": {
-        "minimist": {
-          "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
-          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
-        }
       }
     },
     "jsonfile": {
@@ -2912,12 +2931,6 @@
           "requires": {
             "minimist": "^1.2.0"
           }
-        },
-        "minimist": {
-          "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
-          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=",
-          "optional": true
         }
       }
     },
@@ -2973,9 +2986,9 @@
       }
     },
     "minimist": {
-      "version": "0.0.8",
-      "resolved": "https://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz",
-      "integrity": "sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0="
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+      "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
     },
     "mixme": {
       "version": "0.3.5",
@@ -2988,6 +3001,13 @@
       "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",
       "requires": {
         "minimist": "0.0.8"
+      },
+      "dependencies": {
+        "minimist": {
+          "version": "0.0.8",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz",
+          "integrity": "sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0="
+        }
       }
     },
     "mocha": {
@@ -3467,6 +3487,13 @@
       "requires": {
         "minimist": "~0.0.1",
         "wordwrap": "~0.0.2"
+      },
+      "dependencies": {
+        "minimist": {
+          "version": "0.0.10",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-0.0.10.tgz",
+          "integrity": "sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8="
+        }
       }
     },
     "optionator": {

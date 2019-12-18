@@ -27,7 +27,7 @@
         "botbuilder-ai": "^4.7.0",
         "botbuilder-azure": "^4.7.0",
         "botbuilder-dialogs": "^4.7.0",
-        "botbuilder-solutions": "^4.4.5",
+        "botbuilder-solutions": "^4.4.9",
         "botframework-config": "^4.7.0",
         "botframework-connector": "^4.7.0",
         "i18n": "^0.8.3",
