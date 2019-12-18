@@ -87,6 +87,9 @@ if (-not $luisAuthoringKey) {
         $createLuisAuthoring = "true"
     }
 }
+else {
+    $createLuisAuthoring = "false"
+}
 
 if (-not $luisAuthoringRegion) {
     $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
