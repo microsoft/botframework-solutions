@@ -3,316 +3,145 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
-using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.TraceExtensions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
-    /// The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
+    /// A sample dialog that can wrap remote calls to a skill.
     /// </summary>
-    public class SkillDialog : ComponentDialog
+    /// <remarks>
+    /// The options parameter in <see cref="BeginDialogAsync"/> must be a <see cref="SkillDialogArgs"/> instance
+    /// with the initial parameters for the dialog.
+    /// </remarks>
+    public class SkillDialog : Dialog
     {
-        private readonly MultiProviderAuthDialog _authDialog;
-        private IServiceClientCredentials _serviceClientCredentials;
-        private UserState _userState;
+        private readonly IStatePropertyAccessor<string> _activeSkillProperty;
+        private readonly string _botId;
+        private readonly ConversationState _conversationState;
+        private readonly SkillHttpClient _skillClient;
+        private readonly SkillsConfiguration _skillsConfig;
 
-        private SkillManifest _skillManifest;
-        private ISkillTransport _skillTransport;
-
-        private Queue<Activity> _queuedResponses = new Queue<Activity>();
-        private object _lockObject = new object();
-
-        private bool _authDialogCancelled = false;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
-        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-        /// </summary>
-        /// <param name="skillManifest">Skill manifest.</param>
-        /// <param name="serviceClientCredentials">Service client credentials.</param>
-        /// <param name="telemetryClient">Telemetry Client.</param>
-        /// <param name="userState">User State.</param>
-        /// <param name="authDialog">Auth Dialog.</param>
-        /// <param name="skillTransport">Transport used for skill invocation.</param>
-        public SkillDialog(
-            SkillManifest skillManifest,
-            IServiceClientCredentials serviceClientCredentials,
-            IBotTelemetryClient telemetryClient,
-            UserState userState,
-            MultiProviderAuthDialog authDialog = null,
-            ISkillTransport skillTransport = null)
-            : base(skillManifest.Id)
+        public SkillDialog(ConversationState conversationState, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
+            : base(nameof(SkillDialog))
         {
-            _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
-            _userState = userState;
-            _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
-
-            if (authDialog != null)
+            if (configuration == null)
             {
-                _authDialog = authDialog;
-                AddDialog(authDialog);
+                throw new ArgumentNullException(nameof(configuration));
             }
 
-            // TODO It overwrites all added dialogs. See DialogSet
-            TelemetryClient = telemetryClient;
-        }
-
-        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
-        {
-            if (reason == DialogReason.CancelCalled || reason == DialogReason.ReplaceCalled)
+            _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+            if (string.IsNullOrWhiteSpace(_botId))
             {
-                // when dialog is being ended/cancelled, send an activity to skill
-                // to cancel all dialogs on the skill side
-                if (_skillTransport != null)
-                {
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext).ConfigureAwait(false);
-                }
+                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
             }
 
-            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
+            _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
+            _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _activeSkillProperty = conversationState.CreateProperty<string>($"{typeof(SkillDialog).FullName}.ActiveSkillProperty");
         }
 
-        /// <summary>
-        /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
-        /// </summary>
-        /// <param name="innerDc">inner dialog context.</param>
-        /// <param name="options">options.</param>
-        /// <param name="cancellationToken">cancellation token.</param>
-        /// <returns>dialog turn result.</returns>
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default)
         {
-            var slots = new Dictionary<string, JObject>();
-
-            // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext()).ConfigureAwait(false);
-
-            var dialogOptions = options != null ? options as SkillDialogOption : null;
-            var actionName = dialogOptions?.Action;
-
-            var activity = innerDc.Context.Activity;
-
-            // only set SemanticAction if it's not populated
-            if (activity.SemanticAction == null)
+            if (!(options is SkillDialogArgs dialogArgs))
             {
-                var semanticAction = new SemanticAction
-                {
-                    Id = actionName,
-                    Entities = new Dictionary<string, Entity>(),
-                };
-
-                if (!string.IsNullOrWhiteSpace(actionName))
-                {
-                    // only set the semantic state if action is not empty
-                    semanticAction.State = SkillConstants.SkillStart;
-
-                    // Find the specified action within the selected Skill for slot filling evaluation
-                    var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
-                    if (action != null)
-                    {
-                        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                        if (action.Definition.Slots != null && skillContext.Count > 0)
-                        {
-                            // Match Slots to Skill Context
-                            slots = await MatchSkillContextToSlotsAsync(innerDc, action.Definition.Slots, skillContext).ConfigureAwait(false);
-                        }
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-                    }
-                }
-                else
-                {
-                    // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
-                    // actions and slot data to pass what we have
-
-                    // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-                    var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
-                    if (skillSlots != null)
-                    {
-                        // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlotsAsync(innerDc, skillSlots.ToList(), skillContext).ConfigureAwait(false);
-                    }
-                }
-
-                foreach (var slot in slots)
-                {
-                    semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-                }
-
-                activity.SemanticAction = semanticAction;
+                throw new ArgumentNullException(nameof(options), $"Unable to cast {nameof(options)} to {nameof(SkillDialogArgs)}");
             }
 
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill.")).ConfigureAwait(false);
-
-            var dialogResult = await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
-
-            _skillTransport.Disconnect();
-
-            return dialogResult;
-        }
-
-        /// <summary>
-        /// All subsequent messages are forwarded on to the skill.
-        /// </summary>
-        /// <param name="innerDc">Inner Dialog Context.</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>DialogTurnResult.</returns>
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var activity = innerDc.Context.Activity;
-
-            if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
+            var skillId = dialogArgs.SkillId;
+            if (!_skillsConfig.Skills.TryGetValue(skillId, out var skillInfo))
             {
-                // Handle magic code auth
-                var result = await innerDc.ContinueDialogAsync(cancellationToken).ConfigureAwait(false);
-
-                // forward the token response to the skill
-                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
-                {
-                    activity.Type = ActivityTypes.Event;
-                    activity.Name = TokenEvents.TokenResponseEventName;
-                    activity.Value = result.Result as ProviderTokenResponse;
-                }
-                else
-                {
-                    return result;
-                }
+                throw new KeyNotFoundException($"Unable to find \"{skillId}\" in the skill configuration.");
             }
 
-            var dialogResult = await ForwardToSkillAsync(innerDc, activity).ConfigureAwait(false);
+            // Store Skill ID for this dialog instance
+            await _activeSkillProperty.SetAsync(dc.Context, skillId, cancellationToken).ConfigureAwait(false);
 
-            _skillTransport.Disconnect();
-            return dialogResult;
-        }
+            await dc.Context.TraceActivityAsync($"{GetType().Name}.BeginDialogAsync()", label: $"Using activity of type: {dialogArgs.ActivityType}", cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        /// <summary>
-        /// Map Skill slots to what we have in SkillContext.
-        /// </summary>
-        /// <param name="innerDc">Dialog Contect.</param>
-        /// <param name="actionSlots">The Slots within an Action.</param>
-        /// <param name="skillContext">Calling Bot's SkillContext.</param>
-        /// <returns>A filtered SkillContext for the Skill.</returns>
-        private async Task<SkillContext> MatchSkillContextToSlotsAsync(DialogContext innerDc, List<Slot> actionSlots, SkillContext skillContext)
-        {
-            SkillContext slots = new SkillContext();
-            if (actionSlots != null)
+            Activity skillActivity;
+            switch (dialogArgs.ActivityType)
             {
-                foreach (Slot slot in actionSlots)
-                {
-                    // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (skillContext.TryGetValue(slot.Name, out JObject slotValue))
-                    {
-                        slots.Add(slot.Name, slotValue);
+                case ActivityTypes.Event:
+                    var eventActivity = Activity.CreateEventActivity();
+                    eventActivity.Name = dialogArgs.Name;
+                    eventActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+                    skillActivity = (Activity)eventActivity;
+                    break;
 
-                        // Send trace to emulator
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the Skill.")).ConfigureAwait(false);
-                    }
-                }
+                case ActivityTypes.Message:
+                    var messageActivity = Activity.CreateMessageActivity();
+                    messageActivity.Text = dialogArgs.Text;
+                    skillActivity = (Activity)messageActivity;
+                    break;
+
+                default:
+                    throw new ArgumentException($"Invalid activity type in {dialogArgs.ActivityType} in {nameof(SkillDialogArgs)}");
             }
 
-            return slots;
+            ApplyParentActivityProperties(dc, skillActivity, dialogArgs);
+            return await SendToSkillAsync(dc, skillActivity, skillInfo, cancellationToken).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Forward an inbound activity on to the Skill. This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
-        /// </summary>
-        /// <param name="innerDc">Inner DialogContext.</param>
-        /// <param name="activity">Activity.</param>
-        /// <returns>DialogTurnResult.</returns>
-        private async Task<DialogTurnResult> ForwardToSkillAsync(DialogContext innerDc, Activity activity)
+        public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default)
         {
-            try
+            await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"ActivityType: {dc.Context.Activity.Type}", cancellationToken: cancellationToken).ConfigureAwait(false);
+
+            var skillId = await _activeSkillProperty.GetAsync(dc.Context, () => null, cancellationToken).ConfigureAwait(false);
+
+            if (dc.Context.Activity.Type == ActivityTypes.Message && dc.Context.Activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
             {
-                var handoffActivity = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc)).ConfigureAwait(false);
+                // Send a message to the skill to let it do some cleanup
+                var eocActivity = Activity.CreateEndOfConversationActivity();
+                eocActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+                await SendToSkillAsync(dc, (Activity)eocActivity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
 
-                if (handoffActivity != null)
-                {
-                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot.")).ConfigureAwait(false);
-                    return await innerDc.EndDialogAsync(handoffActivity.SemanticAction?.Entities).ConfigureAwait(false);
-                }
-                else if (_authDialogCancelled)
-                {
-                    // cancel remote skill dialog if AuthDialog is cancelled
-                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context).ConfigureAwait(false);
-
-                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot due to unable to obtain token for user.")).ConfigureAwait(false);
-                    return await innerDc.EndDialogAsync().ConfigureAwait(false);
-                }
-                else
-                {
-                    var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
-
-                    // if there's any response we need to send to the skill queued
-                    // forward to skill and start a new turn
-                    while (_queuedResponses.Count > 0)
-                    {
-                        var lastEvent = _queuedResponses.Dequeue();
-                        dialogResult = await ForwardToSkillAsync(innerDc, lastEvent).ConfigureAwait(false);
-                    }
-
-                    return dialogResult;
-                }
+                // End this dialog and return (we don't care if the skill responds or not)
+                await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Canceled", cancellationToken: cancellationToken).ConfigureAwait(false);
+                return await dc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             }
-            catch
+
+            if (dc.Context.Activity.Type == ActivityTypes.EndOfConversation)
             {
-                // Something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
-                // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-                await innerDc.EndDialogAsync().ConfigureAwait(false);
-                throw;
+                await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Got EndOfConversation", cancellationToken: cancellationToken).ConfigureAwait(false);
+                return await dc.EndDialogAsync(dc.Context.Activity.Value, cancellationToken).ConfigureAwait(false);
             }
+
+            // Just forward to the remote skill
+            return await SendToSkillAsync(dc, dc.Context.Activity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
         }
 
-        private Action<Activity> GetTokenRequestCallback(DialogContext dialogContext)
+        private static void ApplyParentActivityProperties(DialogContext dc, Activity skillActivity, SkillDialogArgs dialogArgs)
         {
-            return (activity) =>
+            // Apply conversation reference and common properties from incoming activity before sending.
+            skillActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+            skillActivity.Value = dialogArgs.Value;
+            skillActivity.ChannelData = dc.Context.Activity.ChannelData;
+            skillActivity.Properties = dc.Context.Activity.Properties;
+        }
+
+        private async Task<DialogTurnResult> SendToSkillAsync(DialogContext dc, Activity activity, BotFrameworkSkill skillInfo, CancellationToken cancellationToken)
+        {
+            // Always save state before forwarding
+            // (the dialog stack won't get updated with the skillDialog and things won't work if you don't)
+            await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken).ConfigureAwait(false);
+            var response = await _skillClient.PostActivityAsync(_botId, skillInfo, _skillsConfig.SkillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
+            if (!(response.Status >= 200 && response.Status <= 299))
             {
-                // Send trace to emulator
-                dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill")).GetAwaiter().GetResult();
+                throw new HttpRequestException($"Error invoking the skill id: \"{skillInfo.Id}\" at \"{skillInfo.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
+            }
 
-                var result = dialogContext.BeginDialogAsync(_authDialog.Id).GetAwaiter().GetResult();
-
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    var resultObj = result.Result;
-                    if (resultObj != null && resultObj is ProviderTokenResponse tokenResponse)
-                    {
-                        var tokenEvent = activity.CreateReply();
-                        tokenEvent.Type = ActivityTypes.Event;
-                        tokenEvent.Name = TokenEvents.TokenResponseEventName;
-                        tokenEvent.Value = tokenResponse;
-                        tokenEvent.SemanticAction = activity.SemanticAction;
-
-                        lock (_lockObject)
-                        {
-                            _queuedResponses.Enqueue(tokenEvent);
-                        }
-                    }
-                    else
-                    {
-                        _authDialogCancelled = true;
-                    }
-                }
-            };
-        }
-
-        private class DialogIds
-        {
-            public const string ConfirmSkillSwitchPrompt = "confirmSkillSwitchPrompt";
-            public const string ConfirmSkillSwitchFlow = "confirmSkillSwitchFlow";
+            return EndOfTurn;
         }
     }
 }

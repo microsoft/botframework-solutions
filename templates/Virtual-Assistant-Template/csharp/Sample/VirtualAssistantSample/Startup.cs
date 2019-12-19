@@ -14,10 +14,11 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
@@ -116,18 +117,16 @@ namespace VirtualAssistantSample
 
             var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
 
-            // Register skill dialogs
-            foreach (var skill in settings.Skills)
-            {
-                var authDialog = BuildAuthDialog(skill, settings, appCredentials);
-                var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                services.AddTransient(sp =>
-                {
-                    var userState = sp.GetService<UserState>();
-                    var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                    return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
-                });
-            }
+            // Register the skills conversation ID factory, the client and the request handler.
+            services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
+            services.AddHttpClient<SkillHttpClient>();
+            services.AddSingleton<ChannelServiceHandler, SkillHandler>();
+
+            // Register the skills configuration class
+            services.AddSingleton<SkillsConfiguration>();
+
+            // Register the SkillDialog (remote skill).
+            services.AddSingleton<SkillDialog>();
 
             // IBotFrameworkHttpAdapter now supports both http and websocket transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();

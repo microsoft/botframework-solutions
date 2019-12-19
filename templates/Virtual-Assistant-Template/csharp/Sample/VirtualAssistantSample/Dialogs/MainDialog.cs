@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
@@ -33,9 +32,9 @@ namespace VirtualAssistantSample.Dialogs
         private OnboardingDialog _onboardingDialog;
         private SwitchSkillDialog _switchSkillDialog;
         private LocaleTemplateEngineManager _templateEngine;
-        private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private SkillDialog _skillDialog;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -50,7 +49,6 @@ namespace VirtualAssistantSample.Dialogs
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
             _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
             var conversationState = serviceProvider.GetService<ConversationState>();
@@ -79,12 +77,9 @@ namespace VirtualAssistantSample.Dialogs
                 AddDialog(qnaDialog);
             }
 
-            // Register skill dialogs
-            var skillDialogs = serviceProvider.GetServices<SkillDialog>();
-            foreach (var dialog in skillDialogs)
-            {
-                AddDialog(dialog);
-            }
+            // Register skill dialog
+            _skillDialog = serviceProvider.GetService<SkillDialog>();
+            AddDialog(_skillDialog);
         }
 
         // Runs on every turn of the conversation.
@@ -281,13 +276,13 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                // Check if the dispatch intent maps to a skill.
-                var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
-
-                if (identifiedSkill != null)
+                var dispatchIntentSkill = dispatchIntent.ToString();
+                if (!string.IsNullOrWhiteSpace(dispatchIntentSkill))
                 {
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+
                     // Start the skill dialog.
-                    await innerDc.BeginDialogAsync(identifiedSkill.Id);
+                    await innerDc.BeginDialogAsync(_skillDialog.Id, skillDialogArgs);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
@@ -318,35 +313,13 @@ namespace VirtualAssistantSample.Dialogs
             {
                 case Events.Location:
                     {
-                        var locationObj = new JObject();
-                        locationObj.Add(StateProperties.Location, JToken.FromObject(value));
-
-                        // Store location for use by skills.
-                        var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                        skillContext[StateProperties.Location] = locationObj;
-                        await _skillContext.SetAsync(innerDc.Context, skillContext);
-
+                        // TODO: add this into UserState
                         break;
                     }
 
                 case Events.TimeZone:
                     {
-                        try
-                        {
-                            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
-                            var timeZoneObj = new JObject();
-                            timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
-
-                            // Store location for use by skills.
-                            var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
-                            skillContext[StateProperties.TimeZone] = timeZoneObj;
-                            await _skillContext.SetAsync(innerDc.Context, skillContext);
-                        }
-                        catch
-                        {
-                            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received time zone could not be parsed. Property not set."));
-                        }
-
+                        // TODO: add this into UserState
                         break;
                     }
 
