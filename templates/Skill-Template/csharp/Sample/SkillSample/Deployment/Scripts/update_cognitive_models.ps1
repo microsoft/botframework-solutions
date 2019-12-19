@@ -2,7 +2,7 @@
 
 Param(
     [switch] $RemoteToLocal,
-    [switch] $gov,
+    [switch] $useGov,
     [switch] $useLuisGen = $true,
     [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
     [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
@@ -50,7 +50,7 @@ else {
     $azclierrormessage | Out-File -Append -FilePath $logfile
 }
 
-if ($gov) {
+if ($useGov) {
     $cloud = 'us'
 }
 else {
@@ -78,7 +78,7 @@ foreach ($langCode in $languageMap.Keys) {
             --luisAuthoringKey $dispatch.authoringkey `
             --luisAuthoringRegion $dispatch.region `
             --culture $langCode `
-            --gov $gov `
+            --gov $useGov `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
         Write-Host "Done." -ForegroundColor Green
                  
@@ -232,7 +232,7 @@ foreach ($langCode in $languageMap.Keys) {
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `
                 -subscriptionKey $luisApp.subscriptionKey `
-                -gov $gov `
+                -gov $useGov `
                 -log $logFile
 
              if ($useLuisGen) {
@@ -264,7 +264,7 @@ foreach ($langCode in $languageMap.Keys) {
         # Update dispatch model
         Write-Host "> Updating $($langCode) dispatch model ..." -NoNewline
         dispatch refresh `
-            --gov $gov `
+            --gov $useGov `
             --version $dispatch.version `
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
