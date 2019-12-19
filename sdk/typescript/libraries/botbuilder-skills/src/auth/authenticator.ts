@@ -5,7 +5,6 @@
 
 import { WebRequest, WebResponse } from 'botbuilder';
 import { ClaimsIdentity } from 'botframework-connector';
-import { Response } from 'microsoft-bot-protocol';
 import { IAuthenticationProvider } from './authenticationProvider';
 import { AuthHelpers } from './authHelpers';
 import { IWhitelistAuthenticationProvider } from './whitelistAuthenticationProvider';
@@ -33,16 +32,15 @@ export class Authenticator implements IAuthenticator {
         if (httpRequest === undefined) { throw new Error('webRequest is undefined'); }
         if (httpResponse === undefined) { throw new Error('webResponse is undefined'); }
 
-        const response: Response = new Response();
         const authorizationHeader: string = httpRequest.headers('Authorization');
         if (authorizationHeader === undefined || authorizationHeader.trim().length === 0) {
-            response.statusCode = 401;
+            httpResponse.status(401);
             Promise.reject();
         }
 
         const claimsIdentity: ClaimsIdentity = this.authenticationProvider.authenticate(authorizationHeader);
         if (claimsIdentity === undefined) {
-            response.statusCode = 401;
+            httpResponse.status(401);
             Promise.reject();
         }
 
@@ -51,7 +49,7 @@ export class Authenticator implements IAuthenticator {
         if (appId !== null && this.whiteListAuthenticationProvider.appsWhitelist !== undefined &&
         this.whiteListAuthenticationProvider.appsWhitelist.size > 0 &&
         !this.whiteListAuthenticationProvider.appsWhitelist.has(appId)) {
-            response.statusCode = 401;
+            httpResponse.status(401);
             await httpResponse.send('Skill could not allow access from calling bot.');
         }
 
