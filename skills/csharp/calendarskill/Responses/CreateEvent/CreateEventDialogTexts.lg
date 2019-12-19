@@ -76,3 +76,9 @@
 
 # GetRecreateInfoRetry.Text
 - I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel
+
+# NoMeetingRoom.Text
+- Do you want to add a room?
+
+# MeetingBooked.Text
+- Alright, your meeting is confirmed.

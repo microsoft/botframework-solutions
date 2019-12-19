@@ -18,6 +18,7 @@ using CalendarSkill.Responses.Summary;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Services.AzureSearchAPI;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -114,6 +115,7 @@ namespace CalendarSkill
                 { "TimeRemaining", "TimeRemainingDialogActivities" },
                 { "UpcomingEvent", "UpcomingEventDialogActivities" },
                 { "UpdateEvent", "UpdateEventDialogActivities" },
+                { "FindMeetingRoom", "FindMeetingRoomDialogActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -137,6 +139,7 @@ namespace CalendarSkill
             }
 
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton<ISearchService>(new AzureSearchClient(settings.AzureSearch.SearchServiceName, settings.AzureSearch.SearchServiceAdminApiKey, settings.AzureSearch.SearchIndexName));
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -167,6 +170,9 @@ namespace CalendarSkill
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
             services.AddTransient<CheckAvailableDialog>();
+            services.AddTransient<FindMeetingRoomDialog>();
+            services.AddTransient<UpdateMeetingRoomDialog>();
+            services.AddTransient<BookMeetingRoomDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

@@ -30,6 +30,65 @@
 - 陈菊邀请的{Subject=19财年庆典晚会}，我会参加
 
 
+## AddAttendee
+- 添加 {ContactName=卡洛斯} 到会议
+- 添加 {ContactName=切尔西} 
+- 添加 {ContactName=恩里克} 
+- 添加 {ContactName=埃里克} 到会议
+- 添加 {ContactName=挂} 
+- 添加 {ContactName=杰 姬} 
+- 添加 {ContactName=约翰} 
+- 添加 {ContactName=克里·克拉克森} 
+- 添加 {ContactName=丽莎} 
+- 添加 {ContactName=穆罕默德} 到会议
+- 添加 {ContactName=奥马尔} 
+- 添加 {ContactName=苔} 
+- 问 {ContactName=约翰} 来 {MeetingRoom=企业} .
+- 问 {ContactName=罗伯特} 参加今晚6日的会议
+-  {ContactName=鲍勃} 你能参加今晚6点的会议吗？
+- 你能问 {ContactName=简} 参加会议？
+- 你能邀请 {ContactName=宝拉} 本周三上午10点在史密斯大厦开会
+- 我想邀请 {ContactName=先生突然} 参加今天的会议。
+- 邀请 {ContactName=安 迪} 
+- 邀请 {ContactName=谢丽尔} 今天下午的会议
+- 邀请 {ContactName=弗兰克} 到星期五2：30的会议
+- 邀请 {ContactName=杰夫·马修斯} 
+- 邀请 {ContactName=约翰·马尔科维奇} 到会议。
+- 邀请 {ContactName=凯西} 今天下午的会议
+- 邀请 {ContactName=保罗} 到会议
+- 邀请 {ContactName=索菲亚} 到会议
+-  {ContactName=帕特里克} 我想邀请你参加下次会议。
+- 请添加 {ContactName=艾琳} 到会议邀请。
+- 我可以添加 {ContactName=约翰阿顿·凯利} 到会议
+- 我可以邀请我 {ContactName=哈利西} 到会议
+- 请邀请 {ContactName=凯西·鲁德} 今天的会议。
+- 向 {ContactName=简} 
+- 向 {ContactName=杰里·辛菲尔德} 
+- 请添加一个房间到我的 {ToTime=晚上 7 点} 会议
+
+## AddMeetingRoom
+- 添加一个房间到我的 {ToTime=下午3点} 会议
+- 添加市中心 {MeetingRoom=2122} 自 {ToTime=上午10时} 会议
+- 你能添加一个房间到 {ToDate=明天} 's {Subject=开发会议} 
+- 请向 {Subject=每日Scrum会议} 
+
+
+## CancelMeetingRoom
+- 取消会议室
+- 取消房间 {Subject=每日Scrum会议} 
+- 取消下午 4 点会议的房间
+- 取消下午 6 点会议的会议室
+- 请取消我晚上7点的会议
+
+
+## ChangeMeetingRoom
+- 将会议室更改为 {MeetingRoom=伦敦联邦室excalibur} 
+- 为我下午 3 点会议找个新房间
+- 我想换到另一个会议室
+- 我想换一下会议室
+- 请将会议室更改为 {MeetingRoom=2212} 
+
+
 ## CancelCalendar
 - 中断查找联系人
 - 停止查找我的日程
@@ -254,6 +313,57 @@
 - 看看{FromDate=周三}什么时候有空
 - 能告诉我{FromDate=星期天}我老公是否有空吗？
 - {FromDate=这周}我有时间去{Subject=看牙医}吗？
+- 我可以在大楼里预订一个房间吗？ {Building=5} 开会？
+- 我可以预订一个房间 {FloorNumber=楼层 7} 在 {Building=建筑 8} 明天开会？
+- 我可以保留 {MeetingRoom=奥德朗} 对 {FromTime=现在？} 
+- 我可以保留 {MeetingRoom=excalibur} 对于 {FromTime=下午2点} 还是不可用？
+- 我可以预订房间吗？ {MeetingRoom=甘地} 整整一个星期？
+- 我可以保留 {MeetingRoom=企业} 房间上 {FloorNumber=楼层 6} 的 {Building=鲍勃} 为会议而建？
+- 我可以预订会议室吗？ {MeetingRoom=贝斯平} ?
+- 我可以预订会议室，是免费的 {FloorNumber=21楼} ?
+- 我可以保留 {MeetingRoom=威廉姆斯} 开会的房间？
+- 你能判断会议室是否 {MeetingRoom=贝斯平} 现在可供我使用吗？
+- 你能告诉我会议室 {MeetingRoom=不是 20} 可在 {FromTime=中午} ?
+- 你好，我能预订 {MeetingRoom=霍斯}   {FromTime=马上} ?
+- 我想知道，如果你有一个会议室可用 {Building=大西洋} 建筑 {FromDate=12月4日} ?
+- 我想预订一个 {FloorNumber=地下}   {MeetingRoom=会议室} 在 {Building=三角洲建筑} ，有可用的吗？
+- 是 {MeetingRoom=科洛桑} 可在 {FromTime=下午 2 点} 
+- 是 {MeetingRoom=企业} 可用？
+- 是 {MeetingRoom=excalibur} 可用 {FromTime=现在} ?
+- 是 {MeetingRoom=霍斯} 目前可以使用？
+- 是在所有可能预订房间 {Building=雷德蒙} 建筑？
+- 正在开会 {MeetingRoom=房间 201} 可用？
+- 是会议室 {MeetingRoom=卡米诺} 可以整个下午吗？
+- 是 {MeetingRoom=房间 224} 今天可用吗？
+- 是 {MeetingRoom=塔图 因} 可在 {FromTime=晚上} ?
+- 是 {MeetingRoom=奥德朗} 房间上 {FloorNumber=大堂楼层} 在 {Building=市中心} 可用？
+- 是 {MeetingRoom=贝斯平} 会议室可在 {FromTime=下午 2：00} ?
+- 是 {MeetingRoom=木匠} 会议会议室
+- 是 {MeetingRoom=甘地} 房间现在免费？
+- 是会议室 {MeetingRoom=内托} 可用
+- 是会议室上 {FloorNumber=4楼} 可用？
+- 是 {MeetingRoom=房间 1192} 可用于 {FromTime=明天下午2：00} ?
+- 是房间 {MeetingRoom=2211} 可用于会议： {FromTime=6} 
+- 是否有会议室在 {FloorNumber=5楼} 目前可供预订？
+- 是否有一个房间可用在 {FloorNumber=一楼} 对于 {FromTime=今晚} ?
+- 是否有可用的房间 {FloorNumber=楼层 6}   {FromTime=现在} ?
+- 是否有一个房间 {FloorNumber=三楼} 我可以预订吗？
+- 我可以预订一个会议室 {Building=市中心} ?
+- 我可以预订 {MeetingRoom=卡米诺} ?
+- 我可以预订会议室 {FloorNumber=楼层 6} 在 {Building=石灰树屋} ?
+- 请检查并查看会议室 {MeetingRoom=2} 可在 {FromTime=12} 明天。
+- 查看会议室 {MeetingRoom=3} 星期二11：30开会。
+- 告诉我，如果 {MeetingRoom=卡米诺} 在 {FromTime=上午11：00} .
+- 将会议室 {MeetingRoom=2b} 可在 {FromTime=下午 2 点} 
+- 将 {MeetingRoom=塔图 因} 房间可用 {FromTime=明天} ?
+- 请您检查房间的可用性 {FloorNumber=三楼} 在 {FromTime=下午3时} 明天？
+- 是会议 {MeetingRoom=房间 xi} 上午10点有空？
+- 正在开会 {MeetingRoom=房间 345} 下午3点开门？
+- 正在开会 {MeetingRoom=房间蛋糕} 现在可用吗？
+- 是 {MeetingRoom=房间 235} 下午3点免费？
+- 是 {MeetingRoom=房间 246} 现在就开门？
+- 是 {MeetingRoom=房间 63} 可用 {FromDate=明天}   {FromTime=下午4点} 
+- 是 {MeetingRoom=房间阿尔法} 下午3点开门？
 
 
 ## ConnectToMeeting
@@ -924,6 +1034,103 @@
 - 预定{FromDate=周四}{FromTime=下午1点}的会议室，因为我需要和amber开会
 - 预订{FromDate=明天}{FromTime=下午3点}的会议室
 - 马上预订{MeetingRoom=258房间}
+- 预订会议室 {FloorNumber=楼层 1} 
+- 预订房间在 {FloorNumber=楼层 4} 
+- 预订房间 {Duration=30分钟} 
+- 书 {MeetingRoom=房间 101} 现在
+- 检查会议室 {FloorNumber=二楼} 
+- 检查 {MeetingRoom=房间幸运} 
+- 你有空房间吗？ {FromTime=下午3点} 在 {Building=市中心} 
+- 找到一个会议室 {FloorNumber=二楼} 在 {Building=建筑 34} 
+- 找到会议室 {FloorNumber=三楼} 在 {Building=市中心} 
+- 查找新的会议地点
+- 找到一个房间在 {FloorNumber=25楼} 
+- 找到一个房间之间 {Duration=全天} 请
+- 找个房间 {Duration=1 小时} 请
+- 找到一个房间 {Building=建筑缺乏} 
+- 找到一个房间 {FromDate=星期五} 
+- 帮我预订会议室 {FloorNumber=三楼} 
+- 帮我找个房间 {Building=市中心} 
+- 如何 {Building=建筑 99} 
+- 如何 {MeetingRoom=会议室企业} 
+- 如何 {MeetingRoom=房间 2213} 
+- 如何 {FloorNumber=4楼} 
+- 我想预订一个房间在23楼 {Building=市中心} 
+- 我在找一间可用的房间 {FromDate=今天下午} 在 {Building=工作室} 
+- 今天下午3点有房间吗？
+- 是否有可用的房间 {Building=建筑 1} 
+- 是否有任何房间可用 {Duration=全天} ?
+- 查找 {MeetingRoom=房间你好} 
+- 储备 {MeetingRoom=房间 313} 马上
+- 储备 {MeetingRoom=房间 7/154} 请
+- 尝试 {MeetingRoom=2312} 
+- 尝试 {FloorNumber=8楼} 
+- 试试布伊丁 {Building=bjw2} 
+- 尝试 {MeetingRoom=excalibur} 
+- 尝试 {FloorNumber=楼层 2} 
+- 尝试 {MeetingRoom=房间朱皮特} 
+- 尝试 {Building=工作室} 
+- 尝试 {FloorNumber=三楼} 
+- 尝试 {FloorNumber=地板 23} 
+- 使用 {MeetingRoom=房间温德} 
+- 新的会议地点找到一个
+- 预订会议在 {MeetingRoom=内托会议室} 
+- 预订会议室 {FloorNumber=4楼} 在 {Building=雷德蒙} 建筑
+- 预订会议室 {FloorNumber=楼层 5} 
+- 预订一个地方 {FloorNumber=第7届} 地板在 {Building=洛伊兹大厦} 
+- 预订空格 {Building=雷德蒙德中心} 
+- 书 {MeetingRoom=excalibur} 请
+- 书 {MeetingRoom=卡米诺} 请为我
+- 书 {MeetingRoom=卡米诺} 明天
+- 你能预订吗？ {MeetingRoom=房间 258} 马上
+- 有会议在 {MeetingRoom=霍斯} 
+- 在 {FloorNumber=一楼} 
+- 我需要预订会议室 {FloorNumber=二楼} 其中装有投影仪
+- 我需要保留 {MeetingRoom=内托} 在 {FloorNumber=一楼} 在 {Building=克罗克大厅楼} .
+- 我需要保留 {MeetingRoom=穆斯塔法尔， 新} 下午5点给一个客户。
+- 我需要保留 {MeetingRoom=阿尔德兰会议室} 开会。
+- 我需要保留 {Building=贝斯平} 会议室。
+- 我需要你预订会议室 {FloorNumber=楼层 2} .
+- 我想预订 {MeetingRoom=塔图 因} 
+- 我想在 {MeetingRoom=穆斯塔法尔， 新} 
+- 我想保留 {MeetingRoom=甘地} 在 {FromTime=下午6点} 
+- 我想看到人们 {MeetingRoom=塔图 因} 在大厅里 {FloorNumber=楼层 4} .
+- 我想预订 {MeetingRoom=科洛桑} 会议室 {FloorNumber=5楼} 的 {Building=太平洋大厦} 明天上午9点
+- 我想预订会议室 {Building=伦敦大厦} 对于 {FromDate=一月9日} 在 {FromTime=下午1点} 
+- 我想预订一个房间，现在在 {Building=贝尔维尤} 建筑。
+- 我想预订一个会议在 {Building=区 柯克} 建立在 {FloorNumber=23楼} .
+- 我想预订会议室 {MeetingRoom=excalibur} 在 {FloorNumber=一楼} 的 {Building=阿尔弗雷德大厦} 
+- 我想预订您的会议室之一 {FloorNumber=第二} 地板 {Building=朗廷} 建设请
+- 我想预订一个房间 {FloorNumber=二楼} 的 {Building=阿尔伯特大厅} 请。
+- 在 {MeetingRoom=甘地} 房间在 {FloorNumber=三楼} 在 {Building=绿色公园酒店} 
+- 请预订会议室 {MeetingRoom=excalibur} 上 {FromDate=星期五} 
+- 我可以预订会议室 {MeetingRoom=excalibur} 在 {FloorNumber=一楼} 的 {Building=韦伯房子} 
+- 请在大楼内预订会议室 {Building=3} .
+- 请在 {FloorNumber=一楼} .
+- 请在 {FloorNumber=三楼} 的 {Building=泰尔坦塔} .
+- 请保留 {MeetingRoom=excalibur} 上午的会议。
+- 请预订会议室 {MeetingRoom=霍斯} 上 {FloorNumber=楼层 10} 的 {Building=伦敦大厦} 对于 {FromDate=星期五下午} .
+- 请保留 {MeetingRoom=绿色房间} 在 {FloorNumber=二楼} 的 {Building=休伊特} 建筑。
+- 请保留 {FloorNumber=二楼} 会议室在 {Building=建筑 5} 明天
+- 请您为我预订一间会议室。 {Building=市中心} 在 {FromDate=1月23日} .
+- 在 {Building=雷德蒙德大厦} 
+- 在 {Building=雷德蒙} 建筑
+- 预订会议室 {FloorNumber=楼层 1} 的 {Building=墨美器中心} 
+- 在 {FloorNumber=三楼} 
+- 在 {Building=伦敦} 为会议而构建
+- 储备 {MeetingRoom=企业} 开会
+- 在 {Building=伦敦大厦} , {FloorNumber=楼层 5} 星期六在 {FromTime=下午1时} 
+- 预留会议室 {MeetingRoom=科洛桑} 请
+- 预留会议室 {MeetingRoom=甘地} 周一早上
+- 储备 {MeetingRoom=房间 258} 
+- 储备 {MeetingRoom=房间 258} 现在
+- 储备 {MeetingRoom=房间 258} 马上
+- 保留会议室 {MeetingRoom=企业} 上 {FloorNumber=楼层 2} 的 {Building=墨美器中心} 
+- 将会议室保留在 {FloorNumber=12楼} 在 {Building=渡轮} 
+- 保留 {MeetingRoom=穆斯塔法尔， 新} 房间在 {Building=学校}   {FloorNumber=四楼} 为会议
+- 保留 {MeetingRoom=塔图 因} 会议室 {FloorNumber=二楼} .
+- 保留 {FloorNumber=三楼} 为会议
+- 我们要保留 {FloorNumber=二楼} 在 {Building=主楼} 我们的会议室
 
 
 ## None
@@ -1071,6 +1278,11 @@ $FromTime:simple
 
 $Subject:simple
 
+$Building:simple
+
+$ContactName:simple
+
+$FloorNumber:simple
 
 > # PREBUILT Entity definitions
 
@@ -1113,6 +1325,28 @@ $PossessivePronoun:ThirdPerson=
 - 她自己的
 - 他们自己的
 - 她们自己的
+
+$BuildingName:StudioX=
+
+$BuildingName:City Center=
+
+$BuildingName:StudioA=
+
+$BuildingName:StudioB=
+
+$BuildingName:StudioC=
+
+$BuildingName:StudioE=
+
+$BuildingName:StudioD=
+
+$BuildingName:StudioF=
+
+$BuildingName:Building 99=
+
+$MeetingRoomName:BJW2-63=
+
+$MeetingRoomName:BJW2-64=
 
 $DestinationCalendar:hotmail=
 

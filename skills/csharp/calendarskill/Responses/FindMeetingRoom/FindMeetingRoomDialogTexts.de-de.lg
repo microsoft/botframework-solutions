@@ -1,0 +1,65 @@
+# NoBuilding.Text
+- Okay, welches Gebäude?
+
+# BuildingNonexistent.Text
+- Es tut mir leid, ich konnte dieses Gebäude nicht finden. Können Sie es anders sagen oder ein anderes Gebäude wählen?
+
+# NoMeetingRoom.Text
+- Wie heißt der Tagungsraum?
+
+# MeetingRoomNotFound.Text(MeetingRoom)
+- Es sieht aus wie {MeetingRoom} ist nicht vorhanden.
+
+# ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
+- {MeetingRoom} ist verfügbar {DateTime}, möchten Sie es reservieren?
+
+# MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
+- Es sieht aus wie {MeetingRoom} ist nicht verfügbar {DateTime}.
+
+# FloorNumberRetry.Text
+- Tut mir leid, das habe ich nicht bekommen. Können Sie es anders sagen?
+
+# NoFloorNumber.Text
+- In Ordnung, haben Sie eine Bodenpräferenz?
+
+# CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+- Es sieht nicht so aus, als ob andere Zimmer zur Verfügung stehen{InBulding}{OnFloorNumber} {DateTime}.
+
+# CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+- Es sieht nicht so aus, als ob irgendwelche Zimmer verfügbar sind{InBulding}{OnFloorNumber} {DateTime}.
+
+# IgnoreMeetingRoom.Text
+- Kein Problem.
+
+# RecreateMeetingRoomAgain.Text
+- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
+
+# RecreateMeetingRoom.Text
+- Sie können nach einer anderen Zeit, einem anderen Raum suchen oder Ihre Anfrage stornieren.
+
+# CancelRequest.Text
+- Okey, Ihre Anfrage wurde abgebrochen.
+
+# ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)
+- In Ordnung, Sie sind in bestätigt {MeetingRoom} {DateTime}{ForSubject}
+
+# ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
+- In Ordnung, ich habe hinzugefügt {MeetingRoom} zu Ihrem Meeting{Subject}.
+
+# ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
+- In Ordnung, ich habe Ihr Treffen{Subject} wechseln zu {MeetingRoom}.
+
+# ConfirmedMeetingRoom.Text
+- Okey, ich erstelle eine neue Besprechung mit diesem Raum.
+
+# ConfirmBeforCreatePrompt.Text
+- Möchten Sie dies bestätigen?
+
+# MeetingRoomAdded.Text(MeetingRoom, Subject)
+- In Ordnung, ich habe hinzugefügt {MeetingRoom} zu Ihrem Meeting {Subject}.
+
+# MeetingRoomAddChanged.Text(MeetingRoom, Subject)
+- In Ordnung, ich habe Ihr Treffen {Subject} wechseln zu {MeetingRoom}.
+
+# MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
+- In Ordnung, ich habe den Besprechungsraum für {subject}.

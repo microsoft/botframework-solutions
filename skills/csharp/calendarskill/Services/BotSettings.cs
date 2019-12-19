@@ -10,6 +10,8 @@ namespace CalendarSkill.Services
     {
         public string AzureMapsKey { get; set; }
 
+        public AzureSearchConfiguration AzureSearch { get; set; }
+
         public string BingSpellCheckSubscriptionKey { get; set; }
 
         public string GoogleAppName { get; set; }
@@ -52,6 +54,16 @@ namespace CalendarSkill.Services
 
                 public string Value { get; set; }
             }
+        }
+
+        public class AzureSearchConfiguration
+        {
+            public string SearchServiceName { get; set; }
+
+            public string SearchServiceAdminApiKey { get; set; }
+
+            public string SearchIndexName { get; set; }
+
         }
     }
 }

@@ -30,6 +30,65 @@
 - asistiré a la reunión de {FromDate=mañana} a {FromTime=las 14:00} en la {MeetingRoom=sala 304}
 
 
+## AddAttendee
+- Añadir  {ContactName=Carlos} a la reunión
+- Añadir  {ContactName=Chelsea} 
+- Añadir  {ContactName=Enrique} 
+- Añadir  {ContactName=Eric} a la reunión
+- Añadir  {ContactName=Colgar} 
+- Añadir  {ContactName=Jackie} 
+- Añadir  {ContactName=John} 
+- Añadir  {ContactName=kerry clarkson} 
+- Añadir  {ContactName=Lisa} 
+- Añadir  {ContactName=Mohamed} a la reunión
+- Añadir  {ContactName=Omar} 
+- Añadir  {ContactName=Tammy} 
+- Preguntar  {ContactName=John}  para llegar a  {MeetingRoom=Empresa} .
+- Preguntar  {ContactName=Robert} para asistir a la reunión de esta noche a las 6
+-  {ContactName=Bob} puede asistir a la reunión de esta noche a las 6
+- se puede pedir  {ContactName=Jane} para asistir a la reunión?
+- se puede invitar  {ContactName=Paula} para una reunión en el edificio de herreros este miércoles a las 10 de la mañana
+- me gustaría invitar  {ContactName=Sr. de repente} asistir a la reunión de hoy.
+- Invitar  {ContactName=Andy} 
+- Invitar  {ContactName=Cheryl} a la reunión de esta tarde
+- Invitar  {ContactName=Frank} a la reunión del viernes a las 2:30.
+- Invitar  {ContactName=jeff matthews} 
+- Invitar  {ContactName=john Malkovich} a la reunión.
+- Invitar  {ContactName=Kathy} a la reunión de esta tarde
+- Invitar  {ContactName=Paul} a la reunión
+- Invitar  {ContactName=Sophia} a la reunión
+-  {ContactName=Patrick} , deseo invitarle a la próxima reunión.
+- por favor agregue  {ContactName=Eileen} a la invitación a la reunión.
+- por favor puedo añadir  {ContactName=johnathon kelly} a la reunión
+- por favor puedo invitar  {ContactName=khaleesi} a la reunión
+- por favor invite  {ContactName=kathy rood} a la reunión de hoy.
+- enviar una invitación a  {ContactName=Jane} 
+- enviar una invitación a  {ContactName=jerry seinfeld} 
+- por favor agregue una habitación a mi  {ToTime=7pm} Reunión
+
+## AddMeetingRoom
+- añadir una habitación a mi  {ToTime=15:00} Reunión
+- añadir el centro de la ciudad  {MeetingRoom=2122}  Para  {ToTime=10am} Reunión
+- puede agregar una habitación a  {ToDate=Mañana} 's  {Subject=reunión de desarrollo} 
+- por favor agregue una sala de reuniones a la  {Subject=reunión diaria de scrum} 
+
+
+## CancelMeetingRoom
+- cancelar la sala de reuniones
+- cancelar la habitación para  {Subject=reunión diaria de scrum} 
+- cancelar la habitación para mi reunión de las 4pm
+- cancelar la sala de reuniones de mi reunión de las 6 pm
+- por favor cancele la habitación de mi reunión de las 7pm
+
+
+## ChangeMeetingRoom
+- cambiar la sala de reuniones a  {MeetingRoom=london confroom excalibur} 
+- encontrar una nueva habitación para mi reunión de las 3pm
+- Quiero cambiar a otra sala de reuniones
+- Me gustaría cambiar la sala de reuniones
+- por favor cambie la sala de reuniones a  {MeetingRoom=2212} 
+
+
 ## ChangeCalendarEntry
 - ¿puedes cambiar esta cita a {ToTime=las 17:00}?
 - ¿puedes cambiarlo a {ToTime=las 17:00}?
@@ -191,7 +250,57 @@
 - busca disponibilidad en el calendario de jesse
 - me gustaría saber si mi madre está disponible {FromDate=hoy}
 - muestra la disponibilidad de olivia
-
+- puedo reservar una habitación en el edificio  {Building=5} para una reunión?
+- ¿puedo reservar una habitación en  {FloorNumber=piso 7}  En  {Building=edificio 8} para una reunión de mañana?
+- ¿puedo reservar  {MeetingRoom=Alderaan}  Correcto  {FromTime=¿Ahora?} 
+- ¿puedo reservar  {MeetingRoom=Excalibur}  Para  {FromTime=14:00} o no está disponible?
+- puedo reservar habitación  {MeetingRoom=Gandhi} durante toda la semana?
+- ¿puedo reservar el  {MeetingRoom=Empresa}  habitación en  {FloorNumber=piso 6}  Dela  {Building=Bob} construcción para una reunión?
+- ¿puedo reservar la sala de reuniones  {MeetingRoom=Bespin} ?
+- ¿puedo reservar la sala de reuniones que es gratis en el  {FloorNumber=Piso 21} ?
+- ¿puedo reservar el  {MeetingRoom=Williams} espacio para una reunión?
+- se puede saber si la sala de reuniones  {MeetingRoom=Bespin} ¿Ya está disponible para mí?
+- ¿puede decirme si la sala de reuniones  {MeetingRoom=no 20}  está disponible en  {FromTime=Mediodía} ?
+- hola, soy capaz de reservar  {MeetingRoom=hoth}   {FromTime=Ahora mismo} ?
+- Me preguntaba si usted tiene una sala de reuniones disponible en su  {Building=Atlántico}  edificio para el  {FromDate=4 de diciembre} ?
+- me gustaría reservar un  {FloorNumber=planta baja}   {MeetingRoom=sala de conferencias}  En  {Building=construcción delta} , ¿hay uno disponible?
+- Es  {MeetingRoom=Coruscant}  disponible en  {FromTime=2 pm} 
+- Es  {MeetingRoom=Empresa} ¿Disponible?
+- Es  {MeetingRoom=Excalibur}  Disponible  {FromTime=Ahora} ?
+- Es  {MeetingRoom=hoth} actualmente disponible para su uso?
+- es posible reservar una habitación en el  {Building=Redmond} ¿Edificio?
+- se está reuniendo  {MeetingRoom=habitación 201} ¿Disponible?
+- es sala de reuniones  {MeetingRoom=Kamino} disponible para toda la tarde?
+- Es  {MeetingRoom=habitación 224} disponible hoy?
+- Es  {MeetingRoom=Tatooine}  disponible en el  {FromTime=Noche} ?
+- es el  {MeetingRoom=Alderaan}  habitación en el  {FloorNumber=suelo del vestíbulo}  en el  {Building=centro de la ciudad} ¿Disponible?
+- es el  {MeetingRoom=Bespin}  sala de reuniones disponible en  {FromTime=2:00 pm} ?
+- es el  {MeetingRoom=Carpintero} sala disponible para una reunión
+- es el  {MeetingRoom=Gandhi} habitación libre ahora?
+- es la sala de reuniones  {MeetingRoom=Endor} Disponible
+- es la sala de reuniones en el  {FloorNumber=4o piso} ¿Disponible?
+- es el  {MeetingRoom=habitación 1192}  disponible para  {FromTime=2:00pm mañana} ?
+- es la habitación  {MeetingRoom=2211}  disponible para una reunión en  {FromTime=6} 
+- ¿hay una sala de reuniones en el  {FloorNumber=5o piso} actualmente disponible para reservar?
+- ¿hay una habitación disponible en el  {FloorNumber=primer piso}  Para  {FromTime=Esta noche} ?
+- ¿hay una habitación disponible en  {FloorNumber=piso 6}   {FromTime=Ahora} ?
+- ¿hay una habitación en el  {FloorNumber=3a planta} que puedo reservar?
+- por favor, ¿puedo reservar una sala de reuniones en  {Building=centro de la ciudad} ?
+- por favor puedo reservar  {MeetingRoom=Kamino} ?
+- por favor, ¿puedo reservar la sala de reuniones en  {FloorNumber=piso 6}  En  {Building=casa de los árboles de cal} ?
+- por favor, compruebe y ver si la sala de reuniones  {MeetingRoom=2}  está disponible en  {FromTime=12} Mañana.
+- ver si la sala de reuniones  {MeetingRoom=3} disponible el martes a las 11:30 para la reunión.
+- dime si  {MeetingRoom=Kamino}  está abierto en  {FromTime=11:00am} .
+- será la sala de reuniones  {MeetingRoom=2b}  estar disponible en  {FromTime=2 pm} 
+- ¿se  {MeetingRoom=Tatooine}  habitación estar disponible  {FromTime=Mañana} ?
+- ¿podría por favor comprobar la disponibilidad de la habitación en el  {FloorNumber=tercer piso}  En  {FromTime=3 p.m.} ¿Mañana?
+- es conferencia  {MeetingRoom=habitación xi} gratis a las 10 de la mañana?
+- se está reuniendo  {MeetingRoom=habitación 345} abierto a las 15:00?
+- se está reuniendo  {MeetingRoom=pastel de la habitación} disponible ahora?
+- Es  {MeetingRoom=habitación 235} gratis a las 15:00?
+- Es  {MeetingRoom=habitación 246} abierto en este momento?
+- Es  {MeetingRoom=habitación 63}  Disponible  {FromDate=Mañana}   {FromTime=15:00 horas} 
+- Es  {MeetingRoom=habitación alfa} abierto a las 15:00?
 
 ## ConnectToMeeting
 - añádeme a la teleconferencia
@@ -979,6 +1088,103 @@
 - reserva {MeetingRoom=sala de reuniones azul}
 - reserva una reunión
 - reserva una sala de conferencias
+- reservar una sala de reuniones en  {FloorNumber=piso 1} 
+- reservar una habitación en  {FloorNumber=piso 4} 
+- reservar una habitación para  {Duration=30 min} 
+- Libro  {MeetingRoom=habitación 101} Ahora
+- comprobar la sala de reuniones en  {FloorNumber=2o piso} 
+- Comprobar  {MeetingRoom=habitación suerte} 
+- ¿tiene sin una habitación disponible en  {FromTime=15:00}  En  {Building=centro de la ciudad} 
+- encontrar una sala de conferencias en  {FloorNumber=segundo piso}  En  {Building=edificio 34} 
+- encontrar una sala de reuniones en  {FloorNumber=3a planta}  En  {Building=centro de la ciudad} 
+- encontrar un nuevo lugar de reunión
+- encontrar una habitación en el  {FloorNumber=Piso 25} 
+- encontrar una habitación entre para  {Duration=todo el día} Por favor
+- encontrar una habitación para  {Duration=1 hora} Por favor
+- encontrar una habitación en  {Building=falta de edificio} 
+- encontrar una habitación en  {FromDate=Viernes} 
+- ayúdame a reservar sala de reuniones en  {FloorNumber=3a planta} 
+- ayúdame a encontrar una habitación en  {Building=centro de la ciudad} 
+- ¿qué hay de  {Building=edificio 99} 
+- ¿qué hay de  {MeetingRoom=empresa de la sala de reuniones} 
+- ¿qué hay de  {MeetingRoom=habitación 2213} 
+- ¿qué hay de la  {FloorNumber=4o piso} 
+- Quiero reservar una habitación en el piso 23 en  {Building=centro de la ciudad} 
+- Estoy buscando una habitación disponible  {FromDate=esta tarde}  En  {Building=studiox} 
+- hay una habitación disponible a las 3pm hoy
+- ¿hay una habitación disponible en  {Building=edificio 1} 
+- ¿hay alguna habitación disponible el  {Duration=todo el día} ?
+- Busca  {MeetingRoom=habitación hola} 
+- Reserva  {MeetingRoom=habitación 313} Ahora mismo
+- Reserva  {MeetingRoom=habitación 7/154} Por favor
+- Tratar  {MeetingRoom=2312} 
+- Tratar  {FloorNumber=8o piso} 
+- tratar de buillding  {Building=bjw2} 
+- Tratar  {MeetingRoom=Excalibur} 
+- Tratar  {FloorNumber=piso 2} 
+- Tratar  {MeetingRoom=sala jupyter} 
+- Tratar  {Building=studiox} 
+- probar el  {FloorNumber=3a planta} 
+- Tratar  {FloorNumber=el piso 23} 
+- Uso  {MeetingRoom=habitación wender} 
+- un nuevo lugar de reunión encontrar una
+- libro una reunión en el  {MeetingRoom=sala de conferencias endor} 
+- reservar una sala de reuniones en el  {FloorNumber=4o piso}  En  {Building=Redmond} Edificio
+- reservar una sala de reuniones en  {FloorNumber=piso 5} 
+- reservar un lugar en el  {FloorNumber=7o}  piso en  {Building=lloyds edificio} 
+- reservar un espacio en  {Building=centro de Redmond} 
+- Libro  {MeetingRoom=Excalibur} Por favor
+- Libro  {MeetingRoom=Kamino} para mí, por favor
+- Libro  {MeetingRoom=Kamino} Mañana
+- puede reservar  {MeetingRoom=habitación 258} Ahora mismo
+- tener la reunión en  {MeetingRoom=hoth} 
+- celebrar una reunión sobre el  {FloorNumber=1a planta} 
+- Necesito reservar una sala de reuniones en el  {FloorNumber=2o piso} con un proyector en él
+- Necesito reservar  {MeetingRoom=Endor}  en el  {FloorNumber=1a planta}  En  {Building=edificio de la sala de vajilla} .
+- Necesito reservar  {MeetingRoom=mustafar, Nuevo} para un cliente a las 5pm.
+- necesito reservar el  {MeetingRoom=sala de conferencias alderaan} para una reunión.
+- necesito reservar el  {Building=Bespin} sala de reuniones.
+- Necesito que reserve la sala de reuniones en  {FloorNumber=piso 2} .
+- Quiero reservar  {MeetingRoom=Tatooine} 
+- quiero tener una reunión en  {MeetingRoom=mustafar, Nuevo} 
+- quiero reservar  {MeetingRoom=Gandhi}  En  {FromTime=6pm} 
+- Quiero ver a la gente en  {MeetingRoom=Tatooine}  en el pasillo  {FloorNumber=piso 4} .
+- me gustaría reservar el  {MeetingRoom=Coruscant}  sala de reuniones en el  {FloorNumber=5o piso}  Dela  {Building=edificio del Pacífico} para mañana a las 9 de la mañana
+- Deseo reservar una sala de reuniones en el  {Building=edificio de Londres}  Para  {FromDate=enero del 9 o 9}  En  {FromTime=1pm} 
+- Deseo reservar una habitación ahora en el  {Building=Bellevue} Edificio.
+- me gustaría reservar una reunión en el  {Building=Hitchcock}  edificio en el  {FloorNumber=Piso 23} .
+- me gustaría reservar sala de reuniones  {MeetingRoom=Excalibur}  en el  {FloorNumber=primer piso}  Dela  {Building=alfred edificio} 
+- me gustaría reservar una de sus salas de reuniones en el  {FloorNumber=Segundo}  piso de la  {Building=Langham} edificio por favor
+- Me gustaría reservar una habitación en el  {FloorNumber=2o piso}  Dela  {Building=albert hall} Por favor.
+- organizar una reunión en el  {MeetingRoom=Gandhi}  habitación en el  {FloorNumber=3a planta}  en el  {Building=hotel greenpark} 
+- por favor reserve sala de reuniones  {MeetingRoom=Excalibur}  En  {FromDate=Viernes} 
+- por favor, ¿puedo reservar sala de reuniones  {MeetingRoom=Excalibur}  en el  {FloorNumber=primer piso}  De  {Building=casa webb} 
+- por favor reserve una sala de reuniones en el edificio  {Building=3} .
+- por favor reserve una sala de reuniones en el  {FloorNumber=1a planta} .
+- por favor reserve una sala de reuniones en el  {FloorNumber=3a planta}  De  {Building=torre terman} .
+- por favor reserve  {MeetingRoom=Excalibur} para la reunión de la mañana.
+- por favor reserve la sala de reuniones  {MeetingRoom=hoth}  En  {FloorNumber=piso 10}  Dela  {Building=edificio de Londres}  Para  {FromDate=viernes por la tarde} .
+- por favor reserve el  {MeetingRoom=sala verde}  en el  {FloorNumber=2o piso}  Dela  {Building=Hewitt} Edificio.
+- por favor reserve el  {FloorNumber=segundo piso}  sala de reuniones en  {Building=edificio 5} para mañana.
+- por favor, ¿puede reservar una sala de reuniones para mí en  {Building=centro de la ciudad}  en el  {FromDate=23 de enero} .
+- reservar una sala de conferencias en el  {Building=edificio redmond} 
+- reservar una sala de reuniones en el  {Building=Redmond} Edificio
+- reservar una sala de reuniones en  {FloorNumber=piso 1}  Dela  {Building=mercator centro} 
+- reservar una sala de reuniones en el  {FloorNumber=3a planta} 
+- reservar una habitación en el  {Building=Londres} edificio para la reunión
+- Reserva  {MeetingRoom=Empresa} para una reunión
+- reservarme una sala de reuniones en el  {Building=edificio de Londres} ,  {FloorNumber=piso 5}  para el sábado en  {FromTime=1 p.m.} 
+- sala de reuniones de reserva  {MeetingRoom=Coruscant} Por favor
+- sala de reuniones de reserva  {MeetingRoom=Gandhi} para el lunes por la mañana.
+- Reserva  {MeetingRoom=habitación 258} 
+- Reserva  {MeetingRoom=habitación 258} Ahora
+- Reserva  {MeetingRoom=habitación 258} Ahora mismo
+- reservar la sala de reuniones  {MeetingRoom=Empresa}  En  {FloorNumber=piso 2}  Dela  {Building=mercator centro} 
+- reservar la sala de reuniones en el  {FloorNumber=Piso 12}  en el  {Building=Ferry} 
+- reservar la  {MeetingRoom=mustafar, Nuevo}  habitación en el  {Building=Escuela}   {FloorNumber=cuarto piso} para la reunión
+- reservar la  {MeetingRoom=Tatooine}  sala de reuniones en el  {FloorNumber=2o piso} .
+- reservar la  {FloorNumber=tercer piso} para la reunión
+- queremos reservar el  {FloorNumber=segundo piso}  En  {Building=edificio principal} para nuestra sala de reuniones
 
 
 ## None
@@ -1142,6 +1348,12 @@ $FromTime:simple
 
 $Subject:simple
 
+$Building:simple
+
+$ContactName:simple
+
+$FloorNumber:simple
+
 
 > # PREBUILT Entity definitions
 
@@ -1171,6 +1383,28 @@ $PossessivePronoun:ThirdPerson=
 - suyos
 - Su
 - su propia
+
+$BuildingName:StudioX=
+
+$BuildingName:City Center=
+
+$BuildingName:StudioA=
+
+$BuildingName:StudioB=
+
+$BuildingName:StudioC=
+
+$BuildingName:StudioE=
+
+$BuildingName:StudioD=
+
+$BuildingName:StudioF=
+
+$BuildingName:Building 99=
+
+$MeetingRoomName:BJW2-63=
+
+$MeetingRoomName:BJW2-64=
 
 $RelationshipName:tía=
 

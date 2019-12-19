@@ -13,6 +13,16 @@ namespace CalendarSkill.Test.Flow.Strings
 
         public const string DefaultContent = "test content";
 
+        public const string DefaultMeetingRoom = "test meetingroom";
+
+        public const string DefaultMeetingRoom2 = "test meetingroom2";
+
+        public const string DefaultMeetingRoom3 = "test meetingroom3";
+
+        public const string DefaultBuilding = "test building";
+
+        public const string DefaultFloorNumber = "1st floor";
+
         public const string DefaultLocation = "test location";
 
         public const string DefaultStartDate = "tomorrow";
@@ -50,5 +60,9 @@ namespace CalendarSkill.Test.Flow.Strings
         public const string RecreateWithSubject = "subject";
 
         public const string RecreateWithContent = "content";
+
+        public const string ChangeMeetingRoom = "different room";
+
+        public const string ChangeTime = "different time";
     }
 }

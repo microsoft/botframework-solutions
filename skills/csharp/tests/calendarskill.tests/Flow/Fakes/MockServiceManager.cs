@@ -20,7 +20,9 @@ namespace CalendarSkill.Test.Flow.Fakes
         private static readonly List<EventModel> BuildinEvents;
         private static readonly List<PersonModel> BuildinPeoples;
         private static readonly List<PersonModel> BuildinUsers;
+        //private static readonly List<RoomModel> BuildinRooms;
         private static readonly AvailabilityResult BuildinAvailabilityResult;
+        private static readonly List<bool> BuildinCheckAvailableResult;
         private static Mock<ICalendarService> mockCalendarService;
         private static Mock<IUserService> mockUserService;
         private static Mock<IServiceManager> mockServiceManager;
@@ -30,7 +32,9 @@ namespace CalendarSkill.Test.Flow.Fakes
             BuildinEvents = GetFakeEvents();
             BuildinPeoples = GetFakePeoples();
             BuildinUsers = GetFakeUsers();
+            //BuildinRooms = GetFakeRooms();
             BuildinAvailabilityResult = GetFakeAvailabilityResult();
+            BuildinCheckAvailableResult = GetFakeCheckAvailable();
 
             // calendar
             mockCalendarService = new Mock<ICalendarService>();
@@ -44,6 +48,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockCalendarService.Setup(service => service.AcceptEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.DeclineEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.GetUserAvailabilityAsync(It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(BuildinAvailabilityResult));
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(BuildinCheckAvailableResult));
 
             // user
             mockUserService = new Mock<IUserService>();
@@ -134,6 +139,18 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
             mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
             mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetRoomAvailability(int count, bool available)
+        {
+            var result = new List<bool>();
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(available);
+            }
+
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(result));
             return mockServiceManager.Object;
         }
 
@@ -425,6 +442,24 @@ namespace CalendarSkill.Test.Flow.Fakes
             return users;
         }
 
+        private static List<RoomModel> GetFakeRooms()
+        {
+            var rooms = new List<RoomModel>();
+
+            var room = new RoomModel()
+            {
+                Id = "1",
+                DisplayName = Strings.Strings.DefaultMeetingRoom,
+                EmailAddress = Strings.Strings.DefaultUserEmail,
+                Building = Strings.Strings.DefaultBuilding,
+                FloorNumber = 1,
+            };
+
+            rooms.Add(room);
+
+            return rooms;
+        }
+
         private static AvailabilityResult GetFakeAvailabilityResult()
         {
             var availabilityResult = new AvailabilityResult();
@@ -432,6 +467,12 @@ namespace CalendarSkill.Test.Flow.Fakes
             availabilityResult.AvailabilityViewList.Add("000000000000");
 
             return availabilityResult;
+        }
+
+        private static List<bool> GetFakeCheckAvailable()
+        {
+            List<bool> result = new List<bool> { true, true, true };
+            return result;
         }
     }
 }

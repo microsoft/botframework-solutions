@@ -1,0 +1,148 @@
+﻿[import](FindMeetingRoomDialogTexts.lg)
+
+# NoBuilding
+[Activity
+    Text = {NoBuilding.Text()}
+    Speak = {NoBuilding.Text()}
+    InputHint = expectingInput
+]
+
+# BuildingNonexistent
+[Activity
+    Text = {BuildingNonexistent.Text()}
+    Speak = {BuildingNonexistent.Text()}
+    InputHint = expectingInput
+]
+
+# MeetingRoomNotFound
+[Activity
+    Text = {MeetingRoomNotFound.Text(MeetingRoom)}
+    Speak = {MeetingRoomNotFound.Text(MeetingRoom)}
+    InputHint = acceptingInput
+]
+
+# ConfirmMeetingRoomPrompt
+[Activity
+    Text = {ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
+    Speak = {ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
+    InputHint = expectingInput
+]
+
+# MeetingRoomUnavailable
+[Activity
+    Text = {MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
+    Speak = {MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
+    InputHint = expectingInput
+]
+
+# FloorNumberRetry
+[Activity
+    Text = {FloorNumberRetry.Text()}
+    Speak = {FloorNumberRetry.Text()}
+    InputHint = expectingInput
+]
+
+# NoFloorNumber
+[Activity
+    Text = {NoFloorNumber.Text()}
+    Speak = {NoFloorNumber.Text()}
+    InputHint = expectingInput
+]
+
+# CannotFindOtherMeetingRoom
+[Activity
+    Text = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Speak = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    InputHint = expectingInput
+]
+
+# CannotFindMeetingRoom
+[Activity
+    Text = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Speak = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    InputHint = expectingInput
+]
+
+# IgnoreMeetingRoom
+[Activity
+    Text = {IgnoreMeetingRoom.Text()}
+    Speak = {IgnoreMeetingRoom.Text()}
+    InputHint = expectingInput
+]
+
+# RecreateMeetingRoomAgain
+[Activity
+    Text = {RecreateMeetingRoomAgain.Text()}
+    Speak = {RecreateMeetingRoomAgain.Text()}
+    InputHint = expectingInput
+]
+
+# RecreateMeetingRoom
+[Activity
+    Text = {RecreateMeetingRoom.Text()}
+    Speak = {RecreateMeetingRoom.Text()}
+    InputHint = expectingInput
+]
+
+# CancelRequest
+[Activity
+    Text = {CancelRequest.Text()}
+    Speak = {CancelRequest.Text()}
+    InputHint = acceptingInput
+]
+
+# ConfirmedMeeting
+[Activity
+    Text = {ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
+    Speak = {ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
+    InputHint = acceptingInput
+]
+
+# ConfirmAddMeetingRoom
+[Activity
+    Text = {ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
+    Speak = {ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
+    InputHint = acceptingInput
+]
+
+# ConfirmChangeMeetingRoom
+[Activity
+    Text = {ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
+    Speak = {ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
+    InputHint = acceptingInput
+]
+
+# ConfirmedMeetingRoom
+[Activity
+    Text = {ConfirmedMeetingRoom.Text()}
+    Speak = {ConfirmedMeetingRoom.Text()}
+    InputHint = acceptingInput
+]
+
+# ConfirmBeforCreatePrompt
+[Activity
+    Text = {ConfirmBeforCreatePrompt.Text()}
+    Speak = {ConfirmBeforCreatePrompt.Text()}
+    InputHint = acceptingInput
+]
+
+# MeetingRoomAdded
+[Activity
+    Text = {MeetingRoomAdded.Text(MeetingRoom, Subject)}
+    Speak = {MeetingRoomAdded.Text(MeetingRoom, Subject)}
+    InputHint = acceptingInput
+]
+
+# MeetingRoomAddChanged
+[Activity
+    Text = {MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
+    Speak = {MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
+    InputHint = acceptingInput
+]
+
+# MeetingRoomCanceled
+[Activity
+    Text = {MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
+    Speak = {MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
+    InputHint = acceptingInput
+]

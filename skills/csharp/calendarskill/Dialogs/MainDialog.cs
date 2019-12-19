@@ -48,6 +48,9 @@ namespace CalendarSkill.Dialogs
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
             CheckAvailableDialog checkAvailableDialog,
+            FindMeetingRoomDialog findMeetingRoomDialog,
+            UpdateMeetingRoomDialog updateMeetingRoomDialog,
+            BookMeetingRoomDialog bookMeetingRoomDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -70,6 +73,9 @@ namespace CalendarSkill.Dialogs
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
             AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
+            AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
+            AddDialog(updateMeetingRoomDialog ?? throw new ArgumentNullException(nameof(updateMeetingRoomDialog)));
+            AddDialog(bookMeetingRoomDialog ?? throw new ArgumentNullException(nameof(bookMeetingRoomDialog)));
         }
 
         private LocaleTemplateEngineManager TemplateEngine { get; set; }
@@ -106,6 +112,19 @@ namespace CalendarSkill.Dialogs
             switch (intent)
             {
                 case CalendarLuis.Intent.FindMeetingRoom:
+                    {
+                        await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                        break;
+                    }
+
+                case CalendarLuis.Intent.ChangeMeetingRoom:
+                case CalendarLuis.Intent.AddMeetingRoom:
+                case CalendarLuis.Intent.CancelMeetingRoom:
+                    {
+                        await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                        break;
+                    }
+
                 case CalendarLuis.Intent.CreateCalendarEntry:
                     {
                         await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
@@ -155,7 +174,14 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.CheckAvailability:
                     {
-                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                        if (luisResult.Entities.MeetingRoom != null)
+                        {
+                            await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                        }
                         break;
                     }
 
