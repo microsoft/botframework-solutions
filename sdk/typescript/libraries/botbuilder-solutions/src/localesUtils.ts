@@ -16,7 +16,7 @@ export namespace Locales {
         files.forEach((file: string): void => {
             const language: string = basename(file, '.json');
             const languagePath: string = join(localesDir, file);
-            const resource: Object = JSON.parse(readFileSync(languagePath, 'utf8'));
+            const resource: Object = <Object> JSON.parse(readFileSync(languagePath, 'utf8'));
             instance.addResourceBundle(language, namespace, resource, true, false);
         });
     }

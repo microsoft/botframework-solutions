@@ -4,6 +4,8 @@
  */
 
 import { IAdaptiveCard, ICardElement } from 'adaptivecards';
+// tslint:disable-next-line: no-submodule-imports
+import { IContainer } from 'adaptivecards/lib/schema';
 import { ActivityTypes } from 'botbuilder';
 import { Activity, CardFactory, MessageFactory } from 'botbuilder-core';
 import { ActionTypes, Attachment } from 'botframework-schema';
@@ -52,6 +54,18 @@ export class ResponseManager {
 
         // create the response the data items
         return this.parseResponse(template, tokens);
+    }
+
+    /**
+     * Gets the Text of a response.
+     * @param templateId The name of the response template.
+     * @param tokens string map of tokens to replace in the response.
+     * @returns The response text.
+     */
+    public getResponseText(templateId: string, tokens?: Map<string, string>): string {
+        const text: string | undefined = this.getResponse(templateId, tokens).text;
+
+        return text !== undefined ? text : '';
     }
 
     /**
@@ -127,25 +141,30 @@ export class ResponseManager {
         const resourcePath: string = join(__dirname, '..', 'resources', 'cards');
         const json: string = this.loadCardJson(card.name, locale, resourcePath);
 
-        const emailOverviewCard: IAdaptiveCard = this.buildCard(json, card.data);
-        if (containerName && emailOverviewCard.body) {
-            const itemContainer: ICardElement|undefined = emailOverviewCard.body.find((item: ICardElement): boolean => {
+        const mainCard: IAdaptiveCard = this.buildCard(json, card.data);
+        if (containerName && mainCard.body) {
+            const itemContainer: ICardElement | undefined = mainCard.body.find((item: ICardElement): boolean => {
                 return item.type === 'Container' && item.id === containerName;
             });
-
-            if (itemContainer && containerItems) {
-                containerItems.forEach((cardItem: Card): void => {
-                    const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
-                    const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
-                    if (itemCard.body && itemCard.body[0]) {
-                        const items: ICardElement[] = itemCard.body[0].items;
-                        items.push(itemContainer);
-                    }
-                });
+            const itemsAdaptiveContainer: IContainer = <IContainer> itemContainer;
+            if (itemsAdaptiveContainer !== undefined) {
+                if (containerItems !== undefined) {
+                    containerItems.forEach((cardItem: Card): void => {
+                        const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
+                        const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
+                        if (itemCard.body !== undefined) {
+                            itemCard.body.forEach((body: any): void => {
+                                if (itemsAdaptiveContainer.items !== undefined) {
+                                    itemsAdaptiveContainer.items.push(body);
+                                }
+                            });
+                        }
+                    });
+                }
             }
         }
 
-        const attachment: Attachment = CardFactory.adaptiveCard(emailOverviewCard);
+        const attachment: Attachment = CardFactory.adaptiveCard(mainCard);
         if (templateId) {
             const response: Partial<Activity> = this.getResponse(templateId, tokens);
 
