@@ -82,7 +82,7 @@ export class SkillHttpTransport implements ISkillTransport {
         skillResponses.forEach(async (skillResponse: Activity): Promise<void> => {
             // Once a Skill has finished it signals that it's handing back control to the parent through a
             // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
-            if (skillResponse.type === ActivityTypes.EndOfConversation) {
+            if (skillResponse.type === ActivityTypes.Handoff) {
                 endOfConversation = true;
             } else if (skillResponse.name === TokenEvents.tokenRequestEventName) {
                 if (tokenRequestHandler) {

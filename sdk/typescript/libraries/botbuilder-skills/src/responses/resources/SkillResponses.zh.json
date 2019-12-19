@@ -16,5 +16,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ConfirmSkillSwitch": {
+    "replies": [
+      {
+        "text": "你确定要切换到{0}吗？",
+        "speak": "你确定要切换到{0}吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
