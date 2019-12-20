@@ -668,12 +668,16 @@ namespace CalendarSkill.Dialogs
         {
             var state = await Accessor.GetAsync(dc.Context);
 
-            var attendeePhotoList = new List<string>();
-
-            foreach (var attendee in eventItem.Attendees)
+            var taskList = new Task<string>[AdaptiveCardHelper.MaxDisplayRecipientNum];
+            for (int i = 0; i < AdaptiveCardHelper.MaxDisplayRecipientNum; i++)
             {
-                attendeePhotoList.Add(await GetUserPhotoUrlAsync(dc.Context, attendee));
+                taskList[i] = GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, i);
             }
+
+            Task.WaitAll(taskList);
+
+            var attendeePhotoList = new List<string>();
+            attendeePhotoList.AddRange(taskList.Select(li => li.Result));
 
             var data = new
             {
