@@ -2,13 +2,13 @@
 - 您要添加谁？
 
 # BeforeSendingMessage.Text(NameList)
-- 好吧，我知道你想把活动送到{NameList}.
+- 好吧，我知道你想把活动送到@{NameList}.
 
 # UserNotFound.Text
 - 我在你的联系人中找不到与这个名字匹配的人。
 
 # UserNotFoundAgain.Text(UserName, Source)
-- 对不起, 我找不到您要选择的联系人"{UserName}"。下次，如果将联系人添加到{Source}中的联系人簿中，它可能会提供帮助。
+- 对不起, 我找不到您要选择的联系人"@{UserName}"。下次，如果将联系人添加到{Source}中的联系人簿中，它可能会提供帮助。
 
 # AlreadyFirstPage.Text
 - 这已经是第一页了。
@@ -32,17 +32,17 @@
 - 你在找哪一个？您也可以让我向您展示以前的或更多的选项。
 
 # PromptOneNameOneAddress.Text(User)
-- 好吧，我加了{User}.
+- 好吧，我加了@{User}.
 
 # AskForEmail.Text
 - 你能提供一个电子邮件地址吗？
 
 # FindMultipleEmails.Text(UserName)
-- 我找到了多个{UserName}的邮件地址。
+- 我找到了多个@{UserName}的邮件地址。
 
 # FindMultipleContactNames.Text(UserName)
-- 我找到了多个叫{UserName}的联系人。
+- 我找到了多个叫@{UserName}的联系人。
 
 # EmailChoiceConfirmation.Text(Email)
-- 好的，我会使用{Email}。
+- 好的，我会使用@{Email}。
 

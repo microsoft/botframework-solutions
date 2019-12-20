@@ -2,7 +2,7 @@
 - 你没有任何会议。
 
 # ReadOutMessage.Text(Date, Time, Participants, Subject)
-- {Date}的会议{Time}和{Participants}，标题为{Subject}。
+- @{Date}的会议@{Time}和{Participants}，标题为@{Subject}。
 
 # CalendarNoMoreEvent.Text
 - 没有更多会议！
@@ -14,7 +14,7 @@
 - 这是你的会议{EventName}的详细信息：
 
 # ReadTime.Text(EventStartTime, EventEndTime)
-- 它开始于{EventStartTime}，结束于{EventEndTime}.
+- 它开始于@{EventStartTime}，结束于@{EventEndTime}.
 
 # ReadDuration.Text(EventDuration)
 - 这个会议持续{EventDuration}。
@@ -38,7 +38,7 @@
 - 您的日程表上有下列会议：
 
 # ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
-- 您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人，会议地点在{Location}
+- 您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人，会议地点在@{Location}
 
 # ShowMultipleNextMeetingMessage.Text
 - 您的日程表上有下列会议：

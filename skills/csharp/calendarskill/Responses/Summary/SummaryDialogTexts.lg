@@ -2,7 +2,7 @@
 - You don't have any events.
 
 # ReadOutMessage.Text(Date, Time, Participants, Subject)
-- The event on {Date} is {Time} with {Participants} titled {Subject}.
+- The event on @{Date} is @{Time} with {Participants} titled @{Subject}.
 
 # CalendarNoMoreEvent.Text
 - No more events!
@@ -14,7 +14,7 @@
 - Here is the details of your event {EventName}:
 
 # ReadTime.Text(EventStartTime, EventEndTime)
-- It starts at {EventStartTime}, and ends at {EventEndTime}.
+- It starts at @{EventStartTime}, and ends at @{EventEndTime}.
 
 # ReadDuration.Text(EventDuration)
 - It lasts for {EventDuration}.
@@ -38,7 +38,7 @@
 - You have the following event on your calendar:
 
 # ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
-- You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}.
+- You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at @{Location}.
 
 # ShowMultipleNextMeetingMessage.Text
 - You have the following event on your calendar:
