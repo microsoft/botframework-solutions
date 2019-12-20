@@ -2,7 +2,7 @@
 
 Param(
     [switch] $RemoteToLocal,
-    [switch] $gov,
+    [switch] $useGov,
     [switch] $useLuisGen = $true,
     [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
     [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
@@ -24,7 +24,33 @@ else {
     New-Item -Path $logFile | Out-Null
 }
 
-if ($gov) {
+# Check for AZ CLI and confirm version
+if (Get-Command az -ErrorAction SilentlyContinue) {
+    $azcliversionoutput = az -v
+    [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
+    [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
+    [version]$minversion = '2.0.72'
+
+    if ($azcliversion -ge $minversion) {
+        $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
+        Write-Debug $azclipassmessage
+        $azclipassmessage | Out-File -Append -FilePath $logfile
+    }
+    else {
+        $azcliwarnmessage = "You are using an older version of the AZ CLI, `
+    please ensure you are using version $minversion or newer. `
+    The most recent version can be found here: http://aka.ms/installazurecliwindows"
+        Write-Warning $azcliwarnmessage
+        $azcliwarnmessage | Out-File -Append -FilePath $logfile
+    }
+}
+else {
+    $azclierrormessage = 'AZ CLI not found. Please install latest version.'
+    Write-Error $azclierrormessage
+    $azclierrormessage | Out-File -Append -FilePath $logfile
+}
+
+if ($useGov) {
     $cloud = 'us'
 }
 else {
@@ -52,7 +78,7 @@ foreach ($langCode in $languageMap.Keys) {
             --luisAuthoringKey $dispatch.authoringkey `
             --luisAuthoringRegion $dispatch.region `
             --culture $langCode `
-            --gov $gov `
+            --gov $useGov `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
         Write-Host "Done." -ForegroundColor Green
                  
@@ -206,7 +232,7 @@ foreach ($langCode in $languageMap.Keys) {
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `
                 -subscriptionKey $luisApp.subscriptionKey `
-                -gov $gov `
+                -gov $useGov `
                 -log $logFile
 
              if ($useLuisGen) {
@@ -238,7 +264,7 @@ foreach ($langCode in $languageMap.Keys) {
         # Update dispatch model
         Write-Host "> Updating $($langCode) dispatch model ..." -NoNewline
         dispatch refresh `
-            --gov $gov `
+            --gov $useGov `
             --version $dispatch.version `
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
