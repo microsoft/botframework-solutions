@@ -230,7 +230,7 @@
         "endpoint": "[variables('botEndpoint')]",
         "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
-        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
+        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
       },
       "tags": {
@@ -283,10 +283,10 @@
       "type": "string",
       "value": "[variables('botWebAppName')]"
     },
-    "ApplicationInsights": {
+    "appInsights": {
       "type": "object",
       "value": {
-        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]"
       }
     },
     "blobStorage": {
