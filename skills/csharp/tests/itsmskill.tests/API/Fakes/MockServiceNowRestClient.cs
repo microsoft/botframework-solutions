@@ -128,7 +128,7 @@ namespace ITSMSkill.Tests.API.Fakes
             // TODO use Execute*TaskAsync instead of extension methods
             mockClient
                .Setup(c => c.ExecuteGetTaskAsync<GetUserIdResponse>(It.IsAny<IRestRequest>()))
-               .ReturnsAsync(CreateIRestResponse(GetUserIdResponse));
+               .ReturnsAsync(CreateGetUserIdResponseAndCount());
 
             mockClient
                .Setup(c => c.ExecuteGetTaskAsync<SingleAggregateResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith("now/v1/stats/incident") && r.Parameters.Any(p => p.Name == "sysparm_count" && p.Value is bool && (bool)p.Value))))
@@ -168,6 +168,14 @@ namespace ITSMSkill.Tests.API.Fakes
         }
 
         public IRestClient MockRestClient { get; }
+
+        public int GetUserIdResponseCount { get; set; } = 0;
+
+        private IRestResponse<GetUserIdResponse> CreateGetUserIdResponseAndCount()
+        {
+            GetUserIdResponseCount += 1;
+            return CreateIRestResponse(GetUserIdResponse);
+        }
 
         private IRestResponse<T> CreateIRestResponse<T>(T data)
         {

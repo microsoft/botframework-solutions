@@ -1008,11 +1008,20 @@ namespace EmailSkill.Dialogs
 
             var cards = new List<Card>();
             var emailList = new List<EmailCardData>();
-            foreach (var message in messages)
+
+            var taskList = new Task<string>[messages.Count()];
+            for (int i = 0; i < messages.Count(); i++)
             {
+                taskList[i] = GetUserPhotoUrlAsync(sc.Context, messages[i].Sender.EmailAddress);
+            }
+
+            Task.WaitAll(taskList);
+
+            for (int i = 0; i < messages.Count(); i++)
+            {
+                var message = messages[i];
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
-                var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
@@ -1024,7 +1033,7 @@ namespace EmailSkill.Dialogs
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToOverallRelativeString(state.GetUserTimeZone()),
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
-                    SenderIcon = senderIcon
+                    SenderIcon = taskList[i].Result
                 };
 
                 var isImportant = message.Importance != null && message.Importance == Importance.High;
@@ -1162,6 +1171,16 @@ namespace EmailSkill.Dialogs
             }
         }
 
+        protected async Task<string> GetPhotoByIndexAsync(ITurnContext context, IEnumerable<Recipient> recipients, int index)
+        {
+            if (recipients.Count() <= index)
+            {
+                return AdaptiveCardHelper.DefaultIcon;
+            }
+
+            return await GetUserPhotoUrlAsync(context, recipients.ElementAt(index).EmailAddress);
+        }
+
         protected async Task<EmailCardData> ProcessRecipientPhotoUrl(ITurnContext context, EmailCardData data, IEnumerable<Recipient> recipients)
         {
             try
@@ -1173,31 +1192,19 @@ namespace EmailSkill.Dialogs
                     throw new Exception("No recipient!");
                 }
 
-                var size = Math.Min(AdaptiveCardHelper.MaxDisplayRecipientNum, recipients.Count());
-
-                for (var i = 0; i < size; i++)
+                var taskList = new Task<string>[AdaptiveCardHelper.MaxDisplayRecipientNum];
+                for (int i = 0; i < taskList.Count(); i++)
                 {
-                    var photoUrl = await GetUserPhotoUrlAsync(context, recipients.ElementAt(i).EmailAddress);
-
-                    switch (i)
-                    {
-                        case 0:
-                            data.RecipientIcon0 = photoUrl;
-                            break;
-                        case 1:
-                            data.RecipientIcon1 = photoUrl;
-                            break;
-                        case 2:
-                            data.RecipientIcon2 = photoUrl;
-                            break;
-                        case 3:
-                            data.RecipientIcon3 = photoUrl;
-                            break;
-                        case 4:
-                            data.RecipientIcon4 = photoUrl;
-                            break;
-                    }
+                    taskList[i] = GetPhotoByIndexAsync(context, recipients, i);
                 }
+
+                Task.WaitAll(taskList);
+
+                data.RecipientIcon0 = taskList[0].Result;
+                data.RecipientIcon1 = taskList[1].Result;
+                data.RecipientIcon2 = taskList[2].Result;
+                data.RecipientIcon3 = taskList[3].Result;
+                data.RecipientIcon4 = taskList[4].Result;
 
                 if (recipients.Count() > AdaptiveCardHelper.MaxDisplayRecipientNum)
                 {

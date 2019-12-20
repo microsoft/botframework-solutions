@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,7 +97,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View botCards = view.findViewById(R.id.bot_cards);
             botCards.setVisibility(View.VISIBLE); // bot cards is hidden by default, set to visible if cards exist
 
-            LinearLayout cardsContainer = view.findViewById(R.id.cards_container);
+            RelativeLayout cardsContainer = view.findViewById(R.id.cards_container);
 
             // generate horizontal or vertical carousel of cards
             for (int x = 0; x < botConnectorActivity.getAttachments().size(); x++) {
@@ -119,6 +120,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         renderedAdaptiveCardView.setFocusable(false);
                         renderedAdaptiveCardView.setFocusableInTouchMode(false);
                         renderedAdaptiveCardView.setBackgroundColor(colorBubbleBot);
+
+                        // workaround of adaptive card render issue
+                        renderedAdaptiveCardView.setLayoutParams(new LinearLayout.LayoutParams(parent.getWidth() * 3 / 4, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                         // add the view to the existing card container
                         cardsContainer.addView(renderedAdaptiveCardView);
