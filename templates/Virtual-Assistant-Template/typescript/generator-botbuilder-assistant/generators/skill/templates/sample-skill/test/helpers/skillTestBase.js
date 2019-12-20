@@ -120,7 +120,7 @@ const initialize = async function() {
     sampleDialog,
     telemetryClient
   );
-  this.bot = new DialogBot(conversationState, telemetryClient, mainDialog);
+  this.bot = new DialogBot(conversationState, userState,telemetryClient, mainDialog);
 };
 
 /**
@@ -149,7 +149,6 @@ const getTestAdapter = function() {
     new SetLocaleMiddleware(cognitiveModelsRaw.defaultLocale || "en-us")
   );
   adapter.use(new EventDebuggerMiddleware());
-  adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
   return adapter;
 };
 

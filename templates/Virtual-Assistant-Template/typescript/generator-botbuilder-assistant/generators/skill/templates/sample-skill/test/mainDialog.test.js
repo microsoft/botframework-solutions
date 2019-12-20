@@ -80,7 +80,7 @@ describe("main dialog", function() {
           assert.notStrictEqual(-1, unhandledReplies.indexOf(activity.text));
         })
         .assertReply(function(activity) {
-          assert.strictEqual(ActivityTypes.HandOff, activity.type);
+          assert.strictEqual(ActivityTypes.Handoff, activity.type);
         });
 
       testNock.resolveWithMocks("mainDialog_singleTurn_response", done, flow);
