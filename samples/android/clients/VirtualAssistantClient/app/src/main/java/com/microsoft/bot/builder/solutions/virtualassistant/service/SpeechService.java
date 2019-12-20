@@ -542,7 +542,16 @@ public class SpeechService extends Service {
                 }
 
             }
-            if (event.telephoneUri != null && !event.telephoneUri.isEmpty()) {
+
+            if (event.meetingUri != null && !event.meetingUri.isEmpty()) {
+                Uri intentUri = Uri.parse(event.meetingUri);
+                Intent meetingUrlIntent = new Intent(Intent.ACTION_VIEW);
+                meetingUrlIntent.setData(intentUri);
+                if (meetingUrlIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(meetingUrlIntent);
+                }
+            }
+            else if (event.telephoneUri != null && !event.telephoneUri.isEmpty()) {
                 Uri intentUri = Uri.parse(event.telephoneUri);
                 Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
                 dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -550,6 +559,7 @@ public class SpeechService extends Service {
                     startActivity(dialerIntent);
                 }
             }
+
             if (event.musicUri != null && !event.musicUri.isEmpty()) {
                 try {
                     // please note that ":play" makes Spotify automatically start playing
