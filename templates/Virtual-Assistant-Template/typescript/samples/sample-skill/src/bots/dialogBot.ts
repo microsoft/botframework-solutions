@@ -9,7 +9,8 @@ import {
     ConversationState,
     EndOfConversationCodes,
     Severity,
-    TurnContext } from 'botbuilder';
+    TurnContext, 
+    BotState } from 'botbuilder';
 import {
     Dialog,
     DialogContext,
@@ -21,9 +22,12 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
     private readonly solutionName: string = 'sampleSkill';
     private readonly rootDialogId: string;
     private readonly dialogs: DialogSet;
+    private readonly conversationState: BotState;
+    private readonly userState: BotState;
 
     public constructor(
         conversationState: ConversationState,
+        userState: BotState,
         telemetryClient: BotTelemetryClient,
         dialog: T
     ) {
@@ -31,6 +35,8 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
 
         this.rootDialogId = dialog.id;
         this.telemetryClient = telemetryClient;
+        this.conversationState = conversationState;
+        this.userState = userState;
         this.dialogs = new DialogSet(conversationState.createProperty<DialogState>(this.solutionName));
         this.dialogs.add(dialog);
         this.onTurn(this.turn.bind(this));
@@ -55,6 +61,10 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
         } else {
             await dc.beginDialog(this.rootDialogId);
         }
+        
+        // Save any state changes that might have occured during the turn.
+        await this.conversationState.saveChanges(turnContext, false);
+        await this.userState.saveChanges(turnContext, false);
 
         await next();
     }

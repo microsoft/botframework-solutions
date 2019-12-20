@@ -149,7 +149,7 @@ try {
         telemetryClient
     );
 
-    bot = new DialogBot(conversationState, telemetryClient, mainDialog);
+    bot = new DialogBot(conversationState, userState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }
