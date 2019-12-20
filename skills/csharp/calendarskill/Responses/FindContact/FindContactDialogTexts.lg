@@ -8,7 +8,7 @@
 - I didn't find anyone matching that name in your contacts.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Unfortunately, I could not find the "@{UserName}" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.
+- Unfortunately, I could not find the "@{UserName}" you want to select. For next time, it could help if you add the contact to your contact book in @{Source}.
 
 # AlreadyFirstPage.Text
 - This is already the first page.

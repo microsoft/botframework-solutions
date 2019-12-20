@@ -8,7 +8,7 @@
 - No encontré a nadie que coincida con ese nombre en tus contactos.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Desafortunadamente, no pude encontrar el "@{UserName}" que desea seleccionar. Para la próxima vez, podría ayudar si agrega el contacto a su libro de contactoen {Source}.
+- Desafortunadamente, no pude encontrar el "@{UserName}" que desea seleccionar. Para la próxima vez, podría ayudar si agrega el contacto a su libro de contactoen @{Source}.
 
 # AlreadyFirstPage.Text
 - Esta ya es la primera página.

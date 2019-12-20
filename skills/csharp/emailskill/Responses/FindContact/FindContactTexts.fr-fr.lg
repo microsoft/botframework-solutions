@@ -11,7 +11,7 @@
 - Je n'ai pas pu trouver le "@{userName}" vous cherchez. Pouvez-vous appeler le nom du contact à nouveau? S'il vous plaît essayer d'être aussi précis que possible.
 
 # UserNotFoundAgain.Text(userName, source)
-- Malheureusement, je n'ai pas pu trouver le "@{userName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans {source}.
+- Malheureusement, je n'ai pas pu trouver le "@{userName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans @{source}.
 
 # AlreadyFirstPage.Text
 - C'est déjà la première page.

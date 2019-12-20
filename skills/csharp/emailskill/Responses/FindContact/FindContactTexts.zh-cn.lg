@@ -11,7 +11,7 @@
 - 我找不到您正在寻找的"@{userName}"。你能再次说出联系人的姓名吗？请尽量具体。
 
 # UserNotFoundAgain.Text(userName, source)
-- 不幸的是，我找不到你想选择的"@{userName}" 。下次如果你将联系人添加到联系人簿中，它可能会提供帮助。{source}.
+- 不幸的是，我找不到你想选择的"@{userName}" 。下次如果你将联系人添加到联系人簿中，它可能会提供帮助。@{source}.
 
 # AlreadyFirstPage.Text
 - 这已经是第一页了。

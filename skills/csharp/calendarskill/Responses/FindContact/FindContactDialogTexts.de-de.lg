@@ -8,7 +8,7 @@
 - Ich habe in Ihren Kontakten niemanden gefunden, der diesem Namen entspricht.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Leider konnte ich die "@{UserName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in {Source}.
+- Leider konnte ich die "@{UserName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in @{Source}.
 
 # AlreadyFirstPage.Text
 - Dies ist bereits die erste Seite.

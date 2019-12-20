@@ -11,7 +11,7 @@
 - Ich konnte nicht finden, die "@{userName}" Sie suchen. Können Sie den Namen des Kontakts erneut aufrufen? Bitte versuchen Sie, so spezifisch wie möglich zu sein.
 
 # UserNotFoundAgain.Text(userName, source)
-- Leider konnte ich die "@{userName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in {source}.
+- Leider konnte ich die "@{userName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in @{source}.
 
 # AlreadyFirstPage.Text
 - Dies ist bereits die erste Seite.

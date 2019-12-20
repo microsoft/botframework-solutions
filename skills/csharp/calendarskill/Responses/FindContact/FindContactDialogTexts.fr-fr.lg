@@ -8,7 +8,7 @@
 - Je n'ai trouvé personne correspondant à ce nom dans vos contacts.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Malheureusement, je n'ai pas pu trouver le "@{UserName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans {Source}.
+- Malheureusement, je n'ai pas pu trouver le "@{UserName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans @{Source}.
 
 # AlreadyFirstPage.Text
 - C'est déjà la première page.

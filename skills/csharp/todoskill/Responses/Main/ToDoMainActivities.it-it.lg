@@ -11,7 +11,7 @@
 [Activity
     Text = @{ToDoWelcomeMessage.Text()}
     Speak = @{ToDoWelcomeMessage.Text()}
-    SuggestedActions = @{ToDoWelcomeMessage.S1()} | {ToDoWelcomeMessage.S2()} | {ToDoWelcomeMessage.S3()} | {ToDoWelcomeMessage.S4()}
+    SuggestedActions = @{ToDoWelcomeMessage.S1()} | @{ToDoWelcomeMessage.S2()} | @{ToDoWelcomeMessage.S3()} | @{ToDoWelcomeMessage.S4()}
     InputHint = expectingInput
 ]
 
