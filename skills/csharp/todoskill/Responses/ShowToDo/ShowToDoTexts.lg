@@ -14,34 +14,34 @@
 - Sorry, I didn't understand what you meant. Do you want to see more?
 
 # NoTasksMessage.Text(ListType)
-- It seems you have no tasks in your {ListType} list. Let me know if you want to create a new task.
+- It seems you have no tasks in your @{ListType} list. Let me know if you want to create a new task.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
-- You have {TaskCount} items on your {ListType} list. 
+- You have @{TaskCount} items on your @{ListType} list. 
 
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- You are already at the start of your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+- You are already at the start of your @{ListType} list. Do you want to see your first @{TaskCount} tasks again?
 
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
-- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+- Sorry, I didn't understand what you meant. Do you want to see your first @{TaskCount} tasks again?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- This is the last task on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+- This is the last task on your @{ListType} list. Do you want to see your first @{TaskCount} tasks again?
 
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+- Sorry, I didn't understand what you meant. Do you want to see your first @{TaskCount} tasks again?
 
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- These are the last tasks on your {ListType} list. Do you want to see your first {TaskCount} tasks again?
+- These are the last tasks on your @{ListType} list. Do you want to see your first @{TaskCount} tasks again?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- Sorry, I didn't understand what you meant. Do you want to see your first {TaskCount} tasks again?
+- Sorry, I didn't understand what you meant. Do you want to see your first @{TaskCount} tasks again?
 
 # CardSummaryMessageForSingleTask.Text(ListType)
-- You have 1 task on your {ListType} list: Here are the 1 most recent, it is 
+- You have 1 task on your @{ListType} list: Here are the 1 most recent, it is 
 
 # CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
-- You have {AllTasksCount} tasks on your {ListType} list: Here are the {count(ToDos)} most recent, they are 
+- You have @{AllTasksCount} tasks on your @{ListType} list: Here are the @{count(ToDos)} most recent, they are 
 
 # LatestTask.Text
 - Your latest task is 
@@ -59,7 +59,7 @@
 - Your previous tasks are 
 
 # PreviousFirstSingleTask.Text(taskCount)
-- Your first {taskCount} task is 
+- Your first @{TaskCount} task is 
 
 # PreviousFirstTasks.Text(taskCount)
-- Your first {taskCount} tasks are 
+- Your first @{TaskCount} tasks are 
