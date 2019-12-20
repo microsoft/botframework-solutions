@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 const assert = require("assert");
+const ActivityTypes = require("botbuilder").ActivityTypes;
 const skillTestBase = require("./helpers/skillTestBase");
 const testNock = require("./helpers/testBase");
 const unhandledReplies = [
@@ -67,6 +68,22 @@ describe("main dialog", function() {
         });
 
       testNock.resolveWithMocks("mainDialog_unhandled_response", done, flow);
+    });
+  });
+
+  describe("test single turn", function() {
+    it("send 'single turn' and check you get the expected response", function(done) {
+      const testAdapter = skillTestBase.getTestAdapter();
+      const flow = testAdapter
+        .send("single turn")
+        .assertReply(function(activity) {
+          assert.notStrictEqual(-1, unhandledReplies.indexOf(activity.text));
+        })
+        .assertReply(function(activity) {
+          assert.strictEqual(ActivityTypes.HandOff, activity.type);
+        });
+
+      testNock.resolveWithMocks("mainDialog_singleTurn_response", done, flow);
     });
   });
 });
