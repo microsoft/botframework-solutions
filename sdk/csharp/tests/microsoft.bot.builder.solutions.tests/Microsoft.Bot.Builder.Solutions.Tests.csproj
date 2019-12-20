@@ -10,6 +10,8 @@
     <None Remove="Responses\TestResponses.lg" />
     <None Remove="Skills\manifestTemplate.json" />
     <None Remove="Skills\TestData\luisCalendarModelResponse.json" />
+    <None Remove="Skills\TestData\luisCalendarModelResponse_de.json" />
+    <None Remove="Skills\TestData\luisCalendarModelResponse_fr.json" />
     <None Remove="Skills\TestData\malformedManifestTemplate.json" />
     <None Remove="Skills\TestData\manifestInvalidIntent.json" />
     <None Remove="Skills\TestData\manifestInvalidLUISModel.json" />
@@ -23,6 +25,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Skills\manifestTemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\TestData\luisCalendarModelResponse_de.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\TestData\luisCalendarModelResponse_fr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Skills\TestData\luisCalendarModelResponse.json">

@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     foreach (var localeSet in cognitiveModels)
                     {
                         // Download/cache all the LUIS models configured for this locale (key is the locale name)
-                        await PreFetchLuisModelContentsAsync(localeLuisModels, localeSet.Key, localeSet.Value.LanguageModels).ConfigureAwait(false);
+                        await PreFetchLuisModelContentsAsync(localeLuisModels, localeSet.Value.LanguageModels).ConfigureAwait(false);
                     }
 
                     foreach (var action in skillManifest.Actions)
@@ -156,7 +156,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         /// </summary>
         /// <param name="luisServices">List of LuisServices.</param>
         /// <returns>Collection of LUIS model definitions grouped by model name.</returns>
-        private async Task PreFetchLuisModelContentsAsync(Dictionary<string, dynamic> localeModelUtteranceCache, string locale, List<LuisService> luisServices)
+        private async Task PreFetchLuisModelContentsAsync(Dictionary<string, dynamic> localeModelUtteranceCache, List<LuisService> luisServices)
         {
             // For each luisSource we identify the Intent and match with available luisServices to identify the LuisAppId which we update
             foreach (LuisService luisService in luisServices)
@@ -170,7 +170,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     string json = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     var luisApp = JsonConvert.DeserializeObject<dynamic>(json);
 
-                    localeModelUtteranceCache.Add($"{locale}_{luisService.Id}", luisApp);
+                    localeModelUtteranceCache.Add($"{luisApp.culture}_{luisService.Id}", luisApp);
                 }
             }
         }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
@@ -38,21 +39,52 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 
             // Initialise the Calendar LUIS model mock configuration
             _botSettings.CognitiveModels = new Dictionary<string, BotSettingsBase.CognitiveModelConfiguration>();
-            var cogModelConfig = new BotSettingsBase.CognitiveModelConfiguration();
-            cogModelConfig.LanguageModels = new List<Configuration.LuisService>();
 
-            var luisModel = new Configuration.LuisService();
-            luisModel.AuthoringKey = "AUTHORINGKEY";
-            luisModel.Id = "Calendar";
-            luisModel.Name = "Calendar";
-            luisModel.Region = "westus";
-            luisModel.Version = "0.1";
-            luisModel.SubscriptionKey = "SUBSCRIPTIONKEY";
+            var en_cogModelConfig = new BotSettingsBase.CognitiveModelConfiguration();
+            en_cogModelConfig.LanguageModels = new List<Configuration.LuisService>();
 
-            cogModelConfig.LanguageModels.Add(luisModel);
-            _botSettings.CognitiveModels.Add("en", cogModelConfig);
-            _botSettings.CognitiveModels.Add("de", cogModelConfig);
-            _botSettings.CognitiveModels.Add("fr", cogModelConfig);
+            en_cogModelConfig.LanguageModels.Add(new Configuration.LuisService
+            {
+                AppId = "en_Calendar",
+                AuthoringKey = "AUTHORINGKEY",
+                Id = "Calendar",
+                Name = "Calendar",
+                Region = "westus",
+                Version = "0.1",
+                SubscriptionKey = "SUBSCRIPTIONKEY",
+            });
+
+            var de_cogModelConfig = new BotSettingsBase.CognitiveModelConfiguration();
+            de_cogModelConfig.LanguageModels = new List<Configuration.LuisService>();
+
+            de_cogModelConfig.LanguageModels.Add(new Configuration.LuisService
+            {
+                AppId = "de_Calendar",
+                AuthoringKey = "AUTHORINGKEY",
+                Id = "Calendar",
+                Name = "Calendar",
+                Region = "westus",
+                Version = "0.1",
+                SubscriptionKey = "SUBSCRIPTIONKEY",
+            });
+
+            var fr_cogModelConfig = new BotSettingsBase.CognitiveModelConfiguration();
+            fr_cogModelConfig.LanguageModels = new List<Configuration.LuisService>();
+
+            fr_cogModelConfig.LanguageModels.Add(new Configuration.LuisService
+            {
+                AppId = "fr_Calendar",
+                AuthoringKey = "AUTHORINGKEY",
+                Id = "Calendar",
+                Name = "Calendar",
+                Region = "westus",
+                Version = "0.1",
+                SubscriptionKey = "SUBSCRIPTIONKEY",
+            });
+
+            _botSettings.CognitiveModels.Add("en-us", en_cogModelConfig);
+            _botSettings.CognitiveModels.Add("de-de", de_cogModelConfig);
+            _botSettings.CognitiveModels.Add("fr-fr", fr_cogModelConfig);
 
             _services = new ServiceCollection();
 
@@ -151,11 +183,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         [TestMethod]
         public async Task SkillControllerManifestRequestInlineTriggerUtterances()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse.json");
-
-            // Mock the call to LUIS for the model contents
-            _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+            await IniitaliseSkillManifestMocks();
 
             var controller = CreateMockSkillController(@".\Skills\manifestTemplate.json");
 
@@ -188,11 +216,11 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 
                         // Validate DE, FR has been added too.
                         Assert.IsTrue(
-                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "de"),
+                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "de-de"),
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation for the DE locale.");
 
                         Assert.IsTrue(
-                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "fr"),
+                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "fr-fr"),
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation for the FR locale.");
                     }
                 }
@@ -212,11 +240,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         [TestMethod]
         public async Task SkillControllerManifestMissingIntent()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse.json");
-
-            // Mock the call to LUIS for the model contents
-            _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+            await IniitaliseSkillManifestMocks();
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
             var controller = CreateMockSkillController(@".\Skills\TestData\manifestInvalidIntent.json");
@@ -254,11 +278,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         [TestMethod]
         public async Task SkillControllerManifestMissingModel()
         {
-            string luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse.json");
-
-            // Mock the call to LUIS for the model contents
-            _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
-                    .Respond("application/json", luisResponse);
+            await IniitaliseSkillManifestMocks();
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
             var controller = CreateMockSkillController(@".\Skills\TestData\manifestInvalidLUISModel.json");
@@ -304,6 +324,21 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
             controller.ControllerContext.HttpContext.Request.Host = new HostString("virtualassistant.azurewebsites.net");
 
             return controller;
+        }
+
+        private async Task IniitaliseSkillManifestMocks()
+        {
+            string en_luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse.json");
+            string de_luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse_de.json");
+            string fr_luisResponse = await File.ReadAllTextAsync(@".\Skills\TestData\luisCalendarModelResponse_fr.json");
+
+            // Mock the call to LUIS for the model contents and ensure localised models are returned
+            _mockHttp.When("https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/en_Calendar/*")
+                .Respond("application/json", en_luisResponse);
+            _mockHttp.When("https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/de_Calendar/*")
+                .Respond("application/json", de_luisResponse);
+            _mockHttp.When("https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/fr_Calendar/*")
+                .Respond("application/json", fr_luisResponse);
         }
     }
 }

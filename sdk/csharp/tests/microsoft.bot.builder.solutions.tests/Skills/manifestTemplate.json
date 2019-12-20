@@ -53,21 +53,21 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
@@ -94,21 +94,21 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
@@ -126,19 +126,19 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
@@ -169,19 +169,19 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#TimeRemaining"
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#TimeRemaining"
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#TimeRemaining"
               ]
@@ -215,7 +215,7 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -226,7 +226,7 @@
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -237,7 +237,7 @@
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -284,19 +284,19 @@
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]
             },
             {
-              "locale": "de",
+              "locale": "de-de",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]
             },
             {
-              "locale": "fr",
+              "locale": "fr-fr",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]
