@@ -83,6 +83,31 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
         --authoringKey $authoringKey `
         --cloud $cloud) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
+
+    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
+	($output = bf luis:convert `
+        --name $luisApp.name `
+        --in $lu_file `
+        --culture $luisApp.culture `
+        --out $outFile `
+        --force 2>&1) >> $log
+
+    if (-not (Test-Path $outFile)) {
+        Write-Host "Error." -ForegroundColor Red
+        Write-Host "! File not created. Review the log for more information." -ForegroundColor Red
+		Write-Host "! Log: $($log)" -ForegroundColor Red
+        Break
+    }
+
+    if ($output -match 'error') {
+        Write-Host "Error." -ForegroundColor Red
+        Write-Host "! Could not parse the LU file. Review the log for more information." -ForegroundColor Red
+		Write-Host "! Log: $($log)" -ForegroundColor Red
+        Break
+    }
+    else {
+        Write-Host "Done." -ForegroundColor Green
+    }
      
     Write-Host "> Getting current versions ..." -NoNewline
 	$versions = (luis list versions `
@@ -119,28 +144,51 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
             --cloud $cloud `
             --wait 2>> $log | Out-Null
         Write-Host "Done." -ForegroundColor Green
-    }   
-    
-    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
-	bf luis:convert `
-        --name $luisApp.name `
-        --in $lu_file `
-        --culture $luisApp.culture `
-        --out $outFile `
-        --force 2>> $log | Out-Null
-    Write-Host "Done." -ForegroundColor Green
+    }
 
     Write-Host "> Importing new version ..." -NoNewline
-    luis import version `
+    ($output = luis import version `
         --appId $appId `
-        --versionId $version `
-        --region $region `
         --authoringKey $authoringKey `
         --subscriptionKey $subscriptionKey `
-        --in $outFile `
+        --versionId $version `
+        --region $region `
         --cloud $cloud `
-        --wait 2>> $log | Out-Null
-    Write-Host "Done." -ForegroundColor Green
+        --in $outFile `
+        --wait 2>&1) >> $log
+
+    if ($output) {
+        Write-Host "Error." -ForegroundColor Red
+
+        Write-Host "> Looking for backup versions ..." -NoNewline
+        $versions = (luis list versions `
+            --appId $appId `
+            --region $region `
+            --authoringKey $authoringKey `
+            --cloud $cloud) 2>> $log | ConvertFrom-Json
+        
+        if ($versions | Where { $_.version -eq 'backup' })
+        {
+            Write-Host "Done." -ForegroundColor Green
+
+            Write-Host "> Setting backup version as active ..." -NoNewline
+            luis set $appId `
+                --versionId 'backup' `
+                --authoringKey $authoringKey `
+                --subscriptionKey $subscriptionKey `
+                --region $region `
+                --cloud $cloud `
+                --force 2>> $log | Out-Null
+            Write-Host "Done."
+        }
+        else {
+            Write-Host "! No backup version found. Please review your LUIS application in the LUIS portal to resolve any issues." -ForegroundColor Red
+            Break
+        }
+    }
+    else {
+        Write-Host "Done." -ForegroundColor Green
+    }
 
     Write-Host "> Training and publishing LUIS app ..." -NoNewline
 	$(luis train version `
