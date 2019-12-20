@@ -8,9 +8,9 @@
 - Vuoi tornare alla tua panoramica e-mail? In alternativa puoi chiedermi di completare un'azione su questa e-mail.
 
 # ReadOutMessage.Text(emailDetailsWithoutContent)
-- L'e-mail è {emailDetailsWithoutContent}.
+- L'e-mail è @{emailDetailsWithoutContent}.
 
 # ReadOutMessage.Speak(emailDetailsWithContent)
-- L'e-mail è {emailDetailsWithContent}.
+- L'e-mail è @{emailDetailsWithContent}.
 
 

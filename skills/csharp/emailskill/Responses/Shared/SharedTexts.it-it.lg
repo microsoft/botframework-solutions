@@ -69,19 +69,19 @@
 - Cosa vuoi dire nel tuo avanti?
 
 # RecipientConfirmed.Text(userName)
-- Va bene, manderò questo a {userName}.
+- Va bene, manderò questo a @{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- Hai {totalCount} e-mail nella tua casella di posta. L'ultima e-mail è stata {emailListDetails}.
+- Hai @{totalCount} e-mail nella tua casella di posta. L'ultima e-mail è stata @{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- Hai 1 email nella tua casella di posta. L'ultima e-mail è stata {emailListDetails}.
+- Hai 1 email nella tua casella di posta. L'ultima e-mail è stata @{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- Hai {totalCount} e-mail nella tua casella di posta. La prima e-mail è stata {emailListDetails}.
+- Hai @{totalCount} e-mail nella tua casella di posta. La prima e-mail è stata @{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- Hai 1 email nella tua casella di posta. La prima e-mail è stata {emailListDetails}.
+- Hai 1 email nella tua casella di posta. La prima e-mail è stata @{emailListDetails}.
 
 # FirstPageAlready.Text
 - Questa è già la prima pagina.
@@ -108,7 +108,7 @@
 - Certo, sono qui se hai bisogno di me.
 
 # SentSuccessfully.Text(subject)
-- Ho inviato l'e-mail con oggetto {subject}.
+- Ho inviato l'e-mail con oggetto @{subject}.
 
 # RetryInput.Text
 - Scusa, non capisco cosa intendi. Potresti riprovare?

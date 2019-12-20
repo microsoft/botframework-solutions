@@ -8,9 +8,9 @@
 - ¿Desea volver a su descripción general del correo electrónico? Alternativamente, puede pedirme que complete una acción en este correo electrónico.
 
 # ReadOutMessage.Text(emailDetailsWithoutContent)
-- El correo electrónico es {emailDetailsWithoutContent}.
+- El correo electrónico es @{emailDetailsWithoutContent}.
 
 # ReadOutMessage.Speak(emailDetailsWithContent)
-- El correo electrónico es {emailDetailsWithContent}.
+- El correo electrónico es @{emailDetailsWithContent}.
 
 
