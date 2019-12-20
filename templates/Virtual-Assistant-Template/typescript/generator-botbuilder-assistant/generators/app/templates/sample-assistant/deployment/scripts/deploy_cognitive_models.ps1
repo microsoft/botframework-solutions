@@ -62,7 +62,7 @@ if (-not $luisAuthoringKey) {
 }
 
 if (-not $luisAccountName) {
-    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+    $luisAccountName = Read-Host "? LUIS Service Name (existing service in Azure required)"
 }
 
 if (-not $resourceGroup) {
@@ -71,7 +71,7 @@ if (-not $resourceGroup) {
 	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
-	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
+	    $resourceGroup = Read-Host "? LUIS Service Resource Group (existing service in Azure required)"
 	}
 }
 
@@ -100,9 +100,6 @@ else {
 
 $azAccount = az account show --output json | ConvertFrom-Json
 $azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
-
-$azAccount = az account show | ConvertFrom-Json
-$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","

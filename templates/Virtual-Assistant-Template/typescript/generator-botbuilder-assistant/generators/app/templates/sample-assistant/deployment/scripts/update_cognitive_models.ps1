@@ -24,7 +24,7 @@ else {
 
 Write-Host "> Getting config file ..."
 $languageMap = @{}
-$config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
+$config = Get-Content -Encoding utf8 -Raw -Path $configFile | ConvertFrom-Json
 $config.cognitiveModels.PSObject.Properties | Foreach-Object { $languageMap[$_.Name] = $_.Value }
 
 foreach ($langCode in $languageMap.Keys) {
@@ -81,7 +81,6 @@ foreach ($langCode in $languageMap.Keys) {
                     --intentName "l_$($luisApp.id)" `
                     --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
                     --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
-        
             }
         }
 
@@ -112,7 +111,7 @@ foreach ($langCode in $languageMap.Keys) {
             }
         }
     }
-    else{
+    else {
         # Update each luis model based on local LU files
 		foreach ($luisApp in $models.languageModels) {
             Write-Host "> Updating hosted $($luisApp.id) app..."
@@ -121,9 +120,14 @@ foreach ($langCode in $languageMap.Keys) {
 				-lu_file $lu `
 				-appId $luisApp.appId `
                 -version $luisApp.version `
-                -region $luisApp.region `
+                -region $luisApp.authoringRegion `
 				-authoringKey $luisApp.authoringKey `
-				-subscriptionKey $luisApp.subscriptionKey
+                -subscriptionKey $luisApp.subscriptionKey
+            if ($useLuisGen) {
+                Write-Host "> Running LuisGen for $($luisApp.id) app ..."
+                $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
+                RunLuisGen -lu_file $(Get-Item $luPath) -outName "$($luisApp.id)" -outFolder $lgOutFolder
+            }
 		}
 
         # Update each knowledgebase based on local LU files
@@ -141,10 +145,10 @@ foreach ($langCode in $languageMap.Keys) {
         Write-Host "> Updating dispatch model ..."
         dispatch refresh `
             --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
-            --dataFolder $(Join-Path $dispatchFolder $langCode)  2>> $logFile | Out-Null
+            --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
         if ($useLuisGen) {
         # Update dispatch.cs file
-            Write-Host "> Running LuisGen ..."
+            Write-Host "> Running LuisGen for Dispatch app..."
             luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -ts "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
         }
     }

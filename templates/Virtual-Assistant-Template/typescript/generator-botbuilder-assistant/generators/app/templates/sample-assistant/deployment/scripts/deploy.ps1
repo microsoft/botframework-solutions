@@ -214,7 +214,7 @@ if ($outputs)
 	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
 
 	# Publish bot
-	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($outputs.resourceGroupName.value) -projFolder '$($projDir)'"-ForegroundColor Magenta
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 	Write-Host "> Done."
 }
 else
