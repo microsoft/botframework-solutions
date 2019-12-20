@@ -7,8 +7,8 @@
     },
     "escalate": {
         "phoneInfo": "我们的代理商在 1 (800) 555-1234 时提供全天候服务。",
-        "btnText1": "现在打电话",
-        "btnText2": "打开 Teams",
+        "callNow": "现在打电话",
+        "openTeams": "打开 Teams",
         "btnValue1": "tel:18005551234",
         "btnValue2": "msteams://"
     },
