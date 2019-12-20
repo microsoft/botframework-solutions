@@ -9,12 +9,10 @@ import {
     BotFrameworkAdapter,
     BotTelemetryClient,
     RecognizerResult,
-    // SemanticAction,
     StatePropertyAccessor,
     TurnContext } from 'botbuilder';
 import { LuisRecognizer, LuisRecognizerTelemetryClient } from 'botbuilder-ai';
 import {
-    Dialog,
     DialogContext,
     DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
@@ -34,8 +32,7 @@ import { IBotSettings } from '../services/botSettings';
 import { SampleDialog } from './sampleDialog';
 
 enum Events {
-    skillBeginEvent = 'skillBegin',
-    tokenResponseEvent = 'tokens/response'
+    tokenResponseEventName = 'tokens/response'
 }
 
 export class MainDialog extends RouterDialog {
@@ -74,11 +71,11 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
-        // const locale: string = i18next.language;
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
     }
 
     protected async route(dc: DialogContext): Promise<void> {
+        // get current activity locale
         const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
         // Populate state from SkillContext slots as required
@@ -92,37 +89,29 @@ export class MainDialog extends RouterDialog {
             if (luisService === undefined) {
                 throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
             } else {
-                let turnResult: DialogTurnResult = Dialog.EndOfTurn;
                 const result: RecognizerResult = await luisService.recognize(dc.context);
                 const intent: string = LuisRecognizer.topIntent(result);
 
                 switch (intent) {
                     case 'Sample': {
-                        turnResult = await dc.beginDialog(SampleDialog.name);
+                        await dc.beginDialog(SampleDialog.name);
                         break;
                     }
                     case 'None': {
                         // No intent was identified, send confused message
                         await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
-                        turnResult = {
-                            status: DialogTurnStatus.complete
-                        };
                         break;
                     }
                     default: {
                         // intent was identified but not yet implemented
                         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
-                        turnResult = {
-                            status: DialogTurnStatus.complete
-                        };
+                        break;
                     }
-                }
-                if (turnResult !== Dialog.EndOfTurn) {
-                    await this.complete(dc);
                 }
             }
         }
     }
+
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
         response.type = ActivityTypes.Handoff;
@@ -132,16 +121,7 @@ export class MainDialog extends RouterDialog {
 
     protected async onEvent(dc: DialogContext): Promise<void> {
         switch (dc.context.activity.name) {
-            case Events.skillBeginEvent: {
-                const userData: Map<string, Object> = dc.context.activity.value as Map<string, Object>;
-                if (userData === undefined) {
-                    throw new Error('userData is not an instance of Map<string, Object>');
-                }
-                // Capture user data from event if needed
-
-                break;
-            }
-            case Events.tokenResponseEvent: {
+            case Events.tokenResponseEventName: {
                 // Auth dialog completion
                 const result: DialogTurnResult = await dc.continueDialog();
 
@@ -163,7 +143,7 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-
+            // get current activity locale
             const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
             // check general luis intent
@@ -200,7 +180,7 @@ export class MainDialog extends RouterDialog {
         return result;
     }
 
-    protected async onCancel(dc: DialogContext): Promise<InterruptionAction> {
+    private async onCancel(dc: DialogContext): Promise<InterruptionAction> {
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.cancelMessage));
         await this.complete(dc);
         await dc.cancelAllDialogs();
@@ -208,13 +188,13 @@ export class MainDialog extends RouterDialog {
         return InterruptionAction.StartedDialog;
     }
 
-    protected async onHelp(dc: DialogContext): Promise<InterruptionAction> {
+    private async onHelp(dc: DialogContext): Promise<InterruptionAction> {
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.helpMessage));
 
         return InterruptionAction.MessageSentToUser;
     }
 
-    protected async onLogout(dc: DialogContext): Promise<InterruptionAction> {
+    private async onLogout(dc: DialogContext): Promise<InterruptionAction> {
         const supported: boolean = dc.context.adapter instanceof BotFrameworkAdapter;
         if (!supported) {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
@@ -237,7 +217,7 @@ export class MainDialog extends RouterDialog {
         return InterruptionAction.StartedDialog;
     }
 
-    protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
+    private async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
         // Example of populating local state with data passed through semanticAction out of Activity
         // const activity: Activity = context.activity;
         // const semanticAction: SemanticAction | undefined = activity.semanticAction;

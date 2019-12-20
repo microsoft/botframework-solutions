@@ -57,7 +57,6 @@ export class SkillDialogBase extends ComponentDialog {
         //     throw new Error("You must configure an authentication connection in your bot file before using this component.");
         // }
         //
-        // this.addDialog(new EventPrompt(DialogIds.skillModeAuth, "tokens/response", tokenResponseValidator));
         // this.addDialog(new MultiProviderAuthDialog(services));
     }
 
@@ -108,6 +107,7 @@ export class SkillDialogBase extends ComponentDialog {
             };
         }
     }
+
     // Validators
     protected async tokenResponseValidator(pc: PromptValidatorContext<Activity>): Promise<boolean> {
         const activity: Activity | undefined = pc.recognized.value;
@@ -131,14 +131,14 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
+
+            // Get luis service for current locale
             const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
             if (localeConfig.luisServices !== undefined) {
                 const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 
-                if (luisService === undefined) {
-                    throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
-                } else {
+                if (luisService !== undefined) {
                     // Get intent and entities for activity
                     const result: RecognizerResult =  await luisService.recognize(dc.context);
                     state.luisResult = result;

@@ -21,7 +21,9 @@ import {
 import {
     manifestGenerator,
     SkillContext,
-    SkillHttpAdapter } from 'botbuilder-skills';
+    // PENDING: The SkillHttpAdapter should be replaced with SkillWebSocketAdapter
+    SkillHttpAdapter,
+    WhitelistAuthenticationProvider } from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     Locales,
@@ -31,7 +33,7 @@ import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters/defaultAdapter';
-import { SampleSkillAdapter } from './adapters/sampleSkillAdapter';
+import { CustomSkillAdapter } from './adapters/customSkillAdapter';
 import * as appsettings from './appsettings.json';
 import { DialogBot } from './bots/dialogBot';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
@@ -103,6 +105,7 @@ const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
 const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
 const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
+const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
@@ -112,18 +115,16 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 const botAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
-    userState,
-    conversationState,
-    telemetryClient);
-
-const sampleSkillAdapter: SampleSkillAdapter = new SampleSkillAdapter(
-    botSettings,
-    userState,
     conversationState,
     telemetryClient,
-    skillContextAccessor,
+    whitelistAuthenticationProvider);
+
+const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
+    botSettings,
+    conversationState,
+    telemetryClient,
     dialogStateAccessor);
-const adapter: SkillHttpAdapter = new SkillHttpAdapter(sampleSkillAdapter);
+const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
 
 let bot: DialogBot<Dialog>;
 try {

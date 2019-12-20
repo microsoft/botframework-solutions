@@ -19,13 +19,10 @@ import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
 
-enum DialogIds {
-    namePrompt = 'namePrompt'
-}
-
 export class SampleDialog extends SkillDialogBase {
 
     private readonly nameKey: string = 'name';
+
     // Constructor
     public constructor(
         settings: Partial<IBotSettings>,
@@ -51,9 +48,9 @@ export class SampleDialog extends SkillDialogBase {
         this.initialDialogId = SampleDialog.name;
     }
 
-    public async promptForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async promptForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         // NOTE: Uncomment the following lines to access LUIS result for this turn.
-        // var state = await ConversationStateAccessor.GetAsync(stepContext.Context);
+        // var state = await StateAccessor.GetAsync(stepContext.Context);
         // var intent = state.LuisResult.TopIntent().intent;
         // var entities = state.LuisResult.Entities;
 
@@ -62,7 +59,7 @@ export class SampleDialog extends SkillDialogBase {
         return sc.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
-    public async greetUser(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async greetUser(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         const tokens: Map<string, string> = new Map<string, string>();
         tokens.set(this.nameKey, sc.result as string);
 
@@ -73,7 +70,11 @@ export class SampleDialog extends SkillDialogBase {
         return sc.next();
     }
 
-    public async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.endDialog();
     }
+}
+
+enum DialogIds {
+    namePrompt = 'namePrompt'
 }

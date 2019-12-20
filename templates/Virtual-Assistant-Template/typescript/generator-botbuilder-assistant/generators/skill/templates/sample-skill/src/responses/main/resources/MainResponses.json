@@ -66,7 +66,7 @@
       "replies": [
         {
           "text": "This feature is not yet available in this skill. Please try asking something else.",
-          "speak": "This feature is not yet available in thiskill. Please try asking something else."
+          "speak": "This feature is not yet available in this skill. Please try asking something else."
         }
       ],
       "inputHint": "acceptingInput"
