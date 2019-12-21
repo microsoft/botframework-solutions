@@ -21,17 +21,19 @@ import {
 import {
     manifestGenerator,
     SkillContext,
+    // PENDING: The SkillHttpAdapter should be replaced with SkillWebSocketAdapter
     SkillHttpAdapter } from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     Locales,
-    ResponseManager} from 'botbuilder-solutions';
+    ResponseManager } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
-import { DefaultAdapter } from './adapters/defaultAdapter';
-import { SampleSkillAdapter } from './adapters/sampleSkillAdapter';
+import {
+    CustomSkillAdapter,
+    DefaultAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
 import { DialogBot } from './bots/dialogBot';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
@@ -109,21 +111,26 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appPassword: botSettings.microsoftAppPassword
 };
 
-const botAdapter: DefaultAdapter = new DefaultAdapter(
+const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
     userState,
     conversationState,
     telemetryClient);
 
-const sampleSkillAdapter: SampleSkillAdapter = new SampleSkillAdapter(
+const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     botSettings,
     userState,
     conversationState,
     telemetryClient,
-    skillContextAccessor,
     dialogStateAccessor);
-const adapter: SkillHttpAdapter = new SkillHttpAdapter(sampleSkillAdapter);
+const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
+// PENDING: these should be uncommented when the WS library is merged
+// Also the constructor should receive an IAuthenticationProvider
+// const skillWebSocketAdapter: SkillWebSocketAdapter = new SkillWebSocketAdapter(
+//     customSkillAdapter,
+//     botSettings,
+//     telemetryClient);
 
 let bot: DialogBot<Dialog>;
 try {
@@ -171,11 +178,23 @@ server.listen(process.env.port || process.env.PORT || '3980', (): void => {
 // Listen for incoming requests
 server.post('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
     // Route received a request to adapter for processing
-    await botAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+    await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.
         await bot.run(turnContext);
     });
 });
+// PENDING: these should be uncommented when the WS library is merged
+// This endpoint will replace the post one
+// server.get('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
+//     if (skillWebSocketAdapter !== undefined) {
+//         await skillWebSocketAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+//             // route to bot activity handler.
+//             await bot.run(turnContext);
+//         });
+//     } else {
+//         res.statusCode = 405;
+//     }
+// });
 
 // Listen for incoming assistant requests
 server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
@@ -189,3 +208,7 @@ server.post('/api/skill/messages', async (req: restify.Request, res: restify.Res
 const manifestPath: string = join(__dirname, 'manifestTemplate.json');
 server.use(restify.plugins.queryParser());
 server.get('/api/skill/manifest', manifestGenerator(manifestPath, botSettings));
+// PENDING
+server.get('/api/skill/ping', async (req: restify.Request, res: restify.Response): Promise<void> => {
+    // await authentication.authenticate(req, res);
+});

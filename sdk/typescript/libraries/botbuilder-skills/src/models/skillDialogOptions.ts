@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ISkillManifest } from './skillManifest';
+import { ISkillManifest } from './manifest';
 
 export interface ISkillDialogOptions {
     skillManifest?: ISkillManifest;
