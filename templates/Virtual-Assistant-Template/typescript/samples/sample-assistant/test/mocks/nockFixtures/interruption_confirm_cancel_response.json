@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "6cae6fe1-3f6e-4ac6-83d2-04462fba8108",
+            "e2464834-5904-4344-bd98-6127230d07fb",
             "Request-Id",
-            "6cae6fe1-3f6e-4ac6-83d2-04462fba8108",
+            "e2464834-5904-4344-bd98-6127230d07fb",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 16:15:35 GMT",
+            "Thu, 12 Dec 2019 22:08:17 GMT",
             "Connection",
             "close"
         ]
@@ -48,7 +48,7 @@
             "query": "Yes",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.9801169
+                "score": 0.9771905
             },
             "entities": []
         },
@@ -62,17 +62,19 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "706e1805-0463-4bf0-b2ba-00c2b3bca21f",
+            "8b79e480-6c61-4ff8-9317-84a507511fb3",
             "Request-Id",
-            "706e1805-0463-4bf0-b2ba-00c2b3bca21f",
+            "8b79e480-6c61-4ff8-9317-84a507511fb3",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
+            "Request-Context",
+            "appId=cid-v1:26a3540d-a02a-4998-a060-715488fd769b",
             "X-Content-Type-Options",
             "nosniff",
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 16:15:36 GMT",
+            "Thu, 12 Dec 2019 22:08:18 GMT",
             "Connection",
             "close"
         ]
