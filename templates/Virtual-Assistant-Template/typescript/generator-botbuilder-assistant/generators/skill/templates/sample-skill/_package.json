@@ -32,7 +32,7 @@
         "dotenv": "^6.0.0",
         "i18next": "^15.0.6",
         "i18next-node-fs-backend": "^2.1.1",
-        "restify": "^7.2.1"
+        "restify": "^8.5.1"
     },
     "devDependencies": {
         "@types/i18next-node-fs-backend": "^0.0.30",
