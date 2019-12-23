@@ -2,71 +2,71 @@
 
 # NoAuth
 [Activity
-    Text = {NoAuth.Text()}
-    Speak = {NoAuth.Text()}
+    Text = @{NoAuth.Text()}
+    Speak = @{NoAuth.Text()}
     InputHint = expectingInput
 ]
 
 # ActionEnded
 [Activity
-    Text = {ActionEnded.Text()}
-    Speak = {ActionEnded.Text()}
+    Text = @{ActionEnded.Text()}
+    Speak = @{ActionEnded.Text()}
     InputHint = acceptingInput
 ]
 
 # ToDoErrorMessage
 [Activity
-    Text = {ToDoErrorMessage.Text()}
-    Speak = {ToDoErrorMessage.Text()}
+    Text = @{ToDoErrorMessage.Text()}
+    Speak = @{ToDoErrorMessage.Text()}
     InputHint = acceptingInput
 ]
 
 # ToDoErrorMessageBotProblem
 [Activity
-    Text = {ToDoErrorMessageBotProblem.Text()}
-    Speak = {ToDoErrorMessageBotProblem.Text()}
+    Text = @{ToDoErrorMessageBotProblem.Text()}
+    Speak = @{ToDoErrorMessageBotProblem.Text()}
     InputHint = acceptingInput
 ]
 
 # ToDoErrorMessageAccountProblem
 [Activity
-    Text = {ToDoErrorMessageAccountProblem.Text()}
-    Speak = {ToDoErrorMessageAccountProblem.Text()}
+    Text = @{ToDoErrorMessageAccountProblem.Text()}
+    Speak = @{ToDoErrorMessageAccountProblem.Text()}
     InputHint = acceptingInput
 ]
 
 # SettingUpOneNoteMessage
 [Activity
-    Text = {SettingUpOneNoteMessage.Text()}
-    Speak = {SettingUpOneNoteMessage.Text()}
+    Text = @{SettingUpOneNoteMessage.Text()}
+    Speak = @{SettingUpOneNoteMessage.Text()}
     InputHint = ignoringInput
 ]
 
 # AfterOneNoteSetupMessage
 [Activity
-    Text = {AfterOneNoteSetupMessage.Text()}
-    Speak = {AfterOneNoteSetupMessage.Text()}
+    Text = @{AfterOneNoteSetupMessage.Text()}
+    Speak = @{AfterOneNoteSetupMessage.Text()}
     InputHint = ignoringInput
 ]
 
 # SettingUpOutlookMessage
 [Activity
-    Text = {SettingUpOutlookMessage.Text()}
-    Speak = {SettingUpOutlookMessage.Text()}
+    Text = @{SettingUpOutlookMessage.Text()}
+    Speak = @{SettingUpOutlookMessage.Text()}
     InputHint = ignoringInput
 ]
 
 # AfterOutlookSetupMessage
 [Activity
-    Text = {AfterOutlookSetupMessage.Text()}
-    Speak = {AfterOutlookSetupMessage.Text()}
+    Text = @{AfterOutlookSetupMessage.Text()}
+    Speak = @{AfterOutlookSetupMessage.Text()}
     InputHint = ignoringInput
 ]
 
 # NoTasksInList
 [Activity
-    Text = {NoTasksInList.Text()}
-    Speak = {NoTasksInList.Text()}
+    Text = @{NoTasksInList.Text()}
+    Speak = @{NoTasksInList.Text()}
     InputHint = acceptingInput
 ]
 

@@ -8,7 +8,7 @@
 - Are you sure you want to delete?
 
 # DeleteConfirm.Speak(emailInfo)
-- Are you sure you want to delete? Details of email: {emailInfo}.
+- Are you sure you want to delete? Details of email: @{emailInfo}.
 
 # DeleteSuccessfully.Text
 - Your email has been successfully deleted.

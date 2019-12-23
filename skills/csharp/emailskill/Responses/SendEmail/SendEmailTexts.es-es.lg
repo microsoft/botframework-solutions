@@ -45,8 +45,8 @@
 - Puede probar Destinatarios, Asunto o Cuerpo. O decir cancelar.
 
 # PlayBackMessage.Text(emailContent)
-- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? N {emailContent}
+- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? N @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? {emailContent}
+- Bien, esto es lo que tengo. ¿Desea incluirlo en el correo electrónico? @{emailContent}
 

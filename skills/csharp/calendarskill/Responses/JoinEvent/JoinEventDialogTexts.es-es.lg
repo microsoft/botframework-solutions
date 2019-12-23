@@ -8,8 +8,8 @@
 - ¿Qué evento te gustaría conectar? Al proporcionar la hora de inicio o el título puedo recuperar su evento.
 
 # ConfirmPhoneNumber.Text(PhoneNumber)
-- Aquí está el número al que voy a llamar: {PhoneNumber}. Tenga en cuenta que pueden aplicarse cargos. ¿Quieres continuar?
+- Aquí está el número al que voy a llamar: @{PhoneNumber}. Tenga en cuenta que pueden aplicarse cargos. ¿Quieres continuar?
 
 # ConfirmMeetingLink.Text(MeetingLink)
-- Aquí está el enlace al que estoy a punto de unirme: {MeetingLink}. Tenga en cuenta que pueden aplicarse cargos. ¿Quieres continuar?
+- Aquí está el enlace al que estoy a punto de unirme: @{MeetingLink}. Tenga en cuenta que pueden aplicarse cargos. ¿Quieres continuar?
 

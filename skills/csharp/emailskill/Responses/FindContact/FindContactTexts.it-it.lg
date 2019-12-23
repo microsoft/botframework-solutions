@@ -2,16 +2,16 @@
 - Chi vuoi aggiungere?
 
 # BeforeSendingMessage.Text(nameList)
-- Ok, ho capito che si desidera inviare l'e-mail a {nameList}.
+- Ok, ho capito che si desidera inviare l'e-mail a @{nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- Ok, aggiungo {userName}: {emailAddress}NomeUtente: "EmailAddress"{userName}: "emailAddress". Quello che stavi cercando è quello che stavi cercando?
+- Ok, aggiungo @{userName}: @{emailAddress}NomeUtente: "EmailAddress"@{userName}: "emailAddress". Quello che stavi cercando è quello che stavi cercando?
 
 # UserNotFound.Text(userName)
-- Non riuscivo a trovare il "{userName}" stai cercando. Puoi richiamare di nuovo il nome del contatto? Si prega di cercare di essere il più specifico possibile.
+- Non riuscivo a trovare il "@{userName}" stai cercando. Puoi richiamare di nuovo il nome del contatto? Si prega di cercare di essere il più specifico possibile.
 
 # UserNotFoundAgain.Text(userName, source)
-- Purtroppo, non sono riuscito a trovare il "{userName}" che si desidera selezionare. Per la prossima volta, potrebbe essere utile aggiungere il contatto alla rubrica in {source}.
+- Purtroppo, non sono riuscito a trovare il "@{userName}" che si desidera selezionare. Per la prossima volta, potrebbe essere utile aggiungere il contatto alla rubrica in @{source}.
 
 # AlreadyFirstPage.Text
 - Questa è già la prima pagina.
@@ -20,11 +20,11 @@
 - Questa è già l'ultima pagina.
 
 # AddMoreContactsPrompt.Text(nameList)
-- Ho incluso {nameList}, si desidera aggiungerne un altro?
+- Ho incluso @{nameList}, si desidera aggiungerne un altro?
 
 # ConfirmMultiplContactEmailSinglePage.Text(userName)
-- Ho trovato più dettagli di contatto per {userName}. Quale vorresti?
+- Ho trovato più dettagli di contatto per @{userName}. Quale vorresti?
 
 # ConfirmMultiplContactEmailMultiPage.Text(userName)
-- Ho trovato più dettagli di contatto per {userName}. Quale vorresti? Puoi anche chiedermi di mostrarti le opzioni precedenti o più.
+- Ho trovato più dettagli di contatto per @{userName}. Quale vorresti? Puoi anche chiedermi di mostrarti le opzioni precedenti o più.
 

@@ -45,8 +45,8 @@
 - Sie können Empfänger, Betreff oder Körper ausprobieren. Oder sagen Sie abbrechen.
 
 # PlayBackMessage.Text(emailContent)
-- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? \n {emailContent}
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? {emailContent}
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? @{emailContent}
 

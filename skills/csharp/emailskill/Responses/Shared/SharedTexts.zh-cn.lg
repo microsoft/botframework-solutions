@@ -69,19 +69,19 @@
 - 你在前行想说什么？
 
 # RecipientConfirmed.Text(userName)
-- 好吧，我会把这个发给{userName}.
+- 好吧，我会把这个发给@{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- 你有{totalCount}收件箱中的电子邮件。最新的电子邮件是{emailListDetails}.
+- 你有@{totalCount}收件箱中的电子邮件。最新的电子邮件是@{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- 您的收件箱中包含 1 封电子邮件。最新的电子邮件是{emailListDetails}.
+- 您的收件箱中包含 1 封电子邮件。最新的电子邮件是@{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- 你有{totalCount}收件箱中的电子邮件。第一封电子邮件是{emailListDetails}.
+- 你有@{totalCount}收件箱中的电子邮件。第一封电子邮件是@{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- 您的收件箱中包含 1 封电子邮件。第一封电子邮件是{emailListDetails}.
+- 您的收件箱中包含 1 封电子邮件。第一封电子邮件是@{emailListDetails}.
 
 # FirstPageAlready.Text
 - 这已经是第一页了。
@@ -108,7 +108,7 @@
 - 当然，如果你需要我，我在这里。
 
 # SentSuccessfully.Text(subject)
-- 我已经发送了主题的电子邮件{subject}.
+- 我已经发送了主题的电子邮件@{subject}.
 
 # RetryInput.Text
 - 对不起，我不明白你的意思。请再试一次好吗？

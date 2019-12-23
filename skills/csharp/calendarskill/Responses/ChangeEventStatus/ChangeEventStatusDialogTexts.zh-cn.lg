@@ -2,13 +2,13 @@
 - 是否确实要从日历中删除此内容？
 
 # ConfirmDeleteFailed.Text(Title, Time)
-- 是否确实要取消{Time}"{Title}"会议？你可以说"是"或"否"
+- 是否确实要取消@{Time}"@{Title}"会议？你可以说"是"或"否"
 
 # ConfirmAccept.Text
 - 是否确实要接受以下会议？
 
 # ConfirmAcceptFailed.Text(Title, Time)
-- 是否确实要接受{Time}"{Title}"会议？你可以说"是"或"否"
+- 是否确实要接受@{Time}"@{Title}"会议？你可以说"是"或"否"
 
 # EventDeleted.Text
 - 已经删除会议。
