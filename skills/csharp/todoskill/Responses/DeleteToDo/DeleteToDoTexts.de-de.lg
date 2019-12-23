@@ -1,17 +1,17 @@
 # AskDeletionAllConfirmation.Text(ListType)
-- Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+- Möchten Sie wirklich alle Aufgaben aus Ihrem @{ListType} liste?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie wirklich alle Aufgaben aus Ihrem {ListType} liste?
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie wirklich alle Aufgaben aus Ihrem @{ListType} liste?
 
 # AfterAllTasksDeleted.Text(ListType)
-- Ich habe Ihre {ListType} liste.
+- Ich habe Ihre @{ListType} liste.
 
 # AfterTaskDeleted.Text(TaskContent, ListType)
-- ich habe gelöscht {TaskContent} von Ihrem {ListType} liste.
+- ich habe gelöscht @{TaskContent} von Ihrem @{ListType} liste.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
-- Okay, ich habe nicht alle Ihre Aufgaben gelöscht. Sie haben noch {TaskCount} Aufgabe(en) auf Ihrem {ListType} Liste heute.
+- Okay, ich habe nicht alle Ihre Aufgaben gelöscht. Sie haben noch @{TaskCount} Aufgabe(en) auf Ihrem @{ListType} Liste heute.
 
 # ListTypePromptForDelete.Text
 - Können Sie spezifisch aus der Liste sein, die Sie eine Aufgabe löschen möchten? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?

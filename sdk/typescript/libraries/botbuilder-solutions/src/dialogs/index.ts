@@ -7,3 +7,5 @@ export * from './eventPrompt';
 export * from './interruptableDialog';
 export * from './interruptionAction';
 export * from './routerDialog';
+export * from './routerDialogTurnResult';
+export * from './routerDialogTurnStatus';

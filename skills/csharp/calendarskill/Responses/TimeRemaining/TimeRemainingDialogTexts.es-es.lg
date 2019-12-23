@@ -1,8 +1,8 @@
 # ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)
-- Usted tiene {RemainingTime} hasta el próximo evento.
+- Usted tiene @{RemainingTime} hasta el próximo evento.
 
 # ShowTimeRemainingMessage.Text(RemainingTime, Title, Time)
-- Usted tiene {RemainingTime} restante hasta su evento {Title}{Time}.
+- Usted tiene @{RemainingTime} restante hasta su evento @{Title}@{Time}.
 
 # ShowTimeRemainingMessage.Speak(RemainingTime, Title, TimeSpeak)
-- Usted tiene {RemainingTime} restante hasta su evento {Title}{TimeSpeak}.
+- Usted tiene @{RemainingTime} restante hasta su evento @{Title}@{TimeSpeak}.

@@ -4,22 +4,22 @@
 - ¿Qué quieres añadir a la lista?
 
 # AfterTaskAdded.Text(TaskContent, ListType)
-- He añadido {TaskContent} a su {ListType} Lista.
+- He añadido @{TaskContent} a su @{ListType} Lista.
 
 # SwitchListType.Text(ListType)
-- OK, esto parece una tarea para su {ListType}•ListType{ListType} Lista. ¿Desea que agregue esto a su lista de "ListType"?
+- OK, esto parece una tarea para su @{ListType}•ListType@{ListType} Lista. ¿Desea que agregue esto a su lista de "ListType"?
 
 # SwitchListTypeConfirmFailed.Text(ListType)
-- Lo siento, no entendí lo que querías decir. ¿Desea que añada esto a su {ListType} ¿Lista?
+- Lo siento, no entendí lo que querías decir. ¿Desea que añada esto a su @{ListType} ¿Lista?
 
 # AddMoreTask.Text(ListType)
-- ¿Desea agregar otra tarea a su {ListType} ¿Lista?
+- ¿Desea agregar otra tarea a su @{ListType} ¿Lista?
 
 # AddMoreTaskConfirmFailed.Text(ListType)
-- Lo siento, no entendí lo que querías decir. ¿Desea agregar otra tarea a su {ListType} ¿Lista?
+- Lo siento, no entendí lo que querías decir. ¿Desea agregar otra tarea a su @{ListType} ¿Lista?
 
 # AskAddDupTaskPrompt.Text(TaskContent)
-- Parece que ya tienes {TaskContent} en su lista, ¿todavía desea agregar esta tarea?
+- Parece que ya tienes @{TaskContent} en su lista, ¿todavía desea agregar esta tarea?
 
 # AskAddDupTaskConfirmFailed.Text
 - Lo siento, no entendí lo que querías decir. ¿Aún desea agregar esta tarea?

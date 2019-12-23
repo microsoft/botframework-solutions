@@ -249,7 +249,7 @@
 ```
 
 # GetTotalAndOverlapV1(totalEventCount, overlapEventCount, dateTimeString, isOverview)
-- IF: {isOverview}
+- IF: @{isOverview}
 	- @{GetTotalAndOverlapCardV1(totalEventCount, overlapEventCount, dateTimeString)}
 - ELSE:
 	-
@@ -306,7 +306,7 @@
 ```
 
 # GetTotalAndOverlap(totalEventCount, overlapEventCount, dateTimeString, isOverview)
-- IF: {isOverview}
+- IF: @{isOverview}
 	- @{GetTotalAndOverlapCard(totalEventCount, overlapEventCount, dateTimeString)}
 - ELSE:
 	-
@@ -381,7 +381,7 @@
 	- Events overlap
 
 # GetMePhoto(userPhoto, isOverview)
-- IF: {isOverview}
+- IF: @{isOverview}
 	- @{GetMePhotoCard(userPhoto)}
 - ELSE:
 	- 
@@ -494,7 +494,7 @@
 ```
 
 # GetTimeColorByConflictState(isConflict)
-- IF: {isConflict}
+- IF: @{isConflict}
 	- Attention
 - ELSE:
 	- Dark
@@ -505,13 +505,13 @@
 # FormatDuration(seconds)
 - IF: @{seconds < 3600}
 	- @{seconds / 60}m
-- ELSEIF: {seconds % 3600 / 60 != 0}
+- ELSEIF: @{seconds % 3600 / 60 != 0}
 	- @{concat(string(seconds / 3600), 'h', string(seconds % 3600 / 60), 'm')}
 - ELSE:
 	- @{seconds / 3600}h
 
 # EscapeString(textString)
-- IF: {textString != null}
+- IF: @{textString != null}
 	- @{replace(replace(textString, '\\', '\\\\'), '"', '\\"')}
 - ELSE:
 	- 
@@ -849,7 +849,7 @@
 	{
 		"type": "Action.OpenUrl",
 		"title": "Join meeting",
-		"url": "{meetingLink}"
+		"url": "@{MeetingLink}"
 	}
 	],
 	```

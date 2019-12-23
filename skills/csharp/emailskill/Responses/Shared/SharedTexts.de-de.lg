@@ -69,19 +69,19 @@
 - Was wollen Sie in Ihrem Vorwärts sagen?
 
 # RecipientConfirmed.Text(userName)
-- In Ordnung, ich werde dies an {userName}.
+- In Ordnung, ich werde dies an @{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- Sie haben {totalCount} E-Mails in Ihrem Posteingang. Die neueste E-Mail wurde {emailListDetails}.
+- Sie haben @{totalCount} E-Mails in Ihrem Posteingang. Die neueste E-Mail wurde @{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- Sie haben 1 E-Mail in Ihrem Posteingang. Die neueste E-Mail wurde {emailListDetails}.
+- Sie haben 1 E-Mail in Ihrem Posteingang. Die neueste E-Mail wurde @{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- Sie haben {totalCount} E-Mails in Ihrem Posteingang. Die erste E-Mail war {emailListDetails}.
+- Sie haben @{totalCount} E-Mails in Ihrem Posteingang. Die erste E-Mail war @{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- Sie haben 1 E-Mail in Ihrem Posteingang. Die erste E-Mail war {emailListDetails}.
+- Sie haben 1 E-Mail in Ihrem Posteingang. Die erste E-Mail war @{emailListDetails}.
 
 # FirstPageAlready.Text
 - Dies ist bereits die erste Seite.
@@ -108,7 +108,7 @@
 - Sicher, ich bin hier, wenn du mich brauchst.
 
 # SentSuccessfully.Text(subject)
-- Ich habe die E-Mail mit Betreff gesendet {subject}.
+- Ich habe die E-Mail mit Betreff gesendet @{subject}.
 
 # RetryInput.Text
 - Tut mir leid, ich verstehe nicht, was Sie meinen. Könnten Sie es bitte noch einmal versuchen?

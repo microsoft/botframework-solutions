@@ -5,7 +5,7 @@
 [import](DetailCard_RecipientMoreThanFive.lg)
 
 # EmailDetailRecipient(emailDetails)
-- IF: {emailDetails.RecipientsCount > 5}
+- IF: @{emailDetails.RecipientsCount > 5}
     - @{DetailCard_RecipientMoreThanFive(emailDetails)}
 - ELSE:
     - @{DetailCard_RecipientLessThanFive(emailDetails)}

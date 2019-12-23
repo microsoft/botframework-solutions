@@ -5,7 +5,7 @@
 [import](ConfirmCard_RecipientMoreThanFive.lg)
 
 # EmailDetailRecipientWithoutButton(emailDetails)
-- IF: {emailDetails.RecipientsCount > 5}
+- IF: @{emailDetails.RecipientsCount > 5}
     - @{ConfirmCard_RecipientMoreThanFive(emailDetails)}
 - ELSE:
     - @{ConfirmCard_RecipientLessThanFive(emailDetails)}

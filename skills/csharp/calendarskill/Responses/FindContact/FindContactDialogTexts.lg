@@ -2,13 +2,13 @@
 - Who do you want to add?
 
 # BeforeSendingMessage.Text(NameList)
-- Okay, I understand you want to send the event to {NameList}.
+- Okay, I understand you want to send the event to @{NameList}.
 
 # UserNotFound.Text
 - I didn't find anyone matching that name in your contacts.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Unfortunately, I could not find the "{UserName}" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.
+- Unfortunately, I could not find the "@{UserName}" you want to select. For next time, it could help if you add the contact to your contact book in @{Source}.
 
 # AlreadyFirstPage.Text
 - This is already the first page.
@@ -32,16 +32,16 @@
 - Which one were you looking for? You can also ask me to show you the previous or more options.
 
 # PromptOneNameOneAddress.Text(User)
-- Alright, I've added {User}.
+- Alright, I've added @{User}.
 
 # AskForEmail.Text
 - Can you provide an email address?
 
 # FindMultipleEmails.Text(UserName)
-- I found more than one email for {UserName}.
+- I found more than one email for @{UserName}.
 
 # FindMultipleContactNames.Text(UserName)
-- I found more than one contact named {UserName}.
+- I found more than one contact named @{UserName}.
 
 # EmailChoiceConfirmation.Text(Email)
-- Got it, I'll use {Email}.
+- Got it, I'll use @{Email}.

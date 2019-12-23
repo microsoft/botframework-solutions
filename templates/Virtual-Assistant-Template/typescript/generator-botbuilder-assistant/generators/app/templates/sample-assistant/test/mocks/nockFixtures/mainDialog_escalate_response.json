@@ -9,7 +9,7 @@
             "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "Escalate",
-                "score": 0.954809964
+                "score": 0.9580864
             },
             "entities": []
         },
@@ -19,13 +19,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "147",
+            "145",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "7fbfc312-a4e8-4401-8873-8951ce87e3fc",
+            "f2cf0289-23a8-4c94-8e7f-cb122bab47d7",
             "Request-Id",
-            "7fbfc312-a4e8-4401-8873-8951ce87e3fc",
+            "f2cf0289-23a8-4c94-8e7f-cb122bab47d7",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 16:15:44 GMT",
+            "Thu, 12 Dec 2019 22:08:27 GMT",
             "Connection",
             "close"
         ]
@@ -48,14 +48,14 @@
             "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.8216719
+                "score": 0.820739031
             },
             "entities": [],
             "connectedServiceResult": {
                 "query": "I want to talk to a human",
                 "topScoringIntent": {
                     "intent": "Escalate",
-                    "score": 0.954809964
+                    "score": 0.9580864
                 },
                 "entities": []
             }
@@ -70,9 +70,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "a024cae2-02e7-4f15-a876-52bc1d8382f9",
+            "0c638a5f-a55c-4247-a762-47ef9df740b1",
             "Request-Id",
-            "a024cae2-02e7-4f15-a876-52bc1d8382f9",
+            "0c638a5f-a55c-4247-a762-47ef9df740b1",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -82,7 +82,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 16:15:44 GMT",
+            "Thu, 12 Dec 2019 22:08:27 GMT",
             "Connection",
             "close"
         ]
