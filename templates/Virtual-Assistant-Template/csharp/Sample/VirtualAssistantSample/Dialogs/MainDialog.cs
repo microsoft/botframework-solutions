@@ -38,7 +38,8 @@ namespace VirtualAssistantSample.Dialogs
 
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            SkillDialog skillDialog)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = serviceProvider.GetService<BotServices>();
@@ -78,7 +79,7 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             // Register skill dialog
-            _skillDialog = serviceProvider.GetService<SkillDialog>();
+            _skillDialog = skillDialog;
             AddDialog(_skillDialog);
         }
 
@@ -97,7 +98,7 @@ namespace VirtualAssistantSample.Dialogs
                 if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
-                    var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                    var generalResult = await localizedServices.LuisServices["general"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                     innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
                 }
             }
@@ -286,13 +287,13 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    await innerDc.BeginDialogAsync("Faq");
+                    await innerDc.BeginDialogAsync("faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     innerDc.SuppressCompletionMessage(true);
 
-                    await innerDc.BeginDialogAsync("Chitchat");
+                    await innerDc.BeginDialogAsync("chitchat");
                 }
                 else
                 {

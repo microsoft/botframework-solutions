@@ -22,6 +22,7 @@ namespace Luis
             l_General,
             q_Chitchat,
             q_Faq,
+            calendarSkill,
             None
         };
         [JsonProperty("intents")]

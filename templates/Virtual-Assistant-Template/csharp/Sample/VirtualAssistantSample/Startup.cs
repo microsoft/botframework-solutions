@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,17 +14,16 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VirtualAssistantSample.Adapters;
+using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
@@ -57,6 +54,8 @@ namespace VirtualAssistantSample
         {
             // Configure MVC
             services.AddControllers();
+
+            services.AddSingleton(Configuration);
 
             // Load settings
             var settings = new BotSettings();
@@ -110,26 +109,29 @@ namespace VirtualAssistantSample
 
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
-            // Register dialogs
-            services.AddTransient<MainDialog>();
-            services.AddTransient<SwitchSkillDialog>();
-            services.AddTransient<OnboardingDialog>();
+            // Register the skills configuration class
+            services.AddSingleton<SkillsConfiguration>();
 
-            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<SkillsConfiguration>()) });
+
+            // Register the Bot Framework Adapter with error handling enabled.
+            // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
+            services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
             // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, SkillHandler>();
 
-            // Register the skills configuration class
-            services.AddSingleton<SkillsConfiguration>();
-
             // Register the SkillDialog (remote skill).
             services.AddSingleton<SkillDialog>();
 
-            // IBotFrameworkHttpAdapter now supports both http and websocket transport
-            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            // Register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<SwitchSkillDialog>();
+            services.AddTransient<OnboardingDialog>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
@@ -148,25 +150,6 @@ namespace VirtualAssistantSample
                 .UseWebSockets()
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
-        }
-
-        // This method creates a MultiProviderAuthDialog based on a skill manifest.
-        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings, MicrosoftAppCredentials appCredentials)
-        {
-            if (skill.AuthenticationConnections?.Count() > 0)
-            {
-                if (settings.OAuthConnections != null && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
-                {
-                    var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
-                    return new MultiProviderAuthDialog(oauthConnections, appCredentials);
-                }
-                else
-                {
-                    throw new Exception($"You must configure at least one supported OAuth connection to use this skill: {skill.Name}.");
-                }
-            }
-
-            return null;
         }
     }
 }

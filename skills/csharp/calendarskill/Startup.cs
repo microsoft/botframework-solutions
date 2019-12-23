@@ -3,20 +3,9 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
-using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
-using CalendarSkill.Responses.CreateEvent;
-using CalendarSkill.Responses.FindContact;
-using CalendarSkill.Responses.JoinEvent;
-using CalendarSkill.Responses.Main;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
-using CalendarSkill.Responses.TimeRemaining;
-using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -31,8 +20,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -51,8 +38,6 @@ namespace CalendarSkill
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -170,10 +155,6 @@ namespace CalendarSkill
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
-
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

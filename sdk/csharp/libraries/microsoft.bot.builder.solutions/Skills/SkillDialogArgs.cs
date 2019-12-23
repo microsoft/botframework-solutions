@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Bot.Schema;
+
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {
     /// <summary>
@@ -22,7 +24,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         /// <value>
         /// Activity type.
         /// </value>
-        public string ActivityType { get; set; }
+        public string ActivityType { get; set; } = ActivityTypes.Message;
 
         /// <summary>
         /// Gets or sets the name of the event or invoke activity to send to the skill (this value is ignored for other types of activities).

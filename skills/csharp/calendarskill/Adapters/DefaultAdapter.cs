@@ -4,7 +4,6 @@
 using System.Globalization;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
