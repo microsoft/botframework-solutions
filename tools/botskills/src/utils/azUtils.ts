@@ -4,6 +4,7 @@
  */
 
 import { gte } from 'semver';
+import { ICloud } from '../models/Cloud';
 import { ChildProcessUtils } from './childProcessUtils';
 
 const azPreviewMessage: string = `Command group 'bot' is in preview. It may be changed/removed in a future release.\r\n`;
@@ -35,4 +36,16 @@ export async function isValidAzVersion(): Promise<boolean> {
     }
 
     return false;
+}
+
+/**
+ * @returns Returns TRUE if the AzureUSGovernment is active
+ */
+// tslint:disable-next-line:export-name
+export async function isCloudGovernment(): Promise<boolean> {
+    const azCloudListCommand: string[] = ['az', 'cloud', 'list'];
+    // tslint:disable-next-line: no-unsafe-any
+    const azCloudList: ICloud[] =  JSON.parse(await childProcess.tryExecute(azCloudListCommand));
+
+    return azCloudList.some((cloud: ICloud) => cloud.isActive && cloud.name === 'AzureUSGovernment');
 }

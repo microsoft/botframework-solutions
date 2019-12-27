@@ -28,3 +28,4 @@ export {
     IUtterance,
     IUtteranceSource } from './skillManifest';
 export { IRefreshConfiguration } from './refreshConfiguration';
+export { ICloud } from './cloud';

@@ -4,7 +4,7 @@
  */
 
 export { AuthenticationUtils } from './authenticationUtils';
-export { isAzPreviewMessage, isValidAzVersion } from './azUtils';
+export { isAzPreviewMessage, isCloudGovernment, isValidAzVersion } from './azUtils';
 export { ChildProcessUtils } from './childProcessUtils';
 export { getDispatchNames } from './dispatchUtils';
 export { sanitizePath, wrapPathWithQuotes } from './sanitizationUtils';
