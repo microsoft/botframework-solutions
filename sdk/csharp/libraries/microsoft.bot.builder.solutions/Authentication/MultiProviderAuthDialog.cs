@@ -13,12 +13,11 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     /// <summary>
-    /// Provides the ability to prompt for which Authentication provider the user wishes to use and handles Virtual Assistant and Skill remote authentication scenarios.
+    /// Provides the ability to prompt for which Authentication provider the user wishes to use.
     /// </summary>
     public class MultiProviderAuthDialog : ComponentDialog
     {
@@ -43,13 +42,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 FirstStepAsync,
             };
 
-            var remoteAuth = new WaterfallStep[]
-            {
-                SendRemoteEventAsync,
-                ReceiveRemoteEventAsync,
-            };
-
-            var localAuth = new WaterfallStep[]
+            var authSteps = new WaterfallStep[]
             {
                 PromptForProviderAsync,
                 PromptForAuthAsync,
@@ -58,15 +51,8 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
             AddDialog(new WaterfallDialog(DialogIds.FirstStepPrompt, firstStep));
 
-            // Add remote authentication support
-            AddDialog(new WaterfallDialog(DialogIds.RemoteAuthPrompt, remoteAuth));
-            AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
-
-            // If authentication connections are provided locally then we enable "local auth" otherwise we only enable remote auth where the calling Bot handles this for us.
             if (_authenticationConnections != null && _authenticationConnections.Any())
             {
-                bool authDialogAdded = false;
-
                 for (int i = 0; i < _authenticationConnections.Count; ++i)
                 {
                     var connection = _authenticationConnections[i];
@@ -85,19 +71,11 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                             connection.Name,
                             settings,
                             AuthPromptValidatorAsync));
-
-                        authDialogAdded = true;
                     }
                 }
 
-                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use otherwise it will just work in remote mode.
-                if (authDialogAdded)
-                {
-                    AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
-                    AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt));
-
-                    localAuthConfigured = true;
-                }
+                AddDialog(new WaterfallDialog(DialogIds.AuthPrompt, authSteps));
+                AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt));
             }
             else
             {
@@ -121,11 +99,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
         private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt, null, cancellationToken).ConfigureAwait(false);
-            }
-
             if (!string.IsNullOrEmpty(stepContext.Context.Activity.ChannelId) && stepContext.Context.Activity.ChannelId == "directlinespeech")
             {
                 // Speech channel doesn't support OAuthPrompt./OAuthCards so we rely on tokens being set by the Linked Accounts technique
@@ -187,36 +160,9 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
 
-            if (localAuthConfigured)
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt).ConfigureAwait(false);
-            }
+            return await stepContext.BeginDialogAsync(DialogIds.AuthPrompt).ConfigureAwait(false);
 
             throw new Exception("Local authentication is not configured, please check the authentication connection section in your configuration file.");
-        }
-
-        private async Task<DialogTurnResult> SendRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
-        {
-            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
-            {
-                await remoteInvocationAdapter.SendRemoteTokenRequestEventAsync(stepContext.Context, canellationToken).ConfigureAwait(false);
-
-                // Wait for the tokens/response event
-                return await stepContext.PromptAsync(DialogIds.RemoteAuthEventPrompt, new PromptOptions()).ConfigureAwait(false);
-            }
-
-            throw new Exception("The adapter does not support RemoteTokenRequest.");
-        }
-
-        private async Task<DialogTurnResult> ReceiveRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
-        {
-            if (stepContext.Context.Activity != null && stepContext.Context.Activity.Value != null)
-            {
-                var tokenResponse = SafeJsonConvert.DeserializeObject<ProviderTokenResponse>(stepContext.Context.Activity.Value.ToString(), Serialization.Settings);
-                return await stepContext.EndDialogAsync(tokenResponse).ConfigureAwait(false);
-            }
-
-            throw new Exception("Token Response is invalid.");
         }
 
         private async Task<DialogTurnResult> PromptForProviderAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -383,9 +329,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         {
             public const string ProviderPrompt = "ProviderPrompt";
             public const string FirstStepPrompt = "FirstStep";
-            public const string LocalAuthPrompt = "LocalAuth";
-            public const string RemoteAuthPrompt = "RemoteAuth";
-            public const string RemoteAuthEventPrompt = "RemoteAuthEvent";
+            public const string AuthPrompt = "AuthPrompt";
         }
     }
 }
