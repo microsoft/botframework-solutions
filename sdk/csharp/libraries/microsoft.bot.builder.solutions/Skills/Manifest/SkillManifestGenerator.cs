@@ -92,11 +92,13 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                         {
                             // We will retrieve all utterances from the referenced source and aggregate into one new aggregated list of utterances per action
                             action.Definition.Triggers.Utterances = new List<Utterance>();
-                            var utterancesToAdd = new List<string>();
+                            List<string> utterancesToAdd;
 
                             // Iterate through each utterance source, one per locale.
                             foreach (UtteranceSource utteranceSource in action.Definition.Triggers.UtteranceSources)
                             {
+                                utterancesToAdd = new List<string>();
+
                                 // There may be multiple intents linked to this
                                 foreach (var source in utteranceSource.Source)
                                 {
