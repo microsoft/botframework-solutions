@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
 
                 case ActivityTypes.Message:
                     var messageActivity = Activity.CreateMessageActivity();
-                    messageActivity.Text = dialogArgs.Text;
+                    messageActivity.Text = dc.Context.Activity.Text;
                     skillActivity = (Activity)messageActivity;
                     break;
 
