@@ -37,10 +37,11 @@
     "devDependencies": {
         "@types/i18next-node-fs-backend": "^0.0.30",
         "@types/restify": "^7.2.4",
-        "@typescript-eslint/eslint-plugin": "^2.1.0",
-        "@typescript-eslint/parser": "^2.1.0",
+        "@typescript-eslint/eslint-plugin": "^1.10.2",
+        "@typescript-eslint/parser": "^1.10.2",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
+        "eslint-plugin-only-warn": "^1.0.1",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
         "nock": "^10.0.6",
