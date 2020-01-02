@@ -35,9 +35,9 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
                 return false;
             } else {
-                let message: string = `The skills already connected to the assistant are the following:`;
+                let message = `The skills already connected to the assistant are the following:`;
                 assistantSkills.forEach((skillManifest: ISkillManifest): void => {
-                    message += `\n\t- ${skillManifest.id}`;
+                    message += `\n\t- ${ skillManifest.id }`;
                 });
 
                 this.logger.message(message);
@@ -45,7 +45,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${err}`);
+            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${ err }`);
 
             return false;
         }

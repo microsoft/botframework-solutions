@@ -30,7 +30,7 @@ export class ChildProcessUtils {
 
         return new Promise((pResolve, pReject): void => {
             childProcess.exec(
-                `${command} ${args.join(' ')}`,
+                `${ command } ${ args.join(' ') }`,
                 (err: childProcess.ExecException | null, stdout: string, stderr: string): void => {
                     if (stderr && !stderr.includes('Update available')) {
                         pReject(stderr);
@@ -44,7 +44,7 @@ export class ChildProcessUtils {
         return new Promise((pResolve, pReject): void => {
             try {
                 childProcess.exec(
-                    `${command.join(' ')}`,
+                    `${ command.join(' ') }`,
                     (err: childProcess.ExecException | null, stdout: string, stderr: string): void => {
                         if (stderr && !isAzPreviewMessage(stderr)) {
                             pReject(stderr);

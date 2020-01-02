@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const regexTrailingBackslash: RegExp = /.*?(\\)+$/;
+const regexTrailingBackslash = /.*?(\\)+$/;
 
 /**
  * @param path Path to sanitize.
@@ -22,5 +22,5 @@ export function sanitizePath(path: string): string {
  * @returns Returns a path with quotes
  */
 export function wrapPathWithQuotes(path: string): string {
-    return `"${path}"`;
+    return `"${ path }"`;
 }
