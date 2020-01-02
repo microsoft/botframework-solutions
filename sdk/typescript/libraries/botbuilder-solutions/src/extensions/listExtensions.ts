@@ -5,6 +5,7 @@
 
 import i18next from 'i18next';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ListExtensions {
     /**
      * Converts a list into a string that can be used in speech.
@@ -17,8 +18,8 @@ export namespace ListExtensions {
         // If stringAccessor is undefined, use JSON.stringify to convert the T value
         const itemAccessor: (value: T) => string = stringAccessor || JSON.stringify;
 
-        let speech: string = '';
-        let separator: string = '';
+        let speech = '';
+        let separator = '';
 
         const listCount: number = list.length;
         list.forEach((listItem: T, index: number): void => {

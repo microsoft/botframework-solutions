@@ -5,6 +5,7 @@
 
 import { OAuthProvider } from './oAuthProvider';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace OAuthProviderExtensions {
 
     export function getAuthenticationProvider(provider: string): OAuthProvider {
@@ -20,7 +21,7 @@ export namespace OAuthProviderExtensions {
             case 'Oauth 2 Generic Provider':
                 return OAuthProvider.GenericOauth2;
             default:
-                throw new Error(`The given provider '${provider}' could not be parsed.`);
+                throw new Error(`The given provider '${ provider }' could not be parsed.`);
         }
     }
 }

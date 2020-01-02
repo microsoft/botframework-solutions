@@ -5,6 +5,7 @@
 
 import { createHash } from 'crypto';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MD5Util {
     export function computeHash(input: string): string {
         if (input === undefined || !input.trim()) {
