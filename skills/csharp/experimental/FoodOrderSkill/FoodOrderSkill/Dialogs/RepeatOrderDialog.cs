@@ -8,6 +8,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using Alexa.NET.Response;
+using Bot.Builder.Community.Adapters.Alexa.Attachments;
 using FoodOrderSkill.MockBackEnd;
 using FoodOrderSkill.Models;
 using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
@@ -258,7 +260,17 @@ namespace FoodOrderSkill.Dialogs
 
             if ((bool)stepContext.Result)
             {
-                await stepContext.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("orderPlacedMessage", new { address = state.OrderToPlace.DeliveryAddress, orderName = state.OrderToPlace.OrderName }));
+                var orderPlacedActivity = TemplateEngine.GenerateActivityForLocale("orderPlacedMessage", new { address = state.OrderToPlace.DeliveryAddress, orderName = state.OrderToPlace.OrderName });
+
+                var alexaCardAttachment = new CardAttachment(new SimpleCard()
+                {
+                    Title = "Your order has been placed!",
+                    Content = string.Format("I have placed your {0} order. Your order from {1} will arrive at {3} shortly. \n\nOrder Contents: {2}", state.OrderToPlace.OrderName, state.OrderToPlace.RestaurantName, string.Join(", ", state.OrderToPlace.OrderContents), state.OrderToPlace.DeliveryAddress),
+                });
+
+                orderPlacedActivity.Attachments.Add(alexaCardAttachment);
+
+                await stepContext.Context.SendActivityAsync(orderPlacedActivity);
                 return await stepContext.EndDialogAsync();
             }
             else
