@@ -18,6 +18,7 @@ namespace Luis
             None, 
             Show, 
             ShowNextPage, 
+            ShowPreviousPage, 
             WhoIs
         };
         public Dictionary<Intent, IntentScore> Intents;

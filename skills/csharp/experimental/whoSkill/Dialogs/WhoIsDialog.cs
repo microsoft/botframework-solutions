@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -20,21 +22,20 @@ namespace WhoSkill.Dialogs
                 BotSettings settings,
                 ConversationState conversationState,
                 MSGraphService msGraphService,
-                // LocaleTemplateEngineManager localeTemplateEngineManager,
+                LocaleTemplateEngineManager localeTemplateEngineManager,
                 IBotTelemetryClient telemetryClient,
                 MicrosoftAppCredentials appCredentials)
-            //IHttpContextAccessor httpContext)
-            : base(nameof(WhoIsDialog), settings, conversationState, msGraphService, telemetryClient, appCredentials)
+            : base(nameof(WhoIsDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
             var initDialog = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
                 InitService,
-                ShowPersons,
+                ShowCandidates,
             };
 
-            var showPersons = new WaterfallStep[]
+            var showCandidates = new WaterfallStep[]
             {
                 ShowCurrentPage,
                 CollectUserChoice,
@@ -42,17 +43,17 @@ namespace WhoSkill.Dialogs
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.InitDialog, initDialog) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowPersons, showPersons) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowCandidates, showCandidates) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.InitDialog;
         }
 
-        public async Task<DialogTurnResult> ShowPersons(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ShowCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Actions.ShowPersons);
+                return await sc.BeginDialogAsync(Actions.ShowCandidates);
             }
             catch (Exception ex)
             {
@@ -70,36 +71,41 @@ namespace WhoSkill.Dialogs
 
                 if (!state.AlreadySearched)
                 {
-                    if (string.IsNullOrEmpty(state.PersonName))
+                    if (string.IsNullOrEmpty(state.TargetName))
                     {
                         await sc.Context.SendActivityAsync("Please provide the name of the person you want to look up.");
                         return await sc.EndDialogAsync();
                     }
                     else
                     {
-                        var users = await MSGraphService.GetUsers(state.PersonName);
-                        state.Persons = users;
+                        var users = await MSGraphService.GetUsers(state.TargetName);
+                        state.Candidates = users;
                         state.AlreadySearched = true;
                     }
                 }
 
                 // Didn't find any candidate.
-                if (state.Persons == null || state.Persons.Count == 0)
+                if (state.Candidates == null || state.Candidates.Count == 0)
                 {
-                    await sc.Context.SendActivityAsync("Sorry, I couldn’t find anyone named");
+                    await sc.Context.SendActivityAsync($"Sorry, I couldn’t find anyone named {state.TargetName}.");
                     await sc.EndDialogAsync();
                 }
 
-                if (state.Persons.Count == 1)
+                if (state.Candidates.Count == 1)
                 {
-                    await sc.Context.SendActivityAsync($"Here's what I found for {state.PersonName}");
+                    await sc.Context.SendActivityAsync($"Here's what I found for {state.TargetName}.");
+                    var card = await GetCardForDetail(state.Candidates[0]);
+                    await sc.Context.SendActivityAsync(card);
                     return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    var replyMessage = $"I found multiple matches for {state.PersonName}. Please pick one. Or you can say 'next' or 'previous' to see more persons.";
-                    var prompt = MessageFactory.Text(replyMessage);
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt, RetryPrompt = prompt });
+                    var replyMessage = $"I found multiple matches for {state.TargetName}. Please pick one. Or you can say 'next' or 'previous' to see more persons.";
+                    await sc.Context.SendActivityAsync(replyMessage);
+
+                    var candidates = state.Candidates.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
+                    var card = await GetCardForPage(candidates);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
                 }
             }
             catch (SkillException ex)
@@ -120,27 +126,26 @@ namespace WhoSkill.Dialogs
             var state = await WhoStateAccessor.GetAsync(sc.Context);
             var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var topIntent = luisResult.TopIntent().intent;
-            var maxPageNumber = ((state.Persons.Count - 1) / state.PageSize) + 1;
+            var maxPageNumber = ((state.Candidates.Count - 1) / state.PageSize) + 1;
 
-            // If user want to see someone's detail.
             if (state.Ordinal != int.MinValue)
             {
+                // If user want to see someone's detail.
                 var index = (state.PageIndex * state.PageSize) + state.Ordinal - 1;
-                if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.Persons.Count)
+                if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.Candidates.Count)
                 {
                     await sc.Context.SendActivityAsync("Invalid number.");
                     state.Ordinal = int.MinValue;
-                    return await sc.ReplaceDialogAsync(Actions.ShowPersons);
+                    return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
                 }
 
-                var candidate = new List<Person>();
-                candidate.Add(state.Persons[index]);
-                state.Persons = candidate;
+                var candidate = new List<Candidate>();
+                candidate.Add(state.Candidates[index]);
+                state.Candidates = candidate;
             }
-
-            // Else if user want to see next page.
             else if (topIntent == WhoLuis.Intent.ShowNextPage)
             {
+                // Else if user want to see next page.
                 if (state.PageIndex < maxPageNumber - 1)
                 {
                     state.PageIndex++;
@@ -150,22 +155,24 @@ namespace WhoSkill.Dialogs
                     await sc.Context.SendActivityAsync("Already last page.");
                 }
             }
+            else if (topIntent == WhoLuis.Intent.ShowPreviousPage)
+            {
+                // Else if user want to see previous page.
+                if (state.PageIndex > 0)
+                {
+                    state.PageIndex--;
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync("Already first page.");
+                }
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync("Sorry, I don't understand. You can say cancel to start over.");
+            }
 
-            return await sc.ReplaceDialogAsync(Actions.ShowPersons);
-
-            //var confirmResult = (bool)sc.Result;
-            //if (confirmResult)
-            //{
-            //    state.ShowTaskPageIndex = 0;
-            //    state.GoBackToStart = true;
-            //    return await sc.ReplaceDialogAsync(Actions.DoShowTasks);
-            //}
-            //else
-            //{
-            //    //var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
-            //    //await sc.Context.SendActivityAsync(activity);
-            //    return await sc.EndDialogAsync(true);
-            //}
+            return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
         }
     }
 }

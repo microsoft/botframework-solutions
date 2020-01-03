@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
@@ -87,6 +88,35 @@ namespace WhoSkill
                 var conversationState = sp.GetService<ConversationState>();
                 return new BotStateSet(userState, conversationState);
             });
+
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us"};
+            var templateFiles = new Dictionary<string, string>
+            {
+                { "Card", "Card" }
+            };
+
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();

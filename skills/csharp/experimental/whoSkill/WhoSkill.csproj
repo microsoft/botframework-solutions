@@ -28,4 +28,8 @@
     <PackageReference Include="System.Spatial" Version="5.8.4" />
   </ItemGroup>
 
+   <ItemGroup>
+     <Folder Include="Responses\WhoIs\" />
+   </ItemGroup>
+
 </Project>

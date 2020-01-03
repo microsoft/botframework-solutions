@@ -13,11 +13,11 @@ namespace WhoSkill.Models
         // Set from config
         public int PageSize { get; set; }
 
-        public string PersonName { get; set; }
+        public string TargetName { get; set; }
 
         public bool AlreadySearched { get; set; }
 
-        public List<Person> Persons { get; set; }
+        public List<Candidate> Candidates { get; set; }
 
         public int PageIndex { get; set; }
 
@@ -25,9 +25,9 @@ namespace WhoSkill.Models
 
         public void Init()
         {
-            PersonName = null;
+            TargetName = null;
             AlreadySearched = false;
-            Persons = new List<Person>();
+            Candidates = new List<Candidate>();
             PageIndex = 0;
             Ordinal = int.MinValue;
         }

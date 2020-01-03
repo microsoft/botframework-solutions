@@ -27,8 +27,6 @@ namespace WhoSkill.Dialogs
         private BotServices _services;
         private IStatePropertyAccessor<WhoSkillState> _whoStateAccessor;
 
-        //private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-
         public MainDialog(
             BotSettings settings,
             BotServices services,
@@ -164,7 +162,82 @@ namespace WhoSkill.Dialogs
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return InterruptionAction.NoAction;
+            var result = InterruptionAction.NoAction;
+
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var state = await _whoStateAccessor.GetAsync(dc.Context, () => new WhoSkillState());
+                var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
+                var topIntent = generalLuisResult.TopIntent();
+
+                if (topIntent.score > 0.5)
+                {
+                    switch (topIntent.intent)
+                    {
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
+
+                        case General.Intent.Help:
+                            {
+                                result = await OnHelp(dc);
+                                break;
+                            }
+
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        {
+            //var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage);
+            //await dc.Context.SendActivityAsync(activity);
+            await dc.CancelAllDialogsAsync();
+            return InterruptionAction.End;
+        }
+
+        private async Task<InterruptionAction> OnHelp(DialogContext dc)
+        {
+            //  var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.HelpMessage);
+            // await dc.Context.SendActivityAsync(activity);
+            return InterruptionAction.Resume;
+        }
+
+        private async Task<InterruptionAction> OnLogout(DialogContext dc)
+        {
+            BotFrameworkAdapter adapter;
+            var supported = dc.Context.Adapter is BotFrameworkAdapter;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            // var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut);
+            // await dc.Context.SendActivityAsync(activity);
+            return InterruptionAction.End;
         }
 
         private void InitializeConfig(WhoSkillState state)

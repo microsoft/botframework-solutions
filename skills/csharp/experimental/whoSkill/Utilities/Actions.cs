@@ -7,7 +7,7 @@ namespace WhoSkill.Utilities
     {
         public const string Prompt = "prompt";
 
-        public const string ShowPersons = "showPersons";
+        public const string ShowCandidates = "showCandidates";
 
         public const string InitDialog = "initDialog";
     }

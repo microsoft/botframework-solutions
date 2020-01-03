@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -7,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -19,13 +21,12 @@ namespace WhoSkill.Dialogs
 {
     public class WhoSkillDialogBase : ComponentDialog
     {
-
         public WhoSkillDialogBase(
             string dialogId,
             BotSettings settings,
             ConversationState conversationState,
             MSGraphService msGraphService,
-            //LocaleTemplateEngineManager localeTemplateEngineManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
             : base(dialogId)
@@ -33,16 +34,18 @@ namespace WhoSkill.Dialogs
             // Initialize state accessor
             WhoStateAccessor = conversationState.CreateProperty<WhoSkillState>(nameof(WhoSkillState));
             MSGraphService = msGraphService;
+            TemplateEngine = localeTemplateEngineManager;
             TelemetryClient = telemetryClient;
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
-            AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         public IStatePropertyAccessor<WhoSkillState> WhoStateAccessor { get; set; }
 
         public MSGraphService MSGraphService { get; set; }
+
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -79,7 +82,6 @@ namespace WhoSkill.Dialogs
             {
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-
                     if (sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token))
                     {
                         sc.Context.TurnState[StateProperties.APIToken] = providerTokenResponse.TokenResponse.Token;
@@ -106,7 +108,7 @@ namespace WhoSkill.Dialogs
             {
                 var state = await WhoStateAccessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
-                MSGraphService.InitAsync(token as string);
+                MSGraphService.InitServices(token as string);
                 return await sc.NextAsync();
             }
             catch (Exception ex)
@@ -135,7 +137,54 @@ namespace WhoSkill.Dialogs
             state.Init();
         }
 
-        protected async Task InitState(DialogContext dc)
+        // This method is called to generate card for a page.
+        protected async Task<Activity> GetCardForPage(List<Candidate> candidates)
+        {
+            var photoUrls = new List<string>();
+            foreach (var candidate in candidates)
+            {
+                photoUrls.Add(await MSGraphService.GetMSUserPhotoUrlAsyc(candidate.Id) ?? string.Empty);
+            }
+
+            var data = new List<object>();
+            for (int i = 0; i < candidates.Count(); i++)
+            {
+                data.Add(new
+                {
+                    PhotoUrl = photoUrls[i],
+                    DisplayName = candidates[i].DisplayName,
+                    JobTitle = candidates[i].JobTitle
+                });
+            }
+
+            var activity = TemplateEngine.GenerateActivityForLocale("CardForPage", new
+            {
+                Persons = data
+            });
+            return activity;
+        }
+
+        // This method is called to generate card for detail of a person.
+        protected async Task<Activity> GetCardForDetail(Candidate candidate)
+        {
+            var photoUrl = await MSGraphService.GetMSUserPhotoUrlAsyc(candidate.Id) ?? string.Empty;
+            var data = new
+            {
+                DisplayName = candidate.DisplayName ?? string.Empty,
+                JobTitle = candidate.JobTitle ?? string.Empty,
+                Department = candidate.Department ?? string.Empty,
+                OfficeLocation = candidate.OfficeLocation ?? string.Empty,
+                MobilePhone = candidate.MobilePhone ?? string.Empty,
+                PhotoUrl = photoUrl ?? string.Empty,
+            };
+            var activity = TemplateEngine.GenerateActivityForLocale("CardForDetail", new
+            {
+                Person = data
+            });
+            return activity;
+        }
+
+        private async Task InitState(DialogContext dc)
         {
             try
             {
@@ -168,9 +217,9 @@ namespace WhoSkill.Dialogs
 
                 if (entities != null)
                 {
-                    if (entities.PersonName != null && !string.IsNullOrEmpty(entities.PersonName[0]))
+                    if (entities.PersonName != null && !string.IsNullOrEmpty(entities.PersonName[0]) && string.IsNullOrEmpty(state.TargetName))
                     {
-                        state.PersonName = entities.PersonName[0];
+                        state.TargetName = entities.PersonName[0];
                     }
 
                     if (entities.ordinal != null && entities.ordinal.Length > 0)
