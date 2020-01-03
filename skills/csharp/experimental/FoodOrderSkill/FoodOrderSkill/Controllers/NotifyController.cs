@@ -60,6 +60,8 @@ namespace FoodOrderSkill.Controllers
                 }
             }
 
+            _conversationReferences.Clear();
+
             // Let the caller know proactive messages have been sent
             return new ContentResult()
             {

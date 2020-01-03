@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,27 +19,17 @@ namespace FoodOrderSkill.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private ConcurrentDictionary<string, ConversationReference> _conversationReferences;
 
-        public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog, ConcurrentDictionary<string, ConversationReference> conversationReferences)
+        public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            _conversationReferences = conversationReferences;
-        }
-
-        private void AddConversationReference(Activity activity)
-        {
-            var conversationReference = activity.GetConversationReference();
-            _conversationReferences.AddOrUpdate($"{conversationReference.User.Id}_{activity.ChannelId}", conversationReference, (key, newValue) => conversationReference);
         }
 
         protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            AddConversationReference(turnContext.Activity as Activity);
-
+        { 
             return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
         }
 
@@ -60,8 +49,6 @@ namespace FoodOrderSkill.Bots
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            AddConversationReference(turnContext.Activity as Activity);
-
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
