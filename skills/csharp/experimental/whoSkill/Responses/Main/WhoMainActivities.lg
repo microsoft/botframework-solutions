@@ -1,0 +1,43 @@
+﻿[import](WhoMainTexts.lg)
+
+# DidntUnderstandMessage
+[Activity
+    Text = @{DidntUnderstandMessage.Text()}
+    Speak = @{DidntUnderstandMessage.Text()}
+    InputHint = expectingInput
+]
+
+# WhoWelcomeMessage
+[Activity
+    Text = @{WhoWelcomeMessage.Text()}
+    Speak = @{WhoWelcomeMessage.Text()}
+    InputHint = expectingInput
+]
+
+# HelpMessage
+[Activity
+    Text = @{HelpMessage.Text()}
+    Speak = @{HelpMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# LogOut
+[Activity
+    Text = @{LogOut.Text()}
+    Speak = @{LogOut.Text()}
+    InputHint = acceptingInput
+]
+
+# FeatureNotAvailable
+[Activity
+    Text = @{FeatureNotAvailable.Text()}
+    Speak = @{FeatureNotAvailable.Text()}
+    InputHint = acceptingInput
+]
+
+# CancelMessage
+[Activity
+    Text = @{CancelMessage.Text()}
+    Speak = @{CancelMessage.Text()}
+    InputHint = acceptingInput
+]

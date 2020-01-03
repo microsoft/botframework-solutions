@@ -1,0 +1,36 @@
+﻿[import](WhoSharedTexts.lg)
+
+# NoAuth
+[Activity
+    Text = @{NoAuth.Text()}
+    Speak = @{NoAuth.Text()}
+    InputHint = expectingInput
+]
+
+# ActionEnded
+[Activity
+    Text = @{ActionEnded.Text()}
+    Speak = @{ActionEnded.Text()}
+    InputHint = acceptingInput
+]
+
+# WhoErrorMessage
+[Activity
+    Text = @{WhoErrorMessage.Text()}
+    Speak = @{WhoErrorMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# WhoErrorMessageBotProblem
+[Activity
+    Text = @{WhoErrorMessageBotProblem.Text()}
+    Speak = @{WhoErrorMessageBotProblem.Text()}
+    InputHint = acceptingInput
+]
+
+# WhoErrorMessageAccountProblem
+[Activity
+    Text = @{WhoErrorMessageAccountProblem.Text()}
+    Speak = @{WhoErrorMessageAccountProblem.Text()}
+    InputHint = acceptingInput
+]

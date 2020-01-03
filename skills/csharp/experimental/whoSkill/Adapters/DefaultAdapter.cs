@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using WhoSkill.Responses.Shared;
 using WhoSkill.Services;
 
 namespace WhoSkill.Adapters
@@ -20,7 +21,7 @@ namespace WhoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            //LocaleTemplateEngineManager localeTemplateEngineManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             TelemetryInitializerMiddleware telemetryMiddleware)
             : base(credentialProvider)
         {
@@ -28,8 +29,8 @@ namespace WhoSkill.Adapters
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
 
-                //var activity = localeTemplateEngineManager.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage, context);
-                //await context.SendActivityAsync(activity);
+                var activity = localeTemplateEngineManager.GenerateActivityForLocale(WhoSharedResponses.WhoErrorMessage, context);
+                await context.SendActivityAsync(activity);
 
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Who Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

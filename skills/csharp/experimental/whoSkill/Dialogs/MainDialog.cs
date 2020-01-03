@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using WhoSkill.Models;
+using WhoSkill.Responses.Main;
 using WhoSkill.Services;
 using WhoSkill.Utilities;
 
@@ -26,12 +27,13 @@ namespace WhoSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private IStatePropertyAccessor<WhoSkillState> _whoStateAccessor;
+        private LocaleTemplateEngineManager _templateEngine;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
-            //LocaleTemplateEngineManager localeTemplateEngineManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             WhoIsDialog whoIsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
@@ -39,18 +41,18 @@ namespace WhoSkill.Dialogs
             _settings = settings;
             _services = services;
             _whoStateAccessor = conversationState.CreateProperty<WhoSkillState>(nameof(WhoSkillState));
-            // TemplateEngine = localeTemplateEngineManager;
+            _templateEngine = localeTemplateEngineManager;
             TelemetryClient = telemetryClient;
 
             // RegisterDialogs
             AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
         }
 
-        private LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await dc.Context.SendActivityAsync("hello");
+            var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.WhoWelcomeMessage);
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -77,10 +79,8 @@ namespace WhoSkill.Dialogs
                 default:
                     {
                         // intent was identified but not yet implemented
-
-                        //var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.FeatureNotAvailable);
-                        //await dc.Context.SendActivityAsync(activity);
-
+                        var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.FeatureNotAvailable);
+                        await dc.Context.SendActivityAsync(activity);
                         break;
                     }
             }
@@ -200,16 +200,16 @@ namespace WhoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            //var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage);
-            //await dc.Context.SendActivityAsync(activity);
+            var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.CancelMessage);
+            await dc.Context.SendActivityAsync(activity);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            //  var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.HelpMessage);
-            // await dc.Context.SendActivityAsync(activity);
+            var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.HelpMessage);
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.Resume;
         }
 
@@ -235,8 +235,8 @@ namespace WhoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            // var activity = TemplateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut);
-            // await dc.Context.SendActivityAsync(activity);
+            var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.LogOut);
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.End;
         }
 
