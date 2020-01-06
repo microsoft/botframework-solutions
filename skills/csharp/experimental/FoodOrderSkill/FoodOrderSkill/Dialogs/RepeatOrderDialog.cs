@@ -2,20 +2,19 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using Alexa.NET.Response;
+using Bot.Builder.Community.Adapters.Alexa.Attachments;
 using FoodOrderSkill.MockBackEnd;
 using FoodOrderSkill.Models;
-using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
-using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
 
@@ -26,9 +25,13 @@ namespace FoodOrderSkill.Dialogs
         // TODO: Remove and replace with service to hit favoriteMeals API
         private BackEndDB localDB;
 
+        // temp storage for pro-active scenario
+        private ConcurrentDictionary<string, ConversationReference> _conversationReferences;
+
         public RepeatOrderDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            ConcurrentDictionary<string, ConversationReference> conversationReferences)
             : base(nameof(RepeatOrderDialog), serviceProvider, telemetryClient)
         {
             var steps = new WaterfallStep[]
@@ -41,6 +44,7 @@ namespace FoodOrderSkill.Dialogs
             };
 
             this.localDB = new BackEndDB();
+            _conversationReferences = conversationReferences;
 
             AddDialog(new WaterfallDialog(nameof(RepeatOrderDialog), steps));
             AddDialog(new ChoicePrompt(DialogIds.FavoriteOrderPrompt));
@@ -258,13 +262,32 @@ namespace FoodOrderSkill.Dialogs
 
             if ((bool)stepContext.Result)
             {
-                await stepContext.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("orderPlacedMessage", new { address = state.OrderToPlace.DeliveryAddress, orderName = state.OrderToPlace.OrderName }));
+                var orderPlacedActivity = TemplateEngine.GenerateActivityForLocale("orderPlacedMessage", new { address = state.OrderToPlace.DeliveryAddress, orderName = state.OrderToPlace.OrderName });
+
+                var alexaCardAttachment = new CardAttachment(new SimpleCard()
+                {
+                    Title = "Your order has been placed!",
+                    Content = string.Format("I have placed your {0} order. Your order from {1} will arrive at {3} shortly. \n\nOrder Contents: {2}", state.OrderToPlace.OrderName, state.OrderToPlace.RestaurantName, string.Join(", ", state.OrderToPlace.OrderContents), state.OrderToPlace.DeliveryAddress),
+                });
+
+                orderPlacedActivity.Attachments.Add(alexaCardAttachment);
+
+                await stepContext.Context.SendActivityAsync(orderPlacedActivity);
+
+                AddConversationReference(stepContext.Context.Activity);
+
                 return await stepContext.EndDialogAsync();
             }
             else
             {
                 return await stepContext.ReplaceDialogAsync(nameof(RepeatOrderDialog), null, cancellationToken);
             }
+        }
+
+        private void AddConversationReference(Activity activity)
+        {
+            var conversationReference = activity.GetConversationReference();
+            _conversationReferences.AddOrUpdate($"{conversationReference.User.Id}_{activity.ChannelId}", conversationReference, (key, newValue) => conversationReference);
         }
 
         private class DialogIds

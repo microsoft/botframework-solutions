@@ -30,6 +30,8 @@ using Bot.Builder.Community.Adapters.Alexa.Integration.AspNet.Core;
 using Bot.Builder.Community.Adapters.Alexa;
 using Bot.Builder.Community.Adapters.Google.Integration.AspNet.Core;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Bot.Schema;
+using System.Collections.Concurrent;
 
 namespace FoodOrderSkill
 {
@@ -137,25 +139,15 @@ namespace FoodOrderSkill
             services.AddSingleton<AlexaAdapter, AlexaAdapterWithErrorHandler>();
             services.AddHttpContextAccessor();
             services.AddSingleton<IGoogleHttpAdapter, GoogleHttpAdapter>();
-            //services.AddSingleton<IGoogleHttpAdapter>((sp) =>
-            //{
-            //    var googleHttpAdapter = new GoogleHttpAdapter()
-            //    {
-            //        OnTurnError = async (context, exception) =>
-            //        {
-            //            await context.SendActivityAsync("Sorry, something went wrong");
-            //        },
-            //        ShouldEndSessionByDefault = true,
-            //    };
-
-            //    return googleHttpAdapter;
-            //});
 
             // Register WhiteListAuthProvider
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+
+            // Create a global hashset for our ConversationReferences
+            services.AddSingleton<ConcurrentDictionary<string, ConversationReference>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

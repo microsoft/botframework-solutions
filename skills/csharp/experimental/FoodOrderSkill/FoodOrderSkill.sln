@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderSkill", "FoodOrder
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderSkill.Tests", "FoodOrderSkill.Tests\FoodOrderSkill.Tests.csproj", "{132E84DA-8D9D-40EA-836E-01B804504A33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Community.Adapters.Alexa", "..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj", "{E47DAE40-7394-4264-80B4-93E4FD3A2414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Community.Adapters.Alexa", "..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj", "{568A2B96-BA2E-44AE-B921-2541F47AD0FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Community.Adapters.Google", "..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj", "{7B83E175-F73B-4E71-9042-25EA1B23F242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Community.Adapters.Google", "..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj", "{2CBE63C8-57BB-4575-9A06-6F4138E674F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{132E84DA-8D9D-40EA-836E-01B804504A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{132E84DA-8D9D-40EA-836E-01B804504A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{132E84DA-8D9D-40EA-836E-01B804504A33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E47DAE40-7394-4264-80B4-93E4FD3A2414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E47DAE40-7394-4264-80B4-93E4FD3A2414}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E47DAE40-7394-4264-80B4-93E4FD3A2414}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E47DAE40-7394-4264-80B4-93E4FD3A2414}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B83E175-F73B-4E71-9042-25EA1B23F242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B83E175-F73B-4E71-9042-25EA1B23F242}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B83E175-F73B-4E71-9042-25EA1B23F242}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B83E175-F73B-4E71-9042-25EA1B23F242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{568A2B96-BA2E-44AE-B921-2541F47AD0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{568A2B96-BA2E-44AE-B921-2541F47AD0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{568A2B96-BA2E-44AE-B921-2541F47AD0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{568A2B96-BA2E-44AE-B921-2541F47AD0FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBE63C8-57BB-4575-9A06-6F4138E674F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBE63C8-57BB-4575-9A06-6F4138E674F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBE63C8-57BB-4575-9A06-6F4138E674F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBE63C8-57BB-4575-9A06-6F4138E674F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

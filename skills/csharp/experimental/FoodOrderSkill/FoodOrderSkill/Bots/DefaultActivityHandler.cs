@@ -28,6 +28,11 @@ namespace FoodOrderSkill.Bots
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
         }
 
+        protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        { 
+            return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+        }
+
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
             await base.OnTurnAsync(turnContext, cancellationToken);

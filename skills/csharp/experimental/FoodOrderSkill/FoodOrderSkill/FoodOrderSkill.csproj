@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
+    <PackageReference Include="Alexa.NET.ProactiveEvents" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.0" />
@@ -28,11 +29,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +72,11 @@
 
   <ItemGroup>
     <Folder Include="Middleware\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
   </ItemGroup>
 
 </Project>
