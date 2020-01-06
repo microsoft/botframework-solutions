@@ -350,7 +350,8 @@ ASALocalRun/
 /solutions/**/publish
 /solutions/**/publish.cmd
 **/Deployment/Resources/Dispatch/**
-**/Deployment/Resources/**/*.json
+**/Deployment/Resources/LU/**/*.json
+**/Deployment/Resources/QnA/**/*.json
 **/deploy_log.txt
 **/deploy_cognitive_models_log.txt
 **/update_cognitive_models_log.txt
