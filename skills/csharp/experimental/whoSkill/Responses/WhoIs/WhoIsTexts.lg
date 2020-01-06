@@ -12,3 +12,6 @@
 
 # PhoneNumber.Text(Person)
 - The phone number for '@{Person.TargetName}' is @{Person.MobilePhone}.
+
+# EmailAddress.Text(Person)
+- The e-mail address of '@{Person.TargetName}' is @{Person.EmailAddress}.

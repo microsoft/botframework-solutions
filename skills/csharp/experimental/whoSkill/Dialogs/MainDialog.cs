@@ -74,6 +74,7 @@ namespace WhoSkill.Dialogs
                 case WhoLuis.Intent.Department:
                 case WhoLuis.Intent.Location:
                 case WhoLuis.Intent.PhoneNumber:
+                case WhoLuis.Intent.EmailAddress:
                     {
                         await dc.BeginDialogAsync(nameof(WhoIsDialog));
                         break;

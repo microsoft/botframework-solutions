@@ -12,5 +12,6 @@ namespace WhoSkill.Responses.WhoIs
         public const string Department = "Department";
         public const string Location = "Location";
         public const string PhoneNumber = "PhoneNumber";
+        public const string EmailAddress = "EmailAddress";
     }
 }

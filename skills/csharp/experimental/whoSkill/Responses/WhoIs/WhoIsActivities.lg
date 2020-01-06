@@ -2,35 +2,42 @@
 
 # WhoIs
 [Activity
-    Text = @{WhoIs.Text()}
-    Speak = @{WhoIs.Text()}
+    Text = @{WhoIs.Text(Person)}
+    Speak = @{WhoIs.Text(Person)}
     InputHint = acceptingInput
 ]
 
 # JobTitle
 [Activity
-    Text = @{JobTitle.Text()}
-    Speak = @{JobTitle.Text()}
+    Text = @{JobTitle.Text(Person)}
+    Speak = @{JobTitle.Text(Person)}
     InputHint = acceptingInput
 ]
 
 # Department
 [Activity
-    Text = @{Department.Text()}
-    Speak = @{Department.Text()}
+    Text = @{Department.Text(Person)}
+    Speak = @{Department.Text(Person)}
     InputHint = acceptingInput
 ]
 
 # Location
 [Activity
-    Text = @{Location.Text()}
-    Speak = @{Location.Text()}
+    Text = @{Location.Text(Person)}
+    Speak = @{Location.Text(Person)}
     InputHint = acceptingInput
 ]
 
 # PhoneNumber
 [Activity
-    Text = @{PhoneNumber.Text()}
-    Speak = @{PhoneNumber.Text()}
+    Text = @{PhoneNumber.Text(Person)}
+    Speak = @{PhoneNumber.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# EmailAddress
+[Activity
+    Text = @{EmailAddress.Text(Person)}
+    Speak = @{EmailAddress.Text(Person)}
     InputHint = acceptingInput
 ]

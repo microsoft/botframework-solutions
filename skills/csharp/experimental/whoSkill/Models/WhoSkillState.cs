@@ -23,6 +23,8 @@ namespace WhoSkill.Models
 
         public int Ordinal { get; set; }
 
+        public string ReplyTemplateName { get; set; }
+
         public void Init()
         {
             TargetName = null;
@@ -30,6 +32,7 @@ namespace WhoSkill.Models
             Candidates = new List<Candidate>();
             PageIndex = 0;
             Ordinal = int.MinValue;
+            ReplyTemplateName = null;
         }
     }
 }

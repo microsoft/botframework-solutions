@@ -15,6 +15,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using WhoSkill.Models;
 using WhoSkill.Responses.Shared;
+using WhoSkill.Responses.WhoIs;
 using WhoSkill.Services;
 using WhoSkill.Utilities;
 
@@ -51,6 +52,7 @@ namespace WhoSkill.Dialogs
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             await InitState(dc);
+            await GetReplyTemplateNameForDetail(dc);
             await FillLuisResultIntoState(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
@@ -233,6 +235,41 @@ namespace WhoSkill.Dialogs
             catch
             {
             }
+        }
+
+        // According to the intent which triggered current dialog, return corresponding reply.
+        private async Task GetReplyTemplateNameForDetail(DialogContext dc)
+        {
+            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var intent = luisResult?.TopIntent().intent;
+            string templateName = string.Empty;
+            switch (intent)
+            {
+                case WhoLuis.Intent.WhoIs:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+                case WhoLuis.Intent.JobTitle:
+                    templateName = WhoIsResponses.JobTitle;
+                    break;
+                case WhoLuis.Intent.Department:
+                    templateName = WhoIsResponses.Department;
+                    break;
+                case WhoLuis.Intent.Location:
+                    templateName = WhoIsResponses.Location;
+                    break;
+                case WhoLuis.Intent.PhoneNumber:
+                    templateName = WhoIsResponses.PhoneNumber;
+                    break;
+                case WhoLuis.Intent.EmailAddress:
+                    templateName = WhoIsResponses.EmailAddress;
+                    break;
+                default:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+            }
+
+            var state = await WhoStateAccessor.GetAsync(dc.Context);
+            state.ReplyTemplateName = templateName;
         }
     }
 }

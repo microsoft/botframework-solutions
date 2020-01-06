@@ -19,8 +19,6 @@ namespace WhoSkill.Dialogs
 {
     public class WhoIsDialog : WhoSkillDialogBase
     {
-        private string _replyTemplateName;
-
         public WhoIsDialog(
                 BotSettings settings,
                 ConversationState conversationState,
@@ -50,12 +48,6 @@ namespace WhoSkill.Dialogs
 
             // Set starting dialog for component
             InitialDialogId = Actions.InitDialog;
-        }
-
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            _replyTemplateName = GetReplyTemplateNameForDetail(dc);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ShowCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -109,8 +101,10 @@ namespace WhoSkill.Dialogs
                         Department = state.Candidates[0].Department ?? string.Empty,
                         OfficeLocation = state.Candidates[0].OfficeLocation ?? string.Empty,
                         MobilePhone = state.Candidates[0].MobilePhone ?? string.Empty,
+                        EmailAddress = state.Candidates[0].Mail ?? string.Empty,
                     };
-                    var reply = TemplateEngine.GenerateActivityForLocale(_replyTemplateName, new { Person = data });
+                    var templateName = state.ReplyTemplateName ?? WhoIsResponses.WhoIs;
+                    var reply = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data });
                     await sc.Context.SendActivityAsync(reply);
                     var card = await GetCardForDetail(state.Candidates[0]);
                     await sc.Context.SendActivityAsync(card);
@@ -191,37 +185,6 @@ namespace WhoSkill.Dialogs
             }
 
             return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
-        }
-
-        private string GetReplyTemplateNameForDetail(DialogContext dc)
-        {
-            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
-            var intent = luisResult?.TopIntent().intent;
-
-            string templateName = string.Empty;
-            switch (intent)
-            {
-                case WhoLuis.Intent.WhoIs:
-                    templateName = WhoIsResponses.WhoIs;
-                    break;
-                case WhoLuis.Intent.JobTitle:
-                    templateName = WhoIsResponses.JobTitle;
-                    break;
-                case WhoLuis.Intent.Department:
-                    templateName = WhoIsResponses.Department;
-                    break;
-                case WhoLuis.Intent.Location:
-                    templateName = WhoIsResponses.Location;
-                    break;
-                case WhoLuis.Intent.PhoneNumber:
-                    templateName = WhoIsResponses.PhoneNumber;
-                    break;
-                default:
-                    templateName = WhoIsResponses.WhoIs;
-                    break;
-            }
-
-            return templateName;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             Department, 
+            EmailAddress, 
             JobTitle, 
             Location, 
             None, 
