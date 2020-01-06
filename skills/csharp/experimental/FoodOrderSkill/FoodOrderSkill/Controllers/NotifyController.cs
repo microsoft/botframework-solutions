@@ -89,10 +89,10 @@ namespace FoodOrderSkill.Controllers
                     TimeStamp = DateTimeOffset.Now,
                 };
 
-                var client = new ProactiveEventsClient(ProactiveEventsClient.EuropeEndpoint, token, true);
-                await client.Send(request);
+                // var client = new ProactiveEventsClient(ProactiveEventsClient.EuropeEndpoint, token, true);
+                // await client.Send(request);
 
-                client = new ProactiveEventsClient(ProactiveEventsClient.EuropeEndpoint, token, true);
+                var client = new ProactiveEventsClient(ProactiveEventsClient.NorthAmericaEndpoint, token, true);
                 await client.Send(request);
             }
             else

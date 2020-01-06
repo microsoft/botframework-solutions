@@ -263,14 +263,16 @@ namespace FoodOrderSkill.Dialogs
             if ((bool)stepContext.Result)
             {
                 var orderPlacedActivity = TemplateEngine.GenerateActivityForLocale("orderPlacedMessage", new { address = state.OrderToPlace.DeliveryAddress, orderName = state.OrderToPlace.OrderName });
-
-                var alexaCardAttachment = new CardAttachment(new SimpleCard()
+                if (stepContext.Context.Activity.ChannelId == "alexa")
                 {
-                    Title = "Your order has been placed!",
-                    Content = string.Format("I have placed your {0} order. Your order from {1} will arrive at {3} shortly. \n\nOrder Contents: {2}", state.OrderToPlace.OrderName, state.OrderToPlace.RestaurantName, string.Join(", ", state.OrderToPlace.OrderContents), state.OrderToPlace.DeliveryAddress),
-                });
+                    var alexaCardAttachment = new CardAttachment(new SimpleCard()
+                    {
+                        Title = "Your order has been placed!",
+                        Content = string.Format("I have placed your {0} order. Your order from {1} will arrive at {3} shortly. \n\nOrder Contents: {2}", state.OrderToPlace.OrderName, state.OrderToPlace.RestaurantName, string.Join(", ", state.OrderToPlace.OrderContents), state.OrderToPlace.DeliveryAddress),
+                    });
 
-                orderPlacedActivity.Attachments.Add(alexaCardAttachment);
+                    orderPlacedActivity.Attachments.Add(alexaCardAttachment);
+                }
 
                 await stepContext.Context.SendActivityAsync(orderPlacedActivity);
 
