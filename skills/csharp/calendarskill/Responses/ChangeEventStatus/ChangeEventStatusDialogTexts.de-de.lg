@@ -2,13 +2,13 @@
 - Möchten Sie dies wirklich aus Ihrem Kalender löschen?
 
 # ConfirmDeleteFailed.Text(Title, Time)
-- Sind Sie sicher, dass Sie Ihre {Time} "{Title}" Treffen? Sie können "Ja" oder "Nein" sagen
+- Sind Sie sicher, dass Sie Ihre @{Time} "@{Title}" Treffen? Sie können "Ja" oder "Nein" sagen
 
 # ConfirmAccept.Text
 - Möchten Sie das folgende Ereignis wirklich akzeptieren?
 
 # ConfirmAcceptFailed.Text(Title, Time)
-- Sind Sie sicher, dass Sie Ihre {Time} "{Title}" Treffen? Sie können "Ja" oder "Nein" sagen
+- Sind Sie sicher, dass Sie Ihre @{Time} "@{Title}" Treffen? Sie können "Ja" oder "Nein" sagen
 
 # EventDeleted.Text
 - Ich habe das Ereignis gelöscht.

@@ -2,147 +2,147 @@
 
 # NoBuilding
 [Activity
-    Text = {NoBuilding.Text()}
-    Speak = {NoBuilding.Text()}
+    Text = @{NoBuilding.Text()}
+    Speak = @{NoBuilding.Text()}
     InputHint = expectingInput
 ]
 
 # BuildingNonexistent
 [Activity
-    Text = {BuildingNonexistent.Text()}
-    Speak = {BuildingNonexistent.Text()}
+    Text = @{BuildingNonexistent.Text()}
+    Speak = @{BuildingNonexistent.Text()}
     InputHint = expectingInput
 ]
 
-# MeetingRoomNotFound
+# MeetingRoomNotFoundByName
 [Activity
-    Text = {MeetingRoomNotFound.Text(MeetingRoom)}
-    Speak = {MeetingRoomNotFound.Text(MeetingRoom)}
+    Text = @{MeetingRoomNotFoundByName.Text(MeetingRoom)}
+    Speak = @{MeetingRoomNotFoundByName.Text(MeetingRoom)}
     InputHint = acceptingInput
 ]
 
 # ConfirmMeetingRoomPrompt
 [Activity
-    Text = {ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
-    Speak = {ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
+    Text = @{ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
+    Speak = @{ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)}
     InputHint = expectingInput
 ]
 
 # MeetingRoomUnavailable
 [Activity
-    Text = {MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
-    Speak = {MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
+    Text = @{MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
+    Speak = @{MeetingRoomUnavailable.Text(MeetingRoom, DateTime)}
     InputHint = expectingInput
 ]
 
 # FloorNumberRetry
 [Activity
-    Text = {FloorNumberRetry.Text()}
-    Speak = {FloorNumberRetry.Text()}
+    Text = @{FloorNumberRetry.Text()}
+    Speak = @{FloorNumberRetry.Text()}
     InputHint = expectingInput
 ]
 
 # NoFloorNumber
 [Activity
-    Text = {NoFloorNumber.Text()}
-    Speak = {NoFloorNumber.Text()}
+    Text = @{NoFloorNumber.Text()}
+    Speak = @{NoFloorNumber.Text()}
     InputHint = expectingInput
 ]
 
 # CannotFindOtherMeetingRoom
 [Activity
-    Text = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
-    Speak = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Text = @{CannotFindOtherMeetingRoom.Text(Building, OnFloorNumber, DateTime)}
+    Speak = @{CannotFindOtherMeetingRoom.Text(Building, OnFloorNumber, DateTime)}
     InputHint = expectingInput
 ]
 
-# CannotFindMeetingRoom
+# MeetingRoomNotFoundByBuildingAndFloor
 [Activity
-    Text = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
-    Speak = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Text = @{MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)}
+    Speak = @{MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)}
     InputHint = expectingInput
 ]
 
 # IgnoreMeetingRoom
 [Activity
-    Text = {IgnoreMeetingRoom.Text()}
-    Speak = {IgnoreMeetingRoom.Text()}
+    Text = @{IgnoreMeetingRoom.Text()}
+    Speak = @{IgnoreMeetingRoom.Text()}
     InputHint = expectingInput
 ]
 
 # RecreateMeetingRoomAgain
 [Activity
-    Text = {RecreateMeetingRoomAgain.Text()}
-    Speak = {RecreateMeetingRoomAgain.Text()}
+    Text = @{RecreateMeetingRoomAgain.Text()}
+    Speak = @{RecreateMeetingRoomAgain.Text()}
     InputHint = expectingInput
 ]
 
 # RecreateMeetingRoom
 [Activity
-    Text = {RecreateMeetingRoom.Text()}
-    Speak = {RecreateMeetingRoom.Text()}
+    Text = @{RecreateMeetingRoom.Text()}
+    Speak = @{RecreateMeetingRoom.Text()}
     InputHint = expectingInput
 ]
 
 # CancelRequest
 [Activity
-    Text = {CancelRequest.Text()}
-    Speak = {CancelRequest.Text()}
+    Text = @{CancelRequest.Text()}
+    Speak = @{CancelRequest.Text()}
     InputHint = acceptingInput
 ]
 
 # ConfirmedMeeting
 [Activity
-    Text = {ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
-    Speak = {ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
+    Text = @{ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
+    Speak = @{ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)}
     InputHint = acceptingInput
 ]
 
 # ConfirmAddMeetingRoom
 [Activity
-    Text = {ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
-    Speak = {ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
+    Text = @{ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
+    Speak = @{ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)}
     InputHint = acceptingInput
 ]
 
 # ConfirmChangeMeetingRoom
 [Activity
-    Text = {ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
-    Speak = {ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
+    Text = @{ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
+    Speak = @{ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)}
     InputHint = acceptingInput
 ]
 
 # ConfirmedMeetingRoom
 [Activity
-    Text = {ConfirmedMeetingRoom.Text()}
-    Speak = {ConfirmedMeetingRoom.Text()}
+    Text = @{ConfirmedMeetingRoom.Text()}
+    Speak = @{ConfirmedMeetingRoom.Text()}
     InputHint = acceptingInput
 ]
 
 # ConfirmBeforCreatePrompt
 [Activity
-    Text = {ConfirmBeforCreatePrompt.Text()}
-    Speak = {ConfirmBeforCreatePrompt.Text()}
+    Text = @{ConfirmBeforCreatePrompt.Text()}
+    Speak = @{ConfirmBeforCreatePrompt.Text()}
     InputHint = acceptingInput
 ]
 
 # MeetingRoomAdded
 [Activity
-    Text = {MeetingRoomAdded.Text(MeetingRoom, Subject)}
-    Speak = {MeetingRoomAdded.Text(MeetingRoom, Subject)}
+    Text = @{MeetingRoomAdded.Text(MeetingRoom, Subject)}
+    Speak = @{MeetingRoomAdded.Text(MeetingRoom, Subject)}
     InputHint = acceptingInput
 ]
 
 # MeetingRoomAddChanged
 [Activity
-    Text = {MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
-    Speak = {MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
+    Text = @{MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
+    Speak = @{MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
     InputHint = acceptingInput
 ]
 
 # MeetingRoomCanceled
 [Activity
-    Text = {MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
-    Speak = {MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
+    Text = @{MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
+    Speak = @{MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)}
     InputHint = acceptingInput
 ]

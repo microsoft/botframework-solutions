@@ -45,8 +45,8 @@
 - 您可以尝试"收件人"、"主题"或"正文"。或者说取消。
 
 # PlayBackMessage.Text(emailContent)
-- 好吧，这就是我的是否要将其包含在电子邮件中？\n{emailContent}
+- 好吧，这就是我的是否要将其包含在电子邮件中？\n@{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- 好吧，这就是我的是否要将其包含在电子邮件中？{emailContent}
+- 好吧，这就是我的是否要将其包含在电子邮件中？@{emailContent}
 

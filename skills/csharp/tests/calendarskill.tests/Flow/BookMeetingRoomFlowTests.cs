@@ -676,7 +676,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ReplyMeetingRoomNotFound()
         {
-            return GetTemplates(FindMeetingRoomResponses.MeetingRoomNotFound, new
+            return GetTemplates(FindMeetingRoomResponses.MeetingRoomNotFoundByName, new
             {
                 MeetingRoom = Strings.Strings.DefaultMeetingRoomName,
             });
@@ -687,7 +687,7 @@ namespace CalendarSkill.Test.Flow
             int floorNumber = 1,
             string dateTime = "right now")
         {
-            return GetTemplates(FindMeetingRoomResponses.CannotFindMeetingRoom, new
+            return GetTemplates(FindMeetingRoomResponses.MeetingRoomNotFoundByBuildingAndFloor, new
             {
                 Building = building,
                 FloorNumber = floorNumber,
@@ -700,7 +700,7 @@ namespace CalendarSkill.Test.Flow
             int floorNumber = 1,
             string dateTime = "right now")
         {
-            return GetTemplates(FindMeetingRoomResponses.CannotFindMeetingRoom, new
+            return GetTemplates(FindMeetingRoomResponses.MeetingRoomNotFoundByBuildingAndFloor, new
             {
                 Building = building,
                 FloorNumber = floorNumber,

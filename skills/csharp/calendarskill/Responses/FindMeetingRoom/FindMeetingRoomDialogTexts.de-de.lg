@@ -4,10 +4,7 @@
 # BuildingNonexistent.Text
 - Es tut mir leid, ich konnte dieses Gebäude nicht finden. Können Sie es anders sagen oder ein anderes Gebäude wählen?
 
-# NoMeetingRoom.Text
-- Wie heißt der Tagungsraum?
-
-# MeetingRoomNotFound.Text(MeetingRoom)
+# MeetingRoomNotFoundByName.Text(MeetingRoom)
 - Es sieht aus wie {MeetingRoom} ist nicht vorhanden.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
@@ -25,7 +22,7 @@
 # CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
 - Es sieht nicht so aus, als ob andere Zimmer zur Verfügung stehen{InBulding}{OnFloorNumber} {DateTime}.
 
-# CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+# MeetingRoomNotFoundByBuildingAndFloor.Text(InBulding, OnFloorNumber, DateTime)
 - Es sieht nicht so aus, als ob irgendwelche Zimmer verfügbar sind{InBulding}{OnFloorNumber} {DateTime}.
 
 # IgnoreMeetingRoom.Text

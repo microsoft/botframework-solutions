@@ -19,9 +19,9 @@ namespace CalendarSkill.Responses.FindMeetingRoom
         public const string FindMeetingRoomNoDurationRetry = "FindMeetingRoomNoDurationRetry";
         public const string FindMeetingRoomNoTitle = "FindMeetingRoomNoTitle";
         public const string FindMeetingRoomNoTitleShort = "FindMeetingRoomNoTitleShort";
-        public const string MeetingRoomNotFound = "MeetingRoomNotFound";
+        public const string MeetingRoomNotFoundByName = "MeetingRoomNotFoundByName";
         public const string MeetingRoomUnavailable = "MeetingRoomUnavailable";
-        public const string CannotFindMeetingRoom = "CannotFindMeetingRoom";
+        public const string MeetingRoomNotFoundByBuildingAndFloor = "MeetingRoomNotFoundByBuildingAndFloor";
         public const string CannotFindOtherMeetingRoom = "CannotFindOtherMeetingRoom";
         public const string IgnoreMeetingRoom = "IgnoreMeetingRoom";
         public const string RejectConfirmMeetingRoom = "RejectConfirmMeetingRoom";

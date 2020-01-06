@@ -4,14 +4,14 @@
 # BuildingNonexistent.Text
 - Sorry, I couldn't find that building. Can you say it differently, or choose another building?
 
-# MeetingRoomNotFound.Text(MeetingRoom)
-- It looks like {MeetingRoom} does not exist.
+# MeetingRoomNotFoundByName.Text(MeetingRoom)
+- It looks like @{MeetingRoom} does not exist.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
-- {MeetingRoom} is available {DateTime}, do you want to reserve it?
+- @{MeetingRoom} is available @{DateTime}, do you want to reserve it?
 
 # MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
-- It looks like {MeetingRoom} is unavailable {DateTime}.
+- It looks like @{MeetingRoom} is unavailable @{DateTime}.
 
 # FloorNumberRetry.Text
 - Sorry, I didn't get that. Can you say it differently?
@@ -20,10 +20,10 @@
 - Alright, do you have a floor preference?
 
 # CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
-- It doesn't look like there are any OTHER rooms available{BuildingInfo(Building)}{FloorNumberInfo(FloorNumber)} {DateTime}.
+- It doesn't look like there are any OTHER rooms available@{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
 
-# CannotFindMeetingRoom.Text(Building, FloorNumber, DateTime)
-- It doesn't look like any rooms are available{BuildingInfo(Building)}{FloorNumberInfo(FloorNumber)} {DateTime}.
+# MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
+- It doesn't look like any rooms are available@{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
 - No problem.
@@ -38,13 +38,13 @@
 - Okey, your request has been cancelled.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
-- Alright, you're confirmed in {MeetingRoom} {DateTime}{SubjectInfo(subject)}.
+- Alright, you're confirmed in @{MeetingRoom} @{DateTime}@{SubjectInfo(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
-- Alright, I have add {MeetingRoom} to your meeting{Subject}.
+- Alright, I have add @{MeetingRoom} to your meeting@{Subject}.
 
 # ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
-- Alright, I have your meeting{Subject} changing to {MeetingRoom}.
+- Alright, I have your meeting@{Subject} changing to @{MeetingRoom}.
 
 # ConfirmedMeetingRoom.Text
 - Okey, I'll create a new meeting with that room.
@@ -53,29 +53,28 @@
 - Do you want to confirm?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- Alright, I have added {MeetingRoom} to your meeting {Subject}.
+- Alright, I have added @{MeetingRoom} to your meeting @{Subject}.
 
 # MeetingRoomAddChanged.Text(MeetingRoom, Subject)
-- Alright, I have your meeting {Subject} changing to {MeetingRoom}.
+- Alright, I have your meeting @{Subject} changing to @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- Alright, I have canceled the room {MeetingRoom} for your meeting {subject} {DateTime}.
+- Alright, I have canceled the room @{MeetingRoom} for your meeting @{subject} @{DateTime}.
 
 # BuildingInfo(Building)
-- IF: {Building && Building != "*"}
-    >- {join(createArray('', 'in', Building), ' ')}
-    - {string(' ')}in {Building}
+- IF: @{Building && Building != "*"}
+    - @{string(' ')}in @{Building}
 - ELSE: 
     - 
 
 # FloorNumberInfo(FloorNumber)
-- IF: {FloorNumber && FloorNumer != '0'}
-    - {string(' ')}on floor {FloorNumber}
+- IF: @{FloorNumber && FloorNumer != "0"}
+    - @{string(' ')}on floor @{FloorNumber}
 - ELSE: 
     - 
 
 # SubjectInfo(subject)
-- IF: {subject}
-    - {string(' ')}for {subject}
+- IF: @{subject}
+    - @{string(' ')}for @{subject}
 - ELSE: 
     - 

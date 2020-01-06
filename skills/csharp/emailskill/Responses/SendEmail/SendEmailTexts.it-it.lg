@@ -45,8 +45,8 @@
 - È possibile provare destinatari, oggetto o corpo. O dire annullare.
 
 # PlayBackMessage.Text(emailContent)
-- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? \n {emailContent}
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? {emailContent}
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? @{emailContent}
 

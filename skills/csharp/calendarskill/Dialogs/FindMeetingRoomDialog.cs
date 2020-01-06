@@ -310,7 +310,7 @@ namespace CalendarSkill.Dialogs
                     if (!string.IsNullOrEmpty(state.MeetingInfo.MeetingRoomName))
                     {
                         var tokens = new { MeetingRoom = state.MeetingInfo.MeetingRoomName };
-                        var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.MeetingRoomNotFound, tokens);
+                        var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.MeetingRoomNotFoundByName, tokens);
                         await sc.Context.SendActivityAsync(activity);
                         state.MeetingInfo.MeetingRoomName = null;
                     }
@@ -320,9 +320,9 @@ namespace CalendarSkill.Dialogs
                         {
                             state.MeetingInfo.Building,
                             state.MeetingInfo.FloorNumber,
-                            DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
+                            DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                         };
-                        var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.CannotFindMeetingRoom, tokens);
+                        var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.MeetingRoomNotFoundByBuildingAndFloor, tokens);
                         await sc.Context.SendActivityAsync(activity);
                         if (state.MeetingInfo.FloorNumber.GetValueOrDefault() == 0)
                         {
@@ -382,9 +382,9 @@ namespace CalendarSkill.Dialogs
                         state.MeetingInfo.Building,
                         state.MeetingInfo.FloorNumber,
                         DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), 
-                        state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
+                        state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     };
-                    var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.CannotFindMeetingRoom, tokens);
+                    var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.MeetingRoomNotFoundByBuildingAndFloor, tokens);
                     await sc.Context.SendActivityAsync(activity);
                 }
                 else
@@ -420,7 +420,7 @@ namespace CalendarSkill.Dialogs
                     {
                         state.MeetingInfo.Building,
                         state.MeetingInfo.FloorNumber,
-                        DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
+                        DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     };
                     var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.CannotFindOtherMeetingRoom, tokens);
                     await sc.Context.SendActivityAsync(activity);
@@ -431,7 +431,7 @@ namespace CalendarSkill.Dialogs
                     var tokens = new
                     {
                         MeetingRoom = state.MeetingInfo.UnconfirmedMeetingRoom.First().DisplayName,
-                        DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime)
+                        DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime)
                     };
 
                     // find an available room, continue

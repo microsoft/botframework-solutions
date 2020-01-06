@@ -1,5 +1,5 @@
 # NoTitle.Text(UserName)
-- 好的，我会发送邀请到{UserName}，会议的主题是什么？
+- 好的，我会发送邀请到@{UserName}，会议的主题是什么？
 
 # NoTitleShort.Text
 - 会议的主题是什么？
@@ -14,19 +14,19 @@
 - 会议将在哪里举行？
 
 # ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
-- 我准备好创建会议。会议在{Date}，{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？
+- 我准备好创建会议。会议在@{Date}，@{Time}到@{EndTime}@{AttendeesConfirm}。@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}你能确认这个会议吗？
 
 # ConfirmCreateAttendees.Text(Attendees)
-- ，和{Attendees}
+- ，和@{Attendees}
 
 # ConfirmCreateSubject.Text(Subject)
-- 会议的主题是{Subject}。
+- 会议的主题是@{Subject}。
 
 # ConfirmCreateLocation.Text(Location)
-- 会议将发生在{Location}。
+- 会议将发生在@{Location}。
 
 # ConfirmCreateContent.Text(Content)
-- 会议的内容是{Content}。
+- 会议的内容是@{Content}。
 
 # ConfirmCreatePrompt.Text
 - 你能确认这件事吗？
@@ -38,7 +38,7 @@
 - 您想浏览其他参与者吗？
 
 # EventCreated.Text(Subject)
-- 好了，我已添加{Subject}到您的日历。
+- 好了，我已添加@{Subject}到您的日历。
 
 # EventCreationFailed.Text
 - 会议创建失败。
@@ -74,3 +74,9 @@
 
 # GetRecreateInfoRetry.Text
 - 我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。
+
+# NoMeetingRoom.Text
+- 您要添加房间吗？
+
+# MeetingBooked.Text
+- 好的，您的会议已经确认。

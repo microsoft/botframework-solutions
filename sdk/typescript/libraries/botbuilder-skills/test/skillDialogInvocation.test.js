@@ -45,7 +45,6 @@ describe("skill dialog invocation", function() {
             mockAppCredentials,
             telemetryClient,
             skillContextAccessor,
-            undefined,
             mockSkillTransport));
     })
 

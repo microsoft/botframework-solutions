@@ -5,7 +5,7 @@
 
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
-    ListStyle, OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
+    OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
@@ -17,7 +17,8 @@ import { IRemoteUserTokenProvider, isRemoteUserTokenProvider } from '../remoteUs
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
-import { getAuthenticationProvider, IProviderTokenResponse } from './providerTokenResponse';
+import { OAuthProviderExtensions } from './oAuthProviderExtensions';
+import { IProviderTokenResponse } from './providerTokenResponse';
 
 export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
@@ -90,7 +91,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             if (authDialogAdded) {
                 this.addDialog(new WaterfallDialog(DialogIds.localAuthPrompt, localAuth));
                 const prompt: ChoicePrompt = new ChoicePrompt(DialogIds.providerPrompt);
-                prompt.style = ListStyle.suggestedAction;
                 this.addDialog(prompt);
 
                 this.localAuthConfigured = true;
@@ -98,6 +98,14 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 throw new Error('Something wrong with the authentication.');
             }
         }
+    }
+
+    // Validators
+    protected async tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
+        const activity: Activity | undefined = promptContext.recognized.value;
+        const result: boolean = activity !== undefined && activity.type === ActivityTypes.Event;
+
+        return Promise.resolve(result);
     }
 
     private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -290,7 +298,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         const response: IProviderTokenResponse = {
-            authenticationProvider: getAuthenticationProvider(match.serviceProviderDisplayName || ''),
+            authenticationProvider: OAuthProviderExtensions.getAuthenticationProvider(match.serviceProviderDisplayName || ''),
             tokenResponse: tokenResponse
         };
 
@@ -321,14 +329,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 throw new Error('Adapter does not support IUserTokenProvider');
             }
         }
-    }
-
-    // Validators
-    private async tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
-        const activity: Activity|undefined = promptContext.recognized.value;
-        const result: boolean = activity !== undefined && activity.type === ActivityTypes.Event;
-
-        return Promise.resolve(result);
     }
 
     private async authPromptValidator(promptContext: PromptValidatorContext<TokenResponse>): Promise<boolean> {

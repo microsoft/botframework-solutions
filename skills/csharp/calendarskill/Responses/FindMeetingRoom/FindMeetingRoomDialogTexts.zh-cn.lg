@@ -4,10 +4,7 @@
 # BuildingNonexistent.Text
 - 对不起，我找不到那栋楼。你能用不同的方式说，还是选择另一栋楼？
 
-# NoMeetingRoom.Text
-- 会议室叫什么名字？
-
-# MeetingRoomNotFound.Text(MeetingRoom)
+# MeetingRoomNotFoundByName.Text(MeetingRoom)
 - 它看起来像{MeetingRoom}不存在。
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
@@ -25,7 +22,7 @@
 # CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
 - 看起来不像有其他房间可用{InBulding}{OnFloorNumber} {DateTime}.
 
-# CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
+# MeetingRoomNotFoundByBuildingAndFloor.Text(InBulding, OnFloorNumber, DateTime)
 - 看起来没有任何房间可用{InBulding}{OnFloorNumber} {DateTime}.
 
 # IgnoreMeetingRoom.Text

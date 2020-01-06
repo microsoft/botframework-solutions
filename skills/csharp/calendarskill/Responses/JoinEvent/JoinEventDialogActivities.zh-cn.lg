@@ -2,36 +2,36 @@
 
 # NoMeetingToConnect
 [Activity
-    Text = {NoMeetingToConnect.Text()}
-    Speak = {NoMeetingToConnect.Text()}
+    Text = @{NoMeetingToConnect.Text()}
+    Speak = @{NoMeetingToConnect.Text()}
     InputHint = expectingInput
 ]
 
 # ConfirmPhoneNumber
 [Activity
-    Text = {ConfirmPhoneNumber.Text(PhoneNumber)}
-    Speak = {ConfirmPhoneNumber.Text(PhoneNumber)}
+    Text = @{ConfirmPhoneNumber.Text(PhoneNumber)}
+    Speak = @{ConfirmPhoneNumber.Text(PhoneNumber)}
     InputHint = acceptingInput
 ]
 
 # ConfirmMeetingLink
 [Activity
-    Text = {ConfirmMeetingLink.Text(MeetingLink)}
-    Speak = {ConfirmMeetingLink.Text(MeetingLink)}
+    Text = @{ConfirmMeetingLink.Text(MeetingLink)}
+    Speak = @{ConfirmMeetingLink.Text(MeetingLink)}
     InputHint = acceptingInput
 ]
 
 # JoinMeeting
 [Activity
-    Text = {JoinMeeting.Text()}
-    Speak = {JoinMeeting.Text()}
+    Text = @{JoinMeeting.Text()}
+    Speak = @{JoinMeeting.Text()}
     InputHint = acceptingInput
 ]
 
 # NotJoinMeeting
 [Activity
-    Text = {NotJoinMeeting.Text()}
-    Speak = {NotJoinMeeting.Text()}
+    Text = @{NotJoinMeeting.Text()}
+    Speak = @{NotJoinMeeting.Text()}
     InputHint = acceptingInput
 ]
 

@@ -1,6 +1,6 @@
 # UpcomingEventMessage.Text(Minutes, Attendees, Title)
-- 你在{minutes}分钟之后有和{attendees}的会议：{title}
+- 你在@{Minutes}分钟之后有和@{Attendees}的会议：@{Title}
 
 # UpcomingEventMessageWithLocation.Text(Minutes, Attendees, Location, Title)
-- 你在{minutes}分钟之后在{Location}有和{attendees}的会议：{title}
+- 你在@{Minutes}分钟之后在@{Location}有和@{Attendees}的会议：@{Title}
 

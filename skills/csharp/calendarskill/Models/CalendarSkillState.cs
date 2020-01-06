@@ -136,7 +136,7 @@ namespace CalendarSkill.Models
 
             public int? FloorNumber { get; set; }
 
-            public bool Allday { get; set; } = false;
+            public bool AllDay { get; set; } = false;
 
             public void Clear()
             {
@@ -163,7 +163,7 @@ namespace CalendarSkill.Models
                 ShowMeetingRoomIndex = 0;
                 Building = null;
                 FloorNumber = null;
-                Allday = false;
+                AllDay = false;
             }
 
             public void ClearLocationForRecreate()

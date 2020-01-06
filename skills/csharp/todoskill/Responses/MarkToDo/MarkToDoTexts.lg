@@ -1,8 +1,8 @@
 ﻿# AfterAllTasksCompleted.Text(ListType)
-- I have marked all your tasks as complete on your {ListType} list.
+- I have marked all your tasks as complete on your @{ListType} list.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, I have marked '{TaskContent}' on your {ListType} list as complete.
+- OK, I have marked '@{TaskContent}' on your @{ListType} list as complete.
 
 # ListTypePromptForComplete.Text
 - Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?
@@ -20,7 +20,7 @@
 - Sorry, I didn't understand what you meant. Do you want to complete another task?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- You now have 1 item on your {ListType} list.
+- You now have 1 item on your @{ListType} list.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- You now have {AllTasksCount} items on your {ListType} list.
+- You now have @{AllTasksCount} items on your @{ListType} list.

@@ -1,8 +1,8 @@
 ﻿# ShowToDoTitle(UseFile, Title, TotalNumber)
-- IF: {UseFile == true}
-    - [ShowToDoTitleV1(Title, TotalNumber)]
+- IF: @{UseFile == true}
+    - @{ShowToDoTitleV1(Title, TotalNumber)}
 - ELSE:
-    - [ShowToDoTitleV2(Title, TotalNumber)]
+    - @{ShowToDoTitleV2(Title, TotalNumber)}
 
 # ShowToDoTitleV1(Title, TotalNumber)
 - ```
@@ -126,10 +126,10 @@
 ```
 
 # ShowToDoItem(x, CheckIconUrl, UnCheckIconUrl)
-- IF: {x.IsCompleted == true}
-    - [ShowCompletedToDoItem(x, CheckIconUrl)]
+- IF: @{x.IsCompleted == true}
+    - @{ShowCompletedToDoItem(x, CheckIconUrl)}
 - ELSE:
-    - [ShowUncompletedToDoItem(x, UnCheckIconUrl)]
+    - @{ShowUncompletedToDoItem(x, UnCheckIconUrl)}
 
 # ShowCompletedToDoItem(x, CheckIconUrl)
 - ```
@@ -234,7 +234,7 @@
 ```
 
 # ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl)
-- {join(foreach(ToDos, x , ShowToDoItem(x, CheckIconUrl, UnCheckIconUrl)), ',')} 
+- @{join(foreach(ToDos, x , ShowToDoItem(x, CheckIconUrl, UnCheckIconUrl)), ',')} 
 
 # ShowToDoCard(Title, TotalNumber, ToDos, UseFile, CheckIconUrl, UnCheckIconUrl)
-- {join(createArray(ShowToDoTitle(UseFile, Title, TotalNumber), ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl), ShowToDoPageFooter()), ' ')}
+- @{join(createArray(ShowToDoTitle(UseFile, Title, TotalNumber), ShowToDoList(ToDos, CheckIconUrl, UnCheckIconUrl), ShowToDoPageFooter()), ' ')}

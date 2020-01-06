@@ -8,7 +8,7 @@
 - What event would you like to connect? By providing the start time or title I can retrieve your event.
 
 # ConfirmPhoneNumber.Text(PhoneNumber)
-- Here is the number I am about to call: {PhoneNumber}. Please be aware that charges may apply. Do you want to proceed?
+- Here is the number I am about to call: @{PhoneNumber}. Please be aware that charges may apply. Do you want to proceed?
 
 # ConfirmMeetingLink.Text(MeetingLink)
-- Here is the link I am about to join: {MeetingLink}. Please be aware that charges may apply. Do you want to proceed?
+- Here is the link I am about to join: @{MeetingLink}. Please be aware that charges may apply. Do you want to proceed?

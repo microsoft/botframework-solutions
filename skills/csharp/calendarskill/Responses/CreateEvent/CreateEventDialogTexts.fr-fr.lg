@@ -1,5 +1,5 @@
 # NoTitle.Text(UserName)
-- OK, je vais envoyer une invitation à {UserName}, quel est le sujet de la réunion?
+- OK, je vais envoyer une invitation à @{UserName}, quel est le sujet de la réunion?
 
 # NoTitleShort.Text
 - Quel est le sujet de la réunion?
@@ -15,19 +15,19 @@
 - Où l'événement aura-t-il lieu?
 
 # ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
-- Je suis prêt à créer l'événement. L'événement est {Date}De {Time} Jusqu'à {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}
+- Je suis prêt à créer l'événement. L'événement est @{Date}De @{Time} Jusqu'à @{EndTime}@{AttendeesConfirm}.@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
 
 # ConfirmCreateAttendees.Text(Attendees)
-- Avec {Attendees}
+- Avec @{Attendees}
 
 # ConfirmCreateSubject.Text(Subject)
-- Le sujet de l'événement est {Subject}.
+- Le sujet de l'événement est @{Subject}.
 
 # ConfirmCreateLocation.Text(Location)
-- L'événement aura lieu à {Location}.
+- L'événement aura lieu à @{Location}.
 
 # ConfirmCreateContent.Text(Content)
-- Le message est {Content}.
+- Le message est @{Content}.
 
 # ConfirmCreatePrompt.Text
 - Pouvez-vous confirmer cet événement?
@@ -39,7 +39,7 @@
 - Voulez-vous passer par le reste des participants?
 
 # EventCreated.Text(Subject)
-- OK, j'ai ajouté {Subject} à votre calendrier.
+- OK, j'ai ajouté @{Subject} à votre calendrier.
 
 # EventCreationFailed.Text
 - La création d'événements a échoué.
@@ -77,3 +77,8 @@
 # GetRecreateInfoRetry.Text
 - Je ne comprends pas votre contribution. Vous pouvez essayer Le temps, la durée, l'emplacement, les participants, le sujet ou le contenu. Ou par exemple annuler
 
+# NoMeetingRoom.Text
+- Voulez-vous ajouter une chambre?
+
+# MeetingBooked.Text
+- D'accord, votre réunion est confirmée.

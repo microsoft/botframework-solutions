@@ -150,7 +150,7 @@ namespace CalendarSkill.Dialogs
                 var data = new
                 {
                     MeetingRoom = meetingRoom ?? "",
-                    DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
+                    DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     Subject = string.IsNullOrEmpty(newEvent.Title) ? null : string.Format(CalendarCommonStrings.ShowEventTitleCondition, newEvent.Title),
                 };
                 if (state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)

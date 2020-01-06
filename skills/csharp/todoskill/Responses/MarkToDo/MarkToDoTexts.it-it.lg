@@ -1,8 +1,8 @@
 # AfterAllTasksCompleted.Text(ListType)
-- Ho contrassegnato tutti i vostri compiti come completi sul vostro {ListType} Elenco.
+- Ho contrassegnato tutti i vostri compiti come completi sul vostro @{ListType} Elenco.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, ho segnato '{TaskContent}' sul {ListType} elenco come completo.
+- OK, ho segnato '@{TaskContent}' sul @{ListType} elenco come completo.
 
 # ListTypePromptForComplete.Text
 - Puoi essere specifico da quale elenco desideri completare un'attività. È la tua lista Da fare, la lista della spesa o la lista della spesa?
@@ -20,8 +20,8 @@
 - Scusa, non capivo cosa intendevi. Vuoi completare un'altra attività?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- Ora hai 1 elemento sul tuo {ListType} Elenco.
+- Ora hai 1 elemento sul tuo @{ListType} Elenco.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- Ora avete {AllTasksCount} elementi sul {ListType} Elenco.
+- Ora avete @{AllTasksCount} elementi sul @{ListType} Elenco.
 

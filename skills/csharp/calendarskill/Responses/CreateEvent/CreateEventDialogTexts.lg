@@ -1,5 +1,5 @@
 # NoTitle.Text(UserName)
-- OK, I will send an invite to {UserName}, what is the subject of the meeting?
+- OK, I will send an invite to @{UserName}, what is the subject of the meeting?
 
 # NoTitleShort.Text
 - What is the subject of the meeting?
@@ -15,19 +15,19 @@
 - Where will the event take place?
 
 # ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
-- I'm ready to create the event. The event is {Date}, from {Time} until {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}
+- I'm ready to create the event. The event is @{Date}, from @{Time} until @{EndTime}@{AttendeesConfirm}.@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
 
 # ConfirmCreateAttendees.Text(Attendees)
-- , with {Attendees}
+- , with @{Attendees}
 
 # ConfirmCreateSubject.Text(Subject)
-- The subject of the event is {Subject}.
+- The subject of the event is @{Subject}.
 
 # ConfirmCreateLocation.Text(Location)
-- The event will take place at {Location}.
+- The event will take place at @{Location}.
 
 # ConfirmCreateContent.Text(Content)
-- The message is {Content}.
+- The message is @{Content}.
 
 # ConfirmCreatePrompt.Text
 - Can you confirm this event?
@@ -39,7 +39,7 @@
 - Do you want to go through the rest of the participants?
 
 # EventCreated.Text(Subject)
-- OK, I have added {Subject} to your calendar.
+- OK, I have added @{Subject} to your calendar.
 
 # EventCreationFailed.Text
 - Event creation failed.
