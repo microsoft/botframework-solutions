@@ -15,8 +15,12 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
+            Department, 
+            JobTitle, 
+            Location, 
             None, 
-            Show, 
+            PhoneNumber, 
+            ShowDetail, 
             ShowNextPage, 
             ShowPreviousPage, 
             WhoIs
@@ -26,7 +30,7 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
-            public string[] PersonName;
+            public string[] keyword;
 
             // Built-in entities
             public double[] ordinal;
@@ -34,7 +38,7 @@ namespace Luis
             // Instance
             public class _Instance
             {
-                public InstanceData[] PersonName;
+                public InstanceData[] keyword;
                 public InstanceData[] ordinal;
             }
             [JsonProperty("$instance")]

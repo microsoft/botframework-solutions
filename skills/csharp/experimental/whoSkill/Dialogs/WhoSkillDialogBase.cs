@@ -14,6 +14,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using WhoSkill.Models;
+using WhoSkill.Responses.Shared;
 using WhoSkill.Services;
 using WhoSkill.Utilities;
 
@@ -41,11 +42,11 @@ namespace WhoSkill.Dialogs
             AddDialog(new TextPrompt(Actions.Prompt));
         }
 
-        public IStatePropertyAccessor<WhoSkillState> WhoStateAccessor { get; set; }
+        protected IStatePropertyAccessor<WhoSkillState> WhoStateAccessor { get; set; }
 
-        public MSGraphService MSGraphService { get; set; }
+        protected MSGraphService MSGraphService { get; set; }
 
-        public LocaleTemplateEngineManager TemplateEngine { get; set; }
+        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -129,8 +130,8 @@ namespace WhoSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            //var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage);
-            //await sc.Context.SendActivityAsync(activity);
+            var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.WhoErrorMessage);
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             var state = await WhoStateAccessor.GetAsync(sc.Context);
@@ -217,9 +218,9 @@ namespace WhoSkill.Dialogs
 
                 if (entities != null)
                 {
-                    if (entities.PersonName != null && !string.IsNullOrEmpty(entities.PersonName[0]) && string.IsNullOrEmpty(state.TargetName))
+                    if (entities.keyword != null && !string.IsNullOrEmpty(entities.keyword[0]) && string.IsNullOrEmpty(state.TargetName))
                     {
-                        state.TargetName = entities.PersonName[0];
+                        state.TargetName = entities.keyword[0];
                     }
 
                     if (entities.ordinal != null && entities.ordinal.Length > 0)

@@ -93,7 +93,10 @@ namespace WhoSkill
             var supportedLocales = new List<string>() { "en-us"};
             var templateFiles = new Dictionary<string, string>
             {
-                { "Card", "Card" }
+                { "Card", "Card" },
+                { "Main", "WhoMainActivities" },
+                { "Shared", "WhoSharedActivities" },
+                { "WhoIs", "WhoIsActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();

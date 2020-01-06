@@ -48,7 +48,6 @@ namespace WhoSkill.Dialogs
             AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
         }
 
-
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.WhoWelcomeMessage);
@@ -71,6 +70,10 @@ namespace WhoSkill.Dialogs
             switch (intent)
             {
                 case WhoLuis.Intent.WhoIs:
+                case WhoLuis.Intent.JobTitle:
+                case WhoLuis.Intent.Department:
+                case WhoLuis.Intent.Location:
+                case WhoLuis.Intent.PhoneNumber:
                     {
                         await dc.BeginDialogAsync(nameof(WhoIsDialog));
                         break;

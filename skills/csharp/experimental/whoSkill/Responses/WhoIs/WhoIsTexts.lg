@@ -1,0 +1,14 @@
+﻿# WhoIs.Text(Person)
+- Here's what I found for @{Person.TargetName}:
+
+# JobTitle.Text(Person)
+- '@{Person.TargetName}' is a @{Person.JobTitle}.
+
+# Department.Text(Person)
+- '@{Person.TargetName}' works in @{Person.Department}.
+
+# Location.Text(Person)
+- '@{Person.TargetName}' works in @{Person.OfficeLocation}.
+
+# PhoneNumber.Text(Person)
+- The phone number for '@{Person.TargetName}' is @{Person.MobilePhone}.

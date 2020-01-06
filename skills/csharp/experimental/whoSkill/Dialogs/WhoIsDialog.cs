@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using WhoSkill.Models;
+using WhoSkill.Responses.WhoIs;
 using WhoSkill.Services;
 using WhoSkill.Utilities;
 
@@ -18,6 +19,8 @@ namespace WhoSkill.Dialogs
 {
     public class WhoIsDialog : WhoSkillDialogBase
     {
+        private string _replyTemplateName;
+
         public WhoIsDialog(
                 BotSettings settings,
                 ConversationState conversationState,
@@ -49,7 +52,13 @@ namespace WhoSkill.Dialogs
             InitialDialogId = Actions.InitDialog;
         }
 
-        public async Task<DialogTurnResult> ShowCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            _replyTemplateName = GetReplyTemplateNameForDetail(dc);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> ShowCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -63,7 +72,7 @@ namespace WhoSkill.Dialogs
         }
 
         // Send different reply according to skill state. But this step doesn't modify skill state.
-        public async Task<DialogTurnResult> ShowCurrentPage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> ShowCurrentPage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -93,14 +102,23 @@ namespace WhoSkill.Dialogs
 
                 if (state.Candidates.Count == 1)
                 {
-                    await sc.Context.SendActivityAsync($"Here's what I found for {state.TargetName}.");
+                    var data = new
+                    {
+                        TargetName = state.TargetName,
+                        JobTitle = state.Candidates[0].JobTitle ?? string.Empty,
+                        Department = state.Candidates[0].Department ?? string.Empty,
+                        OfficeLocation = state.Candidates[0].OfficeLocation ?? string.Empty,
+                        MobilePhone = state.Candidates[0].MobilePhone ?? string.Empty,
+                    };
+                    var reply = TemplateEngine.GenerateActivityForLocale(_replyTemplateName, new { Person = data });
+                    await sc.Context.SendActivityAsync(reply);
                     var card = await GetCardForDetail(state.Candidates[0]);
                     await sc.Context.SendActivityAsync(card);
                     return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    var replyMessage = $"I found multiple matches for {state.TargetName}. Please pick one. Or you can say 'next' or 'previous' to see more persons.";
+                    var replyMessage = $"I found multiple matches for '{state.TargetName}'. Please pick one. Or you can say 'next' or 'previous' to see more persons.";
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     var candidates = state.Candidates.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
@@ -121,7 +139,7 @@ namespace WhoSkill.Dialogs
         }
 
         // Accept user's choice. Update skill state.
-        public async Task<DialogTurnResult> CollectUserChoice(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CollectUserChoice(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
             var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
@@ -173,6 +191,37 @@ namespace WhoSkill.Dialogs
             }
 
             return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
+        }
+
+        private string GetReplyTemplateNameForDetail(DialogContext dc)
+        {
+            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var intent = luisResult?.TopIntent().intent;
+
+            string templateName = string.Empty;
+            switch (intent)
+            {
+                case WhoLuis.Intent.WhoIs:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+                case WhoLuis.Intent.JobTitle:
+                    templateName = WhoIsResponses.JobTitle;
+                    break;
+                case WhoLuis.Intent.Department:
+                    templateName = WhoIsResponses.Department;
+                    break;
+                case WhoLuis.Intent.Location:
+                    templateName = WhoIsResponses.Location;
+                    break;
+                case WhoLuis.Intent.PhoneNumber:
+                    templateName = WhoIsResponses.PhoneNumber;
+                    break;
+                default:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+            }
+
+            return templateName;
         }
     }
 }

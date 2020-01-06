@@ -1,0 +1,36 @@
+﻿[import](WhoIsTexts.lg)
+
+# WhoIs
+[Activity
+    Text = @{WhoIs.Text()}
+    Speak = @{WhoIs.Text()}
+    InputHint = acceptingInput
+]
+
+# JobTitle
+[Activity
+    Text = @{JobTitle.Text()}
+    Speak = @{JobTitle.Text()}
+    InputHint = acceptingInput
+]
+
+# Department
+[Activity
+    Text = @{Department.Text()}
+    Speak = @{Department.Text()}
+    InputHint = acceptingInput
+]
+
+# Location
+[Activity
+    Text = @{Location.Text()}
+    Speak = @{Location.Text()}
+    InputHint = acceptingInput
+]
+
+# PhoneNumber
+[Activity
+    Text = @{PhoneNumber.Text()}
+    Speak = @{PhoneNumber.Text()}
+    InputHint = acceptingInput
+]
