@@ -18,12 +18,13 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
+            ICredentialProvider credentialProvider,
+            IChannelProvider channelProvider,
             LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
-            ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
-            : base(credentialProvider)
+            : base(credentialProvider, channelProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {

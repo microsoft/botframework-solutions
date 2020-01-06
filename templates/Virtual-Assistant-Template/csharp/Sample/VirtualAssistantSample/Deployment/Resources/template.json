@@ -277,9 +277,9 @@
       },
       "properties": {
         "displayName": "[variables('botServiceName')]",
-        "endpoint": "[variables('botEndpoint')]",
-        "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
+        "isStreamingSupported": true,
+        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('botWebAppName'))).hostNames[0], '/api/messages')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
       },
