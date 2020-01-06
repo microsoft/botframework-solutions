@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     throw new ArgumentException($"Invalid activity type in {dialogArgs.ActivityType} in {nameof(SkillDialogArgs)}");
             }
 
-            ApplyParentActivityProperties(dc, skillActivity, dialogArgs);
+            ApplyParentActivityProperties(dc.Context, skillActivity, dialogArgs);
             return await SendToSkillAsync(dc, skillActivity, skillInfo, cancellationToken).ConfigureAwait(false);
         }
 
@@ -98,18 +98,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"ActivityType: {dc.Context.Activity.Type}", cancellationToken: cancellationToken).ConfigureAwait(false);
 
             var skillId = await _activeSkillProperty.GetAsync(dc.Context, () => null, cancellationToken).ConfigureAwait(false);
-
-            if (dc.Context.Activity.Type == ActivityTypes.Message && dc.Context.Activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // Send a message to the skill to let it do some cleanup
-                var eocActivity = Activity.CreateEndOfConversationActivity();
-                eocActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
-                await SendToSkillAsync(dc, (Activity)eocActivity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
-
-                // End this dialog and return (we don't care if the skill responds or not)
-                await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Canceled", cancellationToken: cancellationToken).ConfigureAwait(false);
-                return await dc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
-            }
 
             if (dc.Context.Activity.Type == ActivityTypes.EndOfConversation)
             {
@@ -121,20 +109,42 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             return await SendToSkillAsync(dc, dc.Context.Activity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
         }
 
-        private static void ApplyParentActivityProperties(DialogContext dc, Activity skillActivity, SkillDialogArgs dialogArgs)
+        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
+        {
+            if (reason == DialogReason.CancelCalled)
+            {
+                await turnContext.TraceActivityAsync($"{GetType().Name}.EndDialogAsync()", label: $"ActivityType: {turnContext.Activity.Type}", cancellationToken: cancellationToken).ConfigureAwait(false);
+
+                var activity = (Activity)Activity.CreateEndOfConversationActivity();
+                ApplyParentActivityProperties(turnContext, activity, null);
+
+                var skillId = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken).ConfigureAwait(false);
+                await SendToSkillAsync(null, (Activity)activity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        private static void ApplyParentActivityProperties(ITurnContext turnContext, Activity skillActivity, SkillDialogArgs dialogArgs)
         {
             // Apply conversation reference and common properties from incoming activity before sending.
-            skillActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
-            skillActivity.Value = dialogArgs.Value;
-            skillActivity.ChannelData = dc.Context.Activity.ChannelData;
-            skillActivity.Properties = dc.Context.Activity.Properties;
+            skillActivity.ApplyConversationReference(turnContext.Activity.GetConversationReference(), true);
+            skillActivity.ChannelData = turnContext.Activity.ChannelData;
+            skillActivity.Properties = turnContext.Activity.Properties;
+
+            if (dialogArgs != null)
+            {
+                skillActivity.Value = dialogArgs?.Value;
+            }
         }
 
         private async Task<DialogTurnResult> SendToSkillAsync(DialogContext dc, Activity activity, BotFrameworkSkill skillInfo, CancellationToken cancellationToken)
         {
-            // Always save state before forwarding
-            // (the dialog stack won't get updated with the skillDialog and things won't work if you don't)
-            await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken).ConfigureAwait(false);
+            if (dc != null)
+            {
+                // Always save state before forwarding
+                // (the dialog stack won't get updated with the skillDialog and things won't work if you don't)
+                await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken).ConfigureAwait(false);
+            }
+
             var response = await _skillClient.PostActivityAsync(_botId, skillInfo, _skillsConfig.SkillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
             if (!(response.Status >= 200 && response.Status <= 299))
             {
