@@ -75,8 +75,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\..\BotBuilderCommunity\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Alexa\Bot.Builder.Community.Adapters.Alexa.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\botbuilder-community-dotnet\libraries\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
   </ItemGroup>
 
 </Project>
