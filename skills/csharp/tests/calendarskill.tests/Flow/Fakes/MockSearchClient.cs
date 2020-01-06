@@ -59,7 +59,6 @@ namespace CalendarSkill.Test.Flow.Fakes
             });
         }
 
-
         public static void SetSingleFloorMultiMeetingRoom()
         {
             meetingRooms = new List<RoomModel>();

@@ -82,7 +82,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.MeetingInfo.MeetingRoom == null)
                 {
-                    return await sc.EndDialogAsync();
+                    throw new NullReferenceException("CreateMeeting received a null MeetingRoom.");
                 }
 
                 var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.ConfirmedMeetingRoom);

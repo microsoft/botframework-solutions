@@ -190,7 +190,9 @@ namespace CalendarSkill.Dialogs
                 {
                     var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
-                    return await sc.CancelAllDialogsAsync();
+                    state.Clear();
+                    await sc.CancelAllDialogsAsync();
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
                 {
@@ -279,7 +281,9 @@ namespace CalendarSkill.Dialogs
                 {
                     var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
-                    return await sc.CancelAllDialogsAsync();
+                    state.Clear();
+                    await sc.CancelAllDialogsAsync();
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
                 {
@@ -508,7 +512,8 @@ namespace CalendarSkill.Dialogs
                                 var activity = TemplateEngine.GenerateActivityForLocale(FindMeetingRoomResponses.CancelRequest);
                                 await sc.Context.SendActivityAsync(activity);
                                 state.Clear();
-                                return await sc.EndDialogAsync(true, cancellationToken);
+                                await sc.CancelAllDialogsAsync();
+                                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                             }
 
                         case RecreateMeetingRoomState.ChangeMeetingRoom:
@@ -599,7 +604,9 @@ namespace CalendarSkill.Dialogs
                     // user has tried too many times but can't get result
                     var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
                     await sc.Context.SendActivityAsync(activity);
-                    return await sc.CancelAllDialogsAsync();
+                    state.Clear();
+                    await sc.CancelAllDialogsAsync();
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
             }
             catch (Exception ex)

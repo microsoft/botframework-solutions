@@ -5,13 +5,13 @@
 - Lo siento, no pude encontrar ese edificio. ¿Puedes decirlo de otra manera, o elegir otro edificio?
 
 # MeetingRoomNotFoundByName.Text(MeetingRoom)
-- Parece que {MeetingRoom} no existe.
+- Parece que @{MeetingRoom} no existe.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
-- {MeetingRoom} está disponible {DateTime}, ¿quierereservar?
+- @{MeetingRoom} está disponible @{DateTime}, ¿quierereservar?
 
 # MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
-- Parece que {MeetingRoom} no está disponible {DateTime}.
+- Parece que @{MeetingRoom} no está disponible @{DateTime}.
 
 # FloorNumberRetry.Text
 - Lo siento, no entendí eso. ¿Puedes decirlo de otra manera?
@@ -19,11 +19,11 @@
 # NoFloorNumber.Text
 - Muy bien, ¿tienes una preferencia de piso?
 
-# CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
-- No parece que haya otras habitaciones disponibles{InBulding}{OnFloorNumber} {DateTime}.
+# CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
+- No parece que haya otras habitaciones disponibles @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
 
-# MeetingRoomNotFoundByBuildingAndFloor.Text(InBulding, OnFloorNumber, DateTime)
-- No parece que haya habitaciones disponibles{InBulding}{OnFloorNumber} {DateTime}.
+# MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
+- No parece que haya habitaciones disponibles @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
 - No hay problema.
@@ -37,14 +37,14 @@
 # CancelRequest.Text
 - Okey, su solicitud ha sido cancelada.
 
-# ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)
-- Muy bien, estás confirmado en {MeetingRoom} {DateTime}{ForSubject}
+# ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
+- Muy bien, estás confirmado en @{MeetingRoom} @{DateTime}@{SubjectInfo(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
-- Muy bien, he añadido {MeetingRoom} a su reunión{Subject}.
+- Muy bien, he añadido @{MeetingRoom} a su reunión @{Subject}.
 
 # ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
-- Muy bien, tengo tu reunión.{Subject} cambiando a {MeetingRoom}.
+- Muy bien, tengo tu reunión. @{Subject} cambiando a @{MeetingRoom}.
 
 # ConfirmedMeetingRoom.Text
 - Okey, crearé una nueva reunión con esa habitación.
@@ -53,10 +53,28 @@
 - ¿Quieres confirmarlo?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- Muy bien, he añadido {MeetingRoom} a su reunión {Subject}.
+- Muy bien, he añadido @{MeetingRoom} a su reunión @{Subject}.
 
 # MeetingRoomAddChanged.Text(MeetingRoom, Subject)
-- Muy bien, tengo tu reunión.{Subject} cambiando a {MeetingRoom}.
+- Muy bien, tengo tu reunión. @{Subject} cambiando a @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- Muy bien, he cancelado la sala de reuniones para {subject}.
+- Muy bien, he cancelado la habitación @{MeetingRoom} para su reunión @{subject} @{DateTime}.
+
+# BuildingInfo(Building)
+- IF: @{Building && Building != "*"}
+    - @{string(' ')}En @{Building}
+- ELSE: 
+    - 
+
+# FloorNumberInfo(FloorNumber)
+- IF: @{FloorNumber && FloorNumer != "0"}
+    - @{string(' ')}en el suelo @{FloorNumber}
+- ELSE: 
+    - 
+
+# SubjectInfo(subject)
+- IF: @{subject}
+    - @{string(' ')}Para @{subject}
+- ELSE: 
+    - 

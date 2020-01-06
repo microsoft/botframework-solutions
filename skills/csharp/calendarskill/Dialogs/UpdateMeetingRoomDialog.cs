@@ -124,7 +124,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.MeetingInfo.MeetingRoom == null)
                     {
-                        return await sc.EndDialogAsync();
+                        throw new NullReferenceException("UpdateMeetingRoom received a null MeetingRoom.");
                     }
 
                     attendees.Add(new EventModel.Attendee
@@ -149,7 +149,7 @@ namespace CalendarSkill.Dialogs
 
                 var data = new
                 {
-                    MeetingRoom = meetingRoom ?? "",
+                    MeetingRoom = meetingRoom,
                     DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     Subject = string.IsNullOrEmpty(newEvent.Title) ? null : string.Format(CalendarCommonStrings.ShowEventTitleCondition, newEvent.Title),
                 };

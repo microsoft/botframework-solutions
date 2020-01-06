@@ -167,9 +167,14 @@ namespace CalendarSkill.Services.MSGraphAPI
                     .Request()
                     .PostAsync();
 
-                // AvailabilityView[0] == '0' means available, while '1' means not available.
+                // AvailabilityView[0] == '0' means available, while others mean not available.
                 foreach (var page in collectionPage)
                 {
+                    if (page.AvailabilityView.Length == 0)
+                    {
+                        throw new Exception("There is no elements in AvailabilityView");
+                    }
+
                     availability.Add(page.AvailabilityView.Length > 0 && page.AvailabilityView[0] == '0');
                 }
 
