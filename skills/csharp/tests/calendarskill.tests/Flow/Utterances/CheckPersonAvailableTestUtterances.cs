@@ -5,9 +5,9 @@ using Luis;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {
-    public class CheckAvailableTestUtterances : BaseTestUtterances
+    public class CheckPersonAvailableTestUtterances : BaseTestUtterances
     {
-        public CheckAvailableTestUtterances()
+        public CheckPersonAvailableTestUtterances()
         {
             this.Add(BaseCheckAvailable, GetBaseCheckAvailableIntent(
                 BaseCheckAvailable,

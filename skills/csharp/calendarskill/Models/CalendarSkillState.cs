@@ -20,11 +20,11 @@ namespace CalendarSkill.Models
 
         public CalendarLuis.Intent InitialIntent { get; set; } = CalendarLuis.Intent.None;
 
-        public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
+        public MeetingInfomation MeetingInfo { get; set; } = new MeetingInfomation();
 
-        public ShowMeetingInformation ShowMeetingInfor { get; set; } = new ShowMeetingInformation();
+        public ShowMeetingInfomation ShowMeetingInfo { get; set; } = new ShowMeetingInfomation();
 
-        public UpdateMeetingInformation UpdateMeetingInfor { get; set; } = new UpdateMeetingInformation();
+        public UpdateMeetingInfomation UpdateMeetingInfo { get; set; } = new UpdateMeetingInfomation();
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -41,9 +41,9 @@ namespace CalendarSkill.Models
             UserInfo = new UserInformation();
             EventSource = EventSource.Other;
             InitialIntent = CalendarLuis.Intent.None;
-            MeetingInfor.Clear();
-            ShowMeetingInfor.Clear();
-            UpdateMeetingInfor.Clear();
+            MeetingInfo.Clear();
+            ShowMeetingInfo.Clear();
+            UpdateMeetingInfo.Clear();
         }
 
         public class UserInformation
@@ -78,7 +78,7 @@ namespace CalendarSkill.Models
             public string UserPrincipalName { get; set; }
         }
 
-        public class MeetingInformation
+        public class MeetingInfomation
         {
             public FindContactInformation ContactInfor { get; set; } = new FindContactInformation();
 
@@ -295,7 +295,7 @@ namespace CalendarSkill.Models
             public string RelationshipName { get; set; }
         }
 
-        public class ShowMeetingInformation
+        public class ShowMeetingInfomation
         {
             public enum SearchMeetingCondition
             {
@@ -356,7 +356,7 @@ namespace CalendarSkill.Models
             }
         }
 
-        public class UpdateMeetingInformation
+        public class UpdateMeetingInfomation
         {
             // user time zone
             public List<DateTime> NewStartDate { get; set; } = new List<DateTime>();

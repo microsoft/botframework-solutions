@@ -70,10 +70,12 @@ namespace CalendarSkill
         public const string CheckAvailability = "checkAvailability";
         public const string BookConfirmedMeetingRoom = "bookConfirmedMeetingRoom";
         public const string CollectMeetingRoom = "collectMeetingRoom";
-        public const string ConfirmReFindSpecificMeeingRoom = "confirmReFindSpecificMeeingRoom";
         public const string RecreateMeetingRoom = "RecreateMeetingRoom";
         public const string CollectBuilding = "CollectBuilding";
         public const string CollectFloorNumber = "CollectFloorNumber";
         public const string UpdateMeetingRoom = "UpdateMeetingRoom";
+        public const string BuildingPromptForCreate = "BuildingPromptForCreate";
+        public const string FloorNumberPromptForCreate = "FloorNumberPromptForCreate";
+        public const string RecreateMeetingRoomPrompt = "RecreateMeetingRoomPrompt";
     }
 }

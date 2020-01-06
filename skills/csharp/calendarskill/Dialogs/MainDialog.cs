@@ -47,7 +47,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
-            CheckAvailableDialog checkAvailableDialog,
+            CheckPersonAvailableDialog checkPersonAvailableDialog,
             FindMeetingRoomDialog findMeetingRoomDialog,
             UpdateMeetingRoomDialog updateMeetingRoomDialog,
             BookMeetingRoomDialog bookMeetingRoomDialog,
@@ -72,7 +72,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
-            AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
+            AddDialog(checkPersonAvailableDialog ?? throw new ArgumentNullException(nameof(checkPersonAvailableDialog)));
             AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
             AddDialog(updateMeetingRoomDialog ?? throw new ArgumentNullException(nameof(updateMeetingRoomDialog)));
             AddDialog(bookMeetingRoomDialog ?? throw new ArgumentNullException(nameof(bookMeetingRoomDialog)));
@@ -180,7 +180,7 @@ namespace CalendarSkill.Dialogs
                         }
                         else
                         {
-                            await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                            await dc.BeginDialogAsync(nameof(CheckPersonAvailableDialog));
                         }
                         break;
                     }
@@ -268,17 +268,20 @@ namespace CalendarSkill.Dialogs
             {
                 // Get cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
-
-                // Run LUIS recognition on Skill model and store result in turn state.
-                localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
-                if (skillLuisService != null)
+                var skillResult = innerDc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                if (skillResult == null)
                 {
-                    var skillResult = await skillLuisService.RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
-                    innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
-                }
-                else
-                {
-                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                    // Run LUIS recognition on Skill model and store result in turn state.
+                    localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
+                    if (skillLuisService != null)
+                    {
+                        skillResult = await skillLuisService.RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
+                        innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
+                    }
+                    else
+                    {
+                        throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                    }
                 }
 
                 // Run LUIS recognition on General model and store result in turn state.
@@ -363,7 +366,7 @@ namespace CalendarSkill.Dialogs
                                         await dc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
                                         break;
                                     case CalendarLuis.Intent.CheckAvailability:
-                                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
+                                        await dc.BeginDialogAsync(nameof(CheckPersonAvailableDialog), newFlowOptions);
                                         break;
                                     case CalendarLuis.Intent.ConnectToMeeting:
                                         await dc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);

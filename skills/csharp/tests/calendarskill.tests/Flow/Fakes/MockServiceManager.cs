@@ -20,7 +20,6 @@ namespace CalendarSkill.Test.Flow.Fakes
         private static readonly List<EventModel> BuildinEvents;
         private static readonly List<PersonModel> BuildinPeoples;
         private static readonly List<PersonModel> BuildinUsers;
-        //private static readonly List<RoomModel> BuildinRooms;
         private static readonly AvailabilityResult BuildinAvailabilityResult;
         private static readonly List<bool> BuildinCheckAvailableResult;
         private static Mock<ICalendarService> mockCalendarService;
@@ -32,7 +31,6 @@ namespace CalendarSkill.Test.Flow.Fakes
             BuildinEvents = GetFakeEvents();
             BuildinPeoples = GetFakePeoples();
             BuildinUsers = GetFakeUsers();
-            //BuildinRooms = GetFakeRooms();
             BuildinAvailabilityResult = GetFakeAvailabilityResult();
             BuildinCheckAvailableResult = GetFakeCheckAvailable();
 
@@ -263,7 +261,6 @@ namespace CalendarSkill.Test.Flow.Fakes
                 return Task.FromResult(BuildinUsers);
             });
 
-
             return mockServiceManager.Object;
         }
 
@@ -294,6 +291,29 @@ namespace CalendarSkill.Test.Flow.Fakes
                 });
                 return Task.FromResult(result);
             });
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetFloor2NotAvailable()
+        {
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns((List<string> roomEmails, DateTime startTime, int interval) =>
+            {
+                List<bool> roomAvailability = new List<bool>();
+                foreach (var roomEmail in roomEmails)
+                {
+                    if (roomEmail == string.Format(Strings.Strings.MeetingRoomEmail, 3) || roomEmail == string.Format(Strings.Strings.MeetingRoomEmail, 4))
+                    {
+                        roomAvailability.Add(false);
+                    }
+                    else
+                    {
+                        roomAvailability.Add(true);
+                    }
+                }
+
+                return Task.FromResult(roomAvailability);
+            });
+
             return mockServiceManager.Object;
         }
 
@@ -442,24 +462,6 @@ namespace CalendarSkill.Test.Flow.Fakes
             return users;
         }
 
-        private static List<RoomModel> GetFakeRooms()
-        {
-            var rooms = new List<RoomModel>();
-
-            var room = new RoomModel()
-            {
-                Id = "1",
-                DisplayName = Strings.Strings.DefaultMeetingRoom,
-                EmailAddress = Strings.Strings.DefaultUserEmail,
-                Building = Strings.Strings.DefaultBuilding,
-                FloorNumber = 1,
-            };
-
-            rooms.Add(room);
-
-            return rooms;
-        }
-
         private static AvailabilityResult GetFakeAvailabilityResult()
         {
             var availabilityResult = new AvailabilityResult();
@@ -471,7 +473,7 @@ namespace CalendarSkill.Test.Flow.Fakes
 
         private static List<bool> GetFakeCheckAvailable()
         {
-            List<bool> result = new List<bool> { true, true, true };
+            List<bool> result = new List<bool> { true, true, true, true, true, true, true, true };
             return result;
         }
     }

@@ -1435,28 +1435,6 @@ $PREBUILT:ordinal
 
 > # List entities
 
-$BuildingName:StudioX=
-
-$BuildingName:City Center=
-
-$BuildingName:StudioA=
-
-$BuildingName:StudioB=
-
-$BuildingName:StudioC=
-
-$BuildingName:StudioE=
-
-$BuildingName:StudioD=
-
-$BuildingName:StudioF=
-
-$BuildingName:Building 99=
-
-$MeetingRoomName:BJW2-63=
-
-$MeetingRoomName:BJW2-64=
-
 $PossessivePronoun:FirstPerson=
 - my
 - our

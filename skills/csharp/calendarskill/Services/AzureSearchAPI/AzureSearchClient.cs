@@ -13,12 +13,11 @@ namespace CalendarSkill.Services.AzureSearchAPI
     {
         private static ISearchServiceClient _searchClient;
         private static ISearchIndexClient _indexClient;
-        private readonly string _searchIndexName;
 
         public AzureSearchClient(string searchServiceName, string searchServiceAdminApiKey, string searchIndexName)
         {
             _searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(searchServiceAdminApiKey));
-            _searchIndexName = searchIndexName;
+            _indexClient = _searchClient.Indexes.GetClient(searchIndexName);
         }
 
         public async Task<List<RoomModel>> GetMeetingRoomAsync(string query, int floorNumber = 0)
@@ -26,11 +25,10 @@ namespace CalendarSkill.Services.AzureSearchAPI
             try
             {
                 List<RoomModel> meetingRooms = new List<RoomModel>();
-                _indexClient = _searchClient.Indexes.GetClient(_searchIndexName);
                 SearchParameters parameters = new SearchParameters()
                 {
                     SearchMode = SearchMode.All,
-                    Filter = floorNumber == 0 ? null : "FloorNumber eq " + floorNumber.ToString()
+                    Filter = floorNumber == 0 ? null : SearchFilters.FloorNumberFilter + floorNumber.ToString()
                 };
 
                 DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(query, parameters);
@@ -59,6 +57,11 @@ namespace CalendarSkill.Services.AzureSearchAPI
             {
                 return null;
             }
+        }
+
+        private class SearchFilters
+        {
+            public const string FloorNumberFilter = "FloorNumber eq ";
         }
     }
 }

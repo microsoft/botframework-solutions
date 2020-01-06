@@ -45,10 +45,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\CheckAvailable\CheckAvailableResponses.cs">
+    <Compile Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CheckAvailableResponses.tt</DependentUpon>
+      <DependentUpon>CheckPersonAvailableResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -155,49 +155,45 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.de-de.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.es-es.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.fr-fr.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.it-it.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.it-it.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.zh-cn.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CheckAvailableResponses.cs</LastGenOutput>
+      <LastGenOutput>CheckPersonAvailableResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.de-de.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.es-es.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.fr-fr.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.it-it.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.it-it.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.zh-cn.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CreateEventResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\CreateEvent\CreateEventDialogActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

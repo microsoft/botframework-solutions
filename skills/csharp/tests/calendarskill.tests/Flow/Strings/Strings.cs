@@ -13,15 +13,15 @@ namespace CalendarSkill.Test.Flow.Strings
 
         public const string DefaultContent = "test content";
 
-        public const string DefaultMeetingRoom = "test meetingroom";
+        public const string DefaultMeetingRoomId = "test meetingroom id 1";
 
-        public const string DefaultMeetingRoom2 = "test meetingroom2";
+        public const string DefaultMeetingRoomName = "test meetingroom name 1";
 
-        public const string DefaultMeetingRoom3 = "test meetingroom3";
+        public const string DefaultBuilding = "test building 1";
 
-        public const string DefaultBuilding = "test building";
+        public const string DefaultFloorNumber = "floor 1";
 
-        public const string DefaultFloorNumber = "1st floor";
+        public const string DefaultMeetingRoomEmail = "room1@test.com";
 
         public const string DefaultLocation = "test location";
 
@@ -44,6 +44,16 @@ namespace CalendarSkill.Test.Flow.Strings
         public const string UserName = "test name {0}";
 
         public const string UserEmailAddress = "test{0}@test.com";
+
+        public const string MeetingRoomId = "test meetingroom id {0}";
+
+        public const string MeetingRoomName = "test meetingroom name {0}";
+
+        public const string Building = "test building {0}";
+
+        public const string FloorNumber = "floor {0}";
+
+        public const string MeetingRoomEmail = "room{0}@test.com";
 
         public const string Next = "next";
 

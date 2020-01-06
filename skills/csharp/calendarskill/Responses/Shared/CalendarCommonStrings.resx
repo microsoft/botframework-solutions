@@ -330,4 +330,7 @@
   <data name="ShowFloorNumberCondition" xml:space="preserve">
     <value>on {0}</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>time</value>
+  </data>
 </root>

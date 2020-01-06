@@ -142,7 +142,7 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
-        // Check Available
+        // Check the availability of people/rooms with corresponding emails on condition of startTime and duration.
         public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
         {
             try
@@ -167,9 +167,10 @@ namespace CalendarSkill.Services.MSGraphAPI
                     .Request()
                     .PostAsync();
 
+                // AvailabilityView[0] == '0' means available, while '1' means not available.
                 foreach (var page in collectionPage)
                 {
-                    availability.Add(page.AvailabilityView[0] == '0');
+                    availability.Add(page.AvailabilityView.Length > 0 && page.AvailabilityView[0] == '0');
                 }
 
                 return availability;

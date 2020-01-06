@@ -51,15 +51,15 @@
 
 # CannotFindOtherMeetingRoom
 [Activity
-    Text = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
-    Speak = {CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Text = {CannotFindOtherMeetingRoom.Text(Building, OnFloorNumber, DateTime)}
+    Speak = {CannotFindOtherMeetingRoom.Text(Building, OnFloorNumber, DateTime)}
     InputHint = expectingInput
 ]
 
 # CannotFindMeetingRoom
 [Activity
-    Text = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
-    Speak = {CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)}
+    Text = {CannotFindMeetingRoom.Text(Building, FloorNumber, DateTime)}
+    Speak = {CannotFindMeetingRoom.Text(Building, FloorNumber, DateTime)}
     InputHint = expectingInput
 ]
 

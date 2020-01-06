@@ -646,6 +646,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to today.
         /// </summary>
         public static string TodayLower {

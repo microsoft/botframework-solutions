@@ -9,56 +9,95 @@ namespace CalendarSkill.Test.Flow.Fakes
 {
     public class MockSearchClient : ISearchService
     {
+        private static List<RoomModel> meetingRooms = null;
 
-        private static List<RoomModel> MeetingRooms = null;
         public MockSearchClient()
         {
-            MeetingRooms = new List<RoomModel>();
-            MeetingRooms.Add(new RoomModel()
-            {
-                Id = "1",
-                DisplayName = Strings.Strings.DefaultMeetingRoom,
-                EmailAddress = Strings.Strings.DefaultUserEmail,
-                Building = Strings.Strings.DefaultBuilding,
-                FloorNumber = 1,
-            });
+            meetingRooms = new List<RoomModel>();
+            var numberOfBuilding = 2;
+            var numberOfFloorOnEachBuilding = 2;
+            var numberOfRoomOnEachFloor = 2;
 
-            MeetingRooms.Add(new RoomModel()
+            for (int i = 0; i < numberOfBuilding; i++)
             {
-                Id = "2",
-                DisplayName = Strings.Strings.DefaultMeetingRoom2,
-                EmailAddress = Strings.Strings.DefaultUserEmail,
-                Building = Strings.Strings.DefaultBuilding,
-                FloorNumber = 1,
-            });
+                for (int j = 0; j < numberOfFloorOnEachBuilding; j++)
+                {
+                    for (int k = 0; k < numberOfRoomOnEachFloor; k++)
+                    {
+                        var buildingNumber = i + 1;
+                        var floorNumber = j + 1;
+                        var roomNumber = (i * numberOfFloorOnEachBuilding * numberOfRoomOnEachFloor) + (j * numberOfRoomOnEachFloor) + k + 1;
+                        meetingRooms.Add(new RoomModel()
+                        {
+                            Id = string.Format(Strings.Strings.MeetingRoomId, roomNumber),
+                            DisplayName = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                            EmailAddress = string.Format(Strings.Strings.MeetingRoomEmail, roomNumber),
+                            Building = string.Format(Strings.Strings.Building, buildingNumber),
+                            FloorNumber = floorNumber,
+                        });
+                    }
+                }
+            }
+        }
 
-            MeetingRooms.Add(new RoomModel()
-            {
-                Id = "3",
-                DisplayName = Strings.Strings.DefaultMeetingRoom3,
-                EmailAddress = Strings.Strings.DefaultUserEmail,
-                Building = Strings.Strings.DefaultBuilding,
-                FloorNumber = 2,
-            });
+        public static void SetNonMeetingRoom()
+        {
+            meetingRooms = new List<RoomModel>();
         }
 
         public static void SetSingleMeetingRoom()
         {
-            MeetingRooms = new List<RoomModel>();
-            MeetingRooms.Add(new RoomModel()
+            meetingRooms = new List<RoomModel>();
+            var floorNumber = 1;
+            meetingRooms.Add(new RoomModel()
             {
-                Id = "1",
-                DisplayName = Strings.Strings.DefaultMeetingRoom,
+                Id = Strings.Strings.DefaultMeetingRoomId,
+                DisplayName = Strings.Strings.DefaultMeetingRoomName,
                 EmailAddress = Strings.Strings.DefaultUserEmail,
                 Building = Strings.Strings.DefaultBuilding,
-                FloorNumber = 1,
+                FloorNumber = floorNumber,
+            });
+        }
+
+
+        public static void SetSingleFloorMultiMeetingRoom()
+        {
+            meetingRooms = new List<RoomModel>();
+            var buildingNumber = 1;
+            var floorNumber = 1;
+            for (int i = 0; i < 2; i++)
+            {
+                var roomNumber = i + 1;
+                meetingRooms.Add(new RoomModel()
+                {
+                    Id = string.Format(Strings.Strings.MeetingRoomId, roomNumber),
+                    DisplayName = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                    EmailAddress = Strings.Strings.DefaultUserEmail,
+                    Building = string.Format(Strings.Strings.Building, buildingNumber),
+                    FloorNumber = floorNumber,
+                });
+            }
+        }
+
+        public static void SetSingleBuildingSingleFloorMultiMeetingRoom()
+        {
+            meetingRooms = new List<RoomModel>();
+            var buildingNumber = 1;
+            var floorNumber = 1;
+            var roomNumber = 1;
+            meetingRooms.Add(new RoomModel()
+            {
+                Id = string.Format(Strings.Strings.MeetingRoomId, roomNumber),
+                DisplayName = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                EmailAddress = Strings.Strings.DefaultUserEmail,
+                Building = string.Format(Strings.Strings.Building, buildingNumber),
+                FloorNumber = floorNumber,
             });
         }
 
         public async Task<List<RoomModel>> GetMeetingRoomAsync(string query, int floorNumber = 0)
         {
-            List<RoomModel> meetingRooms = MeetingRooms;
-            return meetingRooms;
+            return meetingRooms.FindAll(room => (room.Building == query || room.DisplayName == query) && (floorNumber == 0 || room.FloorNumber == floorNumber));
         }
     }
 }

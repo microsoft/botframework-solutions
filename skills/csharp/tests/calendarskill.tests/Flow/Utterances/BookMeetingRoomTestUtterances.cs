@@ -12,7 +12,7 @@ namespace CalendarSkill.Test.Flow.Utterances
             this.Add(BaseBookMeetingRoom, GetBookMeetingRoomIntent(BaseBookMeetingRoom));
             this.Add(BookMeetingRoomWithMeetingRoomEntity, GetCheckAvailabilityIntent(
                 BookMeetingRoomWithMeetingRoomEntity,
-                meetingRoom: new string[] { Strings.Strings.DefaultMeetingRoom }));
+                meetingRoom: new string[] { Strings.Strings.DefaultMeetingRoomName }));
             this.Add(BookMeetingRoomWithBuildingEntity, GetBookMeetingRoomIntent(
                 BookMeetingRoomWithBuildingEntity,
                 building: new string[] { Strings.Strings.DefaultBuilding }));
@@ -31,11 +31,15 @@ namespace CalendarSkill.Test.Flow.Utterances
                 duration: new string[] { Strings.Strings.DefaultDuration }));
             this.Add(ChangeMeetingRoom, GetBookMeetingRoomIntent(
                 ChangeMeetingRoom));
+            this.Add(ChangeMeetingRoomWithFloorNumberEntity, GetBookMeetingRoomIntent(
+                ChangeMeetingRoomWithFloorNumberEntity,
+                floorNumber: new string[] { Strings.Strings.DefaultFloorNumber }));
+
+            this.Add(CancelRequest, GetCancelCalendarIntent(
+                CancelRequest));
         }
 
         public static string BaseBookMeetingRoom { get; } = "book a meeting room";
-
-        public static string BookMeetingRoomWithMeetingRoomEntity { get; } = $"is the room {Strings.Strings.DefaultMeetingRoom} open";
 
         public static string BookMeetingRoomWithBuildingEntity { get; } = $"book a meeting room in {Strings.Strings.DefaultBuilding}";
 
@@ -46,6 +50,12 @@ namespace CalendarSkill.Test.Flow.Utterances
         public static string BookMeetingRoomWithDurationEntity { get; } = $"book a meeting room for {Strings.Strings.DefaultDuration}";
 
         public static string ChangeMeetingRoom { get; } = "different room";
+
+        public static string ChangeMeetingRoomWithFloorNumberEntity { get; } = $"book a meeting room on {Strings.Strings.DefaultFloorNumber}";
+
+        public static string CancelRequest { get; } = "cancel request";
+
+        public static string BookMeetingRoomWithMeetingRoomEntity { get; } = $"is the room {Strings.Strings.DefaultMeetingRoomName} open";
 
         private CalendarLuis GetBookMeetingRoomIntent(
             string userInput,
@@ -85,6 +95,41 @@ namespace CalendarSkill.Test.Flow.Utterances
         private CalendarLuis GetCheckAvailabilityIntent(
             string userInput,
             CalendarLuis.Intent intents = CalendarLuis.Intent.CheckAvailability,
+            string[] subject = null,
+            string[] contactName = null,
+            string[] fromDate = null,
+            string[] toDate = null,
+            string[] fromTime = null,
+            string[] toTime = null,
+            string[] duration = null,
+            string[] meetingRoom = null,
+            string[] building = null,
+            string[] floorNumber = null,
+            string[] location = null,
+            double[] ordinal = null,
+            double[] number = null)
+        {
+            return GetCalendarIntent(
+                userInput,
+                intents,
+                subject: subject,
+                contactName: contactName,
+                fromDate: fromDate,
+                toDate: toDate,
+                fromTime: fromTime,
+                toTime: toTime,
+                duration: duration,
+                meetingRoom: meetingRoom,
+                building: building,
+                floorNumber: floorNumber,
+                location: location,
+                ordinal: ordinal,
+                number: number);
+        }
+
+        private CalendarLuis GetCancelCalendarIntent(
+            string userInput,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.CancelCalendar,
             string[] subject = null,
             string[] contactName = null,
             string[] fromDate = null,

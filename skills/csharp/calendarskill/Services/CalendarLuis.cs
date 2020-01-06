@@ -71,8 +71,6 @@ namespace Luis
             public double[] ordinal;
 
             // Lists
-            public string[][] BuildingName;
-            public string[][] MeetingRoomName;
             public string[][] PossessivePronoun;
             public string[][] RelationshipName;
 
@@ -100,8 +98,6 @@ namespace Luis
                 public InstanceData[] datetime;
                 public InstanceData[] personName;
                 public InstanceData[] ordinal;
-                public InstanceData[] BuildingName;
-                public InstanceData[] MeetingRoomName;
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
             }

@@ -8,7 +8,7 @@ using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
+using CalendarSkill.Responses.CheckPersonAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -105,7 +105,7 @@ namespace CalendarSkill
             var templateFiles = new Dictionary<string, string>
             {
                 { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
-                { "CheckAvailable", "CheckAvailableActivities" },
+                { "CheckPersonAvailable", "CheckPersonAvailableActivities" },
                 { "CreateEvent", "CreateEventDialogActivities" },
                 { "FindContact", "FindContactDialogActivities" },
                 { "JoinEvent", "JoinEventDialogActivities" },
@@ -169,7 +169,7 @@ namespace CalendarSkill
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
-            services.AddTransient<CheckAvailableDialog>();
+            services.AddTransient<CheckPersonAvailableDialog>();
             services.AddTransient<FindMeetingRoomDialog>();
             services.AddTransient<UpdateMeetingRoomDialog>();
             services.AddTransient<BookMeetingRoomDialog>();

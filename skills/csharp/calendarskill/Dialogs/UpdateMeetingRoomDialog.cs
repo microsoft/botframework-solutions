@@ -81,18 +81,19 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (CalendarSkillDialogOptions)sc.Options;
-                var origin = state.ShowMeetingInfor.FocusedEvents[0];
+                var origin = state.ShowMeetingInfo.FocusedEvents[0];
                 var updateEvent = new EventModel(origin.Source);
 
-                state.MeetingInfor.StartDateTime = origin.StartTime;
-                state.MeetingInfor.EndDateTime = origin.EndTime;
-                var ts = state.MeetingInfor.StartDateTime.Value.Subtract(state.MeetingInfor.EndDateTime.Value).Duration();
-                state.MeetingInfor.Duration = (int)ts.TotalSeconds;
+                state.MeetingInfo.StartDateTime = origin.StartTime;
+                state.MeetingInfo.EndDateTime = origin.EndTime;
+                var ts = state.MeetingInfo.StartDateTime.Value.Subtract(state.MeetingInfo.EndDateTime.Value).Duration();
+                state.MeetingInfo.Duration = (int)ts.TotalSeconds;
 
                 if (state.InitialIntent == CalendarLuis.Intent.CancelMeetingRoom)
                 {
                     return await sc.NextAsync();
                 }
+
                 return await sc.BeginDialogAsync(nameof(FindMeetingRoomDialog), sc.Options, cancellationToken);
             }
             catch (Exception ex)
@@ -107,9 +108,9 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var origin = state.ShowMeetingInfor.FocusedEvents[0];
+                var origin = state.ShowMeetingInfo.FocusedEvents[0];
                 var updateEvent = new EventModel(origin.Source);
-                string meetingRoom = state.MeetingInfor.MeetingRoom?.DisplayName;
+                string meetingRoom = state.MeetingInfo.MeetingRoom?.DisplayName;
                 var attendees = new List<EventModel.Attendee>();
                 attendees.AddRange(origin.Attendees);
 
@@ -121,15 +122,15 @@ namespace CalendarSkill.Dialogs
 
                 if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom || state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)
                 {
-                    if (state.MeetingInfor.MeetingRoom == null)
+                    if (state.MeetingInfo.MeetingRoom == null)
                     {
                         return await sc.EndDialogAsync();
                     }
 
                     attendees.Add(new EventModel.Attendee
                     {
-                        DisplayName = state.MeetingInfor.MeetingRoom.DisplayName,
-                        Address = state.MeetingInfor.MeetingRoom.EmailAddress,
+                        DisplayName = state.MeetingInfo.MeetingRoom.DisplayName,
+                        Address = state.MeetingInfo.MeetingRoom.EmailAddress,
                         AttendeeType = AttendeeType.Resource
                     });
                 }
@@ -137,7 +138,7 @@ namespace CalendarSkill.Dialogs
                 updateEvent.Id = origin.Id;
                 updateEvent.Attendees = attendees;
                 updateEvent.Location = null;
-                if (!string.IsNullOrEmpty(state.UpdateMeetingInfor.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
+                if (!string.IsNullOrEmpty(state.UpdateMeetingInfo.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
                 {
                     updateEvent.Id = origin.RecurringId;
                 }
@@ -149,7 +150,7 @@ namespace CalendarSkill.Dialogs
                 var data = new
                 {
                     MeetingRoom = meetingRoom ?? "",
-                    DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfor.StartDateTime, state.GetUserTimeZone()), state.MeetingInfor.Allday == true, DateTime.UtcNow > state.MeetingInfor.StartDateTime),
+                    DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.Allday == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     Subject = string.IsNullOrEmpty(newEvent.Title) ? null : string.Format(CalendarCommonStrings.ShowEventTitleCondition, newEvent.Title),
                 };
                 if (state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)
@@ -184,11 +185,11 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }

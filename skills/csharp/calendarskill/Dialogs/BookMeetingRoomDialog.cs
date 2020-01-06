@@ -8,9 +8,8 @@ using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Options;
 using CalendarSkill.Prompts;
 using CalendarSkill.Prompts.Options;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Responses.FindMeetingRoom;
+using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
@@ -47,6 +46,7 @@ namespace CalendarSkill.Dialogs
             // Define the conversation flow using a waterfall model.UpdateMeetingRoom
             AddDialog(new WaterfallDialog(Actions.BookMeetingRoom, bookMeetingRoom) { TelemetryClient = telemetryClient });
             AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
+
             // Set starting dialog for component
             InitialDialogId = Actions.BookMeetingRoom;
         }
@@ -57,12 +57,12 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 DateTime dateNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
-                if (state.MeetingInfor.StartDate.Count() == 0)
+                if (state.MeetingInfo.StartDate.Count() == 0)
                 {
-                    state.MeetingInfor.StartDate.Add(dateNow);
-                    if (state.MeetingInfor.StartTime.Count() == 0)
+                    state.MeetingInfo.StartDate.Add(dateNow);
+                    if (state.MeetingInfo.StartTime.Count() == 0)
                     {
-                        state.MeetingInfor.StartTime.Add(dateNow);
+                        state.MeetingInfo.StartTime.Add(dateNow);
                     }
                 }
 
@@ -80,7 +80,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.MeetingInfor.MeetingRoom == null)
+                if (state.MeetingInfo.MeetingRoom == null)
                 {
                     return await sc.EndDialogAsync();
                 }

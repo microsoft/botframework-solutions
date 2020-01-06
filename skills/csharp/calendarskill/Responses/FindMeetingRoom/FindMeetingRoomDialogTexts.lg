@@ -19,11 +19,11 @@
 # NoFloorNumber.Text
 - Alright, do you have a floor preference?
 
-# CannotFindOtherMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
-- It doesn't look like there are any OTHER rooms available{InBulding}{OnFloorNumber} {DateTime}.
+# CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
+- It doesn't look like there are any OTHER rooms available{BuildingInfo(Building)}{FloorNumberInfo(FloorNumber)} {DateTime}.
 
-# CannotFindMeetingRoom.Text(InBulding, OnFloorNumber, DateTime)
-- It doesn't look like any rooms are available{InBulding}{OnFloorNumber} {DateTime}.
+# CannotFindMeetingRoom.Text(Building, FloorNumber, DateTime)
+- It doesn't look like any rooms are available{BuildingInfo(Building)}{FloorNumberInfo(FloorNumber)} {DateTime}.
 
 # IgnoreMeetingRoom.Text
 - No problem.
@@ -37,8 +37,8 @@
 # CancelRequest.Text
 - Okey, your request has been cancelled.
 
-# ConfirmedMeeting.Text(MeetingRoom, DateTime, ForSubject)
-- Alright, you're confirmed in {MeetingRoom} {DateTime}{ForSubject}
+# ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
+- Alright, you're confirmed in {MeetingRoom} {DateTime}{SubjectInfo(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
 - Alright, I have add {MeetingRoom} to your meeting{Subject}.
@@ -60,3 +60,22 @@
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
 - Alright, I have canceled the room {MeetingRoom} for your meeting {subject} {DateTime}.
+
+# BuildingInfo(Building)
+- IF: {Building && Building != "*"}
+    >- {join(createArray('', 'in', Building), ' ')}
+    - {string(' ')}in {Building}
+- ELSE: 
+    - 
+
+# FloorNumberInfo(FloorNumber)
+- IF: {FloorNumber && FloorNumer != '0'}
+    - {string(' ')}on floor {FloorNumber}
+- ELSE: 
+    - 
+
+# SubjectInfo(subject)
+- IF: {subject}
+    - {string(' ')}for {subject}
+- ELSE: 
+    - 
