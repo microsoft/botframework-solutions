@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -52,6 +53,20 @@ namespace WhoSkill.Services
                 var result = await request.GetAsync();
                 var managerUser = result as User;
                 return new Candidate(managerUser);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Candidate>> GetDirectReports(string id)
+        {
+            var request = _graphClient.Users[id].DirectReports.Request();
+            try
+            {
+                var result = await request.GetAsync();
+                return GetDirectReportsFromResponse(result);
             }
             catch
             {
@@ -119,6 +134,33 @@ namespace WhoSkill.Services
                 input.CopyTo(ms);
                 return ms.ToArray();
             }
+        }
+
+        /// <summary>
+        /// Gets the person types from direct reports collection type.
+        /// </summary>
+        /// <param name="directReportsCollectionPage">The direct reports collection page.</param>
+        /// <returns>A list of person types.</returns>
+        private List<Candidate> GetDirectReportsFromResponse(IUserDirectReportsCollectionWithReferencesPage directReportsCollectionPage)
+        {
+            var candidates = new List<Candidate>();
+            if (directReportsCollectionPage != null && directReportsCollectionPage.Any())
+            {
+                foreach (User user in directReportsCollectionPage)
+                {
+                    if (user != null)
+                    {
+                        // If Encountered a graph user whose account is not enabled. Skip user.
+                        if (user.AccountEnabled == true)
+                        {
+                            Candidate personEntity = new Candidate(user);
+                            candidates.Add(personEntity);
+                        }
+                    }
+                }
+            }
+
+            return candidates;
         }
     }
 }

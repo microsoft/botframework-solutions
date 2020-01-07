@@ -8,6 +8,7 @@ namespace WhoSkill.Responses.Org
     public class OrgResponses
     {
         public const string Manager = "Manager";
+        public const string NoManager = "NoManager";
         public const string DirectReports = "DirectReports";
         public const string NoDirectReports = "NoDirectReports";
     }

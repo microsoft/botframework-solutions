@@ -128,6 +128,33 @@ namespace WhoSkill.Dialogs
             return activity;
         }
 
+        // This method is called to generate card for a page.
+        protected async Task<Activity> GetCardForPage(List<Candidate> candidates)
+        {
+            var photoUrls = new List<string>();
+            foreach (var candidate in candidates)
+            {
+                photoUrls.Add(await MSGraphService.GetUserPhotoUrlAsyc(candidate.Id) ?? string.Empty);
+            }
+
+            var data = new List<object>();
+            for (int i = 0; i < candidates.Count(); i++)
+            {
+                data.Add(new
+                {
+                    PhotoUrl = photoUrls[i],
+                    DisplayName = candidates[i].DisplayName,
+                    JobTitle = candidates[i].JobTitle
+                });
+            }
+
+            var activity = TemplateEngine.GenerateActivityForLocale("CardForPage", new
+            {
+                Persons = data
+            });
+            return activity;
+        }
+
         // Init steps
         private async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -398,33 +425,6 @@ namespace WhoSkill.Dialogs
             catch
             {
             }
-        }
-
-        // This method is called to generate card for a page.
-        private async Task<Activity> GetCardForPage(List<Candidate> candidates)
-        {
-            var photoUrls = new List<string>();
-            foreach (var candidate in candidates)
-            {
-                photoUrls.Add(await MSGraphService.GetUserPhotoUrlAsyc(candidate.Id) ?? string.Empty);
-            }
-
-            var data = new List<object>();
-            for (int i = 0; i < candidates.Count(); i++)
-            {
-                data.Add(new
-                {
-                    PhotoUrl = photoUrls[i],
-                    DisplayName = candidates[i].DisplayName,
-                    JobTitle = candidates[i].JobTitle
-                });
-            }
-
-            var activity = TemplateEngine.GenerateActivityForLocale("CardForPage", new
-            {
-                Persons = data
-            });
-            return activity;
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿# Manager.Text(Person)
+- I found the manager of '@{Person.TargetName}':
+
+# NoManager.Text(Person)
+- '@{Person.TargetName}' doesn't report to anyone.
+
+# DirectReports.Text(Person, Number)
+- @{Number} people currently report to '@{Person.TargetName}':
+
+# NoDirectReports.Text(Person)
+- '@{Person.TargetName}' has no direct reports.

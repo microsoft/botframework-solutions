@@ -1,0 +1,29 @@
+﻿[import](OrgTexts.lg)
+
+# Manager
+[Activity
+    Text = @{Manager.Text(Person)}
+    Speak = @{Manager.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# NoManager
+[Activity
+    Text = @{NoManager.Text(Person)}
+    Speak = @{NoManager.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# DirectReports
+[Activity
+    Text = @{DirectReports.Text(Person, Number)}
+    Speak = @{DirectReports.Text(Person, Number)}
+    InputHint = acceptingInput
+]
+
+# NoDirectReports
+[Activity
+    Text = @{NoDirectReports.Text(Person)}
+    Speak = @{NoDirectReports.Text(Person)}
+    InputHint = acceptingInput
+]
