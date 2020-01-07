@@ -44,7 +44,22 @@ namespace WhoSkill.Services
             });
         }
 
-        public async Task<string> GetMSUserPhotoUrlAsyc(string id)
+        public async Task<Candidate> GetManager(string id)
+        {
+            var request = _graphClient.Users[id].Manager.Request();
+            try
+            {
+                var result = await request.GetAsync();
+                var managerUser = result as User;
+                return new Candidate(managerUser);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> GetUserPhotoUrlAsyc(string id)
         {
             var photoRequest = _graphClient.Users[id].Photos["64x64"].Content.Request();
             Stream originalPhoto = null;

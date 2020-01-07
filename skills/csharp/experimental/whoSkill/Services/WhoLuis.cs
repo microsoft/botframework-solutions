@@ -16,9 +16,11 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             Department, 
+            DirectReports, 
             EmailAddress, 
             JobTitle, 
             Location, 
+            Manager, 
             None, 
             PhoneNumber, 
             ShowDetail, 

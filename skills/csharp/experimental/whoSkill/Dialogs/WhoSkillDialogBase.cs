@@ -9,11 +9,13 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using WhoSkill.Models;
+using WhoSkill.Responses.Org;
 using WhoSkill.Responses.Shared;
 using WhoSkill.Responses.WhoIs;
 using WhoSkill.Services;
@@ -39,8 +41,27 @@ namespace WhoSkill.Dialogs
             TemplateEngine = localeTemplateEngineManager;
             TelemetryClient = telemetryClient;
 
+            var initDialog = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                InitService,
+                ShowCandidates,
+            };
+
+            var showCandidates = new WaterfallStep[]
+            {
+                ShowCurrentPage,
+                CollectUserChoice,
+            };
+
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
+            AddDialog(new WaterfallDialog(Actions.InitDialog, initDialog) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowCandidates, showCandidates) { TelemetryClient = telemetryClient });
+
+            // Set starting dialog for component
+            InitialDialogId = Actions.InitDialog;
         }
 
         protected IStatePropertyAccessor<WhoSkillState> WhoStateAccessor { get; set; }
@@ -63,8 +84,52 @@ namespace WhoSkill.Dialogs
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
-        // Shared steps
-        protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
+
+            // send error message to bot user
+            var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.WhoErrorMessage);
+            await sc.Context.SendActivityAsync(activity);
+
+            // clear state
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+            state.Init();
+        }
+
+        protected virtual async Task SendResultReply(WaterfallStepContext sc)
+        {
+            throw new NotImplementedException();
+        }
+
+        // This method is called to generate card for detail of a person.
+        protected async Task<Activity> GetCardForDetail(Candidate candidate)
+        {
+            var photoUrl = await MSGraphService.GetUserPhotoUrlAsyc(candidate.Id) ?? string.Empty;
+            var data = new
+            {
+                DisplayName = candidate.DisplayName ?? string.Empty,
+                JobTitle = candidate.JobTitle ?? string.Empty,
+                Department = candidate.Department ?? string.Empty,
+                OfficeLocation = candidate.OfficeLocation ?? string.Empty,
+                MobilePhone = candidate.MobilePhone ?? string.Empty,
+                PhotoUrl = photoUrl ?? string.Empty,
+            };
+            var activity = TemplateEngine.GenerateActivityForLocale("CardForDetail", new
+            {
+                Person = data
+            });
+            return activity;
+        }
+
+        // Init steps
+        private async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -78,8 +143,8 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        // Shared steps
-        protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        // Init steps
+        private async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -104,8 +169,8 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        // Shared steps
-        protected async Task<DialogTurnResult> InitService(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        // Init steps
+        private async Task<DialogTurnResult> InitService(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -121,70 +186,127 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        // This method is called by any waterfall step that throws an exception to ensure consistency
-        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        private async Task<DialogTurnResult> ShowCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // send trace back to emulator
-            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
-            await sc.Context.SendActivityAsync(trace);
-
-            // log exception
-            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
-
-            // send error message to bot user
-            var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.WhoErrorMessage);
-            await sc.Context.SendActivityAsync(activity);
-
-            // clear state
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            state.Init();
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.ShowCandidates);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
-        // This method is called to generate card for a page.
-        protected async Task<Activity> GetCardForPage(List<Candidate> candidates)
+        // Send different reply according to skill state. But this step doesn't modify skill state.
+        private async Task<DialogTurnResult> ShowCurrentPage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var photoUrls = new List<string>();
-            foreach (var candidate in candidates)
+            try
             {
-                photoUrls.Add(await MSGraphService.GetMSUserPhotoUrlAsyc(candidate.Id) ?? string.Empty);
-            }
-
-            var data = new List<object>();
-            for (int i = 0; i < candidates.Count(); i++)
-            {
-                data.Add(new
+                var state = await WhoStateAccessor.GetAsync(sc.Context);
+                if (!state.AlreadySearched)
                 {
-                    PhotoUrl = photoUrls[i],
-                    DisplayName = candidates[i].DisplayName,
-                    JobTitle = candidates[i].JobTitle
-                });
-            }
+                    if (string.IsNullOrEmpty(state.TargetName))
+                    {
+                        await sc.Context.SendActivityAsync("Please provide the name of the person you want to look up.");
+                        return await sc.EndDialogAsync();
+                    }
+                    else
+                    {
+                        var users = await MSGraphService.GetUsers(state.TargetName);
+                        state.Candidates = users;
+                        state.AlreadySearched = true;
+                    }
+                }
 
-            var activity = TemplateEngine.GenerateActivityForLocale("CardForPage", new
+                // Didn't find any candidate.
+                if (state.Candidates == null || state.Candidates.Count == 0)
+                {
+                    await sc.Context.SendActivityAsync($"Sorry, I couldn’t find anyone named {state.TargetName}.");
+                    await sc.EndDialogAsync();
+                }
+
+                // Find or user choose the best match.
+                if (state.Candidates.Count == 1)
+                {
+                    await SendResultReply(sc);
+                    return await sc.EndDialogAsync();
+                }
+                else
+                {
+                    var replyMessage = $"I found multiple matches for '{state.TargetName}'. Please pick one. Or you can say 'next' or 'previous' to see more persons.";
+                    await sc.Context.SendActivityAsync(replyMessage);
+                    var candidates = state.Candidates.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
+                    var card = await GetCardForPage(candidates);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
+                }
+            }
+            catch (SkillException ex)
             {
-                Persons = data
-            });
-            return activity;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
-        // This method is called to generate card for detail of a person.
-        protected async Task<Activity> GetCardForDetail(Candidate candidate)
+        // Accept user's choice. Update skill state.
+        private async Task<DialogTurnResult> CollectUserChoice(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var photoUrl = await MSGraphService.GetMSUserPhotoUrlAsyc(candidate.Id) ?? string.Empty;
-            var data = new
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var topIntent = luisResult.TopIntent().intent;
+            var maxPageNumber = ((state.Candidates.Count - 1) / state.PageSize) + 1;
+
+            if (state.Ordinal != int.MinValue)
             {
-                DisplayName = candidate.DisplayName ?? string.Empty,
-                JobTitle = candidate.JobTitle ?? string.Empty,
-                Department = candidate.Department ?? string.Empty,
-                OfficeLocation = candidate.OfficeLocation ?? string.Empty,
-                MobilePhone = candidate.MobilePhone ?? string.Empty,
-                PhotoUrl = photoUrl ?? string.Empty,
-            };
-            var activity = TemplateEngine.GenerateActivityForLocale("CardForDetail", new
+                // If user want to see someone's detail.
+                var index = (state.PageIndex * state.PageSize) + state.Ordinal - 1;
+                if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.Candidates.Count)
+                {
+                    await sc.Context.SendActivityAsync("Invalid number.");
+                    state.Ordinal = int.MinValue;
+                    return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
+                }
+
+                var candidate = new List<Candidate>();
+                candidate.Add(state.Candidates[index]);
+                state.Candidates = candidate;
+            }
+            else if (topIntent == WhoLuis.Intent.ShowNextPage)
             {
-                Person = data
-            });
-            return activity;
+                // Else if user want to see next page.
+                if (state.PageIndex < maxPageNumber - 1)
+                {
+                    state.PageIndex++;
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync("Already last page.");
+                }
+            }
+            else if (topIntent == WhoLuis.Intent.ShowPreviousPage)
+            {
+                // Else if user want to see previous page.
+                if (state.PageIndex > 0)
+                {
+                    state.PageIndex--;
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync("Already first page.");
+                }
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync("Sorry, I don't understand. You can say cancel to start over.");
+            }
+
+            return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
         }
 
         private async Task InitState(DialogContext dc)
@@ -197,6 +319,47 @@ namespace WhoSkill.Dialogs
             catch
             {
             }
+        }
+
+        // According to the intent which triggered current dialog, return corresponding reply.
+        private async Task GetReplyTemplateNameForDetail(DialogContext dc)
+        {
+            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var intent = luisResult?.TopIntent().intent;
+            string templateName = string.Empty;
+            switch (intent)
+            {
+                case WhoLuis.Intent.WhoIs:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+                case WhoLuis.Intent.JobTitle:
+                    templateName = WhoIsResponses.JobTitle;
+                    break;
+                case WhoLuis.Intent.Department:
+                    templateName = WhoIsResponses.Department;
+                    break;
+                case WhoLuis.Intent.Location:
+                    templateName = WhoIsResponses.Location;
+                    break;
+                case WhoLuis.Intent.PhoneNumber:
+                    templateName = WhoIsResponses.PhoneNumber;
+                    break;
+                case WhoLuis.Intent.EmailAddress:
+                    templateName = WhoIsResponses.EmailAddress;
+                    break;
+                case WhoLuis.Intent.Manager:
+                    templateName = OrgResponses.Manager;
+                    break;
+                case WhoLuis.Intent.DirectReports:
+                    templateName = OrgResponses.DirectReports;
+                    break;
+                default:
+                    templateName = WhoIsResponses.WhoIs;
+                    break;
+            }
+
+            var state = await WhoStateAccessor.GetAsync(dc.Context);
+            state.ReplyTemplateName = templateName;
         }
 
         private async Task FillLuisResultIntoState(DialogContext dc)
@@ -237,39 +400,31 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        // According to the intent which triggered current dialog, return corresponding reply.
-        private async Task GetReplyTemplateNameForDetail(DialogContext dc)
+        // This method is called to generate card for a page.
+        private async Task<Activity> GetCardForPage(List<Candidate> candidates)
         {
-            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
-            var intent = luisResult?.TopIntent().intent;
-            string templateName = string.Empty;
-            switch (intent)
+            var photoUrls = new List<string>();
+            foreach (var candidate in candidates)
             {
-                case WhoLuis.Intent.WhoIs:
-                    templateName = WhoIsResponses.WhoIs;
-                    break;
-                case WhoLuis.Intent.JobTitle:
-                    templateName = WhoIsResponses.JobTitle;
-                    break;
-                case WhoLuis.Intent.Department:
-                    templateName = WhoIsResponses.Department;
-                    break;
-                case WhoLuis.Intent.Location:
-                    templateName = WhoIsResponses.Location;
-                    break;
-                case WhoLuis.Intent.PhoneNumber:
-                    templateName = WhoIsResponses.PhoneNumber;
-                    break;
-                case WhoLuis.Intent.EmailAddress:
-                    templateName = WhoIsResponses.EmailAddress;
-                    break;
-                default:
-                    templateName = WhoIsResponses.WhoIs;
-                    break;
+                photoUrls.Add(await MSGraphService.GetUserPhotoUrlAsyc(candidate.Id) ?? string.Empty);
             }
 
-            var state = await WhoStateAccessor.GetAsync(dc.Context);
-            state.ReplyTemplateName = templateName;
+            var data = new List<object>();
+            for (int i = 0; i < candidates.Count(); i++)
+            {
+                data.Add(new
+                {
+                    PhotoUrl = photoUrls[i],
+                    DisplayName = candidates[i].DisplayName,
+                    JobTitle = candidates[i].JobTitle
+                });
+            }
+
+            var activity = TemplateEngine.GenerateActivityForLocale("CardForPage", new
+            {
+                Persons = data
+            });
+            return activity;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace WhoSkill.Dialogs
             ConversationState conversationState,
             LocaleTemplateEngineManager localeTemplateEngineManager,
             WhoIsDialog whoIsDialog,
+            OrgDialog orgDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -46,6 +47,7 @@ namespace WhoSkill.Dialogs
 
             // RegisterDialogs
             AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
+            AddDialog(orgDialog ?? throw new ArgumentNullException(nameof(OrgDialog)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -77,6 +79,13 @@ namespace WhoSkill.Dialogs
                 case WhoLuis.Intent.EmailAddress:
                     {
                         await dc.BeginDialogAsync(nameof(WhoIsDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.Manager:
+                case WhoLuis.Intent.DirectReports:
+                    {
+                        await dc.BeginDialogAsync(nameof(OrgDialog));
                         break;
                     }
 

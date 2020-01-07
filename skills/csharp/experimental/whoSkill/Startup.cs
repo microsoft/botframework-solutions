@@ -90,7 +90,7 @@ namespace WhoSkill
             });
 
             // Configure localized responses
-            var supportedLocales = new List<string>() { "en-us"};
+            var supportedLocales = new List<string>() { "en-us" };
             var templateFiles = new Dictionary<string, string>
             {
                 { "Card", "Card" },
@@ -139,6 +139,7 @@ namespace WhoSkill
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<WhoIsDialog>();
+            services.AddTransient<OrgDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
