@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Rest.Azure;
 
 namespace CalendarSkill.Services.AzureSearchAPI
 {
@@ -22,40 +23,63 @@ namespace CalendarSkill.Services.AzureSearchAPI
 
         public async Task<List<RoomModel>> GetMeetingRoomAsync(string query, int floorNumber = 0)
         {
+            List<RoomModel> meetingRooms = new List<RoomModel>();
+
+            DocumentSearchResult<RoomModel> searchResults = await SearchMeetongRoomAsync(SearchMode.All, query, floorNumber);
+
+            if (searchResults.Results.Count() == 0)
+            {
+                searchResults = await SearchMeetongRoomAsync(SearchMode.Any, query, floorNumber);
+            }
+
+            foreach (SearchResult<RoomModel> result in searchResults.Results)
+            {
+                if (string.IsNullOrEmpty(result.Document.EmailAddress))
+                {
+                    throw new Exception("EmailAddress of meeting room is null");
+                }
+
+                if (string.IsNullOrEmpty(result.Document.DisplayName))
+                {
+                    result.Document.DisplayName = result.Document.EmailAddress;
+                }
+
+                meetingRooms.Add(result.Document);
+            }
+
+            return meetingRooms;
+        }
+
+        private static SkillException HandleAzureSearchException(Exception ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+            if (ex is CloudException)
+            {
+                var cex = ex as CloudException;
+                if (cex.Response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    skillExceptionType = SkillExceptionType.APIForbidden;
+                }
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
+        }
+
+        private async Task<DocumentSearchResult<RoomModel>> SearchMeetongRoomAsync(SearchMode searchMode, string query, int floorNumber = 0)
+        {
+            SearchParameters parameters = new SearchParameters()
+            {
+                SearchMode = searchMode,
+                Filter = floorNumber == 0 ? null : SearchFilters.FloorNumberFilter + floorNumber.ToString()
+            };
             try
             {
-                List<RoomModel> meetingRooms = new List<RoomModel>();
-                SearchParameters parameters = new SearchParameters()
-                {
-                    SearchMode = SearchMode.All,
-                    Filter = floorNumber == 0 ? null : SearchFilters.FloorNumberFilter + floorNumber.ToString()
-                };
-
-                DocumentSearchResult<Document> searchResult = await _indexClient.Documents.SearchAsync(query, parameters);
-
-                if (searchResult.Results.Count() == 0)
-                {
-                    parameters.SearchMode = SearchMode.Any;
-                    searchResult = await _indexClient.Documents.SearchAsync(query, parameters);
-                }
-
-                foreach (var item in searchResult.Results)
-                {
-                    meetingRooms.Add(new RoomModel()
-                    {
-                        Id = item.Document["Id"].ToString(),
-                        DisplayName = item.Document["DisplayName"].ToString(),
-                        EmailAddress = item.Document["EmailAddress"].ToString(),
-                        Building = item.Document["Building"].ToString(),
-                        FloorNumber = int.Parse(item.Document["FloorNumber"].ToString())
-                    });
-                }
-
-                return meetingRooms;
+                DocumentSearchResult<RoomModel> searchResults = await _indexClient.Documents.SearchAsync<RoomModel>(query, parameters);
+                return searchResults;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw HandleAzureSearchException(ex);
             }
         }
 

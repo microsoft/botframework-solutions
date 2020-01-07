@@ -180,6 +180,7 @@ namespace CalendarSkill.Test.Flow
         public void TestCleanup()
         {
             this.ServiceManager = MockServiceManager.SetAllToDefault();
+            MockSearchClient.SetAllToDefault();
         }
 
         public string[] GetTemplates(string templateName, object data = null)

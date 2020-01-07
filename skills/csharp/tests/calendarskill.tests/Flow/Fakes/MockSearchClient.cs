@@ -13,6 +13,11 @@ namespace CalendarSkill.Test.Flow.Fakes
 
         public MockSearchClient()
         {
+            SetAllToDefault();
+        }
+
+        public static void SetAllToDefault()
+        {
             meetingRooms = new List<RoomModel>();
             var numberOfBuilding = 2;
             var numberOfFloorOnEachBuilding = 2;
