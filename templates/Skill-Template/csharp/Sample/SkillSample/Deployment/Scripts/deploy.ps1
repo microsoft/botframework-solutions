@@ -228,7 +228,7 @@ if ($outputs)
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
 
     if ($useGov) {
-        $settings | Add-Member -Type NoteProperty -Force -Name 'ChannelService' -Value "botframework.azure.us"
+        $settings | Add-Member -Type NoteProperty -Force -Name 'ChannelService' -Value "https://botframework.azure.us"
     }
 
 	foreach ($key in $outputMap.Keys) {
