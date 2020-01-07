@@ -157,7 +157,7 @@
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
-    "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
+    "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]"
   },
   "resources": [
     {
