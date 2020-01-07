@@ -420,42 +420,6 @@ namespace CalendarSkill.Test.Flow
         }
 
         [TestMethod]
-        public async Task Test_BookMeetingRoom_ChangeRoomWithFloorNumber()
-        {
-            await GetTestFlow()
-                .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
-                .AssertReplyOneOf(AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(AskForBuildingPrompt())
-                .Send(Strings.Strings.DefaultBuilding)
-                .AssertReplyOneOf(AskForFloorNumberPrompt())
-                .Send(string.Format(Strings.Strings.FloorNumber, 2))
-                .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt(3))
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(ReplyMeetingRoomIgnored())
-                .AssertReplyOneOf(AskForRecreateMeetingRoomPrompt())
-                .Send(BookMeetingRoomTestUtterances.ChangeMeetingRoomWithFloorNumberEntity)
-                .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(ConfirmedMeetingRoom())
-                .AssertReplyOneOf(AskForParticpantsPrompt())
-                .Send(Strings.Strings.DefaultUserName)
-                .AssertReplyOneOf(ConfirmOneNameOneAddress())
-                .AssertReplyOneOf(AddMoreUserPrompt())
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
-                .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(AskForContentPrompt())
-                .Send(Strings.Strings.DefaultDuration)
-                .AssertReply(ShowCalendarList())
-                .AssertReplyOneOf(ConfirmPrompt())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(BookedMeeting())
-                .AssertReply(ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Test_BookMeetingRoom_ChangeRoomWithBuilding()
         {
             await GetTestFlow()
