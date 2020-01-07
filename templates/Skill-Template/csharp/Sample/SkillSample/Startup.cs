@@ -71,7 +71,10 @@ namespace SkillSample
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure credentials
+            // Configure channel provider
+            services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
+
+            // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Configure telemetry

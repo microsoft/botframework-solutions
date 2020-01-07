@@ -17,11 +17,12 @@ namespace SkillSample.Bots
     {
         public DefaultAdapter(
             BotSettings settings,
-            LocaleTemplateEngineManager templateEngine,
+            IChannelProvider channelProvider,
             ICredentialProvider credentialProvider,
+            LocaleTemplateEngineManager templateEngine,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
-            : base(credentialProvider)
+            : base(credentialProvider, channelProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {

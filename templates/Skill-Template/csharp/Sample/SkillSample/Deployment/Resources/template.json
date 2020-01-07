@@ -108,7 +108,6 @@
     "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
-    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
   },
   "resources": [
     {
@@ -227,9 +226,9 @@
       },
       "properties": {
         "displayName": "[variables('botServiceName')]",
-        "endpoint": "[variables('botEndpoint')]",
-        "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
+        "isStreamingSupported": true,
+        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('botWebAppName'))).hostNames[0], '/api/messages')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
       },

@@ -226,7 +226,15 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
+
+    if ($useGov) {
+        $settings | Add-Member -Type NoteProperty -Force -Name 'ChannelService' -Value "botframework.azure.us"
+    }
+
+	foreach ($key in $outputMap.Keys) {
+        $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value
+    }
+
 	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $projDir appsettings.json)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }

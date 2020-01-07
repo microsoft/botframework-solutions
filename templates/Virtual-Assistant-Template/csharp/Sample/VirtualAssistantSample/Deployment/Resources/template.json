@@ -158,7 +158,6 @@
     "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]",
-    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
   },
   "resources": [
     {
