@@ -148,15 +148,8 @@ namespace WhoSkill.Services
             {
                 foreach (User user in directReportsCollectionPage)
                 {
-                    if (user != null)
-                    {
-                        // If Encountered a graph user whose account is not enabled. Skip user.
-                        if (user.AccountEnabled == true)
-                        {
-                            Candidate personEntity = new Candidate(user);
-                            candidates.Add(personEntity);
-                        }
-                    }
+                    Candidate personEntity = new Candidate(user);
+                    candidates.Add(personEntity);
                 }
             }
 

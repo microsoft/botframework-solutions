@@ -13,12 +13,13 @@ namespace WhoSkill.Models
             UserType = user.UserType;
             DisplayName = user.DisplayName;
             Mail = user.Mail;
-            JobTitle = user.JobTitle;
             UserPrincipalName = user.UserPrincipalName;
             Id = user.Id;
-            OfficeLocation = user.OfficeLocation;
-            MobilePhone = user.MobilePhone;
-            Department = user.Department;
+            JobTitle = user.JobTitle ?? "Mock JobTitle";
+            OfficeLocation = user.OfficeLocation ?? "Mock OfficeLocation";
+            MobilePhone = user.MobilePhone ?? "Mock MobilePhone";
+            Department = user.Department ?? "Mock Department";
+
         }
 
         public string UserType { get; set; } = string.Empty;
@@ -27,11 +28,11 @@ namespace WhoSkill.Models
 
         public string Mail { get; set; } = string.Empty;
 
-        public string JobTitle { get; set; } = "Mock JobTitle";
-
         public string UserPrincipalName { get; set; } = string.Empty;
 
         public string Id { get; set; } = string.Empty;
+
+        public string JobTitle { get; set; } = "Mock JobTitle";
 
         public string OfficeLocation { get; set; } = "Mock OfficeLocation";
 

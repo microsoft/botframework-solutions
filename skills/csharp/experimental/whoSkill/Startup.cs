@@ -97,6 +97,7 @@ namespace WhoSkill
                 { "Main", "WhoMainActivities" },
                 { "Shared", "WhoSharedActivities" },
                 { "WhoIs", "WhoIsActivities" },
+                { "Org", "OrgActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
