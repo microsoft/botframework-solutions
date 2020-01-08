@@ -27,6 +27,12 @@ The majority of the skills connected to this sample are [experimental skills]({{
 - *What time is breakfast?*
 - *Do you allow pets?*
 
+#### [Caring Chitchat](https://github.com/Microsoft/BotBuilder-PersonalityChat/tree/master/CSharp/Datasets)
+{:.no_toc}
+- *What can you help me with?*
+- *That's great, thanks*
+- *That didn't make any sense*
+
 #### [Bing Search Skill]({{site.baseurl}}/skills/samples/bing-search)
 {:.no_toc}
 ##### Search the web
