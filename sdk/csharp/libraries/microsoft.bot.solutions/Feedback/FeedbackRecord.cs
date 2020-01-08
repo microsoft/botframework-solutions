@@ -5,7 +5,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
 {
-    public class FeedbackRecord
+    internal class FeedbackRecord
     {
         /// <summary>
         /// Gets or sets the activity for which feedback was requested.
@@ -16,12 +16,12 @@ namespace Microsoft.Bot.Solutions.Feedback
         public Activity Request { get; set; }
 
         /// <summary>
-        /// Gets or sets feedback value submitted by user.
+        /// Gets or sets feedback submitted by user.
         /// </summary>
         /// <value>
-        /// Feedback value submitted by user.
+        /// Feedback submitted by user.
         /// </value>
-        public string Feedback { get; set; }
+        public CardAction Feedback { get; set; }
 
         /// <summary>
         /// Gets or sets free-form comment submitted by user.

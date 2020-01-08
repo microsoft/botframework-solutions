@@ -60,6 +60,11 @@ namespace Microsoft.Bot.Solutions.Feedback
             // store in state. No need to save changes, because its handled in IBot
             await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
+            var allActions = new List<CardAction>(_options.FeedbackActions(context, tag))
+            {
+                _options.DismissAction(context, tag),
+            };
+
             // If channel supports suggested actions
             if (Channel.SupportsSuggestedActions(context.Activity.ChannelId))
             {
@@ -69,21 +74,21 @@ namespace Microsoft.Bot.Solutions.Feedback
                 {
                     var actions = new List<CardAction>()
                         .Concat(context.Activity.SuggestedActions.Actions)
-                        .Concat(GetFeedbackActions())
+                        .Concat(allActions)
                         .ToList();
 
                     await context.SendActivityAsync(MessageFactory.SuggestedActions(actions)).ConfigureAwait(false);
                 }
                 else
                 {
-                    var actions = GetFeedbackActions();
+                    var actions = allActions;
                     await context.SendActivityAsync(MessageFactory.SuggestedActions(actions)).ConfigureAwait(false);
                 }
             }
             else
             {
                 // else channel doesn't support suggested actions, so use hero card.
-                var hero = new HeroCard(buttons: GetFeedbackActions());
+                var hero = new HeroCard(buttons: allActions);
                 await context.SendActivityAsync(MessageFactory.Attachment(hero.ToAttachment())).ConfigureAwait(false);
             }
         }
@@ -96,90 +101,87 @@ namespace Microsoft.Bot.Solutions.Feedback
             // if we have requested feedback
             if (record != null)
             {
-                if (_options.FeedbackActions.Any(f => context.Activity.Text == (string)f.Value || context.Activity.Text == f.Title))
+                // we don't have feedback
+                if (record.Feedback == null)
                 {
-                    // if activity text matches a feedback action
-                    // save feedback in state
-                    var feedback = _options.FeedbackActions
-                        .Where(f => context.Activity.Text == (string)f.Value || context.Activity.Text == f.Title)
-                        .First();
+                    var feedbackActions = _options.FeedbackActions(context, record.Tag);
+                    var dismissAction = _options.DismissAction(context, record.Tag);
 
-                    // Set the feedback to the action value for consistency
-                    record.Feedback = (string)feedback.Value;
-                    await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
+                    var feedback = feedbackActions.FirstOrDefault(f => context.Activity.Text == (string)f.Value || context.Activity.Text == f.Title);
 
-                    if (_options.CommentsEnabled)
+                    if (feedback != null)
                     {
-                        // if comments are enabled
-                        // create comment prompt with dismiss action
-                        if (Channel.SupportsSuggestedActions(context.Activity.ChannelId))
-                        {
-                            var commentPrompt = MessageFactory.SuggestedActions(
-                                text: $"{_options.FeedbackReceivedMessage} {_options.CommentPrompt}",
-                                cardActions: new List<CardAction>() { _options.DismissAction });
+                        // Set the feedback to the action value for consistency
+                        record.Feedback = feedback;
+                        await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
-                            // prompt for comment
-                            await context.SendActivityAsync(commentPrompt).ConfigureAwait(false);
+                        (string message, bool enableComments) = _options.FeedbackReceivedMessage(context, record.Tag, feedback);
+                        if (enableComments)
+                        {
+                            // if comments are enabled
+                            // create comment prompt with dismiss action
+                            if (Channel.SupportsSuggestedActions(context.Activity.ChannelId))
+                            {
+                                var commentPrompt = MessageFactory.SuggestedActions(
+                                    text: message,
+                                    cardActions: new List<CardAction>() { dismissAction });
+
+                                // prompt for comment
+                                await context.SendActivityAsync(commentPrompt).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                // channel doesn't support suggestedActions, so use hero card.
+                                var hero = new HeroCard(
+                                    text: message,
+                                    buttons: new List<CardAction> { dismissAction });
+
+                                // prompt for comment
+                                await context.SendActivityAsync(MessageFactory.Attachment(hero.ToAttachment())).ConfigureAwait(false);
+                            }
                         }
                         else
                         {
-                            // channel doesn't support suggestedActions, so use hero card.
-                            var hero = new HeroCard(
-                                text: _options.CommentPrompt,
-                                buttons: new List<CardAction> { _options.DismissAction });
+                            // comments not enabled, respond and cleanup
+                            // send feedback response
+                            await context.SendActivityAsync(message).ConfigureAwait(false);
 
-                            // prompt for comment
-                            await context.SendActivityAsync(MessageFactory.Attachment(hero.ToAttachment())).ConfigureAwait(false);
+                            // log feedback in appInsights
+                            LogFeedback(record);
+
+                            // clear state
+                            await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
                         }
                     }
-                    else
+                    else if (context.Activity.Text == (string)dismissAction.Value || context.Activity.Text == dismissAction.Title)
                     {
-                        // comments not enabled, respond and cleanup
-                        // send feedback response
-                        await context.SendActivityAsync(_options.FeedbackReceivedMessage).ConfigureAwait(false);
-
-                        // log feedback in appInsights
-                        LogFeedback(record);
-
                         // clear state
                         await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
                     }
-                }
-                else if (context.Activity.Text == (string)_options.DismissAction.Value || context.Activity.Text == _options.DismissAction.Title)
-                {
-                    // if user dismissed
-                    // log existing feedback
-                    if (!string.IsNullOrEmpty(record.Feedback))
+                    else if (_options.CommentsEnabled)
                     {
-                        // log feedback in appInsights
-                        LogFeedback(record);
+                        await HandleCommentAsync(context, record).ConfigureAwait(false);
                     }
-
-                    // clear state
-                    await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
-                }
-                else if (!string.IsNullOrEmpty(record.Feedback) && _options.CommentsEnabled)
-                {
-                    // if we received a comment and user didn't dismiss
-                    // store comment in state
-                    record.Comment = context.Activity.Text;
-                    await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
-
-                    // Respond to comment
-                    await context.SendActivityAsync(_options.CommentReceivedMessage).ConfigureAwait(false);
-
-                    // log feedback in appInsights
-                    LogFeedback(record);
-
-                    // clear state
-                    await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
+                    else
+                    {
+                        // we requested feedback, but the user responded with something else
+                        // clear state and continue (so message can be handled by dialog stack)
+                        await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
+                        await next(cancellationToken).ConfigureAwait(false);
+                    }
                 }
                 else
                 {
-                    // we requested feedback, but the user responded with something else
-                    // clear state and continue (so message can be handled by dialog stack)
-                    await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
-                    await next(cancellationToken).ConfigureAwait(false);
+                    var dismissAction = _options.DismissAction(context, record.Tag);
+                    if (context.Activity.Text == (string)dismissAction.Value || context.Activity.Text == dismissAction.Title)
+                    {
+                        // clear state
+                        await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await HandleCommentAsync(context, record).ConfigureAwait(false);
+                    }
                 }
 
                 await _conversationState.SaveChangesAsync(context).ConfigureAwait(false);
@@ -191,13 +193,20 @@ namespace Microsoft.Bot.Solutions.Feedback
             }
         }
 
-        private static List<CardAction> GetFeedbackActions()
+        private async Task HandleCommentAsync(ITurnContext context, FeedbackRecord record)
         {
-            var actions = new List<CardAction>(_options.FeedbackActions)
-            {
-                _options.DismissAction,
-            };
-            return actions;
+            // store comment in state
+            record.Comment = context.Activity.Text;
+            await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
+
+            // Respond to comment
+            await context.SendActivityAsync(_options.CommentReceivedMessage(context, record.Tag, record.Feedback, record.Comment)).ConfigureAwait(false);
+
+            // log feedback in appInsights
+            LogFeedback(record);
+
+            // clear state
+            await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
         }
 
         private void LogFeedback(FeedbackRecord record)
@@ -205,7 +214,7 @@ namespace Microsoft.Bot.Solutions.Feedback
             var properties = new Dictionary<string, string>()
             {
                 { nameof(FeedbackRecord.Tag), record.Tag },
-                { nameof(FeedbackRecord.Feedback), record.Feedback },
+                { nameof(FeedbackRecord.Feedback), (string)record.Feedback?.Value },
                 { nameof(FeedbackRecord.Comment), record.Comment },
                 { nameof(FeedbackRecord.Request.Text), record.Request?.Text },
                 { nameof(FeedbackRecord.Request.Id), record.Request?.Conversation.Id },

@@ -11,11 +11,13 @@ namespace Microsoft.Bot.Solutions.Feedback
     /// </summary>
     public class FeedbackOptions
     {
-        private List<CardAction> feedbackActions;
-        private CardAction dismissAction;
-        private string feedbackReceivedMessage;
-        private string commentPrompt;
-        private string commentReceivedMessage;
+        public delegate IEnumerable<CardAction> FeedbackActionsDelegate(ITurnContext context, string tag);
+
+        public delegate CardAction DismissActionDelegate(ITurnContext context, string tag);
+
+        public delegate (string, bool) FeedbackReceivedMessageDelegate(ITurnContext context, string tag, CardAction action);
+
+        public delegate string CommentReceivedMessageDelegate(ITurnContext context, string tag, CardAction action, string comment);
 
         /// <summary>
         /// Gets or sets custom feedback choices for the user.
@@ -24,23 +26,14 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <value>
         /// Custom feedback choices for the user.
         /// </value>
-        public List<CardAction> FeedbackActions
+        public FeedbackActionsDelegate FeedbackActions { get; set; } = (ITurnContext context, string tag) =>
         {
-            get
-            {
-                if (this.feedbackActions == null)
+            return new List<CardAction>()
                 {
-                    return new List<CardAction>()
-                    {
-                        new CardAction(ActionTypes.PostBack, title: "👍", value: "positive"),
-                        new CardAction(ActionTypes.PostBack, title: "👎", value: "negative"),
-                    };
-                }
-
-                return this.feedbackActions;
-            }
-            set => this.feedbackActions = value;
-        }
+                    new CardAction(ActionTypes.PostBack, title: "👍", value: "positive"),
+                    new CardAction(ActionTypes.PostBack, title: "👎", value: "negative"),
+                };
+        };
 
         /// <summary>
         /// Gets or sets text to show on button that allows user to hide/ignore the feedback request.
@@ -48,71 +41,38 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <value>
         /// Text to show on button that allows user to hide/ignore the feedback request.
         /// </value>
-        public CardAction DismissAction
+        public DismissActionDelegate DismissAction { get; set; } = (ITurnContext context, string tag) =>
         {
-            get
-            {
-                if (this.dismissAction == null)
-                {
-                    return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: "dismiss");
-                }
-
-                return this.dismissAction;
-            }
-            set => this.dismissAction = value;
-        }
+            return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: "dismiss");
+        };
 
         /// <summary>
-        /// Gets or sets message to show when a user provides some feedback.
-        /// Default value is "Thanks, I appreciate your feedback.".
+        /// Gets or sets message to show and wether to prompt for comments when a user provides some feedback.
+        /// Default value is "Thanks, I appreciate your feedback." when positive and "Thanks, I appreciate your feedback. Please add any additional comments in the chat." when negative.
         /// </summary>
         /// <value>
-        /// Message to show when a user provides some feedback.
+        /// Message to show and wether to prompt for comments when a user provides some feedback.
         /// </value>
-        public string FeedbackReceivedMessage
+        public FeedbackReceivedMessageDelegate FeedbackReceivedMessage { get; set; } = (ITurnContext context, string tag, CardAction action) =>
         {
-            get
+            if ((string)action.Value == "negative")
             {
-                if (string.IsNullOrEmpty(this.feedbackReceivedMessage))
-                {
-                    return FeedbackResponses.FeedbackReceivedMessage;
-                }
-
-                return this.feedbackReceivedMessage;
+                return ($"{FeedbackResponses.FeedbackReceivedMessage} {FeedbackResponses.CommentPrompt}", true);
             }
-            set => this.feedbackReceivedMessage = value;
-        }
+            else
+            {
+                return (FeedbackResponses.FeedbackReceivedMessage, false);
+            }
+        };
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets flag to prompt for free-form
-        /// comments for all or select feedback choices (comment prompt is shown after user selects a preset choice).
+        /// Gets or sets a value indicating whether treat message as comment after user doesn't select a preset choice.
         /// Default value is false.
         /// </summary>
         /// <value>
-        /// A value indicating whether gets or sets flag to prompt for free-form comments for all or select feedback choices.
+        /// A value indicating whether treat message as comment after user doesn't select a preset choice.
         /// </value>
         public bool CommentsEnabled { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets the message to show when `CommentsEnabled` is true.
-        /// Default value is "Please add any additional comments in the chat.".
-        /// </summary>
-        /// <value>
-        /// The message to show when `CommentsEnabled` is true.
-        /// </value>
-        public string CommentPrompt
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(this.commentPrompt))
-                {
-                    return FeedbackResponses.CommentPrompt;
-                }
-
-                return this.commentPrompt;
-            }
-            set => this.commentPrompt = value;
-        }
 
         /// <summary>
         /// Gets or sets the message to show when a user's comment has been received.
@@ -121,18 +81,9 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <value>
         /// The message to show when a user's comment has been received.
         /// </value>
-        public string CommentReceivedMessage
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(this.commentReceivedMessage))
-                {
-                    return FeedbackResponses.CommentReceivedMessage;
-                }
-
-                return this.commentReceivedMessage;
-            }
-            set => this.commentReceivedMessage = value;
-        }
+        public CommentReceivedMessageDelegate CommentReceivedMessage { get; set; } = (ITurnContext context, string tag, CardAction action, string comment) =>
+         {
+             return FeedbackResponses.CommentReceivedMessage;
+         };
     }
 }

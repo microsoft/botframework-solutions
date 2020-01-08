@@ -16,6 +16,7 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
     {
         private readonly string positiveFeedback = "positive";
         private readonly string negativeFeedback = "negative";
+        private readonly string neutralFeedback = "neutral";
 
         [TestMethod]
         public async Task DefaultOptions_Positive()
@@ -50,7 +51,46 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
         }
 
         [TestMethod]
-        public async Task DefaultOptions_Comment()
+        public async Task DefaultOptions_Negative()
+        {
+            var storage = new MemoryStorage();
+            var convState = new ConversationState(storage);
+
+            var adapter = new TestAdapter(TestAdapter.CreateConversation("Name"))
+                .Use(new FeedbackMiddleware(convState, new NullBotTelemetryClient()));
+
+            var response = "Response";
+            var tag = "Tag";
+
+            await new TestFlow(adapter, async (context, cancellationToken) =>
+            {
+                await context.SendActivityAsync(response);
+                await FeedbackMiddleware.RequestFeedbackAsync(context, tag);
+
+                // TODO save manualy
+                await convState.SaveChangesAsync(context, false, cancellationToken);
+            })
+                .Send("foo")
+                .AssertReply(response)
+                .AssertReply((activity) =>
+                {
+                    var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
+                    Assert.AreEqual(card.Buttons.Count, 3);
+                })
+                .Send(negativeFeedback)
+                .AssertReply((activity) =>
+                {
+                    var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
+                    Assert.AreEqual(card.Text, "Thanks for your feedback! Please add any additional comments in the chat.");
+                    Assert.AreEqual(card.Buttons.Count, 1);
+                })
+                .Send("comment")
+                .AssertReply("Your comment has been received.")
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task DefaultOptions_CommentDirectly()
         {
             var storage = new MemoryStorage();
             var convState = new ConversationState(storage);
@@ -79,7 +119,39 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                     var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
                     Assert.AreEqual(card.Buttons.Count, 3);
                 })
-                .Send(negativeFeedback)
+                .Send("comment")
+                .AssertReply("Your comment has been received.")
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task CustomOptions_Neutral()
+        {
+            var storage = new MemoryStorage();
+            var convState = new ConversationState(storage);
+
+            var adapter = new TestAdapter(TestAdapter.CreateConversation("Name"))
+                .Use(new FeedbackMiddleware(convState, new NullBotTelemetryClient(), CreateCustomOptions()));
+
+            var response = "Response";
+            var tag = "Tag";
+
+            await new TestFlow(adapter, async (context, cancellationToken) =>
+            {
+                await context.SendActivityAsync(response);
+                await FeedbackMiddleware.RequestFeedbackAsync(context, tag);
+
+                // TODO save manualy
+                await convState.SaveChangesAsync(context, false, cancellationToken);
+            })
+                .Send("foo")
+                .AssertReply(response)
+                .AssertReply((activity) =>
+                {
+                    var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
+                    Assert.AreEqual(card.Buttons.Count, 4);
+                })
+                .Send(neutralFeedback)
                 .AssertReply((activity) =>
                 {
                     var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
@@ -87,8 +159,40 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                     Assert.AreEqual(card.Buttons.Count, 1);
                 })
                 .Send("comment")
-                .AssertReply("Your comment has been received.")
+                .AssertReply("comment")
                 .StartTestAsync();
+        }
+
+        private FeedbackOptions CreateCustomOptions()
+        {
+            var options = new FeedbackOptions
+            {
+                FeedbackActions = (ITurnContext context, string tag) =>
+                {
+                    return new List<CardAction>()
+                    {
+                        new CardAction(ActionTypes.PostBack, title: "👍", value: positiveFeedback),
+                        new CardAction(ActionTypes.PostBack, title: "😑", value: neutralFeedback),
+                        new CardAction(ActionTypes.PostBack, title: "👎", value: negativeFeedback),
+                    };
+                },
+                FeedbackReceivedMessage = (ITurnContext context, string tag, CardAction action) =>
+                {
+                    if ((string)action.Value == neutralFeedback)
+                    {
+                        return (FeedbackResponses.CommentPrompt, true);
+                    }
+                    else
+                    {
+                        return (FeedbackResponses.FeedbackReceivedMessage, false);
+                    }
+                },
+                CommentReceivedMessage = (ITurnContext context, string tag, CardAction action, string comment) =>
+                {
+                    return comment;
+                },
+            };
+            return options;
         }
     }
 }
