@@ -41,6 +41,7 @@ namespace CalendarSkill.Test.Flow.Utterances
             string[] moveEarlierTimeSpan = null,
             string[] moveLaterTimeSpan = null,
             string[] orderReference = null,
+            string[] slotAttribute = null,
             string[] askParameter = null)
         {
             var intent = new CalendarLuis
@@ -74,6 +75,7 @@ namespace CalendarSkill.Test.Flow.Utterances
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;
             intent.Entities.OrderReference = orderReference;
             intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
+            intent.Entities.SlotAttribute = slotAttribute;
             return intent;
         }
 

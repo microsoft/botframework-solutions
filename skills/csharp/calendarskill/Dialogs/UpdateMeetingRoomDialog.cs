@@ -114,9 +114,19 @@ namespace CalendarSkill.Dialogs
                 var attendees = new List<EventModel.Attendee>();
                 attendees.AddRange(origin.Attendees);
 
-                if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom || state.InitialIntent == CalendarLuis.Intent.CancelMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom)
+                {
+                    attendees.RemoveAll(x => x.AttendeeType == AttendeeType.Resource);
+                }
+
+                if (state.InitialIntent == CalendarLuis.Intent.CancelMeetingRoom)
                 {
                     meetingRoom = attendees.Find(x => x.AttendeeType == AttendeeType.Resource)?.DisplayName;
+                    if (meetingRoom == null)
+                    {
+                        throw new Exception("No meeting room found.");
+                    }
+
                     attendees.RemoveAll(x => x.AttendeeType == AttendeeType.Resource);
                 }
 
@@ -151,7 +161,7 @@ namespace CalendarSkill.Dialogs
                 {
                     MeetingRoom = meetingRoom,
                     DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
-                    Subject = string.IsNullOrEmpty(newEvent.Title) ? null : string.Format(CalendarCommonStrings.ShowEventTitleCondition, newEvent.Title),
+                    Subject = newEvent.Title,
                 };
                 if (state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)
                 {
@@ -160,7 +170,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom)
                 {
-                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, FindMeetingRoomResponses.MeetingRoomAddChanged, data);
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, FindMeetingRoomResponses.MeetingRoomChanged, data);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else

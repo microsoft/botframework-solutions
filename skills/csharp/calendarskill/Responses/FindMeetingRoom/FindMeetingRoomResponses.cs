@@ -42,7 +42,7 @@ namespace CalendarSkill.Responses.FindMeetingRoom
         public const string ConfirmBeforCreatePrompt = "ConfirmBeforCreatePrompt";
         public const string ConfirmedMeetingRoom = "ConfirmedMeetingRoom";
         public const string MeetingRoomAdded = "MeetingRoomAdded";
-        public const string MeetingRoomAddChanged = "MeetingRoomAddChanged";
+        public const string MeetingRoomChanged = "MeetingRoomChanged";
         public const string MeetingRoomCanceled = "MeetingRoomCanceled";
     }
 }

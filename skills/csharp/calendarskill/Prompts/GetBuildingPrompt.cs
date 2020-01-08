@@ -24,7 +24,9 @@ namespace CalendarSkill.Prompts
     public class GetBuildingPrompt : Prompt<IList<RoomModel>>
     {
         internal const string AttemptCountKey = "AttemptCount";
-        BotServices Services;
+
+        private BotServices Services { get; set; }
+
         private ISearchService SearchService { get; set; }
 
         private static int maxReprompt = -1;

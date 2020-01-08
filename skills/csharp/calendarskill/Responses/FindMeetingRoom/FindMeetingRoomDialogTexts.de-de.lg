@@ -20,10 +20,10 @@
 - In Ordnung, haben Sie eine Bodenpräferenz?
 
 # CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
-- Es sieht nicht so aus, als ob andere Zimmer zur Verfügung stehen @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
+- Es sieht nicht so aus, als ob andere Zimmer zur Verfügung stehen @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
-- Es sieht nicht so aus, als ob irgendwelche Zimmer verfügbar sind @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
+- Es sieht nicht so aus, als ob irgendwelche Zimmer verfügbar sind @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
 - Kein Problem.
@@ -38,7 +38,7 @@
 - Okey, Ihre Anfrage wurde abgebrochen.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
-- In Ordnung, Sie sind in bestätigt @{MeetingRoom} @{DateTime}@{SubjectInfo(subject)}.
+- In Ordnung, Sie sind in bestätigt @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
 - In Ordnung, ich habe hinzugefügt @{MeetingRoom} zu Ihrem Meeting @{Subject}.
@@ -53,28 +53,34 @@
 - Möchten Sie dies bestätigen?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- In Ordnung, ich habe hinzugefügt @{MeetingRoom} zu Ihrem Meeting @{Subject}.
+- In Ordnung, ich habe hinzugefügt @{MeetingRoom} zu Ihrem Meeting@{FixSubject(Subject)}.
 
-# MeetingRoomAddChanged.Text(MeetingRoom, Subject)
-- In Ordnung, ich habe Ihr Treffen @{Subject} wechseln zu @{MeetingRoom}.
+# MeetingRoomChanged.Text(MeetingRoom, Subject)
+- In Ordnung, ich habe Ihr Treffen@{FixSubject(Subject)} wechseln zu @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- Gut, ich habe das Zimmer abgesagt @{MeetingRoom} für Ihr Meeting @{subject} @{DateTime}.
+- Gut, ich habe das Zimmer abgesagt @{MeetingRoom} für Ihr Meeting@{FixSubject(Subject)} @{DateTime}.
 
-# BuildingInfo(Building)
+# InBuilding(Building)
 - IF: @{Building && Building != "*"}
     - @{string(' ')}In @{Building}
 - ELSE: 
     - 
 
-# FloorNumberInfo(FloorNumber)
+# OnFloorNumber(FloorNumber)
 - IF: @{FloorNumber && FloorNumer != "0"}
     - @{string(' ')}auf dem Boden @{FloorNumber}
 - ELSE: 
     - 
 
-# SubjectInfo(subject)
+# ForSubject(subject)
 - IF: @{subject}
-    - @{string(' ')}Für @{subject}
+    - @{string(' ')}for "@{subject}"
+- ELSE: 
+    - 
+
+# FixSubject(subject)
+- IF: @{subject}
+    - @{string(' ')}"@{subject}"
 - ELSE: 
     - 

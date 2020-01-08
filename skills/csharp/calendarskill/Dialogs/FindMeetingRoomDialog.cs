@@ -299,6 +299,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        // Get the rooms with given conditions.
         private async Task<DialogTurnResult> GetMeetingRooms(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -348,6 +349,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        // Check whether the candidate rooms are free.
         private async Task<DialogTurnResult> CheckRoomAvailable(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -362,6 +364,7 @@ namespace CalendarSkill.Dialogs
                     users.Add(room.EmailAddress);
                 }
 
+                // roomAvailablility indicates whether the room is free.
                 List<bool> roomAvailablity = await service.CheckAvailable(users, (DateTime)state.MeetingInfo.StartDateTime, state.MeetingInfo.Duration / 60);
                 List<RoomModel> meetingRooms = new List<RoomModel>();
                 for (int i = 0; i < state.MeetingInfo.UnconfirmedMeetingRoom.Count(); i++)
@@ -408,6 +411,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        // If the room has been rejected, it needs to be filterd.
         private async Task<DialogTurnResult> CheckRoomRejected(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -520,11 +524,16 @@ namespace CalendarSkill.Dialogs
                             {
                                 state.MeetingInfo.MeetingRoomName = null;
 
-                                // no rooms in current condition.
+                                // No rooms in current condition.
                                 if (state.MeetingInfo.UnconfirmedMeetingRoom.Count == 0)
                                 {
-                                    state.MeetingInfo.Building = null;
                                     state.MeetingInfo.FloorNumber = null;
+
+                                    // Keep building if use just change floorNumber, or clear current conditions.
+                                    if (luisResult.Entities.FloorNumber == null)
+                                    {
+                                        state.MeetingInfo.Building = null;
+                                    }
                                 }
 
                                 if (luisResult.Entities.Building != null)
@@ -550,42 +559,38 @@ namespace CalendarSkill.Dialogs
 
                         case RecreateMeetingRoomState.ChangeTime:
                             {
-                                if (luisResult.Entities.datetime != null)
+                                state.MeetingInfo.StartTime.Clear();
+                                state.MeetingInfo.EndDate.Clear();
+                                state.MeetingInfo.EndTime.Clear();
+                                state.MeetingInfo.StartDateTime = null;
+                                state.MeetingInfo.EndDateTime = null;
+
+                                if (luisResult.Entities.ToDate != null)
                                 {
-                                    var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, luisResult.Entities._instance.datetime[0]);
-                                    var date = GetDateFromDateTimeString(dateString, sc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                    var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, luisResult.Entities._instance.ToDate[0]);
+                                    var date = GetDateFromDateTimeString(dateString, sc.Context.Activity.Locale, state.GetUserTimeZone(), false, false);
                                     if (date != null)
                                     {
                                         state.MeetingInfo.StartDate = date;
                                         state.MeetingInfo.StartDateString = dateString;
                                     }
+                                }
 
-                                    var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, luisResult.Entities._instance.datetime[0]);
+                                if (luisResult.Entities.ToTime != null)
+                                {
+                                    var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, luisResult.Entities._instance.ToTime[0]);
                                     var time = GetTimeFromDateTimeString(timeString, sc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
                                     if (time != null)
                                     {
                                         state.MeetingInfo.StartTime = time;
                                     }
-
-                                    state.MeetingInfo.EndDate.Clear();
-                                    state.MeetingInfo.EndTime.Clear();
-                                    state.MeetingInfo.StartDateTime = null;
-                                    state.MeetingInfo.EndDateTime = null;
-                                    return await sc.ReplaceDialogAsync(Actions.FindMeetingRoom, options: sc.Options, cancellationToken: cancellationToken);
                                 }
 
-                                if (luisResult.Entities.SlotAttribute != null)
+                                // If not given any specific time, all the time slot will be cleared and recollected from user.
+                                if (luisResult.Entities.ToDate == null && luisResult.Entities.ToTime == null)
                                 {
-                                    var slotAttribute = GetSlotAttributeFromEntity(luisResult.Entities);
-                                    if (slotAttribute.ToLower().Contains(CalendarCommonStrings.Time))
-                                    {
-                                        state.MeetingInfo.StartDate.Clear();
-                                        state.MeetingInfo.StartTime.Clear();
-                                        state.MeetingInfo.EndDate.Clear();
-                                        state.MeetingInfo.EndTime.Clear();
-                                        state.MeetingInfo.Duration = 0;
-                                        state.MeetingInfo.EndDateTime = null;
-                                    }
+                                    state.MeetingInfo.StartDate.Clear();
+                                    state.MeetingInfo.Duration = 0;
                                 }
 
                                 return await sc.ReplaceDialogAsync(Actions.FindMeetingRoom, options: sc.Options, cancellationToken: cancellationToken);

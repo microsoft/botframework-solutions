@@ -23,6 +23,9 @@ namespace CalendarSkill.Services.AzureSearchAPI
 
         public async Task<List<RoomModel>> GetMeetingRoomAsync(string query, int floorNumber = 0)
         {
+            // Enable fuzzy match.
+            query = query == "*" ? query : query + "*";
+
             List<RoomModel> meetingRooms = new List<RoomModel>();
 
             DocumentSearchResult<RoomModel> searchResults = await SearchMeetongRoomAsync(SearchMode.All, query, floorNumber);
@@ -34,6 +37,7 @@ namespace CalendarSkill.Services.AzureSearchAPI
 
             foreach (SearchResult<RoomModel> result in searchResults.Results)
             {
+                // Only EmailAddress is required and we will use it to book the room.
                 if (string.IsNullOrEmpty(result.Document.EmailAddress))
                 {
                     throw new Exception("EmailAddress of meeting room is null");

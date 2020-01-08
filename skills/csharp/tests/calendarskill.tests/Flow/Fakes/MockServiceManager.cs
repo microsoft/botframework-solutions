@@ -140,6 +140,23 @@ namespace CalendarSkill.Test.Flow.Fakes
             return mockServiceManager.Object;
         }
 
+        public static IServiceManager SetMeetingWithMeetingRoom()
+        {
+            var eventList = new List<EventModel>();
+            eventList.Add(CreateEventModel(hasMeetingRoom: true));
+            mockCalendarService.Setup(service => service.UpdateEventByIdAsync(It.IsAny<EventModel>())).Returns((EventModel body) =>
+            {
+                EventModel newEvent = CreateEventModel(hasMeetingRoom: true);
+                newEvent.Attendees = body.Attendees;
+                return Task.FromResult(newEvent);
+            });
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            return mockServiceManager.Object;
+        }
+
         public static IServiceManager SetRoomAvailability(int count, bool available)
         {
             var result = new List<bool>();
@@ -326,6 +343,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             string locationString = null,
             bool isOrganizer = true,
             bool isCancelled = false,
+            bool hasMeetingRoom = false,
             string suffix = "")
         {
             var attendees = new List<Attendee>();
@@ -351,6 +369,19 @@ namespace CalendarSkill.Test.Flow.Fakes
                         Name = Strings.Strings.DefaultUserName + suffix,
                     },
                     Type = AttendeeType.Required,
+                });
+            }
+
+            if (hasMeetingRoom)
+            {
+                attendees.Add(new Attendee
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = Strings.Strings.DefaultMeetingRoomEmail,
+                        Name = Strings.Strings.DefaultMeetingRoomName,
+                    },
+                    Type = AttendeeType.Resource,
                 });
             }
 

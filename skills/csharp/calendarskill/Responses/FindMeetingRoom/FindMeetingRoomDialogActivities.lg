@@ -133,10 +133,10 @@
     InputHint = acceptingInput
 ]
 
-# MeetingRoomAddChanged
+# MeetingRoomChanged
 [Activity
-    Text = @{MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
-    Speak = @{MeetingRoomAddChanged.Text(MeetingRoom, Subject)}
+    Text = @{MeetingRoomChanged.Text(MeetingRoom, Subject)}
+    Speak = @{MeetingRoomChanged.Text(MeetingRoom, Subject)}
     InputHint = acceptingInput
 ]
 

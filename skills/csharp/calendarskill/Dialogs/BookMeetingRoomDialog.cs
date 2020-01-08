@@ -57,6 +57,8 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 DateTime dateNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
+
+                // With no info about Time in user's query, we will use "right now" here. Or we will collect all the time info in FindMeetingRoomDialog.
                 if (state.MeetingInfo.StartDate.Count() == 0)
                 {
                     state.MeetingInfo.StartDate.Add(dateNow);

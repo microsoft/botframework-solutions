@@ -176,12 +176,14 @@ namespace CalendarSkill.Dialogs
                     {
                         if (luisResult.Entities.MeetingRoom != null)
                         {
+                            state.InitialIntent = CalendarLuis.Intent.FindMeetingRoom;
                             await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
                         }
                         else
                         {
                             await dc.BeginDialogAsync(nameof(CheckPersonAvailableDialog));
                         }
+
                         break;
                     }
 

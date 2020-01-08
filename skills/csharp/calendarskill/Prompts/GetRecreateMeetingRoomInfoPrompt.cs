@@ -19,7 +19,9 @@ namespace CalendarSkill.Prompts
     public class GetRecreateMeetingRoomInfoPrompt : Prompt<RecreateMeetingRoomState?>
     {
         internal const string AttemptCountKey = "AttemptCount";
-        BotServices Services;
+
+        private BotServices Services { get; set; }
+
         private static int maxReprompt = -1;
 
         public GetRecreateMeetingRoomInfoPrompt(string dialogId, BotServices services, PromptValidator<RecreateMeetingRoomState?> validator = null, string defaultLocale = null)
@@ -134,7 +136,7 @@ namespace CalendarSkill.Prompts
 
                 case CalendarLuis.Intent.ChangeCalendarEntry:
                     {
-                        if (luisResult.Entities.datetime != null)
+                        if (luisResult.Entities.ToDate != null || luisResult.Entities.ToTime != null)
                         {
                             result = RecreateMeetingRoomState.ChangeTime;
                             return result;
@@ -169,4 +171,3 @@ namespace CalendarSkill.Prompts
 
     }
 }
-

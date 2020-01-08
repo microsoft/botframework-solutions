@@ -20,10 +20,10 @@
 - Va bene, hai una preferenza per il pavimento?
 
 # CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
-- Non sembra che ci siano altre camere disponibili @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
+- Non sembra che ci siano altre camere disponibili @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
-- Non sembra che ci siano camere disponibili @{BuildingInfo(Building)}@{FloorNumberInfo(FloorNumber)} @{DateTime}.
+- Non sembra che ci siano camere disponibili @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
 - Non c'è problema.
@@ -38,7 +38,7 @@
 - Okey, la tua richiesta è stata annullata.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
-- Va bene, sei confermato in @{MeetingRoom} @{DateTime}@{SubjectInfo(subject)}.
+- Va bene, sei confermato in @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
 - Va bene, ho aggiunto @{MeetingRoom} alla riunione @{Subject}.
@@ -53,28 +53,34 @@
 - Vuoi confermare?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- Va bene, ho aggiunto @{MeetingRoom} alla riunione @{Subject}.
+- Va bene, ho aggiunto @{MeetingRoom} alla riunione@{FixSubject(Subject)}.
 
-# MeetingRoomAddChanged.Text(MeetingRoom, Subject)
-- Va bene, ho il tuo incontro @{Subject} passare a @{MeetingRoom}.
+# MeetingRoomChanged.Text(MeetingRoom, Subject)
+- Va bene, ho il tuo incontro@{FixSubject(Subject)} passare a @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- Va bene, ho cancellato la stanza @{MeetingRoom} per la riunione @{subject} @{DateTime}.
+- Va bene, ho cancellato la stanza @{MeetingRoom} per la riunione@{FixSubject(Subject)} @{DateTime}.
 
-# BuildingInfo(Building)
+# InBuilding(Building)
 - IF: @{Building && Building != "*"}
     - @{string(' ')}Pollici @{Building}
 - ELSE: 
     - 
 
-# FloorNumberInfo(FloorNumber)
+# OnFloorNumber(FloorNumber)
 - IF: @{FloorNumber && FloorNumer != "0"}
     - @{string(' ')}sul pavimento @{FloorNumber}
 - ELSE: 
     - 
 
-# SubjectInfo(subject)
+# ForSubject(subject)
 - IF: @{subject}
-    - @{string(' ')}Per @{subject}
+    - @{string(' ')}for "@{subject}"
+- ELSE: 
+    - 
+
+# FixSubject(subject)
+- IF: @{subject}
+    - @{string(' ')}"@{subject}"
 - ELSE: 
     - 

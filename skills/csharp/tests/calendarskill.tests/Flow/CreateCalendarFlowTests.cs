@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.FindMeetingRoom;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
@@ -846,6 +847,42 @@ namespace CalendarSkill.Test.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarCreate_ConfirmBookMeetingRoom()
+        {
+            await GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForBuildingPrompt())
+                .Send(Strings.Strings.DefaultBuilding)
+                .AssertReplyOneOf(AskForFloorNumberPrompt())
+                .Send(Strings.Strings.DefaultFloorNumber)
+                .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt(dateTime: "at 9:00 AM"))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(BookedMeeting())
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] ConfirmOneNameOneAddress(string address)
         {
             return GetTemplates(FindContactResponses.PromptOneNameOneAddress, new
@@ -985,6 +1022,35 @@ namespace CalendarSkill.Test.Flow
             return GetTemplates(CreateEventResponses.NoMeetingRoom);
         }
 
+        private string[] AskForBuildingPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.NoBuilding);
+        }
+
+        private string[] AskForBuildingRetryPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.BuildingNonexistent);
+        }
+
+        private string[] AskForFloorNumberPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.NoFloorNumber);
+        }
+
+        private string[] AskForFloorNumberRetryPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.FloorNumberRetry);
+        }
+
+        private string[] AskForConfirmMeetingRoomPrompt(int roomNumber = 1, string dateTime = "right now")
+        {
+            return GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            {
+                MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                DateTime = dateTime
+            });
+        }
+
         private string[] AskForLocationPrompt()
         {
             return GetTemplates(CreateEventResponses.NoLocation);
@@ -998,6 +1064,11 @@ namespace CalendarSkill.Test.Flow
         private string[] AskForRecreateInfoReprompt()
         {
             return GetTemplates(CreateEventResponses.GetRecreateInfoRetry);
+        }
+
+        private string[] ConfirmedMeetingRoom()
+        {
+            return GetTemplates(FindMeetingRoomResponses.ConfirmedMeetingRoom);
         }
 
         private string[] RetryTooManyResponse()
