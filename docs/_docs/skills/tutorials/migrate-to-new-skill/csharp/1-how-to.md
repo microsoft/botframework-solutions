@@ -14,9 +14,7 @@ order: 1
 
 ### Purpose
 
-In the latest 4.7.1 release of the BotBuilder library, Skill capabilities are introduced as part of the core SDK. The Skills that were created based on the current and old versions of the Skill Template were built on a different protocol than the 4.7 Skills. So in order to make an old Skill to be a 4.7 Skill, there's some work required for migration. Luckily the migration work is relatively small, because one of the goals of the Skill capabilities out of 4.7 SDK is that any bot can be a skill. That means for a regular bot to become a skill, there is no additional work needed. 
-
-In the 4.7 release of the Bot Builder SDK skill capabilities are introduced as part of the core SDK. Implementations of the Virtual Assistant and Skill Templates built using Bot Builder packages 4.6.2 and below need to be migrated in order to use this new approach.
+In the 4.7 release of the Bot Builder SDK skill capabilities are introduced as part of the core SDK. Implementations of the Virtual Assistant and Skill Templates built using Bot Builder packages 4.6.2 and below need to be migrated in order to use this new approach. With the 4.7 skill protocol, any bot can become a skill, so these steps only apply to prior implementations.
 
 ### Prerequisites
 
