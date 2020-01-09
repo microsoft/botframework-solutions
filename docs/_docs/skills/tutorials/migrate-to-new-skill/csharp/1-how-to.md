@@ -1,8 +1,8 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Migrate to 4.7 skill
-title: How-to
+subcategory: Tutorials
+title: Migrate to 4.7 skill
 language: C#
 order: 1
 ---
