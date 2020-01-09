@@ -2,12 +2,7 @@
   "SkillHostEndpoint": "http://localhost:3978/api/skills/",
   "BotFrameworkSkills": [
     {
-      "Id": "CalendarSkill",
-      "AppId": "TODO: Add here the App ID for the skill",
-      "SkillEndpoint": "http://localhost:39783/api/messages"
-    },
-    {
-      "Id": "EmailSkill",
+      "Id": "",
       "AppId": "TODO: Add here the App ID for the skill",
       "SkillEndpoint": "http://localhost:39783/api/messages"
     }

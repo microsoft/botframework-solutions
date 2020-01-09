@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -35,16 +36,20 @@ namespace VirtualAssistantSample.Dialogs
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private SkillDialog _skillDialog;
+        private SkillsConfiguration _skillsConfig;
+        private List<SkillDialog> _skillDialogs;
 
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient,
-            SkillDialog skillDialog)
+            IBotTelemetryClient telemetryClient
+            )
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = serviceProvider.GetService<BotServices>();
+            _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _skillDialogs = serviceProvider.GetService<List<SkillDialog>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
@@ -79,8 +84,10 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             // Register skill dialog
-            _skillDialog = skillDialog;
-            AddDialog(_skillDialog);
+            foreach (SkillDialog dialog in _skillDialogs)
+            {
+                AddDialog(dialog);
+            }
         }
 
         // Runs on every turn of the conversation.
@@ -129,13 +136,15 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                     {
-                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
-
-                        if (identifiedSkill != null)
+                        EnhancedBotFrameworkSkill identifiedSkill;
+                        if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
                         {
                             var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
                             await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
                             return InterruptionAction.Waiting;
+                        } else
+                        {
+                            throw new ArgumentException($"{dispatchIntent.ToString()} is not in the skills configuration");
                         }
                     }
                 }
@@ -283,7 +292,7 @@ namespace VirtualAssistantSample.Dialogs
                     var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
 
                     // Start the skill dialog.
-                    await innerDc.BeginDialogAsync(_skillDialog.Id, skillDialogArgs);
+                    await innerDc.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {

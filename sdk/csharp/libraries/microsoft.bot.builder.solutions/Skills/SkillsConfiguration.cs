@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
@@ -16,7 +17,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         public SkillsConfiguration(IConfiguration configuration)
         {
             var section = configuration?.GetSection("BotFrameworkSkills");
-            var skills = section?.Get<BotFrameworkSkill[]>();
+            var skills = section?.Get<EnhancedBotFrameworkSkill[]>();
             if (skills != null)
             {
                 foreach (var skill in skills)
@@ -34,6 +35,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
 
         public Uri SkillHostEndpoint { get; }
 
-        public Dictionary<string, BotFrameworkSkill> Skills { get; } = new Dictionary<string, BotFrameworkSkill>();
+        public Dictionary<string, EnhancedBotFrameworkSkill> Skills { get; } = new Dictionary<string, EnhancedBotFrameworkSkill>();
     }
 }

@@ -96,7 +96,7 @@
     },
     "azureMapsServiceName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-maps')]"
+      "defaultValue": "[concat(parameters('name'), '-maps-', parameters('suffix'))]"
     },
     "resourceTagName": {
       "type": "string",
@@ -276,16 +276,6 @@
         "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
       ],
       "condition": "[parameters('useLuisAuthoring')]"
-    },
-    {
-      "type": "Microsoft.Maps/accounts",
-      "apiVersion": "2018-05-01",
-      "name": "[parameters('azureMapsServiceName')]",
-      "location": "global",
-      "sku": {
-        "name": "s1",
-        "tier": "Standard"
-      }
     },
     {
       "type": "Microsoft.Maps/accounts",

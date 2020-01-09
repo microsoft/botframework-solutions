@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -17,6 +18,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -125,8 +127,30 @@ namespace VirtualAssistantSample
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, SkillHandler>();
 
-            // Register the SkillDialog (remote skill).
-            services.AddSingleton<SkillDialog>();
+            // Register the SkillDialogs (remote skills).
+            var section = Configuration?.GetSection("BotFrameworkSkills");
+            var skills = section?.Get<EnhancedBotFrameworkSkill[]>();
+            if (skills != null)
+            {
+                var hostEndpointSection = Configuration?.GetSection("SkillHostEndpoint");
+                if (hostEndpointSection == null)
+                {
+                    throw new ArgumentException($"{hostEndpointSection} is not in the configuration");
+                }
+                else {
+                    var hostEndpoint = new Uri(hostEndpointSection.Value);
+
+                    List<SkillDialog> dialogList = new List<SkillDialog>();
+                    services.AddSingleton(sp =>
+                        {
+                        foreach (var skill in skills)
+                        {
+                            dialogList.Add(new SkillDialog(sp.GetService<ConversationState>(), sp.GetService<SkillHttpClient>(), skill, Configuration, hostEndpoint));
+                }
+                return dialogList;
+            });
+        }
+            }
 
             // Register dialogs
             services.AddTransient<MainDialog>();

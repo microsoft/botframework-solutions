@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -29,9 +30,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private readonly string _botId;
         private readonly ConversationState _conversationState;
         private readonly SkillHttpClient _skillClient;
-        private readonly SkillsConfiguration _skillsConfig;
+        private readonly EnhancedBotFrameworkSkill _skill;
+        private readonly Uri _skillHostEndpoint;
 
-        public SkillDialog(ConversationState conversationState, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
+        public SkillDialog(ConversationState conversationState, SkillHttpClient skillClient, EnhancedBotFrameworkSkill skill, IConfiguration configuration, Uri skillHostEndpoint)
             : base(nameof(SkillDialog))
         {
             if (configuration == null)
@@ -45,8 +47,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
             }
 
+            Id = skill.Id;
+            _skillHostEndpoint = skillHostEndpoint;
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
-            _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
+            _skill = skill ?? throw new ArgumentNullException(nameof(skill));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _activeSkillProperty = conversationState.CreateProperty<string>($"{typeof(SkillDialog).FullName}.ActiveSkillProperty");
         }
@@ -59,13 +63,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             }
 
             var skillId = dialogArgs.SkillId;
-            if (!_skillsConfig.Skills.TryGetValue(skillId, out var skillInfo))
-            {
-                throw new KeyNotFoundException($"Unable to find \"{skillId}\" in the skill configuration.");
-            }
-
-            // Store Skill ID for this dialog instance
-            await _activeSkillProperty.SetAsync(dc.Context, skillId, cancellationToken).ConfigureAwait(false);
 
             await dc.Context.TraceActivityAsync($"{GetType().Name}.BeginDialogAsync()", label: $"Using activity of type: {dialogArgs.ActivityType}", cancellationToken: cancellationToken).ConfigureAwait(false);
 
@@ -90,7 +87,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             }
 
             ApplyParentActivityProperties(dc.Context, skillActivity, dialogArgs);
-            return await SendToSkillAsync(dc, skillActivity, skillInfo, cancellationToken).ConfigureAwait(false);
+            return await this.SendToSkillAsync(dc, skillActivity, cancellationToken).ConfigureAwait(false);
         }
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default)
@@ -106,12 +103,17 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             }
 
             // Just forward to the remote skill
-            return await SendToSkillAsync(dc, dc.Context.Activity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
+            return await SendToSkillAsync(dc, dc.Context.Activity, cancellationToken).ConfigureAwait(false);
+        }
+
+        public override async Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result = null, CancellationToken cancellationToken = default)
+        {
+            return EndOfTurn;
         }
 
         public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
         {
-            if (reason == DialogReason.CancelCalled)
+            if (reason == DialogReason.CancelCalled || reason == DialogReason.ReplaceCalled)
             {
                 await turnContext.TraceActivityAsync($"{GetType().Name}.EndDialogAsync()", label: $"ActivityType: {turnContext.Activity.Type}", cancellationToken: cancellationToken).ConfigureAwait(false);
 
@@ -119,8 +121,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 ApplyParentActivityProperties(turnContext, activity, null);
 
                 var skillId = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken).ConfigureAwait(false);
-                await SendToSkillAsync(null, (Activity)activity, _skillsConfig.Skills[skillId], cancellationToken).ConfigureAwait(false);
+                await SendToSkillAsync(null, (Activity)activity, cancellationToken).ConfigureAwait(false);
             }
+
+            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
         }
 
         private static void ApplyParentActivityProperties(ITurnContext turnContext, Activity skillActivity, SkillDialogArgs dialogArgs)
@@ -136,7 +140,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             }
         }
 
-        private async Task<DialogTurnResult> SendToSkillAsync(DialogContext dc, Activity activity, BotFrameworkSkill skillInfo, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> SendToSkillAsync(DialogContext dc, Activity activity, CancellationToken cancellationToken)
         {
             if (dc != null)
             {
@@ -145,10 +149,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken).ConfigureAwait(false);
             }
 
-            var response = await _skillClient.PostActivityAsync(_botId, skillInfo, _skillsConfig.SkillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
+            var response = await _skillClient.PostActivityAsync(_botId, _skill, this._skillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
             if (!(response.Status >= 200 && response.Status <= 299))
             {
-                throw new HttpRequestException($"Error invoking the skill id: \"{skillInfo.Id}\" at \"{skillInfo.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
+                throw new HttpRequestException($"Error invoking the skill id: \"{_skill.Id}\" at \"{_skill.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
             }
 
             return EndOfTurn;
