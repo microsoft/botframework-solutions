@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions;
@@ -16,7 +17,6 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
@@ -33,28 +33,24 @@ namespace VirtualAssistantSample.Dialogs
         private OnboardingDialog _onboardingDialog;
         private SwitchSkillDialog _switchSkillDialog;
         private LocaleTemplateEngineManager _templateEngine;
+        private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
-        private SkillDialog _skillDialog;
-        private SkillsConfiguration _skillsConfig;
-        private List<SkillDialog> _skillDialogs;
 
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient
-            )
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = serviceProvider.GetService<BotServices>();
-            _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            _skillDialogs = serviceProvider.GetService<List<SkillDialog>>();
             TelemetryClient = telemetryClient;
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
             _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _skillContext = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Create conversation state properties
             var conversationState = serviceProvider.GetService<ConversationState>();
@@ -83,8 +79,9 @@ namespace VirtualAssistantSample.Dialogs
                 AddDialog(qnaDialog);
             }
 
-            // Register skill dialog
-            foreach (SkillDialog dialog in _skillDialogs)
+            // Register skill dialogs
+            var skillDialogs = serviceProvider.GetServices<SkillDialog>();
+            foreach (var dialog in skillDialogs)
             {
                 AddDialog(dialog);
             }
@@ -105,7 +102,7 @@ namespace VirtualAssistantSample.Dialogs
                 if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
-                    var generalResult = await localizedServices.LuisServices["general"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                    var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                     innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
                 }
             }
@@ -136,15 +133,13 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                     {
-                        EnhancedBotFrameworkSkill identifiedSkill;
-                        if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
+
+                        if (identifiedSkill != null)
                         {
                             var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
                             await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
                             return InterruptionAction.Waiting;
-                        } else
-                        {
-                            throw new ArgumentException($"{dispatchIntent.ToString()} is not in the skills configuration");
                         }
                     }
                 }
@@ -286,23 +281,23 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                var dispatchIntentSkill = dispatchIntent.ToString();
-                if (!string.IsNullOrWhiteSpace(dispatchIntentSkill))
-                {
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+                // Check if the dispatch intent maps to a skill.
+                var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
 
+                if (identifiedSkill != null)
+                {
                     // Start the skill dialog.
-                    await innerDc.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
+                    await innerDc.BeginDialogAsync(identifiedSkill.Id);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    await innerDc.BeginDialogAsync("faq");
+                    await innerDc.BeginDialogAsync("Faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     innerDc.SuppressCompletionMessage(true);
 
-                    await innerDc.BeginDialogAsync("chitchat");
+                    await innerDc.BeginDialogAsync("Chitchat");
                 }
                 else
                 {
@@ -323,13 +318,35 @@ namespace VirtualAssistantSample.Dialogs
             {
                 case Events.Location:
                     {
-                        // TODO: add this into UserState
+                        var locationObj = new JObject();
+                        locationObj.Add(StateProperties.Location, JToken.FromObject(value));
+
+                        // Store location for use by skills.
+                        var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
+                        skillContext[StateProperties.Location] = locationObj;
+                        await _skillContext.SetAsync(innerDc.Context, skillContext);
+
                         break;
                     }
 
                 case Events.TimeZone:
                     {
-                        // TODO: add this into UserState
+                        try
+                        {
+                            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
+                            var timeZoneObj = new JObject();
+                            timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
+
+                            // Store location for use by skills.
+                            var skillContext = await _skillContext.GetAsync(innerDc.Context, () => new SkillContext());
+                            skillContext[StateProperties.TimeZone] = timeZoneObj;
+                            await _skillContext.SetAsync(innerDc.Context, skillContext);
+                        }
+                        catch
+                        {
+                            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received time zone could not be parsed. Property not set."));
+                        }
+
                         break;
                     }
 

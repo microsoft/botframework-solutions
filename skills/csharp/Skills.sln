@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill.Tests", "tests\to
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITSMSkill.Tests", "tests\itsmskill.tests\ITSMSkill.Tests.csproj", "{C3304FB4-D4D5-412F-9312-1ECE4DE573DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalitySkill.Tests", "tests\HospitalitySkill.Tests\HospitalitySkill.Tests.csproj", "{E3E37DC8-1AEC-4368-A7F0-62F93A82FDD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalitySkill.Tests", "tests\HospitalitySkill.Tests\HospitalitySkill.Tests.csproj", "{E3E37DC8-1AEC-4368-A7F0-62F93A82FDD0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{CD5DDB01-5D23-4FF2-B2DE-3014D3987D37}"
 EndProject
@@ -60,8 +60,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillServiceLibrary.Tests", "tests\SkillServiceLibrary.Tests\SkillServiceLibrary.Tests.csproj", "{2195351D-594F-40EC-AEDF-5FD082169A4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillServiceLibrary.Fakes", "tests\SkillServiceLibrary.Fakes\SkillServiceLibrary.Fakes.csproj", "{F47A70EF-293A-4CF4-ABCC-E8290A373014}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\sdk\csharp\libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{CECE99EA-3571-4F52-B352-A1F8C0C35066}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -271,14 +269,6 @@ Global
 		{F47A70EF-293A-4CF4-ABCC-E8290A373014}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{F47A70EF-293A-4CF4-ABCC-E8290A373014}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F47A70EF-293A-4CF4-ABCC-E8290A373014}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CECE99EA-3571-4F52-B352-A1F8C0C35066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
