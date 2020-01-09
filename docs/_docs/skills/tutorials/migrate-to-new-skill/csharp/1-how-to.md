@@ -1,12 +1,11 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Tutorials
-title: Migrate to 4.7 skill
+subcategory: Migrate to 4.7 skill
 language: C#
+title: Tutorial
 order: 1
 ---
-
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
