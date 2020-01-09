@@ -1,6 +1,6 @@
 ﻿@model LinkedAccountsViewModel
 @{
-    ViewData["Title"] = "Linked Accounts";
+    ViewData["Title"] = "Linked Accounts Management";
 }
 <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
 
@@ -39,79 +39,73 @@
 
 @if (Model.Status == null)
 {
-    <div class="warning">No Authentication Connections were found using the provided ApplicationId. Have you added one to your Bot through the Azure Portal?</div>
+    <div class="warning">No authentication connections were found using the provided ApplicationId. Have you added one to your Bot through the Azure Portal?</div>
 }
 else
 {
-    <div class="content-row">
-        <div class="content-title">Linked Accounts</div>
-        <div class="main-text main-text-p1">
-            The authentication providers listed below are those enabled on the Virtual Assistant.
-            
-            If you need to use a different User Id for your client, you can update it's value and select <b>Update User Id</b> to update what is stored in session.
-        </div>
-        <div class="linkedAccount-displayName">
-            User ID:
-            @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
-            {
-
-                @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
-                <button type="submit">Update</button>
-                <button onclick="copyUserId()">Copy</button>
-                if (Model.CompanionApp)
-                {
-                    <button onclick="window.open('microsoft://virtualassistant/user/@Model.UserId','_blank')" type="button">
-                        Complete and return to app
-                    </button>
-                }
-                @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
-            }
-        </div>
-        <div class="linkedAccount-list">
-            <div class="linkedAccount-header">
-                <div class="linkedAccount-header-label linkedAccount-header-connectionName">Connection Name</div>
-                <div class="linkedAccount-header-label linkedAccount-header-displayName">Service Provider</div>
-                <div class="linkedAccount-header-label linkedAccount-header-status">Status</div>
-            </div>
-
-            @foreach (var account in Model.Status)
-            {
-                <div class="linkedAccount">
-                    <div class="linkedAccount-label linkedAccount-connectionName">@account.ConnectionName</div>
-                    <div class="linkedAccount-label linkedAccount-displayName">@account.ServiceProviderDisplayName</div>
-                    @if (account.HasToken.HasValue && !account.HasToken.Value)
+    <div class="row">
+        <p>
+            The authentication providers listed below are those enabled on your Virtual Assistant.
+        </p>
+            <div class="input-group">
+                <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" disabled>
+                <div class="input-group-append">
+                    @if (Model.CompanionApp)
                     {
-                        <div class="linkedAccount-label linkedAccount-status">
-                            <div class="icon">
-                                <svg viewBox="0 0 34 34">
-                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#737373"></circle>
-                                    Sorry, your browser does not support inline SVG.
-                                </svg>
-                            </div>
-                            <div class="online-status">
-                                Offline
-                            </div>
-                        </div>
-                        <div id="signin"></div>
-                        @Html.ActionLink("Sign In", "SignIn", "Home", account, new { @class = "button linkedAccount-action" })
+                        <a href="microsoft://virtualassistant/user/@Model.UserId" target="_blank" class="btn btn-primary">
+                            Complete and return to app
+                        </a>
                     }
                     else
                     {
-                        <div class="linkedAccount-label linkedAccount-status">
-                            <div class="icon">
-                                <svg viewBox="0 0 34 34">
-                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#9bf00b" />
-                                    Sorry, your browser does not support inline SVG.
-                                </svg>
-                            </div>
-                            <div class="online-status">
-                                Online
-                            </div>
-                        </div>
-                        @Html.ActionLink("Sign Out", "SignOut", "Home", account, new { @class = "button linkedAccount-action" })
+                        <a href="#" class="btn btn-primary" onclick="copyUserId()">Copy</a>
                     }
+                    @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "btn btn-danger" })
                 </div>
-            }
+            </div>
+    </div>
+    <div class="row py-3">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>Service Provider</th>
+                    <th>Action</th>
+                </tr>
+                <tbody>
+                    @foreach (var account in Model.Status)
+                    {
+                        @if (account.HasToken.HasValue && !account.HasToken.Value)
+                        {
+                            <tr class="table-danger">
+                                <td>
+                                    @account.ConnectionName
+                                </td>
+                                <td>
+                                    @account.ServiceProviderDisplayName
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Link", "SignIn", "Home", account, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="table-success">
+                                <td>
+                                    @account.ConnectionName
+                                </td>
+                                <td>
+                                    @account.ServiceProviderDisplayName
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Unlink", "SignOut", "Home", account, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-}
+    }
