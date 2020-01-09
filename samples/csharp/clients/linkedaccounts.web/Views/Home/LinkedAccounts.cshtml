@@ -67,20 +67,22 @@ else
     <div class="row py-3">
         <div class="table-responsive">
             <table class="table table-hover">
-                <tr>
-                    <th>Name</th>
-                    <th>Service Provider</th>
-                    <th>Action</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Service Provider</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var account in Model.Status)
                     {
                         @if (account.HasToken.HasValue && !account.HasToken.Value)
                         {
                             <tr class="table-danger">
-                                <td>
+                                <th scope="row">
                                     @account.ConnectionName
-                                </td>
+                                </th>
                                 <td>
                                     @account.ServiceProviderDisplayName
                                 </td>
@@ -92,9 +94,9 @@ else
                         else
                         {
                             <tr class="table-success">
-                                <td>
+                                <th scope="row">
                                     @account.ConnectionName
-                                </td>
+                                </th>
                                 <td>
                                     @account.ServiceProviderDisplayName
                                 </td>
