@@ -34,3 +34,45 @@
     Speak = @{WhoErrorMessageAccountProblem.Text()}
     InputHint = acceptingInput
 ]
+
+# DidntUnderstandMessage
+[Activity
+    Text = @{DidntUnderstandMessage.Text()}
+    Speak = @{DidntUnderstandMessage.Text()}
+    InputHint = expectingInput
+]
+
+# NoKeyword
+[Activity
+    Text = @{NoKeyword.Text()}
+    Speak = @{NoKeyword.Text()}
+    InputHint = expectingInput
+]
+
+# ShowPage
+[Activity
+    Text = @{ShowPage.Text(Person)}
+    Speak = @{ShowPage.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# InvalidNumber
+[Activity
+    Text = @{InvalidNumber.Text()}
+    Speak = @{InvalidNumber.Text()}
+    InputHint = acceptingInput
+]
+
+# AlreadyLastPage
+[Activity
+    Text = @{AlreadyLastPage.Text()}
+    Speak = @{AlreadyLastPage.Text()}
+    InputHint = acceptingInput
+]
+
+# AlreadyFirstPage
+[Activity
+    Text = @{AlreadyFirstPage.Text()}
+    Speak = @{AlreadyFirstPage.Text()}
+    InputHint = acceptingInput
+]

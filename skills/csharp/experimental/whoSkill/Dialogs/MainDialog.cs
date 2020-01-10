@@ -17,6 +17,7 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using WhoSkill.Models;
 using WhoSkill.Responses.Main;
+using WhoSkill.Responses.Shared;
 using WhoSkill.Services;
 using WhoSkill.Utilities;
 
@@ -34,8 +35,7 @@ namespace WhoSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             LocaleTemplateEngineManager localeTemplateEngineManager,
-            WhoIsDialog whoIsDialog,
-            OrgDialog orgDialog,
+            WhoSkillDialogBase whoSkillDialogBase,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -46,8 +46,7 @@ namespace WhoSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             // RegisterDialogs
-            AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
-            AddDialog(orgDialog ?? throw new ArgumentNullException(nameof(OrgDialog)));
+            AddDialog(whoSkillDialogBase ?? throw new ArgumentNullException(nameof(WhoSkillDialogBase)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -65,37 +64,14 @@ namespace WhoSkill.Dialogs
 
             var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var intent = luisResult?.TopIntent().intent;
-            var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
-            var generalTopIntent = generalLuisResult?.TopIntent().intent;
-
-            // switch on general intents
-            switch (intent)
+            if (intent == WhoLuis.Intent.None)
             {
-                case WhoLuis.Intent.WhoIs:
-                case WhoLuis.Intent.JobTitle:
-                case WhoLuis.Intent.Department:
-                case WhoLuis.Intent.Location:
-                case WhoLuis.Intent.PhoneNumber:
-                case WhoLuis.Intent.EmailAddress:
-                    {
-                        await dc.BeginDialogAsync(nameof(WhoIsDialog));
-                        break;
-                    }
-
-                case WhoLuis.Intent.Manager:
-                case WhoLuis.Intent.DirectReports:
-                    {
-                        await dc.BeginDialogAsync(nameof(OrgDialog));
-                        break;
-                    }
-
-                default:
-                    {
-                        // intent was identified but not yet implemented
-                        var activity = _templateEngine.GenerateActivityForLocale(WhoMainResponses.FeatureNotAvailable);
-                        await dc.Context.SendActivityAsync(activity);
-                        break;
-                    }
+                var activity = _templateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
+                await dc.Context.SendActivityAsync(activity);
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(WhoSkillDialogBase));
             }
         }
 

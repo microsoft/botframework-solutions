@@ -7,8 +7,16 @@ namespace WhoSkill.Utilities
     {
         public const string Prompt = "prompt";
 
-        public const string ShowCandidates = "showCandidates";
-
         public const string InitDialog = "initDialog";
+
+        public const string SearchKeyword = "searchKeyword";
+
+        public const string ShowSearchResult = "showSearchResult";
+
+        public const string ShowNoResult = "showNoResult";
+
+        public const string ShowCertainPerson = "showCertainPerson";
+
+        public const string ShowCandidates = "showCandidates";
     }
 }

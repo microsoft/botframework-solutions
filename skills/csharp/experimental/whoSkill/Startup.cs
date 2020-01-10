@@ -139,8 +139,7 @@ namespace WhoSkill
 
             // Register dialogs
             services.AddTransient<MainDialog>();
-            services.AddTransient<WhoIsDialog>();
-            services.AddTransient<OrgDialog>();
+            services.AddTransient<WhoSkillDialogBase>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

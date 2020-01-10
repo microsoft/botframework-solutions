@@ -8,7 +8,6 @@ namespace WhoSkill.Responses.Main
     /// </summary>
     public class WhoMainResponses
     {
-        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
         public const string WhoWelcomeMessage = "WhoWelcomeMessage";
         public const string HelpMessage = "HelpMessage";
         public const string LogOut = "LogOut";

@@ -21,3 +21,29 @@
 
 # WhoErrorMessageAccountProblem.Text
 - Sorry, it looks like something went wrong with your email account. Please follow the instructions in your Inbox to verify your account.
+
+# DidntUnderstandMessage.Text
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way?
+- I didn't get what you mean, can you try in a different way?
+- Could you elaborate?
+- Please say that again in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again? I didn't get what you mean.
+
+# NoKeyword.Text
+- Please provide the name you want to look up.
+
+# ShowPage.Text(Person)
+- I found multiple matches for '@{Person.TargetName}'. Please pick one.
+
+# InvalidNumber.Text()
+- Invalid number. Please pick again.
+
+# AlreadyLastPage.Text()
+- Already last page.
+
+# AlreadyFirstPage.Text()
+- Already first page.

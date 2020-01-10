@@ -1,15 +1,4 @@
-﻿# DidntUnderstandMessage.Text
-- Sorry, I didn't understand what you meant.
-- I didn't understand, perhaps try again in a different way.
-- Can you try to ask in a different way?
-- I didn't get what you mean, can you try in a different way?
-- Could you elaborate?
-- Please say that again in a different way.
-- I didn't quite get that.
-- Can you say that in a different way?
-- Can you try to ask me again? I didn't get what you mean.
-
-# WhoWelcomeMessage.Text
+﻿# WhoWelcomeMessage.Text
 - Hi. I'm Who bot. I can answer questions about people in your organization, like "Who reports to Emma?" or "Who knows about marketing?".
 
 # HelpMessage.Text
@@ -26,9 +15,6 @@ Need help? Here’s a full list of the questions I can answer:
 - Your sign out was successful.
 - You have successfully signed out.
 - You have been logged out.
-
-# FeatureNotAvailable.Text
-- This feature is not yet available in the To Do Skill. Please try asking something else.
 
 # CancelMessage.Text
 - Ok, let's start over.

@@ -1,5 +1,12 @@
 ﻿[import](WhoIsTexts.lg)
 
+# NoSearchResult
+[Activity
+    Text = @{NoSearchResult.Text(Person)}
+    Speak = @{NoSearchResult.Text(Person)}
+    InputHint = acceptingInput
+]
+
 # WhoIs
 [Activity
     Text = @{WhoIs.Text(Person)}
