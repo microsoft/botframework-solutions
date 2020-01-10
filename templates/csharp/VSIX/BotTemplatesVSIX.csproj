@@ -71,8 +71,8 @@
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup>
     <PreBuildEvent>powershell New-Item -ItemType Directory -Force -Path '$(ProjectDir)ProjectTemplates\Bot'
-powershell "Get-ChildItem -Path '$(SolutionDir)\Template' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot\va.zip' -Force"
-powershell "Get-ChildItem -Path '$(SolutionDir)\SkillTemplate' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot\skill.zip' -Force"</PreBuildEvent>
+powershell "Get-ChildItem -Path '$(SolutionDir)VA' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot\va.zip' -Force"
+powershell "Get-ChildItem -Path '$(SolutionDir)Skill' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot\skill.zip' -Force"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
