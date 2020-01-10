@@ -14,53 +14,54 @@ declare module 'jsonwebtoken' {
     ): void;
 }
 
-import { HttpOperationResponse, ServiceClient } from '@azure/ms-rest-js';
-import { signingKeyResolver, verify } from 'jsonwebtoken';
+import { ClaimsIdentity } from 'botframework-connector';
 import * as jwks from 'jwks-rsa';
 import { IAuthenticationProvider } from './authenticationProvider';
 
 export class MsJWTAuthenticationProvider implements IAuthenticationProvider {
+    // private static openIdConfig: OpenIdConnectConfiguration;
+    private readonly microsoftAppId: string;
     private readonly openIdMetadataUrl: string = 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration';
-    private readonly jwtIssuer: string = 'https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0';
-    private readonly httpClient: ServiceClient;
-    private readonly appId: string;
 
-    public constructor(appId: string) {
-        this.httpClient = new ServiceClient();
-        this.appId = appId;
+    public constructor (microsoftAppId: string, openIdMetadataUrl: string = '') {
+        if (microsoftAppId === undefined || microsoftAppId.trim().length === 0) { throw new Error('MicrosoftAppId is undefined'); }
+        this.microsoftAppId = microsoftAppId;
+
+        if (openIdMetadataUrl !== undefined && openIdMetadataUrl.trim().length > 0) {
+            this.openIdMetadataUrl = openIdMetadataUrl;
+        }
+        /* PENDING: ConfigurationManager and IdentityModel is not present in JS/TS
+            var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
+                _openIdMetadataUrl,
+                new OpenIdConnectConfigurationRetriever()
+                );
+            openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).GetAwaiter().GetResult();
+        */
     }
 
-    public async authenticate(authHeader: string): Promise<boolean> {
-        try {
-            const token: string = authHeader.includes(' ') ? authHeader.split(' ')[1] : authHeader;
+    public authenticate(authHeader: string): ClaimsIdentity {
+        /* PENDING: IdentityModel is not present in JS/TS
+            try
+            {
+                var validationParameters =
+                    new TokenValidationParameters
+                    {
+                        ValidateIssuer = false, // do not validate issuer
+                        ValidAudiences = new[] { _microsoftAppId },
+                        IssuerSigningKeys = openIdConfig.SigningKeys,
+                    };
 
-            const jwksInfo: HttpOperationResponse = await this.httpClient.sendRequest({
-                method: 'GET',
-                url: this.openIdMetadataUrl
-            });
+                var handler = new JwtSecurityTokenHandler();
+                var user = handler.ValidateToken(authHeader.Replace("Bearer ", string.Empty), validationParameters, out var validatedToken);
 
-            const jwksUri: string = <string>jwksInfo.parsedBody.jwks_uri;
-            const jwksClient: jwks.JwksClient = jwks({ jwksUri: jwksUri });
+                return user.Identities.OfType<ClaimsIdentity>().FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
+        */
 
-            const getKey: signingKeyResolver = (headers: jwks.Headers, cb: (err: Error, signingKey: string) => void): void => {
-                jwksClient.getSigningKey(headers.kid, (err: Error, key: jwks.Jwk): void => {
-                    cb(err, key.publicKey || key.rsaPublicKey || '');
-                });
-            };
-
-            const decoder: Promise<{[key: string]: Object}> = new Promise((resolve, reject): void => {
-                verify(token, getKey, (err: Error, decodedObj: Object): void => {
-                    if (err !== undefined) { reject(err); }
-                    const result: {[key: string]: Object} = <{[key: string]: Object}>decodedObj;
-                    resolve(result);
-                });
-            });
-
-            const decoded: { [key: string]: Object } = await decoder;
-
-            return decoded.appid === this.appId;
-        } catch (error) {
-            return false;
-        }
+        return new ClaimsIdentity([], false);
     }
 }

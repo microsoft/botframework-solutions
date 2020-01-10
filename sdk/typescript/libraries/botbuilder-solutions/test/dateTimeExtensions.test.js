@@ -47,40 +47,43 @@ describe("date time extensions", function() {
             const specificDate = new Date("1975-04-04T01:20:42");
             const specificDatePluralHour = new Date("1975-04-04T04:30:42");
             const testData = [];
+            const englishUsCulture = "en-US";
+            const spanishSpainCulture = "es-ES";
+            const spanishMexicoCulture = "es-MX";
 
             // US English
             const dateEnUsToday = new DateTimeTestData(
-                "en-US",
+                englishUsCulture,
                 today,
                 "Today",
                 "Today",
                 today.toLocaleTimeString(),
                 `at ${today.toLocaleTimeString()}`);
             const dateEnUsTomorrow = new DateTimeTestData(
-                "en-US",
+                englishUsCulture,
                 tomorrow,
                 "Tomorrow",
                 "Tomorrow",
                 tomorrow.toLocaleTimeString(),
                 `at ${tomorrow.toLocaleTimeString()}`);
             const dateEnUsSpecificDate = new DateTimeTestData(
-                "en-US",
+                englishUsCulture,
                 specificDate,
                 "Friday, April 04",
                 "Friday, April 04",
                 specificDate.toLocaleTimeString(),
                 `at ${specificDate.toLocaleTimeString()}`);
             const dateEnUsSpecificDatePluralHour = new DateTimeTestData(
-                "en-US",
+                englishUsCulture,
                 specificDatePluralHour,
                 "Friday, April 04",
                 "Friday, April 04",
                 specificDatePluralHour.toLocaleTimeString(),
                 `at ${specificDatePluralHour.toLocaleTimeString()}`);
 
-            // Spanish from Spain (uses AM PM)
+            // Spanish from Spain (uses 24 hr format)
             const dateEsEsToday = new DateTimeTestData(
-                "es-ES",
+                spanishSpainCulture,
                 today,
                 "hoy",
                 "hoy",
@@ -88,7 +91,7 @@ describe("date time extensions", function() {
                 `a las ${today.toLocaleTimeString()}`
             );
             const dateEsEsTomorrow = new DateTimeTestData(
-                "es-ES",
+                spanishSpainCulture,
                 tomorrow,
                 "mañana",
                 "mañana",
@@ -96,7 +99,7 @@ describe("date time extensions", function() {
                 `a las ${tomorrow.toLocaleTimeString()}`
             );
             const dateEsEsSpecificDate = new DateTimeTestData(
-                "es-ES",
+                spanishSpainCulture,
                 specificDate,
                 "viernes 04 de Abril",
                 "el viernes 04 de Abril",
@@ -104,7 +107,7 @@ describe("date time extensions", function() {
                 `a la ${specificDate.toLocaleTimeString()}`
             );
             const dateEsEsSpecificDatePluralHour = new DateTimeTestData(
-                "es-ES",
+                spanishSpainCulture,
                 specificDatePluralHour,
                 "viernes 04 de Abril",
                 "el viernes 04 de Abril",
@@ -114,7 +117,7 @@ describe("date time extensions", function() {
             
             // Spanish from Mexico (uses AM PM)
             const dateEsMxSpecificDate = new DateTimeTestData(
-                "es-MX",
+                spanishMexicoCulture,
                 specificDate,
                 "viernes 04 de Abril",
                 "el viernes 04 de Abril",
@@ -122,7 +125,7 @@ describe("date time extensions", function() {
                 `a la ${specificDate.toLocaleTimeString()}`
             );
             const dateEsMxSpecificDatePluralHour = new DateTimeTestData(
-                "es-MX",
+                spanishMexicoCulture,
                 specificDatePluralHour,
                 "viernes 04 de Abril",
                 "el viernes 04 de Abril",

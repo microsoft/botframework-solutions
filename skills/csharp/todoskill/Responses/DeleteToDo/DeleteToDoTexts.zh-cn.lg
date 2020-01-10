@@ -1,17 +1,17 @@
 # AskDeletionAllConfirmation.Text(ListType)
-- 您确定要删除所有{listType}列表上的任务吗？
+- 您确定要删除所有@{ListType}列表上的任务吗？
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- 对不起，我没有理解您的意思。您确定要删除所有{listType}列表上的任务吗？
+- 对不起，我没有理解您的意思。您确定要删除所有@{ListType}列表上的任务吗？
 
 # AfterAllTasksDeleted.Text(ListType)
-- 我已经清空了你的{ListType}列表。
+- 我已经清空了你的@{ListType}列表。
 
 # AfterTaskDeleted.Text(TaskContent, ListType)
-- 已经为您删除{listType}列表中的{taskContent}任务。
+- 已经为您删除@{ListType}列表中的@{TaskContent}任务。
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
-- 好，我没有删除你所有的任务。你今天的{listType}列表还有{taskCount}个任务。
+- 好，我没有删除你所有的任务。你今天的@{ListType}列表还有@{TaskCount}个任务。
 
 # ListTypePromptForDelete.Text
 - 你能更具体点要删除哪个列表的任务吗？是你的待办事项清单，购物清单还是杂货清单？

@@ -69,19 +69,19 @@
 - What do you want to say in your forward?
 
 # RecipientConfirmed.Text(userName)
-- Alright, I will send this to {userName}.
+- Alright, I will send this to @{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- You have {totalCount} emails in your inbox. The latest email was {emailListDetails}.
+- You have @{totalCount} emails in your inbox. The latest email was @{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- You have 1 email in your inbox. The latest email was {emailListDetails}.
+- You have 1 email in your inbox. The latest email was @{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- You have {totalCount} emails in your inbox. The first email was {emailListDetails}.
+- You have @{totalCount} emails in your inbox. The first email was @{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- You have 1 email in your inbox. The first email was {emailListDetails}.
+- You have 1 email in your inbox. The first email was @{emailListDetails}.
 
 # FirstPageAlready.Text
 - This is already the first page. 
@@ -108,7 +108,7 @@
 - Sure, I'm here if you need me.
 
 # SentSuccessfully.Text(subject)
-- I have sent the email with subject {subject}.
+- I have sent the email with subject @{subject}.
 
 # RetryInput.Text
 - Sorry, I don't understand what you mean. Could you please try again?

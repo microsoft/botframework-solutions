@@ -2,13 +2,13 @@
 - ¿Está seguro de que desea eliminar esto de su calendario?
 
 # ConfirmDeleteFailed.Text(Title, Time)
-- ¿Está seguro de que desea cancelar su {Time} "{Title}"reunión? Puedes decir "sí" o "no"
+- ¿Está seguro de que desea cancelar su @{Time} "@{Title}"reunión? Puedes decir "sí" o "no"
 
 # ConfirmAccept.Text
 - ¿Está seguro de que desea aceptar el siguiente evento?
 
 # ConfirmAcceptFailed.Text(Title, Time)
-- ¿Está seguro de que desea aceptar su {Time} "{Title}"reunión? Puedes decir "sí" o "no"
+- ¿Está seguro de que desea aceptar su @{Time} "@{Title}"reunión? Puedes decir "sí" o "no"
 
 # EventDeleted.Text
 - He eliminado el evento.

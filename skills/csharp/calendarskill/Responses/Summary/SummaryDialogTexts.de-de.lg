@@ -2,7 +2,7 @@
 - Sie haben keine Ereignisse.
 
 # ReadOutMessage.Text(Date, Time, Participants, Subject)
-- Die Veranstaltung am {Date} Ist {Time} Mit {Participants} Titel {Subject}.
+- Die Veranstaltung am @{Date} Ist @{Time} Mit @{Participants} Titel @{Subject}.
 
 # CalendarNoMoreEvent.Text
 - Keine Veranstaltungen mehr!
@@ -11,67 +11,67 @@
 - Dies ist bereits die erste Seite!
 
 # BeforeShowEventDetails.Text(EventName)
-- Hier sind die Details Ihrer Veranstaltung {EventName}:
+- Hier sind die Details Ihrer Veranstaltung @{EventName}:
 
 # ReadTime.Text(EventStartTime, EventEndTime)
-- Es beginnt bei {EventStartTime}und endet bei {EventEndTime}.
+- Es beginnt bei @{EventStartTime}und endet bei @{EventEndTime}.
 
 # ReadDuration.Text(EventDuration)
-- Es dauert für {EventDuration}.
+- Es dauert für @{EventDuration}.
 
 # ReadNoLocation.Text
 - Es gibt keinen Standort, möglicherweise online?
 
 # ReadLocation.Text(EventLocation)
-- Sie fand in der {EventLocation}.
+- Sie fand in der @{EventLocation}.
 
 # ReadStartDate.Text(EventStartDate)
-- Es beginnt am {EventStartDate}.
+- Es beginnt am @{EventStartDate}.
 
 # ShowNextMeetingNoLocationMessage.Text
 - Sie haben das folgende Ereignis in Ihrem Kalender:
 
 # ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
-- Sie haben das folgende Ereignis in Ihrem Kalender: {EventName} Auf {EventTime} Mit {PeopleCount} Menschen.
+- Sie haben das folgende Ereignis in Ihrem Kalender: @{EventName} Auf @{EventTime} Mit @{PeopleCount} Menschen.
 
 # ShowNextMeetingMessage.Text
 - Sie haben das folgende Ereignis in Ihrem Kalender:
 
 # ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
-- Sie haben das folgende Ereignis in Ihrem Kalender: {EventName} Auf {EventTime} Mit {PeopleCount} Menschen bei {Location}.
+- Sie haben das folgende Ereignis in Ihrem Kalender: @{EventName} Auf @{EventTime} Mit @{PeopleCount} Menschen bei @{Location}.
 
 # ShowMultipleNextMeetingMessage.Text
 - Sie haben das folgende Ereignis in Ihrem Kalender:
 
 # AskForShowOverview.Text(DateTime)
-- Möchten Sie Ihre Kalenderübersicht noch einmal sehen {DateTime}?
+- Möchten Sie Ihre Kalenderübersicht noch einmal sehen @{DateTime}?
 
 # ReadOutMorePrompt.Text
 - Möchten Sie den Inhalt des ersten Ereignisses hören? Ich kann jede Veranstaltung für Sie vorlesen, lassen Sie es mich einfach wissen, indem Sie das Thema, die Zeit oder die Teilnehmer zur Verfügung stellen.
 
 # AskForOrgnizerAction.Text(DateTime)
-- Möchten Sie Ihre Kalenderübersicht für {DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu aktualisieren oder abzulehnen.
+- Möchten Sie Ihre Kalenderübersicht für @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu aktualisieren oder abzulehnen.
 
 # AskForAction.Text(DateTime)
-- Möchten Sie wieder zur Kalenderübersicht zurückkehren, {DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie abzulehnen.
+- Möchten Sie wieder zur Kalenderübersicht zurückkehren, @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie abzulehnen.
 
 # AskForChangeStatus.Text(DateTime)
-- Möchten Sie wieder zur Kalenderübersicht zurückkehren, {DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu akzeptieren oder abzulehnen.
+- Möchten Sie wieder zur Kalenderübersicht zurückkehren, @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu akzeptieren oder abzulehnen.
 
 # ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
-- Das erste Ereignis auf dieser Seite ist mit {Participants1} {EventTime1} Titel {EventName1}.
+- Das erste Ereignis auf dieser Seite ist mit @{Participants1} @{EventTime1} Titel @{EventName1}.
 
 # ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
-- Es sieht so aus, als ob Sie {Count} Veranstaltungen geplant {Condition}, ist die erste Veranstaltung mit {Participants1} {EventTime1} Titel {EventName1}. Das letzte Ereignis der {DateTime} Ist {EventTime2} Mit {Participants2} Titel {EventName2}.
+- Es sieht so aus, als ob Sie @{Count} Veranstaltungen geplant @{Condition}, ist die erste Veranstaltung mit @{Participants1} @{EventTime1} Titel @{EventName1}. Das letzte Ereignis der @{DateTime} Ist @{EventTime2} Mit @{Participants2} Titel @{EventName2}.
 
 # ShowMeetingSummaryShortMessage.Text(Count, Condition)
-- Sie haben {Count} Veranstaltungen geplant {Condition}.
+- Sie haben @{Count} Veranstaltungen geplant @{Condition}.
 
 # ShowMultipleFilteredMeetings.Text(Count)
-- Ich fand {Count} Ereignisse mit Ihrem Keyword.
+- Ich fand @{Count} Ereignisse mit Ihrem Keyword.
 
 # ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
-- Sie haben 1 Besprechung {Condition}: {EventName1}. Es ist mit {Participants1} {EventTime1}.
+- Sie haben 1 Besprechung @{Condition}: @{EventName1}. Es ist mit @{Participants1} @{EventTime1}.
 
 # ShowOneMeetingSummaryShortMessage.Text(Condition)
-- Sie haben 1 Besprechung {Condition}.
+- Sie haben 1 Besprechung @{Condition}.

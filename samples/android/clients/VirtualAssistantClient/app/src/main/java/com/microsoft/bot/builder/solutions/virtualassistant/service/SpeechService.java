@@ -40,6 +40,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.SfxManager;
+import com.microsoft.bot.builder.solutions.virtualassistant.models.OpenDefaultApp;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.PlayStoreUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotResponse;
@@ -515,8 +516,9 @@ public class SpeechService extends Service {
             intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
         }
         if (intentStr != null) {
-            if (intentStr.startsWith("geo")) {
-                final String gpscoords = intentStr.replace("geo:", "");
+            OpenDefaultApp event = gson.fromJson(intentStr, new TypeToken<OpenDefaultApp>(){}.getType());
+            if (event.mapsUri != null && !event.mapsUri.isEmpty()) {
+                final String gpscoords = event.mapsUri.replace("geo:", "");
 
                 try {
                     // Launch Waze
@@ -540,18 +542,28 @@ public class SpeechService extends Service {
                 }
 
             }
-            if (intentStr.startsWith("tel")) {
-                Uri intentUri = Uri.parse(intentStr);
+
+            if (event.meetingUri != null && !event.meetingUri.isEmpty()) {
+                Uri intentUri = Uri.parse(event.meetingUri);
+                Intent meetingUrlIntent = new Intent(Intent.ACTION_VIEW);
+                meetingUrlIntent.setData(intentUri);
+                if (meetingUrlIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(meetingUrlIntent);
+                }
+            }
+            else if (event.telephoneUri != null && !event.telephoneUri.isEmpty()) {
+                Uri intentUri = Uri.parse(event.telephoneUri);
                 Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
                 dialerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (dialerIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(dialerIntent);
                 }
             }
-            if (intentStr.startsWith("spotify:")) {
+
+            if (event.musicUri != null && !event.musicUri.isEmpty()) {
                 try {
                     // please note that ":play" makes Spotify automatically start playing
-                    Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentStr + ":play"));
+                    Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.musicUri + ":play"));
                     spotifyIntent.setPackage("com.spotify.music");
                     spotifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(spotifyIntent);

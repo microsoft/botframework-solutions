@@ -45,7 +45,7 @@
 - You can try Recipients, Subject, or Body. Or say cancel.
 
 # PlayBackMessage.Text(emailContent)
-- Okay, here's what I've got. Do you want to include it in the email? \n {emailContent}
+- Okay, here's what I've got. Do you want to include it in the email? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Okay, here's what I've got. Do you want to include it in the email? {emailContent}
+- Okay, here's what I've got. Do you want to include it in the email? @{emailContent}
