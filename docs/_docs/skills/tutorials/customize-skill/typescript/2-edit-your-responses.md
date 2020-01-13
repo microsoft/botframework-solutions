@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Customize
-language: TypeScript
+language: typescript
 title: Edit responses
 order: 2
 ---

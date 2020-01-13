@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Create
-language: C#
+language: csharp
 title: Provision your Azure resources
 order: 4
 ---
@@ -41,6 +41,7 @@ To deploy your Assistant using the Azure Resource Manager (ARM) template provide
     location | The region for your Azure resource group. By default, this will be the location for all your Azure Resources. | **Yes**
     appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     luisAuthoringKey | The authoring key for your LUIS account. | **Yes**
+    luisAuthoringRegion | The authoring region for your LUIS account. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information. | **Yes**
 
 You can find more detailed deployment steps including customization instructions in the [Deployment Scripts reference]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/). 
 

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Customize
-language: TypeScript
+language: typescript
 title: Edit your greeting
 order: 2
 ---
