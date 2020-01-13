@@ -1,9 +1,10 @@
 ---
 category: Overview
 subcategory: What's New
-title: Beta Release 0.8
+language: 0_8_release
+title: Template updates
 description: Summarizes key updates made to the Virtual Assistant enabling you to easily update parts of your existing Assistant
-order: 1
+order: 2
 toc: true
 ---
 

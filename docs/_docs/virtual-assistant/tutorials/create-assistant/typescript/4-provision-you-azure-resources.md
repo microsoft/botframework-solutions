@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Create
-language: TypeScript
+language: typescript
 title: Provision your Azure resources
 order: 4
 ---

@@ -1,0 +1,8 @@
+{
+    "csharp": "C#",
+    "typescript": "TypeScript",
+    "cli": "Using CLI Tools",
+    "web": "Using the web",
+    "0_7_release": "Beta Release 0.7",
+    "0_8_release": "Beta Release 0.8"
+}
