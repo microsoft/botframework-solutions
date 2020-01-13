@@ -1,6 +1,7 @@
 ---
 category: Overview
 subcategory: What's New
+language: 0_7_release
 title: Beta Release 0.7
 date: 2019-11-26
 order: 1

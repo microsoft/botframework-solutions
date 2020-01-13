@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot
-language: TypeScript
+language: typescript
 title: Skill dialog registration
 order: 4
 ---

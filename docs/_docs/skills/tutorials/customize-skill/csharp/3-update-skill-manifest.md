@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Customize
-language: C#
+language: csharp
 title: Update your skill manifest
 order: 3
 ---

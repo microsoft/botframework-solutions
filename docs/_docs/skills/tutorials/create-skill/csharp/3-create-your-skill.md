@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Create your skill project
 order: 3
 ---
