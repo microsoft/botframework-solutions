@@ -4,10 +4,6 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>d8c5f2ea-e759-4038-8a4b-17e0f81e8a46</UserSecretsId>
     <NoWarn>NU1701</NoWarn>
-    <RestoreAdditionalProjectSources>
-      https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
-      https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
