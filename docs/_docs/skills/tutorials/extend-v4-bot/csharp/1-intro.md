@@ -3,7 +3,7 @@ layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot
 title: Intro
-language: C#
+language: csharp
 order: 1
 ---
 

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Create
-language: TypeScript
+language: typescript
 title: Run your assistant
 order: 5
 ---
