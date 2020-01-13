@@ -1,0 +1,30 @@
+# AddMoreContacts.Text
+- 您要添加谁？
+
+# BeforeSendingMessage.Text(nameList)
+- 好吧，我知道你想发邮件给@{nameList}.
+
+# PromptOneNameOneAddress.Text(userName, emailAddress)
+- 好吧，我将添加@{userName}:@{emailAddress}。请问@{userName}是您要找的吗？
+
+# UserNotFound.Text(userName)
+- 我找不到您正在寻找的"@{userName}"。你能再次说出联系人的姓名吗？请尽量具体。
+
+# UserNotFoundAgain.Text(userName, source)
+- 不幸的是，我找不到你想选择的"@{userName}" 。下次如果你将联系人添加到联系人簿中，它可能会提供帮助。@{source}.
+
+# AlreadyFirstPage.Text
+- 这已经是第一页了。
+
+# AlreadyLastPage.Text
+- 这已经是最后一页了。
+
+# AddMoreContactsPrompt.Text(nameList)
+- 我已经包括@{nameList}，是否要添加另一个？
+
+# ConfirmMultiplContactEmailSinglePage.Text(userName)
+- 我找到多个联系人详细信息@{userName}.你想要哪一个？
+
+# ConfirmMultiplContactEmailMultiPage.Text(userName)
+- 我找到多个联系人详细信息@{userName}.你想要哪一个？您也可以让我向您展示以前的或更多的选项。
+

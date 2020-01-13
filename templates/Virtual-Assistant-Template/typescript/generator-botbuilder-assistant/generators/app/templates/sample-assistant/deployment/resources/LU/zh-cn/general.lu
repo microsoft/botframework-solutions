@@ -87,6 +87,21 @@
 - 是的
 
 
+## ExtractName
+- 叫我史蒂夫！
+- 我是安娜
+- 我是约翰·杰克逊！
+- 我是莉莉
+- 请叫我杰克逊。
+- 可以叫我爱丽丝·安德森！
+- 我的名字是比尔·琼斯
+- 我是约翰·史密斯。
+- ([您可以]|[请]) 给我打电话{@PersonName.Any}[.]
+- (我|我是)  {@PersonName.Any}[.]
+- (它|是的|这是)  {@PersonName.Any}[.]
+- 我的名字是{@PersonName.Any}[.]
+
+
 ## Escalate
 - 我能和一个人交谈吗？
 - 联系支持
@@ -514,6 +529,7 @@ $PREBUILT:number
 
 $PREBUILT:ordinal
 
+$PREBUILT:personName
 
 > # Phrase list definitions
 

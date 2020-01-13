@@ -6,10 +6,8 @@
 import { CommonUtil } from './commonUtil';
 
 export class ConfigData {
-    // tslint:disable:variable-name
     private _maxReadSize: number = CommonUtil.maxReadSize;
     private _maxDisplaySize: number = CommonUtil.maxDisplaySize;
-    // tslint:enable:variable-name
 
     public static instance: ConfigData = new ConfigData();
 

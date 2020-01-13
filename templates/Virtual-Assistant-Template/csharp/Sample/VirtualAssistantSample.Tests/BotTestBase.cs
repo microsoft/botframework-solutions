@@ -40,6 +40,7 @@ namespace VirtualAssistantSample.Tests
             Services.AddSingleton(new BotSettings());
             Services.AddSingleton(new BotServices()
             {
+                // Non US languages are empty as Dispatch/LUIS not required for localization tests.
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
@@ -51,6 +52,21 @@ namespace VirtualAssistantSample.Tests
                                 { "General", GeneralTestUtil.CreateRecognizer() }
                             },
                         }
+                    },
+                    {
+                        "zh-cn", new CognitiveModelSet { }
+                    },
+                    {
+                        "fr-fr", new CognitiveModelSet { }
+                    },
+                    {
+                        "es-es", new CognitiveModelSet { }
+                    },
+                    {
+                        "de-de", new CognitiveModelSet { }
+                    },
+                    {
+                        "it-it", new CognitiveModelSet { }
                     }
                 }
             });

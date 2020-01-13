@@ -44,14 +44,14 @@ if (Test-Path $zipPath) {
 	Remove-Item $zipPath -Force | Out-Null
 }
 
-if($?) 
+if($?)
 {
 	# Install dependencies locally
 	Invoke-Expression "npm install"
 
 	# Build the project
 	Invoke-Expression "npm run build"
-	
+
 	# Compress source code
 	Get-ChildItem -Path "$($projFolder)" -Exclude @("node_modules", "test", "deployment") | Compress-Archive -DestinationPath "$($zipPath)" -Force | Out-Null
 
@@ -73,4 +73,4 @@ if($?)
 else {
 	Write-Host "! Could not deploy automatically to Azure. Review the log for more information." -ForegroundColor DarkRed
 	Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
-}
+}     

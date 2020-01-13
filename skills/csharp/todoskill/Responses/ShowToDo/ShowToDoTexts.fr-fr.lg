@@ -1,0 +1,66 @@
+# AskAddOrCompleteTaskMessage.Text
+- Vous pouvez me faire savoir si vous voulez ajouter ou terminer une tâche.
+
+# ReadMoreTasksPrompt.Text
+- Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksConfirmFailed.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir les prochaines tâches?
+
+# ReadMoreTasksPrompt2.Text
+- Il y a plus d'articles sur votre liste. Voulez-vous en voir plus?
+
+# RetryReadMoreTasksPrompt2.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous en voir plus?
+
+# NoTasksMessage.Text(ListType)
+- Il semble que vous n'avez pas de tâches dans votre @{ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
+
+# TaskSummaryMessage.Text(TaskCount, ListType)
+- Vous avez @{TaskCount} articles sur votre @{ListType} liste.
+
+# RepeatFirstPagePrompt.Text(TaskCount, ListType)
+- Vous êtes déjà au début de votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# RepeatFirstPageConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
+- C'est la dernière tâche sur votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
+- Ce sont les dernières tâches de votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+
+# CardSummaryMessageForSingleTask.Text(ListType)
+- Vous avez 1 tâche sur votre @{ListType} liste: Voici le 1 plus récent, il est
+
+# CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
+- Vous avez @{AllTasksCount} tâches sur votre @{ListType} liste: Voici le @{count(ToDos)} plus récents, ils sont
+
+# LatestTask.Text
+- Votre dernière tâche est
+
+# LatestTasks.Text
+- Vos dernières tâches sont
+
+# NextTask.Text
+- La tâche suivante est
+
+# NextTasks.Text
+- Les tâches suivantes sont
+
+# PreviousTasks.Text
+- Vos tâches précédentes sont
+
+# PreviousFirstSingleTask.Text(taskCount)
+- Votre premier @{TaskCount} tâche est
+
+# PreviousFirstTasks.Text(taskCount)
+- Votre premier @{TaskCount} les tâches sont
+

@@ -5,4 +5,6 @@
 
 export namespace SkillEvents {
     export const cancelAllSkillDialogsEventName: string = 'skill/cancelallskilldialogs';
+    export const fallbackEventName: string = 'skill/fallbackrequest';
+    export const fallbackHandledEventName: string = 'skill/fallbackhandled';
 }

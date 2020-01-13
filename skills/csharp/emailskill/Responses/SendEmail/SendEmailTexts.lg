@@ -1,0 +1,51 @@
+# NoSubject.Text
+- What is the email subject?
+
+# RetryNoSubject.Text
+- Including a subject is often appreciated by contacts. Want to add a subject? Or you can input skip to bypass it.
+
+# NoMessageBody.Text
+- What would you like to say in the body of the email? Say skip if you want to keep it blank.
+
+# CheckContent.Text
+- Do you want to include this in the email?
+
+# CheckContent.Speak
+- You can try Participants, Subject, or Content. Or say cancel.
+
+# CheckContent.S1
+- Yes
+
+# CheckContent.S2
+- No
+
+# ConfirmMessageRetry.Text
+- Please confirm this message. You can input yes or no.
+- Please confirm this message.
+
+# ConfirmMessageRetry.Speak
+- Please confirm this message. You can say yes or no.
+
+# RetryContent.Text
+- Got it, this email will not be sent yet.
+
+# GetRecreateInfo.Text
+- Would you like to change the Recipients, Subject or the Body?
+
+# GetRecreateInfo.S1
+- Recipients
+
+# GetRecreateInfo.S2
+- Subject
+
+# GetRecreateInfo.S3
+- Body
+
+# GetRecreateInfoRetry.Text
+- You can try Recipients, Subject, or Body. Or say cancel.
+
+# PlayBackMessage.Text(emailContent)
+- Okay, here's what I've got. Do you want to include it in the email? \n @{emailContent}
+
+# PlayBackMessage.Speak(emailContent)
+- Okay, here's what I've got. Do you want to include it in the email? @{emailContent}

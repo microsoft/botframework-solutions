@@ -1,0 +1,16 @@
+[import](UpcomingEventDialogTexts.zh-cn.lg)
+
+# UpcomingEventMessage
+[Activity
+    Text = @{UpcomingEventMessage.Text(Minutes, Attendees, Title)}
+    Speak = @{UpcomingEventMessage.Text(Minutes, Attendees, Title)}
+    InputHint = acceptingInput
+]   
+
+# UpcomingEventMessageWithLocation
+[Activity
+    Text = @{UpcomingEventMessageWithLocation.Text(Minutes, Attendees, Location, Title)}
+    Speak = @{UpcomingEventMessageWithLocation.Text(Minutes, Attendees, Location, Title)}
+    InputHint = acceptingInput
+]
+

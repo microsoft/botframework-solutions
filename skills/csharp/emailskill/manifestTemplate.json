@@ -24,7 +24,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "Email#SendEmail"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "Email#SendEmail"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "Email#SendEmail"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "Email#SendEmail"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "Email#SendEmail"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "Email#SendEmail"
               ]
@@ -41,7 +71,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "Email#Forward"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "Email#Forward"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "Email#Forward"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "Email#Forward"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "Email#Forward"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "Email#Forward"
               ]
@@ -58,7 +118,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "Email#Reply"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "Email#Reply"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "Email#Reply"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "Email#Reply"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "Email#Reply"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "Email#Reply"
               ]
@@ -75,7 +165,52 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "Email#SearchMessages",
                 "Email#CheckMessages",
@@ -95,7 +230,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "Email#Delete"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "Email#Delete"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "Email#Delete"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "Email#Delete"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "Email#Delete"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "Email#Delete"
               ]

@@ -32,7 +32,7 @@ $src = GetSrc "templates" "Virtual-Assistant-Template" "csharp" "Sample" "Virtua
 $dsts = [System.Collections.ArrayList]@()
 AddPath $dsts "templates" "Virtual-Assistant-Template" "csharp" "Template" "VA"
 AddPath $dsts "samples" "csharp" "assistants" "enterprise-assistant" "VirtualAssistantSample"
-AddPath $dsts "samples" "csharp" "assistants" "hospitality-assistant"
+AddPath $dsts "samples" "csharp" "assistants" "hospitality-assistant" "VirtualAssistantSample"
 Synchronize $src $dsts
 
 # synchronize skills

@@ -609,7 +609,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> SetIdFromNumber(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
             var result = await management.SearchTicket(0, number: state.TicketNumber);
 
             if (!result.Success)
@@ -800,7 +800,7 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
 
             var countResult = await management.CountKnowledge(state.TicketTitle);
 

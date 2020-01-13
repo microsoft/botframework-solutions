@@ -30,7 +30,7 @@ export class EscalateResponses extends TemplateManager {
         ['default', new Map([
             [
                 EscalateResponses.responseIds.sendPhoneMessage,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (context: TurnContext, data: any): Promise<Activity> => EscalateResponses.buildEscalateCard(context, data)
             ]
         ]) as TemplateIdMap]
@@ -42,7 +42,7 @@ export class EscalateResponses extends TemplateManager {
         this.register(new DictionaryRenderer(EscalateResponses.responseTemplates));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public static async buildEscalateCard(turnContext: TurnContext, data: any): Promise<Activity> {
 
         const response: Activity = ActivityExtensions.createReply(turnContext.activity);

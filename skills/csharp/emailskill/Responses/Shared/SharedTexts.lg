@@ -1,0 +1,114 @@
+# Cancel.Text
+- Sure, we can do this later.
+- Sure, we can start this later.
+- No problem. You can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# NoAuth.Text
+- Please log in so I can take further action.
+- Please log in so I can proceed your request.
+- Can you log in so I can help you out further.
+- You need to log in so I can take further action.
+
+# NoFocusMessage.Text
+- Which email are you referring to?
+- Which email do you mean exactly?
+- Which email are you talking about?
+- Can you explain which email you are referring to?
+
+# NoRecipients.Text
+- Sure, who's the email going to?
+
+# EmailNotFound.Text
+- It seems you have no new emails. Just let me know if you want to set up a new email.
+- I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email.
+
+# EmailErrorMessage.Text
+- Sorry, it looks like something went wrong!
+- An error occurred. Give me some time and try again later.
+- Something went wrong. Sorry!
+- I believe something went wrong. Can you try again later?
+- Sorry I think I cannot find what you want right now. Try again later please.
+
+# EmailErrorMessageBotProblem.Text
+- Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.
+
+# EmailErrorMessageAccountProblem.Text
+- Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account.
+
+# ConfirmSendRecipients.Text(recipientsList)
+- Recipients are {recipientsList}.
+
+# ConfirmSendRecipientsMessage.Text
+- Do you want to go through the rest of the recipients?
+
+# ConfirmSendRecipientsFailed.Text
+- Please confirm if you want do go through the rest of the recipients.
+
+# ConfirmSendMessage.Text
+- Is this what you want to send?
+
+# ConfirmSend.Text
+- I'm ready to send the email.
+
+# ConfirmSend.Speak(emailSubject)
+- I'm ready to send the email. The Email detail is: {emailSubject}.
+
+# ConfirmSendFailed.Text
+- Please confirm before sending this email.
+- Please confirm this email.
+
+# NoEmailContent.Text
+- What do you want to say in your message?
+
+# NoEmailContentForReply.Text
+- What do you want to say in your reply?
+
+# NoEmailContentForForward.Text
+- What do you want to say in your forward?
+
+# RecipientConfirmed.Text(userName)
+- Alright, I will send this to @{userName}.
+
+# ShowEmailPrompt.Text(totalCount,emailListDetails)
+- You have @{totalCount} emails in your inbox. The latest email was @{emailListDetails}.
+
+# ShowOneEmailPrompt.Text(emailListDetails)
+- You have 1 email in your inbox. The latest email was @{emailListDetails}.
+
+# ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
+- You have @{totalCount} emails in your inbox. The first email was @{emailListDetails}.
+
+# ShowOneEmailPromptOtherPage.Text(emailListDetails)
+- You have 1 email in your inbox. The first email was @{emailListDetails}.
+
+# FirstPageAlready.Text
+- This is already the first page. 
+
+# LastPageAlready.Text
+- This is already the last page. 
+
+# DidntUnderstandMessage.Text
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way.
+- I didn't get what you mean, can you try in a different way.
+- Could you elaborate?
+- Say that again please in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again, I didn't get what you mean.
+
+# CancellingMessage.Text
+- Sure, we can do this later.
+- Sure, we can start this later.
+- No problem. You can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# SentSuccessfully.Text(subject)
+- I have sent the email with subject @{subject}.
+
+# RetryInput.Text
+- Sorry, I don't understand what you mean. Could you please try again?

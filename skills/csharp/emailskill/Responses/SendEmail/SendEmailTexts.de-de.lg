@@ -1,0 +1,52 @@
+# NoSubject.Text
+- Was ist der E-Mail-Betreff?
+
+# RetryNoSubject.Text
+- Die Einbeziehung eines Themas wird oft von Kontakten geschätzt. Möchten Sie ein Thema hinzufügen? Oder Sie können überspringen, um es zu umgehen.
+
+# NoMessageBody.Text
+- Was möchten Sie im Text der E-Mail sagen? Angenommen, überspringen, wenn Sie es leer halten möchten.
+
+# CheckContent.Text
+- Möchten Sie dies in die E-Mail aufnehmen?
+
+# CheckContent.Speak
+- Sie können Teilnehmer, Betreff oder Inhalt ausprobieren. Oder sagen Sie abbrechen.
+
+# CheckContent.S1
+- Ja
+
+# CheckContent.S2
+- Nein
+
+# ConfirmMessageRetry.Text
+- Bitte bestätigen Sie diese Meldung. Sie können ja oder nein eingeben.
+- Bitte bestätigen Sie diese Meldung.
+
+# ConfirmMessageRetry.Speak
+- Bitte bestätigen Sie diese Meldung. Sie können ja oder nein sagen.
+
+# RetryContent.Text
+- Diese E-Mail wird noch nicht gesendet.
+
+# GetRecreateInfo.Text
+- Möchten Sie die Empfänger, den Betreff oder den Körper ändern?
+
+# GetRecreateInfo.S1
+- Empfänger
+
+# GetRecreateInfo.S2
+- Betreff
+
+# GetRecreateInfo.S3
+- Körper
+
+# GetRecreateInfoRetry.Text
+- Sie können Empfänger, Betreff oder Körper ausprobieren. Oder sagen Sie abbrechen.
+
+# PlayBackMessage.Text(emailContent)
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? \n @{emailContent}
+
+# PlayBackMessage.Speak(emailContent)
+- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? @{emailContent}
+

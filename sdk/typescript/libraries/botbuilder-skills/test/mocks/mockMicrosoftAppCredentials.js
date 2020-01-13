@@ -8,7 +8,11 @@ const { MicrosoftAppCredentials } = require("botframework-connector");
 class MockMicrosoftAppCredentials extends MicrosoftAppCredentials {
 
     async getToken(forceRefresh = false) {
-        return "mockToken";
+        return "";
+    }
+
+    async processHttpRequest(request){
+        return Promise.resolve();
     }
 }
 

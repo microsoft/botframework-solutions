@@ -9,7 +9,7 @@
             "query": "Help",
             "topScoringIntent": {
                 "intent": "Help",
-                "score": 0.9879357
+                "score": 0.989420533
             },
             "entities": []
         },
@@ -19,13 +19,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "120",
+            "122",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "8b2adef6-ad47-4ab7-bb0a-1e177bcd0d4b",
+            "776ccac8-ac9b-4d78-ae02-4e587d99e4d6",
             "Request-Id",
-            "8b2adef6-ad47-4ab7-bb0a-1e177bcd0d4b",
+            "776ccac8-ac9b-4d78-ae02-4e587d99e4d6",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 16:15:42 GMT",
+            "Thu, 12 Dec 2019 22:08:26 GMT",
             "Connection",
             "close"
         ]

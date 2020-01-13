@@ -52,7 +52,7 @@ export class SkillHttpTransport implements ISkillTransport {
         // - We have to cast "request as any" to avoid a build break relating to different versions
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
-        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-any
         const signedRequest: WebResource = await this.appCredentials.signRequest(<any>request);
 
         const response: HttpOperationResponse = await this.httpClient.sendRequest(signedRequest);
@@ -72,7 +72,6 @@ export class SkillHttpTransport implements ISkillTransport {
             throw new Error(result);
         }
 
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const responseBody: Activity[] = JSON.parse(response.bodyAsText || '[]');
 
         // Retrieve Activity responses
@@ -83,7 +82,7 @@ export class SkillHttpTransport implements ISkillTransport {
         skillResponses.forEach(async (skillResponse: Activity): Promise<void> => {
             // Once a Skill has finished it signals that it's handing back control to the parent through a
             // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
-            if (skillResponse.type === ActivityTypes.EndOfConversation) {
+            if (skillResponse.type === ActivityTypes.Handoff) {
                 endOfConversation = true;
             } else if (skillResponse.name === TokenEvents.tokenRequestEventName) {
                 if (tokenRequestHandler) {

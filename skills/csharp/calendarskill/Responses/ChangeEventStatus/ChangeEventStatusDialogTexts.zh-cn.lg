@@ -1,0 +1,29 @@
+# ConfirmDelete.Text
+- 是否确实要从日历中删除此内容？
+
+# ConfirmDeleteFailed.Text(Title, Time)
+- 是否确实要取消@{Time}"@{Title}"会议？你可以说"是"或"否"
+
+# ConfirmAccept.Text
+- 是否确实要接受以下会议？
+
+# ConfirmAcceptFailed.Text(Title, Time)
+- 是否确实要接受@{Time}"@{Title}"会议？你可以说"是"或"否"
+
+# EventDeleted.Text
+- 已经删除会议。
+
+# EventAccepted.Text
+- 已经接受会议。
+
+# EventWithStartTimeNotFound.Text
+- 没有找到此主题或开始时间的会议，请重试。
+- 没找到您提到的会议，请重试。
+- 没找到和此主题或时间相关的会议，请重试。
+
+# NoDeleteStartTime.Text
+- 您想删除哪个会议？我可以根据会议主题或开始时间找到你的会议。
+
+# NoAcceptStartTime.Text
+- 您想接受哪个会议？我可以根据会议主题或开始时间找到你的会议。
+

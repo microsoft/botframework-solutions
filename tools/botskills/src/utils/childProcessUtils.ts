@@ -12,7 +12,6 @@ export class ChildProcessUtils {
     private async execDispatch(args: string[]): Promise<string> {
         const dispatchPath: string = join(__dirname, '..', '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
 
-        // tslint:disable-next-line: typedef
         return new Promise((pResolve, pReject): void => {
             childProcess.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
                 .on('close', (code: number): void => {
@@ -29,7 +28,6 @@ export class ChildProcessUtils {
             return this.execDispatch(args);
         }
 
-        // tslint:disable-next-line: typedef
         return new Promise((pResolve, pReject): void => {
             childProcess.exec(
                 `${command} ${args.join(' ')}`,
@@ -43,7 +41,6 @@ export class ChildProcessUtils {
     }
 
     public async tryExecute(command: string[]): Promise<string> {
-        // tslint:disable-next-line: typedef
         return new Promise((pResolve, pReject): void => {
             try {
                 childProcess.exec(

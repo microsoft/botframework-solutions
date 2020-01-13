@@ -123,7 +123,6 @@ export class MainDialog extends RouterDialog {
             }
         }
     }
-
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         const response: Activity = ActivityExtensions.createReply(dc.context.activity);
         response.type = ActivityTypes.Handoff;
@@ -164,7 +163,8 @@ export class MainDialog extends RouterDialog {
         let result: InterruptionAction = InterruptionAction.NoAction;
 
         if (dc.context.activity.type === ActivityTypes.Message) {
-            const localeConfig:  Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
+
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.getCognitiveModel();
 
             // check general luis intent
             if (localeConfig.luisServices !== undefined) {
@@ -240,7 +240,7 @@ export class MainDialog extends RouterDialog {
     protected async populateStateFromSemanticAction(context: TurnContext): Promise<void> {
         // Example of populating local state with data passed through semanticAction out of Activity
         // const activity: Activity = context.activity;
-        // const semanticAction: SemanticAction | undefined  = activity.semanticAction;
+        // const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
         // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
         // {

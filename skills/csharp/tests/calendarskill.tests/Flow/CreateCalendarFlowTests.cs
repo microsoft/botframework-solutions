@@ -810,20 +810,18 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfirmOneNameOneAddress(string address)
         {
-            var recipientDict = new StringDictionary()
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, new
             {
-                { "User", $"{address}" }
-            };
-            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+                User = address
+            });
         }
 
         private string[] ConfirmOneNameOneAddress(string name = Strings.Strings.DefaultUserName, string address = Strings.Strings.DefaultUserEmail)
         {
-            var recipientDict = new StringDictionary()
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, new
             {
-                { "User", $"{name} ({address})" }
-            };
-            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+                User = $"{name} ({address})"
+            });
         }
 
         private string[] AddMoreUserPromptWithMultipleUsers(int count)
@@ -846,41 +844,36 @@ namespace CalendarSkill.Test.Flow
                 resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
-            var responseParams = new StringDictionary()
+            return GetTemplates(FindContactResponses.AddMoreUserPrompt, new
             {
-                { "Users", resultString }
-            };
-            return ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
+                Users = resultString
+            });
         }
 
         private string[] AddMoreUserPrompt()
         {
-            return ParseReplies(FindContactResponses.AddMoreUserPrompt, new StringDictionary());
+            return GetTemplates(FindContactResponses.AddMoreUserPrompt);
         }
 
         private string[] AskForParticpantsPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
+            return GetTemplates(FindContactResponses.NoAttendees);
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", $"{Strings.Strings.DefaultUserEmail}" },
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = Strings.Strings.DefaultUserEmail
+            });
         }
 
         private string[] AskForSubjectWithContactNamePrompt(string userName = null, string userEmail = null)
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}" },
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = userName ?? Strings.Strings.DefaultUserName
+            });
         }
 
         private string[] AskForSubjectWithMultipleContactNamePrompt(int count)
@@ -903,72 +896,70 @@ namespace CalendarSkill.Test.Flow
                 resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", resultString }
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = resultString
+            });
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoTitleShort);
         }
 
         private string[] AskForContentPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoContent);
         }
 
         private string[] AskForDatePrompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartDate);
         }
 
         private string[] AskForDateReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartDateRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartDateRetry);
         }
 
         private string[] AskForStartTimePrompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartTime);
         }
 
         private string[] AskForStartTimeReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartTimeRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartTimeRetry);
         }
 
         private string[] AskForDurationPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoDuration);
         }
 
         private string[] AskForDurationReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoDurationRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoDurationRetry);
         }
 
         private string[] AskForLocationPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoLocation);
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            return ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
+            return GetTemplates(CreateEventResponses.GetRecreateInfo);
         }
 
         private string[] AskForRecreateInfoReprompt()
         {
-            return ParseReplies(CreateEventResponses.GetRecreateInfoRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.GetRecreateInfoRetry);
         }
 
         private string[] RetryTooManyResponse()
         {
-            return ParseReplies(CalendarSharedResponses.RetryTooManyResponse, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.RetryTooManyResponse);
         }
 
         private Action<IActivity> ShowCalendarList()
@@ -982,7 +973,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfirmPrompt()
         {
-            return ParseReplies(CreateEventResponses.ConfirmCreatePrompt, new StringDictionary());
+            return GetTemplates(CreateEventResponses.ConfirmCreatePrompt);
         }
 
         private Action<IActivity> CheckCreatedMeetingInFuture()
@@ -999,7 +990,7 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage);
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultipleContactNameSinglePage);
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -1012,8 +1003,8 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                var confirmedMessage = new List<string>(ParseReplies(FindContactResponses.ConfirmMultiplContactEmailSinglePage));
+                var confirmedMessage = new List<string>(
+                   GetTemplates(FindContactResponses.ConfirmMultipleContactEmailSinglePage));
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(confirmedMessage.Contains(messageLines[0]));
@@ -1031,17 +1022,17 @@ namespace CalendarSkill.Test.Flow
 
         private string[] BotErrorResponse()
         {
-            return ParseReplies(CalendarSharedResponses.CalendarErrorMessageAccountProblem, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.CalendarErrorMessageAccountProblem);
         }
 
         private string[] AskForAddMoreAttendeesPrompt()
         {
-            return ParseReplies(FindContactResponses.AddMoreAttendees, new StringDictionary());
+            return GetTemplates(FindContactResponses.AddMoreAttendees);
         }
 
         private string[] AskForShowRestParticipantsPrompt()
         {
-            return ParseReplies(CreateEventResponses.ShowRestParticipantsPrompt, new StringDictionary());
+            return GetTemplates(CreateEventResponses.ShowRestParticipantsPrompt);
         }
 
         private string RestParticipantsResponse(int count)
@@ -1069,38 +1060,48 @@ namespace CalendarSkill.Test.Flow
 
         private string[] UserNotFoundPrompt(string userName)
         {
-            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.UserNotFound, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] UserNotFoundAgainPrompt(string userName)
         {
-            return ParseReplies(
-                FindContactResponses.UserNotFoundAgain,
-                new StringDictionary()
-                {
-                    { "source", "Outlook" },
-                    { "UserName", userName }
-                });
+            return GetTemplates(FindContactResponses.UserNotFoundAgain, new
+            {
+                source = "Outlook",
+                UserName = userName
+            });
         }
 
         private string[] FoundMultiContactResponse(string userName)
         {
-            return ParseReplies(FindContactResponses.FindMultipleContactNames, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.FindMultipleContactNames, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] FoundMultiEmailResponse(string userName)
         {
-            return ParseReplies(FindContactResponses.FindMultipleEmails, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.FindMultipleEmails, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] EmailChoiceConfirmationResponse(string email)
         {
-            return ParseReplies(FindContactResponses.EmailChoiceConfirmation, new StringDictionary() { { "Email", email } });
+            return GetTemplates(FindContactResponses.EmailChoiceConfirmation, new
+            {
+                Email = email
+            });
         }
 
         private string[] AskForEmailPrompt()
         {
-            return ParseReplies(FindContactResponses.AskForEmail);
+            return GetTemplates(FindContactResponses.AskForEmail);
         }
     }
 }

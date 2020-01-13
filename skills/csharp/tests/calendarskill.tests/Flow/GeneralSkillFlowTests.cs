@@ -49,7 +49,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfusedResponse()
         {
-            return this.ParseReplies(CalendarSharedResponses.DidntUnderstandMessage, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.DidntUnderstandMessage);
         }
     }
 }

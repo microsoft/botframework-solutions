@@ -17,14 +17,11 @@ namespace ToDoSkill.Models
             PageSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
-            MsGraphToken = null;
             ShowTaskPageIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
             ListTypeIds = new Dictionary<string, string>();
-            LuisResult = null;
-            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             LastListType = null;
@@ -69,14 +66,6 @@ namespace ToDoSkill.Models
         public List<int> TaskIndexes { get; set; }
 
         /// <summary>
-        /// Gets or sets MsGraphToken.
-        /// </summary>
-        /// <value>
-        /// MsGraphToken.
-        /// </value>
-        public string MsGraphToken { get; set; }
-
-        /// <summary>
         /// Gets or sets ShowTaskPageIndex.
         /// </summary>
         /// <value>
@@ -115,22 +104,6 @@ namespace ToDoSkill.Models
         /// OneNotePageId.
         /// </value>
         public Dictionary<string, string> ListTypeIds { get; set; }
-
-        /// <summary>
-        /// Gets or sets LuisResult.
-        /// </summary>
-        /// <value>
-        /// LuisResult.
-        /// </value>
-        public ToDoLuis LuisResult { get; set; }
-
-        /// <summary>
-        /// Gets or sets GeneralLuisResult.
-        /// </summary>
-        /// <value>
-        /// LuisResult.
-        /// </value>
-        public General GeneralLuisResult { get; set; }
 
         /// <summary>
         /// Gets or sets ConversationDialogState.
@@ -276,14 +249,11 @@ namespace ToDoSkill.Models
             PageSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
-            MsGraphToken = null;
             ShowTaskPageIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
             ListTypeIds = new Dictionary<string, string>();
-            LuisResult = null;
-            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             LastListType = null;

@@ -1,0 +1,30 @@
+# AskDeletionAllConfirmation.Text(ListType)
+- ¿Está seguro de que desea eliminar todas las tareas de su @{ListType} ¿Lista?
+
+# AskDeletionAllConfirmationFailed.Text(ListType)
+- Lo siento, no entendí lo que querías decir. ¿Está seguro de que desea eliminar todas las tareas de su @{ListType} ¿Lista?
+
+# AfterAllTasksDeleted.Text(ListType)
+- He despejado su @{ListType} Lista.
+
+# AfterTaskDeleted.Text(TaskContent, ListType)
+- He borrado @{TaskContent} de su @{ListType} Lista.
+
+# DeletionAllConfirmationRefused.Text(TaskCount, ListType)
+- Vale, no borré todas tus tareas. Todavía tienes @{TaskCount} tareas en su(s) @{ListType} lista de hoy.
+
+# ListTypePromptForDelete.Text
+- Puede ser específico de la lista que desea eliminar una tarea. ¿Es su lista de tareas pendientes, lista de compras o lista de comestibles?
+
+# AskTaskIndexForDelete.Text
+- ¿Qué tarea desea eliminar? También es posible eliminar todas sus tareas nombrando eliminar todo.
+
+# AskTaskIndexRetryForDelete.Text
+- Lo siento, no pude encontrar esta tarea. Por favor, inténtelo de nuevo. ¿Qué tarea desea eliminar?
+
+# DeleteAnotherTaskPrompt.Text
+- ¿Desea eliminar otra tarea?
+
+# DeleteAnotherTaskConfirmFailed.Text
+- Lo siento, no entendí lo que querías decir. ¿Desea eliminar otra tarea?
+

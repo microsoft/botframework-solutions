@@ -1,0 +1,27 @@
+# AfterAllTasksCompleted.Text(ListType)
+- J'ai marqué toutes vos tâches comme terminées sur votre @{ListType} Liste.
+
+# AfterTaskCompleted.Text(TaskContent, ListType)
+- OK, j'ai marqué '@{TaskContent}'sur votre @{ListType} liste comme complète.
+
+# ListTypePromptForComplete.Text
+- Pouvez-vous être précis à partir de quelle liste vous souhaitez terminer une tâche. Est-ce votre liste à faire, liste d'achats ou de l'épicerie?
+
+# AskTaskIndexForComplete.Text
+- Quelle tâche voulez-vous accomplir? Il est également possible d'accomplir toutes vos tâches en disant tout complet.
+
+# AskTaskIndexRetryForComplete.Text
+- Désolé, je n'ai pas pu trouver cette tâche. S'll vous plaît, réessayez. Quelle tâche voulez-vous accomplir?
+
+# CompleteAnotherTaskPrompt.Text
+- Voulez-vous accomplir une autre tâche?
+
+# CompleteAnotherTaskConfirmFailed.Text
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous accomplir une autre tâche?
+
+# AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
+- Vous avez maintenant 1 article sur votre @{ListType} Liste.
+
+# AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
+- Vous avez maintenant @{AllTasksCount} articles sur votre @{ListType} Liste.
+

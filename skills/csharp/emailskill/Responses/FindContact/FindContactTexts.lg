@@ -1,0 +1,29 @@
+# AddMoreContacts.Text
+- Who do you want to add?
+
+# BeforeSendingMessage.Text(nameList)
+- Okay, I understand you want to send the email to @{nameList}.
+
+# PromptOneNameOneAddress.Text(userName, emailAddress)
+- Okay, I will add @{userName}: @{emailAddress}. Is @{userName} the one you were looking for?
+
+# UserNotFound.Text(userName)
+- I could not find the "@{userName}" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.
+
+# UserNotFoundAgain.Text(userName, source)
+- Unfortunately, I could not find the "@{userName}" you want to select. For next time, it could help if you add the contact to your contact book in @{source}.
+
+# AlreadyFirstPage.Text
+- This is already the first page.
+
+# AlreadyLastPage.Text
+- This is already the last page.
+
+# AddMoreContactsPrompt.Text(nameList)
+- I have included @{nameList}, do you want to add another?
+
+# ConfirmMultiplContactEmailSinglePage.Text(userName)
+- I found multiple contact details for @{userName}. Which one would you like?
+
+# ConfirmMultiplContactEmailMultiPage.Text(userName)
+- I found multiple contact details for @{userName}. Which one would you like? You can also ask me to show you the previous or more options.

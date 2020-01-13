@@ -3,20 +3,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -34,7 +34,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
-        private QnADialog _qnaDialog;
+        private SwitchSkillDialog _switchSkillDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillContext> _skillContext;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -52,10 +52,7 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
             TelemetryClient = telemetryClient;
-            _appCredentials = appCredentials;
-            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             // Create user state properties
             var userState = serviceProvider.GetService<UserState>();
@@ -66,12 +63,32 @@ namespace VirtualAssistantSample.Dialogs
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
 
+            // SAMPLE: Create proactive state properties
+            _appCredentials = appCredentials;
+            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
+
             // Register dialogs
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
+            AddDialog(_switchSkillDialog);
 
-            _qnaDialog = serviceProvider.GetService<QnADialog>();
-            AddDialog(_qnaDialog);
+            // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
+            var localizedServices = _services.GetCognitiveModels();
+            foreach (var knowledgebase in localizedServices.QnAConfiguration)
+            {
+                var qnaDialog = new QnAMakerDialog(
+                    knowledgeBaseId: knowledgebase.Value.KnowledgeBaseId,
+                    endpointKey: knowledgebase.Value.EndpointKey,
+                    hostName: knowledgebase.Value.Host,
+                    noAnswer: _templateEngine.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateEngine.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateEngine.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebase.Key
+                };
+                AddDialog(qnaDialog);
+            }
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -87,8 +104,7 @@ namespace VirtualAssistantSample.Dialogs
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Get cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition and store result in turn state.
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
@@ -112,16 +128,32 @@ namespace VirtualAssistantSample.Dialogs
         {
             var activity = dc.Context.Activity;
             var userProfile = await _userProfileState.GetAsync(dc.Context, () => new UserProfileState());
+            var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Check if the active dialog is a skill for conditional interruption.
-                var dialog = dc.ActiveDialog?.Id != null ? dc.FindDialog(dc.ActiveDialog?.Id) : null;
                 var isSkill = dialog is SkillDialog;
 
                 // Get Dispatch LUIS result from turn state.
                 var dispatchResult = dc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
-                var dispatchIntent = dispatchResult.TopIntent().intent;
+                (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
+
+                // Check if we need to switch skills.
+                if (isSkill)
+                {
+                    if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
+                    {
+                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
+
+                        if (identifiedSkill != null)
+                        {
+                            var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                            await dc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
+                            return InterruptionAction.Waiting;
+                        }
+                    }
+                }
 
                 if (dispatchIntent == DispatchLuis.Intent.l_General)
                 {
@@ -254,8 +286,7 @@ namespace VirtualAssistantSample.Dialogs
             if (!string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localizedServices = _services.CognitiveModelSets[locale];
+                CognitiveModelSet localizedServices = _services.GetCognitiveModels();
 
                 // Get dispatch result from turn state.
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
@@ -271,15 +302,19 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Faq"]);
+                    await innerDc.BeginDialogAsync("Faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
-                    await CallQnAMaker(innerDc, localizedServices.QnAServices["Chitchat"]);
+                    innerDc.SuppressCompletionMessage(true);
+
+                    await innerDc.BeginDialogAsync("Chitchat");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_HRBenefits)
                 {
-                    await CallMultiturnQnAMaker(innerDc);
+                    innerDc.SuppressCompletionMessage(true);
+
+                    await innerDc.BeginDialogAsync("HRBenefits");
                 }
                 else
                 {
@@ -403,28 +438,6 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
-        private async Task CallQnAMaker(DialogContext innerDc, QnAMaker qnaMaker)
-        {
-            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
-
-            var answers = await qnaMaker.GetAnswersAsync(innerDc.Context);
-
-            if (answers != null && answers.Count() > 0)
-            {
-                await innerDc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
-            }
-            else
-            {
-                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
-            }
-        }
-
-        private async Task CallMultiturnQnAMaker(DialogContext innerDc)
-        {
-            // Start QnA dialog.
-            await innerDc.BeginDialogAsync(nameof(QnADialog));
-        }
-
         private async Task<ResourceResponse[]> StoreOutgoingActivities(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
         {
             var messageActivities = activities
@@ -498,7 +511,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string DispatchResult = "dispatchResult";
             public const string GeneralResult = "generalResult";
-            public const string PreviousBotResponse = "previousBotReponse";
+            public const string PreviousBotResponse = "previousBotResponse";
             public const string Location = "location";
             public const string TimeZone = "timezone";
         }

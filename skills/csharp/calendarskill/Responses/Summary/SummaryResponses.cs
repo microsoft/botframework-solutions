@@ -37,5 +37,7 @@ namespace CalendarSkill.Responses.Summary
         public const string AskForAction = "AskForAction";
         public const string AskForOrgnizerAction = "AskForOrgnizerAction";
         public const string AskForShowOverview = "AskForShowOverview";
+        public const string MeetingListCard = "MeetingListCard";
+        public const string MeetingDetailCard = "MeetingDetailCard";
     }
 }

@@ -50,7 +50,7 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePromptForDelete, new StringDictionary());
+            return GetTemplates(DeleteToDoResponses.ListTypePromptForDelete);
         }
 
         private Action<IActivity> CollectConfirmation()
@@ -59,8 +59,10 @@ namespace ToDoSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                   messageActivity.Text);
+                 this.AskDeletionAllConfirmation(new
+                 {
+                     ListType = MockData.ToDo
+                 }), messageActivity.Speak);
             };
         }
 
@@ -72,8 +74,10 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  messageActivity.Speak);
+                    this.AfterAllTasksDeleted(new
+                    {
+                        ListType = MockData.ToDo
+                    }), messageActivity.Speak);
             };
         }
 
@@ -85,19 +89,37 @@ namespace ToDoSkill.Tests.Flow
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(DeleteToDoResponses.DeletionAllConfirmationRefused, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
-                  messageActivity.Speak);
+                  this.DeletionAllConfirmationRefused(new
+                  {
+                      TaskCount = MockData.MockTaskItems.Count.ToString(),
+                      ListType = MockData.ToDo
+                  }), messageActivity.Speak);
             };
+        }
+
+        private string[] AskDeletionAllConfirmation(object data)
+        {
+            return GetTemplates(DeleteToDoResponses.AskDeletionAllConfirmation, data);
+        }
+
+        private string[] AfterAllTasksDeleted(object data)
+        {
+            return GetTemplates(DeleteToDoResponses.AfterAllTasksDeleted, data);
+        }
+
+        private string[] DeletionAllConfirmationRefused(object data)
+        {
+            return GetTemplates(DeleteToDoResponses.DeletionAllConfirmationRefused, data);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
     }
 }

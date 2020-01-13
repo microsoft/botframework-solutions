@@ -1,0 +1,52 @@
+# NoSubject.Text
+- Qual è l'oggetto dell'e-mail?
+
+# RetryNoSubject.Text
+- L'inclusione di un argomento è spesso apprezzata dai contatti. Vuoi aggiungere un argomento? In alternativa, è possibile inserire skip per ignorarlo.
+
+# NoMessageBody.Text
+- Cosa vorresti dire nel corpo dell'e-mail? Pronunciare salta se si desidera mantenerlo vuoto.
+
+# CheckContent.Text
+- Vuoi includerlo nell'e-mail?
+
+# CheckContent.Speak
+- Puoi provare partecipanti, oggetto o contenuti. O dire annullare.
+
+# CheckContent.S1
+- Sì
+
+# CheckContent.S2
+- No
+
+# ConfirmMessageRetry.Text
+- Confermare questo messaggio. È possibile inserire sì o no.
+- Confermare questo messaggio.
+
+# ConfirmMessageRetry.Speak
+- Confermare questo messaggio. Puoi dire di sì o di no.
+
+# RetryContent.Text
+- Hai capito, questa e-mail non sarà ancora inviata.
+
+# GetRecreateInfo.Text
+- Vuoi cambiare i Destinatari, l'Oggetto o il Corpo?
+
+# GetRecreateInfo.S1
+- Destinatari
+
+# GetRecreateInfo.S2
+- Oggetto
+
+# GetRecreateInfo.S3
+- Corpo
+
+# GetRecreateInfoRetry.Text
+- È possibile provare destinatari, oggetto o corpo. O dire annullare.
+
+# PlayBackMessage.Text(emailContent)
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? \n @{emailContent}
+
+# PlayBackMessage.Speak(emailContent)
+- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? @{emailContent}
+

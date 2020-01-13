@@ -1,0 +1,66 @@
+# AskAddOrCompleteTaskMessage.Text
+- Puedes hacerme saber si quieres agregar o completar una tarea.
+
+# ReadMoreTasksPrompt.Text
+- ¿Desea ver las siguientes tareas?
+
+# ReadMoreTasksConfirmFailed.Text
+- Lo siento, no entendí lo que querías decir. ¿Desea ver las siguientes tareas?
+
+# ReadMoreTasksPrompt2.Text
+- Hay más elementos en su lista. ¿Quieres ver más?
+
+# RetryReadMoreTasksPrompt2.Text
+- Lo siento, no entendí lo que querías decir. ¿Quieres ver más?
+
+# NoTasksMessage.Text(ListType)
+- Parece que no tiene tareas en su @{ListType} Lista. Avísame si quieres crear una nueva tarea.
+
+# TaskSummaryMessage.Text(TaskCount, ListType)
+- Usted tiene @{TaskCount} artículos en su @{ListType} Lista.
+
+# RepeatFirstPagePrompt.Text(TaskCount, ListType)
+- Usted ya está al comienzo de su @{ListType} Lista. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# RepeatFirstPageConfirmFailed.Text(TaskCount)
+- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
+- Esta es la última tarea en su @{ListType} Lista. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
+- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# GoBackToStartPromptForTasks.Text(TaskCount, ListType)
+- Estas son las últimas tareas en su @{ListType} Lista. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# GoBackToStartForTasksConfirmFailed.Text(TaskCount)
+- Lo siento, no entendí lo que querías decir. ¿Quieres ver tu primer @{TaskCount} tareas de nuevo?
+
+# CardSummaryMessageForSingleTask.Text(ListType)
+- Usted tiene 1 tarea en su @{ListType} lista: Aquí están los 1 más recientes, es
+
+# CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
+- Usted tiene @{AllTasksCount} tareas en su @{ListType} lista: Aquí están los @{count(ToDos)} más recientes, son
+
+# LatestTask.Text
+- Su última tarea es
+
+# LatestTasks.Text
+- Sus últimas tareas son
+
+# NextTask.Text
+- La siguiente tarea es
+
+# NextTasks.Text
+- Las siguientes tareas son
+
+# PreviousTasks.Text
+- Sus tareas anteriores son
+
+# PreviousFirstSingleTask.Text(taskCount)
+- Su primera @{TaskCount} tarea es
+
+# PreviousFirstTasks.Text(taskCount)
+- Su primera @{TaskCount} las tareas son
+

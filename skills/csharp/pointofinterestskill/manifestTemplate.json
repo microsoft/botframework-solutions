@@ -18,7 +18,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "PointOfInterest#GetDirections"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "PointOfInterest#GetDirections"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "PointOfInterest#GetDirections"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "PointOfInterest#GetDirections"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "PointOfInterest#GetDirections"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "PointOfInterest#GetDirections"
               ]
@@ -40,7 +70,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "PointOfInterest#FindPointOfInterest"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "PointOfInterest#FindPointOfInterest"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "PointOfInterest#FindPointOfInterest"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "PointOfInterest#FindPointOfInterest"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "PointOfInterest#FindPointOfInterest"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "PointOfInterest#FindPointOfInterest"
               ]
@@ -62,7 +122,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "PointOfInterest#FindParking"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "PointOfInterest#FindParking"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "PointOfInterest#FindParking"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "PointOfInterest#FindParking"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "PointOfInterest#FindParking"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "PointOfInterest#FindParking"
               ]

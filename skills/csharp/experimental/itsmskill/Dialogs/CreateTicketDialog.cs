@@ -91,7 +91,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
             var result = await management.CreateTicket(state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)

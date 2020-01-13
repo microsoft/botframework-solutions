@@ -175,7 +175,7 @@ describe("localization", function() {
           })
           .assertReply("[Enter your intro message here]");
 
-        return testNock.resolveWithMocks('localization_en-gb_response', done, flow);
+        return testNock.resolveWithMocks('localization_response_en-gb', done, flow);
     });
   });
 });

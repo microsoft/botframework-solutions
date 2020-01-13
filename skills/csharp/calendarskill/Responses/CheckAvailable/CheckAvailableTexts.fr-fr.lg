@@ -1,0 +1,33 @@
+# AskForCheckAvailableTime.Text
+- À quelle heure?
+
+# AskForCheckAvailableUserName.Text
+- Qui voulez-vous poser des questions?
+
+# NotAvailable.Text(UserName, Time, Date)
+- On dirait @{UserName} n'est pas disponible à @{Time} @{Date}.
+
+# AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)
+- On dirait @{UserName} est disponible à partir de @{StartTime} À @{EndTime} @{Date}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)
+- On dirait @{UserName} est disponible à partir de @{StartTime} À @{EndTime} @{Date}, mais vous avez une réuni on, "@{Title}" de @{EventStartTime} À @{EventEndTime}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)
+- On dirait @{UserName} est disponible à partir de @{StartTime} À @{EndTime} @{Date}, mais vous avez @{ConflictEventsCount} d'autres réunions prévues pendant cette période.
+
+# AskForCreateNewMeeting.Text
+- Voulez-vous planifier une nouvelle réunion?
+
+# AskForCreateNewMeetingAnyway.Text(UserName, StartTime)
+- Voulez-vous planifier une nouvelle réunion avec @{UserName} À @{StartTime} Toute façon?
+
+# AskForNextAvailableTime.Text(UserName)
+- Tu veux que je cherche la prochaine fois que toi et @{UserName} sont-ils tous les deux disponibles?
+
+# NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)
+- d'accord. Vous et @{UserName} sont tous deux disponibles à partir de @{StartTime} À @{EndTime} @{EndDate}.
+
+# NoNextBothAvailableTime.Text(UserName)
+- Vous n'avez pas le temps disponible avec @{UserName} Récemment.
+
