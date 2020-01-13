@@ -74,7 +74,6 @@ class Copier {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
-    templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
       join(`pipeline`, `_sample-skill.yml`),

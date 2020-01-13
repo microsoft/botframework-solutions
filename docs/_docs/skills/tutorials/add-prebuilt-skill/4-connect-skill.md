@@ -22,4 +22,4 @@ botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.n
 
 **Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
 
-See the [Adding Skills]({{site.baseurl}}/help/reference/botskills/) for more details.
+See [Adding Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) for more details.

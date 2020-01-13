@@ -17,12 +17,21 @@ Install Bot Framework development prerequisites and create a Skill using the Bot
 
 ### Prerequisites
 
-If you haven't [created a Virtual Assistant]({{site.baseurl}}/tutorials/typescript/create-assistant/1_intro/), [download and install]({{site.baseurl}}/tutorials/typescript/create-assistant/2_download_and_install/) the Bot Framework development prerequisites.
-
-- Retrieve your LUIS Authoring Key
-  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
-  - Once signed in replace your name in the top right hand corner.
-  - Choose Settings and make a note of the Authoring Key for the next step.
+- Azure Subscription
+- LUIS Authoring Key
+    - Option 1: Use a LUIS starter key
+        - Go to the LUIS portal for your desired region.
+        - Once signed in, select your initials in the right-hand corner, then select **Settings**.
+        - Under **Starter_Key**, copy the **Primary Key**.
+    - Option 2: Provision a LUIS authoring resource in Azure
+        - In the Azure Portal, create a new **Language Understanding** resource.
+        - Under **Create options**, select **Authoring**.
+        - Select a **Resource group**, Authoring location, and Authoring pricing tier. 
+        - Click **Create**.
+        - Go to the resource and select **Keys** in the menu.
+        - Copy one of the available keys.
+    
+    > Note that LUIS authoring keys for a given region are not valid for models hosted in another region. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information.
 
 ### Time to Complete
 

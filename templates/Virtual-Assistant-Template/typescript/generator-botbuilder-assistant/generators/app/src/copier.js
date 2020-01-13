@@ -76,7 +76,6 @@ class Copier {
     templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
     templateFiles.set(`_.eslintignore`, `.eslintignore`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
-    templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
       join(`src`, `bots`, `_dialogBot.ts`),
