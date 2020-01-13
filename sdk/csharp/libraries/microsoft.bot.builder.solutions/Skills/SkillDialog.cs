@@ -26,7 +26,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// </remarks>
     public class SkillDialog : Dialog
     {
-        private readonly IStatePropertyAccessor<string> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
         private readonly SkillHttpClient _skillClient;
@@ -52,7 +51,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
             _skill = skill ?? throw new ArgumentNullException(nameof(skill));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _activeSkillProperty = conversationState.CreateProperty<string>($"{typeof(SkillDialog).FullName}.ActiveSkillProperty");
         }
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default)
@@ -94,8 +92,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         {
             await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"ActivityType: {dc.Context.Activity.Type}", cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            var skillId = await _activeSkillProperty.GetAsync(dc.Context, () => null, cancellationToken).ConfigureAwait(false);
-
             if (dc.Context.Activity.Type == ActivityTypes.EndOfConversation)
             {
                 await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Got EndOfConversation", cancellationToken: cancellationToken).ConfigureAwait(false);
@@ -120,7 +116,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 var activity = (Activity)Activity.CreateEndOfConversationActivity();
                 ApplyParentActivityProperties(turnContext, activity, null);
 
-                var skillId = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken).ConfigureAwait(false);
                 await SendToSkillAsync(null, (Activity)activity, cancellationToken).ConfigureAwait(false);
             }
 
