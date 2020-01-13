@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -217,10 +218,8 @@ namespace WhoSkill.Dialogs
         }
         #endregion
 
-        #region search keyword
-
         // Search and generate result:
-        // Fill in candidates list property. If only one candidate, fill in pickedPerson property.
+        // Fill in candidates list property. If only one candidate, fill in pickedPerson property directly.
         private async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -235,68 +234,11 @@ namespace WhoSkill.Dialogs
                 }
 
                 List<Candidate> candidates = null;
-                switch (state.TriggerIntent)
+                candidates = await MSGraphService.GetUsers(state.TargetName);
+                state.CandidatesForDisplay = candidates;
+                if (state.CandidatesForDisplay != null && state.CandidatesForDisplay.Count == 1 && state.CandidatesForDisplay[0] != null)
                 {
-                    case WhoLuis.Intent.WhoIs:
-                    case WhoLuis.Intent.JobTitle:
-                    case WhoLuis.Intent.Department:
-                    case WhoLuis.Intent.Location:
-                    case WhoLuis.Intent.PhoneNumber:
-                    case WhoLuis.Intent.EmailAddress:
-                        {
-                            candidates = await MSGraphService.GetUsers(state.TargetName);
-                            break;
-                        }
-
-                    case WhoLuis.Intent.Manager:
-                        {
-                            if (!state.FirstSearchCompleted)
-                            {
-                                candidates = await MSGraphService.GetUsers(state.TargetName);
-                            }
-                            else
-                            {
-                                var manager = await MSGraphService.GetManager(state.PickedPerson.Id);
-                                if (manager != null)
-                                {
-                                    candidates = new List<Candidate>() { manager };
-                                }
-
-                                state.SecondSearchCompleted = true;
-                            }
-
-                            break;
-                        }
-
-                    case WhoLuis.Intent.DirectReports:
-                        {
-                            if (!state.FirstSearchCompleted)
-                            {
-                                candidates = await MSGraphService.GetUsers(state.TargetName);
-                            }
-                            else
-                            {
-                                candidates = await MSGraphService.GetDirectReports(state.PickedPerson.Id);
-                                state.PageIndex = 0;
-                                state.SecondSearchCompleted = true;
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        {
-                            var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                            await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                            return await sc.EndDialogAsync();
-                        }
-                }
-
-                state.FirstSearchCompleted = true;
-                state.Candidates = candidates;
-                if (state.Candidates != null && state.Candidates.Count == 1 && state.Candidates[0] != null)
-                {
-                    state.PickedPerson = state.Candidates[0];
+                    state.PickedPerson = state.CandidatesForDisplay[0];
                 }
 
                 return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);
@@ -308,10 +250,30 @@ namespace WhoSkill.Dialogs
             }
         }
 
+        #region ShowSearchResult 
+        private async Task SearchForTheSecondTime(WaterfallStepContext sc)
+        {
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+            if (state.TriggerIntent == WhoLuis.Intent.Manager)
+            {
+                var manager = await MSGraphService.GetManager(state.PickedPerson.Id);
+                if (manager != null)
+                {
+                    state.CandidatesForDisplay = new List<Candidate>() { manager };
+                }
+            }
+            else
+            {
+                state.CandidatesForDisplay = await MSGraphService.GetDirectReports(state.PickedPerson.Id);
+                state.PageIndex = 0;
+            }
+
+            state.SecondSearchCompleted = true;
+        }
+
         private async Task<DialogTurnResult> ShowSearchResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
-
             if (state.PickedPerson != null)
             {
                 switch (state.TriggerIntent)
@@ -323,66 +285,52 @@ namespace WhoSkill.Dialogs
                     case WhoLuis.Intent.PhoneNumber:
                     case WhoLuis.Intent.EmailAddress:
                         {
+                            state.CandidatesForDisplay = new List<Candidate> { state.PickedPerson };
                             return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
                         }
 
                     // If trigger intent is manager/ directReports, we need to search again for this keyword's manager/ directReports.
                     case WhoLuis.Intent.Manager:
-                    case WhoLuis.Intent.DirectReports:
                         {
-                            if (!state.SecondSearchCompleted)
+                            await SearchForTheSecondTime(sc);
+                            if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
                             {
-                                return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
+                                return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
                             }
                             else
                             {
-                                if (state.Candidates == null || state.Candidates.Count == 0)
-                                {
-                                    return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
-                                }
-                                else if (state.Candidates.Count == 1)
-                                {
-                                    state.PickedPerson = state.Candidates[0];
-                                    return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
-                                }
-                                else
-                                {
-                                    return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
-                                }
+                                return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
+                            }
+                        }
+
+                    case WhoLuis.Intent.DirectReports:
+                        {
+                            await SearchForTheSecondTime(sc);
+                            if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
+                            {
+                                return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
+                            }
+                            else
+                            {
+                                return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
                             }
                         }
 
                     default:
                         {
-                            var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                            await sc.Context.SendActivityAsync(didntUnderstandActivity);
                             return await sc.EndDialogAsync();
                         }
                 }
             }
             else
             {
-                if (state.TriggerIntent != WhoLuis.Intent.None)
+                if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
                 {
-                    if (state.Candidates == null || state.Candidates.Count == 0)
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
-                    }
-                    else if (state.Candidates.Count == 1)
-                    {
-                        state.PickedPerson = state.Candidates[0];
-                        return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
-                    }
-                    else
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
-                    }
+                    return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
                 }
                 else
                 {
-                    var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                    await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                    return await sc.EndDialogAsync();
+                    return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
                 }
             }
         }
@@ -408,20 +356,34 @@ namespace WhoSkill.Dialogs
 
                 case WhoLuis.Intent.Manager:
                     {
-                        templateName = OrgResponses.NoManager;
+                        if (!state.SecondSearchCompleted)
+                        {
+                            templateName = WhoIsResponses.NoSearchResult;
+                        }
+                        else
+                        {
+                            templateName = OrgResponses.NoManager;
+                        }
+
                         break;
                     }
 
                 case WhoLuis.Intent.DirectReports:
                     {
-                        templateName = OrgResponses.NoDirectReports;
+                        if (!state.SecondSearchCompleted)
+                        {
+                            templateName = WhoIsResponses.NoSearchResult;
+                        }
+                        else
+                        {
+                            templateName = OrgResponses.NoDirectReports;
+                        }
+
                         break;
                     }
 
                 default:
                     {
-                        var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                        await sc.Context.SendActivityAsync(didntUnderstandActivity);
                         return await sc.EndDialogAsync();
                     }
             }
@@ -466,13 +428,8 @@ namespace WhoSkill.Dialogs
                     case WhoLuis.Intent.Manager:
                         templateName = OrgResponses.Manager;
                         break;
-                    case WhoLuis.Intent.DirectReports:
-                        templateName = OrgResponses.DirectReports;
-                        break;
                     default:
                         {
-                            var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                            await sc.Context.SendActivityAsync(didntUnderstandActivity);
                             return await sc.EndDialogAsync();
                         }
                 }
@@ -480,16 +437,16 @@ namespace WhoSkill.Dialogs
                 var data = new
                 {
                     TargetName = state.TargetName,
-                    JobTitle = state.PickedPerson.JobTitle ?? string.Empty,
-                    Department = state.PickedPerson.Department ?? string.Empty,
-                    OfficeLocation = state.PickedPerson.OfficeLocation ?? string.Empty,
-                    MobilePhone = state.PickedPerson.MobilePhone ?? string.Empty,
-                    EmailAddress = state.PickedPerson.Mail ?? string.Empty,
+                    JobTitle = state.CandidatesForDisplay[0].JobTitle ?? string.Empty,
+                    Department = state.CandidatesForDisplay[0].Department ?? string.Empty,
+                    OfficeLocation = state.CandidatesForDisplay[0].OfficeLocation ?? string.Empty,
+                    MobilePhone = state.CandidatesForDisplay[0].MobilePhone ?? string.Empty,
+                    EmailAddress = state.CandidatesForDisplay[0].Mail ?? string.Empty,
                 };
 
                 var reply = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data });
                 await sc.Context.SendActivityAsync(reply);
-                var card = await GetCardForDetail(state.PickedPerson);
+                var card = await GetCardForDetail(state.CandidatesForDisplay[0]);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
             }
             catch (SkillException ex)
@@ -520,11 +477,12 @@ namespace WhoSkill.Dialogs
             {
                 case WhoLuis.Intent.Manager:
                     {
+                        state.PickedPerson = state.CandidatesForDisplay[0];
+                        state.CandidatesForDisplay = null;
                         state.TargetName = state.PickedPerson.DisplayName;
                         state.TriggerIntent = WhoLuis.Intent.Manager;
-                        state.FirstSearchCompleted = true;
                         state.SecondSearchCompleted = false;
-                        return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
+                        return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);
                     }
 
                 default:
@@ -576,8 +534,6 @@ namespace WhoSkill.Dialogs
 
                     default:
                         {
-                            var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                            await sc.Context.SendActivityAsync(didntUnderstandActivity);
                             return await sc.EndDialogAsync();
                         }
                 }
@@ -586,9 +542,9 @@ namespace WhoSkill.Dialogs
                 {
                     TargetName = state.TargetName,
                 };
-                var activity = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data, Number = state.Candidates.Count });
+                var activity = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data, Number = state.CandidatesForDisplay.Count });
                 await sc.Context.SendActivityAsync(activity);
-                var candidates = state.Candidates.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
+                var candidates = state.CandidatesForDisplay.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
                 var card = await GetCardForPage(candidates);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
             }
@@ -616,7 +572,7 @@ namespace WhoSkill.Dialogs
 
             var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var topIntent = luisResult.TopIntent().intent;
-            var maxPageNumber = ((state.Candidates.Count - 1) / state.PageSize) + 1;
+            var maxPageNumber = ((state.CandidatesForDisplay.Count - 1) / state.PageSize) + 1;
 
             switch (topIntent)
             {
@@ -624,19 +580,54 @@ namespace WhoSkill.Dialogs
                     {
                         // If user want to see someone's detail.
                         var index = (state.PageIndex * state.PageSize) + state.Ordinal - 1;
-                        if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.Candidates.Count)
+                        if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.CandidatesForDisplay.Count)
                         {
                             await sc.Context.SendActivityAsync("Invalid number.");
                             return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
                         }
 
-                        state.PickedPerson = state.Candidates[index];
-                        if (state.SecondSearchCompleted)
+                        state.PickedPerson = state.CandidatesForDisplay[index];
+
+                        switch (state.TriggerIntent)
                         {
-                            state.TriggerIntent = WhoLuis.Intent.WhoIs;
-                            state.TargetName = state.PickedPerson.DisplayName;
-                            state.FirstSearchCompleted = true;
-                            state.SecondSearchCompleted = false;
+                            case WhoLuis.Intent.WhoIs:
+                            case WhoLuis.Intent.JobTitle:
+                            case WhoLuis.Intent.Department:
+                            case WhoLuis.Intent.Location:
+                            case WhoLuis.Intent.PhoneNumber:
+                            case WhoLuis.Intent.EmailAddress:
+                                {
+                                    state.CandidatesForDisplay = new List<Candidate> { state.PickedPerson };
+                                    break;
+                                }
+
+                            case WhoLuis.Intent.Manager:
+                                {
+                                    state.CandidatesForDisplay = null;
+                                    break;
+                                }
+
+                            case WhoLuis.Intent.DirectReports:
+                                {
+                                    if (!state.SecondSearchCompleted)
+                                    {
+                                        state.CandidatesForDisplay = null;
+                                    }
+                                    else
+                                    {
+                                        // If pick one of direct reports, reply message should change to 'WhoIs'
+                                        state.TriggerIntent = WhoLuis.Intent.WhoIs;
+                                        state.TargetName = state.PickedPerson.DisplayName;
+                                        state.SecondSearchCompleted = false;
+                                    }
+
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    return await sc.EndDialogAsync();
+                                }
                         }
 
                         return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);

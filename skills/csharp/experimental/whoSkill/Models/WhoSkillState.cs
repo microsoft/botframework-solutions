@@ -16,11 +16,9 @@ namespace WhoSkill.Models
 
         public string TargetName { get; set; }
 
-        public List<Candidate> Candidates { get; set; }
+        public List<Candidate> CandidatesForDisplay { get; set; }
 
         public Candidate PickedPerson { get; set; }
-
-        public bool FirstSearchCompleted { get; set; }
 
         // Some flow need to search twice: Manager, Direct Reports
         public bool SecondSearchCompleted { get; set; }
@@ -36,9 +34,8 @@ namespace WhoSkill.Models
         public void Init()
         {
             TargetName = null;
-            Candidates = null;
+            CandidatesForDisplay = null;
             PickedPerson = null;
-            FirstSearchCompleted = false;
             SecondSearchCompleted = false;
             PageIndex = 0;
             Ordinal = 0;

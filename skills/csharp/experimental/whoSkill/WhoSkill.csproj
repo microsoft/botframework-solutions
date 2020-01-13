@@ -9,9 +9,6 @@
   </PropertyGroup>
 
    <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.2.3" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.0-rc1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.0-rc1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.0-rc1" />
@@ -25,11 +22,37 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.0-rc1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.7.0-rc1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.0-rc1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="System.Spatial" Version="5.8.4" />
   </ItemGroup>
+
+   <ItemGroup>
+     <None Update="Responses\Card\Card.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Main\WhoMainActivities.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Main\WhoMainTexts.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Org\OrgActivities.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Org\OrgTexts.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Shared\WhoSharedActivities.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\Shared\WhoSharedTexts.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\WhoIs\WhoIsActivities.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+     <None Update="Responses\WhoIs\WhoIsTexts.lg">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
+   </ItemGroup>
 
 </Project>
