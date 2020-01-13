@@ -2,19 +2,20 @@
 - What time?
 
 # AskForCheckAvailableUserName.Text
-- Who do you want to ask about?
+- Who do you want to add to the event?
+- Who would you like to add to the event?
 
 # NotAvailable.Text(UserName, Time, Date)
-- It looks like @{UserName} is unavailable at @{Time} @{Date}.
+- It looks like @{UserName} isn't available on @{Date} at @{Time}. 
 
 # AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)
-- It looks like @{UserName} is available from @{StartTime} to @{EndTime} @{Date}.
+- It looks like @{UserName} is available on @{Date} from @{StartTime} to @{EndTime}.
 
 # AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)
-- It looks like @{UserName} is available from @{StartTime} to @{EndTime} @{Date}, but you have a meeting, "@{Title}" from @{EventStartTime} to @{EventEndTime}.
+- It looks like @{UserName} is available on @{Date} from @{StartTime} to @{EndTime}, but you have "@{Title}" from @{EventStartTime} to @{EventEndTime}.
 
 # AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)
-- It looks like @{UserName} is available from @{StartTime} to @{EndTime} @{Date}, but you have @{ConflictEventsCount} other meetings scheduled during that time.
+- It looks like @{UserName} is available on @{Date} from @{StartTime} to @{EndTime}, but you have @{ConflictEventsCount} conflicts at that time.
 
 # AskForCreateNewMeeting.Text
 - Do you want to schedule a new meeting?
@@ -23,10 +24,10 @@
 - Do you want to schedule a new meeting with @{UserName} at @{StartTime} anyway?
 
 # AskForNextAvailableTime.Text(UserName)
-- Do you want me to look for the next time you and @{UserName} are both available?
+- Do you want me to find a time you and @{UserName} are both available?
 
 # NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)
-- Okay. You and @{UserName} are both available from @{StartTime} to @{EndTime} @{EndDate}.
+- OK, you and @{UserName} are both available from @{StartTime} to @{EndTime} on @{EndDate}.
 
 # NoNextBothAvailableTime.Text(UserName)
-- You don't have both available time with @{UserName} recently.
+- Sorry, I can't find a time when you and @{UserName} are both available.
