@@ -67,20 +67,15 @@
                                         {% assign collapse = 'collapse' %}
                                         {% endif %}
                                         {% if language.name != '' %}
-                                        {% if language.name == 'C#' %}
-                                        {% assign languageName = "csharp" %}
-                                        {% else if language.name == 'Using CLI tools' %}
-                                        {% assign languageName = "cli" %}
-                                        {% else if language.name == 'Using the web' %}
-                                        {% assign languageName = "web" %}
-                                        {% else %}
+                                        {% assign languageName = site.data.displayNames[language.name] %}
+                                        {% if languageName == blank %}
                                         {% assign languageName = language.name %}
                                         {% endif %}
                                         <li>
                                             <span class="mb-2">
-                                                <a href="#subcategory{{languageName}}{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 pl-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ language.name }}</a>
+                                                <a href="#subcategory{{language.name}}{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 pl-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ languageName }}</a>
                                             </span>
-                                            <ul id="subcategory{{languageName}}{{index}}_{{index2}}" class="{{ collapse }}">
+                                            <ul id="subcategory{{language.name}}{{index}}_{{index2}}" class="{{ collapse }}">
                                                 {% for item in language.items | sort: 'order' %}
                                                 {% if page.url == item.url %}
                                                 {% assign selected-class = "is-selected" %}
