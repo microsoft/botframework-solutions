@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Deploy
-language: Using CLI tools
+language: cli
 title: Intro
 order: 1
 ---

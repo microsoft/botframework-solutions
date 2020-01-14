@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Create
-language: TypeScript
+language: typescript
 title: Intro
 order: 1
 ---
@@ -30,7 +30,7 @@ Install Bot Framework development prerequisites and create your first Virtual As
         - Copy one of the available keys.
     
     > Note that LUIS authoring keys for a given region are not valid for models hosted in another region. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information.
-    
+        
 ### Time to Complete
 
 10 minutes

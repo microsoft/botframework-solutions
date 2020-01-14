@@ -3,7 +3,7 @@ layout: tutorial
 category: Skills
 subcategory: Extend a v4 Bot
 title: Skill dialog registration
-language: C#
+language: csharp
 order: 4
 ---
 

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Customize
-language: C#
+language: csharp
 title: Edit your responses
 order: 3
 ---

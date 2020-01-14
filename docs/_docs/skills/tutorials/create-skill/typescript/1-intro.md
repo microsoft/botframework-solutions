@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: TypeScript
+language: typescript
 title: Intro
 order: 1
 ---
