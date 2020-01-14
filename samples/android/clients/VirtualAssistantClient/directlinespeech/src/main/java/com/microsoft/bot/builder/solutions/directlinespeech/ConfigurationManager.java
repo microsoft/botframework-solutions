@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
+import com.microsoft.bot.builder.solutions.directlinespeech.utils.UserIdUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +57,13 @@ public class ConfigurationManager {
             configuration.serviceRegion = defaultConfiguration.serviceRegion;
         }
         if (configuration.userId == null) {
-            configuration.userId = defaultConfiguration.userId;
+            if (defaultConfiguration.linkedAccountEndpoint != null) {
+                configuration.userId = UserIdUtils.GenerateUserId();
+                setConfiguration(configuration);
+            }
+            else {
+                configuration.userId = defaultConfiguration.userId;
+            }
         }
         if (configuration.userName == null) {
             configuration.userName = defaultConfiguration.userName;
@@ -69,6 +76,12 @@ public class ConfigurationManager {
         }
         if (configuration.enableKWS == null) {
             configuration.enableKWS = false;
+        }
+        if (configuration.linkedAccountEndpoint == null) {
+            configuration.linkedAccountEndpoint = defaultConfiguration.linkedAccountEndpoint;
+        }
+        if (configuration.signedIn == null) {
+            configuration.signedIn = false;
         }
 
         return configuration;
