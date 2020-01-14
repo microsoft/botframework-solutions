@@ -1,7 +1,4 @@
-﻿[import](../Shared/Card.lg)
-[import](AddToDoTexts.lg)
-
-# AskTaskContentText
+﻿# AskTaskContentText
 [Activity
     Text = @{AskTaskContentText.Text()}
     Speak = @{AskTaskContentText.Text()}

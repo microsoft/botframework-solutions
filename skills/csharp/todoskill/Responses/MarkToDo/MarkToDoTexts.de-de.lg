@@ -1,3 +1,5 @@
+[import](MarkToDoActivities.lg)
+
 # AfterAllTasksCompleted.Text(ListType)
 - Ich habe alle Elemente auf Ihrem @{ListType} Liste als vollständig.
 

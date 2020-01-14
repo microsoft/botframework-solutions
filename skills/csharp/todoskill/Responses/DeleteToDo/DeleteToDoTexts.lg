@@ -1,4 +1,6 @@
-﻿# AskDeletionAllConfirmation.Text(ListType)
+﻿[import](DeleteToDoActivities.lg)
+
+# AskDeletionAllConfirmation.Text(ListType)
 - Are you sure you want to delete everything from your @{ListType} list?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)

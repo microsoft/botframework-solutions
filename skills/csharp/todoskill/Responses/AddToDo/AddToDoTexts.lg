@@ -1,4 +1,6 @@
-﻿# AskTaskContentText.Text
+﻿[import](AddToDoActivities.lg)
+
+# AskTaskContentText.Text
 - OK, what do you want to add to the list?
 
 # AfterTaskAdded.Text(TaskContent, ListType)

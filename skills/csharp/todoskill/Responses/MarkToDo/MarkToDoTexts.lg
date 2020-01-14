@@ -1,4 +1,6 @@
-﻿# AfterAllTasksCompleted.Text(ListType)
+﻿[import](MarkToDoActivities.lg)
+
+# AfterAllTasksCompleted.Text(ListType)
 - I marked all items on your @{ListType} list as complete.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)

@@ -1,7 +1,4 @@
-﻿[import](ShowToDoTexts.lg)
-[import](../Shared/Card.lg)
-
-# AskAddOrCompleteTaskMessage
+﻿# AskAddOrCompleteTaskMessage
 [Activity
     Text = @{AskAddOrCompleteTaskMessage.Text()}
     Speak = @{AskAddOrCompleteTaskMessage.Text()}

@@ -91,12 +91,7 @@ namespace ToDoSkill
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
-                { "AddToDo", "AddToDoActivities" },
-                { "DeleteToDo", "DeleteToDoActivities" },
-                { "Main", "ToDoMainActivities" },
-                { "MarkToDo", "MarkToDoActivities" },
-                { "Shared", "ToDoSharedActivities" },
-                { "ShowToDo", "ShowToDoActivities" }
+                { "Shared", "ResponsesAndTexts" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
