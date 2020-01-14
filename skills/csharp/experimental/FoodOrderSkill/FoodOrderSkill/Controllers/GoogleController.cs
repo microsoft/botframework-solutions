@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bot.Builder.Community.Adapters.Google;
 using Bot.Builder.Community.Adapters.Google.Integration.AspNet.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 
 namespace FoodOrderSkill.Controllers
 {
-    [Route("api/actionrequests")]
+    [Route("api/google")]
     [ApiController]
     public class GoogleController : ControllerBase
     {
-        private readonly IGoogleHttpAdapter _adapter;
-        private readonly IBot _bot;
+        private readonly GoogleAdapter Adapter;
+        private readonly IBot Bot;
 
-        public GoogleController(IGoogleHttpAdapter adapter, IBot bot)
+        public GoogleController(GoogleAdapter adapter, IBot bot)
         {
-            _adapter = adapter;
-            _bot = bot;
+            Adapter = adapter;
+            Bot = bot;
         }
 
         [HttpPost]
         public async Task PostAsync()
         {
-            await _adapter.ProcessAsync(Request, Response, _bot);
+            // Delegate the processing of the HTTP POST to the adapter.
+            // The adapter will invoke the bot.
+            await Adapter.ProcessAsync(Request, Response, Bot);
         }
     }
 }

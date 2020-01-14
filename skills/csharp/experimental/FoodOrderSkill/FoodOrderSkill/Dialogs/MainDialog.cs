@@ -26,6 +26,7 @@ namespace FoodOrderSkill.Dialogs
         private BotServices _services;
         private SampleDialog _sampleDialog;
         private RepeatOrderDialog _repeatOrderDialog;
+        private FindRestaurantsDialog _findRestaurantsDialog;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -43,6 +44,8 @@ namespace FoodOrderSkill.Dialogs
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
             // Register dialogs
+            _findRestaurantsDialog = serviceProvider.GetService<FindRestaurantsDialog>();
+            AddDialog(_findRestaurantsDialog);
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
             AddDialog(_sampleDialog);
             _repeatOrderDialog = serviceProvider.GetService<RepeatOrderDialog>();
@@ -57,13 +60,16 @@ namespace FoodOrderSkill.Dialogs
                 // Get cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
 
-                // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["FoodOrderSkill"].RecognizeAsync<FoodOrderSkillLuis>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
+                if (!string.IsNullOrEmpty(innerDc?.Context?.Activity?.Text))
+                {
+                    // Run LUIS recognition on Skill model and store result in turn state.
+                    var skillResult = await localizedServices.LuisServices["FoodOrderSkill"].RecognizeAsync<FoodOrderSkillLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
 
-                // Run LUIS recognition on General model and store result in turn state.
-                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
-                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+                    // Run LUIS recognition on General model and store result in turn state.
+                    var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+                }
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
@@ -146,6 +152,11 @@ namespace FoodOrderSkill.Dialogs
                                 await innerDc.BeginDialogAsync(_repeatOrderDialog.Id);
                                 break;
                             }
+                        case FoodOrderSkillLuis.Intent.AvailableRestaurants:
+                            {
+                                await innerDc.BeginDialogAsync(_findRestaurantsDialog.Id);
+                                break;
+                            }
 
                         case FoodOrderSkillLuis.Intent.None:
                         default:
@@ -195,7 +206,7 @@ namespace FoodOrderSkill.Dialogs
         // Runs when the dialog stack completes.
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            if (outerDc.Context.Adapter is IRemoteUserTokenProvider || outerDc.Context.Activity.ChannelId != Channels.Msteams)
+            if (outerDc.Context.Adapter is IRemoteUserTokenProvider || (outerDc.Context.Activity.ChannelId != Channels.Msteams && outerDc.Context.Activity.ChannelId != "google"))
             {
                 var response = outerDc.Context.Activity.CreateReply();
                 response.Type = ActivityTypes.Handoff;

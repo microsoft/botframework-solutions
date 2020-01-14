@@ -1,0 +1,26 @@
+{
+  "actions": [
+    {
+      "description": "Default Intent",
+      "name": "MAIN",
+      "fulfillment": {
+        "conversationName": "bot-application"
+      },
+      "intent": {
+        "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "talk to Mr. Takeaway"
+          ]
+        }
+      }
+    }
+  ],
+  "conversations": {
+    "bot-application": {
+      "name": "bot-application",
+      "url": "https://264ddea1.ngrok.io/api/google"
+    }
+  },
+  "locale": "en"
+}

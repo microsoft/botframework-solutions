@@ -12,6 +12,7 @@ using Alexa.NET.Response;
 using Bot.Builder.Community.Adapters.Alexa.Attachments;
 using FoodOrderSkill.MockBackEnd;
 using FoodOrderSkill.Models;
+using FoodOrderSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -28,10 +29,13 @@ namespace FoodOrderSkill.Dialogs
         // temp storage for pro-active scenario
         private ConcurrentDictionary<string, ConversationReference> _conversationReferences;
 
+        public TakeAwayService _takeAwayService;
+
         public RepeatOrderDialog(
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient,
-            ConcurrentDictionary<string, ConversationReference> conversationReferences)
+            ConcurrentDictionary<string, ConversationReference> conversationReferences,
+            TakeAwayService takeAwayService)
             : base(nameof(RepeatOrderDialog), serviceProvider, telemetryClient)
         {
             var steps = new WaterfallStep[]
@@ -45,6 +49,7 @@ namespace FoodOrderSkill.Dialogs
 
             this.localDB = new BackEndDB();
             _conversationReferences = conversationReferences;
+            _takeAwayService = takeAwayService;
 
             AddDialog(new WaterfallDialog(nameof(RepeatOrderDialog), steps));
             AddDialog(new ChoicePrompt(DialogIds.FavoriteOrderPrompt));
@@ -57,6 +62,7 @@ namespace FoodOrderSkill.Dialogs
         // Promt the user for the preconfigured meal they would like to reorder
         private async Task<DialogTurnResult> PromptForFavoriteOrder(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            var restaurantsString = await _takeAwayService.getRestaurants();
             var state = await StateAccessor.GetAsync(stepContext.Context, () => new SkillState());
 
             List<string> choices = new List<string>();

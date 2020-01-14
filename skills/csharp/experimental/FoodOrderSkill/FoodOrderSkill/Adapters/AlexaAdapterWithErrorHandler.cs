@@ -13,7 +13,7 @@ namespace FoodOrderSkill.Adapters
             ILogger<AlexaAdapter> logger,
             UserState userState,
             ConversationState conversationState)
-            : base(new AlexaAdapterOptions() { ShouldEndSessionByDefault = false, TryConcatMultipleTextActivties = true }, logger)
+            : base(new AlexaAdapterOptions() { ShouldEndSessionByDefault = false }, logger)
         {
             // Adapter.Use(new AlexaIntentRequestToMessageActivityMiddleware());
             OnTurnError = async (turnContext, exception) =>

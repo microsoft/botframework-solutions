@@ -32,6 +32,7 @@ using Bot.Builder.Community.Adapters.Google.Integration.AspNet.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Schema;
 using System.Collections.Concurrent;
+using Bot.Builder.Community.Adapters.Google;
 
 namespace FoodOrderSkill
 {
@@ -90,6 +91,7 @@ namespace FoodOrderSkill
 
             // Configure bot services
             services.AddSingleton<BotServices>();
+            services.AddSingleton<TakeAwayService>();
 
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
@@ -131,6 +133,7 @@ namespace FoodOrderSkill
             services.AddTransient<SampleDialog>();
             services.AddTransient<MainDialog>();
             services.AddTransient<RepeatOrderDialog>();
+            services.AddTransient<FindRestaurantsDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -138,7 +141,18 @@ namespace FoodOrderSkill
             services.AddTransient<SkillWebSocketAdapter>();
             services.AddSingleton<AlexaAdapter, AlexaAdapterWithErrorHandler>();
             services.AddHttpContextAccessor();
-            services.AddSingleton<IGoogleHttpAdapter, GoogleHttpAdapter>();
+            // Create the Google Adapter
+            services.AddSingleton<GoogleAdapter, GoogleAdapterWithErrorHandler>();
+
+            // Create GoogleAdapterOptions
+            services.AddSingleton(sp =>
+            {
+                return new GoogleAdapterOptions()
+                {
+                    ActionInvocationName = "Mr. Takeaway",
+                    ActionProjectId = "takeawayv2"
+                };
+            });
 
             // Register WhiteListAuthProvider
             services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();

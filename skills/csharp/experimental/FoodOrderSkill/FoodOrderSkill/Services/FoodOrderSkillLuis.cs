@@ -21,6 +21,7 @@ namespace Luis
         public enum Intent {
             None, 
             RepeatOrder, 
+            AvailableRestaurants, 
             Sample
         };
         [JsonProperty("intents")]
