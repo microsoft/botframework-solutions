@@ -29,7 +29,7 @@
 - nimm mein treffen {FromDate=morgen} um {FromTime=10 uhr} an
 
 
-## AddAttendee
+## AddCalendarEntryAttribute
 - Hinzufügen  {ContactName=Carlos} zur Besprechung
 - Hinzufügen  {ContactName=Chelsea} 
 - Hinzufügen  {ContactName=Enrique} 
@@ -64,29 +64,11 @@
 - senden Sie eine Einladung an  {ContactName=Jane} 
 - senden Sie eine Einladung an  {ContactName=jerry seinfeld} 
 - bitte fügen Sie ein Zimmer zu meinem  {ToTime=19.00 Uhr} Sitzung
-
-
-## AddMeetingRoom
-- fügen Sie ein Zimmer zu meinem  {ToTime=15.00 Uhr} Sitzung
+- Fügen Sie eine  {SlotAttribute=Zimmer}  zu meinem  {ToTime=15.00 Uhr} Sitzung
 - Stadtzentrum hinzufügen  {MeetingRoom=2122}  An  {ToTime=10am} Sitzung
-- können Sie einen Raum hinzufügen, um  {ToDate=Morgen} s  {Subject=Dev-Meeting} 
-- Bitte fügen Sie einen Besprechungsraum zum  {Subject=tägliches Scrum-Meeting} 
+- können Sie eine  {SlotAttribute=Zimmer}  An  {ToDate=Morgen} s  {Subject=Dev-Meeting} 
+- bitte fügen Sie eine  {SlotAttribute=Tagungsraum}  zum  {Subject=tägliches Scrum-Meeting} 
 
-
-## CancelMeetingRoom
-- Abbrechen des Besprechungsraums
-- den Raum für  {Subject=tägliches Scrum-Meeting} 
-- Stornieren Sie den Raum für mein 16-Uhr-Meeting
-- Abbruch des Besprechungsraums meiner 18-Uhr-Sitzung
-- Bitte stornieren Sie den Raum meiner 19-Uhr-Sitzung
-
-
-## ChangeMeetingRoom
-- ändern Sie den Besprechungsraum in  {MeetingRoom=london confroom excalibur} 
-- Finden Sie einen neuen Raum für mein 15-Uhr-Meeting
-- Ich möchte in einen anderen Besprechungsraum wechseln
-- Ich möchte den Besprechungsraum ändern
-- Bitte ändern Sie den Besprechungsraum in  {MeetingRoom=2212} 
 
 ## ChangeCalendarEntry
 - aktualisiere kalender
@@ -199,6 +181,11 @@
 - verschiebe {Subject=zahnarzttermin}
 - wechsele {SlotAttribute=standort}
 - ziehe meinen {FromTime=4-uhr}-termin {MoveEarlierTimeSpan=2 stunden} vor
+- ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=london confroom excalibur} 
+- finden Sie eine neue  {SlotAttribute=Zimmer}  für meine  {FromTime=15.00 Uhr} Sitzung
+- ich möchte zu einem anderen wechseln  {SlotAttribute=Tagungsraum} 
+- ich möchte die  {SlotAttribute=Tagungsraum} 
+- bitte ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=2212} 
 
 
 ## CheckAvailability
@@ -704,7 +691,11 @@
 - streiche veranstaltung {FromDate=morgen}
 - verwirf den termin mit george
 - verwirf die besprechung
-
+- abbrechen die  {SlotAttribute=Tagungsraum} 
+- abbrechen die  {SlotAttribute=Zimmer}  Für  {Subject=tägliches Scrum-Meeting} 
+- löschen Sie die  {SlotAttribute=Zimmer}  für meine  {FromTime=16 Uhr} Sitzung
+- löschen Sie die  {SlotAttribute=Tagungsraum}  von meinem  {FromTime=18.00 Uhr} Sitzung
+- bitte stornieren Sie die  {SlotAttribute=Zimmer}  von meinem  {FromTime=19.00 Uhr} Sitzung
 
 ## FindCalendarDetail
 - bitte öffne meine {Subject=verabredung} mit stephanie und erzähl mir davon
@@ -1524,6 +1515,13 @@ $RelationshipName:onkel=
 
 $RelationshipName:frau=
 
+$SlotAttributeName:room=
+- Zimmer
+- Tagungsraum
+- Konferenzraum
+
+$SlotAttributeName:time=
+- Zeit
 
 
 > # RegEx entities

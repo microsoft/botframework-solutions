@@ -30,7 +30,7 @@
 - je vais assister à la réunion {FromTime=cet après-midi}.
 
 
-## AddAttendee
+## AddCalendarEntryAttribute
 - Ajouter  {ContactName=Carlos} à la réunion
 - Ajouter  {ContactName=Chelsea} 
 - Ajouter  {ContactName=Enrique} 
@@ -65,28 +65,10 @@
 - envoyer une invitation à  {ContactName=Jane} 
 - envoyer une invitation à  {ContactName=jerry seinfeld} 
 - s'il vous plaît ajouter une chambre à mon  {ToTime=19h00} Réunion
-
-## AddMeetingRoom
-- ajouter une chambre à mon  {ToTime=15h00} Réunion
+- ajouter un  {SlotAttribute=Chambre}  à mon  {ToTime=15h00} Réunion
 - ajouter le centre-ville  {MeetingRoom=2122}  À  {ToTime=10h00} Réunion
-- pouvez-vous ajouter une pièce à  {ToDate=Demain} Est  {Subject=réunion dev} 
-- s'il vous plaît ajouter une salle de réunion à la  {Subject=réunion de mêlée quotidienne} 
-
-
-## CancelMeetingRoom
-- annuler la salle de réunion
-- annuler la chambre pour  {Subject=réunion de mêlée quotidienne} 
-- annuler la chambre pour ma réunion de 16 heures
-- annuler la salle de réunion de ma réunion de 18h
-- s'il vous plaît annuler la salle de ma réunion de 19 heures
-
-
-## ChangeMeetingRoom
-- changer la salle de réunion pour  {MeetingRoom=london confroom excalibur} 
-- trouver une nouvelle chambre pour ma réunion de 15 heures
-- Je veux changer pour une autre salle de réuni on
-- Je voudrais changer la salle de réuni on
-- s'il vous plaît changer la salle de réunion pour  {MeetingRoom=2212} 
+- pouvez-vous ajouter un  {SlotAttribute=Chambre}  À  {ToDate=Demain} Est  {Subject=réunion dev} 
+- s'il vous plaît ajouter un  {SlotAttribute=salle de réunion}  à la  {Subject=réunion de mêlée quotidienne} 
 
 
 ## ChangeCalendarEntry
@@ -198,6 +180,11 @@
 - retarder la {OrderReference=prochaine} réunion de {MoveLaterTimeSpan=30 minutes}.
 - retarder l'événement de la réunion d'{MoveLaterTimeSpan=1 heure}.
 - s'il vous plaît déplacer ça à {ToTime=15 h}.
+- changer le  {SlotAttribute=salle de réunion}  À  {MeetingRoom=london confroom excalibur} 
+- trouver un nouveau  {SlotAttribute=Chambre}  pour mon  {FromTime=15h00} Réunion
+- Je veux passer à un autre  {SlotAttribute=salle de réunion} 
+- Je voudrais changer le  {SlotAttribute=salle de réunion} 
+- s'il vous plaît changer le  {SlotAttribute=salle de réunion}  À  {MeetingRoom=2212} 
 
 
 ## CheckAvailability
@@ -694,6 +681,11 @@
 - supprimer mon emploi du temps pour {FromDate=aujourd'hui}.
 - supprimer mon planning.
 - supprimer un rendez-vous.
+- annuler le  {SlotAttribute=salle de réunion} 
+- annuler le  {SlotAttribute=Chambre}  Pour  {Subject=réunion de mêlée quotidienne} 
+- supprimer le  {SlotAttribute=Chambre}  pour mon  {FromTime=16h00} Réunion
+- supprimer le  {SlotAttribute=salle de réunion}  de mon  {FromTime=18h00} Réunion
+- s'il vous plaît annuler le  {SlotAttribute=Chambre}  de mon  {FromTime=19h00} Réunion
 
 
 ## FindCalendarDetail
@@ -1518,7 +1510,13 @@ $RelationshipName:oncles=
 
 $RelationshipName:femme=
 
+$SlotAttributeName:room=
+- Chambre
+- salle de réunion
+- salle de conférence
 
+$SlotAttributeName:time=
+- Temps
 
 > # RegEx entities
 

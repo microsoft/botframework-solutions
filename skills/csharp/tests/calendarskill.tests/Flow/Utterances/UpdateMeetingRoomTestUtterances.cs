@@ -1,4 +1,5 @@
 ﻿using Luis;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {
@@ -8,17 +9,23 @@ namespace CalendarSkill.Test.Flow.Utterances
         {
             this.Add(ChangeMeetingRoomWithStartTime, GetBaseUpdateMeetingIntent(
                 ChangeMeetingRoomWithStartTime,
-                intents: CalendarLuis.Intent.ChangeMeetingRoom,
+                intents: CalendarLuis.Intent.ChangeCalendarEntry,
+                slotAttribute: new string[] { Strings.Strings.SlotAttributeRoom },
+                slotAttributeName: new string[][] { new string[] { Strings.Strings.SlotAttributeRoom } },
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" }));
             this.Add(AddMeetingRoomWithStartTime, GetBaseUpdateMeetingIntent(
                 AddMeetingRoomWithStartTime,
-                intents: CalendarLuis.Intent.AddMeetingRoom,
+                intents: CalendarLuis.Intent.AddCalendarEntryAttribute,
+                slotAttribute: new string[] { Strings.Strings.SlotAttributeRoom },
+                slotAttributeName: new string[][] { new string[] { Strings.Strings.SlotAttributeRoom } },
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" }));
             this.Add(CancelMeetingRoomWithStartTime, GetBaseUpdateMeetingIntent(
                 CancelMeetingRoomWithStartTime,
-                intents: CalendarLuis.Intent.CancelMeetingRoom,
+                intents: CalendarLuis.Intent.DeleteCalendarEntry,
+                slotAttribute: new string[] { Strings.Strings.SlotAttributeRoom },
+                slotAttributeName: new string[][] { new string[] { Strings.Strings.SlotAttributeRoom } },
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" }));
         }
@@ -33,12 +40,14 @@ namespace CalendarSkill.Test.Flow.Utterances
 
         public static CalendarLuis GetBaseUpdateMeetingIntent(
             string userInput,
-            CalendarLuis.Intent intents = CalendarLuis.Intent.ChangeMeetingRoom,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.ChangeCalendarEntry,
             string[] subject = null,
             string[] fromDate = null,
             string[] toDate = null,
             string[] fromTime = null,
             string[] toTime = null,
+            string[] slotAttribute = null,
+            string[][] slotAttributeName = null,
             string[] moveEarlierTimeSpan = null,
             string[] moveLaterTimeSpan = null)
         {
@@ -50,6 +59,8 @@ namespace CalendarSkill.Test.Flow.Utterances
                 toDate: toDate,
                 fromTime: fromTime,
                 toTime: toTime,
+                slotAttribute: slotAttribute,
+                slotAttributeName: slotAttributeName,
                 moveEarlierTimeSpan: moveEarlierTimeSpan,
                 moveLaterTimeSpan: moveLaterTimeSpan);
         }

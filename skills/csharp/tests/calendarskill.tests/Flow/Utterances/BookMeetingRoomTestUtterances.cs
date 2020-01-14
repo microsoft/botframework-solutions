@@ -42,7 +42,8 @@ namespace CalendarSkill.Test.Flow.Utterances
                 CancelRequest));
             this.Add(ChangeTime, GetChangeCalendarEntryIntent(
                 ChangeTime,
-                slotAttribute: new string[] { Strings.Strings.SlotAttributeTime }));
+                slotAttribute: new string[] { Strings.Strings.SlotAttributeTime },
+                slotAttributeName: new string[][] { new string[] { Strings.Strings.SlotAttributeTime } }));
             this.Add(ChangeTimeWithDate, GetChangeCalendarEntryIntent(
                 ChangeTimeWithDate,
                 toDate: new string[] { Strings.Strings.DefaultStartDate }));
@@ -203,6 +204,7 @@ namespace CalendarSkill.Test.Flow.Utterances
             string[] floorNumber = null,
             string[] location = null,
             string[] slotAttribute = null,
+            string[][] slotAttributeName = null,
             double[] ordinal = null,
             double[] number = null)
         {
@@ -222,7 +224,8 @@ namespace CalendarSkill.Test.Flow.Utterances
                 location: location,
                 ordinal: ordinal,
                 number: number,
-                slotAttribute: slotAttribute);
+                slotAttribute: slotAttribute,
+                slotAttributeName: slotAttributeName);
         }
     }
 }

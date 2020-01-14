@@ -117,11 +117,18 @@ namespace CalendarSkill.Dialogs
                         break;
                     }
 
-                case CalendarLuis.Intent.ChangeMeetingRoom:
-                case CalendarLuis.Intent.AddMeetingRoom:
-                case CalendarLuis.Intent.CancelMeetingRoom:
+                case CalendarLuis.Intent.AddCalendarEntryAttribute:
                     {
-                        await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                            await dc.Context.SendActivityAsync(activity);
+                        }
+
                         break;
                     }
 
@@ -139,13 +146,29 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.DeleteCalendarEntry:
                     {
-                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                        }
+
                         break;
                     }
 
                 case CalendarLuis.Intent.ChangeCalendarEntry:
                     {
-                        await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                        }
+
                         break;
                     }
 

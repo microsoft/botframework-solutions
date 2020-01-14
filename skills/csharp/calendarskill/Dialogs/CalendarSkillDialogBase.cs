@@ -1330,9 +1330,6 @@ namespace CalendarSkill.Dialogs
                 switch (intent)
                 {
                     case CalendarLuis.Intent.FindMeetingRoom:
-                    case CalendarLuis.Intent.CancelMeetingRoom:
-                    case CalendarLuis.Intent.AddMeetingRoom:
-                    case CalendarLuis.Intent.ChangeMeetingRoom:
                     case CalendarLuis.Intent.CreateCalendarEntry:
                         {
                             state.MeetingInfo.CreateHasDetail = false;
@@ -1656,6 +1653,102 @@ namespace CalendarSkill.Dialogs
                                 }
 
                                 state.MeetingInfo.ContactInfor.ContactsNameList.AddRange(state.MeetingInfo.ContactInfor.RelatedEntityInfoDict.Keys);
+                            }
+
+                            break;
+                        }
+
+                    case CalendarLuis.Intent.AddCalendarEntryAttribute:
+                        {
+                            if (entity.OrderReference != null)
+                            {
+                                state.MeetingInfo.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfo.CreateHasDetail = true;
+                                state.MeetingInfo.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResultText, state.MeetingInfo.ContactInfor.ContactsNameList);
+                            }
+
+                            if (entity.Subject != null)
+                            {
+                                state.MeetingInfo.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.personName != null)
+                            {
+                                state.MeetingInfo.ContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.MeetingInfo.ContactInfor.ContactsNameList);
+                            }
+
+                            if (entity.FromDate != null)
+                            {
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                if (date != null)
+                                {
+                                    state.MeetingInfo.StartDate = date;
+                                }
+
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                if (date != null)
+                                {
+                                    state.MeetingInfo.EndDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.FromTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                if (time != null)
+                                {
+                                    state.MeetingInfo.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                if (time != null)
+                                {
+                                    state.MeetingInfo.EndTime = time;
+                                }
+                            }
+
+                            if (entity.ToDate != null)
+                            {
+                                var dateString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                if (date != null && state.MeetingInfo.StartDate.Count == 0)
+                                {
+                                    state.MeetingInfo.StartDate = date;
+                                }
+
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                if (date != null && state.MeetingInfo.EndDate.Count == 0)
+                                {
+                                    state.MeetingInfo.EndDate = date;
+                                }
+                            }
+
+                            if (entity.ToTime != null)
+                            {
+                                var timeString = GetDateTimeStringFromInstanceData(luisResultText, entity._instance.ToTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true, false);
+                                if (time != null && state.MeetingInfo.StartTime.Count == 0)
+                                {
+                                    state.MeetingInfo.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false, true);
+                                if (time != null && state.MeetingInfo.EndTime.Count == 0)
+                                {
+                                    state.MeetingInfo.EndTime = time;
+                                }
+                            }
+
+                            if (entity.MeetingRoom != null)
+                            {
+                                state.MeetingInfo.CreateHasDetail = true;
+                                state.MeetingInfo.MeetingRoomName = state.MeetingInfo.Location = GetMeetingRoomFromEntity(entity);
                             }
 
                             break;

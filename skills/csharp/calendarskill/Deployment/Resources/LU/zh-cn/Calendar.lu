@@ -30,7 +30,7 @@
 - 陈菊邀请的{Subject=19财年庆典晚会}，我会参加
 
 
-## AddAttendee
+## AddCalendarEntryAttribute
 - 添加 {ContactName=卡洛斯} 到会议
 - 添加 {ContactName=切尔西} 
 - 添加 {ContactName=恩里克} 
@@ -65,28 +65,10 @@
 - 向 {ContactName=简} 
 - 向 {ContactName=杰里·辛菲尔德} 
 - 请添加一个房间到我的 {ToTime=晚上 7 点} 会议
-
-## AddMeetingRoom
-- 添加一个房间到我的 {ToTime=下午3点} 会议
+- 添加 {SlotAttribute=房间} 到我 {ToTime=下午3点} 会议
 - 添加市中心 {MeetingRoom=2122} 自 {ToTime=上午10时} 会议
-- 你能添加一个房间到 {ToDate=明天} 's {Subject=开发会议} 
-- 请向 {Subject=每日Scrum会议} 
-
-
-## CancelMeetingRoom
-- 取消会议室
-- 取消房间 {Subject=每日Scrum会议} 
-- 取消下午 4 点会议的房间
-- 取消下午 6 点会议的会议室
-- 请取消我晚上7点的会议
-
-
-## ChangeMeetingRoom
-- 将会议室更改为 {MeetingRoom=伦敦联邦室excalibur} 
-- 为我下午 3 点会议找个新房间
-- 我想换到另一个会议室
-- 我想换一下会议室
-- 请将会议室更改为 {MeetingRoom=2212} 
+- 可以添加 {SlotAttribute=房间} 自 {ToDate=明天} 's {Subject=开发会议} 
+- 请添加 {SlotAttribute=会议室} 到 {Subject=每日Scrum会议} 
 
 
 ## CancelCalendar
@@ -262,6 +244,11 @@
 - 重新安排会议
 - 重新安排日程
 - 重新把我{FromTime=下午6点}的活动安排到{ToTime=下午7点}
+- 更改 {SlotAttribute=会议室} 自 {MeetingRoom=伦敦联邦室excalibur} 
+- 找到一个新的 {SlotAttribute=房间} 为我 {FromTime=下午3点} 会议
+- 我想换个 {SlotAttribute=会议室} 
+- 我想改变 {SlotAttribute=会议室} 
+- 请更改 {SlotAttribute=会议室} 自 {MeetingRoom=2212} 
 
 
 ## CheckAvailability
@@ -642,6 +629,11 @@
 - 清除我的日程安排
 - 请取消我{FromDate=今天}所有的日程
 - 请取消我{FromDate=周一}{FromTime=下午两点}的会议
+- 取消 {SlotAttribute=会议室} 
+- 取消 {SlotAttribute=房间} 对于 {Subject=每日Scrum会议} 
+- 删除 {SlotAttribute=房间} 为我 {FromTime=下午4点} 会议
+- 删除 {SlotAttribute=会议室} 我的 {FromTime=下午6点} 会议
+- 请取消 {SlotAttribute=房间} 我的 {FromTime=晚上 7 点} 会议
 
 
 ## FindCalendarDetail
@@ -1477,6 +1469,12 @@ $RelationshipName:表弟=
 $RelationshipName:钱 包 小 组 会 议=
 
 
+$SlotAttributeName:room=
+- 房间
+- 会议室
+
+$SlotAttributeName:time=
+- 时间
 
 > # RegEx entities
 

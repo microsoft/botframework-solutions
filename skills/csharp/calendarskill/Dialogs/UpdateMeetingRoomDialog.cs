@@ -89,7 +89,7 @@ namespace CalendarSkill.Dialogs
                 var ts = state.MeetingInfo.StartDateTime.Value.Subtract(state.MeetingInfo.EndDateTime.Value).Duration();
                 state.MeetingInfo.Duration = (int)ts.TotalSeconds;
 
-                if (state.InitialIntent == CalendarLuis.Intent.CancelMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.DeleteCalendarEntry)
                 {
                     return await sc.NextAsync();
                 }
@@ -114,12 +114,12 @@ namespace CalendarSkill.Dialogs
                 var attendees = new List<EventModel.Attendee>();
                 attendees.AddRange(origin.Attendees);
 
-                if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.ChangeCalendarEntry)
                 {
                     attendees.RemoveAll(x => x.AttendeeType == AttendeeType.Resource);
                 }
 
-                if (state.InitialIntent == CalendarLuis.Intent.CancelMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.DeleteCalendarEntry)
                 {
                     meetingRoom = attendees.Find(x => x.AttendeeType == AttendeeType.Resource)?.DisplayName;
                     if (meetingRoom == null)
@@ -130,7 +130,7 @@ namespace CalendarSkill.Dialogs
                     attendees.RemoveAll(x => x.AttendeeType == AttendeeType.Resource);
                 }
 
-                if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom || state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.ChangeCalendarEntry || state.InitialIntent == CalendarLuis.Intent.AddCalendarEntryAttribute)
                 {
                     if (state.MeetingInfo.MeetingRoom == null)
                     {
@@ -163,12 +163,12 @@ namespace CalendarSkill.Dialogs
                     DateTime = SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime((DateTime)state.MeetingInfo.StartDateTime, state.GetUserTimeZone()), state.MeetingInfo.AllDay == true, DateTime.UtcNow > state.MeetingInfo.StartDateTime),
                     Subject = newEvent.Title,
                 };
-                if (state.InitialIntent == CalendarLuis.Intent.AddMeetingRoom)
+                if (state.InitialIntent == CalendarLuis.Intent.AddCalendarEntryAttribute)
                 {
                     var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, FindMeetingRoomResponses.MeetingRoomAdded, data);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
-                else if (state.InitialIntent == CalendarLuis.Intent.ChangeMeetingRoom)
+                else if (state.InitialIntent == CalendarLuis.Intent.ChangeCalendarEntry)
                 {
                     var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, FindMeetingRoomResponses.MeetingRoomChanged, data);
                     await sc.Context.SendActivityAsync(replyMessage);

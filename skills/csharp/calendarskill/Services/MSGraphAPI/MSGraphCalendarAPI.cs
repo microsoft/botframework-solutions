@@ -170,6 +170,13 @@ namespace CalendarSkill.Services.MSGraphAPI
                 // AvailabilityView[0] == '0' means available, while others mean not available.
                 foreach (var page in collectionPage)
                 {
+                    // Can't find this room.
+                    if (page.AvailabilityView == null)
+                    {
+                        availability.Add(false);
+                    }
+
+                    // AvailabilityViem is empty, should not get into this state.
                     if (page.AvailabilityView.Length == 0)
                     {
                         throw new Exception("There is no elements in AvailabilityView");

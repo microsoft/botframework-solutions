@@ -30,7 +30,7 @@
 - asistiré a la reunión de {FromDate=mañana} a {FromTime=las 14:00} en la {MeetingRoom=sala 304}
 
 
-## AddAttendee
+## AddCalendarEntryAttribute
 - Añadir  {ContactName=Carlos} a la reunión
 - Añadir  {ContactName=Chelsea} 
 - Añadir  {ContactName=Enrique} 
@@ -65,28 +65,10 @@
 - enviar una invitación a  {ContactName=Jane} 
 - enviar una invitación a  {ContactName=jerry seinfeld} 
 - por favor agregue una habitación a mi  {ToTime=7pm} Reunión
-
-## AddMeetingRoom
-- añadir una habitación a mi  {ToTime=15:00} Reunión
+- añadir un  {SlotAttribute=Habitación}  a mi  {ToTime=15:00} Reunión
 - añadir el centro de la ciudad  {MeetingRoom=2122}  Para  {ToTime=10am} Reunión
-- puede agregar una habitación a  {ToDate=Mañana} 's  {Subject=reunión de desarrollo} 
-- por favor agregue una sala de reuniones a la  {Subject=reunión diaria de scrum} 
-
-
-## CancelMeetingRoom
-- cancelar la sala de reuniones
-- cancelar la habitación para  {Subject=reunión diaria de scrum} 
-- cancelar la habitación para mi reunión de las 4pm
-- cancelar la sala de reuniones de mi reunión de las 6 pm
-- por favor cancele la habitación de mi reunión de las 7pm
-
-
-## ChangeMeetingRoom
-- cambiar la sala de reuniones a  {MeetingRoom=london confroom excalibur} 
-- encontrar una nueva habitación para mi reunión de las 3pm
-- Quiero cambiar a otra sala de reuniones
-- Me gustaría cambiar la sala de reuniones
-- por favor cambie la sala de reuniones a  {MeetingRoom=2212} 
+- puede añadir un  {SlotAttribute=Habitación}  Para  {ToDate=Mañana} 's  {Subject=reunión de desarrollo} 
+- por favor agregue un  {SlotAttribute=sala de reuniones}  a la  {Subject=reunión diaria de scrum} 
 
 
 ## ChangeCalendarEntry
@@ -200,6 +182,11 @@
 - retrasa mi {OrderReference=próxima} reunión {MoveLaterTimeSpan=30 minutos}
 - retrasa mi {OrderReference=próxima} reunión {MoveLaterTimeSpan=treinta minutos}
 - retrasa mi reunión {MoveLaterTimeSpan=una hora}
+- cambiar el  {SlotAttribute=sala de reuniones}  Para  {MeetingRoom=london confroom excalibur} 
+- encontrar un nuevo  {SlotAttribute=Habitación}  para mi  {FromTime=15:00} Reunión
+- quiero cambiar a otro  {SlotAttribute=sala de reuniones} 
+- Me gustaría cambiar el  {SlotAttribute=sala de reuniones} 
+- por favor cambie el  {SlotAttribute=sala de reuniones}  Para  {MeetingRoom=2212} 
 
 
 ## CheckAvailability
@@ -699,6 +686,11 @@
 - vacía mi agenda para {FromDate=mañana}
 - vacía mi calendario
 - vacía mi calendario para el {FromDate=29 de enero}
+- cancelar el  {SlotAttribute=sala de reuniones} 
+- cancelar el  {SlotAttribute=Habitación}  Para  {Subject=reunión diaria de scrum} 
+- eliminar el  {SlotAttribute=Habitación}  para mi  {FromTime=15:00 horas} Reunión
+- eliminar el  {SlotAttribute=sala de reuniones}  de mi  {FromTime=6pm} Reunión
+- por favor cancele el  {SlotAttribute=Habitación}  de mi  {FromTime=7pm} Reunión
 
 
 ## FindCalendarDetail
@@ -1503,7 +1495,14 @@ $RelationshipName:tíos=
 
 $RelationshipName:esposa=
 
+$SlotAttributeName:room=
+- Habitación
+- sala de reuniones
+- sala de conferencias
+- confroom
 
+$SlotAttributeName:time=
+- hora
 
 > # RegEx entities
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {
@@ -42,7 +43,8 @@ namespace CalendarSkill.Test.Flow.Utterances
             string[] moveLaterTimeSpan = null,
             string[] orderReference = null,
             string[] slotAttribute = null,
-            string[] askParameter = null)
+            string[] askParameter = null,
+            string[][] slotAttributeName = null)
         {
             var intent = new CalendarLuis
             {
@@ -76,6 +78,10 @@ namespace CalendarSkill.Test.Flow.Utterances
             intent.Entities.OrderReference = orderReference;
             intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
             intent.Entities.SlotAttribute = slotAttribute;
+            intent.Entities._instance.SlotAttribute = GetInstanceDatas(userInput, slotAttribute);
+            intent.Entities.SlotAttributeName = slotAttributeName;
+            intent.Entities._instance.SlotAttributeName = GetListEntityInstanceDatas(userInput, slotAttributeName); ;
+
             return intent;
         }
 
@@ -90,6 +96,36 @@ namespace CalendarSkill.Test.Flow.Utterances
             for (int i = 0; i < entities.Length; i++)
             {
                 var name = entities[i];
+                var index = userInput.IndexOf(name);
+                if (index == -1)
+                {
+                    throw new Exception("No such string in user input");
+                }
+
+                var instanceData = new InstanceData
+                {
+                    StartIndex = index,
+                    EndIndex = index + name.Length,
+                    Text = name
+                };
+
+                result[i] = instanceData;
+            }
+
+            return result;
+        }
+
+        private static InstanceData[] GetListEntityInstanceDatas(string userInput, string[][] entities)
+        {
+            if (userInput == null || entities == null)
+            {
+                return null;
+            }
+
+            var result = new InstanceData[entities.Length];
+            for (int i = 0; i < entities.Length; i++)
+            {
+                var name = entities[i][0];
                 var index = userInput.IndexOf(name);
                 if (index == -1)
                 {

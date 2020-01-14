@@ -17,12 +17,9 @@ namespace Luis
         public enum Intent
         {
             AcceptEventEntry,
-            AddAttendee,
-            AddMeetingRoom,
+            AddCalendarEntryAttribute,
             CancelCalendar,
-            CancelMeetingRoom,
             ChangeCalendarEntry,
-            ChangeMeetingRoom,
             CheckAvailability,
             ConnectToMeeting,
             ContactMeetingAttendees,
@@ -53,10 +50,10 @@ namespace Luis
             public string[] MeetingRoom;
             public string[] Location;
             public string[] ContactName;
+            public string[] SlotAttribute;
             public string[] ToDate;
             public string[] MoveEarlierTimeSpan;
             public string[] MoveLaterTimeSpan;
-            public string[] SlotAttribute;
             public string[] OrderReference;
             public string[] PositionReference;
             public string[] Building;
@@ -73,6 +70,7 @@ namespace Luis
             // Lists
             public string[][] PossessivePronoun;
             public string[][] RelationshipName;
+            public string[][] SlotAttributeName;
 
             // Instance
             public class _Instance
@@ -84,10 +82,10 @@ namespace Luis
                 public InstanceData[] MeetingRoom;
                 public InstanceData[] Location;
                 public InstanceData[] ContactName;
+                public InstanceData[] SlotAttribute;
                 public InstanceData[] ToDate;
                 public InstanceData[] MoveEarlierTimeSpan;
                 public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] SlotAttribute;
                 public InstanceData[] OrderReference;
                 public InstanceData[] PositionReference;
                 public InstanceData[] Building;
@@ -100,6 +98,7 @@ namespace Luis
                 public InstanceData[] ordinal;
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
+                public InstanceData[] SlotAttributeName;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

@@ -76,5 +76,7 @@ namespace CalendarSkill.Test.Flow.Strings
         public const string ChangeTime = "different time";
 
         public const string SlotAttributeTime = "time";
+
+        public const string SlotAttributeRoom = "room";
     }
 }

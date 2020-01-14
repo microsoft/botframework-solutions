@@ -32,7 +32,7 @@
 - ^i (want to|would like to|'d like to) (join|attend) the {Subject}^
 
 
-## AddAttendee
+## AddCalendarEntryAttribute
 - add {ContactName=carlos} to the meeting
 - add {ContactName=chelsea}
 - add {ContactName=enrique}
@@ -66,13 +66,10 @@
 - please invite {ContactName=kathy rood} to the meeting today.
 - send an invitation to {ContactName=jane}
 - send an invitation to {ContactName=jerry seinfeld}
-
-
-## AddMeetingRoom
-- add a room to my {ToTime=3pm} meeting
+- add a {SlotAttribute=room} to my {ToTime=3pm} meeting
 - add city center {MeetingRoom=2122} to {ToTime=10am} meeting
-- can you add a room to {FromDate={ToDate=tomorrow}}'s {Subject=dev meeting}
-- please add a meeting room to the {Subject=daily scrum meeting}
+- can you add a {SlotAttribute=room} to {FromDate={ToDate=tomorrow}}'s {Subject=dev meeting}
+- please add a {SlotAttribute=meeting room} to the {Subject=daily scrum meeting}
 
 
 ## CancelCalendar
@@ -92,13 +89,6 @@
 - stop connecting it
 - stop finding it
 
-
-## CancelMeetingRoom
-- cancel the meeting room
-- cancel the room for {Subject=daily scrum meeting}
-- cancel the room for my 4pm meeting
-- cancel the meeting room of my 6pm meeting
-- please cancel the room of my 7pm meeting
 
 ## ChangeCalendarEntry
 - bring forward my {FromTime=4 o'clock} appointment {MoveEarlierTimeSpan=2 hours}
@@ -217,15 +207,13 @@
 - update my {OrderReference=next} appointment
 - update my {FromTime=tomorrow} {FromTime=6pm} meeting to {ToTime=7pm}
 - update {Subject=party}
+- change the {SlotAttribute=meeting room} to {MeetingRoom=london confroom excalibur}
+- find a new {SlotAttribute=room} for my {FromTime=3pm} meeting
+- i want to change to another {SlotAttribute=meeting room}
+- i'd like to change the {SlotAttribute=meeting room}
+- please change the {SlotAttribute=meeting room} to {MeetingRoom=2212}
 - ^[(would|can|could) you] [please] (change|reschedule) [the] ({Subject}|meeting) to {ToTime}^
 
-
-## ChangeMeetingRoom
-- change the meeting room to {MeetingRoom=london confroom excalibur}
-- find a new room for my 3pm meeting
-- i want to change to another meeting room
-- i'd like to change the meeting room
-- please change the meeting room to {MeetingRoom=2212}
 
 
 ## CheckAvailability
@@ -767,6 +755,11 @@
 - i want to delete an appointment
 - remove {Subject=dentist appointment}
 - remove {Subject=final tutoring} from my calendar
+- cancel the {SlotAttribute=meeting room}
+- cancel the {SlotAttribute=room} for {Subject=daily scrum meeting}
+- delete the {SlotAttribute=room} for my {FromTime=4pm} meeting
+- delete the {SlotAttribute=meeting room} of my {FromTime=6pm} meeting
+- please cancel the {SlotAttribute=room} of my {FromTime=7pm} meeting
 - ^(clear|delete|remove) (my|the) calendar from {FromTime} to {ToTime}^
 - ^(remove|cancel|delete) (the|my) {Subject} [at {FromTime}] [{FromDate}]^
 
@@ -1591,6 +1584,13 @@ $RelationshipName:wife=
 
 $RelationshipName:manager=
 
+
+$SlotAttributeName:room=
+- meeting room
+- conference room
+- confroom
+
+$SlotAttributeName:time=
 
 
 > # RegEx entities

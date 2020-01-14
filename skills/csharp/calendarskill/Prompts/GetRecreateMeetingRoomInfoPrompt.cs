@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.Shared;
+using CalendarSkill.Utilities;
 using CalendarSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -117,7 +118,6 @@ namespace CalendarSkill.Prompts
                     }
 
                 case CalendarLuis.Intent.FindMeetingRoom:
-                case CalendarLuis.Intent.ChangeMeetingRoom:
                     {
                         result = RecreateMeetingRoomState.ChangeMeetingRoom;
                         return result;
@@ -136,20 +136,16 @@ namespace CalendarSkill.Prompts
 
                 case CalendarLuis.Intent.ChangeCalendarEntry:
                     {
-                        if (luisResult.Entities.ToDate != null || luisResult.Entities.ToTime != null)
+                        if (luisResult.Entities.ToDate != null || luisResult.Entities.ToTime != null || CalendarCommonUtil.ContainTimeSlot(luisResult))
                         {
                             result = RecreateMeetingRoomState.ChangeTime;
                             return result;
                         }
 
-                        if (luisResult.Entities.SlotAttribute != null)
+                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
-                            var slotAttribute = GetSlotAttributeFromEntity(luisResult.Entities);
-                            if (slotAttribute.ToLower().Contains(CalendarCommonStrings.Time))
-                            {
-                                result = RecreateMeetingRoomState.ChangeTime;
-                                return result;
-                            }
+                            result = RecreateMeetingRoomState.ChangeMeetingRoom;
+                            return result;
                         }
 
                         break;
