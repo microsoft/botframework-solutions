@@ -33,9 +33,9 @@ namespace LinkedAccounts.Web.Controllers
 
         private ICredentialProvider CredentialProvider { get; set; }
 
-        public IActionResult Index(bool companionApp = false)
+        public IActionResult Index(bool companionApp = false, string userId = null)
         {
-            return this.RedirectToAction("LinkedAccounts", new { companionApp = companionApp });
+            return this.RedirectToAction("LinkedAccounts", new { companionApp = companionApp, userId = userId });
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LinkedAccounts.Web.Controllers
         /// </summary>
         /// <param name="companionApp">Flag used to show a sample deep link to a companion application.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
+        public async Task<IActionResult> LinkedAccounts(bool companionApp = false, string userId = null)
         {
             this.ViewData["Message"] = "Your application description page.";
 
@@ -73,7 +73,14 @@ namespace LinkedAccounts.Web.Controllers
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
-                var userId = UserId.GetUserId(this.HttpContext, this.User);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    userId = UserId.GetUserId(this.HttpContext, this.User);
+                }
+                else
+                {
+                    this.HttpContext.Session.SetString("ChangedUserId", userId);
+                }
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await this.repository.GetTokenStatusAsync(userId, this.CredentialProvider);
@@ -97,13 +104,15 @@ namespace LinkedAccounts.Web.Controllers
         /// <summary>
         /// Retrieve a URL for the user to link a given connection name to their Bot.
         /// </summary>
-        /// <param name="account">TokenStatus information.</param>
+        /// <param name="connectionName">Connection Name.</param>
+        /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignIn(TokenStatus account)
+        public async Task<IActionResult> SignIn(String connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
-            string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
+            //string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
+            string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, connectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts?companionApp={companionApp.ToString()}");
 
             return this.Redirect(link);
         }
@@ -111,24 +120,25 @@ namespace LinkedAccounts.Web.Controllers
         /// <summary>
         /// Sign a user out of a given connection name previously linked to their Bot.
         /// </summary>
-        /// <param name="account">TokenStatus information.</param>
+        /// <param name="connectionName">Connection Name.</param>
+        /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignOut(TokenStatus account)
+        public async Task<IActionResult> SignOut(String connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
-            await this.repository.SignOutAsync(userId, this.CredentialProvider, account.ConnectionName);
+            await this.repository.SignOutAsync(userId, this.CredentialProvider, connectionName);
 
-            return this.RedirectToAction("LinkedAccounts");
+            return this.RedirectToAction("LinkedAccounts", new { companionApp });
         }
 
-        public async Task<IActionResult> SignOutAll()
+        public async Task<IActionResult> SignOutAll(bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
             await this.repository.SignOutAsync(userId, this.CredentialProvider);
 
-            return this.RedirectToAction("LinkedAccounts");
+            return this.RedirectToAction("LinkedAccounts", new { companionApp });
         }
 
         [HttpPost]

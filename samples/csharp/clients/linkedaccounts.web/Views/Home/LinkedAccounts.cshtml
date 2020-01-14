@@ -58,13 +58,22 @@ else
                 @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
                 <button type="submit">Update</button>
                 <button onclick="copyUserId()">Copy</button>
-                if (Model.CompanionApp)
+                @if (Model.CompanionApp)
                 {
-                    <button onclick="window.open('microsoft://virtualassistant/user/@Model.UserId','_blank')" type="button">
+                    var hasSignedIn = false;
+                    @foreach (var account in Model.Status)
+                    {
+                        @if (!account.HasToken.HasValue || account.HasToken.Value)
+                        {
+                            hasSignedIn = true;
+                        }
+                    }
+
+                    <button onclick="window.open('microsoft://virtualassistant/?userId=@Model.UserId&signInStatus=@hasSignedIn','_blank')" type="button">
                         Complete and return to app
                     </button>
                 }
-                @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
+                @Html.ActionLink("Sign Out All", "SignOutAll", "Home", Model.CompanionApp, new { @class = "button" })
             }
         </div>
         <div class="linkedAccount-list">
@@ -93,7 +102,7 @@ else
                             </div>
                         </div>
                         <div id="signin"></div>
-                        @Html.ActionLink("Sign In", "SignIn", "Home", account, new { @class = "button linkedAccount-action" })
+                        @Html.ActionLink("Sign In", "SignIn", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "button linkedAccount-action" })
                     }
                     else
                     {
@@ -108,7 +117,7 @@ else
                                 Online
                             </div>
                         </div>
-                        @Html.ActionLink("Sign Out", "SignOut", "Home", account, new { @class = "button linkedAccount-action" })
+                        @Html.ActionLink("Sign Out", "SignOut", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "button linkedAccount-action" })
                     }
                 </div>
             }
