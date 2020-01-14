@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
                 var skillDialogArgs = new SkillDialogArgs { SkillId = skillId };
 
                 // Start the skill dialog.
-                return await outerDc.ReplaceDialogAsync(skillId, skillDialogArgs);
+                return await outerDc.ReplaceDialogAsync(skillId, skillDialogArgs).ConfigureAwait(false);
             }
             else
             {

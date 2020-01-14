@@ -24,7 +24,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
-        private bool localAuthConfigured = false;
         private MicrosoftAppCredentials _appCredentials;
 
         public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null, List<OAuthPromptSettings> promptSettings = null)
