@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Migrate to GA Bot Framework Skills
-language: C#
+language: csharp
 title: Tutorial
 order: 1
 ---
