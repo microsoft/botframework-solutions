@@ -102,9 +102,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             return await SendToSkillAsync(dc, dc.Context.Activity, cancellationToken).ConfigureAwait(false);
         }
 
-        public override async Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result = null, CancellationToken cancellationToken = default)
+        public override Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result = null, CancellationToken cancellationToken = default)
         {
-            return EndOfTurn;
+            return Task.FromResult(EndOfTurn);
         }
 
         public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                 await SendToSkillAsync(null, (Activity)activity, cancellationToken).ConfigureAwait(false);
             }
 
-            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken).ConfigureAwait(false);
         }
 
         private static void ApplyParentActivityProperties(ITurnContext turnContext, Activity skillActivity, SkillDialogArgs dialogArgs)
