@@ -4,6 +4,13 @@
  */
 
 class MockSkillTransport {
+
+    async cancelRemoteDialog(turnContext) {
+        return Promise.resolve();
+    }
+
+    disconnect() { }
+
     async forwardToSkill(turnContext, activity, tokenRequestHandler) {
         this.activityForwarded = activity;
         return Promise.resolve(true);

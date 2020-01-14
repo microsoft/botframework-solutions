@@ -14,34 +14,34 @@
 - Scusa, non capivo cosa intendevi. Vuoi vedere di più?
 
 # NoTasksMessage.Text(ListType)
-- Sembra che non hai compiti nella tua {ListType} elenco. Fatemi sapere se volete creare una nuova attività.
+- Sembra che non hai compiti nella tua @{ListType} elenco. Fatemi sapere se volete creare una nuova attività.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
-- Hai {TaskCount} elementi sul {ListType} elenco.
+- Hai @{TaskCount} elementi sul @{ListType} elenco.
 
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- Sei già all'inizio del tuo {ListType} elenco. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Sei già all'inizio del tuo @{ListType} elenco. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
-- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- Questo è l'ultimo compito sul vostro {ListType} elenco. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Questo è l'ultimo compito sul vostro @{ListType} elenco. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- Queste sono le ultime attività {ListType} elenco. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Queste sono le ultime attività @{ListType} elenco. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo {TaskCount} compiti di nuovo?
+- Scusa, non capivo cosa intendevi. Vuoi vedere il tuo primo @{TaskCount} compiti di nuovo?
 
 # CardSummaryMessageForSingleTask.Text(ListType)
-- Hai 1 compito sul tuo {ListType} list: Qui ci sono i 1 più recenti, è
+- Hai 1 compito sul tuo @{ListType} list: Qui ci sono i 1 più recenti, è
 
 # CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
-- Hai {AllTasksCount} compiti sul vostro {ListType} elenco: Qui ci sono i {count(ToDos)} più recenti, sono
+- Hai @{AllTasksCount} compiti sul vostro @{ListType} elenco: Qui ci sono i @{count(ToDos)} più recenti, sono
 
 # LatestTask.Text
 - Il tuo ultimo compito è
@@ -59,8 +59,8 @@
 - Le attività precedenti sono
 
 # PreviousFirstSingleTask.Text(taskCount)
-- Il tuo primo {taskCount} attività è
+- Il tuo primo @{TaskCount} attività è
 
 # PreviousFirstTasks.Text(taskCount)
-- Il tuo primo {taskCount} compiti sono
+- Il tuo primo @{TaskCount} compiti sono
 

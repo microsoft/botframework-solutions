@@ -69,19 +69,19 @@
 - Qu'est-ce que tu veux dire dans ton attaquant ?
 
 # RecipientConfirmed.Text(userName)
-- D'accord, je vais envoyer ceci à {userName}.
+- D'accord, je vais envoyer ceci à @{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- Vous avez {totalCount} e-mails dans votre boîte de réception. Le dernier e-mail a été {emailListDetails}.
+- Vous avez @{totalCount} e-mails dans votre boîte de réception. Le dernier e-mail a été @{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- Vous avez 1 e-mail dans votre boîte de réception. Le dernier e-mail a été {emailListDetails}.
+- Vous avez 1 e-mail dans votre boîte de réception. Le dernier e-mail a été @{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- Vous avez {totalCount} e-mails dans votre boîte de réception. Le premier courriel a été {emailListDetails}.
+- Vous avez @{totalCount} e-mails dans votre boîte de réception. Le premier courriel a été @{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- Vous avez 1 e-mail dans votre boîte de réception. Le premier courriel a été {emailListDetails}.
+- Vous avez 1 e-mail dans votre boîte de réception. Le premier courriel a été @{emailListDetails}.
 
 # FirstPageAlready.Text
 - C'est déjà la première page.
@@ -108,7 +108,7 @@
 - Bien sûr, je suis là si tu as besoin de moi.
 
 # SentSuccessfully.Text(subject)
-- J'ai envoyé l'e-mail avec le sujet {subject}.
+- J'ai envoyé l'e-mail avec le sujet @{subject}.
 
 # RetryInput.Text
 - Désolé, je ne comprends pas ce que tu veux dire. Pourriez-vous s'il vous plaît essayer à nouveau?

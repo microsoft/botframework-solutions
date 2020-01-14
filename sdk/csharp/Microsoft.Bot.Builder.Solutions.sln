@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A26898D5-E8CB-4CC8-8997-59090DCF6ECD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions.Tests", "tests\microsoft.bot.builder.solutions.tests\Microsoft.Bot.Builder.Solutions.Tests.csproj", "{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{3AB538FC-B6CA-42E6-A065-53B6A87B57E7}"
 EndProject
 Global
@@ -19,14 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AB538FC-B6CA-42E6-A065-53B6A87B57E7}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
 		{3AB538FC-B6CA-42E6-A065-53B6A87B57E7}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
 		{3AB538FC-B6CA-42E6-A065-53B6A87B57E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -40,7 +30,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DB53E49B-76B1-4DEE-9ADC-8528F899C7B4} = {A26898D5-E8CB-4CC8-8997-59090DCF6ECD}
 		{3AB538FC-B6CA-42E6-A065-53B6A87B57E7} = {385B75F0-44DF-4B32-8676-BC46110467B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

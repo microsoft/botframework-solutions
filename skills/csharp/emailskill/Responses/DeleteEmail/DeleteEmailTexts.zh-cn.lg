@@ -7,7 +7,7 @@
 - 是否确实要删除？
 
 # DeleteConfirm.Speak(emailInfo)
-- 是否确实要删除？电子邮件详情：{emailInfo}.
+- 是否确实要删除？电子邮件详情：@{emailInfo}.
 
 # DeleteSuccessfully.Text
 - 您的电子邮件已成功删除。

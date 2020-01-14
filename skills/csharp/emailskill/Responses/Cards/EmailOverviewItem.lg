@@ -2,7 +2,7 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 # EmailOverviewList(emails)
-- {join(foreach(emails, x , EmailOverviewItem(x)), ',')} 
+- @{join(foreach(emails, x , EmailOverviewItem(x)), ',')} 
 
 # EmailOverviewItem(emailItem)
 -```

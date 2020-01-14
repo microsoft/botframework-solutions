@@ -144,7 +144,6 @@ describe("Skill dialog slot filling", function() {
                     mockAppCredentials,
                     telemetryClient,
                     skillContextAccessor,
-                    undefined,
                     mockSkillTransport
                 )
             )
