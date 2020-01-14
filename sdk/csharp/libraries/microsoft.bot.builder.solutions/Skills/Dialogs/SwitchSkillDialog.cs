@@ -44,7 +44,10 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Dialogs
             if ((bool)result)
             {
                 // If user decided to switch, replace current skill dialog with new skill dialog.
-                return await outerDc.ReplaceDialogAsync(skillId).ConfigureAwait(false);
+                var skillDialogArgs = new SkillDialogArgs { SkillId = skillId };
+
+                // Start the skill dialog.
+                return await outerDc.ReplaceDialogAsync(skillId, skillDialogArgs).ConfigureAwait(false);
             }
             else
             {

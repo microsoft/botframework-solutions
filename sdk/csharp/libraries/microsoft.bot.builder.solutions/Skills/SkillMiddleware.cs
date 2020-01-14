@@ -4,7 +4,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
@@ -25,18 +24,15 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _dialogState = dialogState;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default)
         {
             var activity = turnContext.Activity;
-            if (activity != null && activity.Type == ActivityTypes.Event)
+            if (activity != null && activity.Type == ActivityTypes.EndOfConversation)
             {
-                if (activity.Name == SkillEvents.CancelAllSkillDialogsEventName)
-                {
-                    await _dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
-                    await _conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
-                    await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
-                    return;
-                }
+                await _dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
+                return;
             }
 
             await next(cancellationToken).ConfigureAwait(false);
