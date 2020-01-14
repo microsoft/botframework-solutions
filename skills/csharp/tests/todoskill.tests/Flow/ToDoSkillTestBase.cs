@@ -118,12 +118,7 @@ namespace ToDoSkill.Tests.Flow
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
-                { "AddToDo", "AddToDoActivities" },
-                { "DeleteToDo", "DeleteToDoActivities" },
-                { "Main", "ToDoMainActivities" },
-                { "MarkToDo", "MarkToDoActivities" },
-                { "Shared", "ToDoSharedActivities" },
-                { "ShowToDo", "ShowToDoActivities" }
+                { "Shared", "ResponsesAndTexts" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -149,19 +144,7 @@ namespace ToDoSkill.Tests.Flow
             Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
 
             // Configure files for generating all responses. Response from bot should equal one of them.
-            var templateFilesAll = new List<string>()
-            {
-                @"AddToDo/AddToDoTexts.lg",
-                @"DeleteToDo/DeleteToDoTexts.lg",
-                @"Main/ToDoMainTexts.lg",
-                @"MarkToDo/MarkToDoTexts.lg",
-                @"Shared/ToDoSharedTexts.lg",
-                @"ShowToDo/ShowToDoTexts.lg",
-            };
-
-            var templatesAll = new List<string>();
-            templateFilesAll.ForEach(s => templatesAll.Add(Path.Combine(".", "Responses", s)));
-            var engineAll = new TemplateEngine().AddFiles(templatesAll);
+            var engineAll = new TemplateEngine().AddFile(Path.Combine("Responses", "Shared", "ResponsesAndTexts.lg"));
             Services.AddSingleton(engineAll);
 
             Services.AddSingleton<IStorage>(new MemoryStorage());
