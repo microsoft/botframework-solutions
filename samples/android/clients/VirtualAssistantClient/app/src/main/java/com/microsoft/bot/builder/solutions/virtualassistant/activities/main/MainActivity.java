@@ -199,12 +199,11 @@ public class MainActivity extends BaseActivity
             String userId = intentData.getQueryParameter(PARAMS_USER_ID);
             Boolean signInStatus = Boolean.parseBoolean(intentData.getQueryParameter(PARAMS_SIGN_IN_STATUS).toLowerCase());
 
-            if (userId.equals(configurationManager.getConfiguration().userId)) {
-                Configuration configuration = configurationManager.getConfiguration();
-                configuration.signedIn = signInStatus;
-                configurationManager.setConfiguration(configuration);
-                setSignInStatus(signInStatus);
-            }
+            Configuration configuration = configurationManager.getConfiguration();
+            configuration.userId = userId;
+            configuration.signedIn = signInStatus;
+            configurationManager.setConfiguration(configuration);
+            setSignInStatus(signInStatus);
         }
     }
 

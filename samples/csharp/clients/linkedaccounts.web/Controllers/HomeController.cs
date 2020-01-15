@@ -33,9 +33,9 @@ namespace LinkedAccounts.Web.Controllers
 
         private ICredentialProvider CredentialProvider { get; set; }
 
-        public IActionResult Index(bool companionApp = false, string userId = null)
+        public IActionResult Index(bool companionApp = false)
         {
-            return this.RedirectToAction("LinkedAccounts", new { companionApp = companionApp, userId = userId });
+            return this.RedirectToAction("LinkedAccounts", new { companionApp = companionApp });
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LinkedAccounts.Web.Controllers
         /// </summary>
         /// <param name="companionApp">Flag used to show a sample deep link to a companion application.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> LinkedAccounts(bool companionApp = false, string userId = null)
+        public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
         {
             this.ViewData["Message"] = "Your application description page.";
 
@@ -73,14 +73,7 @@ namespace LinkedAccounts.Web.Controllers
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
-                if (string.IsNullOrEmpty(userId))
-                {
-                    userId = UserId.GetUserId(this.HttpContext, this.User);
-                }
-                else
-                {
-                    this.HttpContext.Session.SetString("ChangedUserId", userId);
-                }
+                var userId = UserId.GetUserId(this.HttpContext, this.User);
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await this.repository.GetTokenStatusAsync(userId, this.CredentialProvider);
@@ -107,11 +100,10 @@ namespace LinkedAccounts.Web.Controllers
         /// <param name="connectionName">Connection Name.</param>
         /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignIn(String connectionName, bool companionApp)
+        public async Task<IActionResult> SignIn(string connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
-            //string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
             string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, connectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts?companionApp={companionApp.ToString()}");
 
             return this.Redirect(link);
@@ -123,7 +115,7 @@ namespace LinkedAccounts.Web.Controllers
         /// <param name="connectionName">Connection Name.</param>
         /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignOut(String connectionName, bool companionApp)
+        public async Task<IActionResult> SignOut(string connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
