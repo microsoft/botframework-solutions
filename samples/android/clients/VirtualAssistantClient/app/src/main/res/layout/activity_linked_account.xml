@@ -7,4 +7,13 @@
         android:layout_height="match_parent"
         android:id="@+id/linked_account"/>
 
+    <ProgressBar
+        android:id="@+id/linked_account_progress_bar"
+        android:max="3"
+        android:progress="100"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
 </RelativeLayout>
