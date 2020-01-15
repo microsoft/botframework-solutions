@@ -8,11 +8,6 @@
   <ItemGroup>
     <None Remove="Responses\TestResponses.es.lg" />
     <None Remove="Responses\TestResponses.lg" />
-    <None Remove="Skills\manifestTemplate.json" />
-    <None Remove="Skills\TestData\luisCalendarModelResponse.json" />
-    <None Remove="Skills\TestData\malformedManifestTemplate.json" />
-    <None Remove="Skills\TestData\manifestInvalidIntent.json" />
-    <None Remove="Skills\TestData\manifestInvalidLUISModel.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,21 +15,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Responses\TestResponses.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\manifestTemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\TestData\luisCalendarModelResponse.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\TestData\malformedManifestTemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\TestData\manifestInvalidIntent.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\TestData\manifestInvalidLUISModel.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -56,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libraries\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+    <ProjectReference Include="..\..\libraries\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
   
   <ItemGroup>

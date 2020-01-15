@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Models;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
+namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     public class LuisRecognizeExTest

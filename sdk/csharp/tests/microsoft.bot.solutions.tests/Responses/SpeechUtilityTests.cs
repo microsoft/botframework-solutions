@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using AdaptiveCards;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Builder.Solutions.Tests
+namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
     public class SpeechUtilityTests

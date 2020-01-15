@@ -2,9 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
-namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
+namespace Microsoft.Bot.Solutions.Tests.Responses
 {
     /// <summary>
     /// Contains bot responses.

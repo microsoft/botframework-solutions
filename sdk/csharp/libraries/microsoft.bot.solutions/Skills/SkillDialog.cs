@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private readonly Uri _skillHostEndpoint;
 
         public SkillDialog(ConversationState conversationState, SkillHttpClient skillClient, EnhancedBotFrameworkSkill skill, IConfiguration configuration, Uri skillHostEndpoint)
-            : base(nameof(SkillDialog))
+            : base(skill?.Id)
         {
             if (configuration == null)
             {
@@ -45,7 +45,6 @@ namespace Microsoft.Bot.Solutions.Skills
                 throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
             }
 
-            Id = skill.Id;
             _skillHostEndpoint = skillHostEndpoint;
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
             _skill = skill ?? throw new ArgumentNullException(nameof(skill));
