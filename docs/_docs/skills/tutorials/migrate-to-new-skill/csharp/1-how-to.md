@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Migrate to GA Bot Framework Skills
-language: csharp
+language: C#
 title: Tutorial
 order: 1
 ---
@@ -124,13 +124,18 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
 7. Update to use `EndOfConversation` instead of Handoff when a conversation completed
 
-    In the `OnDialogCompleteAsync` function of `MainDialog.cs`, instead of sending back a 'Handoff' activity, update it to be `EndOfConversation` inline with the new Skills changes.
+    In the `OnDialogCompleteAsync` function of `MainDialog.cs`, instead of sending back a 'Handoff' activity we now use EndOfConversation and optionally return a response object back to the caller if provided.
     
     ```csharp
-        var response = outerDc.Context.Activity.CreateReply();
-        response.Type = ActivityTypes.Handoff -> ActivityTypes.EndOfConversation;
-        await outerDc.Context.SendActivityAsync(response);
+    // Retrieve the prior dialogs result if provided to return on the Skill EndOfConversation event.
+    ObjectPath.TryGetPathValue<object>(dc.Context.TurnState, TurnPath.LASTRESULT, out object dialogResult);
 
+    var endOfConversation = new Activity(ActivityTypes.EndOfConversation) {
+        Code = EndOfConversationCodes.CompletedSuccessfully,
+        Value = dialogResult };
+    
+    await dc.Context.SendActivityAsync(endOfConversation, cancellationToken);
+    await dc.EndDialogAsync(result);         
     ```
 
 8. Add code in the exception handler of the adapter to send an EndOfConversation activity back
@@ -140,10 +145,9 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     ```csharp
     OnTurnError = async (turnContext, exception) =>
     {
-        var eocActivity = turnContext.Activity.CreateReply();
-        eocActivity.Type = ActivityTypes.EndOfConversation;
-        await outerDc.Context.SendActivityAsync(eocActivity);
-
+        var endOfConversation = new Activity(ActivityTypes.EndOfConversation) {
+        Code = EndOfConversationCodes.Unknown };
+        await turnContext.SendActivityAsync(endOfConversation);
         ...
     };
 
@@ -155,4 +159,4 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
     The existing `MultiProviderAuthDialog` if used will automatically adapt to this change and no changes are required. As required you can switch to using the `OAuthPrompt` directly.
 
-> A change to the Skill Manifest schema is expected shortly, this document will be updated to reflect additional steps when complete.
+In order to update to the new Skill manifest schema and handle Action invocation follow steps 2 and 3 of this tutorial.
