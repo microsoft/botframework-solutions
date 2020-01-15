@@ -1,6 +1,4 @@
-﻿[import](SharedTexts.lg)
-
-# DidntUnderstandMessage
+﻿# DidntUnderstandMessage
 [Activity
     Text = @{DidntUnderstandMessage.Text()}
     Speak = @{DidntUnderstandMessage.Text()}

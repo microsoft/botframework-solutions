@@ -1,7 +1,4 @@
-﻿[import](SummaryDialogTexts.lg)
-[import](../Card/Card.lg)
-
-# CalendarNoMoreEvent
+﻿# CalendarNoMoreEvent
 [Activity
     Text = @{CalendarNoMoreEvent.Text()}
     Speak = @{CalendarNoMoreEvent.Text()}

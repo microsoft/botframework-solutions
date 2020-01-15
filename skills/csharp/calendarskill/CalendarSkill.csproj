@@ -108,22 +108,7 @@
     <None Update="Responses\Card\Card.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.de-de.lg">
@@ -148,22 +133,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\CheckAvailable\CheckAvailableActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
@@ -192,22 +162,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CreateEvent\CreateEventDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CreateEvent\CreateEventDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CreateEvent\CreateEventDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CreateEvent\CreateEventDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\CreateEvent\CreateEventDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CreateEvent\CreateEventDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\CreateEvent\CreateEventDialogTexts.de-de.lg">
@@ -232,22 +187,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\FindContact\FindContactDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\FindContact\FindContactDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\FindContact\FindContactDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\FindContact\FindContactDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\FindContact\FindContactDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\FindContact\FindContactDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\FindContact\FindContactDialogTexts.de-de.lg">
@@ -272,22 +212,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\JoinEvent\JoinEventDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\JoinEvent\JoinEventDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\JoinEvent\JoinEventDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\JoinEvent\JoinEventDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\JoinEvent\JoinEventDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\JoinEvent\JoinEventDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\JoinEvent\JoinEventDialogTexts.de-de.lg">
@@ -317,22 +242,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\Main\MainDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\MainDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\MainDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\MainDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\Main\MainDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\MainDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Main\MainDialogTexts.de-de.lg">
@@ -360,22 +270,25 @@
     <None Update="Responses\Shared\ResponseIdCollection.t4">
       <Generator></Generator>
     </None>
-    <None Update="Responses\Shared\SharedActivities.de-de.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\SharedActivities.es-es.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\SharedActivities.fr-fr.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\SharedActivities.it-it.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\SharedActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Shared\SharedActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\SharedTexts.de-de.lg">
@@ -396,22 +309,7 @@
     <None Update="Responses\Shared\SharedTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Summary\SummaryDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Summary\SummaryDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Summary\SummaryDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Summary\SummaryDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\Summary\SummaryDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Summary\SummaryDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Summary\SummaryDialogTexts.de-de.lg">
@@ -436,22 +334,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.de-de.lg">
@@ -476,22 +359,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.de-de.lg">
@@ -516,22 +384,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpcomingEventResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.de-de.lg">

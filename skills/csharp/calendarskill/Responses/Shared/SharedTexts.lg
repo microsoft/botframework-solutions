@@ -1,3 +1,5 @@
+[import](SharedActivities.lg)
+
 # DidntUnderstandMessage.Text
 - Sorry, I didn't understand. Please try rephrasing your question and ask again.
 - Sorry, I don't understand. Please try again.

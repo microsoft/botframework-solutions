@@ -1,6 +1,4 @@
-﻿[import](TimeRemainingDialogTexts.lg)
-
-# ShowNextMeetingTimeRemainingMessage
+﻿# ShowNextMeetingTimeRemainingMessage
 [Activity
     Text = @{ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)}
     Speak = @{ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)}

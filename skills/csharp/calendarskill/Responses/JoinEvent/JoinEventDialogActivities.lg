@@ -1,6 +1,4 @@
-﻿[import](JoinEventDialogTexts.lg)
-
-# NoMeetingToConnect
+﻿# NoMeetingToConnect
 [Activity
     Text = @{NoMeetingToConnect.Text()}
     Speak = @{NoMeetingToConnect.Text()}

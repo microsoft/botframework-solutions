@@ -1,3 +1,5 @@
+[import](MainDialogActivities.lg)
+
 # CalendarWelcomeMessage.Text
 - Bonjour, comment puis-je vous aider? Voici quelques choses que je peux faire : donner un aperçu de vos réunions d'aujourd'hui, lire vos prochaines réunions ou créer une nouvelle réunion.
 

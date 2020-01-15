@@ -103,17 +103,7 @@ namespace CalendarSkill
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
-                { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
-                { "CheckAvailable", "CheckAvailableActivities" },
-                { "CreateEvent", "CreateEventDialogActivities" },
-                { "FindContact", "FindContactDialogActivities" },
-                { "JoinEvent", "JoinEventDialogActivities" },
-                { "Main", "MainDialogActivities" },
-                { "Shared", "SharedActivities" },
-                { "Summary", "SummaryDialogActivities" },
-                { "TimeRemaining", "TimeRemainingDialogActivities" },
-                { "UpcomingEvent", "UpcomingEventDialogActivities" },
-                { "UpdateEvent", "UpdateEventDialogActivities" },
+                { "Shared", "ResponsesAndTexts" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();

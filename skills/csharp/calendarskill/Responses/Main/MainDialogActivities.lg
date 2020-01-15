@@ -1,6 +1,4 @@
-﻿[import](MainDialogTexts.lg)
-
-# CalendarWelcomeMessage
+﻿# CalendarWelcomeMessage
 [Activity
     Text = @{CalendarWelcomeMessage.Text()}
     Speak = @{CalendarWelcomeMessage.Text()}

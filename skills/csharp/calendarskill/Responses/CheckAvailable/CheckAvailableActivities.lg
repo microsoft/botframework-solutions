@@ -1,6 +1,4 @@
-﻿[import](CheckAvailableTexts.lg)
-
-# AskForCheckAvailableTime
+﻿# AskForCheckAvailableTime
 [Activity
     Text = @{AskForCheckAvailableTime.Text()}
     Speak = @{AskForCheckAvailableTime.Text()}

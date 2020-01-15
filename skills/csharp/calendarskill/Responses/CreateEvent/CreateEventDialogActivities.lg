@@ -1,6 +1,4 @@
-﻿[import](CreateEventDialogTexts.lg)
-
-# NoTitleShort
+﻿# NoTitleShort
 [Activity
     Text = @{NoTitleShort.Text()}
     Speak = @{NoTitleShort.Text()}
