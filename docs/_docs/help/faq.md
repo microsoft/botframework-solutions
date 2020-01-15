@@ -30,7 +30,7 @@ Follow a guided tutorial to customize a Virtual Assistant (available in [C#]({{s
 
 ### How do I deploy a Virtual Assistant?
 {:.no_toc}
-Learn how to deploy a Virtual Assistant by [automated scripts]({{site.baseurl}}/help/reference/deployment-scripts) or [manual configuration]({{site.baseurl}}/virtual-assistant/tutorials/deploy-assistant/cli/1-intro).
+Learn how to deploy a Virtual Assistant by [automated scripts]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts) or [manual configuration]({{site.baseurl}}/virtual-assistant/tutorials/deploy-assistant/cli/1-intro).
 
 ### How do I test a Virtual Assistant?
 {:.no_toc}
@@ -109,7 +109,7 @@ A Skill needs to be able to authenticate the request from a Virtual Assistant, [
 
 ### What is the Botskills Command Line (CLI) tool?
 {:.no_toc}
-[Botskills command line tool]({{site.baseurl}}/help/reference/botskills) allows you to automate the connection between a Virtual Assistant and your Skills; this includes the process of updating your dispatch models and creating authentication connections when needed.
+[Botskills command line tool]({{site.baseurl}}/skills/handbook/botskills) allows you to automate the connection between a Virtual Assistant and your Skills; this includes the process of updating your dispatch models and creating authentication connections when needed.
 
 ### How do I enable Bot Framework Skills on an existing v4 Bot?
 {:.no_toc}
@@ -127,7 +127,7 @@ Learn how to [convert an existing v4 Bot to a Bot Framework Skill]({{site.baseur
 
 [Power BI](https://powerbi.microsoft.com/) is a business analytics services that lets you visualize your data and share insights across your organization. You can ingest data from Application Insights into live dashboards and reports.
 
-[Learn more]({{site.baseurl}}/overview/analytics/)
+[Learn more]({{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro/)
 
 ### How do I configure Application Insights for a bot or Virtual Assistant?
 {:.no_toc}

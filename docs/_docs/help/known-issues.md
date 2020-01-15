@@ -62,16 +62,15 @@ QnAMaker has a central Cognitive Service resource that must be deployed in `west
 If you try to use the PowerBI analytics dashboard with your Virtual Assistant / Skills and experience a `Errors in FlowAggregates` issue or experience some telemetry not being collected this likely relates to a bug experienced in the initial version of the Virtual Assistant template and Skills which has now been addressed.
 
 1. Change `appInsights` in appSettings.config to `ApplicationInsights`
-
 ```
 "ApplicationInsights": {
     "InstrumentationKey": ""
-  }
+}
 ```
 
-2. Update your `BotServices.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
+2. Update your `BotServices.cs` file with the changes [here]({{site.repo}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
 
-3. Update your `Startup.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
+3. Update your `Startup.cs` file with the changes [here]({{site.repo}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
 
 4. Existing data in your Application Insights may cause the error to persist. You can either drop and re-create your Application insights resource updating the appSettings.config file with the new Instrumentation key or follow these [purge instructions](https://docs.microsoft.com/en-us/rest/api/application-insights/components/purge).
 
@@ -82,7 +81,7 @@ Due to a limitation with the LUIS authoring APIs the original deployment scripts
 
 This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/help/reference/deployment-scripts/#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
+This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
 
 1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 

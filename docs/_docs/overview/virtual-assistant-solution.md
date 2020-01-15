@@ -22,7 +22,7 @@ Further skills can be created and made available either through your own assista
 
 Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
-Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/).
+Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro).
 
 
 ## Key Principles
@@ -37,7 +37,7 @@ Your Virtual Assistant will be deployed within your Azure subscription. Therefor
 ### Write once, embed anywhere
 {:.no_toc}
 
-The Virtual Assistant Solution Accelerator leverages Azure Cognitive Services and can be embedded on any [Bot Framework channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) such as Web Chat, Facebook Messenger, or [Microsoft Teams]({{site.baseurl}}/virtual-assistant/tutorials/enable-teams/1-intro/). You can use the [Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-directline?view=azure-bot-service-4.0) channel to integrate a Virtual Assistant into your mobile app, webpage, or device. Focus on voice-first experiences using the [Direct Line Speech]({{site.baseurl}}/virtual-assistant/tutorials/enable-speech/1-intro/) channel.
+The Virtual Assistant Solution Accelerator leverages Azure Cognitive Services and can be embedded on any [Bot Framework channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) such as Web Chat, Facebook Messenger, or [Microsoft Teams]({{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro/). You can use the [Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-directline?view=azure-bot-service-4.0) channel to integrate a Virtual Assistant into your mobile app, webpage, or device. Focus on voice-first experiences using the [Direct Line Speech]({{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro/) channel.
 
 ### Enterprise-grade solutions
 {:.no_toc}
@@ -89,7 +89,7 @@ Clients and Channels are the ways that users can interact with the Virtual Assis
 Microsoft offers a variety of channels such as Facebook Messenger, Teams, Slack, WeChat, and many others. You can find many details around available channels in the [Bot Framework Channels documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channels-reference?view=azure-bot-service-4.0).  
 
 Sample client applications are implementations of clients that will integrate seamlessly with your Assistant and enable Speech scenarios.
-- [Virtual Assistant Client for Android]({site.baseurl}}/clients-and-channels/clients/virtual-assistant-client/)
+- [Virtual Assistant Client for Android]({{site.baseurl}}/clients-and-channels/clients/virtual-assistant-client/)
 - Virtual Assistant Client for PowerApps *(Coming Soon)*
 
 ## Next steps

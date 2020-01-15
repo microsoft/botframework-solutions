@@ -99,7 +99,7 @@ If you plan to use the skill as part of a Virtual Assistant, the process of regi
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant, please use the following steps to manually configure Authentication for the Phone Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
 
 ## Events
 

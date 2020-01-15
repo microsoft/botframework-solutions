@@ -86,7 +86,7 @@ With these limitations addressed we have now moved to a ARM template based appro
 ### Create a new project
 {:.no_toc}
 
-[Create a new project]({{site.baseurl}}/tutorials/create-assistant/3_create_project) using the Virtual Assistant Template.
+[Create a new project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project) using the Virtual Assistant Template.
 
 ### Deployment
 {:.no_toc}
