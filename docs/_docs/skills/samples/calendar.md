@@ -47,6 +47,9 @@ The following scenarios are currently supported by the Skill:
 - Find an Event's Duration
   - *How long will the next meeting last?*
   - *What's the duration of my 4 PM meeting?*
+- Find a MeetingRoom
+  - *Find a meeting room at 3 PM*
+  - *Is the room 325 open right now?*
 - Time Remaining
   - *How long until my next meeting?*
   - *How many minutes free do I have before next scheduled appointment?*
@@ -73,8 +76,9 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |Name|Description|
 |-|-|
 |AcceptEventEntry| Matches queries to accept an event|
+|AddCalendarEntryAttribute| Matches queries to add a calendar entry attribute|
 |ChangeCalendarEntry| Matches queries to change an event|
-|CheckAvailability| Matches queries to check a contact's availability |
+|CheckAvailability| Matches queries to check a contact's or a meetingroom's availability |
 |ConnectToMeeting| Matches queries to connect to a meeting|
 |ContactMeetingAttendees| Matches queries to contact the attendees of a meeting|
 |CreateCalendarEntry| Matches queries to create a calendar entry|
@@ -97,10 +101,12 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |Name|Description|
 |-|-|
 |AskParameter| Simple entity|
+|building| Simple entity|
 |ContactName| Simple entity|
 |DestinationCalendar| Simple entity|
 |Duration| Simple entity|
 |FromDate| Simple entity|
+|FloorNumber| Simple entity|
 |FromTime| Simple entity|
 |Location| Simple entity|
 |MeetingRoom| Simple entity|
@@ -116,6 +122,10 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
+|SlotAttributeName| List entity|
+|AfterAny| Pattern.Any entity|
+|MeetingRoomPatternAny| Pattern.Any entity|
+|MeetingRoomKeywordsDesc| RegEx entity|
 
 ## Configuration
 {:.toc}
@@ -123,6 +133,16 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 ### Deployment
 {:.no_toc}
 Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
+
+To use the "FindMeetingRoom" feature, you need follow these steps:
+1. Deploy the Calendar Skill as usual
+2. Configure the setting of your registered app:
+    1. Choose Redirect URL as **https://login.microsoftonline.com/common/oauth2/nativeclient**
+    2. Set the "Treat application as a public client." as **Yes**
+    3. Add Scopes: **Place.Read.All**
+3. Run the deployment script "enable_meetingroom_feature.ps1"
+    1. Provide necessary parameters based on the prompts.
+    2. In Authentication step, use your **User Account** to sign in which can access the meeting room data in the MSGraph.
 
 ### Supported content providers
 {:.no_toc}
