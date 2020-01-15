@@ -142,7 +142,7 @@ namespace CalendarSkill.Prompts
                             return result;
                         }
 
-                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
                             result = RecreateMeetingRoomState.ChangeMeetingRoom;
                             return result;

@@ -119,7 +119,7 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.AddCalendarEntryAttribute:
                     {
-                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
                             await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
                         }
@@ -146,7 +146,7 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.DeleteCalendarEntry:
                     {
-                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
                             await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
                         }
@@ -160,7 +160,7 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.ChangeCalendarEntry:
                     {
-                        if (luisResult.Entities.MeetingRoom != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
                             await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
                         }

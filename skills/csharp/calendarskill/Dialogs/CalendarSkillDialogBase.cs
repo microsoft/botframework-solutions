@@ -1426,7 +1426,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.MeetingRoom != null)
+                            if (entity.MeetingRoom != null || entity.MeetingRoomPatternAny != null)
                             {
                                 state.MeetingInfo.CreateHasDetail = true;
                                 state.MeetingInfo.MeetingRoomName = state.MeetingInfo.Location = GetMeetingRoomFromEntity(entity);
@@ -1524,7 +1524,7 @@ namespace CalendarSkill.Dialogs
                                 state.MeetingInfo.ContactInfor.ContactsNameList.AddRange(state.MeetingInfo.ContactInfor.RelatedEntityInfoDict.Keys);
                             }
 
-                            if (entity.MeetingRoom != null)
+                            if (entity.MeetingRoom != null || entity.MeetingRoomPatternAny != null)
                             {
                                 state.MeetingInfo.CreateHasDetail = true;
                                 state.MeetingInfo.MeetingRoomName = state.MeetingInfo.Location = GetMeetingRoomFromEntity(entity);
@@ -1745,7 +1745,7 @@ namespace CalendarSkill.Dialogs
                                 }
                             }
 
-                            if (entity.MeetingRoom != null)
+                            if (entity.MeetingRoom != null || entity.MeetingRoomPatternAny != null)
                             {
                                 state.MeetingInfo.CreateHasDetail = true;
                                 state.MeetingInfo.MeetingRoomName = state.MeetingInfo.Location = GetMeetingRoomFromEntity(entity);
@@ -2168,7 +2168,12 @@ namespace CalendarSkill.Dialogs
 
         protected string GetMeetingRoomFromEntity(CalendarLuis._Entities entity)
         {
-            return entity.MeetingRoom[0];
+            if (entity.MeetingRoom != null)
+            {
+                return entity.MeetingRoom[0];
+            }
+
+            return entity.MeetingRoomPatternAny[0];
         }
 
         protected string GetBuildingFromEntity(CalendarLuis._Entities entity)
@@ -2460,13 +2465,10 @@ namespace CalendarSkill.Dialogs
             return 0;
         }
 
-
         private string GetLocationFromEntity(CalendarLuis._Entities entity)
         {
             return entity.Location[0];
         }
-
-
 
         private string GetOrderReferenceFromEntity(CalendarLuis._Entities entity)
         {

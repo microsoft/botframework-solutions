@@ -14,28 +14,27 @@ namespace Luis
     {
         public string Text;
         public string AlteredText;
-        public enum Intent
-        {
-            AcceptEventEntry,
-            AddCalendarEntryAttribute,
-            CancelCalendar,
-            ChangeCalendarEntry,
-            CheckAvailability,
-            ConnectToMeeting,
-            ContactMeetingAttendees,
-            CreateCalendarEntry,
-            DeleteCalendarEntry,
-            FindCalendarDetail,
-            FindCalendarEntry,
-            FindCalendarWhen,
-            FindCalendarWhere,
-            FindCalendarWho,
-            FindDuration,
-            FindMeetingRoom,
-            None,
-            RejectCalendar,
-            ShowNextCalendar,
-            ShowPreviousCalendar,
+        public enum Intent {
+            AcceptEventEntry, 
+            AddCalendarEntryAttribute, 
+            CancelCalendar, 
+            ChangeCalendarEntry, 
+            CheckAvailability, 
+            ConnectToMeeting, 
+            ContactMeetingAttendees, 
+            CreateCalendarEntry, 
+            DeleteCalendarEntry, 
+            FindCalendarDetail, 
+            FindCalendarEntry, 
+            FindCalendarWhen, 
+            FindCalendarWhere, 
+            FindCalendarWho, 
+            FindDuration, 
+            FindMeetingRoom, 
+            None, 
+            RejectCalendar, 
+            ShowNextCalendar, 
+            ShowPreviousCalendar, 
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -72,6 +71,13 @@ namespace Luis
             public string[][] RelationshipName;
             public string[][] SlotAttributeName;
 
+            // Regex entities
+            public string[] MeetingRoomKeywordsDesc;
+
+            // Pattern.any
+            public string[] MeetingRoomPatternAny;
+            public string[] AfterAny;
+
             // Instance
             public class _Instance
             {
@@ -99,6 +105,9 @@ namespace Luis
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
                 public InstanceData[] SlotAttributeName;
+                public InstanceData[] MeetingRoomKeywordsDesc;
+                public InstanceData[] MeetingRoomPatternAny;
+                public InstanceData[] AfterAny;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -106,7 +115,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties { get; set; }
+        public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {
