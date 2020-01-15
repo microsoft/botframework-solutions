@@ -90,12 +90,7 @@ namespace EmailSkill
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
-                { "DeleteEmail", "DeleteEmailActivities" },
-                { "FindContact", "FindContactActivities" },
-                { "Main", "MainDialogActivities" },
-                { "SendEmail", "SendEmailActivities" },
-                { "Shared", "SharedActivities" },
-                { "ShowEmail", "ShowEmailActivities" }
+                { "Shared", "ResponsesAndTexts" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();

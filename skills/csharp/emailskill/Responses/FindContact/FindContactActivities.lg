@@ -1,6 +1,4 @@
-﻿[import](FindContactTexts.lg)
-
-# AddMoreContacts
+﻿# AddMoreContacts
 [Activity
     Text = @{AddMoreContacts.Text()}
     Speak = @{AddMoreContacts.Text()}

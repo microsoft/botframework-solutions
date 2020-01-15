@@ -1,3 +1,5 @@
+[import](MainDialogActivities.lg)
+
 # EmailWelcomeMessage.Text
 - ¡Hola! Puedo ayudarte a administrar tu correo electrónico en Office 365, incluida la presentación de tu correo electrónico no leído y responder o reenviar el correo electrónico por ti.
 

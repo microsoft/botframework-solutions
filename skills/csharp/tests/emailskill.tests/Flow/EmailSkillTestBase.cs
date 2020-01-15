@@ -102,12 +102,7 @@ namespace EmailSkill.Tests.Flow
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
             var templateFiles = new Dictionary<string, string>
             {
-                { "DeleteEmail", "DeleteEmailActivities" },
-                { "FindContact", "FindContactActivities" },
-                { "Main", "MainDialogActivities" },
-                { "SendEmail", "SendEmailActivities" },
-                { "Shared", "SharedActivities" },
-                { "ShowEmail", "ShowEmailActivities" }
+                { "Shared", "ResponsesAndTexts" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -133,19 +128,7 @@ namespace EmailSkill.Tests.Flow
             Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
 
             // Configure files for generating all responses. Response from bot should equal one of them.
-            var templateFilesAll = new List<string>()
-            {
-                @"DeleteEmail/DeleteEmailTexts.lg",
-                @"FindContact/FindContactTexts.lg",
-                @"Main/MainDialogTexts.lg",
-                @"SendEmail/SendEmailTexts.lg",
-                @"Shared/SharedTexts.lg",
-                @"ShowEmail/ShowEmailTexts.lg",
-            };
-
-            var templatesAll = new List<string>();
-            templateFilesAll.ForEach(s => templatesAll.Add(Path.Combine(".", "Responses", s)));
-            var engineAll = new TemplateEngine().AddFiles(templatesAll);
+            var engineAll = new TemplateEngine().AddFile(Path.Combine("Responses", "Shared", "ResponsesAndTexts.lg"));
             Services.AddSingleton(engineAll);
 
             Services.AddSingleton<IStorage>(new MemoryStorage());

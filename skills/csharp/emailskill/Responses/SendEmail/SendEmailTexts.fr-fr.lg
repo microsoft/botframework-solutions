@@ -1,3 +1,5 @@
+[import](SendEmailActivities.lg)
+
 # NoSubject.Text
 - Quel est le sujet de l'e-mail?
 

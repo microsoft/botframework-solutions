@@ -1,7 +1,4 @@
-﻿[import](../Cards/EmailDetailCard.lg)
-[import](ShowEmailTexts.lg)
-
-# ReadOut
+﻿# ReadOut
 [Activity
     Text = @{ReadOutText(messageList)}
     Speak = @{ReadOutText(messageList)}

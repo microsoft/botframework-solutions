@@ -1,7 +1,4 @@
-﻿[import](SendEmailTexts.lg)
-[import](../Cards/EmailContentPreview.lg)
-
-# NoSubject
+﻿# NoSubject
 [Activity
     Text = @{NoSubject.Text()}
     Speak = @{NoSubject.Text()}

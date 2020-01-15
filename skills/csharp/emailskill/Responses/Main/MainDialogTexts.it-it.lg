@@ -1,3 +1,5 @@
+[import](MainDialogActivities.lg)
+
 # EmailWelcomeMessage.Text
 - Ciao! È possibile gestire la posta elettronica in Office 365, inclusa la visualizzazione della posta elettronica non letta e la risposta o l'inoltro della posta elettronica.
 

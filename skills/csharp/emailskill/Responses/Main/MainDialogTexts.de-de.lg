@@ -1,3 +1,5 @@
+[import](MainDialogActivities.lg)
+
 # EmailWelcomeMessage.Text
 - Hallo! Ich kann Ihnen helfen, Ihre E-Mails in Office 365 zu verwalten, einschließlich der Anzeige Ihrer ungelesenen E-Mails und des Beantwortens oder Weiterleitens von E-Mails für Sie.
 

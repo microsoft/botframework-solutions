@@ -1,8 +1,4 @@
-﻿[import](SharedTexts.lg)
-[import](../Cards/EmailWithOutButtonCard.lg)
-[import](../Cards/EmailOverviewCard.lg)
-
-# CancellingMessage
+﻿# CancellingMessage
 [Activity
     Text = @{CancellingMessage.Text()}
     Speak = @{CancellingMessage.Text()}
