@@ -6,5 +6,5 @@
 import { ClaimsIdentity } from 'botframework-connector';
 
 export interface IAuthenticationProvider {
-    authenticate(authHeader: string): ClaimsIdentity;
+    authenticate(authHeader: string): Promise <ClaimsIdentity>;
 }

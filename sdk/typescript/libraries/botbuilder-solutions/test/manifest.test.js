@@ -5,7 +5,7 @@
 
 const assert = require("assert");
 const { join } = require("path");
-const { SkillRouter } = require(join("..", "lib", "skillRouter"));
+const { SkillRouter } = require(join("..", "lib", "skills", "skillRouter"));
 const request = require("supertest");
 const { server, botSettings } = require(join(__dirname, "helpers", "manifestServer.js"));
 const { withNock } = require(join(__dirname, "helpers", "nockHelper"));

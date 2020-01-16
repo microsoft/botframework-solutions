@@ -6,7 +6,7 @@
 const {
     ActivityHandler } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');   
-const { SkillContext } = require('../../lib/skillContext');
+const { SkillContext } = require('../../lib/skills/skillContext');
 
 class BaseBot extends ActivityHandler {
     constructor(skillContextAccessor, conversationState, dialogStateAccessor) {

@@ -5,7 +5,7 @@
 
 import { Activity, BotAdapter, ConversationReference, Middleware, ResourceResponse, TurnContext } from 'botbuilder';
 import { setTimeout } from 'timers';
-import { ActivityExtensions } from '../extensions';
+import { ActivityEx } from '../extensions';
 import { IBackgroundTaskQueue } from '../taskExtensions';
 import { CommonUtil } from '../util';
 
@@ -52,7 +52,7 @@ export class InProcAdapter extends BotAdapter {
             throw new Error('Missing parameter.  logic is required');
         }
 
-        const context: TurnContext = new TurnContext(this, ActivityExtensions.getContinuationActivity(reference));
+        const context: TurnContext = new TurnContext(this, ActivityEx.getContinuationActivity(reference));
         await this.runMiddleware(context, logic);
     }
 

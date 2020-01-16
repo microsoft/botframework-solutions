@@ -1,5 +1,5 @@
 import { LUISAuthoringModels as Models } from '@azure/cognitiveservices-luis-authoring';
-import { IBotSettingsBase, ICognitiveModelConfiguration } from 'botbuilder-solutions';
+import { IBotSettingsBase, ICognitiveModelConfiguration } from '../';
 import { ILuisService } from 'botframework-config';
 import { readFileSync } from 'fs';
 import { get } from 'request-promise-native';

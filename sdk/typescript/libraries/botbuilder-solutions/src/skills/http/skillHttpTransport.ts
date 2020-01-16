@@ -5,7 +5,7 @@
 
 import { DefaultHttpClient, HttpClient, HttpOperationResponse, RequestPrepareOptions, WebResource } from '@azure/ms-rest-js';
 import { TurnContext } from 'botbuilder';
-import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
+import { ActivityEx, TokenEvents } from '../../';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { IServiceClientCredentials } from '../auth';
@@ -102,7 +102,7 @@ export class SkillHttpTransport implements ISkillTransport {
     }
 
     public async cancelRemoteDialogs(turnContext: TurnContext): Promise<void> {
-        const cancelRemoteDialogEvent: Activity = ActivityExtensions.createReply(turnContext.activity);
+        const cancelRemoteDialogEvent: Activity = ActivityEx.createReply(turnContext.activity);
         cancelRemoteDialogEvent.type = ActivityTypes.Event;
         cancelRemoteDialogEvent.name = SkillEvents.cancelAllSkillDialogsEventName;
 

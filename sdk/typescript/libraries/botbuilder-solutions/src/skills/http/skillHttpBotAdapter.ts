@@ -1,5 +1,5 @@
 import { BotAdapter, BotTelemetryClient, InvokeResponse, Severity, TurnContext } from 'botbuilder';
-import { ActivityExtensions, IRemoteUserTokenProvider } from 'botbuilder-solutions';
+import { ActivityEx, IRemoteUserTokenProvider } from '../../';
 import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';
 import { v4 as uuid } from 'uuid';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
@@ -87,7 +87,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
 
     public async sendRemoteTokenRequestEvent(turnContext: TurnContext): Promise<void> {
         // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-        const response: Activity = ActivityExtensions.createReply(turnContext.activity);
+        const response: Activity = ActivityEx.createReply(turnContext.activity);
         response.type = ActivityTypes.Event;
         response.name = 'tokens/request';
 

@@ -1,6 +1,6 @@
 const { join } = require("path");
 const restify = require("restify");
-const { manifestGenerator } = require("../../lib/skillManifestGenerator");
+const { manifestGenerator } = require("../../lib/skills/skillManifestGenerator");
 
 const manifestFile = join(__dirname, '..', 'mocks', 'resources', 'manifestTemplate.json');
 const microsoftAppId = '9afc4045-b3f3-4106-80be-d152d8821879';

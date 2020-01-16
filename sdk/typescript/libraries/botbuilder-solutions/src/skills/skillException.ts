@@ -13,6 +13,18 @@ export enum SkillExceptionType {
      */
     AccountNotActivated,
     /**
+     * Bad Request returned when calling external APIs
+     */
+    APIBadRequest,
+    /**
+     * Unauthorized returned when calling external APIs
+     */
+    APIUnauthorized,
+    /**
+     * Forbidden returned when calling external APIs
+     */
+    APIForbidden,
+    /**
      * Other types of exceptions
      */
     Other

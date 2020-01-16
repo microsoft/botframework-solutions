@@ -4,12 +4,13 @@
  */
 
 const { deepStrictEqual, strictEqual } = require("assert");
-const { ConversationState, MemoryStorage, ActivityTypes } = require("botbuilder");  
+const { ConversationState, MemoryStorage, ActivityTypes, UserState } = require("botbuilder");  
 const { TestAdapter } = require("botbuilder-core");
-const { SkillMiddleware } = require("../lib/skillMiddleware");
-const { SkillEvents } = require("../lib/models/skillEvents");
+const { SkillMiddleware } = require("../lib/skills/skillMiddleware");
+const { SkillEvents } = require("../lib/skills/models/skillEvents");
 
 const storage = new MemoryStorage();
+const userState = new UserState(storage)
 const conversationState = new ConversationState(storage); 
 const dialogStateAccessor = conversationState.createProperty("DialogState");
 
@@ -48,7 +49,7 @@ describe("skill middleware", function() {
 
             return next();
         })
-        .use(new SkillMiddleware(conversationState, dialogStateAccessor));
+        .use(new SkillMiddleware(userState, conversationState, dialogStateAccessor));
 
         await testAdapter.test('hello', 'hello')
             .test('test', 'test')

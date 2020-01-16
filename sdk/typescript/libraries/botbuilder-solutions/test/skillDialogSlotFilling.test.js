@@ -14,7 +14,7 @@ const {
     UserState
 } = require("botbuilder");
 const { DialogSet } = require("botbuilder-dialogs");
-const { EventDebuggerMiddleware } = require("botbuilder-solutions");
+const { EventDebuggerMiddleware } = require("../lib/middleware/eventDebuggerMiddleware");
 const { SkillContext } = require("../lib");
 
 const manifestUtilities = require("./helpers/manifestUtilities");

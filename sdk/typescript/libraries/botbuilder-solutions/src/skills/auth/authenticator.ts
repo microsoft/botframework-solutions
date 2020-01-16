@@ -38,7 +38,7 @@ export class Authenticator implements IAuthenticator {
             Promise.reject();
         }
 
-        const claimsIdentity: ClaimsIdentity = this.authenticationProvider.authenticate(authorizationHeader);
+        const claimsIdentity: ClaimsIdentity = await this.authenticationProvider.authenticate(authorizationHeader);
         if (claimsIdentity === undefined) {
             httpResponse.status(401);
             Promise.reject();

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { IResponseIdCollection } from 'botbuilder-solutions';
+import { IResponseIdCollection } from '../../';
 import { join } from 'path';
 
 export class SkillResponses implements IResponseIdCollection {
