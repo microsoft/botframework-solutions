@@ -90,6 +90,39 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition and store result in turn state.
+                var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
+
+                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
+                {
+                    // Run LUIS recognition on General model and store result in turn state.
+                    var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
+                }
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            // Set up response caching for "repeat" functionality.
+            innerDc.Context.OnSendActivities(StoreOutgoingActivities);
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
+        }
+
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
