@@ -6,7 +6,7 @@
 import { Choice, PromptOptions } from 'botbuilder-dialogs';
 import { Activity, Attachment } from 'botframework-schema';
 import i18next from 'i18next';
-import { ListExtensions } from '../extensions/listExtensions';
+import { ListEx } from '../extensions';
 
 /**
  * Read order of list items.
@@ -88,6 +88,6 @@ export namespace SpeechUtility {
             }
         }
 
-        return result + ListExtensions.toSpeechString(itemDetails, i18next.t('common:and'));
+        return result + ListEx.toSpeechString(itemDetails, i18next.t('common:and'));
     }
 }
