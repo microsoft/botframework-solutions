@@ -18,7 +18,6 @@ Param(
 . $PSScriptRoot\luis_functions.ps1
 . $PSScriptRoot\qna_functions.ps1
 
-$qnamaker = "qnamaker";
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -229,7 +228,7 @@ foreach ($language in $languageArr)
 							kbId = $qnaKb.kbId
 							subscriptionKey = $qnaKb.subscriptionKey
 							endpointKey = $qnaKb.endpointKey
-							hostname = "$($qnaKb.hostname)/$($qnamaker)"
+							hostname = $qnaKb.hostname
 						}
 					}
 					else {
