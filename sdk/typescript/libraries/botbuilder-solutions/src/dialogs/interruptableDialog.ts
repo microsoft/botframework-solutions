@@ -8,41 +8,38 @@ import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbui
 import { InterruptionAction } from './interruptionAction';
 
 export abstract class InterruptableDialog extends ComponentDialog {
-    // Fields
     public primaryDialogName: string;
 
-    // Constructor
     public constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
         super(dialogId);
         this.primaryDialogName = dialogId;
         this.telemetryClient = telemetryClient;
     }
 
-    protected async onBeginDialog(dc: DialogContext, options: object): Promise<DialogTurnResult> {
+    protected async onBeginDialog(dc: DialogContext, options: Object): Promise<DialogTurnResult> {
         if (dc.dialogs.find(this.primaryDialogName) !== undefined) {
             // Overrides default behavior which starts the first dialog added to the stack (i.e. Cancel waterfall)
-            return dc.beginDialog(this.primaryDialogName, options);
+            return await dc.beginDialog(this.primaryDialogName, options);
         } else {
             // If we don't have a matching dialog, start the initial dialog
-            return dc.beginDialog(this.initialDialogId, options);
+            return await dc.beginDialog(this.initialDialogId, options);
         }
     }
 
     protected async onContinueDialogAsync(dc: DialogContext): Promise<DialogTurnResult> {
         const status: InterruptionAction = await this.onInterruptDialog(dc);
 
-        if (status === InterruptionAction.MessageSentToUser) {
+        if (status === InterruptionAction.Resume) {
             // Resume the waiting dialog after interruption
             await dc.repromptDialog();
 
             return Dialog.EndOfTurn;
-        } else if (status === InterruptionAction.StartedDialog) {
-
+        } else if (status === InterruptionAction.Waiting) {
             // Stack is already waiting for a response, shelve inner stack
             return Dialog.EndOfTurn;
         }
 
-        return super.onContinueDialog(dc);
+        return await super.onContinueDialog(dc);
     }
 
     protected abstract onInterruptDialog(dc: DialogContext): Promise<InterruptionAction>;
