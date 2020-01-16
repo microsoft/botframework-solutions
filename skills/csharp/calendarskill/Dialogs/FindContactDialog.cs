@@ -856,7 +856,7 @@ namespace CalendarSkill.Dialogs
                     unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailSinglePage : FindContactResponses.ConfirmMultipleContactNameSinglePage,
                     new
                     {
-                        ContactName = state.MeetingInfor.ContactInfor.CurrentContactName
+                        ContactName = state.MeetingInfo.ContactInfor.CurrentContactName
                     }) as Activity
             };
 
@@ -866,7 +866,7 @@ namespace CalendarSkill.Dialogs
                     unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailMultiPage : FindContactResponses.ConfirmMultipleContactNameMultiPage,
                     new
                     {
-                        ContactName = state.MeetingInfor.ContactInfor.CurrentContactName
+                        ContactName = state.MeetingInfo.ContactInfor.CurrentContactName
                     }) as Activity;
             }
 
