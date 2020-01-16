@@ -140,9 +140,10 @@ To use the "FindMeetingRoom" feature, you need follow these steps:
     1. Choose Redirect URL as **https://login.microsoftonline.com/common/oauth2/nativeclient**
     2. Set the "Treat application as a public client." as **Yes**
     3. Add Scopes: **Place.Read.All**
-3. Run the deployment script "enable_meetingroom_feature.ps1"
+3. Run the deployment script "enable_findmeetingroom.ps1"
     1. Provide necessary parameters based on the prompts.
-    2. In Authentication step, use your **User Account** to sign in which can access the meeting room data in the MSGraph.
+    2. In Authentication step, use your **User Account** to sign in which can access the meeting room data in the MSGraph. 
+    - **Note:** Admin Consent are required for using Scope **Place.Read.All**
 
 ### Supported content providers
 {:.no_toc}
