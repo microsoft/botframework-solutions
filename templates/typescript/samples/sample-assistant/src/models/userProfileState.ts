@@ -3,8 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export interface IOnboardingState {
+export interface IUserProfileState {
     name: string;
-    email: string;
-    location: string;
 }
