@@ -4,28 +4,23 @@
  */
 
 const { join } = require('path');
-
 const { ActivityTypes } = require('botframework-schema');
+const { SkillContext } = require('botbuilder-solutions');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
-const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
+const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateEngineManager, SetLocaleMiddleware, SwitchSkillDialog } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
-
 const { BotServices } = require('../../lib/services/botServices');
-const { DialogBot } = require('../../lib/bots/dialogBot');
+const { DefaultActivityHandler } = require('../../lib/bots/defaultActivityHandler');
 const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
-const { EscalateDialog } = require('../../lib/dialogs/escalateDialog');
-const { CancelDialog } = require('../../lib/dialogs/cancelDialog');
 const { MainDialog } = require('../../lib/dialogs/mainDialog');
 
 const TEST_MODE = require('./testBase').testMode;
-
 const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mocks', 'resources') : join('..', '..', 'src');
 
 const appSettings = require(join(resourcesDir, 'appsettings.json'));
 const skills = require(join(resourcesDir, 'skills.json')).skills;
-
 const cognitiveModelsRaw = require(join(resourcesDir, 'cognitivemodels.json'));
 const cognitiveModels = new Map();
 const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
@@ -33,6 +28,26 @@ const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value, key) => {
     cognitiveModels.set(key, value);
 });
+const localizedTemplates = new Map();
+const templateFiles = ['MainResponses','OnboardingResponses'];
+const supportedLocales =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
+supportedLocales.forEach(locale => {
+    const localeTemplateFiles = [];
+    templateFiles.forEach(template => {
+        // LG template for default locale should not include locale in file extension.
+        if (locale === 'en-us'){
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.lg`));
+        }
+        else {
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.${locale}.lg`));
+        }
+    });
+
+    localizedTemplates.set(locale, localeTemplateFiles);
+});
+
+const templateEngine = new LocaleTemplateEngineManager(localizedTemplates, 'en-us');
+const testUserProfileState = { name: 'Bot' };
 
 async function initConfiguration() {
     // Configure internationalization and default locale
@@ -68,37 +83,36 @@ async function getTestAdapterDefault(settings) {
         skills: skills
     };
 
+    
+
     const telemetryClient = new NullTelemetryClient();
     const storage = settings.storage || new MemoryStorage();
     // create conversation and user state
     const conversationState = new ConversationState(storage);
     const userState = new UserState(storage);
 
-    const adapterSettings = {
-        appId: botSettings.microsoftAppId,
-        appPassword: botSettings.microsoftAppPassword
-    };
     const botServices = new BotServices(botSettings);
-    const onboardingStateAccessor = userState.createProperty('OnboardingState');
-    const skillContextAccessor = userState.createProperty('skillContext');
-    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
-    const escalateDialog = new EscalateDialog(botServices, telemetryClient);
-    const cancelDialog = new CancelDialog();
+    const skillContextAccessor = userState.createProperty(SkillContext.name);
+    const botServicesAccesor = userState.createProperty(BotServices.name)
+    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices , localeTemplateEngine, telemetryClient);
     const skillDialogs = [];
+    const userProfileStateAccesor = userState.createProperty('IUserProfileState');
+    const previousResponseAccesor = userState.createProperty('Activity');
+    const switchSkillDialog = new SwitchSkillDialog(conversationState);
     const mainDialog = new MainDialog(
         botSettings,
         botServices,
-        onboardingDialog,
-        escalateDialog,
-        cancelDialog,
-        skillDialogs,
+        localeTemplateEngine,
+        userProfileStateAccesor,
         skillContextAccessor,
-        onboardingStateAccessor,
-        telemetryClient
+        previousResponseAccesor,
+        onboardingDialog,
+        switchSkillDialog,
+        skillDialogs,
+        telemetryClient,
     );
 
-    const botLogic = new DialogBot(conversationState, telemetryClient, mainDialog);
-
+    const botLogic = new DefaultActivityHandler(conversationState, telemetryClient, mainDialog);
     const adapter = new TestAdapter(botLogic.run.bind(botLogic));
 
     adapter.onTurnError = async function(context, error) {
@@ -123,5 +137,7 @@ async function getTestAdapterDefault(settings) {
 }
 
 module.exports = {
-    getTestAdapterDefault: getTestAdapterDefault
+    getTestAdapterDefault: getTestAdapterDefault,
+    templateEngine: templateEngine,
+    testUserProfileState: testUserProfileState
 }
