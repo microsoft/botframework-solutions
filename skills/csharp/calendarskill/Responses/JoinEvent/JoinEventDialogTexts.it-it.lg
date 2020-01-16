@@ -1,15 +1,14 @@
 # JoinMeeting.Text
-- Certo, ti sto pertinendo all'evento.
+- OK, chiamerò alla riunione.
 
 # NotJoinMeeting.Text
-- Ok, non ti trasferirò nel prossimo evento.
+- Ok, non parteciperò al prossimo incontro.
 
 # NoMeetingToConnect.Text
-- Quale evento vorresti connetterti? Fornendo l'ora di inizio o il titolo posso recuperare il tuo evento.
+- Qual è l'ora di inizio o il titolo dell'evento a cui vuoi partecipare?
 
 # ConfirmPhoneNumber.Text(PhoneNumber)
-- Ecco il numero che sto per chiamare: @{PhoneNumber}. Si prega di essere consapevoli del fatto che possono essere applicati costi aggiuntivi. Vuoi procedere?
+- Ecco il numero che sto per chiamare: @{PhoneNumber}. Si prega di essere consapevoli del fatto che potrebbero essere applicati costi aggiuntivi. Vuoi continuare?
 
 # ConfirmMeetingLink.Text(MeetingLink)
-- Ecco il link a cui sto per aderire: @{MeetingLink}. Si prega di essere consapevoli del fatto che possono essere applicati costi aggiuntivi. Vuoi procedere?
-
+- Ecco il link a cui sto per partecipare: @{MeetingLink}. Si prega di essere consapevoli del fatto che potrebbero essere applicati costi aggiuntivi. Vuoi continuare?

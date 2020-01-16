@@ -1,29 +1,27 @@
 # ConfirmDelete.Text
-- ¿Está seguro de que desea eliminar esto de su calendario?
+- ¿Está seguro de que desea eliminar este evento de su calendario?
 
 # ConfirmDeleteFailed.Text(Title, Time)
-- ¿Está seguro de que desea cancelar su @{Time} "@{Title}"reunión? Puedes decir "sí" o "no"
+- ¿Está seguro de que desea cancelar " @{Title}" en @{Time}?
 
 # ConfirmAccept.Text
-- ¿Está seguro de que desea aceptar el siguiente evento?
+- ¿Está seguro de que desea aceptar este evento?
 
 # ConfirmAcceptFailed.Text(Title, Time)
-- ¿Está seguro de que desea aceptar su @{Time} "@{Title}"reunión? Puedes decir "sí" o "no"
+- ¿Está seguro de que desea aceptar el @{Time} " @{Title}"reunión?
 
 # EventDeleted.Text
-- He eliminado el evento.
+- Borré el evento de tu calendario.
 
 # EventAccepted.Text
-- He aceptado el evento.
+- Agregué el evento a tu calendario.
 
 # EventWithStartTimeNotFound.Text
-- No se encontró ningún evento en este momento o con ese título, inténtelo de nuevo.
-- No pude encontrar el evento que pediste, por favor inténtelo de nuevo.
-- No se puede encontrar ningún evento con la hora o el título del evento, ¿puedes intentarlo de nuevo?
+- No pude encontrar el evento que me pediste, por favor inténtelo de nuevo.
+- No puedo encontrar ese evento, por favor inténtelo de nuevo.
 
 # NoDeleteStartTime.Text
-- ¿Qué evento desea eliminar? Al proporcionar la hora de inicio o el título puedo recuperar su evento.
+- ¿Cuál es la hora de inicio o el título del evento que desea eliminar?
 
 # NoAcceptStartTime.Text
-- ¿Qué evento te gustaría aceptar? Al proporcionar la hora de inicio o el título puedo recuperar su evento.
-
+- ¿Cuál es la hora de inicio o el título del evento que desea aceptar?

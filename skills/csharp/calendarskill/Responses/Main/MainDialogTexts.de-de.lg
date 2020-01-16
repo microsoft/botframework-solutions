@@ -1,8 +1,8 @@
 # CalendarWelcomeMessage.Text
-- Willkommen bei der Kalender-Fähigkeit! Ich kann Ihnen heute einen Überblick über Ihre Besprechungen geben, Ihre bevorstehende Besprechung vorlesen oder eine neue Besprechung für Sie erstellen.
+- Hallo, wie kann ich Ihnen helfen? Hier sind einige Dinge, die ich tun kann: Geben Sie einen Überblick über Ihre Meetings heute, lesen Sie Ihre bevorstehenden Besprechungen vor oder erstellen Sie eine neue Besprechung.
 
 # CalendarWelcomeMessage.S1
-- Was sind meine heutigen Treffen?
+- Welche Treffen habe ich heute?
 
 # CalendarWelcomeMessage.S2
 - Was ist mein nächstes Treffen?
@@ -17,16 +17,16 @@
 - Können Sie meine Veranstaltung absagen?
 
 # FeatureNotAvailable.Text
-- Diese Funktion ist in der Kalenderfertigkeit noch nicht verfügbar. Bitte versuchen Sie, etwas anderes zu fragen.
+- Die Funktion, nach der Sie fragen, ist nicht verfügbar. Versuchen Sie, nach etwas anderem zu fragen.
 
 # CancelMessage.Text
-- Ok, fangen wir von vorne an.
+- OK, fangen wir von vorne an.
 
 # HelpMessage.Text
-- Ich kann Ihnen heute einen Überblick über Ihre Besprechungen geben, Ihre bevorstehende Besprechung vorlesen oder eine neue Besprechung für Sie erstellen.
+- Ich kann Ihnen heute einen Überblick über Ihre Besprechungen geben, Details zu einer bevorstehenden Besprechung lesen oder eine neue Besprechung für Sie erstellen.
 
 # HelpMessage.S1
-- Was sind meine heutigen Treffen?
+- Welche Treffen habe ich heute?
 
 # HelpMessage.S2
 - Was ist mein nächstes Treffen?
@@ -41,8 +41,4 @@
 - Können Sie meine Veranstaltung absagen?
 
 # LogOut.Text
-- Ihr Abmelden war erfolgreich.
-- Sie haben sich erfolgreich abgemeldet.
 - Sie wurden abgemeldet.
-
-
