@@ -1,79 +1,80 @@
 # NoTitle.Text(UserName)
-- 好的，我会发送邀请到@{UserName}，会议的主题是什么？
+- 好的，我会发送邀请到@{UserName}.会议的主题是什么？
 
 # NoTitleShort.Text
 - 会议的主题是什么？
 
 # NoContent.Text
-- 会议内容是什么？
+- 你能为会议提供简短的描述吗？
 
 # NoAttendees.Text
-- 当然，谁加入？
+- 你想邀请谁？
 
 # NoLocation.Text
-- 会议将在哪里举行？
+- 活动将在哪里举行？
 
 # ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
-- 我准备好创建会议。会议在@{Date}，@{Time}到@{EndTime}@{AttendeesConfirm}。@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}你能确认这个会议吗？
+- 我已准备好为@{Date}从@{Time}自@{EndTime}@{AttendeesConfirm}.@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
 
 # ConfirmCreateAttendees.Text(Attendees)
-- ，和@{Attendees}
+- ，带@{Attendees}
+> Is starting with a comma here intentional? Unclear on context.
 
 # ConfirmCreateSubject.Text(Subject)
-- 会议的主题是@{Subject}。
+- 活动的主题是@{Subject}.
 
 # ConfirmCreateLocation.Text(Location)
-- 会议将发生在@{Location}。
+- 活动将在@{Location}.
 
 # ConfirmCreateContent.Text(Content)
-- 会议的内容是@{Content}。
+- 事件的描述是@{Content}.
 
 # ConfirmCreatePrompt.Text
-- 你能确认这件事吗？
+- 是否要使用此信息创建事件？
 
 # ConfirmCreateFailed.Text
-- 我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘不’ 或类似词语。
+- 我已准备好创建活动。请确认以下内容：
 
 # ShowRestParticipantsPrompt.Text
-- 您想浏览其他参与者吗？
+- 是否要查看所有参与者？
 
 # EventCreated.Text(Subject)
-- 好了，我已添加@{Subject}到您的日历。
+- 好的，我补充说@{Subject}到您的日历。
 
 # EventCreationFailed.Text
-- 会议创建失败。
-- 出现问题，请重试。
-- 似乎无法创建该会议，请稍后再试。
-- 创建会议失败，请重试。
-- 创建会议时出错。
+- 我无法创建此事件。请稍后再试。
+- 发生了一些事件，并且未创建事件。请稍后再试。
+- 无法创建该事件，请稍后重试。
+
 
 # NoStartDate.Text
-- 什么日期？
+- 您的活动日期是哪天？
 
 # NoStartDateRetry.Text
-- 我不明白你提供的日期，你能再试一次吗？
-- 我不明白你提供的日期，你能换个方法试试吗？你可以说明天，星期一，或一个特定的日期，如1月1日。
+- 我不明白你提供的日期，请再试一次。
+
 
 # NoStartTime.Text
-- 什么时间？
+- 什么时候开始？
+- 开始时间是做什么的？
 
 # NoStartTimeRetry.Text
-- 我不明白你提供的时间，你能再试一次吗？
+- 我不明白你提供的时间，请再试一次。
 
 # NoStartTimeNoSkip.Text
-- 你无法跳过开始时间，请重试。
+- 您需要添加开始时间才能创建此事件。
 
 # NoDuration.Text
 - 多久？
 
 # NoDurationRetry.Text
-- 我没有明白你说的时间长度，你能再试一次吗？
+- 我不明白你提供的持续时间，你能再试一次吗？
 
 # GetRecreateInfo.Text
-- 你想要调整哪一项呢？
+- 您想改变什么？
 
 # GetRecreateInfoRetry.Text
-- 我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。
+- 对不起，我不明白。您可以更改的一些内容包括活动的时间、持续时间、位置、参与者、主题和说明。
 
 # NoMeetingRoom.Text
 - 您要添加房间吗？

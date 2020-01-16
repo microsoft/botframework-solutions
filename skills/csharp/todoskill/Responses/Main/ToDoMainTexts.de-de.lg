@@ -1,40 +1,31 @@
 # DidntUnderstandMessage.Text
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten.
-- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
-- Können Sie versuchen, auf eine andere Art und Weise zu fragen?
-- Ich habe nicht bekommen, was du meinst, kannst du es anders versuchen?
-- Könnten Sie nähere Angaben machen?
-- Bitte sagen Sie das noch einmal anders.
-- Das habe ich nicht ganz bekommen.
-- Können Sie das anders sagen?
-- Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst.
+- Tut mir leid, ich habe es nicht verstanden. Bitte versuchen Sie es erneut zu fragen.
+- Tut mir leid, das habe ich nicht verstanden. Bitte geben Sie weitere Informationen an.
 
 # ToDoWelcomeMessage.Text
-- Hallo. Ich bin zu tun Bot. Ich kann Ihnen helfen, Ihre To Do, Shopping oder Lebensmittel-Listen zu verwalten.
+- Hallo, ich bin zu tun Bot. Ich kann Ihnen helfen, Ihre To Do, Shopping oder Lebensmittel-Listen zu verwalten.
+- Ich kann Ihnen helfen, Ihre To Do, Shopping oder Lebensmittel-Listen zu verwalten.
 
 # ToDoWelcomeMessage.S1
-- Read out To Do es
+- Überprüfen Sie meine To-Do-Liste.
 
 # ToDoWelcomeMessage.S2
-- Erstellen Sie eine Aufgabe für mich
+- Hinzufügen und Element für mich.
 
 # ToDoWelcomeMessage.S3
-- Markieren Sie die zweite Aufgabe als abgeschlossen
+- Markieren Sie das zweite Element als abgeschlossen.
 
 # ToDoWelcomeMessage.S4
-- Löschen der dritten Aufgabe
+- Löschen Sie das dritte Element aus der Liste.
 
 # HelpMessage.Text
-- Ich kann Ihre To Do's, Einkaufs- oder Lebensmittelartikel vorlesen, ein neues To Do, Einkaufen oder Lebensmittelartikel erstellen oder ein To Do, Shopping oder Lebensmittel für Sie ausfüllen und löschen.
+- Ich kann eine Aufgaben-, Einkaufs- oder Lebensmittelliste für Sie erstellen, Elemente zu Listen hinzufügen oder löschen oder Elemente als vollständig markieren.
 
 # LogOut.Text
-- Ihr Abmelden war erfolgreich.
-- Sie haben sich erfolgreich abgemeldet.
 - Sie wurden abgemeldet.
 
 # FeatureNotAvailable.Text
-- Diese Funktion ist in der To-Do-Fähigkeit noch nicht verfügbar. Bitte versuchen Sie, etwas anderes zu fragen.
+- Die Funktion, nach der Sie fragen, ist nicht verfügbar. Bitte versuchen Sie, nach etwas anderem zu fragen.
 
 # CancelMessage.Text
-- Ok, fangen wir von vorne an.
-
+- OK, fangen wir von vorne an.

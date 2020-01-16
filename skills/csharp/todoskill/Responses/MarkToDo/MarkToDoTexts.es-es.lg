@@ -1,27 +1,26 @@
 # AfterAllTasksCompleted.Text(ListType)
-- He marcado todas sus tareas como completas en su @{ListType} Lista.
+- Marqué todos los artículos en su @{ListType} lista como completa.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, he marcado '@{TaskContent}' en su @{ListType} lista como completa.
+- OK, yo marqué @{TaskContent} en su @{ListType} lista como completa.
 
 # ListTypePromptForComplete.Text
-- ¿Puede ser específico de qué lista desea completar una tarea? ¿Es su lista de tareas pendientes, lista de compras o lista de comestibles?
+- ¿Desea marcar un artículo en su lista de tareas pendientes, compras o comestibles como completa?
 
 # AskTaskIndexForComplete.Text
-- ¿Qué tarea desea completar? También es posible completar todas sus tareas diciendo completar todo.
+- ¿Qué elemento desea marcar completado? También puede elegir completar todo y marcar todo en su lista como completo.
 
 # AskTaskIndexRetryForComplete.Text
-- Lo siento, no pude encontrar esta tarea. Por favor, inténtelo de nuevo. ¿Qué tarea desea completar?
+- Lo siento, no encontré el artículo. Intentémoslo de nuevo, ¿qué quieres marcar como completo?
 
 # CompleteAnotherTaskPrompt.Text
-- ¿Desea completar otra tarea?
+- ¿Desea marcar otro elemento como completo?
 
 # CompleteAnotherTaskConfirmFailed.Text
-- Lo siento, no entendí lo que querías decir. ¿Desea completar otra tarea?
+- Lo siento, no lo entendí. ¿Desea marcar otro elemento como completo?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- Ahora tiene 1 elemento en su @{ListType} Lista.
+- Tiene 1 elemento en su @{ListType} Lista.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- Ahora tienes @{AllTasksCount} artículos en su @{ListType} Lista.
-
+- Usted tiene @{AllTasksCount} artículos en su @{ListType} Lista.

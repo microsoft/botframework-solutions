@@ -1,81 +1,80 @@
 # NoTitle.Text(UserName)
-- OK, invierò un invito a @{UserName}, qual è l'oggetto della riunione?
+- OK, invierò un invito a @{UserName}. Qual è l'oggetto della riunione?
 
 # NoTitleShort.Text
 - Qual è l'oggetto della riunione?
 
 # NoContent.Text
-- Qual è la descrizione della riunione?
-- È possibile fornire una descrizione per la riunione?
+- Puoi fornire una breve descrizione per la riunione?
 
 # NoAttendees.Text
-- Certo, chi si unirà?
+- Chi vuoi invitare?
 
 # NoLocation.Text
 - Dove si svolgerà l'evento?
 
 # ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
-- Sono pronto a creare l'evento. L'evento è @{Date}Da @{Time} fino a @{EndTime}@{AttendeesConfirm}.@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
+- Sono pronto a creare l'evento per @{Date}Da @{Time} A @{EndTime}@{AttendeesConfirm}. @{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
 
 # ConfirmCreateAttendees.Text(Attendees)
 - Con @{Attendees}
+> Is starting with a comma here intentional? Unclear on context.
 
 # ConfirmCreateSubject.Text(Subject)
-- L'oggetto dell'evento è @{Subject}.
+- Il soggetto dell'evento è @{Subject}.
 
 # ConfirmCreateLocation.Text(Location)
 - L'evento si svolgerà all'atto @{Location}.
 
 # ConfirmCreateContent.Text(Content)
-- Il messaggio è @{Content}.
+- La descrizione dell'evento è @{Content}.
 
 # ConfirmCreatePrompt.Text
-- Può confermare questo evento?
+- Vuoi creare un evento usando queste informazioni?
 
 # ConfirmCreateFailed.Text
 - Sono pronto a creare l'evento. Confermare quanto segue:
 
 # ShowRestParticipantsPrompt.Text
-- Vuoi passare attraverso il resto dei partecipanti?
+- Vuoi rivedere tutti i partecipanti?
 
 # EventCreated.Text(Subject)
 - OK, ho aggiunto @{Subject} al calendario.
 
 # EventCreationFailed.Text
-- Creazione dell'evento non riuscita.
-- Si è verificato un problema sconosciuto.
-- Sembra che l'evento non sia stato possibile creare, riprova più tardi.
-- Creazione dell'evento non riuscita, riprovare.
-- Si è verificato un errore durante la creazione dell'evento.
+- Non sono stato in grado di creare questo evento. Riprova più tardi.
+- È successo qualcosa e l'evento non è stato creato. Riprova più tardi.
+- Non è stato possibile creare l'evento, riprovare più tardi.
+
 
 # NoStartDate.Text
-- Che data?
+- Qual è la data del tuo evento?
 
 # NoStartDateRetry.Text
-- Non ho capito la data che hai fornito, puoi riprovare?
-- Non capisco la data che hai fornito, puoi provare in un modo diverso? Puoi dire domani, lunedì o una data specifica, ad esempio il 1 gennaio.
+- Non ho capito la data che mi hai fornito, riprova.
+
 
 # NoStartTime.Text
-- A che ora inizia? Fornendo AM o PM mi aiuterà.
+- A che ora inizia?
+- Qual è l'ora di inizio?
 
 # NoStartTimeRetry.Text
-- Non ho capito il tempo che mi hai fornito, puoi riprovarci?
-- Non ho capito quella volta. Puoi riprovarci?
+- Non ho capito il tempo che hai fornito, si prega di riprovare.
 
 # NoStartTimeNoSkip.Text
-- Non è possibile ignorare l'ora di inizio. Riprovare.
+- È necessario aggiungere un'ora di inizio per creare questo evento.
 
 # NoDuration.Text
 - Per quanto tempo?
 
 # NoDurationRetry.Text
-- Non capisco la durata che hai fornito, puoi riprovarci?
+- Non ho capito la durata che hai fornito, puoi riprovarci?
 
 # GetRecreateInfo.Text
-- Cosa vorresti regolare?
+- Cosa vorresti cambiare?
 
 # GetRecreateInfoRetry.Text
-- Non capisco il tuo contributo. Puoi provare Ora, Durata, Posizione, Partecipanti, Oggetto o Contenuto. O dire annullare
+- Scusa, non ho capito. Alcune cose che puoi modificare sono l'ora, la durata, il luogo, i partecipanti, l'oggetto e la descrizione del tuo evento.
 
 # NoMeetingRoom.Text
 - Vuoi aggiungere una stanza?

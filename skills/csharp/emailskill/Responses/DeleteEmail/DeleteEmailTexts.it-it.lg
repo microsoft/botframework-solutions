@@ -1,16 +1,13 @@
 # DeletePrompt.Text
 - Quale vuoi eliminare?
-- Quale e-mail vuoi che elimini?
-- Qualche email che vorresti che cancellassi?
-- Quale email vuoi che elimini?
+- Quale email vuoi eliminare?
 
 # DeleteConfirm.Text
-- Sei sicuro di voler eliminare?
+- Sei sicuro di voler eliminare questa email?
 
 # DeleteConfirm.Speak(emailInfo)
-- Sei sicuro di voler eliminare? Dettagli dell'e-mail: @{emailInfo}.
+- Sei sicuro di voler eliminare? Ecco alcuni dettagli: @{emailInfo}.
 
 # DeleteSuccessfully.Text
-- La tua email è stata eliminata con successo.
-
+- L'e-mail è stata eliminata.
 

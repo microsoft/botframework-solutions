@@ -72,15 +72,15 @@
 
 # ConfirmMultipleContactNameSinglePage
 [Activity
-    Text = @{ConfirmMultipleContactNameSinglePage.Text()}
-    Speak = @{ConfirmMultipleContactNameSinglePage.Text()}
+    Text = @{ConfirmMultipleContactNameSinglePage.Text(ContactName)}
+    Speak = @{ConfirmMultipleContactNameSinglePage.Text(ContactName)}
     InputHint = expectingInput
 ]
 
 # ConfirmMultipleContactNameMultiPage
 [Activity
-    Text = @{ConfirmMultipleContactNameMultiPage.Text()}
-    Speak = @{ConfirmMultipleContactNameMultiPage.Text()}
+    Text = @{ConfirmMultipleContactNameMultiPage.Text(ContactName)}
+    Speak = @{ConfirmMultipleContactNameMultiPage.Text(ContactName)}
     InputHint = expectingInput
 ]
 
