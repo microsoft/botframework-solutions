@@ -109,7 +109,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetBuildingPrompt(Actions.BuildingPromptForCreate, services, searchService));
-            AddDialog(new GetFloorNumberPrompt(Actions.FloorNumberPromptForCreate));
+            AddDialog(new GetFloorNumberPrompt(Actions.FloorNumberPromptForCreate, services));
             AddDialog(new GetRecreateMeetingRoomInfoPrompt(Actions.RecreateMeetingRoomPrompt, services));
             AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
 

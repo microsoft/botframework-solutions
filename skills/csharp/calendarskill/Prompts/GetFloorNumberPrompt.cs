@@ -24,14 +24,18 @@ namespace CalendarSkill.Prompts
     {
         internal const string AttemptCountKey = "AttemptCount";
 
+        private BotServices Services { get; set; }
+
         private static int maxReprompt = -1;
 
         public GetFloorNumberPrompt(
             string dialogId,
+            BotServices services,
             PromptValidator<int?> validator = null,
             string defaultLocale = null)
                : base(dialogId, validator)
         {
+            Services = services;
             DefaultLocale = defaultLocale;
         }
 
@@ -71,7 +75,25 @@ namespace CalendarSkill.Prompts
             var result = new PromptRecognizerResult<int?>();
 
             var luisResult = turnContext.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
-            if (luisResult != null && luisResult.TopIntent().intent == CalendarLuis.Intent.RejectCalendar && luisResult.TopIntent().score > 0.8)
+            if (luisResult == null)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = Services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    luisResult = await skillLuisService.RecognizeAsync<CalendarLuis>(turnContext, default);
+                    turnContext.TurnState.Add(StateProperties.CalendarLuisResultKey, luisResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
+            }
+
+            if (luisResult.TopIntent().intent == CalendarLuis.Intent.RejectCalendar && luisResult.TopIntent().score > 0.8)
             {
                 result.Succeeded = true;
             }

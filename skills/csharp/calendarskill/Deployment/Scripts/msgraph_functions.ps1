@@ -29,7 +29,7 @@ function RequestAccessToken($subscriptionID, $appId, $deviceCode)
    return $result
 }
 
-function QueryMeetingRoom($accessToken)
+function GetMeetingRoom($accessToken)
 {
     $url = "https://graph.microsoft.com/beta/places/microsoft.graph.room"
     $headers = @{
