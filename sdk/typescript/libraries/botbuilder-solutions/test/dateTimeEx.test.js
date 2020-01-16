@@ -15,7 +15,7 @@ const i18next = require("i18next").default;
 const i18nextNodeFsBackend = require("i18next-node-fs-backend");
 const { DateTimeTestData } = require("./helpers/dateTimeTestData");
 const { Locales } = require(join("..", "lib", "localesUtils"));
-const { DateTimeExtensions } = require(join("..", "lib", "extensions", "dateTimeExtensions"));
+const { DateTimeEx } = require(join("..", "lib", "extensions", "dateTimeEx"));
 
 describe("date time extensions", function() {
 
@@ -147,10 +147,10 @@ describe("date time extensions", function() {
             testData.forEach(data => {
                 it(`should resolve ${data.expectedDateSpeech} ${data.expectedTimeSpeech} in ${data.culture}`, async function() {
                     await i18next.changeLanguage(data.culture.substring(0, 2));
-                    strictEqual(data.expectedDateSpeech, await DateTimeExtensions.toSpeechDateString(data.inputDateTime));
-                    strictEqual(data.expectedDateSpeechWithSuffix, await DateTimeExtensions.toSpeechDateString(data.inputDateTime, true));
-                    strictEqual(data.expectedTimeSpeech , DateTimeExtensions.toSpeechTimeString(data.inputDateTime));
-                    strictEqual(data.expectedTimeSpeechWithSuffix, DateTimeExtensions.toSpeechTimeString(data.inputDateTime, true));
+                    strictEqual(data.expectedDateSpeech, await DateTimeEx.toSpeechDateString(data.inputDateTime));
+                    strictEqual(data.expectedDateSpeechWithSuffix, await DateTimeEx.toSpeechDateString(data.inputDateTime, true));
+                    strictEqual(data.expectedTimeSpeech , DateTimeEx.toSpeechTimeString(data.inputDateTime));
+                    strictEqual(data.expectedTimeSpeechWithSuffix, DateTimeEx.toSpeechTimeString(data.inputDateTime, true));
                 });
             });
         });
@@ -177,13 +177,13 @@ describe("date time extensions", function() {
                     const otherDate = new Date();
                     otherDate.setDate(today.getDate() + 3);
                     
-                    strictEqual(i18next.t("common:today"), await DateTimeExtensions.toSpeechDateString(today));
-                    strictEqual(i18next.t("common:tomorrow"), await DateTimeExtensions.toSpeechDateString(tomorrow));
-                    strictEqual(dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat")), await DateTimeExtensions.toSpeechDateString(otherDate));
+                    strictEqual(i18next.t("common:today"), await DateTimeEx.toSpeechDateString(today));
+                    strictEqual(i18next.t("common:tomorrow"), await DateTimeEx.toSpeechDateString(tomorrow));
+                    strictEqual(dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat")), await DateTimeEx.toSpeechDateString(otherDate));
                     if(i18next.t("common:spokenDatePrefix") === ""){
-                        strictEqual(`${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeExtensions.toSpeechDateString(otherDate, true));
+                        strictEqual(`${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeEx.toSpeechDateString(otherDate, true));
                     } else {
-                        strictEqual(`${i18next.t("common:spokenDatePrefix")} ${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeExtensions.toSpeechDateString(otherDate, true));
+                        strictEqual(`${i18next.t("common:spokenDatePrefix")} ${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeEx.toSpeechDateString(otherDate, true));
                     }
                 });
             });
