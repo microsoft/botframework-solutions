@@ -29,7 +29,6 @@ namespace EmailSkill.Adapters
         {
             OnTurnError = async (turnContext, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(turnContext.Activity.Locale);
                 var activity = localeTemplateEngineManager.GenerateActivityForLocale(EmailSharedResponses.EmailErrorMessage);
                 await turnContext.SendActivityAsync(activity);
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
