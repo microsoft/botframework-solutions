@@ -39,8 +39,9 @@ namespace SkillSample.Dialogs
 
             var steps = new WaterfallStep[]
             {
+                IntroStepAsync,
                 RouteStepAsync,
-                CompleteStepAsync,
+                FinalStepAsync,
             };
 
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
@@ -50,6 +51,34 @@ namespace SkillSample.Dialogs
             // Register dialogs
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
             AddDialog(_sampleDialog);
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                var skillResult = await localizedServices.LuisServices["SkillSample"].RecognizeAsync<SkillSampleLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
+
+                // Run LUIS recognition on General model and store result in turn state.
+                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
         // Runs on every turn of the conversation.
@@ -132,6 +161,28 @@ namespace SkillSample.Dialogs
             return interrupted;
         }
 
+        private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // Use the text provided in FinalStepAsync or the default if it is the first time.
+            if (stepContext.Options as Activity != null)
+            {
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
+                };
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            }
+            else if (stepContext.Context.Activity?.Text != null)
+            {
+                return await stepContext.NextAsync();
+            }
+            else
+            {
+                return EndOfTurn;
+            }
+        }
+
         private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var activity = stepContext.Context.Activity.AsMessageActivity();
@@ -179,11 +230,10 @@ namespace SkillSample.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> CompleteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Restart the main dialog with a different message the second time around
-            await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CompletedMessage"));
-            return await stepContext.ReplaceDialogAsync(InitialDialogId);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
         }
 
         private async Task PopulateStateFromActivity(ITurnContext context)
