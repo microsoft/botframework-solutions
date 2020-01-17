@@ -41,7 +41,7 @@ Note that action processing can send activities just like any Dialog and prompt 
         public SampleAction(
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(SampleDialog), serviceProvider, telemetryClient)
+            : base(nameof(SampleAction), serviceProvider, telemetryClient)
         {
             var sample = new WaterfallStep[]
             {
@@ -98,7 +98,21 @@ Note that action processing can send activities just like any Dialog and prompt 
     }
 ```
 
-2. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. As per the example Manifest in Step 2, an action called `SampleAction` was defined which will result in an Event Activity being received by teh Skill. In the example below any input data is retrieved from the `Value` property of the Activity and passed into the dialog.
+2. Add the following line to your Startup.cs class to make the new action available for use.
+
+```csharp
+    services.AddTransient<SampleAction>();
+```
+
+3. Within your `MainDialog` class you need to add the newly created dialog so it's available for use. Add this line to your MainDialog constructor whilst also creating a local variable.
+
+```csharp
+    // Register dialogs
+    _sampleAction = serviceProvider.GetService<SampleAction>();
+    AddDialog(_sampleAction);
+```
+
+4. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. As per the example Manifest in Step 2, an action called `SampleAction` was defined which will result in an Event Activity being received by teh Skill. In the example below any input data is retrieved from the `Value` property of the Activity and passed into the dialog.
 
 ```csharp
 protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken)
@@ -112,12 +126,12 @@ protected override async Task OnEventActivityAsync(DialogContext dc, Cancellatio
             // Each Action in the Manifest will have an associated Name which will be on incoming Event activities
             case "SampleAction":
 
-                SampleActionInput actionData = null;
-                var eventValue = dc.Context.Activity.Value as string;
+                SampleActionInput actionData = null;                       
 
-                if (!string.IsNullOrEmpty(eventValue))
+                var eventValue = dc.Context.Activity.Value as JObject;                      
+                if (eventValue != null)
                 {
-                    actionData = JsonConvert.DeserializeObject<SampleActionInput>(eventValue);
+                    actionData = eventValue.ToObject<SampleActionInput>();                            
                 }
 
                 // Invoke the SampleAction dialog passing input data if available
