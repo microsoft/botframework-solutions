@@ -73,12 +73,12 @@ This example manifest surfaces two `activities`. One that enables a users uttera
         }
       }
     },
-    "responseObject": {
+     "responseObject": {
       "type": "object",
       "properties": {
-        "response": {
-          "type": "string",
-          "description": "An example response object returned to the caller."
+        "customerId": {
+          "type": "integer",
+          "description": "A customer identifier."
         }
       }
     }
