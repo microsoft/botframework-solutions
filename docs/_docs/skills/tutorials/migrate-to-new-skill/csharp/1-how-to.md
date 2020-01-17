@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Migrate to GA Bot Framework Skills
-language: C#
+language: csharp
 title: Tutorial
 order: 1
 ---
@@ -26,32 +26,30 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
 1. Update the Bot Framework SDK version to `4.7.0` for the Skill project
 
-    In the latest Skill Template, the version of the BotBuilder libraries will be 4.6.1 or below. These need to be updated to 4.7.0. 
+    In the latest Skill Template, the version of the BotBuilder libraries will be 4.6.2 or below. These need to be updated to 4.7.1. The easiest way to do this is right click the Solution and choose `Edit Project File` and replace with the fragment below. The accompanying test project also needs one library version update.
 
     ```json
-        <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.1 -> 4.7.0" />
-        <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.1 -> 4.7.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.1" />
     ```
 
-    > Please note that `Microsoft.Bot.Builder.Solutions` library version 4.6.2 is compatible with BotBuilder 4.7.0. A new package will be published moving forwards.
+    > Please note that `Microsoft.Bot.Builder.Solutions` library version 4.6.2 is compatible with BotBuilder 4.7.1.
 
 2. Update BotController.cs
 
     Within your Skill project, `Controller\BotController.cs` implements `SkillController` which includes capabilities of standing up new APIs for skill invocation. This requirement has now been removed, therefore a default controller can now be used.
 
-    Change the `BotController.cs` as shown below.
+    Change the `BotController.cs` as shown below:
 
     ```csharp
-
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Bot.Builder;
@@ -80,24 +78,25 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
             }
         }
     }
-
     ```
 
-3. Remove extra registrations in `Startup.cs`
+3. Remove registrations in `Startup.cs`
 
     In the current Skill Template, there are registrations for classes that are no longer needed in the 4.7 Skill protocol. They should be removed from Startup.cs within your Skill project.
 
     Remove these lines:
 
     ```csharp
-        services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();	
-        services.AddTransient<SkillWebSocketAdapter>();	
+        services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
+        services.AddTransient<SkillWebSocketAdapter>();
+
+        // Register WhiteListAuthProvider
         services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
     ```
 
 4. Remove CustomSkillAdapter.cs
 
-    Since a custom adapter is no longer needed, you can remove `Adapters\CustomSkillAdapter.cs` from your project.
+    A custom adapter is no longer needed, you can therefore remove `Adapters\CustomSkillAdapter.cs` from your project.
 
 5. Remove custom implementation of `IWhitelistAuthenticationProvider`
 
@@ -105,11 +104,11 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
 6. Add code to handle the `EndOfConversation` activity from parent bot
 
-    In Skill invocation, a skill needs to handle an `EndOfConversation` activity in order to support cancellation for interruption scenarios at the parent bot level. This capability will be included in the next release of the `Microsoft.Bot.Builder.Solutions` package and eventually as part of the core Bot Builder SDK. For now, add these lines of code within the `OnTurnAsync` handler in your `IBot` implementation class (within the Bots folder of your project) to handle the `EndOfConversation` activity:
+    In Skill invocation, a skill needs to handle an `EndOfConversation` activity in order to support cancellation for interruption scenarios at the parent bot level. This capability will be included in the next release of the `Microsoft.Bot.Builder.Solutions` package and eventually as part of the core Bot Builder SDK. For now, add these lines of code at the top of the `OnTurnAsync` handler in your `IBot` implementation class (within the Bots folder of your project) to handle the `EndOfConversation` activity:
 
     ```csharp
     var activity = turnContext.Activity;
-    var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState)));
+    var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
     if (activity != null && activity.Type == ActivityTypes.EndOfConversation)
     {
         await dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
@@ -124,18 +123,20 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
 7. Update to use `EndOfConversation` instead of Handoff when a conversation completed
 
-    In the `OnDialogCompleteAsync` function of `MainDialog.cs`, instead of sending back a 'Handoff' activity we now use EndOfConversation and optionally return a response object back to the caller if provided.
+    In the `OnDialogCompleteAsync` function of `MainDialog.cs`, instead of sending back a 'Handoff' activity, update it to be `EndOfConversation` inline with the new Skills changes. Replace the entire contents with the code below.
     
     ```csharp
     // Retrieve the prior dialogs result if provided to return on the Skill EndOfConversation event.
-    ObjectPath.TryGetPathValue<object>(dc.Context.TurnState, TurnPath.LASTRESULT, out object dialogResult);
+    ObjectPath.TryGetPathValue<object>(outerDc.Context.TurnState, TurnPath.LASTRESULT, out object dialogResult);
 
-    var endOfConversation = new Activity(ActivityTypes.EndOfConversation) {
+    var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+    {
         Code = EndOfConversationCodes.CompletedSuccessfully,
-        Value = dialogResult };
-    
-    await dc.Context.SendActivityAsync(endOfConversation, cancellationToken);
-    await dc.EndDialogAsync(result);         
+        Value = dialogResult
+    };
+
+    await outerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
+    await outerDc.EndDialogAsync(result);
     ```
 
 8. Add code in the exception handler of the adapter to send an EndOfConversation activity back
@@ -145,9 +146,12 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     ```csharp
     OnTurnError = async (turnContext, exception) =>
     {
-        var endOfConversation = new Activity(ActivityTypes.EndOfConversation) {
-        Code = EndOfConversationCodes.Unknown };
-        await turnContext.SendActivityAsync(endOfConversation);
+        // Send and EndOfConversation activity to the skill caller with the error to end the conversation
+        // and let the caller decide what to do.
+        var endOfConversation = Activity.CreateEndOfConversationActivity();
+        endOfConversation.Code = "SkillError";
+        endOfConversation.Text = exception.Message;
+        await context.SendActivityAsync(endOfConversation);
         ...
     };
 

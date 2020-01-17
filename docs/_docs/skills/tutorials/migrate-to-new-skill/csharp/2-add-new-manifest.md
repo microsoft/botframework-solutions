@@ -29,7 +29,7 @@ This example manifest surfaces two `activities`. One that enables a users uttera
   "description": "Sample Skill description",
   "publisherName": "Your Company",
   "version": "1.0",
-  "iconUrl": "{YOUR_SKILL_URL}/sampleSkill.png",
+  "iconUrl": "https://{YOUR_SKILL_URL}/sampleSkill.png",
   "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
   "license": "",
   "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
@@ -86,8 +86,8 @@ This example manifest surfaces two `activities`. One that enables a users uttera
 }
 ```
 
-2. Update `{YOUR_SKILL_URL}` with the URL of your deployed Skill endpoint.
+2. Update `{YOUR_SKILL_URL}` with the URL of your deployed Skill endpoint, this must be prefixed with https.
 
-3. Update `{YOUR_SKILL_APPID}` with the Active Directory AppID of your deployed Skill.
+3. Update `{YOUR_SKILL_APPID}` with the Active Directory AppID of your deployed Skill, you can find this within your `appSettings.json` file.
 
 4. Publish the changes to your Skill endpoint and validate that you can retrieve the manifest using the browser (`/manifest/manifest.json`)
