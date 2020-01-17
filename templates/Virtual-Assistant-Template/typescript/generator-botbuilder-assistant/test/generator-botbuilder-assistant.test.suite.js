@@ -29,7 +29,6 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         `.eslintrc.js`,
         `.eslintignore`,
         `.gitignore`,
-        `.npmrc`,
         `.nycrc`,
         dialogBotPath
     ];

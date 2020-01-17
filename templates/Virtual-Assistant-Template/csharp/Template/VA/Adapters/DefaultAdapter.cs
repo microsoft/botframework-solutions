@@ -40,7 +40,6 @@ namespace $safeprojectname$.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
         }
     }
 }

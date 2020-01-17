@@ -42,7 +42,6 @@ namespace VirtualAssistantSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
 
             // SAMPLE: Proactive notifications
             Use(new ProactiveStateMiddleware(proactiveState));

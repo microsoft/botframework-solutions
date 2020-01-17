@@ -82,7 +82,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
 }
 ```
 
-2. In your assistant's project, navigate to **Content** > **NewUserGreeting.json** and paste the new payload.
+2. In your assistant's project, navigate to **Responses** > **MainResponses.json** and find the `NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` seperators.
 3. Press **F5** to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
 
 <p align="center">
