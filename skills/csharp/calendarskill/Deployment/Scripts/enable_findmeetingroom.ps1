@@ -5,11 +5,14 @@ Param(
 	[string] $resourceGroup,
     [string] $cosmosDbAccount,
     [string] $primaryKey,
-    [string] $databaseId,
-    [string] $collectionId,
     [string] $cosmosDbPrimaryKey,
     [string] $subscriptionId,
     [string] $appId,
+    [string] $databaseId = "room-db",
+    [string] $collectionId = "room-collection",
+    [string] $dataSourceName = "room-datasource",
+    [string] $indexName = "room-index",
+    [string] $indexerName = "room-indexer",
 	[string] $projDir = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "enable_findmeetingroom_log.txt")
 )
@@ -61,30 +64,20 @@ if (-not $resourceGroup) {
 }
 
 if (-not $cosmosDbAccount) {
-    $cosmosDbAccount = Read-Host "? cosmosDb account (used for importing room data)"
+    $cosmosDbAccount = Read-Host "? A cosmosDb account (used for importing room data)"
 }
 
 if (-not $primaryKey) {
-    $primaryKey = Read-Host "? primaryKey of cosmosDb account"
-}
-
-if (-not $databaseId) {
-    $databaseId = "room-db"
-}
-
-if (-not $collectionId) {
-    $collectionId = "room-collection"
+    $primaryKey = Read-Host "? The primaryKey of the given cosmosDb account"
 }
 
 if (-not $appId) {
-    $appId = Read-Host "? registered MSA appId (used for user authentification to get room data from MSGraph)"
+    $appId = Read-Host "? A registered MSA appId (used for user authentification to get room data from MSGraph)"
 }
 
 if (-not $subscriptionId){
-    $subscriptionId = Read-Host "? subscriptionId associated with the appId"
+    $subscriptionId = Read-Host "? The subscriptionId associated with the appId"
 }
-
-
 
 # Check the CosmosDB package and install it
 if(!(Get-Package CosmosDB)) {Install-Module -Name CosmosDB}
@@ -215,10 +208,6 @@ foreach ($room in $roomData.value)
     New-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionId -DocumentBody $room 2>> $logFile | Out-Null
 }
 Write-Host "Done." -ForegroundColor Green
-
-$dataSourceName = "room-datasource"
-$indexName = "room-index"
-$indexerName = "room-indexer"
 
 # Create data source in Azure Search
 Write-Host "> creating data source ..." -NoNewline
