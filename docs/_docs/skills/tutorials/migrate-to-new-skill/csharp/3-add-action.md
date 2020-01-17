@@ -98,13 +98,13 @@ Note that action processing can send activities just like any Dialog and prompt 
     }
 ```
 
-2. Add the following line to your Startup.cs class to make the new action available for use.
+1. Add the following line to your Startup.cs class to make the new action available for use.
 
 ```csharp
     services.AddTransient<SampleAction>();
 ```
 
-3. Within your `MainDialog` class you need to add the newly created dialog so it's available for use. Add this line to your MainDialog constructor whilst also creating a local variable.
+1. Within your `MainDialog` class you need to add the newly created dialog so it's available for use. Add this line to your MainDialog constructor whilst also creating a local variable.
 
 ```csharp
     // Register dialogs
@@ -112,7 +112,7 @@ Note that action processing can send activities just like any Dialog and prompt 
     AddDialog(_sampleAction);
 ```
 
-4. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. As per the example Manifest in Step 2, an action called `SampleAction` was defined which will result in an Event Activity being received by teh Skill. In the example below any input data is retrieved from the `Value` property of the Activity and passed into the dialog.
+1. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. As per the example Manifest in Step 2, an action called `SampleAction` was defined which will result in an Event Activity being received by teh Skill. In the example below any input data is retrieved from the `Value` property of the Activity and passed into the dialog.
 
 ```csharp
 protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken)

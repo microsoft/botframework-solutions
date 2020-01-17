@@ -43,7 +43,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
     > Please note that `Microsoft.Bot.Builder.Solutions` library version 4.6.2 is compatible with BotBuilder 4.7.1.
 
-2. Update BotController.cs
+1. Update BotController.cs
 
     Within your Skill project, `Controller\BotController.cs` implements `SkillController` which includes capabilities of standing up new APIs for skill invocation. This requirement has now been removed, therefore a default controller can now be used.
 
@@ -80,7 +80,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     }
     ```
 
-3. Remove registrations in `Startup.cs`
+1. Remove registrations in `Startup.cs`
 
     In the current Skill Template, there are registrations for classes that are no longer needed in the 4.7 Skill protocol. They should be removed from Startup.cs within your Skill project.
 
@@ -94,15 +94,15 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
         services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
     ```
 
-4. Remove CustomSkillAdapter.cs
+1. Remove CustomSkillAdapter.cs
 
     A custom adapter is no longer needed, you can therefore remove `Adapters\CustomSkillAdapter.cs` from your project.
 
-5. Remove custom implementation of `IWhitelistAuthenticationProvider`
+1. Remove custom implementation of `IWhitelistAuthenticationProvider`
 
     If you have implemented your own class for the interface `IWhitelistAuthenticationProvider` instead of using the WhitelistAuthenticationProvider class from the Solutions lib this can be removed.
 
-6. Add code to handle the `EndOfConversation` activity from parent bot
+1. Add code to handle the `EndOfConversation` activity from parent bot
 
     In Skill invocation, a skill needs to handle an `EndOfConversation` activity in order to support cancellation for interruption scenarios at the parent bot level. This capability will be included in the next release of the `Microsoft.Bot.Builder.Solutions` package and eventually as part of the core Bot Builder SDK. For now, add these lines of code at the top of the `OnTurnAsync` handler in your `IBot` implementation class (within the Bots folder of your project) to handle the `EndOfConversation` activity:
 
@@ -121,7 +121,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     
     With this block of code, when your skill receives an EndOfConversation activity it will clear out the existing dialog state so the skill will be in a clean state ready for the next conversation.
 
-7. Update to use `EndOfConversation` instead of Handoff when a conversation completed
+1. Update to use `EndOfConversation` instead of Handoff when a conversation completed
 
     In the `OnDialogCompleteAsync` function of `MainDialog.cs`, instead of sending back a 'Handoff' activity, update it to be `EndOfConversation` inline with the new Skills changes. Replace the entire contents with the code below.
     
@@ -139,7 +139,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     await outerDc.EndDialogAsync(result);
     ```
 
-8. Add code in the exception handler of the adapter to send an EndOfConversation activity back
+1. Add code in the exception handler of the adapter to send an EndOfConversation activity back
 
     In the exception handler of the `DefaultAdapter` normally located in the `Adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when exception happens:
 
@@ -157,7 +157,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
     ```
 
-9. Keep using the MultiProviderAuthDialog (No action needed)
+1. Keep using the MultiProviderAuthDialog (No action needed)
 
     In the previous model the parent bot (VA) is the responsible for performing OAuth tasks by acting on behalf of a skill thus ensuring a common, shared authentication experience across an assistant. With this new release, Skills can now perform their own authentication requests and still benefit from a shared trust boundary.
 
