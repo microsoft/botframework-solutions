@@ -14,7 +14,7 @@ order: 2
 1. Enable the Bot Framework Solutions packages
     - Add [`botbuilder-solutions`](https://www.npmjs.com/package/botbuilder-solutions) and [`botbuilder-skills`](https://www.npmjs.com/package/botbuilder-skills) npm packages to your solution.
 
-2. Create a custom Skill adapter
+1. Create a custom Skill adapter
     - Create a Custom Adapter that derives from the `SkillHttpBotAdapter` and ensure the `SkillMiddleware` is added
 
       ```typescript
@@ -34,7 +34,7 @@ order: 2
       }
       ```
 
-3. Add the Skill services to startup
+1. Add the Skill services to startup
     - Add the new adapter to your `index.ts` file.
 
       ```typescript
@@ -49,7 +49,7 @@ order: 2
       );
       ```
 
-4. Add the Skill endpoint
+1. Add the Skill endpoint
     - Update your `index.ts` to handle messages to interact with the bot as a skill.
 
       ```typescript

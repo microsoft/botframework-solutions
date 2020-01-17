@@ -167,15 +167,15 @@ Deployment can be customized to omit deployment of CosmosDB and is covered in th
 
 1. Activities are first processed within your Bot through the DialogBot.cs class found in the **Bots** folder. **OnTurnAsync** is executed and **MainDialog** processing is started.
 
-2. The **MainDialog** dialog provided in the template derives from a base class called [RouterDialog]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  **Microsoft.Bot.Builder.Solutions** NuGet library.
+1. The **MainDialog** dialog provided in the template derives from a base class called [RouterDialog]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  **Microsoft.Bot.Builder.Solutions** NuGet library.
 
-3. The **OnInterruptDialogAsync** handler within **MainDialog** is executed which in-turn calls LUIS to evaluate the **General** LUIS model for top intent processing. If interruption is required it's processed at this point.
+1. The **OnInterruptDialogAsync** handler within **MainDialog** is executed which in-turn calls LUIS to evaluate the **General** LUIS model for top intent processing. If interruption is required it's processed at this point.
 
-4. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
+1. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
 
-5. If the Activity is a message and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
+1. If the Activity is a message and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
 
-6. **RouteAsync** within MainDialog invokes the Dispatch model to identify whether it should hand the utterance to:
+1. **RouteAsync** within MainDialog invokes the Dispatch model to identify whether it should hand the utterance to:
     - A dialog (mapped to a LUIS intent)
     - QnAMaker (Chitchat or QnA)
     - A Skill (mapped to a Dispatcher skill intent)

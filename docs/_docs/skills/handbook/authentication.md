@@ -22,8 +22,8 @@ This is needed as a Skill needs to verify that the request comes from a properly
 
 Between Virtual Assistant and skill bot, we'll use AAD as the authority to generate and validate token. The token will be a JWT token. Virtual Assistant will use this information to request a JWT token:
   1. Microsoft app id - this will become the source appid claim in the token
-  2. Microsoft app password
-  3. Skill bot's Microsoft app id - this will become the audience claim in the token
+  1. Microsoft app password
+  1. Skill bot's Microsoft app id - this will become the audience claim in the token
 
 The JWT token will be a 'bearer' token so it'll be part of the Authorization header.
 

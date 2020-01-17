@@ -15,6 +15,6 @@ The next step is to create an Application Manifest for Teams. The most significa
 The Manifest Editor tab in App Studio simplifies creating the manifest, allowing you to describe the app, upload your icons, add app capabilities, and produce a .zip file which can easily be uploaded into Teams for testing or distributed for others to use. This manifest references your deployed Bot endpoint.
 
 1. App Studio is a Teams app which can be found in the Teams store. See the Store Icon in the left-hand ribbon of Teams, or follow [this link for direct download](https://aka.ms/InstallTeamsAppStudio).
-2. Select the App Studio tile to open the app install page and click Install.
+1. Select the App Studio tile to open the app install page and click Install.
 
     ![App Install Page]({{site.baseurl}}/assets/images/teamsappstudioconfiguration.png)

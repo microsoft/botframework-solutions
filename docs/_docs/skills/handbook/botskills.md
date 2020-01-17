@@ -13,10 +13,10 @@ toc: true
 Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of updating your dispatch models and create authentication connections where needed.
 The CLI performs the following operations on your behalf:
 1. Retrieve the **Skill Manifest** from the remote Skill through the `/api/skill/manifest` endpoint. If it is a local Skill you should specify the path.
-2. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution.
-3. Add a new dispatch target using the `dispatch` tool to trigger the utterances retrieved in the previous step.
-4. Refresh the dispatch LUIS model with the new utterances.
-5. In the case of **Active Directory Authentication Providers**, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
+1. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution.
+1. Add a new dispatch target using the `dispatch` tool to trigger the utterances retrieved in the previous step.
+1. Refresh the dispatch LUIS model with the new utterances.
+1. In the case of **Active Directory Authentication Providers**, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
 > Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
@@ -27,9 +27,9 @@ The CLI performs the following operations on your behalf:
     ```shell
     npm install -g botdispatch ludown luisgen
     ```
-- Install the `botskills` CLI
+- Install the Botskills CLI tool:
     ```shell
-    npm install -g botskills
+    npm install -g botskills@latest
     ```
 
 ## Commands
@@ -42,12 +42,12 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
 
-For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).
+For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md).
 
 ### Disconnect Skills
 {:.no_toc}
@@ -59,9 +59,9 @@ Here is an example:
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
 
-For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/disconnect.md).
+For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
 
 ### Update a connected Skill
 {:.no_toc}
@@ -70,10 +70,10 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
-For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).
+For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
 
 ### Refresh connected Skills
 {:.no_toc}
@@ -85,7 +85,7 @@ Here is an example:
 botskills refresh --cs
 ```
 
-For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/refresh.md).
+For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/refresh.md).
 
 ### List connected Skills
 {:.no_toc}
@@ -97,4 +97,18 @@ Here is an example:
 botskills list
 ```
 
-For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
+
+## Multilanguage Functionality
+We introduced the possibility to connect multiple languages of the same Skill at the same time to the Virtual Assistant using Botskills CLI Tool.
+
+Connections depend on the triangulation of the following language sources:
+* The `Dispatch models` available in the Virtual Assistant 
+* The `languages for the intents` in the [Skill Manifest](https://microsoft.github.io/botframework-solutions/skills/handbook/manifest/)
+* The `--languages` argument of the `botskills connect` command
+
+```bash
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs --languages "en-us,es-es"
+```
+
+For further information, see the [Multilanguage functionality documentation]({{site.repo}}/tree/master/tools/botskills/docs/multilanguage-functionality.md).

@@ -32,10 +32,10 @@ When you want to test changes to your LUIS models and QnA Maker knowledgebases i
 
     > This script downloads your modified LUIS models in the .lu schema so it can be published to production by your build pipeline. If you are running this script from a Virtual Assistant project, it also runs `dispatch refresh` and `luisgen` to update your Dispatch model and DispatchLuis.cs files.
 
-2. Check in your updated .lu files to source control. 
+1. Check in your updated .lu files to source control. 
     > Your changes should go through a peer review to validate there will be no conflicts. You can also share your LUIS app and/or transcripts of the bot conversation with your changes to help in this conversation.
 
-3. Run your build pipeline to deploy your updated files to your production environment. 
+1. Run your build pipeline to deploy your updated files to your production environment. 
     > This pipeline should update your LUIS models, QnA Maker knowledgebases, and Dispatch model as needed.
 
 ## I've changed my skill LUIS model. What next?
@@ -56,7 +56,7 @@ If you have added or removed an intent from your skill LUIS model, follow these 
         "triggers": {
             "utteranceSources": [
                 {
-                    "locale": "en",
+                    "locale": "en-us",
                     "source": [ "todo#AddToDo" ]
                 }
             ]

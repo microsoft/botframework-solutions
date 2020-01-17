@@ -23,7 +23,7 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
 To deploy your Assistant using the Azure Resource Manager (ARM) template provided in the project template, follow these steps:
 
 1. Open **PowerShell Core** (pwsh.exe)
-2. Change to the **project directory** of your assistant.
+1. Change to the **project directory** of your assistant.
 1. Run the following command to login to Azure:
     ```shell
     az login

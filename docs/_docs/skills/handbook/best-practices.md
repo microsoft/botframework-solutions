@@ -3,7 +3,7 @@ category: Skills
 subcategory: Handbook
 title: Best practices
 description: Best practices when developing a Bot Framework Skill
-order: 6
+order: 7
 toc: true
 ---
 
