@@ -46,6 +46,7 @@ namespace LinkedAccounts.Web.Controllers
         public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
         {
             this.ViewData["Message"] = "Your application description page.";
+            this.HttpContext.Session.Set("companionApp", BitConverter.GetBytes(companionApp));
 
             var secret = this.Configuration.GetSection("DirectLineSecret")?.Value;
             var endpoint = this.Configuration.GetSection("DirectLineEndpoint")?.Value;
@@ -74,6 +75,7 @@ namespace LinkedAccounts.Web.Controllers
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
                 var userId = UserId.GetUserId(this.HttpContext, this.User);
+                this.HttpContext.Session.SetString("userId", userId);
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await this.repository.GetTokenStatusAsync(userId, this.CredentialProvider);

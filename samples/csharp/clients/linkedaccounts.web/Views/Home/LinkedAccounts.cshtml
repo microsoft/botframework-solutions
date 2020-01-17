@@ -50,21 +50,7 @@ else
             <div class="input-group">
                 <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" disabled>
                 <div class="input-group-append">
-                    @if (Model.CompanionApp)
-                    {
-                        var hasSignedIn = false;
-                        @foreach (var account in Model.Status)
-                        {
-                            @if (!account.HasToken.HasValue || account.HasToken.Value)
-                            {
-                                hasSignedIn = true;
-                            }
-                        }
-                        <a href="microsoft://virtualassistant/?userId=@Model.UserId&signInStatus=@hasSignedIn" target="_blank" class="btn btn-primary">
-                            Complete and return to app
-                        </a>
-                    }
-                    else
+                    @if (!Model.CompanionApp)
                     {
                         <a href="#" class="btn btn-primary" onclick="copyUserId()">Copy</a>
                     }
