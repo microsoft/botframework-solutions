@@ -8,9 +8,8 @@ Param(
     [string] $databaseId,
     [string] $collectionId,
     [string] $cosmosDbPrimaryKey,
-    [string] $subscriptionID,
+    [string] $subscriptionId,
     [string] $appId,
-	[string] $languages = "en-us",
 	[string] $projDir = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "enable_findmeetingroom_log.txt")
 )
@@ -77,22 +76,23 @@ if (-not $collectionId) {
     $collectionId = "room-collection"
 }
 
-if (-not $subscriptionID){
-    $subscriptionID = Read-Host "? your subscriptionID (used for user authentification to get room data from MSGraph)"
-}
-
 if (-not $appId) {
-    $appId = Read-Host "? MSA appId (used for user authentification to get room data from MSGraph)"
+    $appId = Read-Host "? registered MSA appId (used for user authentification to get room data from MSGraph)"
+}
+
+if (-not $subscriptionId){
+    $subscriptionId = Read-Host "? subscriptionId associated with the appId"
 }
 
 
-# Check the CosmosDB package and install it.
+
+# Check the CosmosDB package and install it
 if(!(Get-Package CosmosDB)) {Install-Module -Name CosmosDB}
 
-# Create database and collection for import meeting room data if doesn't exist.
+# Create database for importing meeting room data
 $key = ConvertTo-SecureString -String $primaryKey -AsPlainText -Force
 $cosmosDbContext = New-CosmosDbContext -Account $cosmosDbAccount -Key $key
-$databaseList = Get-CosmosDbDatabase -Context $cosmosDbContext | ConvertTo-Json | ConvertFrom-Json
+$databaseList = Get-CosmosDbDatabase -Context $cosmosDbContext
 $database = $databaseList | where {$_.id -eq $databaseId}
 if (-not $database) {
     Write-Host "> Creating database ..." -NoNewline
@@ -100,19 +100,21 @@ if (-not $database) {
     Write-Host "Done." -ForegroundColor Green
 }
 
+# Create collection
 $cosmosDbContext = New-CosmosDbContext -Account $cosmosDbAccount -Database $databaseId -Key $key
-$collectionList = Get-CosmosDbCollection -Context $cosmosDbContext | ConvertTo-Json | ConvertFrom-Json
+$collectionList = Get-CosmosDbCollection -Context $cosmosDbContext
 $collection = $collectionList | where {$_.id -eq $collectionId}
-if (-not $collection){
-    Write-Host "> Creating collection ..." -NoNewline
-    New-CosmosDbCollection -Context $cosmosDbContext -Id $collectionId 2>> $logFile | Out-Null
-    Write-Host "Done." -ForegroundColor Green
+if ($collection){
+    Remove-CosmosDbCollection -Context $cosmosDbContext -Id $collectionId
 }
+Write-Host "> Creating collection ..." -NoNewline
+New-CosmosDbCollection -Context $cosmosDbContext -Id $collectionId 2>> $logFile | Out-Null
+Write-Host "Done." -ForegroundColor Green
 
 # Get timestamp
 $timestamp = Get-Date -f MMddyyyyHHmmss
 
-# Deploy Azure Search services
+# Deploy Azure Search service
 Write-Host "> Validating Azure Search deployment ..." -NoNewline
 $validation = az group deployment validate `
 	--resource-group $resourcegroup `
@@ -162,20 +164,21 @@ if ($outputs)
     if ($outputs.azureSearch.value.apiKey) { $apiKey = $outputs.azureSearch.value.apiKey }
 }
 
-# Connect to MSGraph to get meeting room data
+# Authentificate and then connect to MSGraph to get meeting room data
 $authorizationResult = RequestAuthorization `
-    -subscriptionID $subscriptionID `
-    -appId $appId
+    -subscriptionId $subscriptionId `
+    -appId $appId 2>> $logFile
 if ($authorizationResult.error)
 {
     Write-Host "! Error: $($authorizationResult.error_description)"  -ForegroundColor Red
-    Write-Host "+ Verify the -subscriptionID and -appId parameters are correct." -ForegroundColor Magenta
+    Write-Host "+ Verify the -subscriptionId and -appId parameters are correct." -ForegroundColor Magenta
     break
 }
 
 $deviceCode = $authorizationResult.device_code
 $message = $authorizationResult.message
 
+Write-Host "To get the meeting room data from MSGraph, you need first sign in your MSGraph account(Admin Consent Required)."
 Write-Host $message 
 $confirmSignedIn = Read-Host "? Have you signed in ? [y/n]"
 if ($confirmSignedIn -ne 'y') {
@@ -184,9 +187,9 @@ if ($confirmSignedIn -ne 'y') {
 }
 
 $accessTokenResult =  RequestAccessToken `
-        -subscriptionID $subscriptionID `
+        -subscriptionId $subscriptionId `
         -appId $appId `
-        -deviceCode $deviceCode
+        -deviceCode $deviceCode 2>> $logFile
 
 if ($accessTokenResult.error)
 {
@@ -196,10 +199,15 @@ if ($accessTokenResult.error)
 
 $accessToken = $accessTokenResult.access_token
 Write-Host "> getting data from MSGraph ..." -NoNewline
-$roomData = GetMeetingRoom -accessToken $accessToken
+$roomData = GetMeetingRoom -accessToken $accessToken 2>> $logFile
+if (-not $roomData)
+{
+    Write-Host "! Error"  -ForegroundColor Red
+    Write-Host "! Log: $($logFile)" -ForegroundColor Red
+    break
+}
 Write-Host "Done." -ForegroundColor Green
 
-$roomData = $roomData | ConvertTo-Json | ConvertFrom-Json
 Write-Host "> importing data into CosmosDb (this could take a while)..." -NoNewline
 foreach ($room in $roomData.value)
 {
@@ -212,7 +220,7 @@ $dataSourceName = "room-datasource"
 $indexName = "room-index"
 $indexerName = "room-indexer"
 
-# create data source in Azure Search
+# Create data source in Azure Search
 Write-Host "> creating data source ..." -NoNewline
 $dataSourceResult = CreateDataSource `
     -azureSearchAccount $azureSearchAccount `
@@ -221,41 +229,41 @@ $dataSourceResult = CreateDataSource `
     -primaryKey $primaryKey `
     -database $databaseId `
     -collection $collectionId `
-    -dataSourceName $dataSourceName
+    -dataSourceName $dataSourceName 2>> $logFile
 
 if ($dataSourceResult){
     Write-Host "Done." -ForegroundColor Green
 }else {
-    Write-Host "! Error: failed"  -ForegroundColor Red
+    Write-Host "! Error"  -ForegroundColor Red
     break;   
 }
 
-# build index in Azure Search
+# Build index in Azure Search
 Write-Host "> building index ..." -NoNewline
 $buildIndexResult = BuildIndex `
     -azureSearchAccount $azureSearchAccount `
     -apiKey $apiKey `
-    -indexName $indexName
+    -indexName $indexName 2>> $logFile
 
 if ($buildIndexResult){
     Write-Host "Done." -ForegroundColor Green
 }else {
-    Write-Host "! Error: failed"  -ForegroundColor Red
+    Write-Host "! Error"  -ForegroundColor Red
     break;   
 }    
 
-# create indexer in Azure Search
+# Create indexer in Azure Search
 Write-Host "> creating indexer..." -NoNewline
 $createIndexerResult = CreateIndexer `
     -azureSearchAccount $azureSearchAccount `
     -apiKey $apiKey `
     -indexerName $indexerName `
     -dataSourceName $dataSourceName `
-    -indexName $indexName
+    -indexName $indexName 2>> $logFile
 if ($createIndexerResult){
     Write-Host "Done." -ForegroundColor Green
 }else {
-    Write-Host "! Error: failed"  -ForegroundColor Red
+    Write-Host "! Error"  -ForegroundColor Red
     break;   
 }        
 
