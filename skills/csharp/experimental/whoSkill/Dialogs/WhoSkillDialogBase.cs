@@ -27,13 +27,14 @@ namespace WhoSkill.Dialogs
     public class WhoSkillDialogBase : ComponentDialog
     {
         public WhoSkillDialogBase(
+            string dialogId,
             BotSettings settings,
             ConversationState conversationState,
             MSGraphService msGraphService,
             LocaleTemplateEngineManager localeTemplateEngineManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(WhoSkillDialogBase))
+            : base(dialogId)
         {
             // Initialize state accessor
             WhoStateAccessor = conversationState.CreateProperty<WhoSkillState>(nameof(WhoSkillState));
@@ -45,44 +46,37 @@ namespace WhoSkill.Dialogs
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                InitService
+                InitService,
+                StartSearchKeyword,
             };
 
             var searchKeyword = new WaterfallStep[]
             {
                 SearchKeyword,
+                StartChooseCandidates,
             };
 
-            var showSearchResult = new WaterfallStep[]
+            var chooseCandidates = new WaterfallStep[]
             {
-                ShowSearchResult,
+                ChooseCandidates,
+                DisplayCandidates,
+                CheckRestart,
+                CollectUserChoice,
             };
 
-            var showNoResult = new WaterfallStep[]
+            var displayResult = new WaterfallStep[]
             {
-                ShowNoResult,
-            };
-
-            var showCertainPerson = new WaterfallStep[]
-            {
-                ShowCurrentPerson,
-                CollectUserChoiceForPerson,
-            };
-
-            var showCandidates = new WaterfallStep[]
-            {
-                ShowCurrentPage,
-                CollectUserChoiceForPage,
+                DisplayResult,
+                CheckRestart,
+                CollectUserChoiceAfterResult
             };
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new WaterfallDialog(Actions.InitDialog, initDialog) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.SearchKeyword, searchKeyword) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowSearchResult, showSearchResult) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowNoResult, showNoResult) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowCertainPerson, showCertainPerson) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowCandidates, showCandidates) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ChooseCandidates, chooseCandidates) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.DisplayResult, displayResult) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.InitDialog;
@@ -96,7 +90,6 @@ namespace WhoSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await InitState(dc);
             await FillLuisResultIntoState(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
@@ -157,6 +150,24 @@ namespace WhoSkill.Dialogs
         }
         #endregion
 
+        // Search and generate result. Fill in candidates list property.
+        protected virtual async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.EndDialogAsync();
+        }
+
+        // Display final result according to the person user picked.
+        protected virtual async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.EndDialogAsync();
+        }
+
+        // Display final result according to the person user picked.
+        protected virtual async Task<DialogTurnResult> CollectUserChoiceAfterResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await sc.EndDialogAsync();
+        }
+
         #region init steps
 
         // Init steps
@@ -208,7 +219,7 @@ namespace WhoSkill.Dialogs
                 var state = await WhoStateAccessor.GetAsync(sc.Context);
                 sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
                 MSGraphService.InitServices(token as string);
-                return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -216,32 +227,62 @@ namespace WhoSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
+
+        private async Task<DialogTurnResult> StartSearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.SearchKeyword);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         #endregion
 
-        // Search and generate result:
-        // Fill in candidates list property. If only one candidate, fill in pickedPerson property directly.
-        private async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> StartChooseCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Actions.ChooseCandidates);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        #region choose cadidates steps
+
+        private async Task<DialogTurnResult> ChooseCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await WhoStateAccessor.GetAsync(sc.Context);
 
-                if (string.IsNullOrEmpty(state.TargetName))
+                // Didn't find any matches.
+                if (state.Candidates == null || !state.Candidates.Any())
                 {
-                    var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                    await sc.Context.SendActivityAsync(activity);
+                    var data = new
+                    {
+                        TargetName = state.Keyword,
+                    };
+                    await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoSearchResult, new { Person = data }));
                     return await sc.EndDialogAsync();
                 }
 
-                List<Candidate> candidates = null;
-                candidates = await MSGraphService.GetUsers(state.TargetName);
-                state.CandidatesForDisplay = candidates;
-                if (state.CandidatesForDisplay != null && state.CandidatesForDisplay.Count == 1 && state.CandidatesForDisplay[0] != null)
+                // If only find one person, skips following choosing steps.
+                if (state.Candidates != null && state.Candidates.Count == 1 && state.Candidates[0] != null)
                 {
-                    state.PickedPerson = state.CandidatesForDisplay[0];
+                    state.PickedPerson = state.Candidates[0];
+                    return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                 }
 
-                return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -250,260 +291,33 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        #region ShowSearchResult 
-        private async Task SearchForTheSecondTime(WaterfallStepContext sc)
+        private async Task<DialogTurnResult> DisplayCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (state.TriggerIntent == WhoLuis.Intent.Manager)
-            {
-                var manager = await MSGraphService.GetManager(state.PickedPerson.Id);
-                if (manager != null)
-                {
-                    state.CandidatesForDisplay = new List<Candidate>() { manager };
-                }
-            }
-            else
-            {
-                state.CandidatesForDisplay = await MSGraphService.GetDirectReports(state.PickedPerson.Id);
-                state.PageIndex = 0;
-            }
-
-            state.SecondSearchCompleted = true;
-        }
-
-        private async Task<DialogTurnResult> ShowSearchResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (state.PickedPerson != null)
-            {
-                switch (state.TriggerIntent)
-                {
-                    case WhoLuis.Intent.WhoIs:
-                    case WhoLuis.Intent.JobTitle:
-                    case WhoLuis.Intent.Department:
-                    case WhoLuis.Intent.Location:
-                    case WhoLuis.Intent.PhoneNumber:
-                    case WhoLuis.Intent.EmailAddress:
-                        {
-                            state.CandidatesForDisplay = new List<Candidate> { state.PickedPerson };
-                            return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
-                        }
-
-                    // If trigger intent is manager/ directReports, we need to search again for this keyword's manager/ directReports.
-                    case WhoLuis.Intent.Manager:
-                        {
-                            await SearchForTheSecondTime(sc);
-                            if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
-                            {
-                                return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
-                            }
-                            else
-                            {
-                                return await sc.ReplaceDialogAsync(Actions.ShowCertainPerson);
-                            }
-                        }
-
-                    case WhoLuis.Intent.DirectReports:
-                        {
-                            await SearchForTheSecondTime(sc);
-                            if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
-                            {
-                                return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
-                            }
-                            else
-                            {
-                                return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
-                            }
-                        }
-
-                    default:
-                        {
-                            return await sc.EndDialogAsync();
-                        }
-                }
-            }
-            else
-            {
-                if (state.CandidatesForDisplay == null || state.CandidatesForDisplay.Count == 0)
-                {
-                    return await sc.ReplaceDialogAsync(Actions.ShowNoResult);
-                }
-                else
-                {
-                    return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
-                }
-            }
-        }
-        #endregion
-
-        // Didn't find any matches. Send different reply according to intent.
-        private async Task<DialogTurnResult> ShowNoResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            string templateName = string.Empty;
-            switch (state.TriggerIntent)
-            {
-                case WhoLuis.Intent.WhoIs:
-                case WhoLuis.Intent.JobTitle:
-                case WhoLuis.Intent.Department:
-                case WhoLuis.Intent.Location:
-                case WhoLuis.Intent.PhoneNumber:
-                case WhoLuis.Intent.EmailAddress:
-                    {
-                        templateName = WhoIsResponses.NoSearchResult;
-                        break;
-                    }
-
-                case WhoLuis.Intent.Manager:
-                    {
-                        if (!state.SecondSearchCompleted)
-                        {
-                            templateName = WhoIsResponses.NoSearchResult;
-                        }
-                        else
-                        {
-                            templateName = OrgResponses.NoManager;
-                        }
-
-                        break;
-                    }
-
-                case WhoLuis.Intent.DirectReports:
-                    {
-                        if (!state.SecondSearchCompleted)
-                        {
-                            templateName = WhoIsResponses.NoSearchResult;
-                        }
-                        else
-                        {
-                            templateName = OrgResponses.NoDirectReports;
-                        }
-
-                        break;
-                    }
-
-                default:
-                    {
-                        return await sc.EndDialogAsync();
-                    }
-            }
 
             var data = new
             {
-                TargetName = state.TargetName,
+                TargetName = state.Keyword,
             };
-            await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data }));
-            return await sc.EndDialogAsync();
+            var activity = TemplateEngine.GenerateActivityForLocale(
+                WhoSharedResponses.ShowPage,
+                new
+                {
+                    Person = data,
+                    Number = state.Candidates.Count
+                });
+            await sc.Context.SendActivityAsync(activity);
+
+            var candidates = state.Candidates.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
+            var card = await GetCardForPage(candidates);
+            return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
         }
 
-        #region show a person flow
-
-        // Show a person's detail
-        private async Task<DialogTurnResult> ShowCurrentPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await WhoStateAccessor.GetAsync(sc.Context);
-                string templateName = string.Empty;
-                switch (state.TriggerIntent)
-                {
-                    case WhoLuis.Intent.WhoIs:
-                        templateName = WhoIsResponses.WhoIs;
-                        break;
-                    case WhoLuis.Intent.JobTitle:
-                        templateName = WhoIsResponses.JobTitle;
-                        break;
-                    case WhoLuis.Intent.Department:
-                        templateName = WhoIsResponses.Department;
-                        break;
-                    case WhoLuis.Intent.Location:
-                        templateName = WhoIsResponses.Location;
-                        break;
-                    case WhoLuis.Intent.PhoneNumber:
-                        templateName = WhoIsResponses.PhoneNumber;
-                        break;
-                    case WhoLuis.Intent.EmailAddress:
-                        templateName = WhoIsResponses.EmailAddress;
-                        break;
-                    case WhoLuis.Intent.Manager:
-                        templateName = OrgResponses.Manager;
-                        break;
-                    default:
-                        {
-                            return await sc.EndDialogAsync();
-                        }
-                }
-
-                var data = new
-                {
-                    TargetName = state.TargetName,
-                    JobTitle = state.CandidatesForDisplay[0].JobTitle ?? string.Empty,
-                    Department = state.CandidatesForDisplay[0].Department ?? string.Empty,
-                    OfficeLocation = state.CandidatesForDisplay[0].OfficeLocation ?? string.Empty,
-                    MobilePhone = state.CandidatesForDisplay[0].MobilePhone ?? string.Empty,
-                    EmailAddress = state.CandidatesForDisplay[0].Mail ?? string.Empty,
-                };
-
-                var reply = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data });
-                await sc.Context.SendActivityAsync(reply);
-                var card = await GetCardForDetail(state.CandidatesForDisplay[0]);
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectUserChoiceForPerson(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CheckRestart(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
             if (state.Restart)
             {
-                state.Restart = false;
-                return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
-            }
-
-            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
-            var topIntent = luisResult.TopIntent().intent;
-
-            switch (topIntent)
-            {
-                case WhoLuis.Intent.Manager:
-                    {
-                        state.PickedPerson = state.CandidatesForDisplay[0];
-                        state.CandidatesForDisplay = null;
-                        state.TargetName = state.PickedPerson.DisplayName;
-                        state.TriggerIntent = WhoLuis.Intent.Manager;
-                        state.SecondSearchCompleted = false;
-                        return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);
-                    }
-
-                default:
-                    {
-                        var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                        await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                        return await sc.EndDialogAsync();
-                    }
-            }
-        }
-        #endregion
-
-        #region show page flow
-
-        // Send a page to show multi search results.
-        private async Task<DialogTurnResult> ShowCurrentPage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await WhoStateAccessor.GetAsync(sc.Context);
-                string templateName = string.Empty;
                 switch (state.TriggerIntent)
                 {
                     case WhoLuis.Intent.WhoIs:
@@ -512,67 +326,56 @@ namespace WhoSkill.Dialogs
                     case WhoLuis.Intent.Location:
                     case WhoLuis.Intent.PhoneNumber:
                     case WhoLuis.Intent.EmailAddress:
+                        {
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(WhoIsDialog));
+                        }
+
                     case WhoLuis.Intent.Manager:
                         {
-                            templateName = WhoSharedResponses.ShowPage;
-                            break;
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(ManagerDialog));
                         }
 
                     case WhoLuis.Intent.DirectReports:
                         {
-                            if (!state.SecondSearchCompleted)
-                            {
-                                templateName = WhoSharedResponses.ShowPage;
-                            }
-                            else
-                            {
-                                templateName = OrgResponses.DirectReports;
-                            }
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(DirectReportsDialog));
+                        }
 
-                            break;
+                    case WhoLuis.Intent.EmailAbout:
+                        {
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(EmailAboutDialog));
+                        }
+
+                    case WhoLuis.Intent.MeetAbout:
+                        {
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(MeetAboutDialog));
                         }
 
                     default:
                         {
+                            state.Init();
+                            var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
+                            await sc.Context.SendActivityAsync(activity);
                             return await sc.EndDialogAsync();
                         }
                 }
-
-                var data = new
-                {
-                    TargetName = state.TargetName,
-                };
-                var activity = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data, Number = state.CandidatesForDisplay.Count });
-                await sc.Context.SendActivityAsync(activity);
-                var candidates = state.CandidatesForDisplay.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
-                var card = await GetCardForPage(candidates);
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
             }
-            catch (SkillException ex)
+            else
             {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                return await sc.NextAsync();
             }
         }
 
-        // Accept user's choice for a page. Update skill state.
-        private async Task<DialogTurnResult> CollectUserChoiceForPage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> CollectUserChoice(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (state.Restart)
-            {
-                state.Restart = false;
-                return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
-            }
-
             var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var topIntent = luisResult.TopIntent().intent;
-            var maxPageNumber = ((state.CandidatesForDisplay.Count - 1) / state.PageSize) + 1;
+            var maxPageNumber = ((state.Candidates.Count - 1) / state.PageSize) + 1;
 
             switch (topIntent)
             {
@@ -580,57 +383,14 @@ namespace WhoSkill.Dialogs
                     {
                         // If user want to see someone's detail.
                         var index = (state.PageIndex * state.PageSize) + state.Ordinal - 1;
-                        if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.CandidatesForDisplay.Count)
+                        if (state.Ordinal > state.PageSize || state.Ordinal <= 0 || index >= state.Candidates.Count)
                         {
                             await sc.Context.SendActivityAsync("Invalid number.");
-                            return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
+                            return await sc.ReplaceDialogAsync(Actions.ChooseCandidates);
                         }
 
-                        state.PickedPerson = state.CandidatesForDisplay[index];
-
-                        switch (state.TriggerIntent)
-                        {
-                            case WhoLuis.Intent.WhoIs:
-                            case WhoLuis.Intent.JobTitle:
-                            case WhoLuis.Intent.Department:
-                            case WhoLuis.Intent.Location:
-                            case WhoLuis.Intent.PhoneNumber:
-                            case WhoLuis.Intent.EmailAddress:
-                                {
-                                    state.CandidatesForDisplay = new List<Candidate> { state.PickedPerson };
-                                    break;
-                                }
-
-                            case WhoLuis.Intent.Manager:
-                                {
-                                    state.CandidatesForDisplay = null;
-                                    break;
-                                }
-
-                            case WhoLuis.Intent.DirectReports:
-                                {
-                                    if (!state.SecondSearchCompleted)
-                                    {
-                                        state.CandidatesForDisplay = null;
-                                    }
-                                    else
-                                    {
-                                        // If pick one of direct reports, reply message should change to 'WhoIs'
-                                        state.TriggerIntent = WhoLuis.Intent.WhoIs;
-                                        state.TargetName = state.PickedPerson.DisplayName;
-                                        state.SecondSearchCompleted = false;
-                                    }
-
-                                    break;
-                                }
-
-                            default:
-                                {
-                                    return await sc.EndDialogAsync();
-                                }
-                        }
-
-                        return await sc.ReplaceDialogAsync(Actions.ShowSearchResult);
+                        state.PickedPerson = state.Candidates[index];
+                        return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                     }
 
                 case WhoLuis.Intent.ShowNextPage:
@@ -646,7 +406,7 @@ namespace WhoSkill.Dialogs
                             await sc.Context.SendActivityAsync(activity);
                         }
 
-                        return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
+                        return await sc.ReplaceDialogAsync(Actions.ChooseCandidates);
                     }
 
                 case WhoLuis.Intent.ShowPreviousPage:
@@ -662,30 +422,19 @@ namespace WhoSkill.Dialogs
                             await sc.Context.SendActivityAsync(activity);
                         }
 
-                        return await sc.ReplaceDialogAsync(Actions.ShowCandidates);
+                        return await sc.ReplaceDialogAsync(Actions.ChooseCandidates);
                     }
 
                 default:
                     {
                         var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
                         await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                        return await sc.EndDialogAsync();
+                        return await sc.ReplaceDialogAsync(Actions.ChooseCandidates);
                     }
             }
         }
-        #endregion
 
-        private async Task InitState(DialogContext dc)
-        {
-            try
-            {
-                var state = await WhoStateAccessor.GetAsync(dc.Context);
-                state.Init();
-            }
-            catch
-            {
-            }
-        }
+        #endregion
 
         private async Task FillLuisResultIntoState(DialogContext dc)
         {
@@ -707,18 +456,18 @@ namespace WhoSkill.Dialogs
                 // save the keyword that user want to search.
                 if (entities != null && entities.keyword != null && !string.IsNullOrEmpty(entities.keyword[0]))
                 {
-                    if (string.IsNullOrEmpty(state.TargetName))
+                    if (string.IsNullOrEmpty(state.Keyword))
                     {
-                        state.TargetName = entities.keyword[0];
+                        state.Keyword = entities.keyword[0];
                     }
                     else
                     {
                         // user want to start a new search.
-                        state.Init();
-                        state.TargetName = entities.keyword[0];
                         state.TriggerIntent = topIntent;
                         state.Restart = true;
                     }
+
+                    return;
                 }
 
                 // save ordinal

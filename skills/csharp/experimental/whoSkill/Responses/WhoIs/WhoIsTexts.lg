@@ -1,7 +1,4 @@
-﻿# NoSearchResult.Text(Person)
-- Sorry, I couldn’t find anyone named '@{Person.TargetName}'
-
-# WhoIs.Text(Person)
+﻿# WhoIs.Text(Person)
 - Here's what I found for @{Person.TargetName}:
 
 # JobTitle.Text(Person)

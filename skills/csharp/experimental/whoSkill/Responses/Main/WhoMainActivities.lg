@@ -27,3 +27,10 @@
     Speak = @{CancelMessage.Text()}
     InputHint = acceptingInput
 ]
+
+# DidntUnderstandMessage
+[Activity
+    Text = @{DidntUnderstandMessage.Text()}
+    Speak = @{DidntUnderstandMessage.Text()}
+    InputHint = expectingInput
+]

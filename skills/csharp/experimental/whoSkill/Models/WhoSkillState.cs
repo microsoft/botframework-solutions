@@ -14,33 +14,32 @@ namespace WhoSkill.Models
         // Set from config
         public int PageSize { get; set; }
 
-        public string TargetName { get; set; }
+        public string Keyword { get; set; }
 
-        public List<Candidate> CandidatesForDisplay { get; set; }
+        public List<Candidate> Candidates { get; set; }
 
         public Candidate PickedPerson { get; set; }
 
-        // Some flow need to search twice: Manager, Direct Reports
-        public bool SecondSearchCompleted { get; set; }
-
-        public int PageIndex { get; set; }
-
-        public int Ordinal { get; set; }
+        public List<Candidate> Results { get; set; }
 
         public WhoLuis.Intent TriggerIntent { get; set; }
 
         public bool Restart { get; set; }
 
+        public int PageIndex { get; set; }
+
+        public int Ordinal { get; set; }
+
         public void Init()
         {
-            TargetName = null;
-            CandidatesForDisplay = null;
+            Keyword = null;
+            Candidates = null;
             PickedPerson = null;
-            SecondSearchCompleted = false;
-            PageIndex = 0;
-            Ordinal = 0;
+            Results = null;
             TriggerIntent = WhoLuis.Intent.None;
             Restart = false;
+            PageIndex = 0;
+            Ordinal = 0;
         }
     }
 }

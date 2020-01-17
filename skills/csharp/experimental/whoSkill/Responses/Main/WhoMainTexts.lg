@@ -18,3 +18,14 @@ Need help? Here’s a full list of the questions I can answer:
 
 # CancelMessage.Text
 - Ok, let's start over.
+
+# DidntUnderstandMessage.Text
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way?
+- I didn't get what you mean, can you try in a different way?
+- Could you elaborate?
+- Please say that again in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again? I didn't get what you mean.

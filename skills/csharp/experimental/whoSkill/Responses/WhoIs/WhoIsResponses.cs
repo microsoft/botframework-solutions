@@ -7,7 +7,6 @@ namespace WhoSkill.Responses.WhoIs
 {
     public class WhoIsResponses
     {
-        public const string NoSearchResult = "NoSearchResult";
         public const string WhoIs = "WhoIs";
         public const string JobTitle = "JobTitle";
         public const string Department = "Department";

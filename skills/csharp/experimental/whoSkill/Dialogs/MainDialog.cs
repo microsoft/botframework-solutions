@@ -35,7 +35,11 @@ namespace WhoSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             LocaleTemplateEngineManager localeTemplateEngineManager,
-            WhoSkillDialogBase whoSkillDialogBase,
+            WhoIsDialog whoIsDialog,
+            ManagerDialog managerDialog,
+            DirectReportsDialog directReportsDialog,
+            EmailAboutDialog emailAboutDialog,
+            MeetAboutDialog meetAboutDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -46,7 +50,11 @@ namespace WhoSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             // RegisterDialogs
-            AddDialog(whoSkillDialogBase ?? throw new ArgumentNullException(nameof(WhoSkillDialogBase)));
+            AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
+            AddDialog(managerDialog ?? throw new ArgumentNullException(nameof(ManagerDialog)));
+            AddDialog(directReportsDialog ?? throw new ArgumentNullException(nameof(DirectReportsDialog)));
+            AddDialog(emailAboutDialog ?? throw new ArgumentNullException(nameof(EmailAboutDialog)));
+            AddDialog(meetAboutDialog ?? throw new ArgumentNullException(nameof(MeetAboutDialog)));
         }
 
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -58,20 +66,57 @@ namespace WhoSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _whoStateAccessor.GetAsync(dc.Context, () => new WhoSkillState());
+            state.Init();
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
 
             var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var intent = luisResult?.TopIntent().intent;
-            if (intent == WhoLuis.Intent.None)
+            state.TriggerIntent = intent ?? WhoLuis.Intent.None;
+            switch (intent)
             {
-                var activity = _templateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                await dc.Context.SendActivityAsync(activity);
-            }
-            else
-            {
-                await dc.BeginDialogAsync(nameof(WhoSkillDialogBase));
+                case WhoLuis.Intent.WhoIs:
+                case WhoLuis.Intent.JobTitle:
+                case WhoLuis.Intent.Department:
+                case WhoLuis.Intent.Location:
+                case WhoLuis.Intent.PhoneNumber:
+                case WhoLuis.Intent.EmailAddress:
+                    {
+                        await dc.BeginDialogAsync(nameof(WhoIsDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.Manager:
+                    {
+                        await dc.BeginDialogAsync(nameof(ManagerDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.DirectReports:
+                    {
+                        await dc.BeginDialogAsync(nameof(DirectReportsDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.EmailAbout:
+                    {
+                        await dc.BeginDialogAsync(nameof(EmailAboutDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.MeetAbout:
+                    {
+                        await dc.BeginDialogAsync(nameof(MeetAboutDialog));
+                        break;
+                    }
+
+                default:
+                    {
+                        var activity = _templateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
+                        await dc.Context.SendActivityAsync(activity);
+                        break;
+                    }
             }
         }
 

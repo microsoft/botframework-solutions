@@ -11,12 +11,8 @@ namespace WhoSkill.Utilities
 
         public const string SearchKeyword = "searchKeyword";
 
-        public const string ShowSearchResult = "showSearchResult";
+        public const string ChooseCandidates = "chooseCandidates";
 
-        public const string ShowNoResult = "showNoResult";
-
-        public const string ShowCertainPerson = "showCertainPerson";
-
-        public const string ShowCandidates = "showCandidates";
+        public const string DisplayResult = "displayResult";
     }
 }

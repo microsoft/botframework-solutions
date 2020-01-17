@@ -35,13 +35,6 @@
     InputHint = acceptingInput
 ]
 
-# DidntUnderstandMessage
-[Activity
-    Text = @{DidntUnderstandMessage.Text()}
-    Speak = @{DidntUnderstandMessage.Text()}
-    InputHint = expectingInput
-]
-
 # NoKeyword
 [Activity
     Text = @{NoKeyword.Text()}
@@ -74,5 +67,12 @@
 [Activity
     Text = @{AlreadyFirstPage.Text()}
     Speak = @{AlreadyFirstPage.Text()}
+    InputHint = acceptingInput
+]
+
+# NoSearchResult
+[Activity
+    Text = @{NoSearchResult.Text(Person)}
+    Speak = @{NoSearchResult.Text(Person)}
     InputHint = acceptingInput
 ]

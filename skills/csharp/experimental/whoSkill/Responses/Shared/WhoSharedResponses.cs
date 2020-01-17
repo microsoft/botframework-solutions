@@ -18,5 +18,6 @@ namespace WhoSkill.Responses.Shared
         public const string InvalidNumber = "InvalidNumber";
         public const string AlreadyLastPage = "AlreadyLastPage";
         public const string AlreadyFirstPage = "AlreadyFirstPage";
+        public const string NoSearchResult = "NoSearchResult";
     }
 }
