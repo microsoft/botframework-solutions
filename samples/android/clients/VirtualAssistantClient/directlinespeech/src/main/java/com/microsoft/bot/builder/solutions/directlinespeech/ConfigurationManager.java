@@ -70,6 +70,12 @@ public class ConfigurationManager {
         if (configuration.enableKWS == null) {
             configuration.enableKWS = false;
         }
+        if (configuration.linkedAccountEndpoint == null) {
+            configuration.linkedAccountEndpoint = defaultConfiguration.linkedAccountEndpoint;
+        }
+        if (configuration.signedIn == null) {
+            configuration.signedIn = false;
+        }
 
         return configuration;
     }
