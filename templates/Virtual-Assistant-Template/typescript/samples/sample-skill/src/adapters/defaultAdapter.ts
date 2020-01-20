@@ -32,10 +32,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
     ) {
         super(adapterSettings);
 
-        if (settings.blobStorage === undefined) {
-            throw new Error('There is no blobStorage value in appsettings file');
-        }
-
         this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
             await context.sendActivity({
                 type: ActivityTypes.Trace,
@@ -47,6 +43,10 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             });
             telemetryClient.trackException({ exception: error });
         };
+
+        if (settings.blobStorage === undefined) {
+            throw new Error('There is no blobStorage value in appsettings file');
+        }
 
         const transcriptStore: TranscriptStore = new AzureBlobTranscriptStore({
             containerName: settings.blobStorage.container,

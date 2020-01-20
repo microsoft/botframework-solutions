@@ -35,13 +35,12 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
             await context.sendActivity({
                 type: ActivityTypes.Trace,
-                text: error.message
+                text: error.message || JSON.stringify(error)
             });
             await context.sendActivity({
                 type: ActivityTypes.Trace,
                 text: error.stack
             });
-            await context.sendActivity(i18next.t('main.error'));
             telemetryClient.trackException({ exception: error });
         };
 
