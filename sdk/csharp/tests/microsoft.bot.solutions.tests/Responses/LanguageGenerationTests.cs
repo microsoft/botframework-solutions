@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 

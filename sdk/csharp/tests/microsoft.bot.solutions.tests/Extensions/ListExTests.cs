@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
+namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     public class ListExTests
