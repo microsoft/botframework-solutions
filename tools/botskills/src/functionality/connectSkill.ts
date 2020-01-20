@@ -16,7 +16,7 @@ import {
     ISkillManifest,
     IUtteranceSource
 } from '../models';
-import { AuthenticationUtils, ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes } from '../utils';
+import { AuthenticationUtils, ChildProcessUtils, getDispatchNames, isCloudGovernment, isValidCultures, wrapPathWithQuotes } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 export class ConnectSkill {
@@ -211,12 +211,20 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // tslint:disable-next-line:no-backbone-get-set-outside-model
             const luisApp: string = <string> executionModelByCulture.get('luisApp');
+
             // Update Dispatch file
             const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch'];
+
             dispatchAddCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = <string> executionModelByCulture.get(argument);
                 dispatchAddCommand.push(...[argument, argumentValue]);
             });
+
+            // Append '--gov true' if it is a government cloud
+            if (await isCloudGovernment() === true) {
+                dispatchAddCommand.push('--gov', 'true');
+            }
+
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${culture} ${luisApp} LU file`);
         } catch (err) {
             throw new Error(`There was an error in the dispatch add command:\nCommand: ${dispatchAddCommand.join(' ')}\n${err}`);
