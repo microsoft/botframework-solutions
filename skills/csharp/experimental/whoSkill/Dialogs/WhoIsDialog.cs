@@ -134,7 +134,7 @@ namespace WhoSkill.Dialogs
                         state.Init();
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.Manager;
-                        return await sc.BeginDialogAsync(nameof(ManagerDialog));
+                        return await sc.ReplaceDialogAsync(nameof(ManagerDialog));
                     }
 
                 default:

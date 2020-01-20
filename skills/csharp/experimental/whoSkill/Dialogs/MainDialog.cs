@@ -68,10 +68,19 @@ namespace WhoSkill.Dialogs
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _whoStateAccessor.GetAsync(dc.Context, () => new WhoSkillState());
-            state.Init();
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
-            InitializeConfig(state);
+            await InitializeConfig(dc);
+
+            // Init other properties in state before BeginDialog.
+            await InitializeState(dc);
+
+            if (state.Keyword == null)
+            {
+                var activity = _templateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
+                await dc.Context.SendActivityAsync(activity);
+                return;
+            }
 
             // Route dialogs.
             var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
@@ -282,13 +291,34 @@ namespace WhoSkill.Dialogs
             return InterruptionAction.End;
         }
 
-        private void InitializeConfig(WhoSkillState state)
+        private async Task InitializeConfig(DialogContext dc)
         {
+            var state = await _whoStateAccessor.GetAsync(dc.Context);
+
             // Initialize PageSize when the first input comes.
             if (state.PageSize <= 0)
             {
                 var pageSize = _settings.DisplaySize;
                 state.PageSize = pageSize <= 0 ? WhoCommonUtil.DefaultDisplaySize : pageSize;
+            }
+        }
+
+        private async Task InitializeState(DialogContext dc)
+        {
+            var state = await _whoStateAccessor.GetAsync(dc.Context);
+            state.Init();
+
+            var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var entities = luisResult.Entities;
+            var topIntent = luisResult.TopIntent().intent;
+
+            // Save trigger intent.
+            state.TriggerIntent = topIntent;
+
+            // Save the keyword that user want to search.
+            if (entities != null && entities.keyword != null)
+            {
+                state.Keyword = entities.keyword[0];
             }
         }
     }

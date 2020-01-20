@@ -88,19 +88,11 @@ namespace WhoSkill.Dialogs
 
         protected LocaleTemplateEngineManager TemplateEngine { get; set; }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await FillLuisResultIntoState(dc);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             await FillLuisResultIntoState(dc);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
-
-        #region generate card methods.
 
         // This method is called to generate card for detail of a person.
         protected async Task<Activity> GetCardForDetail(Candidate candidate)
@@ -148,7 +140,6 @@ namespace WhoSkill.Dialogs
             });
             return activity;
         }
-        #endregion
 
         // Search and generate result. Fill in candidates list property.
         protected virtual async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -162,20 +153,17 @@ namespace WhoSkill.Dialogs
             return await sc.EndDialogAsync();
         }
 
-        // Display final result according to the person user picked.
         protected virtual async Task<DialogTurnResult> CollectUserChoiceAfterResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.EndDialogAsync();
         }
-
-        #region init steps
 
         // Init steps
         private async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var retryPrompt = MessageFactory.Text("autho");
+                var retryPrompt = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoAuth);
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -241,8 +229,6 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        #endregion
-
         private async Task<DialogTurnResult> StartChooseCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -255,8 +241,6 @@ namespace WhoSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
-
-        #region choose cadidates steps
 
         private async Task<DialogTurnResult> ChooseCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -318,62 +302,10 @@ namespace WhoSkill.Dialogs
             var state = await WhoStateAccessor.GetAsync(sc.Context);
             if (state.Restart)
             {
-                switch (state.TriggerIntent)
-                {
-                    case WhoLuis.Intent.WhoIs:
-                    case WhoLuis.Intent.JobTitle:
-                    case WhoLuis.Intent.Department:
-                    case WhoLuis.Intent.Location:
-                    case WhoLuis.Intent.PhoneNumber:
-                    case WhoLuis.Intent.EmailAddress:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(WhoIsDialog));
-                        }
-
-                    case WhoLuis.Intent.Manager:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(ManagerDialog));
-                        }
-
-                    case WhoLuis.Intent.DirectReports:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(DirectReportsDialog));
-                        }
-
-                    case WhoLuis.Intent.Peers:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(PeersDialog));
-                        }
-
-                    case WhoLuis.Intent.EmailAbout:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(EmailAboutDialog));
-                        }
-
-                    case WhoLuis.Intent.MeetAbout:
-                        {
-                            state.Init();
-                            return await sc.BeginDialogAsync(nameof(MeetAboutDialog));
-                        }
-
-                    default:
-                        {
-                            state.Init();
-                            var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                            await sc.Context.SendActivityAsync(activity);
-                            return await sc.EndDialogAsync();
-                        }
-                }
+                return await RestartDialog(sc);
             }
-            else
-            {
-                return await sc.NextAsync();
-            }
+
+            return await sc.NextAsync();
         }
 
         private async Task<DialogTurnResult> CollectUserChoice(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -440,8 +372,6 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        #endregion
-
         private async Task FillLuisResultIntoState(DialogContext dc)
         {
             try
@@ -453,26 +383,10 @@ namespace WhoSkill.Dialogs
                 var generalEntities = generalLuisResult.Entities;
                 var topIntent = luisResult.TopIntent().intent;
 
-                // Save trigger intent.
-                if (state.TriggerIntent == WhoLuis.Intent.None)
-                {
-                    state.TriggerIntent = topIntent;
-                }
-
-                // Save the keyword that user want to search.
+                // User provide a keyword.
                 if (entities != null && entities.keyword != null && !string.IsNullOrEmpty(entities.keyword[0]))
                 {
-                    if (string.IsNullOrEmpty(state.Keyword))
-                    {
-                        state.Keyword = entities.keyword[0];
-                    }
-                    else
-                    {
-                        // user want to start a new search.
-                        state.TriggerIntent = topIntent;
-                        state.Restart = true;
-                    }
-
+                    state.Restart = true;
                     return;
                 }
 
@@ -491,6 +405,87 @@ namespace WhoSkill.Dialogs
             }
             catch
             {
+            }
+        }
+
+        private async Task<DialogTurnResult> RestartDialog(WaterfallStepContext sc)
+        {
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+
+            // Init other properties in state before BeginDialog.
+            await InitializeState(sc);
+
+            if (state.Keyword == null)
+            {
+                var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
+                await sc.Context.SendActivityAsync(activity);
+                return await sc.EndDialogAsync();
+            }
+
+            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var topIntent = luisResult.TopIntent().intent;
+            switch (topIntent)
+            {
+                case WhoLuis.Intent.WhoIs:
+                case WhoLuis.Intent.JobTitle:
+                case WhoLuis.Intent.Department:
+                case WhoLuis.Intent.Location:
+                case WhoLuis.Intent.PhoneNumber:
+                case WhoLuis.Intent.EmailAddress:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(WhoIsDialog));
+                    }
+
+                case WhoLuis.Intent.Manager:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(ManagerDialog));
+                    }
+
+                case WhoLuis.Intent.DirectReports:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(DirectReportsDialog));
+                    }
+
+                case WhoLuis.Intent.Peers:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(PeersDialog));
+                    }
+
+                case WhoLuis.Intent.EmailAbout:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(EmailAboutDialog));
+                    }
+
+                case WhoLuis.Intent.MeetAbout:
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(MeetAboutDialog));
+                    }
+
+                default:
+                    {
+                        var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
+                        await sc.Context.SendActivityAsync(activity);
+                        return await sc.EndDialogAsync();
+                    }
+            }
+        }
+
+        private async Task InitializeState(WaterfallStepContext sc)
+        {
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+            state.Init();
+
+            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
+            var entities = luisResult.Entities;
+            var topIntent = luisResult.TopIntent().intent;
+
+            // Save trigger intent.
+            state.TriggerIntent = topIntent;
+
+            // Save the keyword that user want to search.
+            if (entities != null && entities.keyword != null)
+            {
+                state.Keyword = entities.keyword[0];
             }
         }
 
