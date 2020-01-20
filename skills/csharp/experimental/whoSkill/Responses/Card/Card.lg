@@ -109,7 +109,7 @@
     Speak = 
     Attachments = @{json(CardForDetail.Text(Person))}
     InputHint = acceptingInput
-	SuggestedActions = Manager | (ToDo: peers)
+	SuggestedActions = Manager | Peers
 ]
 
 # CardForDetail.Text(Person)

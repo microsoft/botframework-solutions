@@ -9,3 +9,9 @@
 
 # NoDirectReports.Text(Person)
 - '@{Person.TargetName}' has no direct reports.
+
+# Peers.Text(Person, Number)
+- I found @{Number} people who have the same manager as '@{Person.TargetName}'.
+
+# NoPeers.Text(Person)
+- There are no other people that have the same manager as '@{Person.TargetName}'.

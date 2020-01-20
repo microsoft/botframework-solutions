@@ -10,6 +10,8 @@ namespace WhoSkill.Responses.Org
         public const string Manager = "Manager";
         public const string NoManager = "NoManager";
         public const string DirectReports = "DirectReports";
-        public const string NoDirectReports = "NoDirectReports";
+        public const string NoDirectReports = "NoDirectReports"; 
+        public const string Peers = "Peers";
+        public const string NoPeers = "NoPeers";
     }
 }

@@ -27,3 +27,17 @@
     Speak = @{NoDirectReports.Text(Person)}
     InputHint = acceptingInput
 ]
+
+# Peers
+[Activity
+    Text = @{Peers.Text(Person, Number)}
+    Speak = @{Peers.Text(Person, Number)}
+    InputHint = acceptingInput
+]
+
+# NoPeers
+[Activity
+    Text = @{NoPeers.Text(Person)}
+    Speak = @{NoPeers.Text(Person)}
+    InputHint = acceptingInput
+]

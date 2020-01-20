@@ -343,6 +343,12 @@ namespace WhoSkill.Dialogs
                             return await sc.BeginDialogAsync(nameof(DirectReportsDialog));
                         }
 
+                    case WhoLuis.Intent.Peers:
+                        {
+                            state.Init();
+                            return await sc.BeginDialogAsync(nameof(PeersDialog));
+                        }
+
                     case WhoLuis.Intent.EmailAbout:
                         {
                             state.Init();
@@ -447,13 +453,13 @@ namespace WhoSkill.Dialogs
                 var generalEntities = generalLuisResult.Entities;
                 var topIntent = luisResult.TopIntent().intent;
 
-                // save trigger intent.
+                // Save trigger intent.
                 if (state.TriggerIntent == WhoLuis.Intent.None)
                 {
                     state.TriggerIntent = topIntent;
                 }
 
-                // save the keyword that user want to search.
+                // Save the keyword that user want to search.
                 if (entities != null && entities.keyword != null && !string.IsNullOrEmpty(entities.keyword[0]))
                 {
                     if (string.IsNullOrEmpty(state.Keyword))
@@ -470,7 +476,7 @@ namespace WhoSkill.Dialogs
                     return;
                 }
 
-                // save ordinal
+                // Save ordinal
                 if (generalEntities != null && generalEntities.number != null && generalEntities.number.Length > 0)
                 {
                     var indexOfNumber = (int)generalEntities.number[0];

@@ -38,6 +38,7 @@ namespace WhoSkill.Dialogs
             WhoIsDialog whoIsDialog,
             ManagerDialog managerDialog,
             DirectReportsDialog directReportsDialog,
+            PeersDialog peersDialog,
             EmailAboutDialog emailAboutDialog,
             MeetAboutDialog meetAboutDialog,
             IBotTelemetryClient telemetryClient)
@@ -53,6 +54,7 @@ namespace WhoSkill.Dialogs
             AddDialog(whoIsDialog ?? throw new ArgumentNullException(nameof(WhoIsDialog)));
             AddDialog(managerDialog ?? throw new ArgumentNullException(nameof(ManagerDialog)));
             AddDialog(directReportsDialog ?? throw new ArgumentNullException(nameof(DirectReportsDialog)));
+            AddDialog(peersDialog ?? throw new ArgumentNullException(nameof(PeersDialog)));
             AddDialog(emailAboutDialog ?? throw new ArgumentNullException(nameof(EmailAboutDialog)));
             AddDialog(meetAboutDialog ?? throw new ArgumentNullException(nameof(MeetAboutDialog)));
         }
@@ -71,9 +73,9 @@ namespace WhoSkill.Dialogs
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
 
+            // Route dialogs.
             var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var intent = luisResult?.TopIntent().intent;
-            state.TriggerIntent = intent ?? WhoLuis.Intent.None;
             switch (intent)
             {
                 case WhoLuis.Intent.WhoIs:
@@ -96,6 +98,12 @@ namespace WhoSkill.Dialogs
                 case WhoLuis.Intent.DirectReports:
                     {
                         await dc.BeginDialogAsync(nameof(DirectReportsDialog));
+                        break;
+                    }
+
+                case WhoLuis.Intent.Peers:
+                    {
+                        await dc.BeginDialogAsync(nameof(PeersDialog));
                         break;
                     }
 

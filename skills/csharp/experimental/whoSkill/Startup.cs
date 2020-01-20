@@ -141,6 +141,7 @@ namespace WhoSkill
             services.AddTransient<MainDialog>();
             services.AddTransient<WhoIsDialog>();
             services.AddTransient<ManagerDialog>();
+            services.AddTransient<PeersDialog>();
             services.AddTransient<DirectReportsDialog>();
             services.AddTransient<EmailAboutDialog>();
             services.AddTransient<MeetAboutDialog>();

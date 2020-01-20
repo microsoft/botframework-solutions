@@ -24,7 +24,7 @@ namespace Luis
             Manager, 
             MeetAbout, 
             None, 
-            Peer, 
+            Peers, 
             PhoneNumber, 
             ShowDetail, 
             ShowNextPage, 
