@@ -113,15 +113,34 @@ namespace CalendarSkill.Dialogs
             {
                 case CalendarLuis.Intent.FindMeetingRoom:
                     {
-                        await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                        // check whether the meeting room feature supported.
+                        if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                        {
+                            await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                            await dc.Context.SendActivityAsync(activity);
+                        }
+
                         break;
                     }
 
                 case CalendarLuis.Intent.AddCalendarEntryAttribute:
                     {
+                        // Determine the exact intent using entities
                         if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
-                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
                         }
                         else
                         {
@@ -148,7 +167,15 @@ namespace CalendarSkill.Dialogs
                     {
                         if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
-                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
                         }
                         else
                         {
@@ -162,7 +189,15 @@ namespace CalendarSkill.Dialogs
                     {
                         if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
-                            await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
                         }
                         else
                         {
@@ -197,10 +232,18 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.CheckAvailability:
                     {
-                        if (luisResult.Entities.MeetingRoom != null)
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
                         {
-                            state.InitialIntent = CalendarLuis.Intent.FindMeetingRoom;
-                            await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                state.InitialIntent = CalendarLuis.Intent.FindMeetingRoom;
+                                await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
                         }
                         else
                         {

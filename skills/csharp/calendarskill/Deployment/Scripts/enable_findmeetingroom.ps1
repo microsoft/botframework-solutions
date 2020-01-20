@@ -1,12 +1,9 @@
 #Requires -Version 6
 
 Param(
-    [string] $name,
 	[string] $resourceGroup,
     [string] $cosmosDbAccount,
     [string] $primaryKey,
-    [string] $cosmosDbPrimaryKey,
-    [string] $subscriptionId,
     [string] $appId,
     [string] $databaseId = "room-db",
     [string] $collectionId = "room-collection",
@@ -55,28 +52,20 @@ else {
 }
 
 # Get mandatory parameters
-if (-not $name) {
-    $name = Read-Host "? Bot Name (used as default name for resource group and deployed resources)"
-}
-
 if (-not $resourceGroup) {
-	$resourceGroup = $name
+	$resourceGroup = Read-Host "? An existing resource group (used to deploy Azure Search Resource)"
 }
 
 if (-not $cosmosDbAccount) {
-    $cosmosDbAccount = Read-Host "? A cosmosDb account (used for importing room data)"
+    $cosmosDbAccount = Read-Host "? An existing CosmosDb Account (used to import meeting room data and as the DataSource for Azure Search)"
 }
 
 if (-not $primaryKey) {
-    $primaryKey = Read-Host "? The primaryKey of the given cosmosDb account"
+    $primaryKey = Read-Host "? The primaryKey of the given CosmosDb Account"
 }
 
 if (-not $appId) {
-    $appId = Read-Host "? A registered MSA appId (used for user authentification to get room data from MSGraph)"
-}
-
-if (-not $subscriptionId){
-    $subscriptionId = Read-Host "? The subscriptionId associated with the appId"
+    $appId = Read-Host "? A registered MSA appId in Azure App registrations service (used for user authentification to get room data from MSGraph)"
 }
 
 # Check the CosmosDB package and install it
@@ -112,7 +101,6 @@ Write-Host "> Validating Azure Search deployment ..." -NoNewline
 $validation = az group deployment validate `
 	--resource-group $resourcegroup `
 	--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'azuresearch.json')" `
-	--parameters name=$name `
 	--output json
 
 if ($validation) {
@@ -126,7 +114,6 @@ if ($validation) {
 			--name $timestamp `
 			--resource-group $resourceGroup `
 			--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'azuresearch.json')" `
-			--parameters name=$name `
             --output json 2>> $logFile | Out-Null
             
 		Write-Host "Done." -ForegroundColor Green
@@ -135,7 +122,6 @@ if ($validation) {
         Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
         Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
         Write-Host "! Log: $($logFile)" -ForegroundColor Red
-        Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 		Break
 	}
 }
@@ -159,12 +145,11 @@ if ($outputs)
 
 # Authentificate and then connect to MSGraph to get meeting room data
 $authorizationResult = RequestAuthorization `
-    -subscriptionId $subscriptionId `
     -appId $appId 2>> $logFile
 if ($authorizationResult.error)
 {
     Write-Host "! Error: $($authorizationResult.error_description)"  -ForegroundColor Red
-    Write-Host "+ Verify the -subscriptionId and -appId parameters are correct." -ForegroundColor Magenta
+    Write-Host "+ Verify the -appId parameter are correct." -ForegroundColor Magenta
     break
 }
 
@@ -180,7 +165,6 @@ if ($confirmSignedIn -ne 'y') {
 }
 
 $accessTokenResult =  RequestAccessToken `
-        -subscriptionId $subscriptionId `
         -appId $appId `
         -deviceCode $deviceCode 2>> $logFile
 

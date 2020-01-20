@@ -66,6 +66,11 @@ namespace CalendarSkill.Test.Flow
                 OAuthConnections = new List<OAuthConnection>()
                 {
                     new OAuthConnection() { Name = Provider, Provider = Provider }
+                },
+
+                AzureSearch = new BotSettings.AzureSearchConfiguration()
+                {
+                    SearchServiceName = "mockSearchService"
                 }
             });
 

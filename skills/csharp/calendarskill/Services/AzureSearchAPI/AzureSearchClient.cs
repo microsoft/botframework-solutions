@@ -12,13 +12,12 @@ namespace CalendarSkill.Services.AzureSearchAPI
 {
     public class AzureSearchClient : ISearchService
     {
-        private static ISearchServiceClient _searchClient;
         private static ISearchIndexClient _indexClient;
 
         public AzureSearchClient(string searchServiceName, string searchServiceAdminApiKey, string searchIndexName)
         {
-            _searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(searchServiceAdminApiKey));
-            _indexClient = _searchClient.Indexes.GetClient(searchIndexName);
+            ISearchServiceClient searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(searchServiceAdminApiKey));
+            _indexClient = searchClient.Indexes.GetClient(searchIndexName);
         }
 
         public async Task<List<RoomModel>> GetMeetingRoomAsync(string query, int floorNumber = 0)

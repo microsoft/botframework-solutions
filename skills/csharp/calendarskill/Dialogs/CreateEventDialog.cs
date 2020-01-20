@@ -365,7 +365,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfo.RecreateState == RecreateEventState.MeetingRoom)
+                if (state.MeetingInfo.RecreateState == RecreateEventState.MeetingRoom || string.IsNullOrEmpty(Settings.AzureSearch?.SearchServiceName))
                 {
                     return await sc.NextAsync();
                 }
@@ -387,7 +387,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result == null || (bool)sc.Result)
+                if (state.MeetingInfo.RecreateState == RecreateEventState.MeetingRoom || (sc.Result != null && (bool)sc.Result == true))
                 {
                     return await sc.BeginDialogAsync(nameof(FindMeetingRoomDialog), options: sc.Options, cancellationToken: cancellationToken);
                 }

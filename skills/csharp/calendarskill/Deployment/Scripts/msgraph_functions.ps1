@@ -1,6 +1,6 @@
-function RequestAuthorization($subscriptionID, $appId)
+function RequestAuthorization($appId)
 {
-    $url = "https://login.microsoftonline.com/$($subscriptionID)/oauth2/devicecode" 
+    $url = "https://login.microsoftonline.com/common/oauth2/v2.0/devicecode" 
 
     $headers = @{
         'Content-Type' = 'application/x-www-form-urlencoded'}
@@ -13,9 +13,9 @@ function RequestAuthorization($subscriptionID, $appId)
    return $result
 }
 
-function RequestAccessToken($subscriptionID, $appId, $deviceCode)
+function RequestAccessToken($appId, $deviceCode)
 {
-    $url = "https://login.microsoftonline.com/$($subscriptionID)/oauth2/v2.0/token" 
+    $url = "https://login.microsoftonline.com/common/oauth2/v2.0/token" 
 
     $headers = @{
         'Content-Type' = 'application/x-www-form-urlencoded'}

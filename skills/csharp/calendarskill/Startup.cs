@@ -139,7 +139,14 @@ namespace CalendarSkill
             }
 
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
-            services.AddSingleton<ISearchService>(new AzureSearchClient(settings.AzureSearch.SearchServiceName, settings.AzureSearch.SearchServiceAdminApiKey, settings.AzureSearch.SearchIndexName));
+            if (!string.IsNullOrEmpty(settings.AzureSearch?.SearchServiceName))
+            {
+                services.AddSingleton<ISearchService>(new AzureSearchClient(settings.AzureSearch?.SearchServiceName, settings.AzureSearch?.SearchServiceAdminApiKey, settings.AzureSearch?.SearchIndexName));
+            }
+            else
+            {
+                services.AddSingleton<ISearchService, DefaultSearchClient>();
+            }
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
