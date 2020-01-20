@@ -14,9 +14,10 @@ import {
     IRefreshConfiguration,
     ISkillFile,
     ISkillManifest,
-    IUtteranceSource
+    IUtteranceSource,
+    IUtterance
 } from '../models';
-import { AuthenticationUtils, ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes } from '../utils';
+import { AuthenticationUtils, ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, deleteFiles } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 export class ConnectSkill {
@@ -24,6 +25,8 @@ export class ConnectSkill {
     private readonly childProcessUtils: ChildProcessUtils;
     private readonly configuration: IConnectConfiguration;
     private readonly logger: ILogger;
+    private tempFiles: string[] = [];
+
 
     public constructor(configuration: IConnectConfiguration, logger?: ILogger) {
         this.configuration = configuration;
@@ -32,29 +35,47 @@ export class ConnectSkill {
         this.childProcessUtils = new ChildProcessUtils();
     }
 
-    private getExecutionModel(
-        luisApp: string,
-        culture: string,
-        intentName: string,
-        dispatchName: string): Map<string, string> {
+    private getExecutionModel(luisApp: string, culture: string, intentName: string, dispatchName: string): Map<string, string> {
         const luFile: string = `${luisApp}.lu`;
         const luisFile: string = `${luisApp}.luis`;
-        const luFilePath: string = join(this.configuration.luisFolder, culture, luFile);
-        const luisFolderPath: string = join(this.configuration.luisFolder, culture);
-        const luisFilePath: string = join(luisFolderPath, luisFile);
         const dispatchFile: string = `${dispatchName}.dispatch`;
         const dispatchFolderPath: string = join(this.configuration.dispatchFolder, culture);
         const dispatchFilePath: string = join(dispatchFolderPath, dispatchFile);
+        const luFolderPath: string = join(this.configuration.outFolder, 'deployment', 'resources', 'LU');
+        let luFilePath: string;
+        let luisFolderPath: string;
+        let luisFilePath: string;
 
-        // Validate 'ludown' arguments
-        if (!existsSync(this.configuration.luisFolder)) {
-            throw new Error(`Path to the LUIS folder (${this.configuration.luisFolder}) leads to a nonexistent folder.
+        if (this.configuration.inlineUtterances) {
+            luFilePath = join(luFolderPath, culture, luFile);
+            luisFolderPath = join(luFolderPath, culture);
+            luisFilePath = join(luisFolderPath, luisFile);
+            this.tempFiles.push(luFilePath,luisFilePath);
+
+            // Validate 'ludown' arguments
+            if (!existsSync(luFolderPath)) {
+                throw new Error(`Path to the LUIS folder (${luFolderPath}) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
-        } else if (!existsSync(luFilePath)) {
-            throw new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.
+            } else if (!existsSync(luFilePath)) {
+                throw new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.
 Make sure your Skill's .lu file's name matches your Skill's manifest id`);
+            }
         }
+        else {
+            luFilePath = join(this.configuration.luisFolder, culture, luFile);
+            luisFolderPath = join(this.configuration.luisFolder, culture);
+            luisFilePath = join(luisFolderPath, luisFile);
 
+            // Validate 'ludown' arguments
+            if (!existsSync(this.configuration.luisFolder)) {
+                throw new Error(`Path to the LUIS folder (${this.configuration.luisFolder}) leads to a nonexistent folder.
+Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
+            } else if (!existsSync(luFilePath)) {
+                throw new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.
+Make sure your Skill's .lu file's name matches your Skill's manifest id`);
+            }
+        }
+        
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
             throw new Error(
@@ -157,25 +178,58 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     }
 
     private async processManifest(manifest: ISkillManifest): Promise<Map<string, string[]>> {
+        if (this.configuration.inlineUtterances) {
+            const actionId: string[] = [manifest.actions[0].id.split('_')[0]];
+            const filteredUtterances = manifest.actions.filter((action: IAction): IUtterance[] => action.definition.triggers.utterances)
+                .reduce((acc: IUtterance[], val: IAction): IUtterance[] => acc.concat(val.definition.triggers.utterances), [])
 
-        return manifest.actions.filter((action: IAction): IUtteranceSource[] =>
-            action.definition.triggers.utteranceSources)
-            .reduce((acc: IUtteranceSource[], val: IAction): IUtteranceSource[] => acc.concat(val.definition.triggers.utteranceSources), [])
-            .reduce(
-                (acc: Map<string, string[]>, val: IUtteranceSource): Map<string, string[]> => {
-                    const luisApps: string[] = val.source.map((v: string): string => v.split('#')[0]);
-                    if (acc.has(val.locale)) {
-                        const previous: string[] = acc.get(val.locale) || [];
-                        const filteredluisApps: string[] = [...new Set(luisApps.concat(previous))];
-                        acc.set(val.locale, filteredluisApps);
-                    } else {
-                        const filteredluisApps: string[] = [...new Set(luisApps)];
-                        acc.set(val.locale, filteredluisApps);
-                    }
+            // The utterances are grouped by language
+            const utterancesGroupByLocale: { [key: string]: IUtterance[] }  = filteredUtterances.reduce((groupedUtterances: any, utterance: IUtterance): { [key: string]: IUtterance[] } => {
+                groupedUtterances[utterance.locale] = groupedUtterances[utterance.locale] || []; 
+                groupedUtterances[utterance.locale].push(utterance);
+                return groupedUtterances; 
+            }, {});
 
-                    return acc;
-                },
-                new Map());
+            const temporalFiles: Map<string, string[]> = new Map();
+            Object.keys(utterancesGroupByLocale).forEach((locale: string): void =>{
+                const textUnifiedByLocale: string[] = [];
+
+                // All the utterances are unified by language to be processed and appended in the lu file.
+                Object.values(utterancesGroupByLocale[locale]).forEach((utterances): void => {
+                    utterances.text.forEach((text): void =>{
+                        textUnifiedByLocale.push(text);
+                    })
+                })
+                
+                const unifiedUtterances: string = textUnifiedByLocale.map((v: string): string => '- ' + v).join('\n');
+                writeFileSync(`${join(this.configuration.outFolder, 'deployment', 'resources', 'LU', locale, 'temp_' + actionId + '.lu')}`, '#' + actionId + '\n' + unifiedUtterances );
+
+                // The names of the just created files are persisted by language.
+                temporalFiles.set(locale, [`temp_${actionId}`]);
+
+            });
+
+            return temporalFiles;
+        } else {
+            return manifest.actions.filter((action: IAction): IUtteranceSource[] =>
+                action.definition.triggers.utteranceSources)
+                .reduce((acc: IUtteranceSource[], val: IAction): IUtteranceSource[] => acc.concat(val.definition.triggers.utteranceSources), [])
+                .reduce(
+                    (acc: Map<string, string[]>, val: IUtteranceSource): Map<string, string[]> => {
+                        const luisApps: string[] = val.source.map((v: string): string => v.split('#')[0]);
+                        if (acc.has(val.locale)) {
+                            const previous: string[] = acc.get(val.locale) || [];
+                            const filteredluisApps: string[] = [...new Set(luisApps.concat(previous))];
+                            acc.set(val.locale, filteredluisApps);
+                        } else {
+                            const filteredluisApps: string[] = [...new Set(luisApps)];
+                            acc.set(val.locale, filteredluisApps);
+                        }
+
+                        return acc;
+                    },
+                    new Map());
+        }
     }
 
     private async executeLudownParse(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
@@ -299,11 +353,14 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             // Process the manifest to get the intents and cultures of each intent
             const luisDictionary: Map<string, string[]> = await this.processManifest(skillManifest);
+            
             // Validate cultures
             await this.validateCultures(cognitiveModelsFile, luisDictionary);
             // Updating Dispatch
             this.logger.message('Updating Dispatch');
             await this.updateModel(luisDictionary, skillManifest.id);
+
+            await deleteFiles(this.tempFiles);
             // Adding the skill manifest to the assistant skills array
             this.logger.message(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
             assistantSkills.push(skillManifest);
