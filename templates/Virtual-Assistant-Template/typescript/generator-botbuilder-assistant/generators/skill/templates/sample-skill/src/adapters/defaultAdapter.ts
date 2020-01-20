@@ -4,6 +4,7 @@
  */
 
 import {
+    ActivityTypes,
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
@@ -13,6 +14,7 @@ import {
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
     TranscriptStore,
+    TurnContext,
     UserState} from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import {
@@ -29,6 +31,19 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         telemetryClient: BotTelemetryClient
     ) {
         super(adapterSettings);
+
+        this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.message
+            });
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.stack
+            });
+            await context.sendActivity(i18next.t('main.error'));
+            telemetryClient.trackException({ exception: error });
+        };
 
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
