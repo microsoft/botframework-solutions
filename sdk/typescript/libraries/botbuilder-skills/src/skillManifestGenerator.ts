@@ -60,10 +60,12 @@ export class SkillManifestGenerator {
                     // We will retrieve all utterances from the referenced source
                     // and aggregate into one new aggregated list of utterances per action
                     action.definition.triggers.utterances = [];
-                    const utterancesToAdd: string[] = [];
+                    let utterancesToAdd: string[];
 
                     // Iterate through each utterance source, one per locale.
                     action.definition.triggers.utteranceSources.forEach((utteranceSource: IUtteranceSources): void => {
+
+                        utterancesToAdd = [];
                         // There may be multiple intents linked to this
                         utteranceSource.source.forEach((source: string): void => {
                             // Retrieve the intent mapped to this action trigger
