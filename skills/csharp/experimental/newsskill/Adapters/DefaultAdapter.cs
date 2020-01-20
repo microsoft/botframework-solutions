@@ -25,7 +25,7 @@ namespace NewsSkill.Adapters
         {
             OnTurnError = async (context, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale ?? "en-us");
                 await context.SendActivityAsync(MainStrings.ERROR);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"News Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

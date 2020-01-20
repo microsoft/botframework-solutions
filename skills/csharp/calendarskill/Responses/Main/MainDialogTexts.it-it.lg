@@ -1,8 +1,8 @@
 # CalendarWelcomeMessage.Text
-- Benvenuti nell'abilità del calendario! Posso fornirti una panoramica delle tue riunioni di oggi, leggere la tua prossima riunione o creare una nuova riunione per te.
+- Ciao, come posso aiutarti? Ecco alcune cose che posso fare: fornire una panoramica delle riunioni di oggi, leggere le prossime riunioni o creare una nuova riunione.
 
 # CalendarWelcomeMessage.S1
-- Quali sono i miei incontri oggi?
+- Quali riunioni ho oggi?
 
 # CalendarWelcomeMessage.S2
 - Qual è il mio prossimo incontro?
@@ -17,16 +17,16 @@
 - Puoi cancellare il mio evento?
 
 # FeatureNotAvailable.Text
-- Questa funzione non è ancora disponibile nella competenza del calendario. Si è verificato un problema sconosciuto.
+- La funzionalità che stai chiedendo non è disponibile. Prova a chiedere qualcos'altro.
 
 # CancelMessage.Text
 - Ok, ricominciamo da capo.
 
 # HelpMessage.Text
-- Posso fornirti una panoramica delle tue riunioni di oggi, leggere la tua prossima riunione o creare una nuova riunione per te.
+- Posso fornire una panoramica delle riunioni di oggi, leggere i dettagli di una riunione imminente o creare una nuova riunione per te.
 
 # HelpMessage.S1
-- Quali sono i miei incontri oggi?
+- Quali riunioni ho oggi?
 
 # HelpMessage.S2
 - Qual è il mio prossimo incontro?
@@ -41,8 +41,4 @@
 - Puoi cancellare il mio evento?
 
 # LogOut.Text
-- La tua disconnessione è riuscita.
-- Ti sei disconnesso.
 - Sei stato disconnesso.
-
-

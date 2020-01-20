@@ -44,9 +44,9 @@ namespace ToDoSkill.Tests.Flow.Fakes
 
         public const string CustomizedListTypeItemHistory = "history";
 
-        public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list: Here are the {2} most recent, they are {3}";
+        public const string FirstTaskDetailMessage = "You have {0} items on your {1} list. Here are the {2} most recent: {3}";
 
-        public const string NextTaskDetailMessage = "The next tasks are {0}";
+        public const string NextTaskDetailMessage = "The next items are: {0}";
 
         public const int PageSize = 4;
 

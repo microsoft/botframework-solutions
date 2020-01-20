@@ -374,3 +374,4 @@ ASALocalRun/
 *.cab
 .DS_Store
 /.project
+*.luis

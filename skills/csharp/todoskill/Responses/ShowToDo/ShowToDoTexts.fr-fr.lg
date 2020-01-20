@@ -1,66 +1,65 @@
 # AskAddOrCompleteTaskMessage.Text
-- Vous pouvez me faire savoir si vous voulez ajouter ou terminer une tâche.
+- Faites-moi savoir si vous voulez ajouter un élément ou marquer un comme complet.
 
 # ReadMoreTasksPrompt.Text
-- Voulez-vous voir les prochaines tâches?
+- Voulez-vous passer en revue les prochains éléments?
 
 # ReadMoreTasksConfirmFailed.Text
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir les prochaines tâches?
+- Désolé, je n'ai pas compris. Voulez-vous passer en revue les prochains éléments?
 
 # ReadMoreTasksPrompt2.Text
-- Il y a plus d'articles sur votre liste. Voulez-vous en voir plus?
+- Voulez-vous passer en revue les autres éléments de votre liste?
 
 # RetryReadMoreTasksPrompt2.Text
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous en voir plus?
+- Désolé, je n'ai pas compris. Voulez-vous passer en revue les autres éléments?
 
 # NoTasksMessage.Text(ListType)
-- Il semble que vous n'avez pas de tâches dans votre @{ListType} liste. Faites-moi savoir si vous voulez créer une nouvelle tâche.
+- Vous n'avez rien dans votre @{ListType} Liste. Faites-moi savoir si vous voulez ajouter un élément.
 
 # TaskSummaryMessage.Text(TaskCount, ListType)
-- Vous avez @{TaskCount} articles sur votre @{ListType} liste.
+- Vous avez @{TaskCount} articles sur votre @{ListType} Liste.
 
 # RepeatFirstPagePrompt.Text(TaskCount, ListType)
-- Vous êtes déjà au début de votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- C'est le début de votre @{ListType} Liste. Voulez-vous passer en revue le premier @{TaskCount} articles à nouveau?
 
 # RepeatFirstPageConfirmFailed.Text(TaskCount)
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous passer en revue le premier @{TaskCount} articles à nouveau?
 
 # GoBackToStartPromptForSingleTask.Text(TaskCount, ListType)
-- C'est la dernière tâche sur votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- C'est le dernier élément de votre @{ListType} Liste. Voulez-vous passer en revue le premier @{TaskCount} articles à nouveau?
 
 # GoBackToStartForSingleTaskConfirmFailed.Text(TaskCount)
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- Désolé, je n'ai pas compris. Voulez-vous passer en revue le premier @{TaskCount} articles à nouveau?
 
 # GoBackToStartPromptForTasks.Text(TaskCount, ListType)
-- Ce sont les dernières tâches de votre @{ListType} liste. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- Ce sont les derniers éléments de votre @{ListType} Liste. Voulez-vous voir votre premier @{TaskCount} articles à nouveau?
 
 # GoBackToStartForTasksConfirmFailed.Text(TaskCount)
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous voir votre premier @{TaskCount} tâches à nouveau?
+- Désolé, je n'ai pas compris. Voulez-vous voir votre premier @{TaskCount} articles à nouveau?
 
 # CardSummaryMessageForSingleTask.Text(ListType)
-- Vous avez 1 tâche sur votre @{ListType} liste: Voici le 1 plus récent, il est
+- Vous avez 1 article sur votre @{ListType} Liste:
 
 # CardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType, ToDos)
-- Vous avez @{AllTasksCount} tâches sur votre @{ListType} liste: Voici le @{count(ToDos)} plus récents, ils sont
+- Vous avez @{AllTasksCount} articles sur votre @{ListType} Liste. Voici les @{count(ToDos)} Dernière:
 
 # LatestTask.Text
-- Votre dernière tâche est
+- L'élément le plus récent est :
 
 # LatestTasks.Text
-- Vos dernières tâches sont
+- Les articles les plus récents sont :
 
 # NextTask.Text
-- La tâche suivante est
+- L'élément suivant est :
 
 # NextTasks.Text
-- Les tâches suivantes sont
+- Les éléments suivants sont :
 
 # PreviousTasks.Text
-- Vos tâches précédentes sont
+- Les éléments précédents sont les :
 
 # PreviousFirstSingleTask.Text(taskCount)
-- Votre premier @{TaskCount} tâche est
+- Le premier @{taskCount} l'article est :
 
 # PreviousFirstTasks.Text(taskCount)
-- Votre premier @{TaskCount} les tâches sont
-
+- Le premier @{taskCount} articles sont:

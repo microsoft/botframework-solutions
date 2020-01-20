@@ -31,6 +31,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
         [TestMethod]
         public void GetResponseWithLanguageGeneration_English()
         {
+            var defaultCulture = CultureInfo.CurrentUICulture;
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
             // Generate English response using LG with data
@@ -42,11 +43,14 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
             var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["en-us"].ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
+
+            CultureInfo.CurrentUICulture = defaultCulture;
         }
 
         [TestMethod]
         public void GetResponseWithLanguageGeneration_Spanish()
         {
+            var defaultCulture = CultureInfo.CurrentUICulture;
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
             // Generate English response using LG with data
@@ -58,11 +62,15 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
             var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["es-es"].ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
+
+            CultureInfo.CurrentUICulture = defaultCulture;
         }
 
         [TestMethod]
         public void GetResponseWithLanguageGeneration_Fallback()
         {
+            var defaultCulture = CultureInfo.CurrentUICulture;
+
             // German locale not supported, locale template engine should fallback to english as per default in Test Setup.
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
 
@@ -76,6 +84,8 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
             var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["en-us"].ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
+
+            CultureInfo.CurrentUICulture = defaultCulture;
         }
     }
 }

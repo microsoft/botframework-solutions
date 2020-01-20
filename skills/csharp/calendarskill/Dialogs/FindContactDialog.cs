@@ -847,12 +847,22 @@ namespace CalendarSkill.Dialogs
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = TemplateEngine.GenerateActivityForLocale(unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailSinglePage : FindContactResponses.ConfirmMultipleContactNameSinglePage) as Activity
+                Prompt = TemplateEngine.GenerateActivityForLocale(
+                    unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailSinglePage : FindContactResponses.ConfirmMultipleContactNameSinglePage,
+                    new
+                    {
+                        ContactName = state.MeetingInfor.ContactInfor.CurrentContactName
+                    }) as Activity
             };
 
             if (!isSinglePage)
             {
-                options.Prompt = TemplateEngine.GenerateActivityForLocale(unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailMultiPage : FindContactResponses.ConfirmMultipleContactNameMultiPage) as Activity;
+                options.Prompt = TemplateEngine.GenerateActivityForLocale(
+                    unconfirmedPerson.Count == 1 ? FindContactResponses.ConfirmMultipleContactEmailMultiPage : FindContactResponses.ConfirmMultipleContactNameMultiPage,
+                    new
+                    {
+                        ContactName = state.MeetingInfor.ContactInfor.CurrentContactName
+                    }) as Activity;
             }
 
             foreach (var person in unconfirmedPerson)

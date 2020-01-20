@@ -1,35 +1,39 @@
 # AddMoreAttendees.Text
 - Qui voulez-vous ajouter?
+- Qui aimeriez-vous ajouter?
 
 # BeforeSendingMessage.Text(NameList)
-- Ok, je comprends que vous voulez envoyer l'événement à @{NameList}.
+- OK, vous voulez envoyer une invitation à @{NameList}.
 
 # UserNotFound.Text
-- Je n'ai trouvé personne correspondant à ce nom dans vos contacts.
+- Je n'ai trouvé personne correspondant à ce nom dans votre liste de contacts.
 
 # UserNotFoundAgain.Text(UserName, Source)
-- Malheureusement, je n'ai pas pu trouver le "@{UserName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans @{Source}.
+- Désolé, je ne trouve pas " @{UserName}" dans votre liste de contacts. Il est utile si la personne est déjà ajoutée à votre liste de contacts dans @{Source}.
 
 # AlreadyFirstPage.Text
 - C'est déjà la première page.
+> Comment: I'm not sure how this is used. The current text seems a bit abrupt/not friendly, but some additional context is necessary to create a replacement string.
 
 # AlreadyLastPage.Text
 - C'est déjà la dernière page.
+> Comment: Similar to the previous comment, some additional context would be helpful to create a new string.
 
 # AddMoreUserPrompt.Text
 - Voulez-vous inviter quelqu'un d'autre?
+- Voulez-vous inviter quelqu'un d'autre?
 
 # ConfirmMultipleContactEmailSinglePage.Text
-- Lequel voulez-vous utiliser?
+- Quelle adresse e-mail souhaitez-vous utiliser ?
 
 # ConfirmMultipleContactEmailMultiPage.Text
-- Lequel voulez-vous utiliser? Vous pouvez également me demander de vous montrer les options précédentes ou plus.
+- Quelle adresse e-mail souhaitez-vous utiliser ? Vous pouvez également me demander de vous montrer les options précédentes ou plus.
 
-# ConfirmMultipleContactNameSinglePage.Text
-- Lequel cherchiez-vous ?
+# ConfirmMultipleContactNameSinglePage.Text(ContactName)
+- Qui @{ContactName} voulez-vous inviter?
 
-# ConfirmMultipleContactNameMultiPage.Text
-- Lequel cherchiez-vous ? Vous pouvez également me demander de vous montrer les options précédentes ou plus.
+# ConfirmMultipleContactNameMultiPage.Text(ContactName)
+- Qui @{ContactName} voulez-vous inviter? Vous pouvez également me demander de vous montrer les options précédentes ou plus.
 
 # PromptOneNameOneAddress.Text(User)
 - D'accord, j'ai ajouté @{User}.
@@ -38,11 +42,10 @@
 - Pouvez-vous fournir une adresse e-mail?
 
 # FindMultipleEmails.Text(UserName)
-- J'ai trouvé plus d'un e-mail pour @{UserName}.
+- J'ai trouvé plus d'une adresse e-mail pour @{UserName}.
 
 # FindMultipleContactNames.Text(UserName)
-- J'ai trouvé plus d'un contact nommé @{UserName}.
+- J'ai trouvé plus d'un contact avec le nom @{UserName}.
 
 # EmailChoiceConfirmation.Text(Email)
-- Je vais l'utiliser. @{Email}.
-
+- OK, je vais utiliser @{Email}.

@@ -510,13 +510,12 @@ public class SpeechService extends Service {
         if (botConnectorActivity.getValue() instanceof String) {
             intentStr = (String) botConnectorActivity.getValue();
         } else if (botConnectorActivity.getValue() instanceof Map) {
-            Object[] values = ((Map) botConnectorActivity.getValue()).values().toArray();
-            intentStr = (String) values[0];
+            intentStr = gson.toJson(botConnectorActivity.getValue());
         } else {
             intentStr = ((ActivityValue) botConnectorActivity.getValue()).getUri();
         }
         if (intentStr != null) {
-            OpenDefaultApp event = gson.fromJson(intentStr, new TypeToken<OpenDefaultApp>(){}.getType());
+            OpenDefaultApp event = gson.fromJson(intentStr, OpenDefaultApp.class);
             if (event.mapsUri != null && !event.mapsUri.isEmpty()) {
                 final String gpscoords = event.mapsUri.replace("geo:", "");
 
