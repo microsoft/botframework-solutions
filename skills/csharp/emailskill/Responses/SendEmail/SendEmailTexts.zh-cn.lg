@@ -1,52 +1,51 @@
 # NoSubject.Text
-- 电子邮件主题是什么？
+- 电子邮件的主题是什么？
 
 # RetryNoSubject.Text
-- 大家一般都会添加一个主题。想添加主题吗？或者，您可以输入“跳过”以绕开它。
+- 添加主题将使收件人一目了然地了解您的电子邮件内容。您也可以选择跳过它。
 
 # NoMessageBody.Text
-- 您想在电子邮件正文中说什么？如果要将其留空，请跳过。
+- 您希望在电子邮件中包含哪些内容？
 
 # CheckContent.Text
 - 是否要在电子邮件中包含此内容？
 
 # CheckContent.Speak
-- 您可以尝试"参与者"、"主题"或"内容"。或者说"取消"。
+- 您可以尝试"收件人"、"主题"、"内容"或"取消"。
 
 # CheckContent.S1
-- 是的
+- 是的。
 
 # CheckContent.S2
-- 不
+- 不。
 
 # ConfirmMessageRetry.Text
-- 请确认此消息。您可以输入"是"或"否"。
-- 请确认此消息。
+- 是否要发送此电子邮件？
 
 # ConfirmMessageRetry.Speak
-- 请确认此消息。你可以说是或否。
+- 是否要发送此电子邮件？
 
 # RetryContent.Text
-- 收到它，这封电子邮件将不会发送。
+- 好的，我还不知道发这封电子邮件。
 
 # GetRecreateInfo.Text
-- 是否更改收件人、主题或正文？
+- 是否要更改电子邮件的收件人、主题或内容？
 
 # GetRecreateInfo.S1
-- 收件人
+- 收件人。
 
 # GetRecreateInfo.S2
-- 主题
+- 主题。
 
 # GetRecreateInfo.S3
-- 身体
+- 内容。
 
 # GetRecreateInfoRetry.Text
-- 您可以尝试"收件人"、"主题"或"正文"。或者说取消。
+- 您可以尝试收件人、主题、内容，也可以取消。
 
 # PlayBackMessage.Text(emailContent)
-- 好吧，这就是我的是否要将其包含在电子邮件中？\n{emailContent}
+- 好的，下面是您的电子邮件内容。是否要将其包含在电子邮件中？\n@{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- 好吧，这就是我的是否要将其包含在电子邮件中？{emailContent}
+- 好的，下面是您的电子邮件内容。是否要将其包含在电子邮件中？@{emailContent}
 

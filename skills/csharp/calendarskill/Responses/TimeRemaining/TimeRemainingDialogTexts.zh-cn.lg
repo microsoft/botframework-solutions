@@ -1,7 +1,8 @@
 # ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)
-- 你有{RemainingTime}直到下一个会议。
+- 你有@{RemainingTime}直到你的下一个事件。
+
 # ShowTimeRemainingMessage.Text(RemainingTime, Title, Time)
-- 你有{RemainingTime}一直持续到您的会议{Title}{Time}.
+- 你有@{RemainingTime}直到@{Title}在@{Time}.
 
 # ShowTimeRemainingMessage.Speak(RemainingTime, Title, TimeSpeak)
-- 你有{RemainingTime}一直持续到您的会议{Title}{TimeSpeak}.
+- 你有@{RemainingTime}直到@{Title}在@{TimeSpeak}.

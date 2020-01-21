@@ -1,30 +1,34 @@
 # AddMoreContacts.Text
 - Wen möchten Sie hinzufügen?
+- Wen möchten Sie hinzufügen?
 
 # BeforeSendingMessage.Text(nameList)
-- Okay, ich verstehe, dass Sie die E-Mail an {nameList}.
+- Okay, Sie möchten die E-Mail an @{nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- Okay, ich werde {userName} hinzufügen: {emailAddress}. Ist {userName} derjenige, den Sie gesucht haben?
+- Okay, ich füge hinzu @{userName}: @{emailAddress}"Benutzername": "emailAddress"{userName}: .emailAddress. Ist der Benutzername die Person, die Sie hinzufügen möchten?
 
 # UserNotFound.Text(userName)
-- Ich konnte nicht finden, die "{userName}" Sie suchen. Können Sie den Namen des Kontakts erneut aufrufen? Bitte versuchen Sie, so spezifisch wie möglich zu sein.
+- I couldn't find " @{userName}" in Ihrer Kontaktliste. Bitte sagen Sie mir ihren Namen und ich werde versuchen, noch einmal zu suchen.
 
 # UserNotFoundAgain.Text(userName, source)
-- Leider konnte ich die "{userName}" sie möchten auswählen. Für das nächste Mal könnte es helfen, wenn Sie den Kontakt zu Ihrem Kontaktbuch in {source}.
+- Sorry, ich konnte nicht finden " @{userName}" in Ihrer Kontaktliste. Stellen Sie sicher, dass sie sich in Ihrer Kontaktliste befinden.
 
 # AlreadyFirstPage.Text
 - Dies ist bereits die erste Seite.
+> Comment: What is the context of when this message is shown?
 
 # AlreadyLastPage.Text
 - Dies ist bereits die letzte Seite.
+> Comment: What is the context of when this message is shown?
 
 # AddMoreContactsPrompt.Text(nameList)
-- ich habe aufgenommen {nameList}, möchten Sie eine weitere hinzufügen?
+- Ich habe hinzugefügt @{nameList}. Möchten Sie noch jemanden hinzufügen?
+- Ich habe hinzugefügt @{nameList}. Möchten Sie noch jemanden hinzufügen?
 
 # ConfirmMultiplContactEmailSinglePage.Text(userName)
-- Ich habe mehrere Kontaktdaten für {userName}. Welches möchten Sie?
+- Ich habe mehrere Kontaktdaten für @{userName}. Welche möchten Sie verwenden?
 
 # ConfirmMultiplContactEmailMultiPage.Text(userName)
-- Ich habe mehrere Kontaktdaten für {userName}. Welches möchten Sie? Sie können mich auch bitten, Ihnen die vorherigen oder mehr Optionen zu zeigen.
+- Ich habe mehrere Kontaktdaten für @{userName}. Welche möchten Sie verwenden? Sie können mich auch bitten, Ihnen frühere Ergebnisse oder weitere Optionen anzuzeigen.
 

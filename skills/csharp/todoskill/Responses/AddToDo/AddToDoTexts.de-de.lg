@@ -1,26 +1,23 @@
 # AskTaskContentText.Text
-- sicher. Was möchten Sie der Liste hinzufügen?
 - OK, was möchten Sie der Liste hinzufügen?
-- Was möchten Sie der Liste hinzufügen?
 
 # AfterTaskAdded.Text(TaskContent, ListType)
-- ich habe hinzugefügt {TaskContent} zu Ihrem {ListType} liste.
+- Ich habe hinzugefügt @{TaskContent} zu Ihrem @{ListType} Liste.
 
 # SwitchListType.Text(ListType)
-- Ok, dies sieht aus wie eine Aufgabe für Ihre {ListType}"ListType"{ListType} liste. Möchten Sie, dass ich dies Ihrer Liste "ListType" hinzufüge?
+- OK, dies scheint wie eine Aufgabe für Ihre @{ListType} Liste. Möchten Sie, dass ich es dort hinzufüge?
 
 # SwitchListTypeConfirmFailed.Text(ListType)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie, dass ich dies zu Ihrem {ListType} liste?
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie, dass ich dies zu Ihrem @{ListType} Liste?
 
 # AddMoreTask.Text(ListType)
-- Möchten Sie Eine weitere Aufgabe zu Ihrem {ListType} liste?
+- Möchten Sie noch etwas zu Ihrem @{ListType} Liste?
 
 # AddMoreTaskConfirmFailed.Text(ListType)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie Eine weitere Aufgabe zu Ihrem {ListType} liste?
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie etwas zu Ihrem @{ListType} Liste?
 
 # AskAddDupTaskPrompt.Text(TaskContent)
-- Sieht so aus, als hätten Sie bereits {TaskContent} Möchten Sie diese Aufgabe in Ihrer Liste hinzufügen?
+- Sie haben bereits @{TaskContent} auf Ihrer Liste. Möchten Sie sie trotzdem hinzufügen?
 
 # AskAddDupTaskConfirmFailed.Text
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie diese Aufgabe trotzdem hinzufügen?
-
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie dies dennoch zu Ihrer Liste hinzufügen?

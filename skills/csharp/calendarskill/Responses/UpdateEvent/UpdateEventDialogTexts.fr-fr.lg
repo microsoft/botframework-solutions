@@ -2,17 +2,16 @@
 - Etes-vous sûr que vous voulez mettre à jour ce qui suit?
 
 # ConfirmUpdateFailed.Text
-- Etes-vous sûr que vous voulez mettre à jour ce qui suit? S'll vous plaît, confirmez.
+- Etes-vous sûr que vous voulez mettre à jour ce qui suit?
 
 # EventUpdated.Text
-- J'ai changé l'heure de votre événement.
+- J'ai mis à jour l'heure de votre événement.
 
 # NoNewTime.Text
-- Quelle sera la nouvelle heure de l'événement?
+- Quelle est la nouvelle heure de l'événement?
 
 # NoNewTimeRetry.Text
-- Je ne comprends pas le temps que vous avez fourni, pouvez-vous essayer à nouveau?
+- Désolé, je n'ai pas compris le temps que vous avez fourni. S'll vous plaît, réessayez.
 
 # NoUpdateStartTime.Text
-- Quel événement souhaitez-vous ajuster? En fournissant l'heure de début ou le titre, je peux récupérer votre événement.
-
+- Quel est le nom ou l'heure de début de l'événement que vous souhaitez mettre à jour ?

@@ -1,87 +1,75 @@
 # Cancel.Text
-- Claro, podemos hacerlo más tarde.
-- Claro, podemos empezar esto más tarde.
-- No hay problema. Puedes intentarlo de nuevo en otro momento.
+- Bien, podemos hacerlo más tarde.
 - Bien, avísame cuando necesites mi ayuda.
-- Claro, estoy aquí si me necesitas.
 
 # NoAuth.Text
-- Por favor, inicie sesión para que pueda tomar medidas adicionales.
-- Por favor, inicie sesión para que pueda continuar con su solicitud.
-- ¿Puedes iniciar sesión para que pueda ayudarte más.
-- Tienes que iniciar sesión para que pueda tomar medidas.
+- Inicia sesión en tu cuenta para empezar.
+- Para empezar, inicia sesión en tu cuenta.
 
 # NoFocusMessage.Text
-- ¿A qué correo electrónico se refiere?
-- ¿A qué correo electrónico te refieres exactamente?
-- ¿De qué correo electrónico estás hablando?
-- ¿Puede explicar a qué correo electrónico se refiere?
+- ¿Sobre qué correo electrónico estás preguntando?
 
 # NoRecipients.Text
-- Claro, ¿a quién va el correo electrónico?
+- ¿A quién quieres enviar el correo electrónico?
+- ¿A quién le gustaría enviar el correo electrónico?
 
 # EmailNotFound.Text
-- Parece que no tienes nuevos correos electrónicos. Sólo hágamelo saber si desea configurar un nuevo correo electrónico.
-- No recuperé ningún correo electrónico relevante en este momento. Sólo hágamelo saber si desea configurar un nuevo correo electrónico.
+- No hay nuevos correos electrónicos en su bandeja de entrada. Avísame si quieres enviar uno.
 
 # EmailErrorMessage.Text
-- Lo siento, parece que algo salió mal!
-- Error. Dame un poco de tiempo y vuelve a intentarlo más tarde.
-- Algo salió mal. ¡Lo siento!
-- Creo que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
-- Lo siento, creo que no puedo encontrar lo que quieres ahora mismo. Inténtelo de nuevo más tarde, por favor.
+- Lo siento, no puedo ayudar con su correo electrónico en este momento. Inténtelo de nuevo más tarde.
 
 # EmailErrorMessageBotProblem.Text
-- Lo siento, hay algo mal con el bot en este momento. El desarrollador ha sido notificado al respecto por lo que será capaz de realizar la acción de nuevo muy pronto.
+- Lo sentimos, esta función no funciona correctamente en este momento. Inténtelo de nuevo más tarde.
 
 # EmailErrorMessageAccountProblem.Text
-- Lo sentimos, hay algo mal con su cuenta de correo electrónico en este momento. Sigue las instrucciones de tu Bandeja de entrada para verificar tu cuenta.
+- Lo sentimos, no puedo acceder a tu cuenta de correo electrónico en este momento. Es posible que hayas recibido un correo electrónico con instrucciones para verificar tu cuenta.
 
 # ConfirmSendRecipients.Text(recipientsList)
-- Los destinatarios son {recipientsList}.
+- Está enviando este correo electrónico a @{recipientsList}.
 
 # ConfirmSendRecipientsMessage.Text
-- ¿Quieres pasar por el resto de los destinatarios?
+- ¿Desea revisar la lista de destinatarios?
 
 # ConfirmSendRecipientsFailed.Text
-- Por favor, confirme si desea pasar por el resto de los destinatarios.
+- ¿Desea revisar los otros destinatarios de su correo electrónico?
 
 # ConfirmSendMessage.Text
-- ¿Es esto lo que quieres enviar?
+- ¿Desea enviar este correo electrónico?
 
 # ConfirmSend.Text
-- Estoy listo para enviar el correo electrónico.
+- Bien, estoy listo para enviar tu correo electrónico.
 
 # ConfirmSend.Speak(emailSubject)
-- Estoy listo para enviar el correo electrónico. El detalle del correo electrónico es: {emailSubject}.
+- Bien, estoy listo para enviar. Estos son los detalles de su correo electrónico: @{emailSubject}.
 
 # ConfirmSendFailed.Text
-- Confirme antes de enviar este correo electrónico.
-- Confirme este correo electrónico.
+- Por favor, confirme que desea enviar este correo electrónico.
 
 # NoEmailContent.Text
-- ¿Qué quieres decir en tu mensaje?
+- ¿Qué quieres escribir en tu mensaje?
 
 # NoEmailContentForReply.Text
-- ¿Qué quieres decir en tu respuesta?
+- ¿Qué quieres escribir en tu respuesta?
 
 # NoEmailContentForForward.Text
-- ¿Qué quieres decir en tu delantero?
+- ¿Qué desea escribir en el correo electrónico reenviado?
 
 # RecipientConfirmed.Text(userName)
-- Muy bien, enviaré esto a {userName}.
+- Bien, enviaré esto a @{userName}.
 
 # ShowEmailPrompt.Text(totalCount,emailListDetails)
-- Usted tiene {totalCount} correos electrónicos en su bandeja de entrada. El último correo electrónico fue {emailListDetails}.
+- Hay @{totalCount} correos electrónicos en su bandeja de entrada. El correo electrónico más reciente es @{emailListDetails}.
+- Usted tiene @{totalCount} correos electrónicos en su bandeja de entrada. El correo electrónico más reciente es @{emailListDetails}.
 
 # ShowOneEmailPrompt.Text(emailListDetails)
-- Tienes 1 correo electrónico en tu bandeja de entrada. El último correo electrónico fue {emailListDetails}.
+- Tienes 1 correo electrónico en tu bandeja de entrada. El correo electrónico más reciente es @{emailListDetails}.
 
 # ShowEmailPromptOtherPage.Text(totalCount, emailListDetails)
-- Usted tiene {totalCount} correos electrónicos en su bandeja de entrada. El primer correo electrónico fue {emailListDetails}.
+- Usted tiene @{totalCount} correos electrónicos en su bandeja de entrada. El primer correo electrónico es @{emailListDetails}.
 
 # ShowOneEmailPromptOtherPage.Text(emailListDetails)
-- Tienes 1 correo electrónico en tu bandeja de entrada. El primer correo electrónico fue {emailListDetails}.
+- Tienes 1 correo electrónico en tu bandeja de entrada. El primer correo electrónico es @{emailListDetails}.
 
 # FirstPageAlready.Text
 - Esta ya es la primera página.
@@ -90,26 +78,18 @@
 - Esta ya es la última página.
 
 # DidntUnderstandMessage.Text
-- Lo siento, no entendí lo que querías decir.
-- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
-- ¿Puedes tratar de preguntar de una manera diferente.
-- No entendí lo que querías decir, puedes intentarlo de otra manera.
-- ¿Podrías explicarlo?
-- Dilo otra vez, por favor, de una manera diferente.
-- No lo entendí del todo.
-- ¿Puedes decir eso de una manera diferente?
-- ¿Puedes intentar preguntarme otra vez, no entendí lo que querías decir.
+- Lo siento, no lo entendí. Intente reformular su pregunta y pregunte de nuevo.
+- Lo siento, no lo entendí. Pease inténtelo de nuevo.
+- No lo entendí del todo. Por favor, intente preguntar de nuevo.
 
 # CancellingMessage.Text
-- Claro, podemos hacerlo más tarde.
-- Claro, podemos empezar esto más tarde.
-- No hay problema. Puedes intentarlo de nuevo en otro momento.
+- Bien, podemos hacerlo más tarde.
+- Bien, avísame cuando pueda ayudarte.
 - Bien, avísame cuando necesites mi ayuda.
-- Claro, estoy aquí si me necesitas.
 
 # SentSuccessfully.Text(subject)
-- He enviado el correo electrónico con el asunto {subject}.
+- Envié su correo electrónico con el asunto: @{subject}.
 
 # RetryInput.Text
-- Lo siento, no entiendo a qué te refieres. ¿Podrías intentarlo de nuevo?
+- Lo siento, no lo entendí. Por favor, intente preguntar de nuevo.
 

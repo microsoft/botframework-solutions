@@ -1,30 +1,34 @@
 # AddMoreContacts.Text
 - Qui voulez-vous ajouter?
+- Qui aimeriez-vous ajouter?
 
 # BeforeSendingMessage.Text(nameList)
-- Ok, je comprends que vous voulez envoyer l'e-mail à {nameList}.
+- Ok, vous voulez envoyer l'e-mail à @{nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- D'accord, j'ajouterai {userName}: {emailAddress}Nom de l'utilisateur : « emailAddress »{userName}: 'emailAddress'. Est-ce que 'userName' est celui que vous recherchiez ?
+- Ok, je vais ajouter @{userName}: @{emailAddress}Nom de l'utilisateur : 'emailAddress'{userName}: 'emailAddress'. Est-ce que le nom d'utilisateur est la personne que vous souhaitez ajouter ?
 
 # UserNotFound.Text(userName)
-- Je n'ai pas pu trouver le "{userName}" vous cherchez. Pouvez-vous appeler le nom du contact à nouveau? S'il vous plaît essayer d'être aussi précis que possible.
+- Je n'ai pas pu trouver " @{userName}" dans votre liste de contacts. S'll vous plaît, dites-moi leur nom et je vais essayer de regarder à nouveau.
 
 # UserNotFoundAgain.Text(userName, source)
-- Malheureusement, je n'ai pas pu trouver le "{userName}" vous voulez sélectionner. Pour la prochaine fois, il pourrait être utile si vous ajoutez le contact à votre carnet de contacts dans {source}.
+- Désolé, je n'ai pas pu trouver " @{userName}" dans votre liste de contacts. Vérifiez qu'ils sont dans votre liste de contacts.
 
 # AlreadyFirstPage.Text
 - C'est déjà la première page.
+> Comment: What is the context of when this message is shown?
 
 # AlreadyLastPage.Text
 - C'est déjà la dernière page.
+> Comment: What is the context of when this message is shown?
 
 # AddMoreContactsPrompt.Text(nameList)
-- J'ai inclus {nameList}, voulez-vous ajouter un autre?
+- J'ai ajouté @{nameList}. Voulez-vous ajouter quelqu'un d'autre?
+- J'ai ajouté @{nameList}. Voulez-vous ajouter quelqu'un d'autre?
 
 # ConfirmMultiplContactEmailSinglePage.Text(userName)
-- J'ai trouvé plusieurs coordonnées pour {userName}. Lequel voulez-vous ?
+- J'ai trouvé plusieurs coordonnées pour @{userName}. Lequel voulez-vous utiliser?
 
 # ConfirmMultiplContactEmailMultiPage.Text(userName)
-- J'ai trouvé plusieurs coordonnées pour {userName}. Lequel voulez-vous ? Vous pouvez également me demander de vous montrer les options précédentes ou plus.
+- J'ai trouvé plusieurs coordonnées pour @{userName}. Lequel voulez-vous utiliser? Vous pouvez également me demander de vous montrer les résultats précédents ou plus d'options.
 

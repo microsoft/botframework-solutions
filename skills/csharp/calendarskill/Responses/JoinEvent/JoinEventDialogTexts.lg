@@ -1,14 +1,14 @@
 # JoinMeeting.Text
-- Sure, I'm dialing you into the event.
+- OK, I'll call into the meeting.
 
 # NotJoinMeeting.Text
-- Okay, I will not dial you into the upcoming event.
+- OK, I won't join the upcoming meeting. 
 
 # NoMeetingToConnect.Text
-- What event would you like to connect? By providing the start time or title I can retrieve your event.
+- What's the start time or title of the event you want to join?
 
 # ConfirmPhoneNumber.Text(PhoneNumber)
-- Here is the number I am about to call: {PhoneNumber}. Please be aware that charges may apply. Do you want to proceed?
+- Here's the number I'm about to call: @{PhoneNumber}. Please be aware that charges may apply. Do you want to continue?
 
 # ConfirmMeetingLink.Text(MeetingLink)
-- Here is the link I am about to join: {MeetingLink}. Please be aware that charges may apply. Do you want to proceed?
+- Here's the link I'm about to join: @{MeetingLink}. Please be aware that charges may apply. Do you want to continue?

@@ -1,30 +1,34 @@
 # AddMoreContacts.Text
 - 您要添加谁？
+- 您想添加谁？
 
 # BeforeSendingMessage.Text(nameList)
-- 好吧，我知道你想发邮件给{nameList}.
+- 好的，你想发送电子邮件到@{nameList}.
 
 # PromptOneNameOneAddress.Text(userName, emailAddress)
-- 好吧，我将添加{userName}:{emailAddress}。请问{userName}是您要找的吗？
+- 好吧，我再加@{userName}:@{emailAddress}用户名： 电子邮件地址{userName}：电子邮件地址。用户名 是您要添加的人吗？
 
 # UserNotFound.Text(userName)
-- 我找不到您正在寻找的"{userName}"。你能再次说出联系人的姓名吗？请尽量具体。
+- 我找不到"@{userName}"在您的联系人列表中。请告诉我他们的名字，我会再试一次。
 
 # UserNotFoundAgain.Text(userName, source)
-- 不幸的是，我找不到你想选择的"{userName}" 。下次如果你将联系人添加到联系人簿中，它可能会提供帮助。{source}.
+- 对不起，我找不到"@{userName}"在您的联系人列表中。检查以确保它们在您的联系人列表中。
 
 # AlreadyFirstPage.Text
 - 这已经是第一页了。
+> Comment: What is the context of when this message is shown?
 
 # AlreadyLastPage.Text
 - 这已经是最后一页了。
+> Comment: What is the context of when this message is shown?
 
 # AddMoreContactsPrompt.Text(nameList)
-- 我已经包括{nameList}，是否要添加另一个？
+- 我添加@{nameList}.是否要添加其他人？
+- 我添加@{nameList}.您想添加其他人吗？
 
 # ConfirmMultiplContactEmailSinglePage.Text(userName)
-- 我找到多个联系人详细信息{userName}.你想要哪一个？
+- 我找到多个联系人详细信息@{userName}.您想使用哪一个？
 
 # ConfirmMultiplContactEmailMultiPage.Text(userName)
-- 我找到多个联系人详细信息{userName}.你想要哪一个？您也可以让我向您展示以前的或更多的选项。
+- 我找到多个联系人详细信息@{userName}.您想使用哪一个？您也可以让我向您展示之前的结果或更多选项。
 

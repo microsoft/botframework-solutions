@@ -1,15 +1,13 @@
 # DeletePrompt.Text
 - 您要删除哪一个？
-- 您希望我删除哪封电子邮件？
-- 您想让我删除哪一封呢？
+- 您要删除哪些电子邮件？
 
 # DeleteConfirm.Text
-- 是否确实要删除？
+- 是否确实要删除此电子邮件？
 
 # DeleteConfirm.Speak(emailInfo)
-- 是否确实要删除？电子邮件详情：{emailInfo}.
+- 是否确实要删除？下面是一些详细信息：@{emailInfo}.
 
 # DeleteSuccessfully.Text
-- 您的电子邮件已成功删除。
-
+- 电子邮件已删除。
 

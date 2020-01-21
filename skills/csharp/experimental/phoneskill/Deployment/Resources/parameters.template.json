@@ -17,7 +17,7 @@
     "botServiceSku": {
       "value": "F0"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "value": "F0"
     }
   }

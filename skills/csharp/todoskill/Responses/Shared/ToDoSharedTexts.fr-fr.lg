@@ -1,39 +1,29 @@
 # NoAuth.Text
-- Veuillez vous connecter avant de prendre d'autres mesures.
-- S'il vous plaît connectez-vous pour que je puisse vous aider.
-- S'il vous plaît connectez-vous afin que je puisse procéder à votre demande.
-- Pouvez-vous vous connecter pour que je puisse vous aider davantage?
-- Vous devez vous connecter pour que je puisse prendre d'autres mesures.
+- Pour commencer, veuillez vous connecter à votre compte.
 
 # ActionEnded.Text
-- Faites-moi savoir si vous avez besoin de mon aide avec autre chose.
-- Ok, je suis là si tu as besoin de moi.
+- OK, faites-moi savoir si vous avez besoin d'aide avec autre chose.
 
 # ToDoErrorMessage.Text
-- Désolé, on dirait que quelque chose s'est mal passé !
-- Une erreur s'est produite, s'il vous plaît essayer à nouveau plus tard.
-- Quelque chose s'est mal passé, désolé !
-- On dirait que quelque chose s'est mal passé. Tu peux réessayer plus tard ?
-- Désolé de ne pas pouvoir m'en empêcher. S'il vous plaît essayer à nouveau plus tard.
+- Désolé, je ne suis pas en mesure d'aider avec vos listes en ce moment. S'il vous plaît essayer à nouveau plus tard.
 
 # ToDoErrorMessageBotProblem.Text
-- Désolé, il ya quelque chose de mal avec le bot pour le moment. Le développeur a été informé à ce sujet de sorte que vous serez en mesure d'effectuer l'action à nouveau très bientôt.
+- Désolé, cette fonctionnalité ne fonctionne pas correctement en ce moment. S'il vous plaît essayer à nouveau plus tard.
 
 # ToDoErrorMessageAccountProblem.Text
-- Désolé, il semble que quelque chose s'est mal passé avec votre compte de messagerie. Veuillez suivre les instructions dans votre boîte de réception pour vérifier votre compte.
+- Désolé, je ne peux pas accéder à votre compte de messagerie en ce moment. Vous avez peut-être reçu un courriel contenant des instructions pour vérifier votre compte.
 
 # SettingUpOneNoteMessage.Text
 - J'ai remarqué que tu n'avais plus de OneNote. Je suis en train de créer un nouveau OneNote pour vous, y compris une liste à faire.
 
 # AfterOneNoteSetupMessage.Text
-- prêt. Je vous ai envoyé un e-mail avec un lien vers votre nouveau OneNote. Je suis prêt à noter votre To Do.
+- Tout est prêt. Je vous ai envoyé un e-mail avec un lien vers votre nouveau OneNote. Je suis prêt à noter votre To Do.
 
 # SettingUpOutlookMessage.Text
 - J'ai remarqué que vous n'avez plus de dossiers de tâches Outlook. Je crée de nouveaux dossiers de tâches pour vous, y compris un dossier à faire.
 
 # AfterOutlookSetupMessage.Text
-- prêt. Je vous ai envoyé un e-mail avec un lien vers vos nouveaux dossiers de tâches Outlook. Je suis prêt à noter votre To Do.
+- Tout est prêt. Je vous ai envoyé un e-mail avec un lien vers vos nouveaux dossiers de tâches Outlook. Je suis prêt à noter votre To Do.
 
 # NoTasksInList.Text
 - Votre liste est vide.
-

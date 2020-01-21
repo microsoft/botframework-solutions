@@ -19,7 +19,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "todo#AddToDo"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "todo#AddToDo"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "todo#AddToDo"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "todo#AddToDo"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "todo#AddToDo"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "todo#AddToDo"
               ]
@@ -36,7 +66,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "todo#ShowToDo"
               ]
@@ -53,7 +113,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "todo#MarkToDo"
               ]
@@ -70,7 +160,37 @@
         "triggers": {
           "utteranceSources": [
             {
+              "locale": "de-de",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            },
+            {
               "locale": "en-us",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            },
+            {
+              "locale": "es-es",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            },
+            {
+              "locale": "fr-fr",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            },
+            {
+              "locale": "it-it",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            },
+            {
+              "locale": "zh-cn",
               "source": [
                 "todo#DeleteToDo"
               ]

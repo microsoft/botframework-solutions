@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using EventSkill.Responses.Shared;
 using EventSkill.Services;
 using Microsoft.Bot.Builder;
@@ -27,6 +28,7 @@ namespace EventSkill.Adapters
         {
             OnTurnError = async (context, exception) =>
             {
+                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale ?? "en-us");
                 await context.SendActivityAsync(responseManager.GetResponse(SharedResponses.ErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

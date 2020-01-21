@@ -1,29 +1,27 @@
 # ConfirmDelete.Text
-- Etes-vous sûr que vous voulez supprimer cela de votre calendrier?
+- Etes-vous sûr de vouloir supprimer cet événement de votre calendrier ?
 
 # ConfirmDeleteFailed.Text(Title, Time)
-- Etes-vous sûr de vouloir annuler votre {Time} "{Title}" réunion? Vous pouvez dire «oui» ou «non»
+- Etes-vous sûr que vous voulez annuler " @{Title}" à @{Time}?
 
 # ConfirmAccept.Text
-- Etes-vous sûr de vouloir accepter l'événement suivant?
+- Etes-vous sûr de vouloir accepter cet événement?
 
 # ConfirmAcceptFailed.Text(Title, Time)
-- Etes-vous sûr de vouloir accepter votre {Time} "{Title}" réunion? Vous pouvez dire «oui» ou «non»
+- Etes-vous sûr de vouloir accepter le @{Time} " @{Title}" réunion?
 
 # EventDeleted.Text
-- J'ai supprimé l'événement.
+- J'ai supprimé l'événement de votre calendrier.
 
 # EventAccepted.Text
-- J'ai accepté l'événement.
+- J'ai ajouté l'événement à votre calendrier.
 
 # EventWithStartTimeNotFound.Text
-- Aucun événement n'a été trouvé à ce moment ou avec ce titre, s'il vous plaît essayer à nouveau.
 - Je n'ai pas pu trouver l'événement que vous avez demandé, s'il vous plaît essayer à nouveau.
-- Aucun événement ne peut être trouvé avec l'heure de l'événement ou le titre, pouvez-vous essayer à nouveau?
+- Je ne peux pas trouver cet événement, s'il vous plaît essayer à nouveau.
 
 # NoDeleteStartTime.Text
-- Quel événement souhaitez-vous supprimer ? En fournissant l'heure de début ou le titre, je peux récupérer votre événement.
+- Quelle est l'heure de début ou le titre de l'événement que vous souhaitez supprimer ?
 
 # NoAcceptStartTime.Text
-- Quel événement aimeriez-vous accepter? En fournissant l'heure de début ou le titre, je peux récupérer votre événement.
-
+- Quelle est l'heure de départ ou le titre de l'événement que vous souhaitez accepter ?
