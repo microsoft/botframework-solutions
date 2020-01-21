@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -80,8 +81,8 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                 .Send(negativeFeedback)
                 .AssertReply((activity) =>
                 {
+                    Assert.AreEqual(activity.AsMessageActivity().Text, "Thanks, I appreciate your feedback. Please add any additional comments in the chat.");
                     var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
-                    Assert.AreEqual(card.Text, "Thanks for your feedback! Please add any additional comments in the chat.");
                     Assert.AreEqual(card.Buttons.Count, 1);
                 })
                 .Send("comment")
@@ -154,8 +155,8 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                 .Send(neutralFeedback)
                 .AssertReply((activity) =>
                 {
+                    Assert.AreEqual(activity.AsMessageActivity().Text, "Please add any additional comments in the chat.");
                     var card = activity.AsMessageActivity().Attachments[0].Content as HeroCard;
-                    Assert.AreEqual(card.Text, "Please add any additional comments in the chat.");
                     Assert.AreEqual(card.Buttons.Count, 1);
                 })
                 .Send("comment")
@@ -180,16 +181,16 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                 {
                     if ((string)action.Value == neutralFeedback)
                     {
-                        return (FeedbackResponses.CommentPrompt, true);
+                        return (context.Activity.CreateReply(FeedbackResponses.CommentPrompt), true);
                     }
                     else
                     {
-                        return (FeedbackResponses.FeedbackReceivedMessage, false);
+                        return (context.Activity.CreateReply(FeedbackResponses.FeedbackReceivedMessage), false);
                     }
                 },
                 CommentReceivedMessage = (ITurnContext context, string tag, CardAction action, string comment) =>
                 {
-                    return comment;
+                    return context.Activity.CreateReply(comment);
                 },
             };
             return options;

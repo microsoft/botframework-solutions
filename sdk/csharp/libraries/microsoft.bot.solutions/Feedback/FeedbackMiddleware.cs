@@ -14,11 +14,10 @@ namespace Microsoft.Bot.Solutions.Feedback
 {
     public class FeedbackMiddleware : IMiddleware
     {
-        private static FeedbackOptions _options;
-        private static IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
-        private static ConversationState _conversationState;
+        private FeedbackOptions _options;
+        private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
+        private ConversationState _conversationState;
         private IBotTelemetryClient _telemetryClient;
-        private string _traceName = "Feedback";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeedbackMiddleware"/> class.
@@ -47,8 +46,10 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task RequestFeedbackAsync(ITurnContext context, string tag)
         {
+            var middleware = context.TurnState.Get<FeedbackMiddleware>();
+
             // clear state
-            await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
+            await middleware._feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
 
             // create feedbackRecord with original activity and tag
             var record = new FeedbackRecord()
@@ -58,11 +59,11 @@ namespace Microsoft.Bot.Solutions.Feedback
             };
 
             // store in state. No need to save changes, because its handled in IBot
-            await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
+            await middleware._feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
-            var allActions = new List<CardAction>(_options.FeedbackActions(context, tag))
+            var allActions = new List<CardAction>(middleware._options.FeedbackActions(context, tag))
             {
-                _options.DismissAction(context, tag),
+                middleware._options.DismissAction(context, tag),
             };
 
             // If channel supports suggested actions
@@ -95,6 +96,8 @@ namespace Microsoft.Bot.Solutions.Feedback
 
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
+            context.TurnState.Add(this);
+
             // get feedback record from state. If we don't find anything, set to null.
             var record = await _feedbackAccessor.GetAsync(context, () => null).ConfigureAwait(false);
 
@@ -115,36 +118,50 @@ namespace Microsoft.Bot.Solutions.Feedback
                         record.Feedback = feedback;
                         await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
-                        (string message, bool enableComments) = _options.FeedbackReceivedMessage(context, record.Tag, feedback);
+                        (var message, bool enableComments) = _options.FeedbackReceivedMessage(context, record.Tag, feedback);
                         if (enableComments)
                         {
                             // if comments are enabled
                             // create comment prompt with dismiss action
                             if (Channel.SupportsSuggestedActions(context.Activity.ChannelId))
                             {
-                                var commentPrompt = MessageFactory.SuggestedActions(
-                                    text: message,
-                                    cardActions: new List<CardAction>() { dismissAction });
+                                if (message.SuggestedActions.Actions == null)
+                                {
+                                    message.SuggestedActions.Actions = new List<CardAction>() { dismissAction };
+                                }
+                                else
+                                {
+                                    message.SuggestedActions.Actions.Add(dismissAction);
+                                }
 
                                 // prompt for comment
-                                await context.SendActivityAsync(commentPrompt).ConfigureAwait(false);
+                                await context.SendActivityAsync(message).ConfigureAwait(false);
                             }
                             else
                             {
                                 // channel doesn't support suggestedActions, so use hero card.
-                                var hero = new HeroCard(
-                                    text: message,
-                                    buttons: new List<CardAction> { dismissAction });
+                                var hero = new HeroCard(buttons: new List<CardAction> { dismissAction }).ToAttachment();
+                                if (message.Attachments == null)
+                                {
+                                    message.Attachments = new List<Attachment>() { hero };
+                                }
+                                else
+                                {
+                                    message.Attachments.Add(hero);
+                                }
 
                                 // prompt for comment
-                                await context.SendActivityAsync(MessageFactory.Attachment(hero.ToAttachment())).ConfigureAwait(false);
+                                await context.SendActivityAsync(message).ConfigureAwait(false);
                             }
                         }
                         else
                         {
                             // comments not enabled, respond and cleanup
                             // send feedback response
-                            await context.SendActivityAsync(message).ConfigureAwait(false);
+                            if (message != null)
+                            {
+                                await context.SendActivityAsync(message).ConfigureAwait(false);
+                            }
 
                             // log feedback in appInsights
                             LogFeedback(record);
@@ -200,7 +217,11 @@ namespace Microsoft.Bot.Solutions.Feedback
             await _feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
             // Respond to comment
-            await context.SendActivityAsync(_options.CommentReceivedMessage(context, record.Tag, record.Feedback, record.Comment)).ConfigureAwait(false);
+            var message = _options.CommentReceivedMessage(context, record.Tag, record.Feedback, record.Comment);
+            if (message != null)
+            {
+                await context.SendActivityAsync(message).ConfigureAwait(false);
+            }
 
             // log feedback in appInsights
             LogFeedback(record);
@@ -213,15 +234,19 @@ namespace Microsoft.Bot.Solutions.Feedback
         {
             var properties = new Dictionary<string, string>()
             {
-                { nameof(FeedbackRecord.Tag), record.Tag },
-                { nameof(FeedbackRecord.Feedback), (string)record.Feedback?.Value },
-                { nameof(FeedbackRecord.Comment), record.Comment },
-                { nameof(FeedbackRecord.Request.Text), record.Request?.Text },
-                { nameof(FeedbackRecord.Request.Id), record.Request?.Conversation.Id },
-                { nameof(FeedbackRecord.Request.ChannelId), record.Request?.ChannelId },
+                { FeedbackConstants.FeedbackTag, record.Tag },
+                { FeedbackConstants.FeedbackValue, (string)record.Feedback?.Value },
+                { FeedbackConstants.FeedbackComent, record.Comment },
+                { TelemetryConstants.ConversationIdProperty, record.Request?.Conversation.Id },
+                { TelemetryConstants.ChannelIdProperty, record.Request?.ChannelId },
             };
 
-            _telemetryClient.TrackEvent(_traceName, properties);
+            if (_options.LogPersonalInformation)
+            {
+                properties.Add(TelemetryConstants.TextProperty, record.Request?.Text);
+            }
+
+            _telemetryClient.TrackEvent(FeedbackConstants.FeedbackEvent, properties);
         }
     }
 }

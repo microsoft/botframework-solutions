@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
@@ -11,13 +12,27 @@ namespace Microsoft.Bot.Solutions.Feedback
     /// </summary>
     public class FeedbackOptions
     {
+        public static readonly string DefaultPositiveValue = "positive";
+
+        public static readonly string DefaultNegativeValue = "negative";
+
+        public static readonly string DefaultDismissValue = "dismiss";
+
         public delegate IEnumerable<CardAction> FeedbackActionsDelegate(ITurnContext context, string tag);
 
         public delegate CardAction DismissActionDelegate(ITurnContext context, string tag);
 
-        public delegate (string, bool) FeedbackReceivedMessageDelegate(ITurnContext context, string tag, CardAction action);
+        public delegate (IMessageActivity, bool) FeedbackReceivedMessageDelegate(ITurnContext context, string tag, CardAction action);
 
-        public delegate string CommentReceivedMessageDelegate(ITurnContext context, string tag, CardAction action, string comment);
+        public delegate IMessageActivity CommentReceivedMessageDelegate(ITurnContext context, string tag, CardAction action, string comment);
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to log personal information that came from the user.
+        /// </summary>
+        /// <value>
+        /// If true, will log personal information into the IBotTelemetryClient.TrackEvent method; otherwise the properties will be filtered.
+        /// </value>
+        public bool LogPersonalInformation { get; set; } = false;
 
         /// <summary>
         /// Gets or sets custom feedback choices for the user.
@@ -30,8 +45,8 @@ namespace Microsoft.Bot.Solutions.Feedback
         {
             return new List<CardAction>()
                 {
-                    new CardAction(ActionTypes.PostBack, title: "👍", value: "positive"),
-                    new CardAction(ActionTypes.PostBack, title: "👎", value: "negative"),
+                    new CardAction(ActionTypes.PostBack, title: "👍", value: DefaultPositiveValue),
+                    new CardAction(ActionTypes.PostBack, title: "👎", value: DefaultNegativeValue),
                 };
         };
 
@@ -43,7 +58,7 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// </value>
         public DismissActionDelegate DismissAction { get; set; } = (ITurnContext context, string tag) =>
         {
-            return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: "dismiss");
+            return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: DefaultDismissValue);
         };
 
         /// <summary>
@@ -55,13 +70,13 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// </value>
         public FeedbackReceivedMessageDelegate FeedbackReceivedMessage { get; set; } = (ITurnContext context, string tag, CardAction action) =>
         {
-            if ((string)action.Value == "negative")
+            if ((string)action.Value == DefaultNegativeValue)
             {
-                return ($"{FeedbackResponses.FeedbackReceivedMessage} {FeedbackResponses.CommentPrompt}", true);
+                return (context.Activity.CreateReply($"{FeedbackResponses.FeedbackReceivedMessage} {FeedbackResponses.CommentPrompt}"), true);
             }
             else
             {
-                return (FeedbackResponses.FeedbackReceivedMessage, false);
+                return (context.Activity.CreateReply(FeedbackResponses.FeedbackReceivedMessage), false);
             }
         };
 
@@ -83,7 +98,7 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// </value>
         public CommentReceivedMessageDelegate CommentReceivedMessage { get; set; } = (ITurnContext context, string tag, CardAction action, string comment) =>
          {
-             return FeedbackResponses.CommentReceivedMessage;
+             return context.Activity.CreateReply(FeedbackResponses.CommentReceivedMessage);
          };
     }
 }
