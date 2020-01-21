@@ -3,7 +3,7 @@
 Param(
 	[string] $name,
 	[string] $luisAuthoringRegion,
-    [string] $luisAuthoringKey,
+	[string] $luisAuthoringKey,
 	[string] $luisAccountName,
 	[string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
@@ -91,6 +91,7 @@ if (-not $luisSubscriptionKey) {
 if (-not $luisAccountRegion) {
 	$luisAccountRegion = Read-Host "? LUIS Service Location"
 }
+
 if (-not $qnaSubscriptionKey) {
 	$useQna = $false
 }
@@ -131,9 +132,9 @@ foreach ($language in $languageArr)
 
     # Deploy LUIS apps
     $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
-   
 	if ($luisFiles) {
 		$config | Add-Member -MemberType NoteProperty -Name languageModels -Value @()	
+
 		foreach ($lu in $luisFiles)
 		{
 			# Deploy LUIS model
@@ -146,7 +147,6 @@ foreach ($language in $languageArr)
 			-log $logFile 
 			
 			Write-Host "> Setting LUIS subscription key ..."
-
 			if ($luisApp) {
 				# Setting subscription key
 				$addKeyResult = luis add appazureaccount `
@@ -187,7 +187,7 @@ foreach ($language in $languageArr)
 					authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
-					region = $luisAuthoringRegion
+					region = $luisAccountRegion
 				}
 			}
 			else {
@@ -247,7 +247,6 @@ foreach ($language in $languageArr)
 	}
 	
 	if ($useDispatch) {
-
 		# Create dispatch model
 		Write-Host "> Creating dispatch model..."  
 		$dispatch = (dispatch create `
