@@ -1,44 +1,37 @@
 {
-  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "dispatchModel": {
-        "type": "",
+        "authoringKey": "",
         "appId": "",
         "name": "",
-        "authoringKey": "",
         "subscriptionKey": "",
-        "region": ""
+        "region": "",
+        "authoringRegion": ""
       },
       "languageModels": [
         {
-          "id": "",
-          "appId": "",
-          "name": "",
-          "version": "",
-          "authoringKey": "",
           "subscriptionKey": "",
-          "region": ""
+          "appId": "",
+          "id": "",
+          "version": "",
+          "region": "",
+          "name": "",
+          "authoringKey": "",
+          "authoringRegion": ""
         }
       ],
       "knowledgeBases": [
         {
-          "id": "",
+          "endpointKey": "",
           "kbId": "",
-          "name": "",
           "hostname": "",
           "subscriptionKey": "",
-          "endpointKey": ""
-        },
-        {
-          "id": "",
-          "kbId": "",
           "name": "",
-          "hostname": "",
-          "subscriptionKey": "",
-          "endpointKey": ""
-        }
+          "id": ""
+        }        
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }

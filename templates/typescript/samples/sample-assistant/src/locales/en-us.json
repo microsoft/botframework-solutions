@@ -7,8 +7,8 @@
     },
     "escalate": {
         "phoneInfo": "Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.",
-        "btnText1": "Call now",
-        "btnText2": "Open Teams",
+        "callNow": "Call now",
+        "openTeams": "Open Teams",
         "btnValue1": "tel:18005551234",
         "btnValue2": "msteams://"
     },

@@ -7,8 +7,8 @@
     },
     "escalate": {
         "phoneInfo": "I nostri agenti sono disponibili 24/7 a 1 (800) 555-1234.",
-        "btnText1": "Chiamare ora",
-        "btnText2": "Aperto Teams",
+        "callNow": "Chiamare ora",
+        "openTeams": "Aperto Teams",
         "btnValue1": "tel:18005551234",
         "btnValue2": "msteams://"
     },

@@ -5,7 +5,6 @@
 
 import {
     ActivityTypes,
-    AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
@@ -14,12 +13,14 @@ import {
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
     TranscriptStore,
-    TurnContext,
-    UserState
+    TurnContext
 } from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import { ISkillManifest } from 'botbuilder-skills';
-import { EventDebuggerMiddleware, SetLocaleMiddleware } from 'botbuilder-solutions';
+import {
+    EventDebuggerMiddleware,
+    FeedbackMiddleware,
+    SetLocaleMiddleware } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import { IBotSettings } from '../services/botSettings.js';
 
@@ -28,10 +29,9 @@ export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(
         settings: Partial<IBotSettings>,
+        conversationState: ConversationState,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
         telemetryClient: BotTelemetryClient,
-        userState: UserState,
-        conversationState: ConversationState
     ) {
         super(adapterSettings);
 
@@ -48,17 +48,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             telemetryClient.trackException({ exception: error });
         };
 
-        if (settings.cosmosDb === undefined) {
-            throw new Error('There is no cosmosDb value in appsettings file');
-        }
-        if (settings.blobStorage === undefined) {
-            throw new Error('There is no blobStorage value in appsettings file');
-        }
-
-        if (settings.appInsights === undefined) {
-            throw new Error('There is no appInsights value in appsettings file');
-        }
-
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
         }
@@ -68,12 +57,13 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
 
+        // Uncomment the following line for local development without Azure Storage
+        // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
+        this.use(new FeedbackMiddleware(conversationState, telemetryClient));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
-        this.use(new AutoSaveStateMiddleware(conversationState, userState));
     }
 }

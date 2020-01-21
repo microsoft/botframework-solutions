@@ -19,6 +19,7 @@ import {
     SkillDialog,
     SkillRouter } from 'botbuilder-skills';
 import {
+    FeedbackMiddleware,
     ICognitiveModelSet,
     InterruptionAction,
     RouterDialog,
@@ -37,11 +38,6 @@ import { CancelDialog } from './cancelDialog';
 import { EscalateDialog } from './escalateDialog';
 import { OnboardingDialog } from './onboardingDialog';
 
-enum Events {
-    timeZoneEvent = 'va.timeZone',
-    locationEvent = 'va.location'
-}
-
 export class MainDialog extends RouterDialog {
     // Fields
     private readonly luisServiceGeneral: string = 'general';
@@ -49,9 +45,9 @@ export class MainDialog extends RouterDialog {
     private readonly luisServiceChitchat: string = 'chitchat';
     private readonly settings: Partial<IBotSettings>;
     private readonly services: BotServices;
-    private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
-    private readonly onboardingAccessor: StatePropertyAccessor<IOnboardingState>;
     private readonly responder: MainResponses = new MainResponses();
+    private readonly onboardingAccessor: StatePropertyAccessor<IOnboardingState>;
+    private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
 
     // Constructor
     public constructor(
@@ -68,9 +64,9 @@ export class MainDialog extends RouterDialog {
         super(MainDialog.name, telemetryClient);
         this.settings = settings;
         this.services = services;
+        this.telemetryClient = telemetryClient;
         this.onboardingAccessor = onboardingAccessor;
         this.skillContextAccessor = skillContextAccessor;
-        this.telemetryClient = telemetryClient;
 
         this.addDialog(onboardingDialog);
         this.addDialog(escalateDialog);
@@ -83,8 +79,9 @@ export class MainDialog extends RouterDialog {
 
     protected async onStart(dc: DialogContext): Promise<void> {
         const view: MainResponses = new MainResponses();
-        const onboardingState: IOnboardingState|undefined = await this.onboardingAccessor.get(dc.context);
-        if (onboardingState === undefined || onboardingState.name === undefined || onboardingState.name === '') {
+        const onboardingState: IOnboardingState | undefined = await this.onboardingAccessor.get(dc.context);
+
+        if (onboardingState === undefined || onboardingState.name === undefined || onboardingState.name.trim().length === 0) {
             await view.replyWith(dc.context, MainResponses.responseIds.newUserGreeting);
         } else {
             await view.replyWith(dc.context, MainResponses.responseIds.returningUserGreeting);
@@ -103,6 +100,7 @@ export class MainDialog extends RouterDialog {
         }
         // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
         const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
+
         if (identifiedSkill !== undefined) {
             // We have identified a skill so initialize the skill connection with the target skill
             const result: DialogTurnResult = await dc.beginDialog(identifiedSkill.id);
@@ -113,8 +111,9 @@ export class MainDialog extends RouterDialog {
         } else if (intent === 'l_general') {
             // If dispatch result is general luis model
             const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+
             if (luisService === undefined) {
-                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
+                throw new Error('The General LUIS Model could not be found in your Bot Services configuration.');
             } else {
                 const result: RecognizerResult = await luisService.recognize(dc.context);
                 if (result !== undefined) {
@@ -131,6 +130,7 @@ export class MainDialog extends RouterDialog {
                         default: {
                             // No intent was identified, send confused message
                             await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
+                            break;
                         }
                     }
                 }
@@ -142,6 +142,7 @@ export class MainDialog extends RouterDialog {
                 throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
             } else {
                 const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
+
                 if (answers !== undefined && answers.length > 0) {
                     await dc.context.sendActivity(answers[0].answer, answers[0].answer);
                 } else {
@@ -162,7 +163,8 @@ export class MainDialog extends RouterDialog {
                 }
             }
         } else {
-            // If dispatch intent does not map to configured models, send 'confused' response.
+            // If dispatch intent does not map to configured models, send "confused" response.
+            // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
             await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
         }
     }
@@ -219,7 +221,7 @@ export class MainDialog extends RouterDialog {
 
                     await this.skillContextAccessor.set(dc.context, skillContext);
 
-                    forward = true;
+                    forward = false;
                     break;
                 }
                 case TokenEvents.tokenResponseEventName: {
@@ -250,6 +252,9 @@ export class MainDialog extends RouterDialog {
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
         // The active dialog's stack ended with a complete status
         await this.responder.replyWith(dc.context, MainResponses.responseIds.completed);
+
+        // Request feedback on the last activity
+        await FeedbackMiddleware.requestFeedback(dc.context, this.id);
     }
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
@@ -258,14 +263,12 @@ export class MainDialog extends RouterDialog {
 
             // check luis intent
             const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
-
             if (luisService === undefined) {
-                throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
+                throw new Error('The General LUIS Model could not be found in your Bot Services configuration.');
             } else {
                 const luisResult: RecognizerResult = await luisService.recognize(dc.context);
                 const intent: string = LuisRecognizer.topIntent(luisResult);
 
-                // Only triggers interruption if confidence level is high
                 if (luisResult.intents[intent] !== undefined && luisResult.intents[intent].score > 0.5) {
                     switch (intent) {
                         case 'Cancel': {
@@ -331,4 +334,9 @@ export class MainDialog extends RouterDialog {
 
         return InterruptionAction.StartedDialog;
     }
+}
+
+enum Events {
+    timeZoneEvent = 'VA.TimeZone',
+    locationEvent = 'VA.Location'
 }

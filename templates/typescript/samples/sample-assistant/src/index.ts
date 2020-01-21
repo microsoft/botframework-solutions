@@ -87,6 +87,7 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
     return new NullTelemetryClient();
 }
 
+// Configure telemetry
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
@@ -105,25 +106,35 @@ const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
 };
 
+// Configure storage
 const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 
+// Configure credentials
 const appCredentials: MicrosoftAppCredentials = new MicrosoftAppCredentials(
     botSettings.microsoftAppId || '',
     botSettings.microsoftAppPassword || ''
 );
+
+// Configure adapters
+// DefaultAdapter is for all regular channels that use Http transport
 const adapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
+    conversationState,
     adapterSettings,
     telemetryClient,
-    userState,
-    conversationState
 );
+
+// DefaultWebSocketAdapter is for directline speech channel
+// This adapter implementation is currently a workaround as
+// later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
+// both Http for regular channels and websocket for directline speech channel
 // const webSocketEnabledHttpAdapter: webSocketEnabledHttpAdapter = (botsettings, adapter))
 
 let bot: DialogBot<Dialog>;
 try {
+    // Configure bot services
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
 
     const onboardingStateAccessor: StatePropertyAccessor<IOnboardingState> =
@@ -131,9 +142,12 @@ try {
     const skillContextAccessor: StatePropertyAccessor<SkillContext> =
         userState.createProperty<SkillContext>(SkillContext.name);
 
+    // Register dialogs
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient);
     const escalateDialog: EscalateDialog = new EscalateDialog(botServices, telemetryClient);
     const cancelDialog: CancelDialog = new CancelDialog();
+
+    // Register skill dialogs
     const skillDialogs: SkillDialog[] = skills.map((skill: ISkillManifest): SkillDialog => {
         const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings, appCredentials);
         const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
@@ -143,6 +157,7 @@ try {
 
         return new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
     });
+
     const mainDialog: MainDialog = new MainDialog(
         botSettings,
         botServices,
@@ -155,6 +170,7 @@ try {
         telemetryClient
     );
 
+    // Configure bot
     bot = new DialogBot(conversationState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
