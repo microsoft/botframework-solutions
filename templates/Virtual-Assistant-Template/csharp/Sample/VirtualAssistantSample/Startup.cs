@@ -123,13 +123,9 @@ namespace VirtualAssistantSample
             foreach (var skill in settings.Skills)
             {
                 var authDialog = BuildAuthDialog(skill, settings, appCredentials);
+                var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
                 services.AddTransient(sp =>
                 {
-                    var channelProvider = sp.GetService<IChannelProvider>();
-                    var credentials = channelProvider != null && channelProvider.IsGovernment()
-                        ? new MicrosoftGovernmentAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword) as IServiceClientCredentials
-                        : new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId) as IServiceClientCredentials;
-
                     var userState = sp.GetService<UserState>();
                     var telemetryClient = sp.GetService<IBotTelemetryClient>();
                     return new SkillDialog(skill, credentials, telemetryClient, userState, authDialog);
