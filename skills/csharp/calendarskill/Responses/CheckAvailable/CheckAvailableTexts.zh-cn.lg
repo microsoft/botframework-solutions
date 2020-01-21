@@ -2,32 +2,32 @@
 - 什么时候？
 
 # AskForCheckAvailableUserName.Text
-- 你想问关于谁的？
+- 您要向活动添加谁？
+- 您想向活动添加谁？
 
 # NotAvailable.Text(UserName, Time, Date)
-- 看起来@{UserName}在@{Date}@{Time}没有时间。
+- 它看起来像@{UserName}不可用@{Date}在@{Time}.
 
 # AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)
-- 看起来@{UserName}在@{Date}从@{StartTime}到@{EndTime}有时间。
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}.
 
 # AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)
-- 看起来@{UserName}在@{Date}从@{StartTime}到@{EndTime}有时间，但你有一个会议，"@{Title}"从@{EventStartTime}自@{EventEndTime}.
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}，但你有"@{Title}"从@{EventStartTime}自@{EventEndTime}.
 
 # AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)
-- 看起来@{UserName}在@{Date}从@{StartTime}到@{EndTime}有时间，但你有@{ConflictEventsCount}个在此期间安排的其他会议。
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}，但你有@{ConflictEventsCount}冲突在那个时候。
 
 # AskForCreateNewMeeting.Text
-- 你想创建一个新会议吗？
+- 是否要安排新会议？
 
 # AskForCreateNewMeetingAnyway.Text(UserName, StartTime)
-- 你还是要和@{UserName}在@{StartTime}创建一个新会议吗？
+- 是否要安排新会议@{UserName}在@{StartTime}到底吗？
 
 # AskForNextAvailableTime.Text(UserName)
-- 你想让我找出下一段你和@{UserName}都有空的时间吗？
+- 你想让我找到一个时间，你和@{UserName}两者都可用吗？
 
 # NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)
-- 好的，你和@{UserName}在@{EndDate}从@{StartTime}到@{EndTime}都有空。
+- 好的，你和@{UserName}都可从@{StartTime}自@{EndTime}上@{EndDate}.
 
 # NoNextBothAvailableTime.Text(UserName)
-- 你和@{UserName}最近没有都有空的时间。
-
+- 对不起，我找不到你和@{UserName}都可用。
