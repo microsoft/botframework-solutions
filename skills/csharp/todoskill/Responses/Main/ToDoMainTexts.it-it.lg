@@ -1,40 +1,31 @@
 # DidntUnderstandMessage.Text
-- Scusa, non capivo cosa intendevi.
-- Non ho capito, forse riprovare in un modo diverso.
-- Puoi provare a chiedere in un modo diverso?
-- Non ho capito quello che vuoi dire, puoi provare in un modo diverso?
-- Potresti spiegarmi meglio?
-- Si prega di dirlo di nuovo in un modo diverso.
-- Non l'ho capito bene.
-- Puoi dirlo in un modo diverso?
-- Puoi provare a chiedermelo di nuovo? Non ho capito quello che intendevi.
+- Scusa, non ho capito. Prova a chiedere di nuovo.
+- Scusa, non l'ho capito. Si prega di fornire ulteriori informazioni.
 
 # ToDoWelcomeMessage.Text
-- ciao. Sono To Do bot. Posso aiutarti a gestire le tue liste Da fare, Shopping o Alimentari.
+- Ciao, sono To Do bot. Posso aiutarti a gestire le tue liste Da fare, Shopping o Alimentari.
+- Posso aiutarti a gestire le tue liste Da fare, Shopping o Alimentari.
 
 # ToDoWelcomeMessage.S1
-- Leggi Cosa fare
+- Rivedere la mia lista di fare.
 
 # ToDoWelcomeMessage.S2
-- Creare un'attività per me
+- Aggiungi e elemento per me.
 
 # ToDoWelcomeMessage.S3
-- Contrassegnare la seconda attività come completata
+- Contrassegnare il secondo elemento come completato.
 
 # ToDoWelcomeMessage.S4
-- Eliminare la terza attività
+- Eliminare il terzo elemento dall'elenco.
 
 # HelpMessage.Text
-- Posso leggere le tue To Do's, fare shopping o fare la spesa, creare un nuovo To Do, fare shopping o fare la spesa, o completare ed eliminare un to Do, shopping o articoli di alimentari per te.
+- Posso creare una lista Da fare, Shopping o Alimentari per te, aggiungere o eliminare elementi agli elenchi o contrassegnare gli elementi come completati.
 
 # LogOut.Text
-- La tua disconnessione è riuscita.
-- Ti sei disconnesso.
 - Sei stato disconnesso.
 
 # FeatureNotAvailable.Text
-- Questa funzione non è ancora disponibile nell'abilità Da fare. Si è verificato un problema sconosciuto.
+- La funzionalità che stai chiedendo non è disponibile. Si è verificato un problema sconosciuto.
 
 # CancelMessage.Text
 - Ok, ricominciamo da capo.
-

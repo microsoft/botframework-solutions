@@ -383,7 +383,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(FoundMultiContactResponse(testRecipient))
-                .AssertReply(ShowContactsList())
+                .AssertReply(ShowContactsList(Strings.Strings.DefaultUserName))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(testDupRecipient, testDupEmailAddress))
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -985,12 +985,17 @@ namespace CalendarSkill.Test.Flow
             };
         }
 
-        private Action<IActivity> ShowContactsList()
+        private Action<IActivity> ShowContactsList(string ContactName)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultipleContactNameSinglePage);
+                var recipientConfirmedMessage = GetTemplates(
+                    FindContactResponses.ConfirmMultipleContactNameSinglePage,
+                    new
+                    {
+                        ContactName = ContactName
+                    });
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));

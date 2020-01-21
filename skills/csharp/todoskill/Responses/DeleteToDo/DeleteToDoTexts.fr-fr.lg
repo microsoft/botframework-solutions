@@ -1,30 +1,29 @@
 # AskDeletionAllConfirmation.Text(ListType)
-- Etes-vous sûr de vouloir supprimer toutes les tâches de votre @{ListType} liste?
+- Etes-vous sûr que vous voulez supprimer tout de votre @{ListType} Liste?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- Désolé, je ne comprenais pas ce que tu voulais dire. Etes-vous sûr de vouloir supprimer toutes les tâches de votre @{ListType} liste?
+- Désolé, je n'ai pas compris. Voulez-vous tout supprimer de votre @{ListType} Liste?
 
 # AfterAllTasksDeleted.Text(ListType)
-- J'ai effacé votre @{ListType} liste.
+- J'ai effacé votre @{ListType} Liste.
 
 # AfterTaskDeleted.Text(TaskContent, ListType)
-- J'ai supprimé @{TaskContent} de votre @{ListType} liste.
+- J'ai supprimé @{TaskContent} de votre @{ListType} Liste.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
-- Ok, je n'ai pas supprimé toutes vos tâches. Vous avez encore @{TaskCount} tâches sur votre @{ListType} liste aujourd'hui.
+- OK, je n'ai rien supprimé. Il y a des @{TaskCount} articles sur votre @{ListType} Liste.
 
 # ListTypePromptForDelete.Text
-- Pouvez-vous être précis à partir de quelle liste vous souhaitez supprimer une tâche. Est-ce votre liste à faire, liste d'achats ou de l'épicerie?
+- Voulez-vous supprimer quelque chose de votre to Do, Shopping, ou Grocery list?
 
 # AskTaskIndexForDelete.Text
-- Quelle tâche souhaitez-vous supprimer ? Il est également possible de supprimer toutes vos tâches en nommant supprimer toutes les tâches.
+- Quel élément souhaitez-vous supprimer ? Vous pouvez également choisir de supprimer tout pour effacer votre liste.
 
 # AskTaskIndexRetryForDelete.Text
-- Désolé, je n'ai pas pu trouver cette tâche. S'll vous plaît, réessayez. Quelle tâche souhaitez-vous supprimer ?
+- Désolé, je n'ai pas trouvé l'article. Essayons à nouveau, que voulez-vous supprimer?
 
 # DeleteAnotherTaskPrompt.Text
-- Voulez-vous supprimer une autre tâche?
+- Voulez-vous supprimer un autre élément?
 
 # DeleteAnotherTaskConfirmFailed.Text
-- Désolé, je ne comprenais pas ce que tu voulais dire. Voulez-vous supprimer une autre tâche?
-
+- Désolé, je n'ai pas compris. Voulez-vous supprimer un autre élément?

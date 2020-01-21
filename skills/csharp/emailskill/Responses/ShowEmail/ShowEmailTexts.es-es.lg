@@ -1,16 +1,15 @@
 # ReadOutForOneEmail.Text
-- ¿Quieres saber el contenido de este correo electrónico?
+- ¿Quieres leer este correo electrónico?
 
 # ReadOutForMultiEmails.Text
-- ¿Quieres más detalles sobre el primer correo electrónico? También puede preguntar sobre otros correos electrónicos, ya sea por tema o remitente.
+- ¿Quieres más detalles sobre el primer correo electrónico?
 
 # ReadOutMore.Text
-- ¿Desea volver a su descripción general del correo electrónico? Alternativamente, puede pedirme que complete una acción en este correo electrónico.
+- ¿Desea volver a la descripción general de su correo electrónico?
 
 # ReadOutMessage.Text(emailDetailsWithoutContent)
-- El correo electrónico es @{emailDetailsWithoutContent}.
+- Aquí están los detalles del correo electrónico: @{emailDetailsWithoutContent}
 
 # ReadOutMessage.Speak(emailDetailsWithContent)
-- El correo electrónico es @{emailDetailsWithContent}.
-
+- Aquí están los detalles del correo electrónico: @{emailDetailsWithoutContent}
 

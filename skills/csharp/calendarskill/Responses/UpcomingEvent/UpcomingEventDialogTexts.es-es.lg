@@ -1,6 +1,5 @@
 # UpcomingEventMessage.Text(Minutes, Attendees, Title)
-- Tienes una reunión en camino @{Minutes} minutos con @{Attendees}: @{Title}
+- @{Title} está en @{Minutes} minutos con @{Attendees}.
 
 # UpcomingEventMessageWithLocation.Text(Minutes, Attendees, Location, Title)
-- Tienes una reunión en camino @{Minutes} minutos con @{Attendees} En @{Location}: @{Title}
-
+- @{Title} está en @{Minutes} minutos con @{Attendees} En @{Location}.

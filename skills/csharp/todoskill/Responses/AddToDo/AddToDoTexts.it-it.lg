@@ -1,26 +1,23 @@
 # AskTaskContentText.Text
-- sicuro. Cosa si desidera aggiungere all'elenco?
 - OK, cosa si desidera aggiungere alla lista?
-- Cosa si desidera aggiungere all'elenco?
 
 # AfterTaskAdded.Text(TaskContent, ListType)
-- Ho aggiunto @{TaskContent} al vostro @{ListType} elenco.
+- Ho aggiunto @{TaskContent} al vostro @{ListType} Elenco.
 
 # SwitchListType.Text(ListType)
-- OK, questo sembra un compito per il vostro @{ListType}TipoElenco@{ListType} elenco. Vuoi che lo aggiusci all'elenco di ListType?
+- OK, questo sembra un compito per il vostro @{ListType} Elenco. Vuoi che lo aggiudica lì?
 
 # SwitchListTypeConfirmFailed.Text(ListType)
-- Scusa, non capivo cosa intendevi. Vuoi che io aggiussi questo al tuo @{ListType} elenco?
+- Scusa, non ho capito. Vuoi che aggiussi questo al tuo @{ListType} Elenco?
 
 # AddMoreTask.Text(ListType)
-- Si desidera aggiungere un'altra attività @{ListType} elenco?
+- Vuoi aggiungere qualcos'altro al tuo @{ListType} Elenco?
 
 # AddMoreTaskConfirmFailed.Text(ListType)
-- Scusa, non capivo cosa intendevi. Si desidera aggiungere un'altra attività @{ListType} elenco?
+- Scusa, non ho capito. Vuoi aggiungere qualcosa al tuo @{ListType} Elenco?
 
 # AskAddDupTaskPrompt.Text(TaskContent)
-- Sembra che tu abbia già @{TaskContent} nella tua lista, vuoi ancora aggiungere questa attività?
+- Hai già @{TaskContent} nella tua lista. Vuoi ancora aggiungerlo?
 
 # AskAddDupTaskConfirmFailed.Text
-- Scusa, non capivo cosa intendevi. Vuoi comunque aggiungere questa attività?
-
+- Scusa, non ho capito. Vuoi comunque aggiungerlo alla tua lista?

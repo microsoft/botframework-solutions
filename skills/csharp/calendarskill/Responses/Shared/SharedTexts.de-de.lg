@@ -1,33 +1,23 @@
 # DidntUnderstandMessage.Text
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten.
-- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
-- Können Sie versuchen, auf eine andere Art und Weise zu fragen?
-- Ich habe nicht bekommen, was du meinst, kannst du es anders versuchen?
-- Könnten Sie nähere Angaben machen?
-- Bitte sagen Sie das noch einmal anders.
-- Das habe ich nicht ganz bekommen.
-- Können Sie das anders sagen?
-- Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst.
+- Tut mir leid, ich habe es nicht verstanden. Bitte versuchen Sie, Ihre Frage umzuformulieren und erneut zu fragen.
+- Tut mir leid, ich verstehe es nicht. Bitte versuchen Sie es erneut.
+- Das habe ich nicht bekommen. Bitte versuchen Sie es erneut zu fragen.
+
 
 # CalendarErrorMessage.Text
-- Es tut uns leid, es sieht so aus, als wäre etwas schief gelaufen!
-- Ein Fehler ist aufgetreten, versuchen Sie es später erneut.
-- Irgendetwas ist schief gelaufen, tut mir leid!
-- Es scheint, als wäre etwas schief gelaufen. Können Sie es später noch einmal versuchen?
-- Es tut mir leid, dass ich jetzt nicht helfen kann. Versuchen Sie es später erneut.
+- Es tut mir leid, es sieht so aus, als ob etwas passiert ist, und ich kann das im Moment nicht abschließen. Versuchen Sie es später erneut.
+- Es tut mir leid, ich kann die Aufgabe im Moment nicht abschließen. Versuchen Sie es später erneut.
+> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
-- Es tut mir leid, dass ich Ihnen dabei nicht helfen kann. Versuchen wir es später.
+- Tut mir leid, ich kann Ihnen jetzt nicht helfen. Versuchen wir es später noch einmal.
 
 # CalendarErrorMessageAccountProblem.Text
-- Es tut mir leid, ich kann im Moment nicht auf Ihr Konto zugreifen.
+- Es tut mir leid, ich kann jetzt nicht auf Ihr Konto zugreifen. Versuchen Sie es später erneut.
 
 # ActionEnded.Text
-- Lassen Sie mich wissen, wenn Sie meine Hilfe mit etwas anderem brauchen.
-- Ich bin hier, wenn du mich brauchst.
+- Lassen Sie mich wissen, ob ich mit etwas anderem helfen kann.
 
 # MultipleEventsFound.Text
-- Mehrere Ereignisse gefunden, wählen Sie bitte die, die Sie benötigen.
-- Ich habe mehrere Ereignisse gefunden, können Sie das Ereignis ihrer Wahl auswählen.
-- Es gibt mehrere Veranstaltungen, bitte wählen Sie das entsprechende Ereignis aus.
-
+- Ich habe mehr als ein Ereignis gefunden, das übereinstimmen könnte. Bitte wählen Sie die gewünschte Option aus.
+- Es gibt mulitple Ereignisse in Ihrem Kalender, die übereinstimmen können. Welche möchten Sie überprüfen?

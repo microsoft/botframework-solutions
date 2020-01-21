@@ -1,29 +1,29 @@
 ﻿# AskDeletionAllConfirmation.Text(ListType)
-- Are you sure you want to delete all tasks from your @{ListType} list?
+- Are you sure you want to delete everything from your @{ListType} list?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your @{ListType} list?
+- Sorry, I didn't understand. Do you want to delete everything from your @{ListType} list?
 
 # AfterAllTasksDeleted.Text(ListType)
-- I have cleared out your @{ListType} list.
+- I cleared your @{ListType} list.
 
 # AfterTaskDeleted.Text(TaskContent, ListType)
-- I have deleted @{TaskContent} from your @{ListType} list.
+- I deleted @{TaskContent} from your @{ListType} list.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
-- Okay, I did not delete all your tasks. You still have @{TaskCount} task(s) on your @{ListType} list today.
+- OK, I didn't delete anything. There are @{TaskCount} items on your @{ListType} list.
 
 # ListTypePromptForDelete.Text
-- Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?
+- Do you want to delete something from your To Do, Shopping, or Grocery list?
 
 # AskTaskIndexForDelete.Text
-- What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.
+- What item do you want to delete? You can also choose to delete all to clear your list.
 
 # AskTaskIndexRetryForDelete.Text
-- Sorry, I could not find this task. Please try again. What task do you want to delete?
+- Sorry, I couldn't find the item. Let's try again, what do you want to delete?
 
 # DeleteAnotherTaskPrompt.Text
-- Do you want to delete another task?
+- Do you want to delete another item?
 
 # DeleteAnotherTaskConfirmFailed.Text
-- Sorry, I didn't understand what you meant. Do you want to delete another task?
+- Sorry, I didn't understand. Do you want to delete another item?
