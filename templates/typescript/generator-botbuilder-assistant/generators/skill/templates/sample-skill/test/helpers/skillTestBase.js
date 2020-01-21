@@ -120,7 +120,7 @@ const initialize = async function() {
     sampleDialog,
     telemetryClient
   );
-  this.bot = new DialogBot(conversationState, userState,telemetryClient, mainDialog);
+  this.bot = new DialogBot(conversationState, userState, telemetryClient, mainDialog);
 };
 
 /**

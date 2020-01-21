@@ -22,8 +22,7 @@ import {
     manifestGenerator,
     SkillContext,
     // PENDING: The SkillHttpAdapter should be replaced with SkillWebSocketAdapter
-    SkillHttpAdapter,
-    WhitelistAuthenticationProvider } from 'botbuilder-skills';
+    SkillHttpAdapter } from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     Locales,
@@ -106,7 +105,6 @@ const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
 const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
 const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
-const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
@@ -116,16 +114,23 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
+    userState,
     conversationState,
-    telemetryClient,
-    whitelistAuthenticationProvider);
+    telemetryClient);
 
 const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     botSettings,
+    userState,
     conversationState,
     telemetryClient,
     dialogStateAccessor);
 const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
+// PENDING: these should be uncommented when the WS library is merged
+// Also the constructor should receive an IAuthenticationProvider
+// const skillWebSocketAdapter: SkillWebSocketAdapter = new SkillWebSocketAdapter(
+//     customSkillAdapter,
+//     botSettings,
+//     telemetryClient);
 
 let bot: DialogBot<Dialog>;
 try {

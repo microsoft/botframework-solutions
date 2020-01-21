@@ -6,10 +6,9 @@
 import {
     ActivityHandler,
     BotTelemetryClient,
-    ConversationState,
     EndOfConversationCodes,
     Severity,
-    TurnContext, 
+    TurnContext,
     BotState } from 'botbuilder';
 import {
     Dialog,
@@ -26,7 +25,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
     private readonly userState: BotState;
 
     public constructor(
-        conversationState: ConversationState,
+        conversationState: BotState,
         userState: BotState,
         telemetryClient: BotTelemetryClient,
         dialog: T
@@ -61,7 +60,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
         } else {
             await dc.beginDialog(this.rootDialogId);
         }
-        
+
         // Save any state changes that might have occured during the turn.
         await this.conversationState.saveChanges(turnContext, false);
         await this.userState.saveChanges(turnContext, false);
