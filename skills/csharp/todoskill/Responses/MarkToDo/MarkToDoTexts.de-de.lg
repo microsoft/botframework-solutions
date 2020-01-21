@@ -1,27 +1,26 @@
 # AfterAllTasksCompleted.Text(ListType)
-- Ich habe alle Ihre Aufgaben als abgeschlossen auf Ihrem {ListType} Liste.
+- Ich habe alle Elemente auf Ihrem @{ListType} Liste als vollständig.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, ich habe markiert{TaskContent} auf Ihrem {ListType} Liste als vollständig.
+- OK, ich markierte @{TaskContent} auf Ihrem @{ListType} Liste als vollständig.
 
 # ListTypePromptForComplete.Text
-- Können Sie anhand der Liste, die Sie ausführen möchten, spezifisch sein? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+- Möchten Sie einen Artikel in Ihrer Aufgaben-, Einkaufs- oder Lebensmittelliste als vollständig markieren?
 
 # AskTaskIndexForComplete.Text
-- Welche Aufgabe möchten Sie abschließen? Es ist auch möglich, alle Ihre Aufgaben zu erfüllen, indem Sie sagen, alles vollständig.
+- Welches Element möchten Sie als abgeschlossen markieren? Sie können auch alles ausfüllen und alles in Ihrer Liste als vollständig markieren.
 
 # AskTaskIndexRetryForComplete.Text
-- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie abschließen?
+- Es tut mir leid, ich habe den Artikel nicht gefunden. Versuchen wir es noch einmal, was möchten Sie als vollständig markieren?
 
 # CompleteAnotherTaskPrompt.Text
-- Möchten Sie eine andere Aufgabe ausführen?
+- Möchten Sie ein anderes Element als abgeschlossen markieren?
 
 # CompleteAnotherTaskConfirmFailed.Text
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe ausführen?
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie ein anderes Element als abgeschlossen markieren?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- Sie haben jetzt 1 Artikel auf Ihrem {ListType} Liste.
+- Sie haben 1 Artikel in Ihrem @{ListType} Liste.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- Sie haben jetzt {AllTasksCount} Artikel auf Ihrem {ListType} Liste.
-
+- Sie haben @{AllTasksCount} Artikel in Ihrem @{ListType} Liste.

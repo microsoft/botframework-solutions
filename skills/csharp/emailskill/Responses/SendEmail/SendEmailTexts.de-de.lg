@@ -1,52 +1,51 @@
 # NoSubject.Text
-- Was ist der E-Mail-Betreff?
+- Was ist der Betreff der E-Mail?
 
 # RetryNoSubject.Text
-- Die Einbeziehung eines Themas wird oft von Kontakten geschätzt. Möchten Sie ein Thema hinzufügen? Oder Sie können überspringen, um es zu umgehen.
+- Das Hinzufügen eines Betreffs gibt den Empfängern auf einen Blick eine Vorstellung davon, worum es in Ihrer E-Mail geht. Sie können es auch überspringen.
 
 # NoMessageBody.Text
-- Was möchten Sie im Text der E-Mail sagen? Angenommen, überspringen, wenn Sie es leer halten möchten.
+- Welche Inhalte möchten Sie in Ihrer E-Mail?
 
 # CheckContent.Text
 - Möchten Sie dies in die E-Mail aufnehmen?
 
 # CheckContent.Speak
-- Sie können Teilnehmer, Betreff oder Inhalt ausprobieren. Oder sagen Sie abbrechen.
+- Sie können Empfänger, Betreff, Inhalt oder Abbrechen ausprobieren.
 
 # CheckContent.S1
-- Ja
+- Ja.
 
 # CheckContent.S2
-- Nein
+- Nein.
 
 # ConfirmMessageRetry.Text
-- Bitte bestätigen Sie diese Meldung. Sie können ja oder nein eingeben.
-- Bitte bestätigen Sie diese Meldung.
+- Möchten Sie diese E-Mail senden?
 
 # ConfirmMessageRetry.Speak
-- Bitte bestätigen Sie diese Meldung. Sie können ja oder nein sagen.
+- Möchten Sie diese E-Mail senden?
 
 # RetryContent.Text
-- Diese E-Mail wird noch nicht gesendet.
+- OK, ich werde diese E-Mail noch nicht senden.
 
 # GetRecreateInfo.Text
-- Möchten Sie die Empfänger, den Betreff oder den Körper ändern?
+- Möchten Sie die Empfänger, den Betreff oder den Inhalt der E-Mail ändern?
 
 # GetRecreateInfo.S1
-- Empfänger
+- Empfänger.
 
 # GetRecreateInfo.S2
-- Betreff
+- Betreff.
 
 # GetRecreateInfo.S3
-- Körper
+- Inhalt.
 
 # GetRecreateInfoRetry.Text
-- Sie können Empfänger, Betreff oder Körper ausprobieren. Oder sagen Sie abbrechen.
+- Sie können Empfänger, Betreff, Inhalt ausprobieren oder abbrechen.
 
 # PlayBackMessage.Text(emailContent)
-- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? \n {emailContent}
+- OK, hier ist der Inhalt Ihrer E-Mail. Möchten Sie sie in die E-Mail einfügen? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Okay, hier ist, was ich habe. Möchten Sie sie in die E-Mail einfügen? {emailContent}
+- OK, hier ist der Inhalt Ihrer E-Mail. Möchten Sie sie in die E-Mail einfügen? @{emailContent}
 

@@ -1,26 +1,26 @@
 ﻿# AfterAllTasksCompleted.Text(ListType)
-- I have marked all your tasks as complete on your {ListType} list.
+- I marked all items on your @{ListType} list as complete.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, I have marked '{TaskContent}' on your {ListType} list as complete.
+- OK, I marked @{TaskContent} on your @{ListType} list as complete.
 
 # ListTypePromptForComplete.Text
-- Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?
+- Do you want to mark an item on your To Do, Shopping, or Grocery list as complete?
 
 # AskTaskIndexForComplete.Text
-- What task do you want to complete? It is also possible to complete all your tasks by saying complete all.
+- What item do you want to mark complete? You can also choose complete all and mark everything in your list as complete.
 
 # AskTaskIndexRetryForComplete.Text
-- Sorry, I could not find this task. Please try again. What task do you want to complete?
+- Sorry, I didn't find the item. Let's try again, what do you want to mark as complete?
 
 # CompleteAnotherTaskPrompt.Text
-- Do you want to complete another task?
+- Do you want to mark another item as complete?
 
 # CompleteAnotherTaskConfirmFailed.Text
-- Sorry, I didn't understand what you meant. Do you want to complete another task?
+- Sorry, I didn't understand. Do you want to mark another item as complete?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- You now have 1 item on your {ListType} list.
+- You have 1 item in your @{ListType} list.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- You now have {AllTasksCount} items on your {ListType} list.
+- You have @{AllTasksCount} items in your @{ListType} list.

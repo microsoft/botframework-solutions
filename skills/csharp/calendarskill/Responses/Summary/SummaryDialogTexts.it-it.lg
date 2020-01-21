@@ -1,77 +1,77 @@
 # ShowNoMeetingMessage.Text
-- Non hai eventi.
+- Non hai nessun evento in programma.
 
 # ReadOutMessage.Text(Date, Time, Participants, Subject)
-- L'evento su {Date} È {Time} Con {Participants} Intitolato {Subject}.
+- L'evento intitolato @{Subject} è acceso @{Date} A @{Time} Con @{Participants}.
 
 # CalendarNoMoreEvent.Text
-- Niente più eventi!
+- Non hai più eventi in programma.
 
 # CalendarNoPreviousEvent.Text
-- Questa è già la prima pagina!
+- Questa è la prima pagina.
 
 # BeforeShowEventDetails.Text(EventName)
-- Ecco i dettagli del tuo evento {EventName}:
+- Ecco i dettagli per @{EventName}:
 
 # ReadTime.Text(EventStartTime, EventEndTime)
-- Si inizia da {EventStartTime}e termina alle {EventEndTime}.
+- Si inizia da @{EventStartTime} e termina a @{EventEndTime}.
 
 # ReadDuration.Text(EventDuration)
-- Dura per {EventDuration}.
+- Dura per @{EventDuration}.
 
 # ReadNoLocation.Text
-- Non c'è nessuna posizione, possibilmente online?
+- Non è elencata alcuna posizione. Potrebbe essere una riunione online.
 
 # ReadLocation.Text(EventLocation)
-- Si è tenuto a {EventLocation}.
+- La posizione è @{EventLocation}.
 
 # ReadStartDate.Text(EventStartDate)
-- Si inizia il {EventStartDate}.
+- Si inizia il @{EventStartDate}.
 
 # ShowNextMeetingNoLocationMessage.Text
 - Nel calendario è riportato il seguente evento:
 
 # ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
-- Nel calendario è riportato il seguente evento: {EventName} A {EventTime} Con {PeopleCount} Persone.
+- Nel calendario è riportato il seguente evento: @{EventName} A @{EventTime} Con @{PeopleCount} Persone.
 
 # ShowNextMeetingMessage.Text
 - Nel calendario è riportato il seguente evento:
 
 # ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
-- Nel calendario è riportato il seguente evento: {EventName} A {EventTime} Con {PeopleCount} persone a {Location}.
+- Nel calendario è riportato il seguente evento: @{EventName} A @{EventTime} Con @{PeopleCount} persone a @{Location}.
 
 # ShowMultipleNextMeetingMessage.Text
 - Nel calendario è riportato il seguente evento:
 
 # AskForShowOverview.Text(DateTime)
-- Desiderate vedere di nuovo la panoramica del calendario di {DateTime}?
+- Si desidera rivedere nuovamente la panoramica del calendario per @{DateTime}?
 
 # ReadOutMorePrompt.Text
-- Vuoi sentire il contenuto del primo evento? Posso leggere qualsiasi evento per te, fammi sapere fornendo l'oggetto, l'ora o i partecipanti.
+- Vuoi che legga i dettagli del primo evento? Posso leggere i dettagli per qualsiasi evento, fatemi sapere quale fornendo il soggetto, l'ora o i partecipanti.
 
 # AskForOrgnizerAction.Text(DateTime)
-- Desiderate visualizzare di nuovo la panoramica del calendario per {DateTime}? Puoi anche chiedermi di aggiornare o rifiutare questo evento per te.
+- Si desidera rivedere nuovamente la panoramica del calendario per @{DateTime}? Puoi anche chiedermi di aggiornare o rifiutare questo evento per te.
 
 # AskForAction.Text(DateTime)
-- Per tornare alla panoramica del calendario per {DateTime}? Puoi anche chiedermi di rifiutare questo evento per te.
+- Si desidera tornare di nuovo alla panoramica del calendario per @{DateTime}? Puoi anche chiedermi di rifiutare questo evento per te.
 
 # AskForChangeStatus.Text(DateTime)
-- Per tornare alla panoramica del calendario per {DateTime}? Puoi anche chiedermi di accettare o rifiutare questo evento per te.
+- Si desidera tornare di nuovo alla panoramica del calendario per @{DateTime}? Puoi anche chiedermi di accettare o rifiutare questo evento per te.
 
 # ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
-- Il primo evento in questa pagina è con {Participants1} {EventTime1} Intitolato {EventName1}.
+- Il primo evento è @{EventName1} Con @{Participants1} A @{EventTime1}.
 
 # ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
-- Sembra che tu abbia {Count} eventi pianificati {Condition}, il primo evento è con {Participants1} {EventTime1} Intitolato {EventName1}. L'ultimo evento di {DateTime} È {EventTime2} Con {Participants2} Intitolato {EventName2}.
+- Hai @{Count} eventi pianificati @{Condition}. Il primo è @{EventName1} Con @{Participants1} A @{EventTime1}. L'ultimo per @{DateTime} È @{EventName2} A @{EventTime2} Con @{Participants2}.
 
 # ShowMeetingSummaryShortMessage.Text(Count, Condition)
-- Hai {Count} eventi pianificati {Condition}.
+- Hai @{Count} eventi pianificati @{Condition}.
 
 # ShowMultipleFilteredMeetings.Text(Count)
-- Ho trovato {Count} eventi con la parola chiave.
+- Ho trovato @{Count} eventi che corrispondono alla parola chiave.
 
 # ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
-- Hai 1 riunione {Condition}: {EventName1}. E 'con {Participants1} {EventTime1}.
+- Hai una riunione @{Condition}: @{EventName1}. E 'con @{Participants1} @{EventTime1}.
 
 # ShowOneMeetingSummaryShortMessage.Text(Condition)
-- Hai 1 riunione {Condition}.
+- Hai una riunione @{Condition}.

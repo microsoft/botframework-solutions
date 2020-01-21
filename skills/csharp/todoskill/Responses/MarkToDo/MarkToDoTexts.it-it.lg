@@ -1,27 +1,26 @@
 # AfterAllTasksCompleted.Text(ListType)
-- Ho contrassegnato tutti i vostri compiti come completi sul vostro {ListType} Elenco.
+- Ho segnato tutti gli elementi sul tuo @{ListType} elenco come completo.
 
 # AfterTaskCompleted.Text(TaskContent, ListType)
-- OK, ho segnato '{TaskContent}' sul {ListType} elenco come completo.
+- OK, ho segnato @{TaskContent} sul vostro @{ListType} elenco come completo.
 
 # ListTypePromptForComplete.Text
-- Puoi essere specifico da quale elenco desideri completare un'attività. È la tua lista Da fare, la lista della spesa o la lista della spesa?
+- Vuoi contrassegnare un elemento nella tua lista Da fare, Shopping o Alimentari come completata?
 
 # AskTaskIndexForComplete.Text
-- Quale attività si desidera completare? E 'anche possibile completare tutte le vostre attività dicendo completa tutto.
+- Quale elemento si desidera contrassegnare come completato? Puoi anche scegliere completa tutto e contrassegnare tutti gli elementi dell'elenco come completati.
 
 # AskTaskIndexRetryForComplete.Text
-- Spiacenti, non sono riuscito a trovare questa attività. Riprovare. Quale attività si desidera completare?
+- Spiacenti, non ho trovato l'elemento. Proviamo di nuovo, cosa vuoi contrassegnare come completo?
 
 # CompleteAnotherTaskPrompt.Text
-- Vuoi completare un'altra attività?
+- Contrassegnare un altro elemento come completo?
 
 # CompleteAnotherTaskConfirmFailed.Text
-- Scusa, non capivo cosa intendevi. Vuoi completare un'altra attività?
+- Scusa, non ho capito. Contrassegnare un altro elemento come completo?
 
 # AfterCompleteCardSummaryMessageForSingleTask.Text(ListType)
-- Ora hai 1 elemento sul tuo {ListType} Elenco.
+- Hai 1 elemento nel tuo @{ListType} Elenco.
 
 # AfterCompleteCardSummaryMessageForMultipleTasks.Text(AllTasksCount, ListType)
-- Ora avete {AllTasksCount} elementi sul {ListType} Elenco.
-
+- Hai @{AllTasksCount} elementi nel @{ListType} Elenco.

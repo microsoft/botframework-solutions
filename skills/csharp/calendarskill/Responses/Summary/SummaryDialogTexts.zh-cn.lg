@@ -1,77 +1,77 @@
 # ShowNoMeetingMessage.Text
-- 你没有任何会议。
+- 您没有安排任何事件。
 
 # ReadOutMessage.Text(Date, Time, Participants, Subject)
-- {Date}的会议{Time}和{Participants}，标题为{Subject}。
+- 标题为@{Subject}是@{Date}在@{Time}与@{Participants}.
 
 # CalendarNoMoreEvent.Text
-- 没有更多会议！
+- 您没有计划更多的事件。
 
 # CalendarNoPreviousEvent.Text
-- 这已经是第一页了！
+- 这是第一页。
 
 # BeforeShowEventDetails.Text(EventName)
-- 这是你的会议{EventName}的详细信息：
+- 以下是@{EventName}:
 
 # ReadTime.Text(EventStartTime, EventEndTime)
-- 它开始于{EventStartTime}，结束于{EventEndTime}.
+- 它开始于@{EventStartTime}并在@{EventEndTime}.
 
 # ReadDuration.Text(EventDuration)
-- 这个会议持续{EventDuration}。
+- 它持续@{EventDuration}.
 
 # ReadNoLocation.Text
-- 这个会议没有具体地点，也许是一个在线会议。
+- 未列出位置。这可能是一个在线会议。
 
 # ReadLocation.Text(EventLocation)
-- 这个会议的地点在{EventLocation}。
+- 位置是@{EventLocation}.
 
 # ReadStartDate.Text(EventStartDate)
-- 这个会议在{EventStartDate}开始。
+- 它开始于@{EventStartDate}.
 
 # ShowNextMeetingNoLocationMessage.Text
-- 您的日程表上有下列会议：
+- 您的日历上有以下事件：
 
 # ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
-- 您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人
+- 您的日历上有以下事件：@{EventName}在@{EventTime}与@{PeopleCount}人。
 
 # ShowNextMeetingMessage.Text
-- 您的日程表上有下列会议：
+- 您的日历上有以下事件：
 
 # ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
-- 您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人，会议地点在{Location}
+- 您的日历上有以下事件：@{EventName}在@{EventTime}与@{PeopleCount}人@{Location}.
 
 # ShowMultipleNextMeetingMessage.Text
-- 您的日程表上有下列会议：
+- 您的日历上有以下事件：
 
 # AskForShowOverview.Text(DateTime)
-- 你想再次查看{DateTime}的会议总览吗？
+- 是否要再次查看日历概述@{DateTime}?
 
 # ReadOutMorePrompt.Text
-- 你想听下一个会议的详细内容吗？我可以为你读任何会议，你只需要说出会议的名字、时间或者参加人。
+- 你要我读第一次活动的细节吗？我可以阅读任何活动的详细信息，只需通过提供主题、时间或与会者来让我知道哪一个。
 
 # AskForOrgnizerAction.Text(DateTime)
-- 你想再次查看{DateTime}的会议总览吗？你也可以让我更新或者取消这个会议。
+- 是否要再次查看日历概述@{DateTime}?您也可以请我为您更新或拒绝此事件。
 
 # AskForAction.Text(DateTime)
-- 你想再次查看{DateTime}的会议总览吗？你也可以让我取消这个会议。
+- 是否要再次返回日历概述@{DateTime}?您也可以请我为你拒绝这次活动。
 
 # AskForChangeStatus.Text(DateTime)
-- 你想再次查看{DateTime}的会议总览吗？你也可以让我接受或者取消这个会议。
+- 是否要再次返回日历概述@{DateTime}?您也可以请我为你接受或拒绝此事件。
 
 # ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
-- 本页第一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。
+- 第一个事件是@{EventName1}与@{Participants1}在@{EventTime1}.
 
 # ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
-- 你{Condition}有{Count}个会议，你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。{DateTime}的最后一个会议{EventTime2}和{Participants2}标题是{EventName2}。
+- 你有@{Count}计划的活动@{Condition}.第一个是@{EventName1}与@{Participants1}在@{EventTime1}.最后一个@{DateTime}是@{EventName2}在@{EventTime2}与@{Participants2}.
 
 # ShowMeetingSummaryShortMessage.Text(Count, Condition)
-- 你{Condition}有{Count}个会议。
+- 你有@{Count}计划的活动@{Condition}.
 
 # ShowMultipleFilteredMeetings.Text(Count)
-- 我根据你的关键词找到了{Count}个会议。
+- 我发现@{Count}与您的关键字匹配的事件。
 
 # ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
-- 你{Condition}有1个会议：{EventName1}，和{Participants1}{EventTime1}。
+- 您有一次会议@{Condition}:@{EventName1}.它与@{Participants1}@{EventTime1}.
 
 # ShowOneMeetingSummaryShortMessage.Text(Condition)
-- 你{Condition}有1个会议。
+- 您有一次会议@{Condition}.

@@ -1,26 +1,17 @@
 # NoAuth.Text
-- Si prega di accedere prima di intraprendere ulteriori azioni.
-- Si prega di accedere in modo da poter dare una mano.
-- Si prega di accedere in modo da poter procedere con la vostra richiesta.
-- Puoi accedere così posso aiutarti ulteriormente?
-- Devi effettuare l'accesso per poter intraprendere ulteriori azioni.
+- Per iniziare, accedi al tuo account.
 
 # ActionEnded.Text
-- Fammi sapere se hai bisogno del mio aiuto con qualcos'altro.
-- Ok, sono qui se hai bisogno di me.
+- Ok, fammi sapere se hai bisogno di aiuto con qualcos'altro.
 
 # ToDoErrorMessage.Text
-- Mi dispiace, sembra che qualcosa sia andato storto!
-- Si è verificato un errore, riprovare più tardi.
-- Qualcosa è andato storto, scusa!
-- Sembra che qualcosa sia andato storto. Puoi riprovarci più tardi?
-- Scusa se non posso aiutarti in questo momento. Riprova più tardi.
+- Mi dispiace, non posso aiutarti con le tue liste in questo momento. Riprova più tardi.
 
 # ToDoErrorMessageBotProblem.Text
-- Spiacenti, c'è qualcosa che non va con il bot al momento. Lo sviluppatore è stato avvisato su di esso in modo da essere in grado di eseguire l'azione di nuovo molto presto.
+- Spiacenti, questa funzione non funziona correttamente in questo momento. Riprova più tardi.
 
 # ToDoErrorMessageAccountProblem.Text
-- Spiacenti, sembra che qualcosa sia andato storto con il tuo account e-mail. Segui le istruzioni nella Posta in arrivo per verificare il tuo account.
+- Spiacenti, non riesco ad accedere al tuo account e-mail in questo momento. Potresti aver ricevuto un'email contenente le istruzioni per verificare il tuo account.
 
 # SettingUpOneNoteMessage.Text
 - Ho notato che non hai più un OneNote. Si sta creando un nuovo OneNote, incluso un elenco Da fare.
@@ -36,4 +27,3 @@
 
 # NoTasksInList.Text
 - La tua lista è vuota.
-

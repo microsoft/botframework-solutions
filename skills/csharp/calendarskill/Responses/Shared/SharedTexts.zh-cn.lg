@@ -1,33 +1,23 @@
 # DidntUnderstandMessage.Text
-- 对不起，我不明白你的意思。
-- 我不明白，也许用另一种方式再试一次。
-- 你能用另一种方式问吗？
-- 我不明白你的意思，你能换个方法试试吗？
-- 你能详细说明一下吗？
-- 请用不同的方式再说一遍。
-- 我不太明白。
-- 你能用不同的方式说吗？
-- 你能再问我一次吗？我不明白你的意思。
+- 对不起，我不明白。请尝试重新回答您的问题，然后再次询问。
+- 对不起，我不明白。请重试。
+- 我不明白请重试。
+
 
 # CalendarErrorMessage.Text
-- 对不起，好像出了什么问题！
-- 发生错误，请稍后重试。
-- 出问题了，对不起！
-- 好像出了什么问题。您以后再试一次吗？
-- 对不起，我现在帮不上忙。请稍后再试。
+- 对不起，看起来好像发生了一些事情，我现在无法完成。请稍后再试。
+- 对不起，我现在无法完成任务。请稍后再试。
+> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
-- 对不起，我帮不了你。我们稍后再试一次。
+- 对不起，我现在帮不了你。我们稍后再试一次。
 
 # CalendarErrorMessageAccountProblem.Text
-- 对不起，我现在无法访问您的帐户。
+- 很抱歉，我现在无法访问您的帐户。请稍后再试。
 
 # ActionEnded.Text
-- 如果你需要我的帮助，请告诉我。
-- 如果你需要我，我在这里。
+- 让我知道，如果我可以帮助任何其他。
 
 # MultipleEventsFound.Text
-- 找到多个事件，请选择您需要的事件。
-- 我找到了多个事件，您可以选择事件吗？
-- 有多个事件，请选择相关事件。
-
+- 我发现了多个可能匹配的事件。请选择所需的。
+- 日历上有许多可能匹配的事件。您要查看哪一个？

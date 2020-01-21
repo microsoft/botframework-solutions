@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System.Globalization;
@@ -29,8 +29,6 @@ namespace CalendarSkill.Adapters
         {
             OnTurnError = async (context, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-
                 var activity = localeTemplateEngineManager.GenerateActivityForLocale(CalendarSharedResponses.CalendarErrorMessage);
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
