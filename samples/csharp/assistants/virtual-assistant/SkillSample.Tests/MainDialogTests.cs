@@ -42,15 +42,5 @@ namespace SkillSample.Tests
                 .AssertReplyOneOf(GetTemplates("UnsupportedText"))
                 .StartTestAsync();
         }
-
-        [TestMethod]
-        public async Task Test_Single_Turn()
-        {
-            await GetTestFlow()
-                .Send(GeneralUtterances.None)
-                .AssertReplyOneOf(GetTemplates("UnsupportedText"))
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
-                .StartTestAsync();
-        }
     }
 }

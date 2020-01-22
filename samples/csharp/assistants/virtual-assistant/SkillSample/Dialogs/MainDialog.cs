@@ -192,7 +192,7 @@ namespace SkillSample.Dialogs
         // Runs when the dialog stack completes.
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            if (outerDc.Context.Adapter is IRemoteUserTokenProvider || outerDc.Context.Activity.ChannelId != Channels.Msteams)
+            if (outerDc.Context.Adapter is IRemoteUserTokenProvider && outerDc.Context.Activity.ChannelId != Channels.Msteams)
             {
                 var response = outerDc.Context.Activity.CreateReply();
                 response.Type = ActivityTypes.Handoff;
