@@ -246,6 +246,7 @@ Otherwise, if you are using a TypeScript bot, you should remove the `showTypingM
 ```
 
 For more information, check the following issues:
+* [botbuilder-js#1599](https://github.com/microsoft/botbuilder-js/issues/1599) - `[BotBuilder-Core] Handle Uncaught Exceptions`
 * [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
 * [botbuilder-js#726](https://github.com/microsoft/botbuilder-js/issues/726) - `ShowTypingMiddleware suppresses errors and does not allow adapter.onTurnError to handle them`
 * [botbuilder-js#1170](https://github.com/microsoft/botbuilder-js/issues/1170) - `ShowTypingMiddleware provoke silent error behaviour`
