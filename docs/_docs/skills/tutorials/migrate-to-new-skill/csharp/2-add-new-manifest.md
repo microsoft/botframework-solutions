@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Migrate to GA Bot Framework Skills
-language: C#
+language: csharp
 title: Add a new manifest
 order: 2
 ---
