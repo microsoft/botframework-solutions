@@ -3,7 +3,7 @@ layout: tutorial
 category: Solution Accelerators
 subcategory: Enable continuous integration
 title: Add Coverlet to the project
-language: C#
+language: csharp
 order: 2
 ---
 
