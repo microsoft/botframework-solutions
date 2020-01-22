@@ -5,11 +5,9 @@
 - Sorry, I don't understand. Please try again.
 - I didn't get that. Please try asking again.
 
-
 # CalendarErrorMessage.Text
 - Sorry, it looks like something happened and I can't complete that right now. Please try again later.
 - Sorry, I'm unable to complete the task right now. Please try again later.
-> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
 - Sorry, I can't help you with this right now. Let's try again later.

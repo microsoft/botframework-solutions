@@ -185,7 +185,7 @@
     Text = @{SentSuccessfully.Text(subject)}
     Speak = @{SentSuccessfully.Text(subject)}
     Attachments = @{json(EmailWithOutButtonCard(emailDetails))}
-    InputHint = expectingInput
+    InputHint = acceptingInput
 ]
 
 # RecipientConfirmed

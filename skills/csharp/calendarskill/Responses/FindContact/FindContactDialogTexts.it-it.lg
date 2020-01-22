@@ -15,11 +15,9 @@
 
 # AlreadyFirstPage.Text
 - Questa è già la prima pagina.
-> Comment: I'm not sure how this is used. The current text seems a bit abrupt/not friendly, but some additional context is necessary to create a replacement string.
 
 # AlreadyLastPage.Text
 - Questa è già l'ultima pagina.
-> Comment: Similar to the previous comment, some additional context would be helpful to create a new string.
 
 # AddMoreUserPrompt.Text
 - Vuoi invitare qualcun altro?

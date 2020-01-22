@@ -5,11 +5,9 @@
 - Scusa, non capisco. Riprovare.
 - Non l'ho capito. Prova a chiedere di nuovo.
 
-
 # CalendarErrorMessage.Text
 - Mi dispiace, sembra che sia successo qualcosa e non riesco a completarlo in questo momento. Riprova più tardi.
 - Spiacenti, al momento non riesco a completare l'operazione. Riprova più tardi.
-> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
 - Scusa, non posso aiutarti con questo adesso. Proviamo di nuovo più tardi.
