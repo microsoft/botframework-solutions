@@ -41,7 +41,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.1" />
     ```
 
-    > Please note that `Microsoft.Bot.Builder.Solutions` library version 4.6.2 is compatible with BotBuilder 4.7.1.
+    > Please note that `Microsoft.Bot.Builder.Solutions` library version 4.6.0 is compatible with BotBuilder 4.7.1.
 
 1. Update BotController.cs
 
