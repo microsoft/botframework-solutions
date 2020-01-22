@@ -17,6 +17,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Models;
 using $safeprojectname$.Services;
+using Newtonsoft.Json.Linq;
 
 namespace $safeprojectname$.Dialogs
 {
@@ -25,6 +26,7 @@ namespace $safeprojectname$.Dialogs
     {
         private BotServices _services;
         private SampleDialog _sampleDialog;
+        private SampleAction _sampleAction;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -44,6 +46,9 @@ namespace $safeprojectname$.Dialogs
             // Register dialogs
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
             AddDialog(_sampleDialog);
+
+            _sampleAction = serviceProvider.GetService<SampleAction>();
+            AddDialog(_sampleAction);
         }
 
         // Runs on every turn of the conversation.
@@ -125,9 +130,6 @@ namespace $safeprojectname$.Dialogs
                 // Get current cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
 
-                // Populate state from activity as required.
-                await PopulateStateFromActivity(innerDc.Context);
-
                 // Get skill LUIS model from configuration.
                 localizedServices.LuisServices.TryGetValue("$safeprojectname$", out var luisService);
 
@@ -161,25 +163,40 @@ namespace $safeprojectname$.Dialogs
         }
 
         // Runs when a new event activity comes in.
-        protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var ev = innerDc.Context.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
+            var eventActivity = dc.Context.Activity.AsEventActivity();
 
-            switch (ev.Name)
+            if (!string.IsNullOrEmpty(eventActivity.Name))
             {
-                case TokenEvents.TokenResponseEventName:
-                    {
-                        // Forward the token response activity to the dialog waiting on the stack.
-                        await innerDc.ContinueDialogAsync();
-                        break;
-                    }
+                switch (eventActivity.Name)
+                {
+                    // Each Action in the Manifest will have an associated Name which will be on incoming Event activities
+                    case "SampleAction":
 
-                default:
-                    {
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                        SampleActionInput actionData = null;
+
+                        var eventValue = dc.Context.Activity.Value as JObject;
+                        if (eventValue != null)
+                        {
+                            actionData = eventValue.ToObject<SampleActionInput>();
+                        }
+
+                        // Invoke the SampleAction dialog passing input data if available
+                        await dc.BeginDialogAsync(nameof(SampleAction), actionData);
+
                         break;
-                    }
+
+                    default:
+
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{eventActivity.Name ?? "undefined"}' was received but not processed."));
+
+                        break;
+                }
+            }
+            else
+            {
+                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
             }
         }
 
@@ -192,29 +209,17 @@ namespace $safeprojectname$.Dialogs
         // Runs when the dialog stack completes.
         protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            if (outerDc.Context.Adapter is IRemoteUserTokenProvider || outerDc.Context.Activity.ChannelId != Channels.Msteams)
-            {
-                var response = outerDc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
-                await outerDc.Context.SendActivityAsync(response);
-            }
+            // Retrieve the prior dialogs result if provided to return on the Skill EndOfConversation event.
+            ObjectPath.TryGetPathValue<object>(outerDc.Context.TurnState, TurnPath.LASTRESULT, out object dialogResult);
 
+            var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+            {
+                Code = EndOfConversationCodes.CompletedSuccessfully,
+                Value = dialogResult
+            };
+
+            await outerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
             await outerDc.EndDialogAsync(result);
-        }
-
-        private async Task PopulateStateFromActivity(ITurnContext context)
-        {
-            // Example of populating skill state from activity
-            var activity = context.Activity;
-            var semanticAction = activity.SemanticAction;
-
-            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.TimeZone))
-            {
-                var timezone = semanticAction.Entities[StateProperties.TimeZone];
-                var timezoneObj = timezone.Properties[StateProperties.TimeZone].ToObject<TimeZoneInfo>();
-                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                state.TimeZone = timezoneObj;
-            }
         }
 
         private async Task LogUserOut(DialogContext dc)

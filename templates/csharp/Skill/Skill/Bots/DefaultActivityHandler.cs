@@ -30,6 +30,16 @@ namespace $safeprojectname$.Bots
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
+            var activity = turnContext.Activity;
+            var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            if (activity != null && activity.Type == ActivityTypes.EndOfConversation)
+            {
+                await dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
+                return;
+            }
+
             await base.OnTurnAsync(turnContext, cancellationToken);
 
             // Save any state changes that might have occured during the turn.
