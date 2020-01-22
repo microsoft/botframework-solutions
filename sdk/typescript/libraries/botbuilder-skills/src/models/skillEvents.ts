@@ -3,8 +3,9 @@
  * Licensed under the MIT License.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace SkillEvents {
-    export const cancelAllSkillDialogsEventName: string = 'skill/cancelallskilldialogs';
-    export const fallbackEventName: string = 'skill/fallbackrequest';
-    export const fallbackHandledEventName: string = 'skill/fallbackhandled';
+    export const cancelAllSkillDialogsEventName = 'skill/cancelallskilldialogs';
+    export const fallbackEventName = 'skill/fallbackrequest';
+    export const fallbackHandledEventName = 'skill/fallbackhandled';
 }

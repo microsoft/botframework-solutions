@@ -177,7 +177,7 @@ export class MainDialog extends RouterDialog {
             }
         }
 
-        let forward: boolean = true;
+        let forward = true;
         const ev: Activity = dc.context.activity;
         if (ev.name !== undefined && ev.name.trim().length > 0) {
             switch (ev.name) {

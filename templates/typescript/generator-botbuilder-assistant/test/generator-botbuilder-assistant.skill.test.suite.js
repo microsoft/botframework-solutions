@@ -32,7 +32,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
 
     const templatesFiles = [
         `package.json`,
-        `.eslintrc.js`,
+        `.eslintrc.json`,
         `.gitignore`,
         `.npmrc`,
         `.nycrc`,

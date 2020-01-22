@@ -7,8 +7,9 @@ import { ModelResult } from '@microsoft/recognizers-text';
 import { recognizeBoolean } from '@microsoft/recognizers-text-choice';
 import { PromptRecognizerResult } from 'botbuilder-dialogs';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ConfirmRecognizerHelper {
-    const valueKey: string = 'value';
+    const valueKey = 'value';
 
     export function confirmYerOrNo(utterance: string, locale: string = ''): PromptRecognizerResult<boolean> {
         let result: PromptRecognizerResult<boolean> = { succeeded: false };
@@ -19,7 +20,7 @@ export namespace ConfirmRecognizerHelper {
 
             if (results.length > 0) {
                 const first: ModelResult = results[0];
-                const value: boolean = <boolean>first.resolution[valueKey];
+                const value: boolean = first.resolution[valueKey] as boolean;
                 if (value !== undefined) {
                     result = {
                         succeeded: true,

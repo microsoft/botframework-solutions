@@ -53,7 +53,7 @@ export class CancelDialog extends ComponentDialog {
         }
     }
 
-    private async askToCancel (sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async askToCancel(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.prompt(DialogIds.cancelPrompt, {
             prompt: await this.responder.renderTemplate
             (

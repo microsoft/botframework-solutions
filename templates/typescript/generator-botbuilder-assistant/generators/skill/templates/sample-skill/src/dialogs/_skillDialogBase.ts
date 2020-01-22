@@ -152,7 +152,7 @@ export class SkillDialogBase extends ComponentDialog {
         // send trace back to emulator
         const trace: Partial<Activity> = {
             type: ActivityTypes.Trace,
-            text: `DialogException: ${err.message}, StackTrace: ${err.stack}`
+            text: `DialogException: ${ err.message }, StackTrace: ${ err.stack }`
         };
         await sc.context.sendActivity(trace);
 
