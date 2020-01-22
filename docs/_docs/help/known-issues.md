@@ -215,3 +215,37 @@ protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogCont
 For more information, check the following issues:
 * [#1589](https://github.com/microsoft/botframework-solutions/issues/1589) - `OnTurnError function inside DefaultAdapter doesn't end the current dialog`
 * [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
+
+## If a resource has a firewall configured, the resource might not be reached by the bot
+There is a known issue in the Azure resources with a firewall configured when the bot is trying to reach to the resource:
+`{"code":"Forbidden","message":"Request originated from client IP <IP>. This is blocked by your <RESOURCE> firewall settings"}`
+
+You can check your network configuration in the Azure Portal as follows:
+1. Select your desired resource 
+1. Select `Firewall and virtual networks` configuration
+1. Check the configuration of the `Allow access from` to enable all or selected networks
+1. If you have selected networks, check the configured networks
+
+If you are using a C# bot and Bot Framework Emulator, you will see a trace when these kind of exceptions are caught by the `onTurnError` handler in order to identify the error.
+
+Otherwise, if you are using a TypeScript bot, you should remove the `showTypingMiddleware` and add the `onTurnError` handler in the `defaultAdapter`:
+
+[DefaultAdapter.ts](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/src/adapters/defaultAdapter.ts)
+```typescript
+    this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.message || JSON.stringify(error)
+        });
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.stack
+        });
+        telemetryClient.trackException({ exception: error });
+    };
+```
+
+For more information, check the following issues:
+* [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
+* [botbuilder-js#726](https://github.com/microsoft/botbuilder-js/issues/726) - `ShowTypingMiddleware suppresses errors and does not allow adapter.onTurnError to handle them`
+* [botbuilder-js#1170](https://github.com/microsoft/botbuilder-js/issues/1170) - `ShowTypingMiddleware provoke silent error behaviour`
