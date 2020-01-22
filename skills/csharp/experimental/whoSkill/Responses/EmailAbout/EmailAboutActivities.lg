@@ -1,0 +1,22 @@
+﻿[import](EmailAboutTexts.lg)
+
+# PeopleEmailsRencently
+[Activity
+    Text = @{PeopleEmailsRencently.Text(Number)}
+    Speak = @{PeopleEmailsRencently.Text(Number)}
+    InputHint = acceptingInput
+]
+
+# PeopleEmailsAboutKeywordRencently
+[Activity
+    Text = @{PeopleEmailsAboutKeywordRencently.Text(Number, Keyword)}
+    Speak = @{PeopleEmailsAboutKeywordRencently.Text(Number, Keyword)}
+    InputHint = acceptingInput
+]
+
+# NoPeopleEmailsAboutKeywordRencently
+[Activity
+    Text = @{NoPeopleEmailsAboutKeywordRencently.Text(Keyword)}
+    Speak = @{NoPeopleEmailsAboutKeywordRencently.Text(Keyword)}
+    InputHint = acceptingInput
+]

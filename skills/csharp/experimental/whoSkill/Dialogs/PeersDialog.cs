@@ -30,7 +30,7 @@ namespace WhoSkill.Dialogs
                 MicrosoftAppCredentials appCredentials)
             : base(nameof(PeersDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
-            AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
+           // AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
         protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

@@ -29,6 +29,7 @@ namespace WhoSkill.Dialogs
             : base(nameof(WhoIsDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
             AddDialog(new ManagerDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
+            AddDialog(new PeersDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
         protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -135,6 +136,15 @@ namespace WhoSkill.Dialogs
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.Manager;
                         return await sc.ReplaceDialogAsync(nameof(ManagerDialog));
+                    }
+
+                case WhoLuis.Intent.Peers:
+                    {
+                        var keyword = state.PickedPerson.Mail;
+                        state.Init();
+                        state.Keyword = keyword;
+                        state.TriggerIntent = WhoLuis.Intent.Peers;
+                        return await sc.ReplaceDialogAsync(nameof(PeersDialog));
                     }
 
                 default:

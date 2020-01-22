@@ -26,6 +26,50 @@ namespace WhoSkill.Services
             InitGraphServiceClient(token);
         }
 
+        public async Task<List<Candidate>> GetEmailContacts(string keyword)
+        {
+            var selectItem = "$select=sender,toRecipients,ccRecipients";
+            var searchOption = "search="
+                + "\""
+                + string.Format("(body: '{0}' OR subject: '{0}')", keyword)
+                + string.Format(" AND (received >= {0} AND received <= {1})", DateTime.Now.AddYears(-1).ToShortDateString(), DateTime.Now.ToShortDateString())
+                + "\"";
+            var resultMaxNumber = "$top=50";
+            var url = MSGraphBaseUrl + "me/messages"
+                + "?"
+                + searchOption
+                + "&" + selectItem
+                + "&" + resultMaxNumber;
+
+            var result = await ExecuteGraphFetchAsync(url);
+            var searchResults = JsonConvert.DeserializeObject<List<EmailSearchResult>>(result);
+
+            var allContacts = new List<EmailAddressContainer>();
+            foreach (var searchResult in searchResults)
+            {
+                allContacts.Add(searchResult.Sender);
+                allContacts.AddRange(searchResult.ToRecipients);
+                allContacts.AddRange(searchResult.CcRecipients);
+            }
+
+            // From all email addresses, get all users.
+            var candidates = new List<Candidate>();
+            foreach (var contact in allContacts)
+            {
+                // If it is a new email address.
+                if (candidates.Where(x => x.Mail == contact.EmailAddress.Address).Count() == 0)
+                {
+                    var users = await GetUsers(contact.EmailAddress.Address);
+                    if (users != null && users.Any())
+                    {
+                        candidates.Add(users[0]);
+                    }
+                }
+            }
+
+            return candidates;
+        }
+
         public async Task<List<Candidate>> GetUsers(string keyword)
         {
             var selectItem = "$select=userType,displayName,mail,jobTitle,userPrincipalName,id,officeLocation,mobilePhone";

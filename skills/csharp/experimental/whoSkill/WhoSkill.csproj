@@ -55,4 +55,8 @@
      </None>
    </ItemGroup>
 
+   <ItemGroup>
+     <Folder Include="Responses\MeetAbout\" />
+   </ItemGroup>
+
 </Project>

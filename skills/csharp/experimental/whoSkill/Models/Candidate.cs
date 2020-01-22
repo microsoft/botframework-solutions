@@ -19,7 +19,6 @@ namespace WhoSkill.Models
             OfficeLocation = user.OfficeLocation ?? "Mock OfficeLocation";
             MobilePhone = user.MobilePhone ?? "Mock MobilePhone";
             Department = user.Department ?? "Mock Department";
-
         }
 
         public string UserType { get; set; } = string.Empty;

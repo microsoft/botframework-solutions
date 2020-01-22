@@ -75,13 +75,6 @@ namespace WhoSkill.Dialogs
             // Init other properties in state before BeginDialog.
             await InitializeState(dc);
 
-            if (state.Keyword == null)
-            {
-                var activity = _templateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                await dc.Context.SendActivityAsync(activity);
-                return;
-            }
-
             // Route dialogs.
             var luisResult = dc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
             var intent = luisResult?.TopIntent().intent;

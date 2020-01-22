@@ -1,0 +1,8 @@
+﻿# PeopleEmailsRencently.Text(Number)
+- You exchanged emails with at least @{Number} people in the past 12 months.
+
+# PeopleEmailsAboutKeywordRencently.Text(Number, Keyword)
+- You exchanged emails with at least @{Number} people about '@{Keyword}' in the past 12 months.
+
+# NoPeopleEmailsAboutKeywordRencently.Text(Keyword)
+- Sorry, I couldn't find anyone that you exchanged emails, in the past 12 months, regarding '@{Keyword}'.
