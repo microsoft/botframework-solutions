@@ -2,9 +2,9 @@
 layout: tutorial
 category: Skills
 subcategory: Migrate to GA Bot Framework Skills
-language: C#
+language: csharp
 title: Add action handling code
-order: 1
+order: 3
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
