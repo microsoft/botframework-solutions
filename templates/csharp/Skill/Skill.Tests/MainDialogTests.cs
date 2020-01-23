@@ -49,7 +49,7 @@ namespace $safeprojectname$
             await GetTestFlow()
                 .Send(GeneralUtterances.None)
                 .AssertReplyOneOf(GetTemplates("UnsupportedText"))
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
     }

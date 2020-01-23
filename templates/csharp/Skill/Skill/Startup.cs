@@ -123,16 +123,12 @@ namespace $safeprojectname$
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
-            services.AddTransient<SampleDialog>();
             services.AddTransient<MainDialog>();
+            services.AddTransient<SampleDialog>();
+            services.AddTransient<SampleAction>();
 
-            // Configure adapters
+            // Configure adapter
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
-
-            // Register WhiteListAuthProvider
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
