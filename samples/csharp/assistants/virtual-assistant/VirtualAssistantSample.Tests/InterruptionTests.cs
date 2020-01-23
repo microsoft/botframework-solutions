@@ -11,6 +11,7 @@ using VirtualAssistantSample.Tests.Utterances;
 namespace VirtualAssistantSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class InterruptionTests : BotTestBase
     {
         [TestMethod]

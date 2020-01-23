@@ -12,6 +12,7 @@ using VirtualAssistantSample.Models;
 namespace VirtualAssistantSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class OnboardingDialogTests : BotTestBase
     {
         [TestMethod]

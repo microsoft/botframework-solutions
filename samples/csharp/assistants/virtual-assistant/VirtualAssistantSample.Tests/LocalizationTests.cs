@@ -14,6 +14,7 @@ using VirtualAssistantSample.Tests.Utterances;
 namespace VirtualAssistantSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LocalizationTests : BotTestBase
     {
         [TestMethod]
