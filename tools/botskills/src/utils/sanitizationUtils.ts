@@ -32,7 +32,7 @@ export function wrapPathWithQuotes(path: string): string {
  */
 export function sanitizeInlineUtterancesEndpoint(endpoint: string, isInlineUtterances: boolean): string {
     let url: string = endpoint.split('?')[0];
-    const paramName: string = 'inlineTriggerUtterances';
+    const paramName = 'inlineTriggerUtterances';
     const urlParams: URLSearchParams = new URL(endpoint).searchParams;
     const hasParam: boolean = urlParams.has(paramName);
   

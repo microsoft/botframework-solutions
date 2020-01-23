@@ -61,7 +61,7 @@ let localManifest: string;
 let remoteManifest: string;
 let noRefresh = false;
 let languages: string[];
-let inlineUtterances: boolean = false;
+let inlineUtterances = false;
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;

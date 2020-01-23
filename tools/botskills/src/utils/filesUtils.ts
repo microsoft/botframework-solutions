@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import fs = require("fs");
+import fs = require('fs');
 import { existsSync } from 'fs';
 
 export async function deleteFiles(files: string[]): Promise<void> {
