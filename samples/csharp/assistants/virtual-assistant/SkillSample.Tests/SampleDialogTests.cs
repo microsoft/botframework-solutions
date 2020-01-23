@@ -8,6 +8,7 @@ using SkillSample.Tests.Utterances;
 namespace SkillSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SampleDialogTests : SkillTestBase
     {
         [TestMethod]
