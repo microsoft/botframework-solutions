@@ -163,7 +163,7 @@ namespace $safeprojectname$.Dialogs
         }
 
         // Runs when a new event activity comes in.
-        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default)
         {
             var eventActivity = dc.Context.Activity.AsEventActivity();
 
