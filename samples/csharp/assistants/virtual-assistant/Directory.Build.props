@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <CodeAnalysisRuleSet>VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>\samples\csharp\assistants\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
