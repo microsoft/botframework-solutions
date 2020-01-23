@@ -70,7 +70,7 @@ export class InProcAdapter extends BotAdapter {
         const responses: ResourceResponse[] = [];
         const proactiveActivities: Partial<Activity>[] = [];
 
-        activities.forEach(async(activity: Partial<Activity>): Promise<void> => {
+        activities.forEach(async (activity: Partial<Activity>): Promise<void> => {
             if (!activity.id) {
                 activity.id = this.nextId;
             }

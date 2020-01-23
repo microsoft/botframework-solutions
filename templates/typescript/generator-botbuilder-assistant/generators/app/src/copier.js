@@ -73,7 +73,7 @@ class Copier {
   // Here you have to add the paths of your templates files
   loadTemplatesFiles(newAssistant) {
     templateFiles.set(`_package.json`, `package.json`);
-    templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
+    templateFiles.set(`_.eslintrc.json`, `.eslintrc.json`);
     templateFiles.set(`_.eslintignore`, `.eslintignore`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);

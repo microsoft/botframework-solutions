@@ -5,13 +5,14 @@
 
 import { ClaimsIdentity } from 'botframework-connector';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AuthHelpers {
 
-    export function getAppIdClaimName (claimsIdentity: ClaimsIdentity): string {
+    export function getAppIdClaimName(claimsIdentity: ClaimsIdentity): string {
 
         if (claimsIdentity === undefined) { throw new Error('ClaimsIdentity is undefined'); }
         // version "1.0" tokens include the "appid" claim and version "2.0" tokens include the "azp" claim
-        let appIdClaimName: string = 'appid';
+        let appIdClaimName = 'appid';
         const tokenVersion: string | null = claimsIdentity.getClaimValue('ver');
         if (tokenVersion === '2.0') {
             appIdClaimName = 'azp';

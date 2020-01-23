@@ -12,7 +12,7 @@ export class RouterDialogTurnResult {
 
     public status: RouterDialogTurnStatus;
 
-    public constructor (status: RouterDialogTurnStatus) {
+    public constructor(status: RouterDialogTurnStatus) {
         this.status = status;
     }
 }

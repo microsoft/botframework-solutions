@@ -170,7 +170,7 @@ server.use(restify.plugins.bodyParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3980', (): void => {
-    console.log(`${server.name} listening to ${server.url}`);
+    console.log(`${ server.name } listening to ${ server.url }`);
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
     console.log(`To talk to your bot, open your '.bot' file in the Emulator`);
 });

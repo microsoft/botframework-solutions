@@ -11,6 +11,8 @@ import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IConnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs, sanitizeInlineUtterancesEndpoint } from './utils';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -20,10 +22,9 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-const logger: ILogger = new ConsoleLogger();
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -55,18 +56,18 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-let botName: string = '';
+let botName = '';
 let localManifest: string;
 let remoteManifest: string;
-let noRefresh: boolean = false;
+let noRefresh = false;
 let languages: string[];
 let inlineUtterances: boolean = false;
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
 let lgOutFolder: string;
-let skillsFile: string = '';
-let resourceGroup: string = '';
+let skillsFile = '';
+let resourceGroup = '';
 let appSettingsFile: string;
 let cognitiveModelsFile: string;
 let lgLanguage: string;
@@ -183,4 +184,4 @@ const configuration: IConnectConfiguration = {
 };
 
 // End of arguments validation
-new ConnectSkill((<IConnectConfiguration> configuration), logger).connectSkill();
+new ConnectSkill((configuration as IConnectConfiguration), logger).connectSkill();

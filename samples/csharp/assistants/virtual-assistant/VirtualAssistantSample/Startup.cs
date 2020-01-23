@@ -62,7 +62,10 @@ namespace VirtualAssistantSample
             Configuration.Bind(settings);
             services.AddSingleton(settings);
 
-            // Configure credentials
+            // Configure channel provider
+            services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
+
+            // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Configure telemetry

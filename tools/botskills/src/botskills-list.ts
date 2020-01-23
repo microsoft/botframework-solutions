@@ -10,6 +10,8 @@ import { ListSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { IListConfiguration } from './models';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -29,10 +31,8 @@ function existFile(file: string): boolean {
     return true;
 }
 
-const logger: ILogger = new ConsoleLogger();
-
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -45,7 +45,7 @@ program
 
 const args: program.Command = program.parse(process.argv);
 
-let skillsFile: string = '';
+let skillsFile = '';
 
 logger.isVerbose = args.verbose;
 

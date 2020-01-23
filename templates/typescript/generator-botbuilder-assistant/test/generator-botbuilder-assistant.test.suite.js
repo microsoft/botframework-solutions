@@ -26,7 +26,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
     const templatesFiles = [
         `package.json`,
-        `.eslintrc.js`,
+        `.eslintrc.json`,
         `.eslintignore`,
         `.gitignore`,
         `.npmrc`,

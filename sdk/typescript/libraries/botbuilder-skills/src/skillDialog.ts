@@ -48,6 +48,11 @@ import {
 import { SkillResponses } from './responses/skillResponses';
 import { FallbackHandler } from './skillTransport';
 
+export enum DialogIds {
+    confirmSkillSwitchPrompt = 'confirmSkillSwitchPrompt',
+    confirmSkillSwitchFlow = 'confirmSkillSwitchFlow'
+}
+
 /**
  * The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot).
  * The dialog name is that of the underlying Skill it's wrapping.
@@ -113,7 +118,7 @@ export class SkillDialog extends ComponentDialog {
     }
 
     public async confirmIntentSwitch(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const skillSwitchConfirmOptions: ISkillSwitchConfirmOption = <ISkillSwitchConfirmOption> stepContext.options;
+        const skillSwitchConfirmOptions: ISkillSwitchConfirmOption = stepContext.options as ISkillSwitchConfirmOption;
 
         if (skillSwitchConfirmOptions !== undefined) {
             const newIntentName: string = skillSwitchConfirmOptions.targetIntent;
@@ -130,7 +135,7 @@ export class SkillDialog extends ComponentDialog {
     }
 
     public async finishIntentSwitch(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const skillSwitchConfirmOptions: ISkillSwitchConfirmOption = <ISkillSwitchConfirmOption> stepContext.options;
+        const skillSwitchConfirmOptions: ISkillSwitchConfirmOption = stepContext.options as ISkillSwitchConfirmOption;
 
         if (skillSwitchConfirmOptions !== undefined) {
             // Do skill switching
@@ -187,8 +192,8 @@ export class SkillDialog extends ComponentDialog {
         // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
         const sc: SkillContext = await this.skillContextAccessor.get(innerDC.context, new SkillContext());
         const skillContext: SkillContext = Object.assign(new SkillContext(), sc);
-        const dialogOptions: SkillDialogOption = <SkillDialogOption> options !== undefined
-            ? <SkillDialogOption> options
+        const dialogOptions: SkillDialogOption = options as SkillDialogOption !== undefined
+            ? options as SkillDialogOption
             : new SkillDialogOption();
         const actionName: string = dialogOptions.action;
         const activity: Activity = innerDC.context.activity;
@@ -212,7 +217,7 @@ export class SkillDialog extends ComponentDialog {
                         slots = await this.matchSkillContextToSlots(innerDC, action.definition.slots, skillContext);
                     }
                 } else {
-                    const message: string = `Passed Action (${
+                    const message = `Passed Action (${
                         actionName
                     }) could not be found within the ${
                         this.skillManifest.id
@@ -244,9 +249,9 @@ export class SkillDialog extends ComponentDialog {
 
             slots.forEachObj((value: Object, key: string): void => {
                 // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-                semanticAction.entities[key] = <any> {
+                semanticAction.entities[key] = {
                     properties: value
-                };
+                } as any;
             });
 
             activity.semanticAction = semanticAction;
@@ -254,7 +259,7 @@ export class SkillDialog extends ComponentDialog {
 
         await innerDC.context.sendActivity({
             type: ActivityTypes.Trace,
-            text: `-->Handing off to the ${this.skillManifest.name} skill.`
+            text: `-->Handing off to the ${ this.skillManifest.name } skill.`
         });
 
         const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
@@ -448,7 +453,7 @@ export class SkillDialog extends ComponentDialog {
             const result: DialogTurnResult = await dialogContext.beginDialog(this.authDialog ? this.authDialog.id : '');
 
             if (result.status === DialogTurnStatus.complete) {
-                const tokenResponse: IProviderTokenResponse = <IProviderTokenResponse> result.result;
+                const tokenResponse: IProviderTokenResponse = result.result as IProviderTokenResponse;
 
                 if (isProviderTokenResponse(tokenResponse)) {
                     const tokenEvent: Activity = ActivityExtensions.createReply(activity);
@@ -479,9 +484,4 @@ export class SkillDialog extends ComponentDialog {
             this.queuedResponses.push(fallbackEvent);
         };
     }
-}
-
-export enum DialogIds {
-    confirmSkillSwitchPrompt = 'confirmSkillSwitchPrompt',
-    confirmSkillSwitchFlow = 'confirmSkillSwitchFlow'
 }

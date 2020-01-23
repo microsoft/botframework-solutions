@@ -4,7 +4,7 @@
  */
 
 import { join } from 'path';
-import { IResponseIdCollection } from "../responses/responseIdCollection";
+import { IResponseIdCollection } from '../responses/responseIdCollection';
 
 export class CommonResponses implements IResponseIdCollection {
     public readonly name: string = CommonResponses.name;
