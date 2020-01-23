@@ -9,7 +9,7 @@ import { extname, isAbsolute, join, resolve } from 'path';
 import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IConnectConfiguration } from './models';
-import { sanitizePath, validatePairOfArgs } from './utils';
+import { sanitizePath, validatePairOfArgs, sanitizeInlineUtterancesEndpoint } from './utils';
 
 const logger: ILogger = new ConsoleLogger();
 
@@ -35,8 +35,9 @@ program
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
+    .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
+    .option('--inlineUtterances [true|FALSE]', '[OPTIONAL] Determine whether the tool looks for the utterances described in the manifest or in the .lu file (by default they are taken from the .lu file)')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
@@ -60,6 +61,7 @@ let localManifest: string;
 let remoteManifest: string;
 let noRefresh = false;
 let languages: string[];
+let inlineUtterances = false;
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
@@ -90,6 +92,11 @@ if (args.noRefresh) {
     noRefresh = true;
 }
 
+// inlineUtterances validation
+if (args.inlineUtterances) {
+    inlineUtterances = true;
+}
+
 // localManifest && remoteManifest validation
 const manifestValidationResult: string = validatePairOfArgs(args.localManifest, args.remoteManifest);
 if (manifestValidationResult) {
@@ -105,7 +112,7 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
 }
 
 localManifest = args.localManifest;
-remoteManifest = args.remoteManifest;
+remoteManifest = sanitizeInlineUtterancesEndpoint(args.remoteManifest, inlineUtterances);
 
 // outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
@@ -162,6 +169,7 @@ const configuration: IConnectConfiguration = {
     localManifest: localManifest,
     remoteManifest: remoteManifest,
     noRefresh: noRefresh,
+    inlineUtterances: inlineUtterances,
     languages: languages,
     luisFolder: luisFolder,
     dispatchFolder: dispatchFolder,
