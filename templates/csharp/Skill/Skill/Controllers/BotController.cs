@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace $safeprojectname$.Controllers
 {
-     [Route("api/messages")]
+    [Route("api/messages")]
     [ApiController]
     public class BotController : ControllerBase
     {
