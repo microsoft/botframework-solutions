@@ -1,5 +1,11 @@
 ﻿> ------------ Activity templates ------------
 
+# FavoriteOrderPromptAlexa
+[Activity
+    Text = {FavoriteOrderPromptTextAlexa()}
+    InputHint = expectingInput
+]
+
 # NamePrompt
 [Activity
     Text = {NamePromptText()}
@@ -53,7 +59,117 @@
     Text = {OrderPlacedText()}
     InputHint = ignoringInput
 ]
+
+# orderSubmissionMessage
+[Activity
+    Text = {orderSubmissionText()}
+    InputHint = expectingInput
+]
+
+# showOrderCard
+[Activity
+    Text = {OrderSummaryHeaderText()}
+    InputHint = expectingInput
+]
+
+# renderRestaurantMenu
+[Activity
+    Text = {SelectMenuItemText()}
+    InputHint = expectingInput
+]
+
+# renderRestaurantsCarouselTest
+- IF: @{channel == 'google'}
+    - @{GoogleGetRestaurantsCarousel()}
+- ELSE:
+    - @{MbfGetRestaurantsCarousel()}
+
+# GoogleGetRestaurantsCarousel
+[Activity
+    Text = {RequestRestaurantSelectionText()}
+    Attachments = @{json(googleListAttachment())}
+    InputHint = expectingInput
+]
+
+# MbfGetRestaurantsCarousel
+[Activity
+    Text = {RequestRestaurantSelectionText()}
+    Attachments = @{foreach(restaurants, restaurant, HeroCard(restaurant) )}
+    AttachmentLayout = carousel
+    InputHint = expectingInput
+]
+
+# renderRestaurantsCarouselGoogle
+[Activity
+    Text = {RequestRestaurantSelectionText()}
+    InputHint = expectingInput
+]
+
+# googleListAttachment
+- ```
+{
+    "contentType": "google/list-attachment",
+    "contentUrl": null,
+    "content": null,
+    "name": null,
+    "thumbnailUrl": null,
+    "Title": "Make a selection",
+    "ListStyle": 0,
+    "Items": "@{json(@{foreach(restaurants, restaurant, @{json(googleOptionAttachment(restaurant))})})"
+}
+```
+
+# googleOptionAttachment (restaurant)
+- ```
+{
+   "OptionInfo": {
+     "Key": @{restaurant.Id},
+     "Synonyms": []
+   },
+   "Description": null,
+   "Title": "@{restaurant.Name}",
+   "Image": {
+     "Url": @{RestaurantImages()},
+     "AccessibilityText": "Item 4 image"
+   }
+ }
+```
+
+# HeroCard (restaurant)
+[Herocard   
+    title = @{restaurant.Name}
+    subtitle = @{restaurant.Open}
+    images = @{RestaurantImages()}
+]
+
 > ------------ Text templates ------------
+
+# HeroCardTapAction(value)
+- ```
+{
+    "type": "submit",
+    "title": "Official website",
+    "value": @{value}
+}
+```
+
+# RestaurantImages
+- https://www.singleplatform.com/wp-content/uploads/2018/12/5-Tips-for-Improving-Restaurant-Ambiance.jpg
+- https://images.squarespace-cdn.com/content/v1/5c586a93e666691041d4827c/1553679195118-LYFA5BT423UAFA64KEKF/ke17ZwdGBToddI8pDm48kPTrHXgsMrSIMwe6YW3w1AZ7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0k5fwC0WRNFJBIXiBeNI5fKTrY37saURwPBw8fO2esROAxn-RKSrlQamlL27g22X2A/2019+-03+Restaurant+La+Palme+d%27Or+%C2%A9J.+Kelagopian+%2815%29.jpg?format=2500w
+- https://res.cloudinary.com/sagacity/image/upload/c_crop,h_3456,w_5184,x_0,y_0/c_limit,dpr_auto,f_auto,fl_lossy,q_80,w_1080/superdeluxe_owgtql.jpg
+- https://duyt4h9nfnj50.cloudfront.net/sku/82acc3366f2ebf288a0c258bbb80e4ab
+
+# SelectMenuItemText
+- Please select a menu item
+
+# OrderSummaryHeaderText
+- Would you like to submit or edit this order
+
+# orderSubmissionText
+- I have placed your order, it will arrive shortly.
+
+# RequestRestaurantSelectionText
+- Please select a restaurant
 
 # NamePromptText
 - What is your name?
@@ -64,6 +180,9 @@
 
 # FavoriteOrderPromptText
 - Which favorited order would you like to order today? 
+
+# FavoriteOrderPromptTextAlexa
+- The favorited meals you have on file are your suhshi meal, burger meal and indian meal. Which favorited meal would you like to order today?
 
 # ShowOrderComponentsText
 - Your {OrderName} order is from {RestaurantName} and consists of the following:  \n{OrderComponents}

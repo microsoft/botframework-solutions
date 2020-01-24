@@ -149,8 +149,10 @@ namespace FoodOrderSkill
             {
                 return new GoogleAdapterOptions()
                 {
-                    ActionInvocationName = "Mr. Takeaway",
-                    ActionProjectId = "takeawayv2"
+                    ActionInvocationName = "Take Away",
+                    ActionProjectId = "takeawayv2",
+                    ShouldEndSessionByDefault = false,
+                    MultipleOutgoingActivitiesPolicy = Bot.Builder.Community.Adapters.Google.MultipleOutgoingActivitiesPolicies.ConcatenateTextSpeakPropertiesFromAllActivities
                 };
             });
 

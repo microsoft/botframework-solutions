@@ -80,6 +80,15 @@ namespace FoodOrderSkill.Dialogs
                                     select meal;
                 if (mealToReorder.Count() == 0)
                 {
+                    if (stepContext.Context.Activity.ChannelId == "alexa")
+                    {
+                        return await stepContext.PromptAsync(DialogIds.FavoriteOrderPrompt, new PromptOptions
+                        {
+                            Prompt = TemplateEngine.GenerateActivityForLocale("FavoriteOrderPromptAlexa"),
+                            Choices = ChoiceFactory.ToChoices(choices),
+                            Style = ListStyle.SuggestedAction,
+                        });
+                    }
                     // User has not indicated which meal they want to reorder, promt for meals to reorder
                     return await stepContext.PromptAsync(DialogIds.FavoriteOrderPrompt, new PromptOptions
                     {

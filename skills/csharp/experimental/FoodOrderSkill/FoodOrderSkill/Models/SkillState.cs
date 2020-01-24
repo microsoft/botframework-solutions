@@ -3,6 +3,7 @@
 
 using FoodOrderSkill.MockBackEnd;
 using System;
+using System.Collections.Generic;
 
 namespace FoodOrderSkill.Models
 {
@@ -16,6 +17,12 @@ namespace FoodOrderSkill.Models
         public string Token { get; set; }
 
         public FavoriteOrder OrderToPlace { get; set; }
+
+        public getRestaurants AvailableTakeAwayRestaurants { get; set; }
+
+        public getRestaurant SelectedRestaurant { get; set; }
+
+        public List<getRestaurantRestaurantMenuCategoryProduct> AvailableProducts { get; set; }
 
         public TimeZoneInfo TimeZone { get; set; }
 

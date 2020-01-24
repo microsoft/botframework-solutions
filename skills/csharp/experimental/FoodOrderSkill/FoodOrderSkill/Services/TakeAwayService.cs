@@ -76,9 +76,25 @@ namespace FoodOrderSkill.Services
             return response;
         }
 
-        public async void placeOrder (TakeAwayOrderParams args)
+        public async Task<string> getMenu(string restaurantId)
         {
+            TakeAwayGetResterauntParams args = new TakeAwayGetResterauntParams();
+            args.method = "getRestaurant";
+            args.user = testUserId;
+            args.postcode = testPostCode;
+            args.checksum = CreateMD5(args.method + restaurantId + args.postcode + apiKey);
 
+            NameValueCollection queryParams = new NameValueCollection();
+
+            queryParams.Add("method", args.method);
+            queryParams.Add("user", args.user);
+            queryParams.Add("postcode", args.postcode);
+            queryParams.Add("checksum", args.checksum);
+            queryParams.Add("restaurantid", restaurantId);
+
+            var requestUrl = apiRootUrl + this.ToQueryString(queryParams);
+            var response = await httpClient.GetStringAsync(requestUrl);
+            return response;
         }
 
     }

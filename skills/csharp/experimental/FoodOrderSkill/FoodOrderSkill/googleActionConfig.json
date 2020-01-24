@@ -10,7 +10,7 @@
         "name": "actions.intent.MAIN",
         "trigger": {
           "queryPatterns": [
-            "talk to Mr. Takeaway"
+            "talk to Take Away"
           ]
         }
       }
@@ -19,7 +19,7 @@
   "conversations": {
     "bot-application": {
       "name": "bot-application",
-      "url": "https://264ddea1.ngrok.io/api/google"
+      "url": "https://foodorderingskill-crpnnvl.azurewebsites.net/api/google"
     }
   },
   "locale": "en"
