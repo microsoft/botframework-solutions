@@ -69,10 +69,12 @@
                                         {% if language.name != '' %}
                                         {% if language.name == 'C#' %}
                                         {% assign languageName = "csharp" %}
-                                        {% else if language.name == 'Using CLI tools' %}
+                                        {% elseif  language.name == 'Using CLI tools' %}
                                         {% assign languageName = "cli" %}
-                                        {% else if language.name == 'Using the web' %}
+                                        {% elseif  language.name == 'Using the web' %}
                                         {% assign languageName = "web" %}
+                                        {% elseif  language.name == 'Experimental Skills' %}
+                                        {% assign languageName = "exp" %}
                                         {% else %}
                                         {% assign languageName = language.name %}
                                         {% endif %}

@@ -124,7 +124,7 @@
     <value>已收到您的评论。</value>
   </data>
   <data name="DismissTitle" xml:space="preserve">
-    <value>解雇</value>
+    <value>忽略</value>
   </data>
   <data name="FeedbackReceivedMessage" xml:space="preserve">
     <value>感谢您的反馈！</value>

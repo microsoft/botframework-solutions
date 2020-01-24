@@ -20,6 +20,14 @@ import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
 
+export enum DialogIds {
+    providerPrompt = 'ProviderPrompt',
+    firstStepPrompt = 'FirstStep',
+    localAuthPrompt = 'LocalAuth',
+    remoteAuthPrompt = 'RemoteAuth',
+    remoteAuthEventPrompt = 'RemoteAuthEvent'
+}
+
 export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
     private readonly authenticationConnections: IOAuthConnection[];
@@ -68,7 +76,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         // otherwise we only enable remote auth where the calling Bot handles this for us.
         if (this.authenticationConnections !== undefined && this.authenticationConnections.length > 0) {
 
-            let authDialogAdded: boolean = false;
+            let authDialogAdded = false;
             this.authenticationConnections.forEach((connection: IOAuthConnection): void => {
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== '') {
@@ -173,7 +181,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const tokenProvider: IRemoteUserTokenProvider = <any>stepContext.context.adapter;
+            const tokenProvider: IRemoteUserTokenProvider = stepContext.context.adapter as any;
             await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
 
             // Wait for the tokens/response event
@@ -201,7 +209,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         // DELTA inconsistences between IUserTokenProvider and BotFrameworkAdapter implementation
-        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
+        const adapter: BotFrameworkAdapter = stepContext.context.adapter as BotFrameworkAdapter;
 
         if (adapter !== undefined) {
             const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
@@ -264,7 +272,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         if (typeof stepContext.result === 'string') {
             this.selectedAuthType = stepContext.result;
         } else {
-            const choice: FoundChoice = <FoundChoice> stepContext.result;
+            const choice: FoundChoice = stepContext.result as FoundChoice;
             if (choice !== undefined && choice.value !== undefined) {
                 this.selectedAuthType = choice.value;
             }
@@ -274,7 +282,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async handleTokenResponse(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const tokenResponse: TokenResponse = <TokenResponse> stepContext.result;
+        const tokenResponse: TokenResponse = stepContext.result as TokenResponse;
 
         if (tokenResponse !== undefined && tokenResponse.token) {
             const result: IProviderTokenResponse = await this.createProviderTokenResponse(stepContext.context, tokenResponse);
@@ -322,7 +330,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             // PENDING OAuthClient // DELTA
             return [];
         } else {
-            const tokenProvider: BotFrameworkAdapter = <BotFrameworkAdapter> context.adapter;
+            const tokenProvider: BotFrameworkAdapter = context.adapter as BotFrameworkAdapter;
             if (tokenProvider !== undefined) {
                 return tokenProvider.getTokenStatus(context, userId, includeFilter);
             } else {
@@ -340,7 +348,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         const eventActivity: Activity = promptContext.context.activity;
 
         if (eventActivity !== undefined && eventActivity.name === 'token/response') {
-            promptContext.recognized.value = <TokenResponse> eventActivity.value;
+            promptContext.recognized.value = eventActivity.value as TokenResponse;
 
             return Promise.resolve(true);
         }
@@ -351,12 +359,4 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         return Promise.resolve(false);
     }
-}
-
-namespace DialogIds {
-    export const providerPrompt: string = 'ProviderPrompt';
-    export const firstStepPrompt: string = 'FirstStep';
-    export const localAuthPrompt: string = 'LocalAuth';
-    export const remoteAuthPrompt: string = 'RemoteAuth';
-    export const remoteAuthEventPrompt: string = 'RemoteAuthEvent';
 }

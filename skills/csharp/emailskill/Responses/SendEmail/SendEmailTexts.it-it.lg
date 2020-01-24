@@ -2,51 +2,50 @@
 - Qual è l'oggetto dell'e-mail?
 
 # RetryNoSubject.Text
-- L'inclusione di un argomento è spesso apprezzata dai contatti. Vuoi aggiungere un argomento? In alternativa, è possibile inserire skip per ignorarlo.
+- L'aggiunta di un oggetto darà ai destinatari un'idea di ciò che la tua email è circa a colpo d'occhio. Puoi anche scegliere di ignorarlo.
 
 # NoMessageBody.Text
-- Cosa vorresti dire nel corpo dell'e-mail? Pronunciare salta se si desidera mantenerlo vuoto.
+- Quali contenuti vuoi nella tua email?
 
 # CheckContent.Text
 - Vuoi includerlo nell'e-mail?
 
 # CheckContent.Speak
-- Puoi provare partecipanti, oggetto o contenuti. O dire annullare.
+- È possibile provare Destinatari, Oggetto, Contenuto o Annulla.
 
 # CheckContent.S1
-- Sì
+- Sì.
 
 # CheckContent.S2
-- No
+- No.
 
 # ConfirmMessageRetry.Text
-- Confermare questo messaggio. È possibile inserire sì o no.
-- Confermare questo messaggio.
+- Vuoi inviare questa e-mail?
 
 # ConfirmMessageRetry.Speak
-- Confermare questo messaggio. Puoi dire di sì o di no.
+- Vuoi inviare questa e-mail?
 
 # RetryContent.Text
-- Hai capito, questa e-mail non sarà ancora inviata.
+- OK, non invierò ancora questa e-mail.
 
 # GetRecreateInfo.Text
-- Vuoi cambiare i Destinatari, l'Oggetto o il Corpo?
+- Si desidera modificare i destinatari, l'oggetto o il contenuto per il messaggio di posta elettronica?
 
 # GetRecreateInfo.S1
-- Destinatari
+- Destinatari.
 
 # GetRecreateInfo.S2
-- Oggetto
+- Oggetto.
 
 # GetRecreateInfo.S3
-- Corpo
+- Contenuto.
 
 # GetRecreateInfoRetry.Text
-- È possibile provare destinatari, oggetto o corpo. O dire annullare.
+- È possibile provare Destinatari, Oggetto, Contenuto oppure annullare l'operazione.
 
 # PlayBackMessage.Text(emailContent)
-- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? \n @{emailContent}
+- OK, ecco il contenuto della tua email. Vuoi includerlo nell'e-mail? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Ok, ecco cos'ho. Vuoi includerlo nell'e-mail? @{emailContent}
+- OK, ecco il contenuto della tua email. Vuoi includerlo nell'e-mail? @{emailContent}
 

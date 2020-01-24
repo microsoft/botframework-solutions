@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class OpenDefaultApp {
     @Expose
-    @SerializedName("MeetingUri")
+    @SerializedName("meetingUri")
     public String meetingUri;
 
     @Expose
-    @SerializedName("TelephoneUri")
+    @SerializedName("telephoneUri")
     public String telephoneUri;
 
     @Expose
-    @SerializedName("MapsUri")
+    @SerializedName("mapsUri")
     public String mapsUri;
 
     @Expose
-    @SerializedName("MusicUri")
+    @SerializedName("musicUri")
     public String musicUri;
 }

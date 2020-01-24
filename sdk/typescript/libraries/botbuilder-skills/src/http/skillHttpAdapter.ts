@@ -48,7 +48,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         const activity: Activity = await parseRequest(req);
 
         if (this.telemetryClient) {
-            const message: string = `SkillHttpAdapter: Processing incoming activity. Activity id: ${activity.id}`;
+            const message = `SkillHttpAdapter: Processing incoming activity. Activity id: ${ activity.id }`;
             this.telemetryClient.trackTrace({
                 message: message,
                 severityLevel: Severity.Information
@@ -86,7 +86,7 @@ async function parseRequest(req: WebRequest): Promise<Activity> {
                 reject(err);
             }
         } else {
-            let requestData: string = '';
+            let requestData = '';
             req.on('data', (chunk: string): void => {
                 requestData += chunk;
             });

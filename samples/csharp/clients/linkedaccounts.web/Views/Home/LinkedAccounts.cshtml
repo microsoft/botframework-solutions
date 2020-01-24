@@ -50,17 +50,11 @@ else
             <div class="input-group">
                 <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" disabled>
                 <div class="input-group-append">
-                    @if (Model.CompanionApp)
-                    {
-                        <a href="microsoft://virtualassistant/user/@Model.UserId" target="_blank" class="btn btn-primary">
-                            Complete and return to app
-                        </a>
-                    }
-                    else
+                    @if (!Model.CompanionApp)
                     {
                         <a href="#" class="btn btn-primary" onclick="copyUserId()">Copy</a>
                     }
-                    @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Sign Out All", "SignOutAll", "Home", Model.CompanionApp, new { @class = "btn btn-danger" })
                 </div>
             </div>
     </div>
@@ -87,7 +81,7 @@ else
                                     @account.ServiceProviderDisplayName
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Link", "SignIn", "Home", account, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Link", "SignIn", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "btn btn-primary" })
                                 </td>
                             </tr>
                         }
@@ -101,7 +95,7 @@ else
                                     @account.ServiceProviderDisplayName
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Unlink", "SignOut", "Home", account, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Unlink", "SignOut", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "btn btn-primary" })
                                 </td>
                             </tr>
                         }

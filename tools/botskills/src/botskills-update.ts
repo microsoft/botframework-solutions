@@ -11,6 +11,8 @@ import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IUpdateConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -20,10 +22,8 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-const logger: ILogger = new ConsoleLogger();
-
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -34,8 +34,9 @@ program
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
+    .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
+    .option('--inlineUtterances [true|FALSE]', '[OPTIONAL] Determine whether the tool looks for the utterances described in the manifest or in the .lu file (by default they are taken from the .lu file)')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
@@ -54,18 +55,19 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-const skillId: string = '';
-let botName: string = '';
+const skillId = '';
+let botName = '';
 let localManifest: string;
 let remoteManifest: string;
-let noRefresh: boolean = false;
+let noRefresh = false;
+let inlineUtterances = false;
 let languages: string[];
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
 let lgOutFolder: string;
-let skillsFile: string = '';
-let resourceGroup: string = '';
+let skillsFile = '';
+let resourceGroup = '';
 let appSettingsFile: string;
 let cognitiveModelsFile: string;
 let lgLanguage: string;
@@ -88,6 +90,11 @@ lgLanguage = args.cs ? 'cs' : 'ts';
 // noRefresh validation
 if (args.noRefresh) {
     noRefresh = true;
+}
+
+// inlineUtterances validation
+if (args.inlineUtterances) {
+    inlineUtterances = true;
 }
 
 // localManifest && remoteManifest validation
@@ -165,6 +172,7 @@ const configuration: IUpdateConfiguration = {
     localManifest: localManifest,
     remoteManifest: remoteManifest,
     noRefresh: noRefresh,
+    inlineUtterances: inlineUtterances,
     languages: languages,
     luisFolder: luisFolder,
     dispatchFolder: dispatchFolder,
@@ -178,4 +186,4 @@ const configuration: IUpdateConfiguration = {
     logger: logger
 };
 
-new UpdateSkill(<IUpdateConfiguration> configuration, logger).updateSkill();
+new UpdateSkill(configuration as IUpdateConfiguration, logger).updateSkill();

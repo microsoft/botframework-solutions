@@ -6,6 +6,7 @@
 import * as dayjs from 'dayjs';
 import i18next from 'i18next';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DateTimeExtensions {
     let currentLocale: string;
 
@@ -13,10 +14,10 @@ export namespace DateTimeExtensions {
         try {
             const localeImport: string = locale === 'zh' ?
                 `../resources/customizeLocale/zh` :
-                `dayjs/locale/${locale}`;
+                `dayjs/locale/${ locale }`;
             await import(localeImport);
         } catch (err) {
-            throw new Error(`There was an error during the import of the locale:${locale}, Error:${err}`);
+            throw new Error(`There was an error during the import of the locale:${ locale }, Error:${ err }`);
         }
     }
 
@@ -45,11 +46,11 @@ export namespace DateTimeExtensions {
 
         const prefix: string = i18next.t('common:spokenDatePrefix');
         if (includePrefix && prefix) {
-            return `${prefix} ${dayjs(date)
+            return `${ prefix } ${ dayjs(date)
                 .locale(locale)
                 .format(
                     i18next.t('common:spokenDateFormat')
-                )}`;
+                ) }`;
         }
 
         return dayjs(date)
@@ -66,7 +67,7 @@ export namespace DateTimeExtensions {
                 : i18next.t('common:spokenTimePrefixMoreThanOne');
 
             if (prefix) {
-                return `${prefix} ${date.toLocaleTimeString()}`;
+                return `${ prefix } ${ date.toLocaleTimeString() }`;
             }
         }
 

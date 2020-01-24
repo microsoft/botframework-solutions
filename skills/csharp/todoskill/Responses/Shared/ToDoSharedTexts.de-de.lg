@@ -1,26 +1,17 @@
 # NoAuth.Text
-- Bitte melden Sie sich an, bevor Sie weitere Maßnahmen ergreifen.
-- Bitte loggen Sie sich ein, damit ich helfen kann.
-- Bitte melden Sie sich an, damit ich mit Ihrer Anfrage fortfahren kann.
-- Können Sie sich einloggen, damit ich Ihnen weiter helfen kann?
-- Sie müssen sich anmelden, damit ich weitere Maßnahmen ergreifen kann.
+- Um loszulegen, melden Sie sich bitte bei Ihrem Konto an.
 
 # ActionEnded.Text
-- Lassen Sie mich wissen, wenn Sie meine Hilfe mit etwas anderem brauchen.
-- Okay, ich bin hier, wenn du mich brauchst.
+- OK, lassen Sie mich wissen, wenn Sie Hilfe bei etwas anderem benötigen.
 
 # ToDoErrorMessage.Text
-- Es tut uns leid, es sieht so aus, als wäre etwas schief gelaufen!
-- Ein Fehler ist aufgetreten, versuchen Sie es später erneut.
-- Irgendetwas ist schief gelaufen, tut mir leid!
-- Es scheint, als wäre etwas schief gelaufen. Können Sie es später noch einmal versuchen?
-- Es tut mir leid, dass ich jetzt nicht helfen kann. Versuchen Sie es später erneut.
+- Es tut mir leid, ich kann ihnen jetzt nicht mit Ihren Listen helfen. Versuchen Sie es später erneut.
 
 # ToDoErrorMessageBotProblem.Text
-- Sorry, es ist etwas falsch mit dem Bot im Moment. Der Entwickler wurde darüber benachrichtigt, so dass Sie die Aktion sehr bald wieder ausführen können.
+- Diese Funktion funktioniert im Moment leider nicht richtig. Versuchen Sie es später erneut.
 
 # ToDoErrorMessageAccountProblem.Text
-- Es tut uns leid, es sieht so aus, als ob etwas mit Ihrem E-Mail-Konto schief gelaufen ist. Bitte folgen Sie den Anweisungen in Ihrem Posteingang, um Ihr Konto zu überprüfen.
+- Es tut mir leid, ich kann jetzt nicht auf Ihr E-Mail-Konto zugreifen. Möglicherweise haben Sie eine E-Mail mit Anweisungen zur Überprüfung Ihres Kontos erhalten.
 
 # SettingUpOneNoteMessage.Text
 - Ich habe bemerkt, dass Sie kein OneNote mehr haben. Ich erstelle eine neue OneNote für Sie, einschließlich einer To-Do-Liste.
@@ -36,4 +27,3 @@
 
 # NoTasksInList.Text
 - Ihre Liste ist leer.
-

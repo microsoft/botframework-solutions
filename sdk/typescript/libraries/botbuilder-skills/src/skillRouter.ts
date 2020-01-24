@@ -8,6 +8,7 @@ import { IAction, ISkillManifest } from './models';
 /**
  * Skill Router class that helps Bots identify if a registered Skill matches the identified dispatch intent.
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace SkillRouter {
     /**
      * Helper method to go through a SkillManifest and match the passed dispatch intent to a registered action.

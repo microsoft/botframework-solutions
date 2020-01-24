@@ -6,7 +6,7 @@
 import { gte } from 'semver';
 import { ChildProcessUtils } from './childProcessUtils';
 
-const azPreviewMessage: string = `Command group 'bot' is in preview. It may be changed/removed in a future release.\r\n`;
+const azPreviewMessage = `Command group 'bot' is in preview. It may be changed/removed in a future release.\r\n`;
 
 /**
  * @returns Returns if it is a preview message (az version greater than 2.0.66)

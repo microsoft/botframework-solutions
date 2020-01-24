@@ -26,7 +26,7 @@ trigger:
 
   paths:
     include:
-    - 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/*'
+    - 'templates/typescript/samples/sample-assistant/*'
 
 # By default will disable PR builds
 pr: none
@@ -42,14 +42,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant'
+    workingDir: 'templates/typescript/samples/sample-assistant'
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant'
+    workingDir: 'templates/typescript/samples/sample-assistant'
     verbose: false
     customCommand: 'run build'
 
@@ -57,7 +57,7 @@ steps:
   displayName: 'npm test - coverage'
   inputs:
     command: custom
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant'
+    workingDir: 'templates/typescript/samples/sample-assistant'
     verbose: false
     customCommand: 'run coverage'
 
@@ -65,15 +65,15 @@ steps:
   displayName: 'publish test results'
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant'
+    searchFolder: 'templates/typescript/samples/sample-assistant'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
   displayName: 'publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/coverage/cobertura-coverage.xml'
-    reportDirectory: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/coverage/'
+    summaryFileLocation: 'templates/typescript/samples/sample-assistant/coverage/cobertura-coverage.xml'
+    reportDirectory: 'templates/typescript/samples/sample-assistant/coverage/'
 ```
 By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the master branch with the following change:
 

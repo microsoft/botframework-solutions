@@ -33,10 +33,10 @@ export class SkillManifestGenerator {
         if (!skillManifest.name) { throw new Error('Skill manifest Name property was not present in the template manifest file.'); }
 
         skillManifest.msaAppId = appId;
-        skillManifest.endpoint = `${uriBase}${this.skillRoute}`;
+        skillManifest.endpoint = `${ uriBase }${ this.skillRoute }`;
 
         if (skillManifest.iconUrl !== undefined) {
-            skillManifest.iconUrl = `${uriBase}/${skillManifest.iconUrl}`;
+            skillManifest.iconUrl = `${ uriBase }/${ skillManifest.iconUrl }`;
         }
 
         // The manifest can either return a pointer to the triggering utterances or include them inline in the manifest
@@ -79,7 +79,7 @@ export class SkillManifestGenerator {
                             const intentToMatch: string = source.substring(intentIndex + 1);
 
                             // Find the LUIS model from our cache by matching on the locale/modelname
-                            const modelKey: string = `${utteranceSource.locale}_${modelName}`.toLowerCase();
+                            const modelKey: string = `${ utteranceSource.locale }_${ modelName }`.toLowerCase();
                             const model: Models.VersionsExportMethodResponse | undefined = localeLuisModels.get(modelKey);
                             if (model === undefined) {
                                 throw new Error(`Utterance source (locale: ${
@@ -150,7 +150,7 @@ export class SkillManifestGenerator {
     }
 
     private async fetchLuisModelContent(luisService: ILuisService): Promise<Models.VersionsExportMethodResponse> {
-        const endpoint: string = `https://${
+        const endpoint = `https://${
             luisService.region
         }.api.cognitive.microsoft.com/luis/api/v2.0/apps/${
             luisService.appId
@@ -193,14 +193,14 @@ export class SkillManifestGenerator {
                     const luisModel: Models.VersionsExportMethodResponse = await this.fetchLuisModelContent(entry.item);
 
                     return {
-                        language: `${entry.language}_${entry.item.id}`.toLowerCase(),
+                        language: `${ entry.language }_${ entry.item.id }`.toLowerCase(),
                         item: luisModel
                     };
                 } catch (error) {
                     return {
                         language: '',
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        item: <any>{}
+                        item: {} as any
                     };
                 }
             })
@@ -220,7 +220,7 @@ export function manifestGenerator(manifestFile: string, botSettings: Partial<IBo
         const inline: boolean = (req.query.inlineTriggerUtterances || '').toLowerCase() === 'true';
         const scheme: string = req.isSecure() ? 'https' : 'http';
         const host: string = req.headers.host || '';
-        const skillUriBase: string = `${scheme}://${host}`;
+        const skillUriBase = `${ scheme }://${ host }`;
         const appId: string = botSettings.microsoftAppId;
         const cognitiveModels: Map<string, ICognitiveModelConfiguration> = botSettings.cognitiveModels;
 

@@ -10,6 +10,8 @@ import { ConsoleLogger, ILogger} from './logger';
 import { IRefreshConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -19,10 +21,8 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-const logger: ILogger = new ConsoleLogger();
-
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -90,4 +90,4 @@ const configuration: IRefreshConfiguration = {
     logger: logger
 };
 
-new RefreshSkill(<IRefreshConfiguration> configuration, logger).refreshSkill();
+new RefreshSkill(configuration as IRefreshConfiguration, logger).refreshSkill();

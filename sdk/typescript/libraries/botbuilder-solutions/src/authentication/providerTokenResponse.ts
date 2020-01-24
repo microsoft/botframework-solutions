@@ -12,5 +12,5 @@ export interface IProviderTokenResponse {
 }
 
 export function isProviderTokenResponse(value?: Object): boolean {
-    return value !== undefined && (<IProviderTokenResponse>value).authenticationProvider !== undefined;
+    return value !== undefined && (value as IProviderTokenResponse).authenticationProvider !== undefined;
 }
