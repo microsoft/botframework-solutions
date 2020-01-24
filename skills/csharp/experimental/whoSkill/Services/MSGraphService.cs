@@ -26,6 +26,35 @@ namespace WhoSkill.Services
             InitGraphServiceClient(token);
         }
 
+        public async Task<List<Candidate>> GetMeetingContacts(string keyword)
+        {
+            var selectItem = "$select=attendees,organizer";
+            var filter = string.Format("$filter=contains(subject,'{0}')", keyword);
+            var orderOption = "$orderBy=createdDateTime desc";
+            var resultMaxNumber = "$top=15";
+            var url = MSGraphBaseUrl + "me/events"
+                + "?"
+                + selectItem
+                + "&" + filter
+                + "&" + orderOption
+                + "&" + resultMaxNumber;
+
+            var result = await ExecuteGraphFetchAsync(url);
+            var searchResults = JsonConvert.DeserializeObject<List<EventSearchResult>>(result);
+
+            var candidates = new List<Candidate>();
+            foreach (var searchResult in searchResults)
+            {
+                await AddSearchResult(candidates, searchResult.Organizer.EmailAddress);
+                foreach (var attendee in searchResult.Attendees)
+                {
+                    await AddSearchResult(candidates, attendee.EmailAddress);
+                }
+            }
+
+            return candidates;
+        }
+
         public async Task<List<Candidate>> GetEmailContacts(string keyword)
         {
             var selectItem = "$select=sender,toRecipients,ccRecipients";
@@ -34,7 +63,7 @@ namespace WhoSkill.Services
                 + string.Format("(body: '{0}' OR subject: '{0}')", keyword)
                 + string.Format(" AND (received >= {0} AND received <= {1})", DateTime.Now.AddYears(-1).ToShortDateString(), DateTime.Now.ToShortDateString())
                 + "\"";
-            var resultMaxNumber = "$top=50";
+            var resultMaxNumber = "$top=15";
             var url = MSGraphBaseUrl + "me/messages"
                 + "?"
                 + searchOption
@@ -44,26 +73,18 @@ namespace WhoSkill.Services
             var result = await ExecuteGraphFetchAsync(url);
             var searchResults = JsonConvert.DeserializeObject<List<EmailSearchResult>>(result);
 
-            var allContacts = new List<EmailAddressContainer>();
+            var candidates = new List<Candidate>();
             foreach (var searchResult in searchResults)
             {
-                allContacts.Add(searchResult.Sender);
-                allContacts.AddRange(searchResult.ToRecipients);
-                allContacts.AddRange(searchResult.CcRecipients);
-            }
-
-            // From all email addresses, get all users.
-            var candidates = new List<Candidate>();
-            foreach (var contact in allContacts)
-            {
-                // If it is a new email address.
-                if (candidates.Where(x => x.Mail == contact.EmailAddress.Address).Count() == 0)
+                await AddSearchResult(candidates, searchResult.Sender.EmailAddress);
+                foreach (var toRecepient in searchResult.ToRecipients)
                 {
-                    var users = await GetUsers(contact.EmailAddress.Address);
-                    if (users != null && users.Any())
-                    {
-                        candidates.Add(users[0]);
-                    }
+                    await AddSearchResult(candidates, toRecepient.EmailAddress);
+                }
+
+                foreach (var ccRecepient in searchResult.CcRecipients)
+                {
+                    await AddSearchResult(candidates, ccRecepient.EmailAddress);
                 }
             }
 
@@ -75,7 +96,7 @@ namespace WhoSkill.Services
             var selectItem = "$select=userType,displayName,mail,jobTitle,userPrincipalName,id,officeLocation,mobilePhone";
             var filter = "$filter="
                 + string.Format("(startswith(displayName,'{0}') or startswith(givenName,'{0}') or startswith(surname,'{0}') or startswith(mail,'{0}') or startswith(userPrincipalName,'{0}'))", keyword);
-            var resultMaxNumber = "$top=25";
+            var resultMaxNumber = "$top=15";
             var url = MSGraphBaseUrl + "users"
                 + "?"
                 + selectItem
@@ -140,6 +161,18 @@ namespace WhoSkill.Services
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        private async Task AddSearchResult(List<Candidate> candidates, Models.EmailAddress emailAddress)
+        {
+            if (candidates.Where(x => x.Mail == emailAddress.Address).Count() == 0)
+            {
+                var users = await GetUsers(emailAddress.Address);
+                if (users != null && users.Any())
+                {
+                    candidates.Add(users[0]);
+                }
+            }
         }
 
         private void InitGraphServiceClient(string token)

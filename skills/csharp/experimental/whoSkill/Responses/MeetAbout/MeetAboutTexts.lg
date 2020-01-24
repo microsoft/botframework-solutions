@@ -1,0 +1,8 @@
+﻿# PeopleMeetsRencently.Text(Number)
+- You met with at least @{Number} people recently.
+
+# PeopleMeetsAboutKeywordRencently.Text(Number, Keyword)
+- You met with at least @{Number} people recently about '@{Keyword}'.
+
+# NoPeopleMeetsAboutKeywordRencently.Text(Keyword)
+- Sorry, I couldn't find anyone that you met with recently regarding '@{Keyword}'.

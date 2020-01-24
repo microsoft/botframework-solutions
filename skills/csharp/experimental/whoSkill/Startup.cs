@@ -99,6 +99,7 @@ namespace WhoSkill
                 { "WhoIs", "WhoIsActivities" },
                 { "Org", "OrgActivities" },
                 { "EmailAbout", "EmailAboutActivities" },
+                { "MeetAbout", "MeetAboutActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();

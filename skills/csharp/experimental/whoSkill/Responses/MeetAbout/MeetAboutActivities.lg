@@ -1,0 +1,22 @@
+﻿[import](MeetAboutTexts.lg)
+
+# PeopleMeetsRencently
+[Activity
+    Text = @{PeopleMeetsRencently.Text(Number)}
+    Speak = @{PeopleMeetsRencently.Text(Number)}
+    InputHint = acceptingInput
+]
+
+# PeopleMeetsAboutKeywordRencently
+[Activity
+    Text = @{PeopleMeetsAboutKeywordRencently.Text(Number, Keyword)}
+    Speak = @{PeopleMeetsAboutKeywordRencently.Text(Number, Keyword)}
+    InputHint = acceptingInput
+]
+
+# NoPeopleMeetsAboutKeywordRencently
+[Activity
+    Text = @{NoPeopleMeetsAboutKeywordRencently.Text(Keyword)}
+    Speak = @{NoPeopleMeetsAboutKeywordRencently.Text(Keyword)}
+    InputHint = acceptingInput
+]
