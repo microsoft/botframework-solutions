@@ -55,20 +55,6 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        public async Task Test_Cancel_Interruption_Confirmed()
-        {
-            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allCancelledVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
-
-            await GetTestFlow(includeUserProfile: false)
-                .Send(string.Empty)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
-                .Send(GeneralUtterances.Cancel)
-                .AssertReplyOneOf(allCancelledVariations.ToArray())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
             var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
