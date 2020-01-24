@@ -7,6 +7,12 @@
     InputHint = acceptingInput
 ]
 
+# FirstPromptMessage
+[Activity
+    Text = @{FirstPromptText()}
+    InputHint = acceptingInput
+]
+
 # HelpMessage
 [Activity
     Attachments = @{HelpCard()}
@@ -64,6 +70,12 @@
 # IntroText
 - Willkommen zu Ihrem benutzerdefinierten skill!
 
+# FirstPromptText
+- Was kann ich Ihnen heute helfen?
+- Was kann ich für Sie tun?
+- Gibt es etwas, was ich für Sie tun kann?
+- Wie kann ich Ihnen helfen?
+
 # HelpTitle
 - Hilfe
 
@@ -101,12 +113,6 @@
 - OK, versuchen wir es noch einmal.
 - Sicher, versuchen wir es noch einmal.
 - Kein Problem, wir können von vorne anfangen.
-
-# FirstPromptText
-- Was kann ich Ihnen heute helfen?
-- Was kann ich für Sie tun?
-- Gibt es etwas, was ich für Sie tun kann?
-- Wie kann ich Ihnen helfen?
 
 # LogoutText
 - OK, Sie sind abgemeldet.
