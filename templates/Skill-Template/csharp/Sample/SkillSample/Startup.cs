@@ -124,6 +124,7 @@ namespace SkillSample
 
             // Register dialogs
             services.AddTransient<SampleDialog>();
+            services.AddTransient<SampleAction>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

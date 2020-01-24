@@ -285,7 +285,7 @@ namespace VirtualAssistantSample.Dialogs
             var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState());
             if (string.IsNullOrEmpty(userProfile.Name))
             {
-                return await stepContext.BeginDialogAsync(nameof(OnboardingDialog));
+                return await stepContext.BeginDialogAsync(_onboardingDialog.Id);
             }
 
             return await stepContext.NextAsync();

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using SkillSample.Extensions;
 using SkillSample.Models;
 using SkillSample.Services;
 
@@ -21,6 +22,7 @@ namespace SkillSample.Dialogs
     {
         private BotServices _services;
         private SampleDialog _sampleDialog;
+        private SampleAction _sampleAction;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -50,9 +52,12 @@ namespace SkillSample.Dialogs
 
             // Register dialogs
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
+            _sampleAction = serviceProvider.GetService<SampleAction>();
             AddDialog(_sampleDialog);
+            AddDialog(_sampleAction);
         }
 
+        // Runs when the dialog is started.
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
@@ -161,11 +166,17 @@ namespace SkillSample.Dialogs
             return interrupted;
         }
 
+        // Handles introduction/continuation prompt logic.
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Use the text provided in FinalStepAsync or the default if it is the first time.
-            if (stepContext.Options as Activity != null)
+            if (stepContext.Context.IsSkill())
             {
+                // If the bot is in skill mode, skip directly to route and do not prompt
+                return await stepContext.NextAsync();
+            }
+            else
+            {
+                // If bot is in local mode, prompt with intro or continuation message
                 var promptOptions = new PromptOptions
                 {
                     Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
@@ -173,27 +184,17 @@ namespace SkillSample.Dialogs
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
-            else if (stepContext.Context.Activity?.Text != null)
-            {
-                return await stepContext.NextAsync();
-            }
-            else
-            {
-                return EndOfTurn;
-            }
         }
 
+        // Handles routing to additional dialogs logic.
         private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var activity = stepContext.Context.Activity.AsMessageActivity();
+            var activity = stepContext.Context.Activity;
 
-            if (!string.IsNullOrEmpty(activity.Text))
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
-
-                // Populate state from activity as required.
-                await PopulateStateFromActivity(stepContext.Context);
 
                 // Get skill LUIS model from configuration.
                 localizedServices.LuisServices.TryGetValue("SkillSample", out var luisService);
@@ -224,30 +225,50 @@ namespace SkillSample.Dialogs
                     throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
                 }
             }
-            else
+            else if (activity.Type == ActivityTypes.Event)
             {
-                return await stepContext.NextAsync();
+                var ev = activity.AsEventActivity();
+
+                switch (ev.Name)
+                {
+                    case "SampleAction":
+                        {
+                            SampleActionInput actionData = null;
+                            var eventValue = ev.Value as string;
+
+                            if (!string.IsNullOrEmpty(eventValue))
+                            {
+                                actionData = JsonConvert.DeserializeObject<SampleActionInput>(eventValue);
+                            }
+
+                            // Invoke the SampleAction dialog passing input data if available
+                            return await stepContext.BeginDialogAsync(_sampleAction.Id, actionData);
+                        }
+                }
             }
+
+            // If activity was unhandled, flow should continue to next step
+            return await stepContext.NextAsync();
         }
 
+        // Handles conversation cleanup.
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Restart the main dialog with a different message the second time around
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
-        }
-
-        private async Task PopulateStateFromActivity(ITurnContext context)
-        {
-            // Example of populating skill state from activity
-            var activity = context.Activity;
-            var semanticAction = activity.SemanticAction;
-
-            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.TimeZone))
+            if (stepContext.Context.IsSkill())
             {
-                var timezone = semanticAction.Entities[StateProperties.TimeZone];
-                var timezoneObj = timezone.Properties[StateProperties.TimeZone].ToObject<TimeZoneInfo>();
-                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                state.TimeZone = timezoneObj;
+                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
+                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+                {
+                    Code = EndOfConversationCodes.CompletedSuccessfully,
+                    Value = stepContext.Result,
+                };
+
+                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                return await stepContext.EndDialogAsync();
+            }
+            else
+            {
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
             }
         }
 

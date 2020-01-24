@@ -14,11 +14,13 @@ namespace SkillSample.Tests
         public async Task Test_Sample_Dialog()
         {
             await GetTestFlow()
-               .Send(SampleDialogUtterances.Trigger)
-               .AssertReplyOneOf(GetTemplates("NamePromptText"))
-               .Send(SampleDialogUtterances.NamePromptResponse)
-               .AssertReplyOneOf(GetTemplates("HaveNameMessageText", new { Name = SampleDialogUtterances.NamePromptResponse }))
-               .StartTestAsync();
+                .Send(SampleDialogUtterances.Trigger)
+                .AssertReplyOneOf(GetTemplates("FirstPromptText"))
+                .Send(SampleDialogUtterances.Trigger)
+                .AssertReplyOneOf(GetTemplates("NamePromptText"))
+                .Send(SampleDialogUtterances.NamePromptResponse)
+                .AssertReplyOneOf(GetTemplates("HaveNameMessageText", new { Name = SampleDialogUtterances.NamePromptResponse }))
+                .StartTestAsync();
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,26 +51,9 @@ namespace SkillSample.Bots
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
-        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            var ev = turnContext.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
-
-            switch (ev.Name)
-            {
-                case TokenEvents.TokenResponseEventName:
-                    {
-                        // Forward the token response activity to the dialog waiting on the stack.
-                        await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
-                        break;
-                    }
-
-                default:
-                    {
-                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
-                        break;
-                    }
-            }
+            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
     }
 }
