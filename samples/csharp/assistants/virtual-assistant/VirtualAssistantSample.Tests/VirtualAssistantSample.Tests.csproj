@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.0-rc1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.0-preview" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />

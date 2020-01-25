@@ -38,6 +38,8 @@ namespace SkillSample.Tests
         public async Task Test_Unhandled_Message()
         {
             await GetTestFlow()
+                .Send(SampleDialogUtterances.Trigger)
+                .AssertReplyOneOf(GetTemplates("FirstPromptText"))
                 .Send(GeneralUtterances.None)
                 .AssertReplyOneOf(GetTemplates("UnsupportedText"))
                 .StartTestAsync();
