@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillSample", "SkillSample\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillSample.Tests", "SkillSample.Tests\SkillSample.Tests.csproj", "{9FDB90E0-D670-4416-B66D-F48F6A26C6D8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.FunctionalTests", "VirtualAssistantSample.FunctionalTests\VirtualAssistantSample.FunctionalTests.csproj", "{250679A2-AFE1-4E77-997C-025D28B099D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{9FDB90E0-D670-4416-B66D-F48F6A26C6D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDB90E0-D670-4416-B66D-F48F6A26C6D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FDB90E0-D670-4416-B66D-F48F6A26C6D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{250679A2-AFE1-4E77-997C-025D28B099D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{250679A2-AFE1-4E77-997C-025D28B099D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{250679A2-AFE1-4E77-997C-025D28B099D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{250679A2-AFE1-4E77-997C-025D28B099D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{909085AC-BFB6-4A90-B5A5-3D07F7E63900} = {BD62412B-FAA5-475A-93F3-4980DB0FED7D}
 		{9150CBC6-1F6F-4DC7-BDC4-7603084D8DE5} = {966EB351-B32F-4E0C-ABD8-804D3357FFFE}
 		{9FDB90E0-D670-4416-B66D-F48F6A26C6D8} = {966EB351-B32F-4E0C-ABD8-804D3357FFFE}
+		{250679A2-AFE1-4E77-997C-025D28B099D1} = {BD62412B-FAA5-475A-93F3-4980DB0FED7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03D2E957-9568-4F2E-9176-45179E11B252}

@@ -2,19 +2,20 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Builder.FunctionalTests
+namespace VirtualAssistantSample.FunctionalTests
 {
     [TestClass]
     [TestCategory("FunctionalTests")]
     public class DirectLineClientTests
     {
-        private static string directLineSecret = null;
-        private static string botId = null;
+        private static string directLineSecret = "z-3WLu7PZKM.aVir2WPXwsefHv6ZYLzkHp0NNflU7oYf4ycVkP4D4as";
+        private static string botId = "bf-virtual-assistant-nightly-lpahtc3";
         private static string fromUser = "DirectLineClientTestUser";
         private static string echoGuid = string.Empty;
         private static string input = $"Testing Azure Bot GUID: ";
@@ -44,16 +45,17 @@ namespace Microsoft.Bot.Builder.FunctionalTests
             // Start the conversation.
             var conversation = await client.Conversations.StartConversationAsync();
 
-            // Create a message activity with the input text.
-            var userMessage = new Activity
+            // Create an event activity to trigger the welcome message.
+            var startConversationEvent = new Activity
             {
                 From = new ChannelAccount(fromUser),
-                Text = input,
-                Type = ActivityTypes.Message,
+                Type = ActivityTypes.Event,
+                Name = "startConversation",
+                Locale = "en-us"
             };
 
             // Send the message activity to the bot.
-            await client.Conversations.PostActivityAsync(conversation.ConversationId, userMessage);
+            await client.Conversations.PostActivityAsync(conversation.ConversationId, startConversationEvent);
 
             // Read the bot's message.
             var botAnswer = await ReadBotMessagesAsync(client, conversation.ConversationId);

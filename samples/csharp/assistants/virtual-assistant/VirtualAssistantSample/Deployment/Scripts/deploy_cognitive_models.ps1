@@ -200,14 +200,6 @@ foreach ($language in $languageArr)
 			Write-Host "> Setting LUIS subscription key ..." -NoNewline
 			if ($luisApp) {
 				# Setting subscription key
-				Write-Host $luisApp.id
-				Write-Host $luisAuthoringKey
-				Write-Host $luisAuthoringRegion
-				Write-Host $luisAccountName
-				Write-Host $azAccount.id
-				Write-Host $resourceGroup
-				Write-Host $cloud
-				Write-Host $azAccessToken.accessToken
 				$addKeyResult = luis add appazureaccount `
 					--appId $luisApp.id `
 					--authoringKey $luisAuthoringKey `
