@@ -43,5 +43,10 @@
       "*": "#/activities/message"
     }
   },
-  "activities": {}
+  "activities": {
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  }
 }
