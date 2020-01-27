@@ -7,9 +7,15 @@ import { existsSync, readFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
-import { IConnectConfiguration, IDisconnectConfiguration, ISkillFile, ISkillManifest, IUpdateConfiguration } from '../models';
+import { IConnectConfiguration, IDisconnectConfiguration, ISkillManifestV2, ISkillManifestV1, IUpdateConfiguration, ISkill, IAppSetting } from '../models';
 import { ConnectSkill } from './connectSkill';
 import { DisconnectSkill } from './disconnectSkill';
+import { isInstanceOfISkillManifestV1, isInstanceOfISkillManifestV2 } from '../utils';
+
+enum manifestVersion {
+    V1 = 'V1',
+    V2 = 'V2'
+}
 
 export class UpdateSkill {
     private readonly configuration: IUpdateConfiguration;
@@ -20,7 +26,7 @@ export class UpdateSkill {
         this.logger = logger || new ConsoleLogger();
     }
 
-    private async getRemoteManifest(manifestUrl: string): Promise<ISkillManifest> {
+    private async getRemoteManifest(manifestUrl: string): Promise<ISkillManifestV1 | ISkillManifestV2> {
         try {
             return get({
                 uri: manifestUrl,
@@ -31,7 +37,7 @@ export class UpdateSkill {
         }
     }
 
-    private getLocalManifest(manifestPath: string): ISkillManifest {
+    private getLocalManifest(manifestPath: string): ISkillManifestV1 | ISkillManifestV2 {
         const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
 
         if (!existsSync(skillManifestPath)) {
@@ -42,22 +48,65 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
     }
 
+    private validateManifestSchema(skillManifest: ISkillManifestV1 | ISkillManifestV2): manifestVersion {
+
+        if (isInstanceOfISkillManifestV1(skillManifest as ISkillManifestV1)) {
+            return manifestVersion.V1;
+        }
+        else if (isInstanceOfISkillManifestV2(skillManifest as ISkillManifestV2)) {
+            return manifestVersion.V2;
+        }
+        else {
+            throw new Error('The Skill Manifest is not compatible with any version supported.');
+        }
+    }
+
+    private async getManifest(): Promise<ISkillManifestV1 | ISkillManifestV2> {
+
+        return this.configuration.localManifest
+            ? this.getLocalManifest(this.configuration.localManifest)
+            : this.getRemoteManifest(this.configuration.remoteManifest);
+    }
+
     private async existSkill(): Promise<boolean> {
         try {
             // Take skillManifest
-            const skillManifest: ISkillManifest = this.configuration.localManifest
-                ? this.getLocalManifest(this.configuration.localManifest)
-                : await this.getRemoteManifest(this.configuration.remoteManifest);
-            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
-            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
-            // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkillManifest): boolean => assistantSkill.id === skillManifest.id)) {
-                this.configuration.skillId = skillManifest.id;
+            const skillManifest: ISkillManifestV1 | ISkillManifestV2 = await this.getManifest();
 
-                return true;
+            // Manifest schema validation
+            const validVersion: manifestVersion = this.validateManifestSchema(skillManifest);
+
+            if(validVersion === manifestVersion.V1) {
+                const skillManifestV1 = skillManifest as ISkillManifestV1;
+                const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+                const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+                // Check if the skill is already connected to the assistant
+                if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifestV1.id)) {
+                    this.configuration.skillId = skillManifestV1.id;
+
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
+            else if(validVersion === manifestVersion.V2){
+                const skillManifestV2 = skillManifest as ISkillManifestV2;
+                const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+                const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+                // Check if the skill is already connected to the assistant
+                if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifestV2.$id)) {
+                    this.configuration.skillId = skillManifestV2.$id;
 
-            return false;
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
         } catch (err) {
             throw err;
         }

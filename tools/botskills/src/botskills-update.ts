@@ -32,6 +32,7 @@ program
     .description('Update a specific skill from your assistant bot.')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
+    .option('-e, --endpointName <name>', '[OPTIONAL]Name of the endpoint to connect to your assistant (case sensitive)(defaults to using the first endpoint)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
@@ -58,6 +59,7 @@ const skillId: string = '';
 let botName: string = '';
 let localManifest: string;
 let remoteManifest: string;
+let endpointName: string;
 let noRefresh: boolean = false;
 let languages: string[];
 let luisFolder: string;
@@ -106,6 +108,7 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
 
 localManifest = args.localManifest;
 remoteManifest = args.remoteManifest;
+endpointName = args.endpointName;
 
 // outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
@@ -164,6 +167,7 @@ const configuration: IUpdateConfiguration = {
     botName: botName,
     localManifest: localManifest,
     remoteManifest: remoteManifest,
+    endpointName: endpointName,
     noRefresh: noRefresh,
     languages: languages,
     luisFolder: luisFolder,

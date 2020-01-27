@@ -10,6 +10,7 @@ export interface IUpdateConfiguration {
     botName: string;
     localManifest: string;
     remoteManifest: string;
+    endpointName: string;
     noRefresh: boolean;
     languages: string[];
     luisFolder: string;
