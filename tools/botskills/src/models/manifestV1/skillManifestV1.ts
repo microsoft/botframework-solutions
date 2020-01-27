@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-export interface ISkillManifest {
+export interface ISkillManifestV1 {
     id: string;
     name: string;
     msaAppId: string;
