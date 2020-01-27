@@ -22,7 +22,8 @@ import {
     manifestGenerator,
     SkillContext,
     // PENDING: The SkillHttpAdapter should be replaced with SkillWebSocketAdapter
-    SkillHttpAdapter } from 'botbuilder-skills';
+    SkillHttpAdapter, 
+    WhitelistAuthenticationProvider} from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     Locales,
@@ -105,6 +106,7 @@ const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
 const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
 const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
+const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
@@ -114,9 +116,9 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
-    userState,
     conversationState,
-    telemetryClient);
+    telemetryClient,
+    whitelistAuthenticationProvider);
 
 const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     botSettings,
@@ -156,7 +158,7 @@ try {
         telemetryClient
     );
 
-    bot = new DialogBot(conversationState, telemetryClient, mainDialog);
+    bot = new DialogBot(conversationState, userState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }

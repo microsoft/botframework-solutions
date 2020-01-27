@@ -3,6 +3,7 @@
   "name": "<%= skillNameCamelCase %>",
   "description": "This is the description of the <%= skillNameCamelCase %>",
   "endpoint": "",
+  "responses": "",
   "msaAppId": "",
   "iconUrl": "",
   "authenticationConnections": [],

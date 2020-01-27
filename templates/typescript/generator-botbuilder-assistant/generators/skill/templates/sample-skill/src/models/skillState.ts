@@ -6,7 +6,7 @@
 import { RecognizerResult } from 'botbuilder';
 
 export class SkillState {
-    public readonly token: string = '';
+    public token: string = '';
     public luisResult: RecognizerResult | undefined;
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     public clear(): void {}

@@ -11,11 +11,12 @@ Param(
     [string] $parametersFile,
 	[string] $languages = "en-us",
 	[string] $projDir = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot ".." "deploy_log.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
 
 # Src folder path
 $srcDir = $(Join-Path $projDir "src")
+
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -110,8 +111,8 @@ Write-Host "> Creating resource group ..."
 if ($parametersFile) {
 	Write-Host "> Validating Azure deployment ..."
 	$validation = az group deployment validate `
-	--resource-group $resourcegroup `
-	--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+		--resource-group $resourcegroup `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
         --output json
@@ -142,10 +143,10 @@ if ($parametersFile) {
 else {
 	Write-Host "> Validating Azure deployment ..."
 	$validation = az group deployment validate `
-	--resource-group $resourcegroup `
-	--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
-	--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-	--output json
+		--resource-group $resourcegroup `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+        --output json
 
 	if ($validation) {
 		$validation >> $logFile
@@ -158,7 +159,7 @@ else {
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
 				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-				--output json
+                --output json
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
@@ -189,7 +190,7 @@ if ($outputs)
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
 	if (Test-Path $(Join-Path $srcDir appsettings.json)) {
-		$settings = Get-Content $(Join-Path $srcDir appsettings.json) -Encoding utf8 | ConvertFrom-Json
+		$settings = Get-Content -Encoding utf8 $(Join-Path $srcDir appsettings.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
@@ -198,9 +199,10 @@ if ($outputs)
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $srcDir appsettings.json)
-
+	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $srcDir appsettings.json)
+	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
+
 	# Delay to let QnA Maker finish setting up
 	Start-Sleep -s 30
 
@@ -211,17 +213,18 @@ if ($outputs)
 	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow
 
 	Write-Host "- Resource Group: $($resourceGroup)" -ForegroundColor Yellow
-	
+		
 	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
 
 	# Publish bot
-	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($outputs.resourceGroupName.value) -projFolder '$($projDir)'" -ForegroundColor Magenta
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
+
 	Write-Host "> Done."
 }
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null  
+	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json
@@ -231,7 +234,7 @@ else
 				switch ($operation.properties.statusmessage.error.code) {
 					"MissingRegistrationForLocation" {
 						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
-						Write-Host "+ Update the .\Deployment\resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
+						Write-Host "+ Update the .\deployment\resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
 					}
 					default {
 						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
