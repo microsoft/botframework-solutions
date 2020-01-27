@@ -29,7 +29,6 @@ npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
 1. Create an **Azure Powershell** task that checks if the resource group exists before running the next command.
 ```pwsh
 Get-AzureRmResourceGroup -Name $(ResourceGroup) -ErrorVariable notPresent -ErrorAction SilentlyContinue
-
 if ($notPresent)
 {
     Write-Host "ResourceGroup $(ResourceGroup) doesn't exist"

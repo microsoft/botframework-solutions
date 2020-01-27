@@ -24,7 +24,7 @@ Enable the proactive notifications sample on a Virtual Assistant, which demonstr
 ### Prerequisites
 #### Option: Using the Enterprise Assistant sample
 {:.no_toc}
-The [Enterprise Assistant sample]({{site.baseurl}}/virtual-assistant/samples/enterprise-assistant) comes with a preconfigured Virtual Assistant project and deployment scripts to create all of the required Azure resources.
+The [Enterprise Assistant sample]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant) comes with a preconfigured Virtual Assistant project and deployment scripts to create all of the required Azure resources.
 
 #### Option: Using the core Virtual Assistant Template
 {:.no_toc}
