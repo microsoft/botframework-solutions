@@ -8,4 +8,4 @@ export { isAzPreviewMessage, isValidAzVersion } from './azUtils';
 export { ChildProcessUtils } from './childProcessUtils';
 export { getDispatchNames } from './dispatchUtils';
 export { sanitizePath, wrapPathWithQuotes } from './sanitizationUtils';
-export { isValidCultures, validatePairOfArgs } from './validationUtils';
+export { isValidCultures, validatePairOfArgs, isInstanceOfISkillManifestV1, isInstanceOfISkillManifestV2 } from './validationUtils';
