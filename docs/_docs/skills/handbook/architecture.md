@@ -21,7 +21,7 @@ A key design goal for Skills was to maintain the consistent Activity protocol an
 
 ## Invocation Flow
 
-![Skill Invocation Flow]({{site.baseurl}}/assets/images/virtualassistant-SkillFlow.png)
+The Skill invocation flow is documented further in this [documentation item](https://docs.microsoft.com/en-us/azure/bot-service/skills-conceptual?view=azure-bot-service-4.0)
 
 ### Dispatcher
 {:.no_toc}
@@ -45,12 +45,6 @@ The **SkillManifest** provides the endpoint for the SkillDialog to communicate w
 When a Skill wants to terminate an ongoing dialog, it sends back an Activity with **Handoff** type to signal the completion of the current dialog. 
 
 See the [SkillAuthentication]({{site.baseurl}}/skills/handbook/authentication/) section for information on how Bot->Skill invocation is secured.
-
-## Skill Middleware
-
-The **SkillMiddleware** is used by each Skill and is configured automatically if you use the Skill Template.
-
-The middleware consumes the **skill/cancelallskilldialogs** event, when the Skill receives it it clears out the active dialog stack on that active Skill. This is useful in interruptions - i.e. if a user asks to cancel, a Virtual Assistant can send this event to the Skill and cancel the active dialog.
 
 ## Interrupting Active Skills
 
