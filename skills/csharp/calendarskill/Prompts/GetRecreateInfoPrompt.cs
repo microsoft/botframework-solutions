@@ -136,6 +136,14 @@ namespace CalendarSkill.Prompts
                 return result;
             }
 
+            // check is change meeting room
+            regex = new Regex(CalendarCommonStrings.AdjustMeetingRoom);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.MeetingRoom;
+                return result;
+            }
+
             // check is change participants
             regex = new Regex(CalendarCommonStrings.AdjustParticipants);
             if (regex.IsMatch(message))

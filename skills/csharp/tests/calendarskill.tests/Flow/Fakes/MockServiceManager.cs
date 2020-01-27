@@ -21,6 +21,7 @@ namespace CalendarSkill.Test.Flow.Fakes
         private static readonly List<PersonModel> BuildinPeoples;
         private static readonly List<PersonModel> BuildinUsers;
         private static readonly AvailabilityResult BuildinAvailabilityResult;
+        private static readonly List<bool> BuildinCheckAvailableResult;
         private static Mock<ICalendarService> mockCalendarService;
         private static Mock<IUserService> mockUserService;
         private static Mock<IServiceManager> mockServiceManager;
@@ -31,6 +32,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             BuildinPeoples = GetFakePeoples();
             BuildinUsers = GetFakeUsers();
             BuildinAvailabilityResult = GetFakeAvailabilityResult();
+            BuildinCheckAvailableResult = GetFakeCheckAvailable();
 
             // calendar
             mockCalendarService = new Mock<ICalendarService>();
@@ -44,6 +46,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockCalendarService.Setup(service => service.AcceptEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.DeclineEventByIdAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
             mockCalendarService.Setup(service => service.GetUserAvailabilityAsync(It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(BuildinAvailabilityResult));
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(BuildinCheckAvailableResult));
 
             // user
             mockUserService = new Mock<IUserService>();
@@ -134,6 +137,35 @@ namespace CalendarSkill.Test.Flow.Fakes
             mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
             mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
             mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetMeetingWithMeetingRoom()
+        {
+            var eventList = new List<EventModel>();
+            eventList.Add(CreateEventModel(hasMeetingRoom: true));
+            mockCalendarService.Setup(service => service.UpdateEventByIdAsync(It.IsAny<EventModel>())).Returns((EventModel body) =>
+            {
+                EventModel newEvent = CreateEventModel(hasMeetingRoom: true);
+                newEvent.Attendees = body.Attendees;
+                return Task.FromResult(newEvent);
+            });
+            mockCalendarService.Setup(service => service.GetUpcomingEventsAsync(null)).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTimeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTimeAsync(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitleAsync(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetRoomAvailability(int count, bool available)
+        {
+            var result = new List<bool>();
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(available);
+            }
+
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns(Task.FromResult(result));
             return mockServiceManager.Object;
         }
 
@@ -246,7 +278,6 @@ namespace CalendarSkill.Test.Flow.Fakes
                 return Task.FromResult(BuildinUsers);
             });
 
-
             return mockServiceManager.Object;
         }
 
@@ -280,6 +311,29 @@ namespace CalendarSkill.Test.Flow.Fakes
             return mockServiceManager.Object;
         }
 
+        public static IServiceManager SetFloor2NotAvailable()
+        {
+            mockCalendarService.Setup(service => service.CheckAvailable(It.IsAny<List<string>>(), It.IsAny<DateTime>(), It.IsAny<int>())).Returns((List<string> roomEmails, DateTime startTime, int interval) =>
+            {
+                List<bool> roomAvailability = new List<bool>();
+                foreach (var roomEmail in roomEmails)
+                {
+                    if (roomEmail == string.Format(Strings.Strings.MeetingRoomEmail, 3) || roomEmail == string.Format(Strings.Strings.MeetingRoomEmail, 4))
+                    {
+                        roomAvailability.Add(false);
+                    }
+                    else
+                    {
+                        roomAvailability.Add(true);
+                    }
+                }
+
+                return Task.FromResult(roomAvailability);
+            });
+
+            return mockServiceManager.Object;
+        }
+
         public static EventModel CreateEventModel(
             EmailAddress[] emailAddress = null,
             string eventName = null,
@@ -289,6 +343,7 @@ namespace CalendarSkill.Test.Flow.Fakes
             string locationString = null,
             bool isOrganizer = true,
             bool isCancelled = false,
+            bool hasMeetingRoom = false,
             string suffix = "")
         {
             var attendees = new List<Attendee>();
@@ -314,6 +369,19 @@ namespace CalendarSkill.Test.Flow.Fakes
                         Name = Strings.Strings.DefaultUserName + suffix,
                     },
                     Type = AttendeeType.Required,
+                });
+            }
+
+            if (hasMeetingRoom)
+            {
+                attendees.Add(new Attendee
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = Strings.Strings.DefaultMeetingRoomEmail,
+                        Name = Strings.Strings.DefaultMeetingRoomName,
+                    },
+                    Type = AttendeeType.Resource,
                 });
             }
 
@@ -432,6 +500,12 @@ namespace CalendarSkill.Test.Flow.Fakes
             availabilityResult.AvailabilityViewList.Add("000000000000");
 
             return availabilityResult;
+        }
+
+        private static List<bool> GetFakeCheckAvailable()
+        {
+            List<bool> result = new List<bool> { true, true, true, true, true, true, true, true };
+            return result;
         }
     }
 }

@@ -4,12 +4,12 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace CalendarSkill.Responses.CheckAvailable
+namespace CalendarSkill.Responses.CheckPersonAvailable
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class CheckAvailableResponses : IResponseIdCollection
+    public class CheckPersonAvailableResponses : IResponseIdCollection
     {
         // Generated accessors
         public const string AskForCheckAvailableTime = "AskForCheckAvailableTime";

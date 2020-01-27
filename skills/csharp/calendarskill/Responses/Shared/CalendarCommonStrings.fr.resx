@@ -318,4 +318,7 @@
   <data name="DisplayDateLong" xml:space="preserve">
     <value>dddd, MMMM d</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>temps de</value>
+  </data>
 </root>

@@ -9,7 +9,7 @@ using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
+using CalendarSkill.Responses.CheckPersonAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -51,10 +51,13 @@ namespace CalendarSkill.Test.Flow
 
         public IServiceManager ServiceManager { get; set; }
 
+        public ISearchService SearchService { get; set; }
+
         [TestInitialize]
         public override void Initialize()
         {
             this.ServiceManager = MockServiceManager.GetCalendarService();
+            this.SearchService = new MockSearchClient();
 
             // Initialize service collection
             Services = new ServiceCollection();
@@ -63,6 +66,11 @@ namespace CalendarSkill.Test.Flow
                 OAuthConnections = new List<OAuthConnection>()
                 {
                     new OAuthConnection() { Name = Provider, Provider = Provider }
+                },
+
+                AzureSearch = new BotSettings.AzureSearchConfiguration()
+                {
+                    SearchServiceName = "mockSearchService"
                 }
             });
 
@@ -92,7 +100,7 @@ namespace CalendarSkill.Test.Flow
             var templateFiles = new Dictionary<string, string>
             {
                 { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
-                { "CheckAvailable", "CheckAvailableActivities" },
+                { "CheckPersonAvailable", "CheckPersonAvailableActivities" },
                 { "CreateEvent", "CreateEventDialogActivities" },
                 { "FindContact", "FindContactDialogActivities" },
                 { "JoinEvent", "JoinEventDialogActivities" },
@@ -102,6 +110,7 @@ namespace CalendarSkill.Test.Flow
                 { "TimeRemaining", "TimeRemainingDialogActivities" },
                 { "UpcomingEvent", "UpcomingEventDialogActivities" },
                 { "UpdateEvent", "UpdateEventDialogActivities" },
+                { "FindMeetingRoom", "FindMeetingRoomDialogActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -125,12 +134,13 @@ namespace CalendarSkill.Test.Flow
             }
 
             Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+            Services.AddSingleton(SearchService);
 
             // Configure files for generating all responses. Response from bot should equal one of them.
             var templateFilesAll = new List<string>()
             {
                 @"ChangeEventStatus/ChangeEventStatusDialogTexts.lg",
-                @"CheckAvailable/CheckAvailableTexts.lg",
+                @"CheckPersonAvailable/CheckPersonAvailableTexts.lg",
                 @"CreateEvent/CreateEventDialogTexts.lg",
                 @"FindContact/FindContactDialogTexts.lg",
                 @"JoinEvent/JoinEventDialogTexts.lg",
@@ -140,6 +150,7 @@ namespace CalendarSkill.Test.Flow
                 @"TimeRemaining/TimeRemainingDialogTexts.lg",
                 @"UpcomingEvent/UpcomingEventDialogTexts.lg",
                 @"UpdateEvent/UpdateEventDialogTexts.lg",
+                @"FindMeetingRoom/FindMeetingRoomDialogTexts.lg",
             };
 
             var templatesAll = new List<string>();
@@ -158,7 +169,10 @@ namespace CalendarSkill.Test.Flow
             Services.AddTransient<TimeRemainingDialog>();
             Services.AddTransient<UpcomingEventDialog>();
             Services.AddTransient<UpdateEventDialog>();
-            Services.AddTransient<CheckAvailableDialog>();
+            Services.AddTransient<CheckPersonAvailableDialog>();
+            Services.AddTransient<FindMeetingRoomDialog>();
+            Services.AddTransient<BookMeetingRoomDialog>();
+            Services.AddTransient<UpdateMeetingRoomDialog>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
@@ -171,6 +185,7 @@ namespace CalendarSkill.Test.Flow
         public void TestCleanup()
         {
             this.ServiceManager = MockServiceManager.SetAllToDefault();
+            MockSearchClient.SetAllToDefault();
         }
 
         public string[] GetTemplates(string templateName, object data = null)

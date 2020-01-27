@@ -19,6 +19,7 @@ namespace CalendarSkill.Utilities
 
         public const int AvailabilityViewInterval = 5;
 
+
         public static async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
             // todo: check input datetime is utc
@@ -162,6 +163,50 @@ namespace CalendarSkill.Utilities
                 default:
                     return false;
             }
+        }
+
+        public static bool ContainMeetingRoomSlot(CalendarLuis luis)
+        {
+            return ContainSlot(luis, SlotNames.Room);
+        }
+
+        public static bool ContainTimeSlot(CalendarLuis luis)
+        {
+            return ContainSlot(luis, SlotNames.Time);
+        }
+
+        /*
+         SlotAttributeName is entity list, while SlotAttribute is simple entity. SlotAttributeName is the canonical form of SlotAttribute.
+         When both SlotAttributeName and SlotAttribute are recognized, this entity is confirmed.
+         */
+        private static bool ContainSlot(CalendarLuis luis, string slotName)
+        {
+            if (luis == null || luis.Entities == null || luis.Entities.SlotAttributeName == null || luis.Entities.SlotAttribute == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < luis.Entities.SlotAttributeName.Length; i++)
+            {
+                for (int j = 0; j < luis.Entities.SlotAttribute.Length; j++)
+                {
+                    if (luis.Entities.SlotAttributeName[i][0] == slotName &&
+                        luis.Entities._instance.SlotAttributeName[i].Text == luis.Entities._instance.SlotAttribute[j].Text &&
+                        luis.Entities._instance.SlotAttributeName[i].StartIndex == luis.Entities._instance.SlotAttribute[j].StartIndex &&
+                        luis.Entities._instance.SlotAttributeName[i].EndIndex == luis.Entities._instance.SlotAttribute[j].EndIndex)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private class SlotNames
+        {
+            public const string Time = "time";
+            public const string Room = "room";
         }
     }
 }

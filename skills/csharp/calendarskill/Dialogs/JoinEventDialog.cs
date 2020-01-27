@@ -152,11 +152,11 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }
@@ -191,7 +191,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
 
                 var validEvents = new List<EventModel>();
-                foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
+                foreach (var item in state.ShowMeetingInfo.ShowingMeetings)
                 {
                     if (IsValidJoinTime(state.GetUserTimeZone(), item) && (GetDialInNumberFromMeeting(item) != null || item.OnlineMeetingUrl != null || GetTeamsMeetingLinkFromMeeting(item) != null))
                     {
@@ -199,7 +199,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                state.ShowMeetingInfor.ShowingMeetings = validEvents;
+                state.ShowMeetingInfo.ShowingMeetings = validEvents;
                 if (validEvents.Any())
                 {
                     return await sc.EndDialogAsync();
@@ -222,7 +222,7 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                var selectedEvent = state.ShowMeetingInfo.FocusedEvents.First();
                 var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
                 var meetingLink = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent);
 
@@ -254,7 +254,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if ((bool)sc.Result)
                     {
-                        var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                        var selectedEvent = state.ShowMeetingInfo.FocusedEvents.First();
                         var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.JoinMeeting);
                         await sc.Context.SendActivityAsync(activity);
                         var replyEvent = sc.Context.Activity.CreateReply();
@@ -275,7 +275,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                state.ShowMeetingInfor.ShowingMeetings.Clear();
+                state.ShowMeetingInfo.ShowingMeetings.Clear();
 
                 return await sc.EndDialogAsync();
             }

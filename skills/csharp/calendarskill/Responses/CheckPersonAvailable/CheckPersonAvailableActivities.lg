@@ -1,4 +1,4 @@
-[import](CheckAvailableTexts.es-es.lg)
+﻿[import](CheckPersonAvailableTexts.lg)
 
 # AskForCheckAvailableTime
 [Activity
@@ -76,4 +76,3 @@
     Speak = @{NoNextBothAvailableTime.Text(UserName)}
     InputHint = acceptingInput
 ]
-

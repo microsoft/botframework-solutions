@@ -87,5 +87,15 @@ namespace CalendarSkill.Services
         /// <param name="availabilityViewInterval">Represents the duration of a time slot in an availabilityView in the response. The default is 30 minutes, minimum is 5, maximum is 1440. Optional.</param>
         /// <returns>the user available time slot from start time.</returns>
         Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval);
+
+        /// <summary>
+        /// Check the users availablity.
+        /// </summary>
+        /// <param name="users">the users.</param>
+        /// <param name="startTime">the start time.</param>
+        /// <param name="availabilityViewInterval">the availability View Interval.</param>
+        /// <returns>complete task.</returns>
+        Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval);
+
     }
 }

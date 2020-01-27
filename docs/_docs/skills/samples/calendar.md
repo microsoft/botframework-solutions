@@ -47,6 +47,9 @@ The following scenarios are currently supported by the Skill:
 - Find an Event's Duration
   - *How long will the next meeting last?*
   - *What's the duration of my 4 PM meeting?*
+- Find a Meeting Room
+  - *Find a meeting room at 3 PM*
+  - *Is the room 325 open right now?*
 - Time Remaining
   - *How long until my next meeting?*
   - *How many minutes free do I have before next scheduled appointment?*
@@ -73,8 +76,9 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |Name|Description|
 |-|-|
 |AcceptEventEntry| Matches queries to accept an event|
+|AddCalendarEntryAttribute| Matches queries to add a calendar entry attribute|
 |ChangeCalendarEntry| Matches queries to change an event|
-|CheckAvailability| Matches queries to check a contact's availability |
+|CheckAvailability| Matches queries to check a contact's or a meetingroom's availability |
 |ConnectToMeeting| Matches queries to connect to a meeting|
 |ContactMeetingAttendees| Matches queries to contact the attendees of a meeting|
 |CreateCalendarEntry| Matches queries to create a calendar entry|
@@ -97,10 +101,12 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |Name|Description|
 |-|-|
 |AskParameter| Simple entity|
+|Building| Simple entity|
 |ContactName| Simple entity|
 |DestinationCalendar| Simple entity|
 |Duration| Simple entity|
 |FromDate| Simple entity|
+|FloorNumber| Simple entity|
 |FromTime| Simple entity|
 |Location| Simple entity|
 |MeetingRoom| Simple entity|
@@ -116,6 +122,10 @@ LUIS models for the Skill are provided in **.lu** file format as part of the Ski
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
+|SlotAttributeName| List entity|
+|AfterAny| Pattern.Any entity|
+|MeetingRoomPatternAny| Pattern.Any entity|
+|MeetingRoomKeywordsDesc| RegEx entity|
 
 ## Configuration
 {:.toc}
@@ -153,6 +163,51 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - **Contacts.Read**
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+### Support of search and book a meeting room
+Calendar skill provided additional support to search and book a meeting room in the conversation. You can get the meeting room data from the msgraph API and deploy the data to Azure Search Index to provide better search experience.
+
+1. Make sure your meeting room data is complaint with the sample schema
+```json
+{
+    "value": [
+        {
+            "id": "94a7966e-b7f8-4466-b0c7-435251dab6eb",
+            "displayName": "London ConfRoom Excalibur",
+            "emailAddress": "Excalibur@ContosoVirtualAssist.onmicrosoft.com",
+            "building": "4",
+            "floorNumber": 2,
+        },
+        {
+            "id": "45d9a9b4-ca7f-4cc5-aa50-f4a151bed172",
+            "displayName": "London ConfRoom Enterprise",
+            "emailAddress": "Enterprise@ContosoVirtualAssist.onmicrosoft.com",
+            "building": "4",
+            "floorNumber": 1
+        },
+    ]
+}
+```
+
+2. Configure the setting of your registered app in Azure App Registration portal 
+    - Make sure your account have the admin privileges to access your tenant's meeting room data. 
+    - In Authentication, set "Treat application as a public client" as "Yes"
+    - In API Permissions, add Scope: **Place.Read.All** 
+3. Run the following command:
+```powershell
+ ./Deployment/Scripts/enable_findmeetingroom.ps1
+```
+
+### What do these parameters mean? 
+| Parameter | Description | Required |
+|  ----   | ----   | ---- |
+|resourceGroup  | An existing resource group where the Azure Search Service will be deployed.  | Yes |
+|cosmosDbAccount  | An existing CosmosDb Account where the meeting room data will be stored and then it will be used as a Data Source for Azure Search.  | Yes |
+|primaryKey  | The primaryKey of the given CosmosDb Account  | Yes |
+|appId  | A registed app in Azure App registrations Service | Yes |
+
+You can access all the required parameters from the [Deployment](#Deployment) step. <br>
+**Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.
 
 Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication#manual-authentication) to configure this using the scopes shown above.
 

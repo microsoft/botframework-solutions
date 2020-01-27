@@ -161,3 +161,16 @@
     InputHint = expectingInput
 ]
 
+# NoMeetingRoom
+[Activity
+    Text = @{NoMeetingRoom.Text()}
+    Speak = @{NoMeetingRoom.Text()}
+    InputHint = expectingInput
+]
+
+# MeetingBooked
+[Activity
+    Text = @{MeetingBooked.Text()}
+    Speak = @{MeetingBooked.Text()}
+    InputHint = expectingInput
+]

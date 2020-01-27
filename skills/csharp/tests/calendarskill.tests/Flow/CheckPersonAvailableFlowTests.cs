@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
+using CalendarSkill.Responses.CheckPersonAvailable;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
-    public class CheckAvailableFlowTests : CalendarSkillTestBase
+    public class CheckPersonAvailableFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
         public void SetupLuisService()
@@ -30,7 +30,7 @@ namespace CalendarSkill.Test.Flow
                 LuisServices = new Dictionary<string, LuisRecognizer>()
                 {
                     { "General", new MockLuisRecognizer() },
-                    { "Calendar", new MockLuisRecognizer(new CheckAvailableTestUtterances()) }
+                    { "Calendar", new MockLuisRecognizer(new CheckPersonAvailableTestUtterances()) }
                 }
             });
         }
@@ -39,7 +39,7 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarBaseCheckAvailable()
         {
             await this.GetTestFlow()
-                .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.AvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeeting())
                 .Send(Strings.Strings.ConfirmNo)
@@ -52,7 +52,7 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetAllToDefault();
             await this.GetTestFlow()
-                .Send(CheckAvailableTestUtterances.CheckAvailableSlotFilling)
+                .Send(CheckPersonAvailableTestUtterances.CheckAvailableSlotFilling)
                 .AssertReplyOneOf(this.AskForCollectContact())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(this.AskForCollectTime())
@@ -69,7 +69,7 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetParticipantNotAvailable();
             await this.GetTestFlow()
-                .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.NotAvailableResponse())
                 .AssertReplyOneOf(this.AskForFindNextAvailableTimeResponse())
                 .Send(Strings.Strings.ConfirmYes)
@@ -85,7 +85,7 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetOrgnizerNotAvailable();
             await this.GetTestFlow()
-                .Send(CheckAvailableTestUtterances.BaseCheckAvailable)
+                .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.OrgnizerNotAvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeetingAnyway())
                 .Send(Strings.Strings.ConfirmNo)
@@ -95,7 +95,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AvailableResponse()
         {
-            return GetTemplates(CheckAvailableResponses.AttendeeIsAvailable, new
+            return GetTemplates(CheckPersonAvailableResponses.AttendeeIsAvailable, new
             {
                 UserName = Strings.Strings.DefaultUserName,
                 StartTime = "4:00 PM",
@@ -106,7 +106,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] BothAvailableResponse()
         {
-            return GetTemplates(CheckAvailableResponses.NextBothAvailableTime, new
+            return GetTemplates(CheckPersonAvailableResponses.NextBothAvailableTime, new
             {
                 UserName = Strings.Strings.DefaultUserName,
                 StartTime = "4:30 PM",
@@ -117,7 +117,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] NotAvailableResponse()
         {
-            return GetTemplates(CheckAvailableResponses.NotAvailable, new
+            return GetTemplates(CheckPersonAvailableResponses.NotAvailable, new
             {
                 UserName = Strings.Strings.DefaultUserName,
                 Time = "4:00 PM",
@@ -127,7 +127,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] OrgnizerNotAvailableResponse()
         {
-            return GetTemplates(CheckAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, new
+            return GetTemplates(CheckPersonAvailableResponses.AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict, new
             {
                 UserName = Strings.Strings.DefaultUserName,
                 StartTime = "4:00 PM",
@@ -141,7 +141,7 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForFindNextAvailableTimeResponse()
         {
-            return GetTemplates(CheckAvailableResponses.AskForNextAvailableTime, new
+            return GetTemplates(CheckPersonAvailableResponses.AskForNextAvailableTime, new
             {
                 UserName = Strings.Strings.DefaultUserName,
             });
@@ -149,12 +149,12 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForCreateNewMeeting()
         {
-            return GetTemplates(CheckAvailableResponses.AskForCreateNewMeeting);
+            return GetTemplates(CheckPersonAvailableResponses.AskForCreateNewMeeting);
         }
 
         private string[] AskForCreateNewMeetingAnyway()
         {
-            return GetTemplates(CheckAvailableResponses.AskForCreateNewMeetingAnyway, new
+            return GetTemplates(CheckPersonAvailableResponses.AskForCreateNewMeetingAnyway, new
             {
                 UserName = Strings.Strings.DefaultUserName,
                 StartTime = "4:00 PM"
@@ -163,12 +163,12 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForCollectContact()
         {
-            return GetTemplates(CheckAvailableResponses.AskForCheckAvailableUserName);
+            return GetTemplates(CheckPersonAvailableResponses.AskForCheckAvailableUserName);
         }
 
         private string[] AskForCollectTime()
         {
-            return GetTemplates(CheckAvailableResponses.AskForCheckAvailableTime);
+            return GetTemplates(CheckPersonAvailableResponses.AskForCheckAvailableTime);
         }
 
         private Action<IActivity> ActionEndMessage()
