@@ -40,6 +40,7 @@ namespace SkillSample.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new SetSpeakMiddleware());
         }
     }
 }
