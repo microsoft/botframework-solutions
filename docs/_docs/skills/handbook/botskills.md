@@ -16,7 +16,6 @@ The CLI performs the following operations on your behalf:
 2. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution.
 3. Add a new dispatch target using the `dispatch` tool to trigger the utterances retrieved in the previous step.
 4. Refresh the dispatch LUIS model with the new utterances.
-5. In the case of **Active Directory Authentication Providers**, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
 > Your Virtual Assistant must have been deployed using the [deployment tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
 
