@@ -104,13 +104,6 @@
 - hablar con un humano
 
 
-## ExtractName
-- ([se puede]|[por favor]) Llámame {PersonName.Any} [.]
-- Mi nombre es {PersonName.Any} [.]
-- (Soy|yo) {PersonName.Any} [.]
-- (es|esto) {PersonName.Any} [.]
-
-
 ## FinishTask
 - todo terminado
 - Todo listo
@@ -520,6 +513,7 @@ $DirectionalReference:simple
 $PREBUILT:number
 
 $PREBUILT:ordinal
+
 
 > # Phrase list definitions
 

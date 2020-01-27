@@ -104,13 +104,6 @@
 - Sprechen Sie mit einem Menschen
 
 
-## ExtractName
-- ([Sie können]|[bitte]) Ruf mich an {PersonName.Any} [.]
-- mein Name ist {PersonName.Any} [.]
-- (i'm|i am) {PersonName.Any} [.]
-- (es ist|es ist|dies ist) {PersonName.Any} [.]
-
-
 ## FinishTask
 - Alles fertig
 - Alles gesetzt

@@ -52,12 +52,12 @@ export class EscalateResponses extends TemplateManager {
             undefined,
             [
                 {
-                    title: i18next.t('escalate.btnText1'),
+                    title: i18next.t('escalate.callNow'),
                     type: ActionTypes.OpenUrl,
                     value: i18next.t('escalate.btnValue1')
                 },
                 {
-                    title: i18next.t('escalate.btnText2'),
+                    title: i18next.t('escalate.openTeams'),
                     type: ActionTypes.OpenUrl,
                     value: i18next.t('escalate.btnValue2')
                 }

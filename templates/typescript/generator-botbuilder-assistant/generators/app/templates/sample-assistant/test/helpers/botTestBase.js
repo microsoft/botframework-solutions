@@ -8,7 +8,7 @@ const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
-const { EventDebuggerMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
+const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 
@@ -118,6 +118,7 @@ async function getTestAdapterDefault(settings) {
     adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en-us'));
     adapter.use(new EventDebuggerMiddleware());
     adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
+    adapter.use(new FeedbackMiddleware(conversationState, telemetryClient));
     return adapter;
 }
 
