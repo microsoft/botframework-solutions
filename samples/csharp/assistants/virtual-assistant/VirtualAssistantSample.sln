@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VA", "VA", "{BD62412B-FAA5-475A-93F3-4980DB0FED7D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{1B88BF44-E6D7-441A-931F-8EC00F6954C8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Tests", "VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj", "{909085AC-BFB6-4A90-B5A5-3D07F7E63900}"
@@ -26,10 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1B88BF44-E6D7-441A-931F-8EC00F6954C8} = {BD62412B-FAA5-475A-93F3-4980DB0FED7D}
-		{909085AC-BFB6-4A90-B5A5-3D07F7E63900} = {BD62412B-FAA5-475A-93F3-4980DB0FED7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03D2E957-9568-4F2E-9176-45179E11B252}
