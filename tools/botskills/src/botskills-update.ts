@@ -4,8 +4,8 @@
  */
 
 import * as program from 'commander';
-import { existsSync, readFileSync } from 'fs';
-import { extname, isAbsolute, join, resolve } from 'path';
+import { readFileSync } from 'fs';
+import { extname, join, resolve } from 'path';
 import { UpdateSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IUpdateConfiguration } from './models';
@@ -41,7 +41,6 @@ program
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
-    .option('--skillsFile [path]', '[OPTIONAL] Path to your assistant Skills configuration file (defaults to the \'skills.json\' inside your assistant\'s folder)')
     .option('--resourceGroup [path]', '[OPTIONAL] Name of your assistant\'s resource group in Azure (defaults to your assistant\'s bot name)')
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
@@ -66,7 +65,6 @@ let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
 let lgOutFolder: string;
-let skillsFile: string = '';
 let resourceGroup: string = '';
 let appSettingsFile: string;
 let cognitiveModelsFile: string;
@@ -113,22 +111,6 @@ endpointName = args.endpointName;
 // outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 
-// skillsFile validation
-if (!args.skillsFile) {
-    skillsFile = join(outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
-} else if (extname(args.skillsFile) !== '.json') {
-    logger.error(`The 'skillsFile' argument should be a JSON file.`);
-    process.exit(1);
-} else {
-    const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
-    if (!existsSync(skillsFilePath)) {
-        logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
-        process.exit(1);
-    }
-    skillsFile = skillsFilePath;
-}
-
 // appSettingsFile validation
 appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
 
@@ -174,7 +156,6 @@ const configuration: IUpdateConfiguration = {
     dispatchFolder: dispatchFolder,
     outFolder: outFolder,
     lgOutFolder: lgOutFolder,
-    skillsFile: skillsFile,
     resourceGroup: resourceGroup,
     appSettingsFile: appSettingsFile,
     cognitiveModelsFile: cognitiveModelsFile,

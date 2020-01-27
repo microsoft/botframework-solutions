@@ -17,7 +17,6 @@ export interface IUpdateConfiguration {
     dispatchFolder: string;
     outFolder: string;
     lgOutFolder: string;
-    skillsFile: string;
     resourceGroup: string;
     appSettingsFile: string;
     cognitiveModelsFile: string;
