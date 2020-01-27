@@ -7,13 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
 
 namespace VirtualAssistantSample.Bots
@@ -26,7 +24,6 @@ namespace VirtualAssistantSample.Bots
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private IStatePropertyAccessor<SkillContext> _skillContext;
         private LocaleTemplateEngineManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
@@ -36,7 +33,6 @@ namespace VirtualAssistantSample.Bots
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _skillContext = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
         }
 
@@ -84,40 +80,6 @@ namespace VirtualAssistantSample.Bots
 
             switch (ev.Name)
             {
-                case Events.Location:
-                    {
-                        var locationObj = new JObject();
-                        locationObj.Add(StateProperties.Location, JToken.FromObject(value));
-
-                        // Store location for use by skills.
-                        var skillContext = await _skillContext.GetAsync(turnContext, () => new SkillContext());
-                        skillContext[StateProperties.Location] = locationObj;
-                        await _skillContext.SetAsync(turnContext, skillContext);
-
-                        break;
-                    }
-
-                case Events.TimeZone:
-                    {
-                        try
-                        {
-                            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(value);
-                            var timeZoneObj = new JObject();
-                            timeZoneObj.Add(StateProperties.TimeZone, JToken.FromObject(timeZoneInfo));
-
-                            // Store location for use by skills.
-                            var skillContext = await _skillContext.GetAsync(turnContext, () => new SkillContext());
-                            skillContext[StateProperties.TimeZone] = timeZoneObj;
-                            await _skillContext.SetAsync(turnContext, skillContext);
-                        }
-                        catch
-                        {
-                            await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received time zone could not be parsed. Property not set."));
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Forward the token response activity to the dialog waiting on the stack.
@@ -131,12 +93,6 @@ namespace VirtualAssistantSample.Bots
                         break;
                     }
             }
-        }
-
-        private class Events
-        {
-            public const string Location = "VA.Location";
-            public const string TimeZone = "VA.Timezone";
         }
     }
 }

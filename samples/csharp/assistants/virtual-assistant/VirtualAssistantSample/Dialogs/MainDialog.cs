@@ -10,10 +10,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
@@ -27,6 +29,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotSettings _settings;
         private OnboardingDialog _onboardingDialog;
         private SwitchSkillDialog _switchSkillDialog;
+        private SkillsConfiguration _skillsConfig;
         private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
@@ -39,6 +42,7 @@ namespace VirtualAssistantSample.Dialogs
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
             TelemetryClient = telemetryClient;
 
             var userState = serviceProvider.GetService<UserState>();
@@ -177,13 +181,16 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                     {
-                        var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchResult.TopIntent().intent.ToString());
-
-                        if (identifiedSkill != null)
+                        EnhancedBotFrameworkSkill identifiedSkill;
+                        if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
                         {
                             var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
                             await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
                             interrupted = true;
+                        }
+                        else
+                        {
+                            throw new ArgumentException($"{dispatchIntent.ToString()} is not in the skills configuration");
                         }
                     }
                 }
@@ -316,24 +323,28 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                // Check if the dispatch intent maps to a skill.
-                var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, dispatchIntent.ToString());
-
-                if (identifiedSkill != null)
+                var dispatchIntentSkill = dispatchIntent.ToString();
+                if (!string.IsNullOrWhiteSpace(dispatchIntentSkill) && !dispatchIntentSkill.Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+
                     // Start the skill dialog.
-                    return await stepContext.BeginDialogAsync(identifiedSkill.Id);
+                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    return await stepContext.BeginDialogAsync("Faq");
+                    return await stepContext.BeginDialogAsync("faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
-                    return await stepContext.BeginDialogAsync("Chitchat");
+                    stepContext.SuppressCompletionMessage(true);
+
+                    return await stepContext.BeginDialogAsync("chitchat");
                 }
                 else
                 {
+                    stepContext.SuppressCompletionMessage(true);
+
                     await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
                     return await stepContext.NextAsync();
                 }
