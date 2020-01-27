@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IListConfiguration, ISkillFile, ISkillManifest } from '../models';
+import { IListConfiguration, ISkillFileV1, ISkillManifestV1 } from '../models';
 
 export class ListSkill {
     public logger: ILogger;
@@ -22,13 +22,13 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
             // Take VA Skills configurations
-            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
+            const assistantSkillsFile: ISkillFileV1 = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             if (assistantSkillsFile.skills === undefined) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
                 return false;
             }
-            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
+            const assistantSkills: ISkillManifestV1[] = assistantSkillsFile.skills;
 
             if (assistantSkills.length < 1) {
                 this.logger.message('There are no Skills connected to the assistant.');
@@ -36,7 +36,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             } else {
                 let message: string = `The skills already connected to the assistant are the following:`;
-                assistantSkills.forEach((skillManifest: ISkillManifest): void => {
+                assistantSkills.forEach((skillManifest: ISkillManifestV1): void => {
                     message += `\n\t- ${skillManifest.id}`;
                 });
 
