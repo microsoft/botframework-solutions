@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
@@ -12,10 +12,16 @@
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.1" />
     <PackageReference Include="Microsoft.Bot.Connector.DirectLine" Version="3.0.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.21" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj" />
+    <ProjectReference Include="..\VirtualAssistantSample\VirtualAssistantSample.csproj" />
   </ItemGroup>
 </Project>

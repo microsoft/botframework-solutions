@@ -26,7 +26,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
-            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -45,7 +45,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
-            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                .Send(GeneralUtterances.Cancel)
@@ -56,8 +56,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption_Confirmed()
         {
-            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allCancelledVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allCancelledVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -75,7 +75,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
-            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow()
                 .Send(new Activity()

@@ -2,65 +2,98 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VirtualAssistantSample.Tests;
 
 namespace VirtualAssistantSample.FunctionalTests
 {
     [TestClass]
     [TestCategory("FunctionalTests")]
-    public class DirectLineClientTests
+    public class DirectLineClientTests : BotTestBase
     {
         private static string directLineSecret = "z-3WLu7PZKM.aVir2WPXwsefHv6ZYLzkHp0NNflU7oYf4ycVkP4D4as";
         private static string botId = "bf-virtual-assistant-nightly-lpahtc3";
-        private static string fromUser = "DirectLineClientTestUser";
-        private static string echoGuid = string.Empty;
-        private static string input = $"Testing Azure Bot GUID: ";
+        private static DirectLineClient client;
+        private static LocaleTemplateEngineManager templateEngine;
+        private static string fromUser = Guid.NewGuid().ToString();
+        private static string fromUserName = "John Smith";
 
-        [TestMethod]
-        public async Task SendDirectLineMessage()
+        // An event activity to trigger the welcome message (method for using custom Web Chat).
+        private static Activity startConversationEvent = new Activity
+        {
+            From = new ChannelAccount(fromUser, fromUserName),
+            Type = ActivityTypes.Event,
+            Name = "startConversation",
+            Locale = "en-us"
+        };
+
+        [TestInitialize]
+        public void Test_Initialize()
         {
             GetEnvironmentVars();
 
-            echoGuid = Guid.NewGuid().ToString();
-            input += echoGuid;
+            // Create a new Direct Line client.
+            client = new DirectLineClient(directLineSecret);
+        }
 
-            var botAnswer = await StartBotConversationAsync();
+        [TestMethod]
+        public async Task Test_Greeting()
+        {
+            await Assert_New_User_Greeting();
+        }
 
-            Assert.AreEqual($"Echo: {input}", botAnswer);
+        public async Task Assert_New_User_Greeting()
+        {
+            var conversation = await StartBotConversationAsync();
+
+            var responses = await SendActivityAsync(conversation, startConversationEvent);
+
+            // Validate first Activity has attachment
+            // Validate second Activity has text
+
+            Assert.AreEqual(1, responses[0].Attachments.Count);
+            // Assert.AreEqual(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"));
+        }
+
+        //[TestMethod]
+        //public async Task Test_Returning_User_Greeting()
+        //{
+        //    GetEnvironmentVars();
+
+        //    var botAnswer = await StartBotConversationAsync();
+
+        //    Assert.AreEqual($"Echo: {input}", botAnswer);
+        //}
+
+        /// <summary>
+        /// Starts a conversation with a bot.
+        /// </summary>
+        /// <returns>Returns the new conversation.</returns>
+        private static async Task<Conversation> StartBotConversationAsync()
+        {
+            // Start the conversation.
+            return await client.Conversations.StartConversationAsync();
         }
 
         /// <summary>
-        /// Starts a conversation with a bot. Sends a message and waits for the response.
+        /// Sends an activity and waits for the response.
         /// </summary>
         /// <returns>Returns the bot's answer.</returns>
-        private static async Task<string> StartBotConversationAsync()
+        private static async Task<List<Activity>> SendActivityAsync(Conversation conversation, Activity activity)
         {
-            // Create a new Direct Line client.
-            var client = new DirectLineClient(directLineSecret);
-
-            // Start the conversation.
-            var conversation = await client.Conversations.StartConversationAsync();
-
-            // Create an event activity to trigger the welcome message.
-            var startConversationEvent = new Activity
-            {
-                From = new ChannelAccount(fromUser),
-                Type = ActivityTypes.Event,
-                Name = "startConversation",
-                Locale = "en-us"
-            };
-
             // Send the message activity to the bot.
-            await client.Conversations.PostActivityAsync(conversation.ConversationId, startConversationEvent);
+            await client.Conversations.PostActivityAsync(conversation.ConversationId, activity);
 
             // Read the bot's message.
-            var botAnswer = await ReadBotMessagesAsync(client, conversation.ConversationId);
+            var responses = await ReadBotMessagesAsync(client, conversation.ConversationId);
 
-            return botAnswer;
+            return responses;
         }
 
         /// <summary>
@@ -69,13 +102,13 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <param name="client">The Direct Line client.</param>
         /// <param name="conversationId">The conversation ID.</param>
         /// <returns>Returns the bot's answer.</returns>
-        private static async Task<string> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
+        private static async Task<List<Activity>> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
         {
             string watermark = null;
-            var answer = string.Empty;
+            List<Activity> botResponses = null;
 
             // Poll the bot for replies once per second.
-            while (answer.Equals(string.Empty))
+            while (botResponses == null)
             {
                 // Retrieve the activity sent from the bot.
                 var activitySet = await client.Conversations.GetActivitiesAsync(conversationId, watermark);
@@ -87,21 +120,18 @@ namespace VirtualAssistantSample.FunctionalTests
                                  select x;
 
                 // Analyze each activity in the activity set.
-                foreach (var activity in activities)
+                if (activities.Any())
                 {
-                    if (activity.Type == ActivityTypes.Message && activity.Text != "Welcome to Echo Bot.")
-                    {
-                        answer = activity.Text;
-                    }
+                    botResponses = activities.ToList();
                 }
 
                 // Wait for one second before polling the bot again.
                 await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
 
-                return answer;
+                return botResponses;
             }
 
-            return answer;
+            return botResponses;
         }
 
         /// <summary>

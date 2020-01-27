@@ -48,7 +48,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
-            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
+            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send("Unhandled message")
