@@ -16,4 +16,5 @@ export interface IDisconnectConfiguration {
     lgOutFolder: string;
     lgLanguage: string;
     logger?: ILogger;
+    appSettingsFile: string;
 }

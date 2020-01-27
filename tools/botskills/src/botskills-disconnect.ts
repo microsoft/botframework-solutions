@@ -38,7 +38,7 @@ program
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
-    .option('--skillsFile [path]', '[OPTIONAL] Path to your assistant Skills configuration file (defaults to the \'skills.json\' inside your assistant\'s folder)')
+    .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command): undefined => undefined);
@@ -59,6 +59,7 @@ let languages: string[];
 let dispatchFolder: string;
 let lgOutFolder: string;
 let lgLanguage: string;
+let appSettingsFile: string;
 
 logger.isVerbose = args.verbose;
 
@@ -88,6 +89,15 @@ if (!args.skillId) {
 skillId = args.skillId;
 // outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
+
+// appSettingsFile validation
+appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
+
+// validate the existence of the appsettings file
+if (appSettingsFile === undefined) {
+    logger.error(`The 'appSettings' file doesn't exist`);
+    process.exit(1);
+}
 
 // skillsFile validation
 if (!args.skillsFile) {
@@ -133,6 +143,7 @@ const configuration: IDisconnectConfiguration = {
     dispatchFolder: dispatchFolder,
     lgOutFolder: lgOutFolder,
     lgLanguage: lgLanguage,
-    logger: logger
+    logger: logger,
+    appSettingsFile: appSettingsFile
 };
 new DisconnectSkill(<IDisconnectConfiguration> configuration, logger).disconnectSkill();
