@@ -4,7 +4,6 @@
  */
 
 import {
-    AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
@@ -12,21 +11,24 @@ import {
     ShowTypingMiddleware,
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
-    TranscriptStore,
-    UserState} from 'botbuilder';
+    TranscriptStore } from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
+import { WhitelistAuthenticationProvider } from 'botbuilder-skills';
 import {
     EventDebuggerMiddleware,
+    FeedbackMiddleware,
     SetLocaleMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
+    private whitelistAuthenticationProvider: WhitelistAuthenticationProvider;
+
     public constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        userState: UserState,
         conversationState: ConversationState,
-        telemetryClient: BotTelemetryClient
+        telemetryClient: BotTelemetryClient,
+        whitelistAuthenticationProvider: WhitelistAuthenticationProvider
     ) {
         super(adapterSettings);
 
@@ -38,11 +40,16 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             containerName: settings.blobStorage.container,
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
-        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
+
+        this.whitelistAuthenticationProvider = whitelistAuthenticationProvider;
+
+        // Uncomment the following line for local development without Azure Storage
+        // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
+        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
+        this.use(new FeedbackMiddleware(conversationState, telemetryClient));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new AutoSaveStateMiddleware(conversationState, userState));
     }
 }

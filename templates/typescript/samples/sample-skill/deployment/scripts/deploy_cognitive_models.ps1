@@ -3,15 +3,15 @@
 Param(
 	[string] $name,
 	[string] $luisAuthoringRegion,
-	[string] $luisAuthoringKey,
+    [string] $luisAuthoringKey,
 	[string] $luisAccountName,
-	[string] $luisAccountRegion,
+    [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
 	[switch] $useDispatch,
     [string] $languages = "en-us",
-    [string] $outFolder = $(Join-Path $(Get-Location) "src"),
+	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
 )
 
@@ -61,7 +61,7 @@ if (-not $luisAuthoringKey) {
 }
 
 if (-not $luisAccountName) {
-    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+    $luisAccountName = Read-Host "? LUIS Service Name (existing service in Azure required)"
 }
 
 if (-not $resourceGroup) {
@@ -70,7 +70,7 @@ if (-not $resourceGroup) {
 	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
-	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
+	    $resourceGroup = Read-Host "? LUIS Service Resource Group (existing service in Azure required)"
 	}
 }
 
@@ -90,6 +90,7 @@ if (-not $luisSubscriptionKey) {
 if (-not $luisAccountRegion) {
 	$luisAccountRegion = Read-Host "? LUIS Service Location"
 }
+
 if (-not $qnaSubscriptionKey) {	
 	$useQna = $false
 }
@@ -132,7 +133,7 @@ foreach ($language in $languageArr)
     $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
 	if ($luisFiles) {
 		$config | Add-Member -MemberType NoteProperty -Name languageModels -Value @()
-		
+
 		foreach ($lu in $luisFiles)
 		{
 			# Deploy LUIS model
@@ -143,7 +144,7 @@ foreach ($language in $languageArr)
 				-luisAuthoringKey $luisAuthoringKey `
 				-language $language `
 				-log $logFile
-			
+        
 			Write-Host "> Setting LUIS subscription key ..."
 			if ($luisApp) {
 				# Setting subscription key
@@ -162,7 +163,7 @@ foreach ($language in $languageArr)
 					Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 					Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
 				}
-			
+
 				if ($useDispatch) {
 					# Add luis app to dispatch
 					Write-Host "> Adding $($lu.BaseName) app to dispatch model ..."
@@ -182,7 +183,7 @@ foreach ($language in $languageArr)
 					name = $luisApp.name
 					appId = $luisApp.id
 					authoringKey = $luisAuthoringKey
-					authoringRegion = $luisAuthoringRegion
+                    authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
@@ -198,7 +199,7 @@ foreach ($language in $languageArr)
 		if (Test-Path $(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)) {
 			# Deploy QnA Maker KBs
 			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
-
+		
 			if ($qnaFiles) {
 				$config | Add-Member -MemberType NoteProperty -Name knowledgeBases -Value @()
 
@@ -206,7 +207,7 @@ foreach ($language in $languageArr)
 				{
 					# Deploy QnA Knowledgebase
 					$qnaKb = DeployKB -name $name -lu_file $lu -qnaSubscriptionKey $qnaSubscriptionKey -log $logFile
-
+       
 					if ($qnaKb) {
 						if ($useDispatch) {
 							Write-Host "> Adding $($lu.BaseName) kb to dispatch model ..."        
@@ -219,7 +220,7 @@ foreach ($language in $languageArr)
 								--dataFolder $dataFolder `
 								--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
 						}
-
+					
 						# Add to config
 						$config.knowledgeBases += @{
 							id = $lu.BaseName
@@ -286,7 +287,7 @@ foreach ($language in $languageArr)
 				authoringKey = $luisAuthoringKey
 				authoringRegion = $luisAuthoringRegion
 				subscriptionKey = $luisSubscriptionKey
-				region = $luisAuthoringRegion
+				region = $luisAccountRegion
 			}
 		}
 	}
@@ -296,4 +297,4 @@ foreach ($language in $languageArr)
 }
 
 # Write out config to file
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json") -Encoding utf8
+$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $outFolder "cognitivemodels.json" )

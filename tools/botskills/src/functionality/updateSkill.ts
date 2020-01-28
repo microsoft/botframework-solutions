@@ -72,6 +72,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
     private async executeConnectSkill(): Promise<void> {
         const connectConfiguration: IConnectConfiguration = {...{}, ...this.configuration};
         connectConfiguration.noRefresh = this.configuration.noRefresh;
+        connectConfiguration.inlineUtterances = this.configuration.inlineUtterances;
         await new ConnectSkill(connectConfiguration, this.logger).connectSkill();
     }
 

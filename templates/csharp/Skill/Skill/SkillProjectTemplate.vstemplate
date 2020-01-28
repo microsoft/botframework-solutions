@@ -23,9 +23,11 @@
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+        <Folder Name="manifest" TargetFolderName="manifest">
+          <ProjectItem ReplaceParameters="true" TargetFileName="manifest.json">manifest.json</ProjectItem>
+        </Folder>
       </Folder>
       <Folder Name="Adapters" TargetFolderName="Adapters">
-        <ProjectItem ReplaceParameters="true" TargetFileName="CustomSkillAdapter.cs">CustomSkillAdapter.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
       </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
@@ -77,6 +79,7 @@
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialog.cs">SampleDialog.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SampleAction.cs">SampleAction.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogBase.cs">SkillDialogBase.cs</ProjectItem>
       </Folder>
       <Folder Name="Models" TargetFolderName="Models">
@@ -109,7 +112,6 @@
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">cognitivemodels.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="manifestTemplate.json">manifestTemplate.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>

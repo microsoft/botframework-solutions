@@ -24,7 +24,7 @@ namespace VirtualAssistantSample.Tests
 
             var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -51,7 +51,7 @@ namespace VirtualAssistantSample.Tests
 
             var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -78,7 +78,7 @@ namespace VirtualAssistantSample.Tests
 
             var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -105,7 +105,7 @@ namespace VirtualAssistantSample.Tests
 
             var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -132,7 +132,7 @@ namespace VirtualAssistantSample.Tests
 
             var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -156,7 +156,7 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Defaulting_Localization()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,

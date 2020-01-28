@@ -95,9 +95,6 @@ namespace VirtualAssistantSample.Dialogs
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
             await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
-            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
-
-            sc.SuppressCompletionMessage(true);
 
             return await sc.EndDialogAsync();
         }

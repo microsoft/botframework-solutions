@@ -26,7 +26,7 @@ trigger:
 
   paths:
     include:
-    - 'templates/Virtual-Assistant-Template/csharp/Sample/*'
+    - 'templates/csharp/VA/*'
 
 # By default will disable PR builds
 pr: none
@@ -56,12 +56,12 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
   inputs:
-    restoreSolution: 'templates\Virtual-Assistant-Template\csharp\VirtualAssistantTemplate.sln'
+    restoreSolution: 'templates\csharp\Templates.sln'
 
 - task: VSBuild@1
   displayName: 'Build solution VirtualAssistantTemplate.sln'
   inputs:
-    solution: templates\Virtual-Assistant-Template\csharp\VirtualAssistantTemplate.sln
+    solution: templates\csharp\Templates.sln
     vsVersion: '16.0'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
@@ -70,16 +70,16 @@ steps:
   displayName: 'test results'
   inputs:
     command: test
-    projects: '$(System.DefaultWorkingDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj'
+    projects: '$(System.DefaultWorkingDirectory)\templates\csharp\VA\VA.Tests\VA.Tests.csproj'
     arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    workingDirectory: 'templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests'
+    workingDirectory: 'templates\csharp\VA\VA.Tests'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests\coverage.cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests'
+    summaryFileLocation: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests'
 ```
 By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the master branch with the following change:
 

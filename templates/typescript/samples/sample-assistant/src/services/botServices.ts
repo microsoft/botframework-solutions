@@ -50,16 +50,16 @@ export class BotServices {
                         cognitiveModelSet.luisServices.set(luisService.id, new LuisRecognizer(luisApp, luisPredictionOptions));
                     });
                 }
-
-                config.knowledgeBases.forEach((kb: QnaMakerService): void => {
-                    const qnaEndpoint: QnAMakerEndpoint = {
-                        knowledgeBaseId: kb.kbId,
-                        endpointKey: kb.endpointKey,
-                        host: kb.hostname
-                    };
-                    cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient, true));
-                });
-
+                if (config.knowledgeBases !== undefined) {
+                    config.knowledgeBases.forEach((kb: QnaMakerService): void => {
+                        const qnaEndpoint: QnAMakerEndpoint = {
+                            knowledgeBaseId: kb.kbId,
+                            endpointKey: kb.endpointKey,
+                            host: kb.hostname
+                        };
+                        cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient, true));
+                    });
+                }
                 this.cognitiveModelSets.set(language, cognitiveModelSet);
             });
         }

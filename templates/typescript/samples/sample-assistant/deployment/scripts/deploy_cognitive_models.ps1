@@ -3,7 +3,7 @@
 Param(
 	[string] $name,
 	[string] $luisAuthoringRegion,
-    [string] $luisAuthoringKey,
+	[string] $luisAuthoringKey,
 	[string] $luisAccountName,
 	[string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
@@ -62,7 +62,7 @@ if (-not $luisAuthoringKey) {
 }
 
 if (-not $luisAccountName) {
-    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+    $luisAccountName = Read-Host "? LUIS Service Name (existing service in Azure required)"
 }
 
 if (-not $resourceGroup) {
@@ -71,7 +71,7 @@ if (-not $resourceGroup) {
 	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
-	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
+	    $resourceGroup = Read-Host "? LUIS Service Resource Group (existing service in Azure required)"
 	}
 }
 
@@ -91,6 +91,7 @@ if (-not $luisSubscriptionKey) {
 if (-not $luisAccountRegion) {
 	$luisAccountRegion = Read-Host "? LUIS Service Location"
 }
+
 if (-not $qnaSubscriptionKey) {
 	$useQna = $false
 }
@@ -100,9 +101,6 @@ else {
 
 $azAccount = az account show --output json | ConvertFrom-Json
 $azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
-
-$azAccount = az account show | ConvertFrom-Json
-$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
@@ -134,9 +132,9 @@ foreach ($language in $languageArr)
 
     # Deploy LUIS apps
     $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
-   
 	if ($luisFiles) {
 		$config | Add-Member -MemberType NoteProperty -Name languageModels -Value @()	
+
 		foreach ($lu in $luisFiles)
 		{
 			# Deploy LUIS model
@@ -149,7 +147,6 @@ foreach ($language in $languageArr)
 			-log $logFile 
 			
 			Write-Host "> Setting LUIS subscription key ..."
-
 			if ($luisApp) {
 				# Setting subscription key
 				$addKeyResult = luis add appazureaccount `
@@ -190,7 +187,7 @@ foreach ($language in $languageArr)
 					authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
-					region = $luisAuthoringRegion
+					region = $luisAccountRegion
 				}
 			}
 			else {
@@ -250,7 +247,6 @@ foreach ($language in $languageArr)
 	}
 	
 	if ($useDispatch) {
-
 		# Create dispatch model
 		Write-Host "> Creating dispatch model..."  
 		$dispatch = (dispatch create `

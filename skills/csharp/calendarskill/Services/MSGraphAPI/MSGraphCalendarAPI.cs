@@ -142,6 +142,57 @@ namespace CalendarSkill.Services.MSGraphAPI
             }
         }
 
+        // Check the availability of people/rooms with corresponding emails on condition of startTime and duration.
+        public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            try
+            {
+                List<bool> availability = new List<bool>();
+                var schedules = users;
+
+                var intervalStartTime = new DateTimeTimeZone
+                {
+                    DateTime = startTime.ToString(),
+                    TimeZone = "UTC"
+                };
+
+                var intervalEndTime = new DateTimeTimeZone
+                {
+                    DateTime = startTime.AddDays(1).ToString(),
+                    TimeZone = "UTC"
+                };
+
+                ICalendarGetScheduleCollectionPage collectionPage = await _graphClient.Me.Calendar
+                    .GetSchedule(schedules, intervalEndTime, intervalStartTime, availabilityViewInterval)
+                    .Request()
+                    .PostAsync();
+
+                // AvailabilityView[0] == '0' means available, while others mean not available.
+                foreach (var page in collectionPage)
+                {
+                    // Can't find this room.
+                    if (page.AvailabilityView == null)
+                    {
+                        availability.Add(false);
+                    }
+
+                    // AvailabilityViem is empty, should not get into this state.
+                    if (page.AvailabilityView.Length == 0)
+                    {
+                        throw new Exception("There is no elements in AvailabilityView");
+                    }
+
+                    availability.Add(page.AvailabilityView.Length > 0 && page.AvailabilityView[0] == '0');
+                }
+
+                return availability;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
         public async Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> attendees, DateTime startTime, int availabilityViewInterval)
         {
             List<bool> availability = new List<bool>();

@@ -75,3 +75,9 @@
 
 # GetRecreateInfoRetry.Text
 - Scusa, non ho capito. Alcune cose che puoi modificare sono l'ora, la durata, il luogo, i partecipanti, l'oggetto e la descrizione del tuo evento.
+
+# NoMeetingRoom.Text
+- Vuoi aggiungere una stanza?
+
+# MeetingBooked.Text
+- Va bene, la tua riunione è confermata.

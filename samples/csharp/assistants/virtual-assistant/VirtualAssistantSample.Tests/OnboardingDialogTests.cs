@@ -20,7 +20,7 @@ namespace VirtualAssistantSample.Tests
         {
             var testName = "Jane Doe";
 
-            UserProfileState profileState = new UserProfileState();
+            var profileState = new UserProfileState();
             profileState.Name = testName;
 
             var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
             dynamic data = new JObject();
             data.name = testName;
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,

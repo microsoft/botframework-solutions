@@ -205,5 +205,10 @@ namespace CalendarSkill.Test.Flow.Fakes
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

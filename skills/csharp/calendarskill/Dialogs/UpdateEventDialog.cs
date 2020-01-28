@@ -92,11 +92,11 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }
@@ -142,8 +142,8 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var newStartTime = (DateTime)state.UpdateMeetingInfor.NewStartDateTime;
-                var origin = state.ShowMeetingInfor.FocusedEvents[0];
+                var newStartTime = (DateTime)state.UpdateMeetingInfo.NewStartDateTime;
+                var origin = state.ShowMeetingInfo.FocusedEvents[0];
                 var last = origin.EndTime - origin.StartTime;
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
@@ -180,7 +180,7 @@ namespace CalendarSkill.Dialogs
                     await sc.Context.SendActivityAsync(activity);
                     if (options.SubFlowMode)
                     {
-                        state.UpdateMeetingInfor.Clear();
+                        state.UpdateMeetingInfo.Clear();
                     }
                     else
                     {
@@ -204,8 +204,8 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (CalendarSkillDialogOptions)sc.Options;
 
-                var newStartTime = (DateTime)state.UpdateMeetingInfor.NewStartDateTime;
-                var origin = state.ShowMeetingInfor.FocusedEvents[0];
+                var newStartTime = (DateTime)state.UpdateMeetingInfo.NewStartDateTime;
+                var origin = state.ShowMeetingInfo.FocusedEvents[0];
                 var updateEvent = new EventModel(origin.Source);
                 var last = origin.EndTime - origin.StartTime;
                 updateEvent.StartTime = newStartTime;
@@ -213,7 +213,7 @@ namespace CalendarSkill.Dialogs
                 updateEvent.TimeZone = TimeZoneInfo.Utc;
                 updateEvent.Id = origin.Id;
 
-                if (!string.IsNullOrEmpty(state.UpdateMeetingInfor.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
+                if (!string.IsNullOrEmpty(state.UpdateMeetingInfo.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
                 {
                     updateEvent.Id = origin.RecurringId;
                 }
@@ -228,7 +228,7 @@ namespace CalendarSkill.Dialogs
 
                 if (options.SubFlowMode)
                 {
-                    state.UpdateMeetingInfor.Clear();
+                    state.UpdateMeetingInfo.Clear();
                 }
                 else
                 {
@@ -254,7 +254,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.UpdateMeetingInfor.NewStartDate.Any() || state.UpdateMeetingInfor.NewStartTime.Any() || state.UpdateMeetingInfor.MoveTimeSpan != 0)
+                if (state.UpdateMeetingInfo.NewStartDate.Any() || state.UpdateMeetingInfo.NewStartTime.Any() || state.UpdateMeetingInfo.MoveTimeSpan != 0)
                 {
                     return await sc.NextAsync();
                 }
@@ -279,22 +279,22 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.UpdateMeetingInfor.NewStartDate.Any() || state.UpdateMeetingInfor.NewStartTime.Any() || state.UpdateMeetingInfor.MoveTimeSpan != 0)
+                if (state.UpdateMeetingInfo.NewStartDate.Any() || state.UpdateMeetingInfo.NewStartTime.Any() || state.UpdateMeetingInfo.MoveTimeSpan != 0)
                 {
-                    var originalEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                    var originalEvent = state.ShowMeetingInfo.FocusedEvents[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
                     var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.UpdateMeetingInfor.NewStartDate.Any() || state.UpdateMeetingInfor.NewStartTime.Any())
+                    if (state.UpdateMeetingInfo.NewStartDate.Any() || state.UpdateMeetingInfo.NewStartTime.Any())
                     {
-                        var newStartDate = state.UpdateMeetingInfor.NewStartDate.Any() ?
-                            state.UpdateMeetingInfor.NewStartDate.Last() :
+                        var newStartDate = state.UpdateMeetingInfo.NewStartDate.Any() ?
+                            state.UpdateMeetingInfo.NewStartDate.Last() :
                             originalStartDateTime;
 
                         var newStartTime = new List<DateTime>();
-                        if (state.UpdateMeetingInfor.NewStartTime.Any())
+                        if (state.UpdateMeetingInfo.NewStartTime.Any())
                         {
-                            newStartTime.AddRange(state.UpdateMeetingInfor.NewStartTime);
+                            newStartTime.AddRange(state.UpdateMeetingInfo.NewStartTime);
                         }
                         else
                         {
@@ -311,28 +311,28 @@ namespace CalendarSkill.Dialogs
                                 time.Minute,
                                 time.Second);
 
-                            if (state.UpdateMeetingInfor.NewStartDateTime == null)
+                            if (state.UpdateMeetingInfo.NewStartDateTime == null)
                             {
-                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                                state.UpdateMeetingInfo.NewStartDateTime = newStartDateTime;
                             }
 
                             if (newStartDateTime >= userNow)
                             {
-                                state.UpdateMeetingInfor.NewStartDateTime = newStartDateTime;
+                                state.UpdateMeetingInfo.NewStartDateTime = newStartDateTime;
                                 break;
                             }
                         }
                     }
-                    else if (state.UpdateMeetingInfor.MoveTimeSpan != 0)
+                    else if (state.UpdateMeetingInfo.MoveTimeSpan != 0)
                     {
-                        state.UpdateMeetingInfor.NewStartDateTime = originalStartDateTime.AddSeconds(state.UpdateMeetingInfor.MoveTimeSpan);
+                        state.UpdateMeetingInfo.NewStartDateTime = originalStartDateTime.AddSeconds(state.UpdateMeetingInfo.MoveTimeSpan);
                     }
                     else
                     {
                         return await sc.BeginDialogAsync(Actions.GetNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
                     }
 
-                    state.UpdateMeetingInfor.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.UpdateMeetingInfor.NewStartDateTime.Value, state.GetUserTimeZone());
+                    state.UpdateMeetingInfo.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.UpdateMeetingInfo.NewStartDateTime.Value, state.GetUserTimeZone());
 
                     return await sc.EndDialogAsync();
                 }
@@ -353,7 +353,7 @@ namespace CalendarSkill.Dialogs
                             continue;
                         }
 
-                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfor.FocusedEvents[0].StartTime, state.GetUserTimeZone());
+                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.ShowMeetingInfo.FocusedEvents[0].StartTime, state.GetUserTimeZone());
                         if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Date) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
                         {
                             dateTimeValue = new DateTime(
@@ -391,7 +391,7 @@ namespace CalendarSkill.Dialogs
 
                     if (newStartTime != null)
                     {
-                        state.UpdateMeetingInfor.NewStartDateTime = newStartTime;
+                        state.UpdateMeetingInfo.NewStartDateTime = newStartTime;
 
                         return await sc.EndDialogAsync();
                     }

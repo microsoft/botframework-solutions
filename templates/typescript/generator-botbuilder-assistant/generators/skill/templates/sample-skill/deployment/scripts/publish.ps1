@@ -4,7 +4,7 @@ Param(
 	[string] $name,
 	[string] $resourceGroup,
     [string] $projFolder = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "publish.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "publish_log.txt")
 )
 
 # Get mandatory parameters
@@ -73,4 +73,4 @@ if($?)
 else {
 	Write-Host "! Could not deploy automatically to Azure. Review the log for more information." -ForegroundColor DarkRed
 	Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
-}     
+}   

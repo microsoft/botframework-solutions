@@ -34,7 +34,6 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         `package.json`,
         `.eslintrc.json`,
         `.gitignore`,
-        `.npmrc`,
         `.nycrc`,
         manifestTemplatePath,
         dialogBotPath,

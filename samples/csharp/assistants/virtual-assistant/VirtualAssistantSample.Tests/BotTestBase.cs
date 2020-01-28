@@ -122,14 +122,22 @@ namespace VirtualAssistantSample.Tests
             TestUserProfileState.Name = "Bot";
         }
 
-        public TestFlow GetTestFlow()
+        public TestFlow GetTestFlow(bool includeUserProfile = true)
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>()
                 .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
+            var userState = sp.GetService<UserState>();
+            var userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
+                if (includeUserProfile)
+                {
+                    await userProfileState.SetAsync(context, TestUserProfileState);
+                    await userState.SaveChangesAsync(context);
+                }
+
                 var bot = sp.GetService<IBot>();
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

@@ -39,8 +39,9 @@ For Skills that require other Authentication connection configuration please fol
 | -r, --remoteManifest \<url>   | URL to remote Skill Manifest                                                                                                                                                        |
 | --cs                          | Determine your Virtual Assistant project structure to be a csharp-like structure                                                                                                    |
 | --ts                          | Determine your Virtual Assistant project structure to be a TypeScript-like structure                                                                                                |
-| --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                                                       |
+| --noRefresh [true\|FALSE]                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                                                       |
 | --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                              |
+| --inlineUtterances [true\|FALSE]            | (OPTIONAL) Determine whether the tool looks for the utterances described in the manifest or in the .lu file (by default they are taken from the .lu file) |
 | --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' '.lu' files (defaults to './deployment/resources/skills/en' inside your Virtual Assistant folder)                             |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)          |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                        |
@@ -63,5 +64,5 @@ botskills connect --localManifest "./skills/customSkill/customSkillManifest.json
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --skillsFile "./skills.json" --cs --verbose
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --skillsFile "./skills.json" --cs --verbose
 ```

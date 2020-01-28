@@ -1,21 +1,22 @@
 #Requires -Version 6
 
 Param(
-    [string] $name,
+	[string] $name,
 	[string] $resourceGroup,
-    [string] $location,
+	[string] $location,
 	[string] $appId,
-    [string] $appPassword,
-    [string] $luisAuthoringKey,
+	[string] $appPassword,
+	[string] $luisAuthoringKey,
 	[string] $luisAuthoringRegion,
-    [string] $parametersFile,
+	[string] $parametersFile,
 	[string] $languages = "en-us",
 	[string] $projDir = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot ".." "deploy_log.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
 
 # Src folder path
 $srcDir = $(Join-Path $projDir "src")
+
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -23,12 +24,14 @@ if (Test-Path $logFile) {
 else {
 	New-Item -Path $logFile | Out-Null
 }
+
 if (-not (Test-Path (Join-Path $srcDir 'appsettings.json')))
 {
 	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor DarkRed
 	Write-Host "+ Please re-run this script from your project directory." -ForegroundColor Magenta
 	Break
 }
+
 # Get mandatory parameters
 if (-not $name) {
     $name = Read-Host "? Bot Name (used as default name for resource group and deployed resources)"
@@ -112,7 +115,8 @@ if ($parametersFile) {
 		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-        --output json
+		--output json
+
 	if ($validation) {
 		$validation >> $logFile
 		$validation = $validation | ConvertFrom-Json
@@ -195,7 +199,6 @@ if ($outputs)
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $srcDir appsettings.json)
 
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
@@ -214,7 +217,7 @@ if ($outputs)
 	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
 
 	# Publish bot
-	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($outputs.resourceGroupName.value) -projFolder '$($projDir)'"-ForegroundColor Magenta
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 	Write-Host "> Done."
 }
 else
