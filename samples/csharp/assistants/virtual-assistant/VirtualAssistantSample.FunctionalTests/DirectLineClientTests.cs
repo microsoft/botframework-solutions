@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Tests;
 
 namespace VirtualAssistantSample.FunctionalTests
@@ -17,20 +18,25 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestCategory("FunctionalTests")]
     public class DirectLineClientTests : BotTestBase
     {
-        private static string directLineSecret = "z-3WLu7PZKM.aVir2WPXwsefHv6ZYLzkHp0NNflU7oYf4ycVkP4D4as";
-        private static string botId = "bf-virtual-assistant-nightly-lpahtc3";
+        private static string directLineSecret = string.Empty;
+        private static string botId = string.Empty;
         private static DirectLineClient client;
-        private static LocaleTemplateEngineManager templateEngine;
         private static string fromUser = Guid.NewGuid().ToString();
-        private static string fromUserName = "John Smith";
+        private static string testName = "Jane Doe";
 
         // An event activity to trigger the welcome message (method for using custom Web Chat).
         private static Activity startConversationEvent = new Activity
         {
-            From = new ChannelAccount(fromUser, fromUserName),
-            Type = ActivityTypes.Event,
+            From = new ChannelAccount(fromUser, testName),
             Name = "startConversation",
-            Locale = "en-us"
+            Type = ActivityTypes.Event
+        };
+
+        private static Activity testNameMessage = new Activity
+        {
+            From = new ChannelAccount(fromUser, testName),
+            Text = testName,
+            Type = ActivityTypes.Message
         };
 
         [TestInitialize]
@@ -47,33 +53,45 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             await Assert_New_User_Greeting();
 
-            await Test_Returning_User_Greeting();
+            await Assert_Returning_User_Greeting();
         }
 
+        /// <summary>
+        /// Assert that a new user is greeted with the onboarding prompt.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task Assert_New_User_Greeting()
         {
+            var profileState = new UserProfileState();
+            profileState.Name = testName;
+
+            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+
             var conversation = await StartBotConversationAsync();
 
             var responses = await SendActivityAsync(conversation, startConversationEvent);
 
             Assert.AreEqual(1, responses[0].Attachments.Count);
-            CollectionAssert.Contains(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"), responses[1].Text);
+            CollectionAssert.Contains(allNamePromptVariations, responses[1].Text);
 
-            // Send activity with name
-            
-            // Assert that bot replies correctly
-            // Then test below that using same GUID will now have "welcome back" Card instead
+            responses = await SendActivityAsync(conversation, testNameMessage);
+
+            CollectionAssert.Contains(allHaveMessageVariations, responses[2].Text);
         }
 
-        [TestMethod]
-        public async Task Test_Returning_User_Greeting()
+        /// <summary>
+        /// Assert that a returning user is only greeted with a single card activity.
+        /// </summary>
+        /// <returns>Task.</returns>
+        public async Task Assert_Returning_User_Greeting()
         {
             var conversation = await StartBotConversationAsync();
 
             var responses = await SendActivityAsync(conversation, startConversationEvent);
 
+            Assert.AreEqual(1, responses.Count);
             Assert.AreEqual(1, responses[0].Attachments.Count);
-            CollectionAssert.Contains(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"), responses[1].Text);
         }
 
         /// <summary>
