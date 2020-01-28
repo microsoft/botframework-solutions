@@ -5,13 +5,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Responses;
 using SkillSample.Services;
 
-namespace SkillSample.Bots
+namespace SkillSample.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {
@@ -29,6 +29,13 @@ namespace SkillSample.Bots
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
                 await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
                 telemetryClient.TrackException(exception);
+
+                // Send and EndOfConversation activity to the skill caller with the error to end the conversation
+                // and let the caller decide what to do.
+                var endOfConversation = Activity.CreateEndOfConversationActivity();
+                endOfConversation.Code = "SkillError";
+                endOfConversation.Text = exception.Message;
+                await turnContext.SendActivityAsync(endOfConversation);
             };
 
             Use(telemetryMiddleware);

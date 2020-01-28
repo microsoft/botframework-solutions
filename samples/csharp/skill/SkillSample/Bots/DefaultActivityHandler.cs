@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SkillSample.Bots
@@ -38,6 +38,16 @@ namespace SkillSample.Bots
             // Save any state changes that might have occured during the turn.
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
+
+            var activity = turnContext.Activity;
+            var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            if (activity != null && activity.Type == ActivityTypes.EndOfConversation)
+            {
+                await dialogState.DeleteAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
+                await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
+                return;
+            }
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
