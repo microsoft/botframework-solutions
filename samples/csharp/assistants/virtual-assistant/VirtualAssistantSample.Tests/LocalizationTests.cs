@@ -9,7 +9,6 @@ using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {
