@@ -60,12 +60,12 @@ describe("Main Dialog", function () {
 	
     describe("confused", function () {
         it("send an unhandled message", function (done) {
-			const allResponseVariations = templateEngine.templateEnginesPerLocale.get['en-us'].expandTemplate("UnsupportedMessage", testUserProfileState);
+			const allResponseVariations = templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedMessage", { name: '' });
 
 			getTestAdapterDefault().then((testAdapter) => {
-                const flow = testAdapter
-                    .send('Unhandled message')
-                    .assertReplyOneOf(allResponseVariations);
+				const flow = testAdapter
+                .send('Unhandled message')
+                .assertReplyOneOf(allResponseVariations);
                     
                 testNock.resolveWithMocks('mainDialog_unhandled_response', done, flow);
             });

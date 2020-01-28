@@ -38,9 +38,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "ecc1a774-1737-42f8-8520-b380dece06b2",
             "Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "ecc1a774-1737-42f8-8520-b380dece06b2",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:30 GMT",
             "Connection",
             "close"
         ]
@@ -86,9 +86,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "ce93c14d-f411-4b28-9099-afe07b5bb7dd",
             "Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "ce93c14d-f411-4b28-9099-afe07b5bb7dd",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +96,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:30 GMT",
             "Connection",
             "close"
         ]

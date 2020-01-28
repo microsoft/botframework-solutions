@@ -3,27 +3,27 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "I want to talk to a human",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.9991404
+                "score": 0.8168505
             },
             "entities": [],
             "connectedServiceResult": {
-                "query": "Help",
+                "query": "I want to talk to a human",
                 "topScoringIntent": {
-                    "intent": "Help",
-                    "score": 0.989662349
+                    "intent": "Escalate",
+                    "score": 0.95761466
                 },
                 "entities": [
                     {
-                        "entity": "help",
+                        "entity": "a human",
                         "type": "builtin.personName",
-                        "startIndex": 0,
-                        "endIndex": 3
+                        "startIndex": 18,
+                        "endIndex": 24
                     }
                 ]
             }
@@ -34,13 +34,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "431",
+            "481",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
             "Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:37 GMT",
             "Connection",
             "close"
         ]
@@ -59,20 +59,20 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "I want to talk to a human",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "I want to talk to a human",
             "topScoringIntent": {
-                "intent": "Help",
-                "score": 0.989662349
+                "intent": "Escalate",
+                "score": 0.95761466
             },
             "entities": [
                 {
-                    "entity": "help",
+                    "entity": "a human",
                     "type": "builtin.personName",
-                    "startIndex": 0,
-                    "endIndex": 3
+                    "startIndex": 18,
+                    "endIndex": 24
                 }
             ]
         },
@@ -82,13 +82,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "247",
+            "276",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "18bb553c-d699-4aed-bfae-219801008cf2",
             "Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "18bb553c-d699-4aed-bfae-219801008cf2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +96,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:38 GMT",
             "Connection",
             "close"
         ]
