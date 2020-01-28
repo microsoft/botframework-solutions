@@ -333,13 +333,15 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    return await stepContext.BeginDialogAsync("faq");
+                    stepContext.SuppressCompletionMessage(true);
+
+                    return await stepContext.BeginDialogAsync("Faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("chitchat");
+                    return await stepContext.BeginDialogAsync("Chitchat");
                 }
                 else
                 {
