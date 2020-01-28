@@ -184,16 +184,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         }
     }
 
-    private async getRemoteLu(path: string): Promise<string> {
-        try {
-            return get({
-                uri: path
-            });
-        } catch (err) {
-            throw new Error(`There was a problem while getting the remote lu file:\n${err}`);
-        }
-    }
-
     private getLocalManifest(): ISkillManifestV1 | ISkillManifestV2 {
         const manifestPath: string = this.configuration.localManifest;
         const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
