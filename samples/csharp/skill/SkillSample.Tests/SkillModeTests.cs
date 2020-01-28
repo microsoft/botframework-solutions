@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SkillSample.Dialogs;
 using SkillSample.Tests.Utterances;
 
@@ -36,7 +37,7 @@ namespace SkillSample.Tests
             var actionInput = new SampleActionInput() { Name = "test" };
 
             await GetSkillTestFlow()
-               .Send(new Activity(type: ActivityTypes.Event, name: "SampleAction", value: JsonConvert.SerializeObject(actionInput)))
+               .Send(new Activity(type: ActivityTypes.Event, name: "SampleAction", value: JObject.FromObject(actionInput)))
                .AssertReplyOneOf(GetTemplates("HaveNameMessageText", new { actionInput.Name }))
                .AssertReply((activity) =>
                {
