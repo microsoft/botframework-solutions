@@ -46,6 +46,8 @@ namespace VirtualAssistantSample.FunctionalTests
         public async Task Test_Greeting()
         {
             await Assert_New_User_Greeting();
+
+            await Test_Returning_User_Greeting();
         }
 
         public async Task Assert_New_User_Greeting()
@@ -54,22 +56,25 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var responses = await SendActivityAsync(conversation, startConversationEvent);
 
-            // Validate first Activity has attachment
-            // Validate second Activity has text
-
             Assert.AreEqual(1, responses[0].Attachments.Count);
-            // Assert.AreEqual(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"));
+            CollectionAssert.Contains(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"), responses[1].Text);
+
+            // Send activity with name
+            
+            // Assert that bot replies correctly
+            // Then test below that using same GUID will now have "welcome back" Card instead
         }
 
-        //[TestMethod]
-        //public async Task Test_Returning_User_Greeting()
-        //{
-        //    GetEnvironmentVars();
+        [TestMethod]
+        public async Task Test_Returning_User_Greeting()
+        {
+            var conversation = await StartBotConversationAsync();
 
-        //    var botAnswer = await StartBotConversationAsync();
+            var responses = await SendActivityAsync(conversation, startConversationEvent);
 
-        //    Assert.AreEqual($"Echo: {input}", botAnswer);
-        //}
+            Assert.AreEqual(1, responses[0].Attachments.Count);
+            CollectionAssert.Contains(LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt"), responses[1].Text);
+        }
 
         /// <summary>
         /// Starts a conversation with a bot.
