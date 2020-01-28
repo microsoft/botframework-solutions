@@ -4,8 +4,7 @@
  */
 
 import * as program from 'commander';
-import { existsSync } from 'fs';
-import { extname, isAbsolute, join, resolve } from 'path';
+import { join, resolve } from 'path';
 import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { IDisconnectConfiguration } from './models';
@@ -51,7 +50,6 @@ if (process.argv.length < 3) {
 }
 
 let skillId: string = '';
-let skillsFile: string = '';
 let outFolder: string;
 let noRefresh: boolean = false;
 let cognitiveModelsFile: string;
@@ -99,22 +97,6 @@ if (appSettingsFile === undefined) {
     process.exit(1);
 }
 
-// skillsFile validation
-if (!args.skillsFile) {
-    skillsFile = join(outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
-} else if (extname(args.skillsFile) !== '.json') {
-    logger.error(`The 'skillsFile' argument should be a JSON file.`);
-    process.exit(1);
-} else {
-    const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
-    if (!existsSync(skillsFilePath)) {
-        logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
-        process.exit(1);
-    }
-    skillsFile = skillsFilePath;
-}
-
 // cognitiveModelsFile validation
 const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(
     outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
@@ -135,7 +117,6 @@ lgOutFolder = args.lgOutFolder ?
 // Initialize an instance of IDisconnectConfiguration to send the needed arguments to the disconnectSkill function
 const configuration: IDisconnectConfiguration = {
     skillId: skillId,
-    skillsFile: skillsFile,
     outFolder: outFolder,
     noRefresh: noRefresh,
     cognitiveModelsFile: cognitiveModelsFile,
