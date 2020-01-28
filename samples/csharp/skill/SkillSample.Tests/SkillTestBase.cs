@@ -86,6 +86,7 @@ namespace SkillSample.Tests
             }
 
             TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            System.Threading.Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-us");
             Services.AddSingleton(TemplateEngine);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<SampleDialog>();

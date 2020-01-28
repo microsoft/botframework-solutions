@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SkillSample.Extensions;
 using SkillSample.Models;
 using SkillSample.Services;
@@ -229,21 +229,34 @@ namespace SkillSample.Dialogs
             {
                 var ev = activity.AsEventActivity();
 
-                switch (ev.Name)
+                if (!string.IsNullOrEmpty(ev.Name))
                 {
-                    case "SampleAction":
-                        {
-                            SampleActionInput actionData = null;
-                            var eventValue = ev.Value as string;
+                    switch (ev.Name)
+                    {
+                        case "SampleAction":
 
-                            if (!string.IsNullOrEmpty(eventValue))
+                            SampleActionInput actionData = null;
+
+                            var eventValue = ev.Value as JObject;
+                            if (eventValue != null)
                             {
-                                actionData = JsonConvert.DeserializeObject<SampleActionInput>(eventValue);
+                                actionData = eventValue.ToObject<SampleActionInput>();
                             }
 
                             // Invoke the SampleAction dialog passing input data if available
-                            return await stepContext.BeginDialogAsync(_sampleAction.Id, actionData);
-                        }
+                            return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData);
+
+                        default:
+
+                            await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+
+                            break;
+
+                    }
+                }
+                else
+                {
+                    await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
                 }
             }
 
