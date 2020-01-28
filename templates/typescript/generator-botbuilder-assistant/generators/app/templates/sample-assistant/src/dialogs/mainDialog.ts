@@ -106,7 +106,7 @@ export class MainDialog extends ActivityHandlerDialog {
         // Set up response caching for "repeat" functionality.
         innerDc.context.onSendActivities(this.storeOutgoingActivities.bind(this));
             
-        return await this.onContinueDialog(innerDc);
+        return await super.onContinueDialog(innerDc);
     }
 
     // Runs on every turn of the conversation to check if the conversation should be interrupted.
@@ -261,20 +261,20 @@ export class MainDialog extends ActivityHandlerDialog {
             const dispatch: string = LuisRecognizer.topIntent(dispatchResult);
 
             // Check if the dispatch intent maps to a skill.
-            const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, dispatch.toString());
+            const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, dispatch);
 
             if (identifiedSkill !== undefined) {
                 // Start the skill dialog.
                 await innerDc.beginDialog(identifiedSkill.id);
-            } else if (dispatch.toString() === 'q_faq') {
-                const qnaMaker: QnAMaker | undefined = localizedServices.qnaServices.get('Faq');
+            } else if (dispatch === 'q_faq') {
+                const qnaMaker: QnAMaker | undefined = localizedServices.qnaServices.get('faq');
                 if (qnaMaker !== undefined) {
                     await this.callQnaMaker(innerDc, qnaMaker);
                 }
             }
-            else if (dispatch.toString() === 'q_chitchat') {
+            else if (dispatch === 'q_chitchat') {
                 DialogContextEx.suppressCompletionMessage(innerDc, true);
-                const qnaMaker: QnAMaker | undefined = localizedServices.qnaServices.get('Chitchat');
+                const qnaMaker: QnAMaker | undefined = localizedServices.qnaServices.get('chitchat');
                 if (qnaMaker !== undefined){
                     await this.callQnaMaker(innerDc, qnaMaker);
                 }
@@ -287,7 +287,7 @@ export class MainDialog extends ActivityHandlerDialog {
     }
 
     // Runs when a new event activity comes in.
-    protected async OnEventActivity(innerDc: DialogContext): Promise<void> {
+    protected async onEventActivity(innerDc: DialogContext): Promise<void> {
         //PENDING: This should be const ev: IEventActivity = innerDc.context.activity.asEventActivity()
         // but it's not in botbuilder-js currently
         const ev: Activity = innerDc.context.activity;

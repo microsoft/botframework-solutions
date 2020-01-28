@@ -1,0 +1,106 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Help",
+        "status": 200,
+        "response": {
+            "query": "Help",
+            "topScoringIntent": {
+                "intent": "l_general",
+                "score": 0.9991404
+            },
+            "entities": [],
+            "connectedServiceResult": {
+                "query": "Help",
+                "topScoringIntent": {
+                    "intent": "Help",
+                    "score": 0.989662349
+                },
+                "entities": [
+                    {
+                        "entity": "help",
+                        "type": "builtin.personName",
+                        "startIndex": 0,
+                        "endIndex": 3
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "431",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "57340429-fc47-4057-a88b-7a24e065a404",
+            "Request-Id",
+            "57340429-fc47-4057-a88b-7a24e065a404",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|2",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Fri, 24 Jan 2020 13:58:28 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Help",
+        "status": 200,
+        "response": {
+            "query": "Help",
+            "topScoringIntent": {
+                "intent": "Help",
+                "score": 0.989662349
+            },
+            "entities": [
+                {
+                    "entity": "help",
+                    "type": "builtin.personName",
+                    "startIndex": 0,
+                    "endIndex": 3
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "247",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "65f5529d-f634-4786-8dbb-1803b2377895",
+            "Request-Id",
+            "65f5529d-f634-4786-8dbb-1803b2377895",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "Request-Context",
+            "appId=cid-v1:26a3540d-a02a-4998-a060-715488fd769b",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Fri, 24 Jan 2020 13:58:29 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

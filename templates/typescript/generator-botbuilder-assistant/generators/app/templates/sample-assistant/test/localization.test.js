@@ -230,8 +230,9 @@ describe("Localization", function() {
         });
     });
 
-    describe("Defaulting localization", function () {
-        it("Fallback to a locale of the root language locale", function (done) {
+    // PENDING: the fallback functionality is not implemented in LocaleTemplateEngineManager currently
+    xdescribe("defaulting localization", function () {
+        it("fallback to a locale of the root language locale", function (done) {
             getTestAdapterDefault().then((testAdapter) => {
             const flow = testAdapter
                 .send({

@@ -28,7 +28,7 @@
           "id": "chitchat",
           "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://mbvatest-qnahost-gnbtdcv.azurewebsites.net/qnamaker",
+          "hostname": "https://mbvamock-qnahost-alrkcw6.azurewebsites.net/qnamaker",
           "name": "chitchat"
         },
         {
@@ -36,7 +36,7 @@
           "id": "faq",
           "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://mbvatest-qnahost-gnbtdcv.azurewebsites.net/qnamaker",
+          "hostname": "https://mbvamock-qnahost-alrkcw6.azurewebsites.net/qnamaker",
           "name": "faq"
         }
       ]

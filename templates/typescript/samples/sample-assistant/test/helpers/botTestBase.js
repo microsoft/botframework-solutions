@@ -36,10 +36,10 @@ supportedLocales.forEach(locale => {
     templateFiles.forEach(template => {
         // LG template for default locale should not include locale in file extension.
         if (locale === 'en-us'){
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.lg`));
         }
         else {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.${locale}.lg`));
         }
     });
 
@@ -94,7 +94,7 @@ async function getTestAdapterDefault(settings) {
     const botServices = new BotServices(botSettings);
     const skillContextAccessor = userState.createProperty(SkillContext.name);
     const botServicesAccesor = userState.createProperty(BotServices.name)
-    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices , localeTemplateEngine, telemetryClient);
+    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices, templateEngine, telemetryClient);
     const skillDialogs = [];
     const userProfileStateAccesor = userState.createProperty('IUserProfileState');
     const previousResponseAccesor = userState.createProperty('Activity');
@@ -102,7 +102,7 @@ async function getTestAdapterDefault(settings) {
     const mainDialog = new MainDialog(
         botSettings,
         botServices,
-        localeTemplateEngine,
+        templateEngine,
         userProfileStateAccesor,
         skillContextAccessor,
         previousResponseAccesor,

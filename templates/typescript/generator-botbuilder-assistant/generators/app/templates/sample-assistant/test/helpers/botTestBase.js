@@ -82,7 +82,9 @@ async function getTestAdapterDefault(settings) {
         properties: {},
         skills: skills
     };
+
     
+
     const telemetryClient = new NullTelemetryClient();
     const storage = settings.storage || new MemoryStorage();
     // create conversation and user state

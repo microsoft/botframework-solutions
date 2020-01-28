@@ -3,34 +3,51 @@
  * Licensed under the MIT License.
  */
 
-import { TeamsActivityHandler, ConversationState, UserState, StatePropertyAccessor, TurnContext } from 'botbuilder';
-import { Dialog, DialogState } from 'botbuilder-dialogs';
+import {
+    ConversationState,
+    TurnContext, 
+    UserState,
+    TeamsActivityHandler,
+    StatePropertyAccessor } from 'botbuilder';
+import {
+    Dialog,
+    DialogContext,
+    DialogSet,
+    DialogState } from 'botbuilder-dialogs';
 import { DialogEx } from 'botbuilder-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
+    private readonly solutionName: string = '<%=assistantNameCamelCase%>';
+    private readonly rootDialogId: string;
+    private readonly dialogs: DialogSet;
     private readonly dialog: Dialog;
-    private readonly conversationState: ConversationState;
-    private readonly userState: UserState;
     private dialogStateAccessor: StatePropertyAccessor;
 
-    public constructor (        
+    public constructor(
         conversationState: ConversationState,
         userState: UserState,
         dialog: T) {
         super();
-        
+
         this.dialog = dialog;
-        this.conversationState = conversationState;
-        this.userState = userState;
+        this.rootDialogId = this.dialog.id;
+        this.dialogs = new DialogSet(conversationState.createProperty<DialogState>(this.solutionName));
+        this.dialogs.add(this.dialog);
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
+        this.onTurn(this.turn.bind(this));
     }
 
-    public async turn(turnContext: TurnContext): Promise<any> {
-        await super.onTurnActivity(turnContext);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
+        const dc: DialogContext = await this.dialogs.createContext(turnContext);
 
-        // Save any state changes that might have occured during the turn.
-        await this.conversationState.saveChanges(turnContext, false);
-        await this.userState.saveChanges(turnContext, false);
+        if (dc.activeDialog !== undefined) {
+            await dc.continueDialog();
+        } else {
+            await dc.beginDialog(this.rootDialogId);
+        }
+
+        await next();
     }
 
     protected async onTeamsMembersAdded(turnContext: TurnContext): Promise<void> {
