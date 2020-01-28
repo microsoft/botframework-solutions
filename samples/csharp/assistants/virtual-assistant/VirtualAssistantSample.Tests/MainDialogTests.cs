@@ -31,7 +31,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Intent()
         {
-            var allFirstPromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -44,7 +44,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Escalate_Intent()
         {
-            var allFirstPromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -57,8 +57,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
-            var allFirstPromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
