@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
