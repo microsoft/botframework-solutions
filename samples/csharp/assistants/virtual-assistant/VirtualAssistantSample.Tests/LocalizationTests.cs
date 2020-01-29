@@ -9,11 +9,11 @@ using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LocalizationTests : BotTestBase
     {
         [TestMethod]
@@ -21,7 +21,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -48,7 +48,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -75,7 +75,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -102,7 +102,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -129,7 +129,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()

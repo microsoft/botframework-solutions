@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager TemplateEngine { get; set; }
+        public LocaleTemplateEngineManager LocaleTemplateEngine { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -108,8 +108,8 @@ namespace VirtualAssistantSample.Tests
                 localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
-            Services.AddSingleton(TemplateEngine);
+            LocaleTemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            Services.AddSingleton(LocaleTemplateEngine);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();

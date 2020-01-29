@@ -55,7 +55,9 @@ namespace VirtualAssistantSample
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure MVC
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+
+            services.AddSingleton(Configuration);
 
             // Load settings
             var settings = new BotSettings();
@@ -125,7 +127,7 @@ namespace VirtualAssistantSample
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
-            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
             // Configure bot
@@ -150,16 +152,13 @@ namespace VirtualAssistantSample
                 {
                     var hostEndpoint = new Uri(hostEndpointSection.Value);
 
-                    var dialogList = new List<SkillDialog>();
-                    services.AddSingleton(sp =>
+                    foreach (var skill in skills)
                     {
-                        foreach (var skill in skills)
+                        services.AddSingleton(sp =>
                         {
-                            dialogList.Add(new SkillDialog(sp.GetService<ConversationState>(), sp.GetService<SkillHttpClient>(), skill, Configuration, hostEndpoint));
-                        }
-
-                        return dialogList;
-                    });
+                            return new SkillDialog(sp.GetService<ConversationState>(), sp.GetService<SkillHttpClient>(), skill, Configuration, hostEndpoint);
+                        });
+                    }
                 }
             }
         }
