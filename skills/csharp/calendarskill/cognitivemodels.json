@@ -3,24 +3,48 @@
     "en-us": {
       "languageModels": [
         {
-          "id": "General",
-          "name": "",
-          "appId": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": "",
-          "version": "",
-          "region": ""
+          "id": "Calendar",
+          "name": "bf-calendar-skill_en-us_Calendar",
+          "appId": "6f6a9d32-b607-484a-80a2-eaf02515ea43",
+          "authoringKey": "73e721445de244cf9c40e8b5c86c8be7",
+          "authoringRegion": "westus",
+          "subscriptionKey": "9259b1c0ec9244328bda5fa381feadfa",
+          "version": "0.1",
+          "region": "westus"
         },
         {
+          "id": "General",
+          "name": "bf-calendar-skill_en-us_General",
+          "appId": "694e7a70-bb10-4452-9d83-083592d27bad",
+          "authoringKey": "73e721445de244cf9c40e8b5c86c8be7",
+          "authoringRegion": "westus",
+          "subscriptionKey": "9259b1c0ec9244328bda5fa381feadfa",
+          "version": "0.1",
+          "region": "westus"
+        }
+      ]
+    },
+    "zh-cn": {
+      "languageModels": [
+        {
           "id": "Calendar",
-          "name": "",
-          "appId": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": "",
-          "version": "",
-          "region": ""
+          "name": "bf-calendar-skill_zh-cn_Calendar",
+          "appId": "c2982ead-5d92-4c80-8ea3-e53e9a6570c2",
+          "authoringKey": "73e721445de244cf9c40e8b5c86c8be7",
+          "authoringRegion": "westus",
+          "subscriptionKey": "9259b1c0ec9244328bda5fa381feadfa",
+          "version": "0.1",
+          "region": "westus"
+        },
+        {
+          "id": "General",
+          "name": "bf-calendar-skill_zh-cn_General",
+          "appId": "427cd7c6-01e9-4b05-8e5f-85134652d510",
+          "authoringKey": "73e721445de244cf9c40e8b5c86c8be7",
+          "authoringRegion": "westus",
+          "subscriptionKey": "9259b1c0ec9244328bda5fa381feadfa",
+          "version": "0.1",
+          "region": "westus"
         }
       ]
     }

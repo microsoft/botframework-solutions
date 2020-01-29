@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Solutions;
 
 namespace CalendarSkill.Services
 {

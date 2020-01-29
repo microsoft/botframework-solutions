@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using SkillServiceLibrary.Responses;
 
 namespace SkillServiceLibrary.Models

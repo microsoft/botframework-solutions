@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -13,23 +12,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
-using ToDoSkill.Responses.AddToDo;
-using ToDoSkill.Responses.DeleteToDo;
-using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
-using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;
 using ToDoSkill.Utilities;
 

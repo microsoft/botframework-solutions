@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CalendarSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using static CalendarSkill.Models.EventModel;
 
 namespace CalendarSkill.Utilities

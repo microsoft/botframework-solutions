@@ -3,20 +3,9 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
-using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckPersonAvailable;
-using CalendarSkill.Responses.CreateEvent;
-using CalendarSkill.Responses.FindContact;
-using CalendarSkill.Responses.JoinEvent;
-using CalendarSkill.Responses.Main;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
-using CalendarSkill.Responses.TimeRemaining;
-using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using CalendarSkill.Services.AzureSearchAPI;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -29,13 +18,11 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -183,10 +170,6 @@ namespace CalendarSkill
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
-
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

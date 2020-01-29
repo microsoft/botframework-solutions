@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Models;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Rest.Azure;
 
 namespace CalendarSkill.Services.AzureSearchAPI

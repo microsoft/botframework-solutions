@@ -2,19 +2,18 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
+using SkillServiceLibrary.Utilities;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Main;
 using ToDoSkill.Services;
@@ -168,10 +167,10 @@ namespace ToDoSkill.Dialogs
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
+                response.Type = ActivityTypes.EndOfConversation;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -193,7 +192,7 @@ namespace ToDoSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                            response.Type = ActivityTypes.EndOfConversation;
 
                             await dc.Context.SendActivityAsync(response);
                         }

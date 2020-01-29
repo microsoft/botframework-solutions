@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 using CalendarSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill.Utilities
 {
