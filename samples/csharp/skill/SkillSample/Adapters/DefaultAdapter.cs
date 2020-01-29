@@ -3,12 +3,14 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using SkillSample.Services;
 
 namespace SkillSample.Adapters
@@ -17,6 +19,8 @@ namespace SkillSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
+            UserState userState,
+            ConversationState conversationState,
             IChannelProvider channelProvider,
             ICredentialProvider credentialProvider,
             LocaleTemplateEngineManager templateEngine,
@@ -47,6 +51,7 @@ namespace SkillSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
             Use(new SetSpeakMiddleware());
         }
     }
