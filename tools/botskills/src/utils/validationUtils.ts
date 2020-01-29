@@ -44,27 +44,12 @@ export function isValidCultures(availableCultures: string[], targetedCultures: s
 }
 
 export function isInstanceOfISkillManifestV1(skillManifest: ISkillManifestV1): boolean {
-    if (!skillManifest.name) {
-        console.log(`Missing property 'name' of the manifest`);
-        return false;
-    }
-    if (!skillManifest.id) {
-        console.log(`Missing property 'id' of the manifest`);
-        return false;
-    } else if (skillManifest.id.match(/^\d|[^\w]/g) !== null) {
-        console.log(`The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
-        return false;
-    }
-    if (!skillManifest.endpoint) {
-        console.log(`Missing property 'endpoint' of the manifest`);
-        return false;
-    }
-    if (skillManifest.authenticationConnections === undefined) {
-        console.log(`Missing property 'authenticationConnections' of the manifest`);
-        return false;
-    }
-    if (skillManifest.actions === undefined || skillManifest.actions[0] === undefined) {
-        console.log(`Missing property 'actions' of the manifest`);
+    if (skillManifest.name === undefined ||
+        skillManifest.id === undefined ||
+        skillManifest.endpoint === undefined ||
+        skillManifest.authenticationConnections === undefined ||
+        skillManifest.actions === undefined ||
+        skillManifest.actions[0] === undefined) {
         return false;
     }
 
@@ -72,27 +57,11 @@ export function isInstanceOfISkillManifestV1(skillManifest: ISkillManifestV1): b
 }
 
 export function isInstanceOfISkillManifestV2(skillManifest: ISkillManifestV2): boolean {
-    if (!skillManifest.$schema) {
-        console.log(`Missing property '$schema' of the manifest`);
-        return false;
-    }
-    if (!skillManifest.$id) {
-        console.log(`Missing property '$id' of the manifest`);
-        return false;
-    } else if (skillManifest.$id.match(/^\d|[^\w]/g) !== null) {
-        console.log(`The '$id' of the manifest contains some characters not allowed. Make sure the '$id' contains only letters, numbers and underscores, but doesn't start with number.`);
-        return false;
-    }
-    if (!skillManifest.endpoints === undefined || skillManifest.endpoints[0] === undefined) {
-        console.log(`Missing property 'endpoints' of the manifest`);
-        return false;
-    }
-    if (skillManifest.dispatchModels === undefined) {
-        console.log(`Missing property 'dispatchModels' of the manifest`);
-        return false;
-    }
-    if (skillManifest.activities === undefined || skillManifest.activities.size === 0) {
-        console.log(`Missing property 'activities' of the manifest`);
+    if (skillManifest.$schema === undefined ||
+        skillManifest.$id === undefined ||
+        skillManifest.endpoints === undefined ||
+        skillManifest.dispatchModels === undefined ||
+        skillManifest.activities === undefined || skillManifest.activities.size === 0) {
         return false;
     }
 
