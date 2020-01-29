@@ -8,13 +8,13 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Feedback;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Feedback;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $ext_safeprojectname$.Bots;
@@ -29,7 +29,7 @@ namespace $safeprojectname$
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager TemplateEngine { get; set; }
+        public LocaleTemplateEngineManager LocaleTemplateEngine { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -40,6 +40,7 @@ namespace $safeprojectname$
             Services.AddSingleton(new BotSettings());
             Services.AddSingleton(new BotServices()
             {
+                // Non US languages are empty as Dispatch/LUIS not required for localization tests.
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
                     {
@@ -51,6 +52,21 @@ namespace $safeprojectname$
                                 { "General", GeneralTestUtil.CreateRecognizer() }
                             },
                         }
+                    },
+                    {
+                        "zh-cn", new CognitiveModelSet { }
+                    },
+                    {
+                        "fr-fr", new CognitiveModelSet { }
+                    },
+                    {
+                        "es-es", new CognitiveModelSet { }
+                    },
+                    {
+                        "de-de", new CognitiveModelSet { }
+                    },
+                    {
+                        "it-it", new CognitiveModelSet { }
                     }
                 }
             });
@@ -92,8 +108,8 @@ namespace $safeprojectname$
                 localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
-            Services.AddSingleton(TemplateEngine);
+            LocaleTemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            Services.AddSingleton(LocaleTemplateEngine);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
@@ -106,14 +122,22 @@ namespace $safeprojectname$
             TestUserProfileState.Name = "Bot";
         }
 
-        public TestFlow GetTestFlow()
+        public TestFlow GetTestFlow(bool includeUserProfile = true)
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>()
                 .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
+            var userState = sp.GetService<UserState>();
+            var userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
+                if (includeUserProfile)
+                {
+                    await userProfileState.SetAsync(context, TestUserProfileState);
+                    await userState.SaveChangesAsync(context);
+                }
+
                 var bot = sp.GetService<IBot>();
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

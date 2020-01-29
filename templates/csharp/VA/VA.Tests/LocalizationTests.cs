@@ -9,11 +9,11 @@ using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LocalizationTests : BotTestBase
     {
         [TestMethod]
@@ -21,9 +21,9 @@ namespace $safeprojectname$
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -48,9 +48,9 @@ namespace $safeprojectname$
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -75,9 +75,9 @@ namespace $safeprojectname$
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -102,9 +102,9 @@ namespace $safeprojectname$
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -129,9 +129,9 @@ namespace $safeprojectname$
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
 
-            var allIntroCardTitleVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
@@ -155,7 +155,7 @@ namespace $safeprojectname$
         public async Task Test_Defaulting_Localization()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("en-uk");
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
                 {
                     Type = ActivityTypes.ConversationUpdate,
