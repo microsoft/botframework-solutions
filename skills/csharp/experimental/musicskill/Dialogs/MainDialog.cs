@@ -133,7 +133,7 @@ namespace MusicSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                            response.Type = ActivityTypes.EndOfConversation;
 
                             await dc.Context.SendActivityAsync(response);
                         }

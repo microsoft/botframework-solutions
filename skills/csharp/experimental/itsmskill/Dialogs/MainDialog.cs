@@ -149,7 +149,6 @@ namespace ITSMSkill.Dialogs
             {
                 var response = dc.Context.Activity.CreateReply();
                 response.Type = ActivityTypes.EndOfConversation;
-
                 await dc.Context.SendActivityAsync(response);
             }
 
