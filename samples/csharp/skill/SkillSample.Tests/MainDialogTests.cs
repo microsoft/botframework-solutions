@@ -10,6 +10,7 @@ using SkillSample.Tests.Utterances;
 namespace SkillSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class MainDialogTests : SkillTestBase
     {
         [TestMethod]

@@ -12,6 +12,7 @@ using VirtualAssistantSample.Models;
 namespace VirtualAssistantSample.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class OnboardingDialogTests : BotTestBase
     {
         [TestMethod]
@@ -22,8 +23,8 @@ namespace VirtualAssistantSample.Tests
             var profileState = new UserProfileState();
             profileState.Name = testName;
 
-            var allNamePromptVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
 
             dynamic data = new JObject();
             data.name = testName;
