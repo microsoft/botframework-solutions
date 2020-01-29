@@ -13,8 +13,8 @@ namespace VirtualAssistantSample.Controllers
     /// A controller that handles skill replies to the bot.
     /// This example uses the <see cref="SkillHandler"/> that is registered as a <see cref="ChannelServiceHandler"/> in startup.cs.
     /// </summary>
-    [ApiController]
     [Route("api/skills")]
+    [ApiController]
     public class SkillController : ChannelServiceController
     {
         private ChannelServiceHandler _handler;

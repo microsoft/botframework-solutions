@@ -323,23 +323,25 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                var dispatchIntentSkill = dispatchIntent.ToString();
-                if (!string.IsNullOrWhiteSpace(dispatchIntentSkill) && !dispatchIntentSkill.Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+                    stepContext.SuppressCompletionMessage(true);
 
-                    // Start the skill dialog.
-                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
-                }
-                else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
-                {
-                    return await stepContext.BeginDialogAsync("faq");
+                    return await stepContext.BeginDialogAsync("Faq");
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("chitchat");
+                    return await stepContext.BeginDialogAsync("Chitchat");
+                }
+                else if (!dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var dispatchIntentSkill = dispatchIntent.ToString();
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+
+                    // Start the skill dialog.
+                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
                 }
                 else
                 {
