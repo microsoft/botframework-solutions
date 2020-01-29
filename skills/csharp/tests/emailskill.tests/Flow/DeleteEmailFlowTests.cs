@@ -16,6 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class DeleteEmailFlowTests : EmailSkillTestBase
     {
         [TestMethod]

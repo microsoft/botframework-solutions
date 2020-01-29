@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class VehicleSettingsTests : AutomotiveSkillTestBase
     {
         [TestInitialize]

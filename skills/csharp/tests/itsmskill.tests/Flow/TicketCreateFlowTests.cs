@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ITSMSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class TicketCreateFlowTests : SkillTestBase
     {
         [TestMethod]

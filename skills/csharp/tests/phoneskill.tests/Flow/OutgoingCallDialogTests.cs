@@ -13,6 +13,7 @@ using PhoneSkill.Tests.TestDouble;
 namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class OutgoingCallDialogTests : PhoneSkillTestBase
     {
         [TestMethod]

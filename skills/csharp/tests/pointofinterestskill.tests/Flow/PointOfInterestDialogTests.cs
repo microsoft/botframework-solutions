@@ -22,6 +22,7 @@ using PointOfInterestSkill.Tests.Flow.Utterances;
 namespace PointOfInterestSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class PointOfInterestDialogTests : PointOfInterestSkillTestBase
     {
         /// <summary>

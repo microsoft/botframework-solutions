@@ -19,6 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.Prompt
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class DatePromptTests
     {
         private static TimeZoneInfo mockUserTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");

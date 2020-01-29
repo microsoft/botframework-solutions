@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GeneralSkillFlowTests : AutomotiveSkillTestBase
     {
         [TestMethod]

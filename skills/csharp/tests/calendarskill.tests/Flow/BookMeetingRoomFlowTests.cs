@@ -26,6 +26,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class BookMeetingRoomFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
