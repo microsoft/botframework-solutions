@@ -323,15 +323,7 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                var dispatchIntentSkill = dispatchIntent.ToString();
-                if (!string.IsNullOrWhiteSpace(dispatchIntentSkill) && !dispatchIntentSkill.Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
-
-                    // Start the skill dialog.
-                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
-                }
-                else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
+                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
@@ -342,6 +334,14 @@ namespace VirtualAssistantSample.Dialogs
                     stepContext.SuppressCompletionMessage(true);
 
                     return await stepContext.BeginDialogAsync("Chitchat");
+                }
+                else if (!dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var dispatchIntentSkill = dispatchIntent.ToString();
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+
+                    // Start the skill dialog.
+                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
                 }
                 else
                 {
