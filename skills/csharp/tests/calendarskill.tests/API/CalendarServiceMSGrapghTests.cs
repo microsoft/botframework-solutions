@@ -8,7 +8,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Services;
 using CalendarSkill.Services.MSGraphAPI;
 using CalendarSkill.Test.API.Fakes.MockMSGraphClient;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.API

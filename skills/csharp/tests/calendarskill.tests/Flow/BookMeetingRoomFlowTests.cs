@@ -3,9 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Models;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.FindMeetingRoom;
@@ -14,13 +12,10 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow

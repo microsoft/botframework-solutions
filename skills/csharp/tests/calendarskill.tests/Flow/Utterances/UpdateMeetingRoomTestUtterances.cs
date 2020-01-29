@@ -1,5 +1,4 @@
 ﻿using Luis;
-using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {

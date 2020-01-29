@@ -41,6 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Responses\AddToDo\AddToDoResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

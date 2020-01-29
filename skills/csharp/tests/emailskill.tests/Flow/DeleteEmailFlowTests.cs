@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Utterances;
 using EmailSkill.Utilities;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkill.Tests.Flow
