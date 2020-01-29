@@ -76,35 +76,26 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             // Manifest schema validation
             const validVersion: manifestVersion = this.validateManifestSchema(skillManifest);
 
+            let skillId: string = '';
             if(validVersion === manifestVersion.V1) {
                 const skillManifestV1 = skillManifest as ISkillManifestV1;
-                const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-                const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
-                // Check if the skill is already connected to the assistant
-                if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifestV1.id)) {
-                    this.configuration.skillId = skillManifestV1.id;
-
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-            else if(validVersion === manifestVersion.V2){
+                skillId = skillManifestV1.id;
+            } else if (validVersion === manifestVersion.V2) {
                 const skillManifestV2 = skillManifest as ISkillManifestV2;
-                const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-                const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
-                // Check if the skill is already connected to the assistant
-                if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifestV2.$id)) {
-                    this.configuration.skillId = skillManifestV2.$id;
-
-                    return true;
-                }
-                else{
-                    return false;
-                }
+                skillId = skillManifestV2.$id;
+            } else {
+                return false;
             }
-            else{
+
+            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            // Check if the skill is already connected to the assistant
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillId)) {
+                this.configuration.skillId = skillId;
+
+                return true;
+            }
+            else {
                 return false;
             }
         } catch (err) {
