@@ -11,6 +11,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using SkillSample.Extensions;
 using SkillSample.Services;
 
 namespace SkillSample.Adapters
@@ -34,12 +35,15 @@ namespace SkillSample.Adapters
                 await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
                 telemetryClient.TrackException(exception);
 
-                // Send and EndOfConversation activity to the skill caller with the error to end the conversation
-                // and let the caller decide what to do.
-                var endOfConversation = Activity.CreateEndOfConversationActivity();
-                endOfConversation.Code = "SkillError";
-                endOfConversation.Text = exception.Message;
-                await turnContext.SendActivityAsync(endOfConversation);
+                if (turnContext.IsSkill())
+                {
+                    // Send and EndOfConversation activity to the skill caller with the error to end the conversation
+                    // and let the caller decide what to do.
+                    var endOfConversation = Activity.CreateEndOfConversationActivity();
+                    endOfConversation.Code = "SkillError";
+                    endOfConversation.Text = exception.Message;
+                    await turnContext.SendActivityAsync(endOfConversation);
+                }
             };
 
             Use(telemetryMiddleware);
