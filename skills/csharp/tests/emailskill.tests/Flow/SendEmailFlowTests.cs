@@ -447,7 +447,7 @@ namespace EmailSkill.Tests.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
 

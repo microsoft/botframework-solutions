@@ -107,7 +107,7 @@ namespace MusicSkill.Dialogs
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.Handoff;
+            response.Type = ActivityTypes.EndOfConversation;
             await dc.Context.SendActivityAsync(response);
             await dc.EndDialogAsync(result);
         }
@@ -125,7 +125,7 @@ namespace MusicSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                            response.Type = ActivityTypes.EndOfConversation;
 
                             await dc.Context.SendActivityAsync(response);
                         }

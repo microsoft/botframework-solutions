@@ -113,7 +113,7 @@ namespace WeatherSkill.Dialogs
             if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
+                response.Type = ActivityTypes.EndOfConversation;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -146,7 +146,7 @@ namespace WeatherSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                            response.Type = ActivityTypes.EndOfConversation;
 
                             await dc.Context.SendActivityAsync(response);
                         }
