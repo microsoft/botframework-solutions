@@ -8,7 +8,7 @@ using System.Linq;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Solutions;
 
 namespace $safeprojectname$.Services
 {
@@ -55,8 +55,7 @@ namespace $safeprojectname$.Services
                         Host = kb.Hostname,
                     };
 
-                    var qnaMaker = new QnAMaker(qnaEndpoint, null, null, telemetryClient: telemetryClient, logPersonalInformation: true);
-                    set.QnAServices.Add(kb.Id, qnaMaker);
+                    set.QnAConfiguration.Add(kb.Id, qnaEndpoint);
                 }
 
                 CognitiveModelSets.Add(language, set);
