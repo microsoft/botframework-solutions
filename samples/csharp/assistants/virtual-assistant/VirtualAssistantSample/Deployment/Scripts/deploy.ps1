@@ -7,6 +7,7 @@ Param(
 	[string] $appId,
     [string] $appPassword,
     [string] $parametersFile,
+	[switch] $createLuisAuthoring,
     [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
     [string] $armLuisAuthoringRegion,
@@ -77,18 +78,20 @@ if (-not $appPassword) {
 }
 
 if (-not $luisAuthoringKey) {
-    $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
+    if (-not $PSBoundParameters.ContainsKey("createLuisAuthoring")) {
+        $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
 
-    if ($confirmCreateKey -ne 'y') {
-        $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
-        $createLuisAuthoring = "false"
-    }
-    else {
-        $createLuisAuthoring = "true"
-    }
+        if ($confirmCreateKey -ne 'y') {
+            $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
+            $createLuisAuthoring = $false
+        }
+        else {
+            $createLuisAuthoring = $true
+        }
+    } 
 }
 else {
-    $createLuisAuthoring = "false"
+    $createLuisAuthoring = $false
 }
 
 if (-not $luisAuthoringRegion) {
